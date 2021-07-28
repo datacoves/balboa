@@ -1,0 +1,40 @@
+default:
+    target: dev
+    outputs:
+      dev:
+        type: snowflake
+
+        # More information for the options in this file
+        # can be found here: https://docs.getdbt.com/dbt-cli/configure-your-profile
+
+        threads: 8
+
+        # Set the DBT_TEST_DATABASE in your CI
+        database: "{{ env_var('DBT_TEST_DATABASE') }}"
+        schema: dev
+
+        # Set variable DBT_USER in your CI
+        user: "{{ env_var('DBT_USER') }}"
+
+        # Set variable DBT_PASSWORD in your CI
+        password: "{{ env_var('DBT_PASSWORD') }}"
+
+        # Additional Snowflake options
+        # Find out more about Snowflake config options here:
+        # https://docs.getdbt.com/reference/warehouse-profiles/snowflake-profile
+
+        # Keypair authentication use instead of username and password
+        # private_key_path: "{{ env_var('DBT_KEY_PATH') }}"
+        # private_key_passphrase: "{{ env_var('DBT_KEY_PASSPHRASE') }}"
+
+        # Set the DBT_SNOWFLAKE_ACCOUNT in your CI or update this to the actual Snowflake account like abc12345]
+        account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT') }}"
+
+        # Set the DBT_SNOWFLAKE_ROLE in your CI or update this to the actual role you use in Snowflake
+        role: "{{ env_var('DBT_SNOWFLAKE_ROLE') }}"
+
+        # Set the DBT_SNOWFLAKE_WAREHOUSE in your CI or update this to the actual Warehouse you use in Snowflake
+        warehouse: "{{ env_var('DBT_SNOWFLAKE_WAREHOUSE') }}"
+
+        client_session_keep_alive: False
+        # query_tag: my_tag
