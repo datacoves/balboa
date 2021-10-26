@@ -5,16 +5,26 @@ sources:
     schema: raw
     tables:
       - name: _airbyte_raw_hubspot_companies
+        description: Hubspot companies
         identifier: _AIRBYTE_RAW_HUBSPOT_COMPANIES
 
 models:
   - name: _airbyte_raw_hubspot_companies
+    description: Hubspot Companies
     columns:
       - name: archived
+        description: Archived
       - name: contacts
+        description: Contacts
       - name: createdat
+        description: Created At
       - name: id
+        description: Id
       - name: properties
+        description: Properties
       - name: updatedat
+        description: Updated At
       - name: _airbyte_ab_id
+        description: Airbyte internal id
       - name: _airbyte_emitted_at
+        description: Airbyte emitted at
