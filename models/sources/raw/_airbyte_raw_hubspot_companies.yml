@@ -10,11 +10,11 @@ sources:
 models:
   - name: _airbyte_raw_hubspot_companies
     columns:
-      - name: _airbyte_ab_id
-      - name: _airbyte_emitted_at
       - name: archived
       - name: contacts
-      - name: createdAt
+      - name: createdat
       - name: id
       - name: properties
-      - name: updatedAt
+      - name: updatedat
+      - name: _airbyte_ab_id
+      - name: _airbyte_emitted_at
