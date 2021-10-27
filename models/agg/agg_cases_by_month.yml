@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: agg_cases_by_month
+    description: Aggregated Covid data by month
+    columns:
+      - name: deaths
+      - name: cases
+      - name: date
+      - name: state

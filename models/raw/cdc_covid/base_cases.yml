@@ -5,10 +5,12 @@ sources:
     schema: raw
     tables:
       - name: cases
+        description: RAW Covid information from the NYT
         identifier: _AIRBYTE_RAW_IMDATA_NYT_COVID_DATA_BY_STATE
 
 models:
   - name: base_cases
+    description: Covid information from the NYT
     columns:
       - name: cases
       - name: deaths
