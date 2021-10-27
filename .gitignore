@@ -11,6 +11,7 @@ venv/
 .venv
 env/
 
+scripts/
 
 # VS Code
 .vscode/

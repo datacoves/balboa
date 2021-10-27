@@ -28,3 +28,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # These settings can be overridden in the individual model files
 models:
   materialized: view
+
+
+vars:
+  'dbt_date:time_zone': 'America/Los_Angeles'

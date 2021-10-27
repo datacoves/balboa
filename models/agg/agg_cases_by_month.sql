@@ -34,4 +34,4 @@ final_monthly_cases as (
 
 select *
 from final_monthly_cases
-
+-- where date < '2021-09-30 00:00:00.000'

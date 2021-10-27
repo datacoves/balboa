@@ -7,15 +7,27 @@ sources:
       - name: cases
         description: RAW Covid information from the NYT
         identifier: _AIRBYTE_RAW_IMDATA_NYT_COVID_DATA_BY_STATE
+        columns:
+          - name: _airbyte_ab_id
+            descrition: "Airbyte's unitque identifier for this record"
+          - name: _airbyte_data
+            description: VARIAN Column containing source data
+          - name: _airbyte_emitted_at
+            descrition: Airbyte ingestions timestampt for this record
 
 models:
   - name: base_cases
     description: Covid information from the NYT
     columns:
       - name: cases
+        description: Reported Covid-19 cases
       - name: deaths
+        description: Reported deaths due to Covid-19
       - name: date
+        description: Reporting date
       - name: fips
+        description: FIPS Code
       - name: state
+        description: Reporting State
       - name: _airbyte_ab_id
       - name: _airbyte_emitted_at
