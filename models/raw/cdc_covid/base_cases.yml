@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: nyt_covid
+    schema: raw
+    tables:
+      - name: cases
+        identifier: _AIRBYTE_RAW_IMDATA_NYT_COVID_DATA_BY_STATE
+
+models:
+  - name: base_cases
+    columns:
+      - name: cases
+      - name: deaths
+      - name: date
+      - name: fips
+      - name: state
+      - name: _airbyte_ab_id
+      - name: _airbyte_emitted_at

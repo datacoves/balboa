@@ -8,11 +8,26 @@ rules = None
 recurse = 0
 output_line_length = 80
 runaway_limit = 10
+ignore = parsing,templating
 ignore_templated_areas = True
 
 # Comma separated list of file extensions to lint.
 # NB: This config will only apply in the root folder.
 sql_file_exts = .sql,.sql.j2,.dml,.ddl
+
+# Excluding this rule will allow USING 
+exclude_rules = L032,L034,L044, L030
+
+### [sqlfluff:templater:jinja]
+### apply_dbt_builtins = True
+### 
+### [sqlfluff:templater:jinja:macros]
+### # Macros provided as builtins for dbt projects
+### dbt_ref = {% macro ref(model_ref) %}{{model_ref}}{% endmacro %}
+### dbt_source = {% macro source(source_name, table) %}{{source_name}}_{{table}}{% endmacro %}
+### dbt_config = {% macro config() %}{% for k in kwargs %}{% endfor %}{% endmacro %}
+### dbt_var = {% macro var(variable) %}item{% endmacro %}
+### dbt_is_incremental = {% macro is_incremental() %}True{% endmacro %}
 
 ### OPINIONATED DEFAULTS
 
@@ -33,8 +48,6 @@ template_blocks_indent = True
 [sqlfluff:templater]
 unwrap_wrapped_queries = True
 
-# Excluding this rule will allow USING
-exclude_rules = L032,L034
 
 # Some rules have their own specific config.
 [sqlfluff:rules:L003]
@@ -48,6 +61,7 @@ extended_capitalisation_policy = lower
 
 [sqlfluff:rules:L016]
 ignore_comment_lines = False
+max_line_length = 100
 
 [sqlfluff:rules:L029]  # Keyword identifiers
 unquoted_identifiers_policy = none
