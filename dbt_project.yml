@@ -23,6 +23,9 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
     - "target"
 
+seeds:
+  +quote_columns: false
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 # These settings can be overridden in the individual model files

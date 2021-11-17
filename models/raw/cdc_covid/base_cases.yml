@@ -11,6 +11,8 @@ sources:
         columns:
           - name: _airbyte_ab_id
             descrition: "Airbyte's unitque identifier for this record"
+            tests:
+              - not_null
           - name: _airbyte_data
             description: VARIAN Column containing source data
           - name: _airbyte_emitted_at
@@ -19,6 +21,9 @@ sources:
 models:
   - name: base_cases
     description: Covid information from the NYT
+    config:
+      tags:
+        - weekly
     columns:
       - name: cases
         description: Reported Covid-19 cases
@@ -30,5 +35,7 @@ models:
         description: FIPS Code
       - name: state
         description: Reporting State
+        tests:
+          - not_null
       - name: _airbyte_ab_id
       - name: _airbyte_emitted_at
