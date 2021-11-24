@@ -7,8 +7,8 @@ models:
       - dbt_expectations.expect_grouped_row_values_to_have_recent_data:
           group_by: [state]
           timestamp_column: date
-          datepart: month
-          interval: 1
+          datepart: day
+          interval: 45
     columns:
       - name: deaths
         description: Total Cummolative deaths due to covid-19
