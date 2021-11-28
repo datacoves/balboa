@@ -8,6 +8,7 @@ Add button to settings.json:
 					"command": "dbt run-operation generate_model_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
 				},
 
+Population and current_population models should be in branch and db
 
 
 
@@ -28,7 +29,18 @@ dbt-coves generate sources
     Yes to flatten
 
 Add tests to _airbyte_raw_country_codes on:
-    `cldr_display_name`: not_null, unique
+    model:
+        - dbt_expectations.expect_table_row_count_to_be_between:
+            min_value: 200
+            max_value: 400
+    `cldr_display_name`: 
+        - not_null
+        - unique
+    `developed___developing_countries`: 
+        - accepted_values:
+            values:
+              - 'Developed'
+              - 'Developing'
     dbt build --select _airbyte_raw_country_codes+
     Show errors in sqltools
 
@@ -44,6 +56,16 @@ On error:
             Add test `display_name`: not_null, unique
         dbt build --select _airbyte_raw_country_codes+
 
+Create Bay model `countries`
+  ```
+  select
+    countries.display_name,
+    countries.iso4217_currency_name as currency,
+    current_population.population
+  from {{ ref('base_country_codes') }} as countries
+  left join {{ ref('current_population') }} as current_population
+  on current_population.country_code = countries.iso3166_1_alpha_3
+  ```
 
 Hotfix - a user has discovered empty values for `region_name`
     Create jira branch for 'Fill in empty region_name in country codes'

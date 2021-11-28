@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: _airbyte_raw_country_populations
+        identifier: _AIRBYTE_RAW_COUNTRY_POPULATIONS
+
+models:
+  - name: _airbyte_raw_country_populations
+    columns:
+      - name: country_code
+      - name: country_name
+      - name: value
+      - name: year
+      - name: _airbyte_ab_id
+      - name: _airbyte_emitted_at
