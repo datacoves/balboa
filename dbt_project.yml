@@ -32,6 +32,9 @@ seeds:
 models:
   materialized: view
 
+tests:
+  +store_failures: true
+
 
 vars:
   'dbt_date:time_zone': 'America/Los_Angeles'

@@ -1,3 +1,21 @@
+Setup:
+Add button to settings.json:
+                {
+					"name": "📝 Create YML for current",
+                    "cwd": "${fileDirname}",
+                    "color": "white",
+					"singleInstance": true,
+					"command": "dbt run-operation generate_model_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
+				},
+
+
+
+
+
+Demo:
+
+Create a Jira task for 'Add Countries dataset'
+
 Set up Airbyte source:
     https://raw.githubusercontent.com/datasets/country-codes/master/data/country-codes.csv
     Set up connection:
@@ -9,5 +27,29 @@ dbt-coves generate sources
     Select _airbyte_raw_country_codes
     Yes to flatten
 
-Add not_null and unique tests to _airbyte_raw_country_codes
+Add tests to _airbyte_raw_country_codes on:
+    `cldr_display_name`: not_null, unique
+    dbt build --select _airbyte_raw_country_codes+
+    Show errors in sqltools
+
+On error:
+    Remove null test from `cldr_display_name`
+    Create base model `base_country_codes` to deal with null values:
+        Get the field names for the .sql:
+            select {{ dbt_utils.star(ref('_airbyte_raw_country_codes')) }} from {{ ref('_airbyte_raw_country_codes') }}
+            `dbt compile` and copy fields from target folder to add to model
+        Override `cldr_display_name` with `coalesce(cldr_display_name, official_name_en)`, alias to `display_name`
+        Add .yml for new base model with tests
+            Click 'Create model YML'
+            Add test `display_name`: not_null, unique
+        dbt build --select _airbyte_raw_country_codes+
+
+
+Hotfix - a user has discovered empty values for `region_name`
+    Create jira branch for 'Fill in empty region_name in country codes'
+    Add tests to base_country_codes:
+        `region_name`: unique
+    dbt build --select _airbyte_raw_country_codes+
+    Show errors, and point out continent field as a usable override
+    Override `region_name` with `coalesce(region_name, case continent when 'AS' then 'Asia' when 'AN' then 'Antarctica' else 'Unknown' end) as region_name`
 
