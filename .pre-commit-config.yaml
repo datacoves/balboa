@@ -5,6 +5,7 @@ repos:
   - id: dbt-compile
   - id: dbt-docs-generate
   - id: check-source-table-has-description
+    files: ^models/
   - id: check-model-has-properties-file
     files: ^models/
   - id: check-model-has-all-columns

@@ -1,8 +1,8 @@
 with raw_source as (
 
     select
-        parse_json(replace(_airbyte_data::string,'"NaN"', 'null')) as airbyte_data_clean
-        , *
+        parse_json(replace(_airbyte_data::string, '"NaN"', 'null')) as airbyte_data_clean,
+        *
     from {{ source('raw', '_airbyte_raw_country_populations') }}
 
 ),
