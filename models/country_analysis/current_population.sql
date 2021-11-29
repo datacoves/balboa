@@ -1,7 +1,7 @@
 select
     country_code,
     country_name,
-    value as population,
+    value,
     year
 from (
         select
