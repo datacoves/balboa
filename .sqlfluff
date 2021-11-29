@@ -16,7 +16,7 @@ ignore_templated_areas = True
 sql_file_exts = .sql,.sql.j2,.dml,.ddl
 
 # Excluding this rule will allow USING 
-exclude_rules = L032,L034,L044, L030, L031
+exclude_rules = L032,L034,L044, L030
 
 ### [sqlfluff:templater:jinja]
 ### apply_dbt_builtins = True
