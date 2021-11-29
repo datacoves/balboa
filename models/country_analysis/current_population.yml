@@ -7,7 +7,7 @@ models:
         description: ""
       - name: country_name
         description: ""
-      - name: population
+      - name: value
         description: ""
       - name: year
         description: ""
