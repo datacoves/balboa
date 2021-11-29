@@ -9,6 +9,7 @@ sources:
 
 models:
   - name: _airbyte_raw_country_populations
+    description: "Raw population information from Github Datasets repository"
     columns:
       - name: country_code
       - name: country_name
