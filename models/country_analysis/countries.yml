@@ -1,0 +1,13 @@
+version: 2
+models:
+  - name: countries
+    description: "Compiled Countries information"
+    columns:
+      - name: display_name
+        description: ""
+      - name: region_name
+        description: ""
+      - name: currency
+        description: ""
+      - name: population
+        description: ""
