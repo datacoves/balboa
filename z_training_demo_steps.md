@@ -1,12 +1,20 @@
 # Setup:
 ### Add button to settings.json:
-        ```        {
-					"name": "📝 Create YML for current",
-                    "cwd": "${fileDirname}",
-                    "color": "white",
-					"singleInstance": true,
-					"command": "dbt run-operation generate_model_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
-				},```
+```
+{
+    "name": "📝 Create YML for current",
+    "cwd": "${fileDirname}",
+    "color": "white",
+    "singleInstance": true,
+    "command": "dbt run-operation generate_model_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
+},
+```
+
+### Reset Environment:
+- Ensure `current_population.sql` has no aliases
+- Remove all models and yml not related to population in models/country_analysis
+- Delete all local and github branches related to dataops-training
+- Create release/dataops-training branch from master
 
 
 # Demo 1:
@@ -62,8 +70,12 @@ On error:
     - dbt build --select _airbyte_raw_country_codes+
     - Stage changes and run checks
 
+In `current_population.sql`:
+- Alias `value` to `population`
+
 Create Bay model `countries`
-- ```
+
+```
 select
     countries.display_name,
     countries.region_name,
@@ -77,6 +89,7 @@ left join {{ ref('current_population') }} as current_population
   ```
 - Create YML for current, and add description "Compiled Countries information"; and appropriate column descriptions
 - Stage, run checks, commit and push
+- Show checks running on Push (wait for this to complete before starting PR)
 - Create Pull Request to release branch
 
 **Go back to slides**
@@ -84,11 +97,19 @@ left join {{ ref('current_population') }} as current_population
 
 # Demo 2:
 
-Hotfix - a user has discovered empty values for `region_name`
-- Create jira branch for 'Fill in empty region_name in country codes'
-- Add tests to base_country_codes:
-    - `region_name`: unique
-- `dbt build --select _airbyte_raw_country_codes+`
-- Show errors, and point out continent field as a usable override
-- Override `region_name` with `coalesce(region_name, case continent when 'AS' then 'Asia' when 'AN' then 'Antarctica' else 'Unknown' end) as region_name`
+Hotfix - a user is cleaning up `current_population.sql`
+- Create hotfix branch off master
+- Rename `value` to `country_population`
+- Rename `year` to `population_year`
+- Make changes in .yml also, with descriptions
+- Commit and push
+- Wait for CI Push, create pull request, and merge
+
+Continue with original release:
+- Merge pull request to release branch
+- Create pull request to master from release branch
+- In GitHub interface, 'Resolve Conflicts'
+  - Edit to `value as population, year as population_year`
+  - Mark as resolved
+  - Commit merge
 
