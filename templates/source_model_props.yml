@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: {{ relation.schema.lower() }}
+{%- if source_database %}
+    database: {{ source_database }}
+{%- endif %}
+    schema: {{ relation.schema.lower() }}
+    tables:
+      - name: {{ relation.name.lower() }}
+        identifier: {{ relation.name }}
+
+models:
+  - name: {{ model.lower() }}
+    columns:
+{%- for cols in nested.values() %}
+  {%- for col in cols %}
+      - name: {{ col.lower().replace(" ","_").replace(":","_").replace("(","_").replace(")","_").replace("-","_").replace("/","_") }}
+  {%- endfor %}
+{%- endfor %}
+{%- for col in columns %}
+      - name: {{ col.name.lower() }}
+{%- endfor %}

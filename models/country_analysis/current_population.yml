@@ -1,0 +1,13 @@
+version: 2
+models:
+  - name: current_population
+    description: "Population information from Github Datasets repository"
+    columns:
+      - name: country_code
+        description: ""
+      - name: country_name
+        description: ""
+      - name: population
+        description: ""
+      - name: year
+        description: ""

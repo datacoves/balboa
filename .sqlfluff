@@ -61,7 +61,7 @@ extended_capitalisation_policy = lower
 
 [sqlfluff:rules:L016]
 ignore_comment_lines = False
-max_line_length = 100
+max_line_length = 140
 
 [sqlfluff:rules:L029]  # Keyword identifiers
 unquoted_identifiers_policy = none
