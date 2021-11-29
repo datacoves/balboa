@@ -1,8 +1,8 @@
 select
     country_code,
     country_name,
-    value as country_population,
-    year as population_year
+    value as population,
+    year
 from (
         select
             country_code,
