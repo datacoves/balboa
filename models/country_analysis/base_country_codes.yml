@@ -1,0 +1,124 @@
+version: 2
+models:
+  - name: base_country_codes
+    description: "Cleaned up country codes"
+    columns:
+      - name: display_name
+        tests:
+          - not_null
+          - unique
+        description: ""
+      - name: capital
+        description: ""
+      - name: continent
+        description: ""
+      - name: ds
+        description: ""
+      - name: developed___developing_countries
+        description: ""
+      - name: dial
+        description: ""
+      - name: edgar
+        description: ""
+      - name: fifa
+        description: ""
+      - name: fips
+        description: ""
+      - name: gaul
+        description: ""
+      - name: geoname_id
+        description: ""
+      - name: global_code
+        description: ""
+      - name: global_name
+        description: ""
+      - name: ioc
+        description: ""
+      - name: iso3166_1_alpha_2
+        description: ""
+      - name: iso3166_1_alpha_3
+        description: ""
+      - name: iso3166_1_numeric
+        description: ""
+      - name: iso4217_currency_alphabetic_code
+        description: ""
+      - name: iso4217_currency_country_name
+        description: ""
+      - name: iso4217_currency_minor_unit
+        description: ""
+      - name: iso4217_currency_name
+        description: ""
+      - name: iso4217_currency_numeric_code
+        description: ""
+      - name: itu
+        description: ""
+      - name: intermediate_region_code
+        description: ""
+      - name: intermediate_region_name
+        description: ""
+      - name: land_locked_developing_countries__lldc_
+        description: ""
+      - name: languages
+        description: ""
+      - name: least_developed_countries__ldc_
+        description: ""
+      - name: m49
+        description: ""
+      - name: marc
+        description: ""
+      - name: region_code
+        description: ""
+      - name: region_name
+        description: ""
+      - name: small_island_developing_states__sids_
+        description: ""
+      - name: sub_region_code
+        description: ""
+      - name: sub_region_name
+        description: ""
+      - name: tld
+        description: ""
+      - name: unterm_arabic_formal
+        description: ""
+      - name: unterm_arabic_short
+        description: ""
+      - name: unterm_chinese_formal
+        description: ""
+      - name: unterm_chinese_short
+        description: ""
+      - name: unterm_english_formal
+        description: ""
+      - name: unterm_english_short
+        description: ""
+      - name: unterm_french_formal
+        description: ""
+      - name: unterm_french_short
+        description: ""
+      - name: unterm_russian_formal
+        description: ""
+      - name: unterm_russian_short
+        description: ""
+      - name: unterm_spanish_formal
+        description: ""
+      - name: unterm_spanish_short
+        description: ""
+      - name: wmo
+        description: ""
+      - name: is_independent
+        description: ""
+      - name: official_name_ar
+        description: ""
+      - name: official_name_cn
+        description: ""
+      - name: official_name_en
+        description: ""
+      - name: official_name_es
+        description: ""
+      - name: official_name_fr
+        description: ""
+      - name: official_name_ru
+        description: ""
+      - name: _airbyte_ab_id
+        description: ""
+      - name: _airbyte_emitted_at
+        description: ""
