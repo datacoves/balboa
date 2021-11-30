@@ -1,0 +1,13 @@
+version: 2
+models:
+  - name: country_population
+    description: "Estimate population information from Github Datasets repository"
+    columns:
+      - name: country_code
+        description: ""
+      - name: most_recent_population
+        description: ""
+      - name: most_recent_population_year
+        description: ""
+      - name: estimate_current_population
+        description: ""
