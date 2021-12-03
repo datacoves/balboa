@@ -1,0 +1,86 @@
+{
+    "sqltools.connections": [
+        {
+            "authenticator": "SNOWFLAKE",
+            "ocspOptions": {
+                "ocspFailOpen": true
+            },
+            "snowflakeOptions": {
+                "clientSessionKeepAlive": true,
+                "clientSessionKeepAliveHeartbeatFrequency": 3600,
+                "schema": "PUBLIC",
+                "role": "ANALYST"
+            },
+            "previewLimit": 50,
+            "driver": "Snowflake",
+            "name": "dev_balboa",
+            "account": "toa80779",
+            "username": "{{ snowflake_username }}",
+            "password": "{{ snowflake_password }}",
+            "database": "DEV_BALBOA",
+            "warehouse": "TRANSFORMING_WAREHOUSE"
+        },
+        {
+            "authenticator": "SNOWFLAKE",
+            "ocspOptions": {
+                "ocspFailOpen": true
+            },
+            "snowflakeOptions": {
+                "clientSessionKeepAlive": true,
+                "clientSessionKeepAliveHeartbeatFrequency": 3600,
+                "schema": "PUBLIC",
+                "role": "ANALYST"
+            },
+            "previewLimit": 50,
+            "driver": "Snowflake",
+            "name": "dev_raw",
+            "account": "toa80779",
+            "username": "{{ snowflake_username }}",
+            "password": "{{ snowflake_password }}",
+            "database": "DEV_RAW",
+            "warehouse": "TRANSFORMING_WAREHOUSE"
+        }
+    ],
+    "sqltools.tableTreeItemsExpanded": true,
+    "sqltools.showStatusbar": false,
+    "sqltools.format": {
+        "reservedWordCase": "lower",
+        "language": "sql"
+    },
+    "terminal.integrated.cwd": "/config/workspace/transform",
+    "actionButtons": {
+        "defaultColor": "#ff0034", // Can also use string color names.
+			"loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
+			"reloadButton": null,
+			"commands": [
+                {
+					"name": "▶️ Run current",
+                    "cwd": "/config/workspace/transform",
+                    "color": "white",
+					"singleInstance": true,
+					"command": "dbt run --defer --state logs --select ${fileBasenameNoExtension}"
+				},
+				{
+                    "name": "⏭ Build all",
+                    "cwd": "/config/workspace/transform",
+					"color": "white",
+					"singleInstance": true,
+					"command": "dbt build --defer --state logs --select state:modified+"
+				},
+                {	
+					"name": "✔️ Run checks",
+                    "cwd": "/config/workspace/transform",
+                    "color": "white",
+					"singleInstance": true,
+					"command": "dbt-coves check" // This is executed in the terminal.
+				},
+                {
+					"name": "🗳️ Prod metadata",
+                    "cwd": "/config/workspace/transform",
+                    "color": "white",
+					"singleInstance": true,
+					"command": "dbt run-operation get_last_manifest | sed -e '1,1d' > logs/manifest.json"
+				}
+			]
+    }
+}
