@@ -32,8 +32,7 @@ jobs:
         uses: datacoves/dbt-coves-action@v1
         with:
           dbt_project_folder: "transform"
-          command: "pwd"
-          # command: "dbt deps"
+          command: "dbt deps"
 
       - name: Load dbt seeds
         uses: datacoves/dbt-coves-action@v1
