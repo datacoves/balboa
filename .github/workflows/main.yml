@@ -26,6 +26,7 @@ jobs:
       - name: deps
         uses: datacoves/dbt-coves-action@v1
         with:
+          command: 'cd transform'
           command: "dbt deps"
 
       - name: seed
