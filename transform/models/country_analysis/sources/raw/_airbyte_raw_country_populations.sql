@@ -9,7 +9,7 @@ with raw_source as (
 
 final as (
 
-    SELECT
+    select
         airbyte_data_clean:"Country Code"::varchar as country_code,
         airbyte_data_clean:"Country Name"::varchar as country_name,
         airbyte_data_clean:"Value"::varchar as value,
