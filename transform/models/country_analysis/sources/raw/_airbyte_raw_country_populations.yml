@@ -6,7 +6,7 @@ sources:
     tables:
       - name: _airbyte_raw_country_populations
         identifier: _AIRBYTE_RAW_COUNTRY_POPULATIONS
-        # description: "Raw population information from Github Datasets repository"
+        description: "Raw population information from Github Datasets repository"
 
 models:
   - name: _airbyte_raw_country_populations
