@@ -31,7 +31,9 @@ jobs:
       - name: Install dbt packages
         uses: datacoves/dbt-coves-action@v1
         with:
-          command: "dbt deps --profiles-dir ./transform"
+          dbt_project_folder: "transform"
+          command: "pwd"
+          # command: "dbt deps"
 
       - name: Load dbt seeds
         uses: datacoves/dbt-coves-action@v1
