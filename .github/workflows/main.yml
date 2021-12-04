@@ -34,19 +34,18 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt deps"
 
+      - name: Run governance checks
+        uses: datacoves/dbt-coves-action@v1
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt-coves check --no-fix"
+          
       - name: Load dbt seeds
         uses: datacoves/dbt-coves-action@v1
         with:
           dbt_project_folder: "transform"
           command: "dbt seed --full-refresh"
 
-      - name: Run governance checks
-        uses: datacoves/dbt-coves-action@v1
-        with:
-          dbt_project_folder: "transform"
-          # command: "dbt-coves check --no-fix"
-          command: "pwd"
-          
       - name: Run dbt build
         uses: datacoves/dbt-coves-action@v1
         with:
