@@ -27,8 +27,8 @@ jobs:
         uses: datacoves/dbt-coves-action@v1
         steps:
           - run: |
-            cd transform
-            dbt deps
+              cd transform
+              dbt deps
 
       - name: seed
         uses: datacoves/dbt-coves-action@v1
