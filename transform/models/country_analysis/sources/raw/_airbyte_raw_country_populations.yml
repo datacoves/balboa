@@ -13,8 +13,6 @@ models:
     description: "Raw population information from Github Datasets repository"
     columns:
       - name: country_code
-        tests:
-          - unique
       - name: country_name
       - name: value
       - name: year
