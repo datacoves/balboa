@@ -52,9 +52,10 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt build"
 
-      - name: generate docs
+      - name: Generate dbt documentation
         uses: datacoves/dbt-coves-action@v1
         with:
+          dbt_project_folder: "transform"
           command: "dbt docs generate"
 
       - name: Deploy docs 🚀
