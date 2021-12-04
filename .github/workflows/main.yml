@@ -35,7 +35,8 @@ jobs:
       - name: deps
         uses: datacoves/dbt-coves-action@v1
         with:
-          command: "dbt deps"
+          command: "pwd"
+          # command: "dbt deps"
 
       - name: seed
         uses: datacoves/dbt-coves-action@v1
