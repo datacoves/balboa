@@ -44,7 +44,8 @@ jobs:
         uses: datacoves/dbt-coves-action@v1
         with:
           # dbt_project_folder: "transform"
-          command: "dbt-coves check --no-fix"
+          # command: "dbt-coves check --no-fix"
+          command: "dbt-coves --version"
           
       - name: Run dbt build
         uses: datacoves/dbt-coves-action@v1
