@@ -58,16 +58,16 @@
                     "cwd": "/config/workspace/transform",
                     "color": "white",
 					"singleInstance": true,
-					"command": "dbt run --defer --state logs --select ${fileBasenameNoExtension}"
+					"command": "dbt run --select ${fileBasenameNoExtension}"
 				},
 				{
                     "name": "⏭ Build all",
                     "cwd": "/config/workspace/transform",
 					"color": "white",
 					"singleInstance": true,
-					"command": "dbt build --defer --state logs --select state:modified+"
+					"command": "dbt build"
 				},
-                {	
+                {
 					"name": "✔️ Run checks",
                     "cwd": "/config/workspace/transform",
                     "color": "white",
@@ -75,12 +75,19 @@
 					"command": "dbt-coves check" // This is executed in the terminal.
 				},
                 {
-					"name": "🗳️ Prod metadata",
+					"name": "✔️ lint current",
                     "cwd": "/config/workspace/transform",
                     "color": "white",
 					"singleInstance": true,
-					"command": "dbt run-operation get_last_manifest | sed -e '1,1d' > logs/manifest.json"
-				}
+					"command": "sqlfluff lint ${file}" // This is executed in the terminal.
+				},
+                // {
+				// 	"name": "🗳️ Prod metadata",
+                //     "cwd": "/config/workspace",
+                //     "color": "white",
+				// 	"singleInstance": true,
+				// 	"command": "dbt run-operation get_last_manifest | sed -e '1,1d' > logs/manifest.json"
+				// }
 			]
     }
 }

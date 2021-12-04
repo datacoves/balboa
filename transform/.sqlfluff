@@ -4,6 +4,7 @@ nocolor = False
 dialect = snowflake
 templater = dbt
 rules = None
+project_dir = ./
 
 recurse = 0
 output_line_length = 80

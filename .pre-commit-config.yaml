@@ -3,12 +3,32 @@ repos:
   rev: v1.0.0
   hooks:
   - id: dbt-compile
+    files: ^transform/models/
+    args: ["--cmd-flags", "++project+dir", "transform", "--"]    
   - id: dbt-docs-generate
-  - id: check-source-table-has-description
-    files: ^models/
+    files: ^transform/models/
+    args: ["--cmd-flags", "++project+dir", "transform"]  
+  - id: check-source-table-has-description  
+    files: ^transform/models/  
+  - id: check-script-semicolon
+    files: ^transform/models/
+  - id: check-script-has-no-table-name
+    files: ^transform/models/
+  - id: check-script-ref-and-source
+    files: ^transform/models/
+    args: ["--manifest", "transform/target/manifest.json"]
+  # TODO Auto generate properties file, need fix to do in sql file dir
+  # - id: generate-model-properties-file
+  #   args: ["--properties-file", "/models/{schema}/{name}.yml", "--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json", "--"]
+
   - id: check-model-has-properties-file
-    files: ^models/
+    args: ["--manifest", "transform/target/manifest.json"]
+    files: ^transform/models/
   - id: check-model-has-all-columns
-    files: ^models/
+    args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
+    files: ^transform/models/
   - id: check-model-has-description
-    files: ^models/
+    args: ["--manifest", "transform/target/manifest.json"]
+    files: ^transform/models/
+
+
