@@ -30,7 +30,8 @@ jobs:
       - name: deps
         uses: datacoves/dbt-coves-action@v1
         working-directory: transform
-        run: dbt deps
+        with:
+          command: "dbt deps"
 
       - name: seed
         uses: datacoves/dbt-coves-action@v1
