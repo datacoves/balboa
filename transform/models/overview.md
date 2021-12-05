@@ -1,13 +1,13 @@
 {% docs __overview__ %}
 # Datacoves Demo
-This project is used as a demonstration of an end-to-end data flow utilizing DataOps best practices to:
-* Automate processes
+This project is used as a demonstration of an end-to-end data flow utilizing DataOps best practices and automate processes that:
+* Transform data to make it analytics read
 * Enforce governance rules
 * Capture data lineage
 * Capture documentation
 * Perform data testing
 
-![](https://grmds.org/sites/default/files/inline-images/imdata2021_web_banner_2_0.jpg)
+![](https://www.dataops.live/hubfs/DataOps-Infinty-Blue-1.png)
 {% enddocs %}
 
 
