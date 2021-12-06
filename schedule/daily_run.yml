@@ -11,11 +11,11 @@ daily_run:
     load:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
-      dbt_project_path: /opt/airflow/dags/repo/transform
+      dbt_project_path: /opt/airflow/dags/repo/balboa.git/transform
       dbt_list_args: "--select tag:daily"
       deploy_path: /home/airflow/transform
       task_group_name: extract_and_load
     transform:
       operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "python /opt/airflow/dags/repo/automate/production_run.py"
+      bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/production_run.py"
       dependencies: ["extract_and_load"]

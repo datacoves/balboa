@@ -13,7 +13,7 @@ def main(args):
     
     subprocess.run(["rm", "-rf", cwd], check=True)
 
-    subprocess.run(["cp", "-rf", "/opt/airflow/dags/repo/transform", cwd], check=True)
+    subprocess.run(["cp", "-rf", "/opt/airflow/dags/repo/balboa.git/transform", cwd], check=True)
 
     subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
 
