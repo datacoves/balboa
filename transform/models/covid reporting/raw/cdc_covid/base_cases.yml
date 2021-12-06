@@ -3,8 +3,6 @@ version: 2
 sources:
   - name: nyt_covid
     schema: raw
-    tags:
-      - daily
     tables:
       - name: cases
         description: >
