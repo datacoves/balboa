@@ -31,6 +31,10 @@ seeds:
 # These settings can be overridden in the individual model files
 models:
   materialized: view
+  dbt_artifacts:
+    +schema: dbt_artifacts
+    staging:
+      +schema: dbt_artifacts
 
 tests:
   +store_failures: true
