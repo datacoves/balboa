@@ -3,6 +3,8 @@ version: 2
 sources:
   - name: raw
     schema: raw
+    tags:
+      - daily
     tables:
       - name: _airbyte_raw_country_populations
         identifier: _AIRBYTE_RAW_COUNTRY_POPULATIONS

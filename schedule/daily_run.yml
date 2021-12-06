@@ -13,7 +13,6 @@ daily_run:
       airflow_connection_id: airbyte_connection
       dbt_project_path: /opt/airflow/dags/repo/transform
       dbt_list_args: "--select tag:daily"
-      sources_database: DEV_RAW
       deploy_path: /home/airflow/transform
       task_group_name: extract_and_load
     transform:
