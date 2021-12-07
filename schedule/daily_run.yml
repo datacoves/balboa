@@ -7,15 +7,18 @@ daily_run:
   task_groups:
     extract_and_load:
       tooltip: "Extract and Load tasks"
+    transform:
+      tooltip: "Transform group"
+      dependencies: ["extract_and_load"]
   tasks:
-    load:
+    load_task:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
       dbt_project_path: /opt/airflow/dags/repo/balboa.git/transform
       dbt_list_args: "--select tag:daily"
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
-    transform:
+    transform_task:
       operator: airflow.operators.bash_operator.BashOperator
       bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/production_run.py"
-      dependencies: ["extract_and_load"]
+      task_group_name: transform
