@@ -1,9 +1,7 @@
-name: Generate Docs on merge to Main
+name: Test and Check on Pull Request
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,7 +15,7 @@ jobs:
     env:
       DBT_USER: ${{ secrets.DBT_USER }}
       DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-      DBT_TEST_DATABASE: ${{ secrets.DBT_DATABASE }}
+      DBT_TEST_DATABASE: ${{ secrets.DBT_DATABASE }}_${{ github.event.number }}
       DBT_PROFILES_DIR: /github/workspace/automate
       DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
       DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
@@ -44,21 +42,3 @@ jobs:
         with:
           dbt_project_folder: "transform"
           command: "dbt build --defer --state logs --select state:modified+"
-
-      - name: Generate dbt documentation
-        uses: datacoves/dbt-coves-action@v1
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt docs generate"
-
-      - name: Deploy docs 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages
-          folder: transform/target
-
-      - name: Upload Prod Manifest
-        uses: datacoves/dbt-coves-action@v1
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt run-operation upload_dbt_artifacts --args '{filenames: [manifest, run_results]}'"

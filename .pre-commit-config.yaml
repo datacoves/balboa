@@ -1,13 +1,21 @@
 repos:
+- repo: local
+  hooks:
+    - id: dbt-get-manifest
+      name: dbt-get-manifest
+      entry: automate/dbt/get_artifacts.sh
+      language: script
+      types: [python]
+      pass_filenames: false
 - repo: https://github.com/offbi/pre-commit-dbt
   rev: v1.0.0
   hooks:
-  - id: dbt-compile
+  - id: dbt-run
     files: ^transform/models/
-    args: ["--cmd-flags", "++project+dir", "transform", "--"]    
+    args: ["--models", "state:modified+", "--cmd-flags", "++defer", "++project+dir", "transform", "++state", "logs", "--"]
   - id: dbt-docs-generate
     files: ^transform/models/
-    args: ["--cmd-flags", "++project+dir", "transform"]  
+    args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"] 
   - id: check-source-table-has-description  
     files: ^transform/models/  
   - id: check-script-semicolon
@@ -24,8 +32,11 @@ repos:
   - id: check-model-has-properties-file
     args: ["--manifest", "transform/target/manifest.json"]
     files: ^transform/models/
-  - id: check-model-has-all-columns
-    args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
+  # TODO: Cannot use this with defer.
+  # open issue https://github.com/dbt-labs/dbt-core/issues/4110
+  # - id: check-model-has-all-columns
+  #   args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
+  #   files: ^transform/models/
     files: ^transform/models/
   - id: check-model-has-description
     args: ["--manifest", "transform/target/manifest.json"]
