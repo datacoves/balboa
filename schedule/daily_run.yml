@@ -7,11 +7,7 @@ daily_run:
   task_groups:
     extract_and_load:
       tooltip: "Extract and Load tasks"
-      dependencies:  ["start"]
   tasks:
-    start:
-      operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "echo 'Starting DAG'"
     load:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
