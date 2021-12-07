@@ -10,7 +10,7 @@ default:
         threads: 8
 
         # Set the DBT_TEST_DATABASE in your CI
-        database: "{{ env_var('DBT_TEST_DATABASE') }}"
+        database: "{{ env_var('DBT_DATABASE') }}"
         schema: dev
 
         # Set variable DBT_USER in your CI

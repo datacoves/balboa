@@ -17,7 +17,7 @@ jobs:
     env:
       DBT_USER: ${{ secrets.DBT_USER }}
       DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-      DBT_TEST_DATABASE: ${{ secrets.DBT_DATABASE }}
+      DBT_DATABASE: ${{ secrets.DBT_DATABASE }}
       DBT_PROFILES_DIR: /github/workspace/automate
       DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
       DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
