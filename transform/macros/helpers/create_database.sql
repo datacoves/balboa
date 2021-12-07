@@ -6,8 +6,10 @@
 
 {%- macro create_database() -%}
   {% set create_db_sql %}
-      DROP DATABASE IF EXISTS {{ target.database }};
-      CREATE DATABASE {{ target.database }};
+      use role z_create_database;
+      create database if not exists {{ target.database }};
+      grant ownership on database {{ target.database }} to role {{ target.role }};
+      use role {{ target.role }};
   {% endset %}
   {% do run_query(create_db_sql) %}
   {{ log("Created Database: " ~ target.database, info=true) }}
