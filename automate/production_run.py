@@ -4,10 +4,14 @@ import sys
 import os
 
 
+DBT_PROJECT_DIR = "/opt/airflow/dags/repo/balboa.git/transform"
+
+
 def get_commit_hash():
     return subprocess.run(['git', 'rev-parse', 'HEAD'],
         capture_output=True,
-        text=True).stdout.strip("\n")
+        text=True).stdout.strip("\n",
+        cwd=DBT_PROJECT_DIR)
 
 
 def main(args):
@@ -18,7 +22,7 @@ def main(args):
     commit_hash = get_commit_hash()
     cwd = f"/home/airflow/transform-{commit_hash}"
 
-    subprocess.run(["cp", "-rf", "/opt/airflow/dags/repo/balboa.git/transform", cwd], check=True)
+    subprocess.run(["cp", "-rf", DBT_PROJECT_DIR, cwd], check=True)
 
     subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
 
