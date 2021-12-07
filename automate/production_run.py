@@ -22,8 +22,8 @@ def main(args):
     else:
         subprocess.run(["dbt", "build"], check=True, cwd=cwd)
 
-    # subprocess.run(["dbt", "run-operation", "upload_dbt_artifacts",
-    #     "--args", "{filenames: [manifest, run_results]}"], check=True, cwd=cwd)
+    subprocess.run(["dbt", "run-operation", "upload_dbt_artifacts",
+        "--args", "{filenames: [manifest, run_results]}"], check=True, cwd=cwd)
 
 
 if __name__ == "__main__":
