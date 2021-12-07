@@ -32,6 +32,10 @@ seeds:
 models:
   materialized: view
   dbt_artifacts:
+    +schema: dbt_artifacts
+    staging:
+      +schema: dbt_artifacts
+
     enabled: false
     
 tests:
