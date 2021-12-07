@@ -1,4 +1,4 @@
-daily_run:
+daily_run2:
   description: "Daily run at 3am"
   schedule_interval: "23 4 * * *"
   default_args:
