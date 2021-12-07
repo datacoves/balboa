@@ -3,6 +3,6 @@
 # Cause script to exit on error
 set -e
 
-cd ~/workspace/transform
-dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f' > logs/manifest.json
+cd $DBT_HOME
+dbt run-operation get_last_manifest --args '{"artifacts_location": "balboa.dbt_artifacts.artifacts"}' | awk '/{/ { f = 1 } f' > logs/manifest.json
 echo "Updated manifest from production"
