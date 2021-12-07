@@ -15,7 +15,7 @@ jobs:
     env:
       DBT_USER: ${{ secrets.DBT_USER }}
       DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-      DBT_DATABASE: ${{ secrets.DBT_DATABASE }}_PR #_${{ github.event.number }}
+      DBT_DATABASE: ${{ secrets.DBT_DATABASE }}_PR_${{ github.event.number }}
       DBT_PROFILES_DIR: /github/workspace/automate
       DBT_HOME: /github/workspace/transform
       DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
@@ -31,6 +31,12 @@ jobs:
         with:
           dbt_project_folder: "transform"
           command: "dbt deps"
+
+      - name: Create PR database
+        uses: datacoves/dbt-coves-action@v1
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt --no-write-json run-operation create_database --args '{target_db: $DBT_DATABASE}'"
 
       - name: Run governance checks
         uses: datacoves/dbt-coves-action@v1
