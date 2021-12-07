@@ -36,7 +36,7 @@ jobs:
         uses: datacoves/dbt-coves-action@v1
         with:
           dbt_project_folder: "transform"
-          command: 'dbt --no-write-json run-operation create_database --args "{target_db: $DBT_DATABASE}"''
+          command: 'dbt --no-write-json run-operation create_database --args "{target_db: $DBT_DATABASE}"'
 
       - name: Run governance checks
         uses: datacoves/dbt-coves-action@v1
