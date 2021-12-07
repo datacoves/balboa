@@ -36,6 +36,8 @@ models:
     staging:
       +schema: dbt_artifacts
 
+    enabled: false
+    
 tests:
   +store_failures: true
 
