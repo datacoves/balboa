@@ -4,14 +4,19 @@ import sys
 import os
 
 
+def get_commit_hash():
+    return subprocess.run(['git', 'rev-parse', 'HEAD'],
+        capture_output=True,
+        text=True).stdout.strip("\n")
+
+
 def main(args):
     """
     Runs dbt build
     """
     tag = args[0] if args else ""
-    cwd = "/home/airflow/transform"
-    
-    subprocess.run(["rm", "-rf", cwd], check=True)
+    commit_hash = get_commit_hash()
+    cwd = f"/home/airflow/transform-{commit_hash}"
 
     subprocess.run(["cp", "-rf", "/opt/airflow/dags/repo/balboa.git/transform", cwd], check=True)
 
@@ -25,6 +30,7 @@ def main(args):
     subprocess.run(["dbt", "run-operation", "upload_dbt_artifacts",
         "--args", "{filenames: [manifest, run_results]}"], check=True, cwd=cwd)
 
+    subprocess.run(["rm", "-rf", cwd], check=True)
 
 if __name__ == "__main__":
     try:
