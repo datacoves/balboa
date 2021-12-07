@@ -4,7 +4,7 @@
     dbt run-operation create_database
 #}
 
-{%- macro create_database -%}
+{%- macro create_database() -%}
   {% set create_db_sql %}
       DROP DATABASE IF EXISTS {{ target.database }};
       CREATE DATABASE {{ target.database }};
