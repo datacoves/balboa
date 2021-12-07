@@ -9,7 +9,10 @@ from pathlib import Path
 
 
 def main():
-    current_commit = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip("\n")
+    current_commit = subprocess.run(['git', 'rev-parse', 'HEAD'],
+        capture_output=True,
+        text=True,
+        cwd="/opt/airflow/dags/repo/balboa.git/automate/airflow/dags").stdout.strip("\n")
     current_pickle = f"/home/airflow/{current_commit}.pickle"
     if Path(current_pickle).exists():
         with open(current_pickle, "rb") as f:
