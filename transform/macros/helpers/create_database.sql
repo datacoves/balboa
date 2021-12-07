@@ -7,7 +7,7 @@
 {%- macro create_database(target_db) -%}
   {% set create_db_sql %}
       DROP DATABASE IF EXISTS {{ target_db }};
-      CREATE DATABASE IF NOT EXISTS {{ target_db }};
+      CREATE DATABASE {{ target_db }};
   {% endset %}
   {% do run_query(create_db_sql) %}
   {{ log("Created Database: " ~ target_db, info=true) }}
