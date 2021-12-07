@@ -86,7 +86,7 @@
                 //     "cwd": "/config/workspace",
                 //     "color": "white",
 				// 	"singleInstance": true,
-				// 	"command": "dbt run-operation get_last_manifest --args '{"artifacts_location": "balboa.dbt_artifacts.artifacts"}' | sed -e '1,1d' > logs/manifest.json"
+				// 	"command": "dbt run-operation get_last_manifest | sed -e '1,1d' > logs/manifest.json"
 				// }
 			]
     }
