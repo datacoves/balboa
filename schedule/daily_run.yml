@@ -1,6 +1,6 @@
-daily_run2:
+daily_run:
   description: "Daily run at 3am"
-  schedule_interval: "23 4 * * *"
+  schedule_interval: "35 7 * * *"
   default_args:
     start_date: 2021-01-01
   catchup: False
