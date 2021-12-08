@@ -30,6 +30,8 @@ seeds:
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 # These settings can be overridden in the individual model files
 models:
+  country_analysis:
+    +schema: bay_country
   materialized: view
   dbt_artifacts:
     +schema: dbt_artifacts
