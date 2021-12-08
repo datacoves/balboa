@@ -32,6 +32,9 @@ https://raw.githubusercontent.com/datasets/country-codes/master/data/country-cod
     - Sync frequency manual
     - country_codes sync mode: full refresh | overwrite
     - raw data - no normalization
+- show table in balboa.raw
+
+# Demo 2:
 
 - dbt-coves generate sources
   - Select _airbyte_raw_country_codes
@@ -101,7 +104,7 @@ left join {{ ref('current_population') }} as current_population
 **Go back to slides**
 
 
-# Demo 2:
+# Demo 3:
 
 Hotfix - a user is cleaning up `current_population.sql`
 - Create hotfix branch off main
