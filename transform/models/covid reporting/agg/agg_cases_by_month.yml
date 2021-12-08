@@ -11,9 +11,9 @@ models:
           interval: 90
     columns:
       - name: deaths
-        description: Total Cummolative deaths due to covid-19
+        description: Total Cumulative deaths due to covid-19
       - name: cases
-        description: Total Cummolative cases of covid-19
+        description: Total Cumulative cases of covid-19
       - name: date
         description: Last day of the month
       - name: state
