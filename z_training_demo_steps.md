@@ -18,8 +18,8 @@ Add a feature-1 branch to merge to release branch for reversion
 - Remove all models and yml not related to population in models/country_analysis
 - Delete all local and github branches related to dataops-training
 - Create release/dataops-training branch from main
-- Create merge request from feature-1 to release and complete merge (for later reversion)
-- Delete Airbyte source & connection
+- Merge feature-1 to release (for later reversion)
+- Delete Airbyte country codes source & connection
 
 
 # Demo 1:
