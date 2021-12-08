@@ -86,6 +86,7 @@ On error:
     - Get the field names for the .sql:
         - `select {{ dbt_utils.star(ref('_airbyte_raw_country_codes')) }} from balboa.raw._airbyte_raw_country_codes`
         - Build current and copy fields from target/run folder to add to model
+        - Clean up fields - (option+shift+i for multicursor), remove quotes & change to lowercase.
     - Add new column `coalesce(cldr_display_name, official_name_en)`, alias to `display_name`
     - Add .yml for new base model with tests
         - Click 'Create model YML'
