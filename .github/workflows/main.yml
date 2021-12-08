@@ -62,4 +62,4 @@ jobs:
         uses: datacoves/dbt-coves-action@v1
         with:
           dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation upload_dbt_artifacts --args '{filenames: [manifest, run_results]}'"
+          command: "dbt --no-write-json run-operation upload_dbt_artifacts --args \'{filenames: [manifest, run_results]}\'"
