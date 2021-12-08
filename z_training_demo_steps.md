@@ -12,6 +12,10 @@ Add a feature-1 branch to merge to release branch for reversion
     "command": "dbt run-operation generate_model_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
 },
 ```
+Add $DBT_HOME to /config/.bashrc:
+```
+export DBT_HOME="/config/workspace/transform"
+```
 
 ### Reset Environment:
 - Ensure `current_population.sql` has no aliases
@@ -38,13 +42,15 @@ https://raw.githubusercontent.com/datasets/country-codes/master/data/country-cod
 
 Start Jira story for creating model
 
-Create new git branch for jira story feature/country_codes/DD-3
+Create new git branch for jira story git checkout -b feature/country_codes/DD-3
 
-- dbt-coves generate sources
+- dbt-coves generate sources --database raw
   - Select _airbyte_raw_country_codes
   - Yes to flatten
 
 Show created table and flattened version in sqltools
+
+Change `M49` to integer in flattening model
 
 Add metadata & tests to _airbyte_raw_country_codes:
 - description on source & model: "Raw country code data from GitHub datasets repository"
@@ -66,15 +72,20 @@ Add metadata & tests to _airbyte_raw_country_codes:
             - 'Developed'
             - 'Developing'
 ```
-- `dbt build --select _airbyte_raw_country_codes+`
+- `dbt build --select _airbyte_raw_country_codes`
 - Show errors in snowflake by copying failure sql statement and running in sqltools
+    - Describe error - CLDR display name is the primary key and is null
 
 On error:
-- Set not_null test on `cldr_display_name` to warning
-- Create base model `base_country_codes` to deal with null values:
+- Set not_null test on `cldr_display_name` to warning for our flattening model (we'll add a base model to error):
+```
+- not_null:
+    severity: warning
+```
+- Create base model `base_country_codes` in models/bay_country to deal with null values:
     - Get the field names for the .sql:
-        - `select {{ dbt_utils.star(ref('_airbyte_raw_country_codes')) }} from {{ ref('_airbyte_raw_country_codes') }}`
-        - Run in SQLtools and copy fields from target compile folder to add to model
+        - `select {{ dbt_utils.star(ref('_airbyte_raw_country_codes')) }} from balboa.raw._airbyte_raw_country_codes`
+        - Build current and copy fields from target/run folder to add to model
     - Add new column `coalesce(cldr_display_name, official_name_en)`, alias to `display_name`
     - Add .yml for new base model with tests
         - Click 'Create model YML'
