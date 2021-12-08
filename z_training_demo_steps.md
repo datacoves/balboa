@@ -38,6 +38,8 @@ https://raw.githubusercontent.com/datasets/country-codes/master/data/country-cod
 
 Start Jira story for creating model
 
+Create new git branch for jira story feature/country_codes/DD-3
+
 - dbt-coves generate sources
   - Select _airbyte_raw_country_codes
   - Yes to flatten
