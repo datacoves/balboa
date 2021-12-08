@@ -12,9 +12,9 @@ states as (
 final_monthly_cases as (
     select
         date,
-        upper(state) as state,
+        state,
         cases,
-        deaths
+        round(deaths) as deaths
     from(
         select
             cases,
