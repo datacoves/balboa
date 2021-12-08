@@ -12,7 +12,7 @@ states as (
 final_monthly_cases as (
     select
         date,
-        state,
+        state as state_or_region,
         cases,
         deaths
     from(
