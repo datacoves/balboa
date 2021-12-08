@@ -24,7 +24,7 @@ Add a feature-1 branch to merge to release branch for reversion
 
 # Demo 1:
 
-Create a Jira task for 'Add Countries dataset'
+Start Jira story for ingesting data
 
 - Set up Airbyte source as file:
 https://raw.githubusercontent.com/datasets/country-codes/master/data/country-codes.csv
@@ -32,6 +32,13 @@ https://raw.githubusercontent.com/datasets/country-codes/master/data/country-cod
     - Sync frequency manual
     - country_codes sync mode: full refresh | overwrite
     - raw data - no normalization
+- show table in balboa.raw
+
+# Demo 2:
+
+Start Jira story for creating model
+
+Create new git branch for jira story feature/country_codes/DD-3
 
 - dbt-coves generate sources
   - Select _airbyte_raw_country_codes
@@ -42,24 +49,23 @@ Show created table and flattened version in sqltools
 Add metadata & tests to _airbyte_raw_country_codes:
 - description on source & model: "Raw country code data from GitHub datasets repository"
 - Tests:
-    - model:
-        ```
+```
+    # Model:
+    tests:
         - dbt_expectations.expect_table_row_count_to_be_between:
             min_value: 200
             max_value: 400
-        ```
-    - `cldr_display_name`: 
-        ```
+    # cldr_display_name:
+    tests:
         - not_null
         - unique
-        ```
-    - `developed___developing_countries`: 
-        ```
-    - accepted_values:
+    # developed___developing_countries
+    tests:
+        - accepted_values:
             values:
             - 'Developed'
             - 'Developing'
-        ```
+```
 - `dbt build --select _airbyte_raw_country_codes+`
 - Show errors in snowflake by copying failure sql statement and running in sqltools
 
@@ -101,7 +107,7 @@ left join {{ ref('current_population') }} as current_population
 **Go back to slides**
 
 
-# Demo 2:
+# Demo 3:
 
 Hotfix - a user is cleaning up `current_population.sql`
 - Create hotfix branch off main
