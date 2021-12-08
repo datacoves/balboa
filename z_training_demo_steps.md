@@ -47,24 +47,23 @@ Show created table and flattened version in sqltools
 Add metadata & tests to _airbyte_raw_country_codes:
 - description on source & model: "Raw country code data from GitHub datasets repository"
 - Tests:
-    - model:
-        ```
+```
+    # Model:
+    tests:
         - dbt_expectations.expect_table_row_count_to_be_between:
             min_value: 200
             max_value: 400
-        ```
-    - `cldr_display_name`: 
-        ```
+    # cldr_display_name:
+    tests:
         - not_null
         - unique
-        ```
-    - `developed___developing_countries`: 
-        ```
-    - accepted_values:
+    # developed___developing_countries
+    tests:
+        - accepted_values:
             values:
             - 'Developed'
             - 'Developing'
-        ```
+```
 - `dbt build --select _airbyte_raw_country_codes+`
 - Show errors in snowflake by copying failure sql statement and running in sqltools
 
