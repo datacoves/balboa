@@ -2,6 +2,7 @@ version: 2
 
 sources:
   - name: nyt_covid
+    database: balboa
     schema: raw
     tables:
       - name: cases
