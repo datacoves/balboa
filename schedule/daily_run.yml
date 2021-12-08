@@ -13,6 +13,7 @@ daily_run:
       airflow_connection_id: airbyte_connection
       dbt_project_path: /opt/airflow/dags/repo/balboa.git/transform
       dbt_list_args: "--select tag:daily"
+      sources_database: RAW
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
     transform:
