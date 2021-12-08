@@ -24,7 +24,7 @@ Add a feature-1 branch to merge to release branch for reversion
 
 # Demo 1:
 
-Create a Jira task for 'Add Countries dataset'
+Start Jira story for ingesting data
 
 - Set up Airbyte source as file:
 https://raw.githubusercontent.com/datasets/country-codes/master/data/country-codes.csv
@@ -35,6 +35,8 @@ https://raw.githubusercontent.com/datasets/country-codes/master/data/country-cod
 - show table in balboa.raw
 
 # Demo 2:
+
+Start Jira story for creating model
 
 - dbt-coves generate sources
   - Select _airbyte_raw_country_codes
