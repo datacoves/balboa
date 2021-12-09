@@ -222,12 +222,13 @@ Hotfix - a user is cleaning up `current_population.sql`
 - Commit and push
 - Create pull request, wait for CI, and merge
 
-Continue with original release:
-- Merge pull request to release branch
-- Create pull request to main from release branch
-- In GitHub interface, 'Resolve Conflicts'
-  - Edit to `value as population, year as population_year`
-  - Mark as resolved
-  - Commit merge
+Continue with original feature:
+`git checkout feature/country_codes/DD-3`
+- Pull main to feature branch
+`git pull origin main`
+- Fix the merge conflicts
+- Commit and push changes
+- Merge PR
+
 
 
