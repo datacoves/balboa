@@ -1,9 +1,8 @@
 with raw_source as (
 
     select
-        parse_json(replace(_airbyte_data::string,'"NaN"', 'null')) as airbyte_data_clean,
         *
-    from {{ source('public', 'jhu_covid_19') }}
+    from {{ source('starschema_covid19', 'jhu_covid_19') }}
 
 ),
 

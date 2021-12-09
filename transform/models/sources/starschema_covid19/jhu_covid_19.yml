@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: public
+  - name: starschema_covid19
     database: starschema_covid19
     schema: public
     tables:
@@ -10,6 +10,7 @@ sources:
 
 models:
   - name: jhu_covid_19
+    description: Raw John Hopkins COVID19 data
     columns:
       - name: country_region
       - name: province_state
