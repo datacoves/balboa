@@ -1,0 +1,8 @@
+version: 2
+models:
+  - name: countries
+    columns:
+      - name: display_name
+      - name: region_name
+      - name: currency
+      - name: population
