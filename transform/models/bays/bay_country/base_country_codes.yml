@@ -1,0 +1,67 @@
+version: 2
+models:
+  - name: base_country_codes
+    description: Cleaned up country codes
+    columns:
+      - name: display_name
+        tests:
+            - not_null
+            - unique
+      - name: cldr_display_name
+      - name: capital
+      - name: continent
+      - name: ds
+      - name: developed___developing_countries
+      - name: dial
+      - name: edgar
+      - name: fifa
+      - name: fips
+      - name: gaul
+      - name: geoname_id
+      - name: global_code
+      - name: global_name
+      - name: ioc
+      - name: iso3166_1_alpha_2
+      - name: iso3166_1_alpha_3
+      - name: iso3166_1_numeric
+      - name: iso4217_currency_alphabetic_code
+      - name: iso4217_currency_country_name
+      - name: iso4217_currency_minor_unit
+      - name: iso4217_currency_name
+      - name: iso4217_currency_numeric_code
+      - name: itu
+      - name: intermediate_region_code
+      - name: intermediate_region_name
+      - name: land_locked_developing_countries__lldc_
+      - name: languages
+      - name: least_developed_countries__ldc_
+      - name: m49
+      - name: marc
+      - name: region_code
+      - name: region_name
+      - name: small_island_developing_states__sids_
+      - name: sub_region_code
+      - name: sub_region_name
+      - name: tld
+      - name: unterm_arabic_formal
+      - name: unterm_arabic_short
+      - name: unterm_chinese_formal
+      - name: unterm_chinese_short
+      - name: unterm_english_formal
+      - name: unterm_english_short
+      - name: unterm_french_formal
+      - name: unterm_french_short
+      - name: unterm_russian_formal
+      - name: unterm_russian_short
+      - name: unterm_spanish_formal
+      - name: unterm_spanish_short
+      - name: wmo
+      - name: is_independent
+      - name: official_name_ar
+      - name: official_name_cn
+      - name: official_name_en
+      - name: official_name_es
+      - name: official_name_fr
+      - name: official_name_ru
+      - name: _airbyte_ab_id
+      - name: _airbyte_emitted_at
