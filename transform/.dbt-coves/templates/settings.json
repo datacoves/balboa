@@ -54,18 +54,18 @@
 			"reloadButton": null,
 			"commands": [
                 {
-					"name": "▶️ Run current",
+					"name": "▶️ Build current",
                     "cwd": "/config/workspace/transform",
                     "color": "white",
 					"singleInstance": true,
-					"command": "dbt run --select ${fileBasenameNoExtension}"
+					"command": "dbt build --select ${fileBasenameNoExtension} --defer --state logs"
 				},
 				{
-                    "name": "⏭ Build all",
+                    "name": "⏭ Build changes",
                     "cwd": "/config/workspace/transform",
 					"color": "white",
 					"singleInstance": true,
-					"command": "dbt build"
+					"command": "dbt build --select state:modified+ --defer --state logs"
 				},
                 {
 					"name": "✔️ Run checks",
@@ -81,13 +81,20 @@
 					"singleInstance": true,
 					"command": "sqlfluff lint ${file}" // This is executed in the terminal.
 				},
-                // {
-				// 	"name": "🗳️ Prod metadata",
-                //     "cwd": "/config/workspace",
-                //     "color": "white",
-				// 	"singleInstance": true,
-				// 	"command": "dbt run-operation get_last_manifest --args '{"artifacts_location": "balboa.dbt_artifacts.artifacts"}' | sed -e '1,1d' > logs/manifest.json"
-				// }
+                {
+                    "name": "📝 Create YML for current",
+                    "cwd": "${fileDirname}",
+                    "color": "white",
+                    "singleInstance": true,
+                    "command": "dbt run-operation generate_model_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
+                },
+                {
+					"name": "🗳️ Prod metadata",
+                    "cwd": "/config/workspace/transform",
+                    "color": "white",
+					"singleInstance": true,
+					"command": "/config/workspace/automate/dbt/get_artifacts.sh"
+				}
 			]
     }
 }

@@ -1,6 +1,6 @@
-daily_run:
-  description: "Daily run at 3am"
-  schedule_interval: "04 22 * * *"
+daily_afternoon_run:
+  description: "Daily afternoon run"
+  schedule_interval: "08 24 * * *"
   default_args:
     start_date: 2021-01-01
   catchup: False
@@ -12,11 +12,16 @@ daily_run:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
       dbt_project_path: /opt/airflow/dags/repo/balboa.git/transform
-      dbt_list_args: "--select tag:daily"
-      sources_database: RAW
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
+
+      # Items to update by job
+      sources_database: RAW
+      dbt_list_args: "--select tag:daily_afternoon"
+
     transform:
       operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/production_run.py"
       dependencies: ["extract_and_load"]
+
+      # Items to updated tag for job
+      bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/production_run.py daily_afternoon"

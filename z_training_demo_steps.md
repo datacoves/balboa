@@ -44,7 +44,7 @@ Start Jira story for creating model
 
 Create new git branch for jira story git checkout -b feature/country_codes/DD-3
 
-- dbt-coves generate sources --database raw
+- dbt-coves generate sources
   - Select _airbyte_raw_country_codes
   - Yes to flatten
 
