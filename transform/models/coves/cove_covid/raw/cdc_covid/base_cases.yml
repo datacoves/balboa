@@ -7,7 +7,7 @@ sources:
     tags:
       - daily_afternoon
     tables:
-      - name: cases
+      - name: nyt_covid_data
         description: >
           RAW <a href="https://github.com/nytimes/covid-19-data/" target="_blank">Covid information from the NYT</a>
         identifier: _AIRBYTE_RAW_NYT_COVID_DATA

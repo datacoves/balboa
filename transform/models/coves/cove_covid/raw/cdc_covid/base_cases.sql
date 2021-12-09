@@ -1,6 +1,6 @@
 with raw_source as (
 
-    select * from {{ source('nyt_covid', 'cases') }}
+    select * from {{ source('nyt_covid', 'nyt_covid_data') }}
 
 ),
 
