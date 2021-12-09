@@ -3,7 +3,7 @@
 Add a feature-1 branch to merge to release branch for reversion
 
 ### Add button to settings.json:
-```
+```yaml
 {
     "name": "📝 Create YML for current",
     "cwd": "${fileDirname}",
@@ -13,7 +13,7 @@ Add a feature-1 branch to merge to release branch for reversion
 },
 ```
 Add $DBT_HOME to /config/.bashrc:
-```
+```bash
 export DBT_HOME="/config/workspace/transform"
 ```
 
@@ -55,7 +55,7 @@ Change `M49` to integer in flattening model
 Add metadata & tests to _airbyte_raw_country_codes:
 - description on source & model: "Raw country code data from GitHub datasets repository"
 - Tests:
-```
+```yaml
     # Model:
         tests:
             - dbt_expectations.expect_table_row_count_to_be_between:
@@ -72,89 +72,100 @@ Add metadata & tests to _airbyte_raw_country_codes:
                 - 'Developed'
                 - 'Developing'
 ```
+
 - `dbt build --select _airbyte_raw_country_codes`
 - Show errors in snowflake by copying failure sql statement and running in sqltools
     - Describe error - CLDR display name is the primary key and is null
 
 On error:
 - Set not_null test on `cldr_display_name` to warning for our flattening model (we'll add a base model to error):
-```
+
+```yaml
         - not_null:
             severity: warn
 ```
 - Create base model `base_country_codes` in models/bay_country to deal with null values:
     - Copy the following into base_country_codes.sql:
-```
-SELECT 
-  "CLDR_DISPLAY_NAME",
-  "CAPITAL",
-  "CONTINENT",
-  "DS",
-  "DEVELOPED___DEVELOPING_COUNTRIES",
-  "DIAL",
-  "EDGAR",
-  "FIFA",
-  "FIPS",
-  "GAUL",
-  "GEONAME_ID",
-  "GLOBAL_CODE",
-  "GLOBAL_NAME",
-  "IOC",
-  "ISO3166_1_ALPHA_2",
-  "ISO3166_1_ALPHA_3",
-  "ISO3166_1_NUMERIC",
-  "ISO4217_CURRENCY_ALPHABETIC_CODE",
-  "ISO4217_CURRENCY_COUNTRY_NAME",
-  "ISO4217_CURRENCY_MINOR_UNIT",
-  "ISO4217_CURRENCY_NAME",
-  "ISO4217_CURRENCY_NUMERIC_CODE",
-  "ITU",
-  "INTERMEDIATE_REGION_CODE",
-  "INTERMEDIATE_REGION_NAME",
-  "LAND_LOCKED_DEVELOPING_COUNTRIES__LLDC_",
-  "LANGUAGES",
-  "LEAST_DEVELOPED_COUNTRIES__LDC_",
-  "M49",
-  "MARC",
-  "REGION_CODE",
-  "REGION_NAME",
-  "SMALL_ISLAND_DEVELOPING_STATES__SIDS_",
-  "SUB_REGION_CODE",
-  "SUB_REGION_NAME",
-  "TLD",
-  "UNTERM_ARABIC_FORMAL",
-  "UNTERM_ARABIC_SHORT",
-  "UNTERM_CHINESE_FORMAL",
-  "UNTERM_CHINESE_SHORT",
-  "UNTERM_ENGLISH_FORMAL",
-  "UNTERM_ENGLISH_SHORT",
-  "UNTERM_FRENCH_FORMAL",
-  "UNTERM_FRENCH_SHORT",
-  "UNTERM_RUSSIAN_FORMAL",
-  "UNTERM_RUSSIAN_SHORT",
-  "UNTERM_SPANISH_FORMAL",
-  "UNTERM_SPANISH_SHORT",
-  "WMO",
-  "IS_INDEPENDENT",
-  "OFFICIAL_NAME_AR",
-  "OFFICIAL_NAME_CN",
-  "OFFICIAL_NAME_EN",
-  "OFFICIAL_NAME_ES",
-  "OFFICIAL_NAME_FR",
-  "OFFICIAL_NAME_RU",
-  "_AIRBYTE_AB_ID",
-  "_AIRBYTE_EMITTED_AT"
-from {{ ref('_airbyte_raw_country_codes') }}
-```
 
-        - Clean up fields - (option+shift+i for multicursor), remove quotes & change to lowercase.
-    - Add new column `coalesce(cldr_display_name, official_name_en)`, alias to `display_name`
-    - Add .yml for new base model with tests
-        - Click 'Create model YML'
-        - Add description "Cleaned up country codes"
-        - Add test `display_name`: not_null, unique
-    - dbt build --select _airbyte_raw_country_codes+
-    - Stage changes and run checks
+````sql
+    SELECT 
+        "CLDR_DISPLAY_NAME",
+        "CAPITAL",
+        "CONTINENT",
+        "DS",
+        "DEVELOPED___DEVELOPING_COUNTRIES",
+        "DIAL",
+        "EDGAR",
+        "FIFA",
+        "FIPS",
+        "GAUL",
+        "GEONAME_ID",
+        "GLOBAL_CODE",
+        "GLOBAL_NAME",
+        "IOC",
+        "ISO3166_1_ALPHA_2",
+        "ISO3166_1_ALPHA_3",
+        "ISO3166_1_NUMERIC",
+        "ISO4217_CURRENCY_ALPHABETIC_CODE",
+        "ISO4217_CURRENCY_COUNTRY_NAME",
+        "ISO4217_CURRENCY_MINOR_UNIT",
+        "ISO4217_CURRENCY_NAME",
+        "ISO4217_CURRENCY_NUMERIC_CODE",
+        "ITU",
+        "INTERMEDIATE_REGION_CODE",
+        "INTERMEDIATE_REGION_NAME",
+        "LAND_LOCKED_DEVELOPING_COUNTRIES__LLDC_",
+        "LANGUAGES",
+        "LEAST_DEVELOPED_COUNTRIES__LDC_",
+        "M49",
+        "MARC",
+        "REGION_CODE",
+        "REGION_NAME",
+        "SMALL_ISLAND_DEVELOPING_STATES__SIDS_",
+        "SUB_REGION_CODE",
+        "SUB_REGION_NAME",
+        "TLD",
+        "UNTERM_ARABIC_FORMAL",
+        "UNTERM_ARABIC_SHORT",
+        "UNTERM_CHINESE_FORMAL",
+        "UNTERM_CHINESE_SHORT",
+        "UNTERM_ENGLISH_FORMAL",
+        "UNTERM_ENGLISH_SHORT",
+        "UNTERM_FRENCH_FORMAL",
+        "UNTERM_FRENCH_SHORT",
+        "UNTERM_RUSSIAN_FORMAL",
+        "UNTERM_RUSSIAN_SHORT",
+        "UNTERM_SPANISH_FORMAL",
+        "UNTERM_SPANISH_SHORT",
+        "WMO",
+        "IS_INDEPENDENT",
+        "OFFICIAL_NAME_AR",
+        "OFFICIAL_NAME_CN",
+        "OFFICIAL_NAME_EN",
+        "OFFICIAL_NAME_ES",
+        "OFFICIAL_NAME_FR",
+        "OFFICIAL_NAME_RU",
+        "_AIRBYTE_AB_ID",
+        "_AIRBYTE_EMITTED_AT"
+    from {{ ref('_airbyte_raw_country_codes') }}
+````
+
+
+- Clean up fields - (option+shift+i for multicursor), remove quotes & change to lowercase.
+- Add new column 
+    `coalesce(cldr_display_name, official_name_en) as display_name,`
+- build model
+- Add .yml for new base model with tests
+    - Click 'Create model YML'
+    - Add description "Cleaned up country codes"
+    - Add test `display_name`: 
+```yaml
+        tests:
+            - not_null
+            - unique
+```
+- dbt build --select _airbyte_raw_country_codes+
+- Stage changes and run checks
 
 In `current_population.sql`:
 - Alias `value` to `population`
@@ -162,17 +173,17 @@ In `current_population.sql`:
 Create Bay model `countries`
 
 ```
-select
-    countries.display_name,
-    countries.region_name,
-    countries.iso4217_currency_name as currency,
-    current_population.population
-from {{ ref('base_country_codes') }} as countries
-left join {{ ref('current_population') }} as current_population
-    on
-        current_population.country_code = countries.iso3166_1_alpha_3
+    select
+        countries.display_name,
+        countries.region_name,
+        countries.iso4217_currency_name as currency,
+        current_population.population
+    from {{ ref('base_country_codes') }} as countries
+    left join {{ ref('current_population') }} as current_population
+        on
+            current_population.country_code = countries.iso3166_1_alpha_3
 
-  ```
+```
 - Create YML for current, and add description "Compiled Countries information"; and appropriate column descriptions
 - Stage, run checks, commit and push
 - Create Pull Request to release branch
