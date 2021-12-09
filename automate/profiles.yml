@@ -1,7 +1,7 @@
 default:
-    target: dev
+    target: test
     outputs:
-      dev:
+      test:
         type: snowflake
 
         # More information for the options in this file
