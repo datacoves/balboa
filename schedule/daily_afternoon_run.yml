@@ -1,6 +1,6 @@
 daily_afternoon_run:
-  description: "Daily afternoon run"
-  schedule_interval: "08 24 * * *"
+  description: "Daily run at 3am"
+  schedule_interval: "21 02 * * *"
   default_args:
     start_date: 2021-01-01
   catchup: False
@@ -14,14 +14,11 @@ daily_afternoon_run:
       dbt_project_path: /opt/airflow/dags/repo/balboa.git/transform
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
-
-      # Items to update by job
-      sources_database: RAW
+      # Update tag for job
       dbt_list_args: "--select tag:daily_afternoon"
-
+      sources_database: RAW
     transform:
       operator: airflow.operators.bash_operator.BashOperator
-      dependencies: ["extract_and_load"]
-
-      # Items to updated tag for job
+      # Update tag for job
       bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/production_run.py daily_afternoon"
+      dependencies: ["extract_and_load"]
