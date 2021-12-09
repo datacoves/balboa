@@ -26,12 +26,14 @@ def main(args):
 
     subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
 
+    subprocess.run(["env"], check=True, cwd=cwd)
+
     if tag:
         subprocess.run(["dbt", "build", "-s", "tag:{tag}"], check=True, cwd=cwd)
     else:
         subprocess.run(["dbt", "build"], check=True, cwd=cwd)
 
-    subprocess.run(["dbt", "run-operation", "upload_dbt_artifacts",
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_manifest_catalog",
         "--args", "{filenames: [manifest, run_results]}"], check=True, cwd=cwd)
 
     subprocess.run(["rm", "-rf", cwd], check=True)
@@ -42,3 +44,4 @@ if __name__ == "__main__":
     except Exception as ex:
         print(ex)
         exit(1)
+

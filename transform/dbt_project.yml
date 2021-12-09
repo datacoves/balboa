@@ -33,6 +33,9 @@ models:
   balboa:
     country_analysis:
       +schema: bay_country
+    covid_reporting:
+      +schema: cove_ccovid
+
   materialized: view
   dbt_artifacts:
     +schema: dbt_artifacts

@@ -24,9 +24,6 @@ sources:
 models:
   - name: base_cases
     description: Covid information from the NYT
-    config:
-      tags:
-        - weekly
     columns:
       - name: cases
         description: Reported Covid-19 cases
