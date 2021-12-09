@@ -5,7 +5,7 @@ sources:
     database: raw
     schema: raw
     tags:
-      - daily
+      - daily_morning
     tables:
       - name: _airbyte_raw_country_populations
         identifier: _AIRBYTE_RAW_COUNTRY_POPULATIONS

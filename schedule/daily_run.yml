@@ -12,7 +12,7 @@ daily_run:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
       dbt_project_path: /opt/airflow/dags/repo/balboa.git/transform
-      dbt_list_args: "--select tag:daily"
+      dbt_list_args: "--select tag:daily_morning"
       sources_database: RAW
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
