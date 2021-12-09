@@ -27,7 +27,7 @@ def main(args):
     subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
 
     if tag:
-        subprocess.run(["dbt", "build", "-s", f"tag:{tag}"], check=True, cwd=cwd)
+        subprocess.run(["dbt", "build", "-s", f"tag:{tag}+"], check=True, cwd=cwd)
     else:
         subprocess.run(["dbt", "build"], check=True, cwd=cwd)
 
