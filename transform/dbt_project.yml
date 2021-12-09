@@ -33,10 +33,12 @@ seeds:
 
 models:
   balboa:
-    country_analysis:
-      +schema: bay_country
-    covid_reporting:
-      +schema: cove_covid
+    bays:
+      bay_country:
+        +schema: bay_country
+    coves:
+      cove_covid:
+        +schema: cove_covid
     sources:
       country_data:
         +schema: country_data
