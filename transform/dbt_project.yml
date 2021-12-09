@@ -43,6 +43,8 @@ models:
       country_data:
         +schema: country_data
 
+  post-hook: 
+    - "{{ dbt_snow_mask.apply_masking_policy() }}"
 
   materialized: view
   dbt_artifacts:
