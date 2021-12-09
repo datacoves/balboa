@@ -57,20 +57,20 @@ Add metadata & tests to _airbyte_raw_country_codes:
 - Tests:
 ```
     # Model:
-    tests:
-        - dbt_expectations.expect_table_row_count_to_be_between:
-            min_value: 200
-            max_value: 400
+        tests:
+            - dbt_expectations.expect_table_row_count_to_be_between:
+                min_value: 200
+                max_value: 400
     # cldr_display_name:
-    tests:
-        - not_null
-        - unique
+        tests:
+            - not_null
+            - unique
     # developed___developing_countries
-    tests:
-        - accepted_values:
-            values:
-            - 'Developed'
-            - 'Developing'
+        gitests:
+            - accepted_values:
+                values:
+                - 'Developed'
+                - 'Developing'
 ```
 - `dbt build --select _airbyte_raw_country_codes`
 - Show errors in snowflake by copying failure sql statement and running in sqltools
@@ -79,8 +79,8 @@ Add metadata & tests to _airbyte_raw_country_codes:
 On error:
 - Set not_null test on `cldr_display_name` to warning for our flattening model (we'll add a base model to error):
 ```
-- not_null:
-    severity: warning
+        - not_null:
+            severity: warn
 ```
 - Create base model `base_country_codes` in models/bay_country to deal with null values:
     - Get the field names for the .sql:
