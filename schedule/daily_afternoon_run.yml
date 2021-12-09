@@ -1,5 +1,5 @@
 daily_afternoon_run:
-  description: "Daily run at 3am"
+  description: "Daily afternoon run"
   schedule_interval: "21 02 * * *"
   default_args:
     start_date: 2021-01-01
