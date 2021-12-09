@@ -144,8 +144,6 @@ SELECT
   "OFFICIAL_NAME_RU",
   "_AIRBYTE_AB_ID",
   "_AIRBYTE_EMITTED_AT"
-from BALBOA_DEV.gomezn._airbyte_raw_country_codes
-
 from {{ ref('_airbyte_raw_country_codes') }}
 ```
 
