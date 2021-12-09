@@ -20,4 +20,4 @@ models:
         description: Reporting State
         tests:
           - dbt_expectations.expect_column_distinct_values_to_contain_set:
-              value_set: ['Arizona', 'California']
+              value_set: ['Arizona', 'California', 'Nevada']
