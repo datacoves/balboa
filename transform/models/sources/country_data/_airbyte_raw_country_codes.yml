@@ -6,12 +6,12 @@ sources:
     schema: raw
     tables:
       - name: _airbyte_raw_country_codes
-        desciption: Raw country code data from GitHub datasets repository
+        description: Raw country code data from GitHub datasets repository
         identifier: _AIRBYTE_RAW_COUNTRY_CODES
 
 models:
   - name: _airbyte_raw_country_codes
-    desciption: Flattened country code data from GitHub datasets repository
+    description: Flattened country code data from GitHub datasets repository
     columns:
       - name: cldr_display_name
       - name: capital

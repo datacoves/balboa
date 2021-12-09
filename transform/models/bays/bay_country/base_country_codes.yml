@@ -1,7 +1,7 @@
 version: 2
 models:
   - name: base_country_codes
-    desciption: Cleaned up country codes 
+    description: Cleaned up country codes 
     columns:
       - name: display_name
       - name: cldr_display_name

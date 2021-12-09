@@ -2,7 +2,7 @@ select
     countries.display_name,
     countries.region_name,
     countries.iso4217_currency_name as currency,
-    current_population.population
+    current_population.country_population
 from {{ ref('base_country_codes') }} as countries
 left join {{ ref('current_population') }} as current_population
     on
