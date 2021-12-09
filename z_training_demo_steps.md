@@ -4,13 +4,13 @@ Add a feature-1 branch to merge to release branch for reversion
 
 ### Add button to settings.json:
 ```yaml
-{
-    "name": "📝 Create YML for current",
-    "cwd": "${fileDirname}",
-    "color": "white",
-    "singleInstance": true,
-    "command": "dbt run-operation generate_model_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
-},
+                {
+                    "name": "📝 Create YML for current",
+                    "cwd": "${fileDirname}",
+                    "color": "white",
+                    "singleInstance": true,
+                    "command": "dbt run-operation gen_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
+                },
 ```
 Add $DBT_HOME to /config/.bashrc:
 ```bash
@@ -164,7 +164,8 @@ On error:
             - not_null
             - unique
 ```
-- dbt build --select _airbyte_raw_country_codes+
+- Click Build changes
+    `dbt build --select _airbyte_raw_country_codes+`
 - Stage changes and run checks
 
 In `current_population.sql`:
