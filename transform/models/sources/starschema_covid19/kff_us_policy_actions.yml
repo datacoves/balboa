@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: kff_us_policy_actions
+        identifier: KFF_US_POLICY_ACTIONS
+
+models:
+  - name: kff_us_policy_actions
+    columns:
+      - name: country_region
+      - name: province_state
+      - name: waive_cost_sharing_for_covid_19_treatment
+      - name: free_cost_vaccine_when_available
+      - name: state_requires_waiver_of_prior_authorization_requirements
+      - name: early_prescription_refills
+      - name: marketplace_special_enrollment_period
+      - name: section_1135_waiver
+      - name: paid_sick_leave
+      - name: premium_payment_grace_period
+      - name: notes
+      - name: last_updated_date

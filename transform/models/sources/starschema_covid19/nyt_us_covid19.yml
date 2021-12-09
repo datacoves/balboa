@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: nyt_us_covid19
+        identifier: NYT_US_COVID19
+
+models:
+  - name: nyt_us_covid19
+    columns:
+      - name: date
+      - name: county
+      - name: state
+      - name: fips
+      - name: cases
+      - name: deaths
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: cases_since_prev_day
+      - name: deaths_since_prev_day
+      - name: last_update_date
+      - name: last_reported_flag

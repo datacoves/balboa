@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: demographics
+        identifier: DEMOGRAPHICS
+
+models:
+  - name: demographics
+    columns:
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: fips
+      - name: latitude
+      - name: longitude
+      - name: state
+      - name: county
+      - name: total_population
+      - name: total_male_population
+      - name: total_female_population

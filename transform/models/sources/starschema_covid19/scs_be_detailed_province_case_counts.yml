@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: scs_be_detailed_province_case_counts
+        identifier: SCS_BE_DETAILED_PROVINCE_CASE_COUNTS
+
+models:
+  - name: scs_be_detailed_province_case_counts
+    columns:
+      - name: province
+      - name: region
+      - name: sex
+      - name: agegroup
+      - name: date
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: iso3166_3
+      - name: new_cases
+      - name: total_cases
+      - name: last_updated_date

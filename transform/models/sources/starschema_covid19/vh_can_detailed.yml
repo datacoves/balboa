@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: vh_can_detailed
+        identifier: VH_CAN_DETAILED
+
+models:
+  - name: vh_can_detailed
+    columns:
+      - name: date
+      - name: province_state
+      - name: healthcare_region
+      - name: cases
+      - name: deaths
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: last_updated_date
+      - name: last_reported_flag

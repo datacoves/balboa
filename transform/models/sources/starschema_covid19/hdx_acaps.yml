@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: hdx_acaps
+        identifier: HDX_ACAPS
+
+models:
+  - name: hdx_acaps
+    columns:
+      - name: country_state
+      - name: admin_2
+      - name: region
+      - name: category
+      - name: measure
+      - name: targeted_pop_group
+      - name: comments
+      - name: non_compliance
+      - name: date_implemented
+      - name: source
+      - name: source_type
+      - name: link
+      - name: entry_date
+      - name: iso3166_1
+      - name: last_updated_date
+      - name: log_type

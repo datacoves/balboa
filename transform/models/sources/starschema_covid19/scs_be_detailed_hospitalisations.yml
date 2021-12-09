@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: scs_be_detailed_hospitalisations
+        identifier: SCS_BE_DETAILED_HOSPITALISATIONS
+
+models:
+  - name: scs_be_detailed_hospitalisations
+    columns:
+      - name: province
+      - name: region
+      - name: date
+      - name: nr_reporting
+      - name: total_in
+      - name: total_in_icu
+      - name: total_in_resp
+      - name: total_in_ecmo
+      - name: new_in
+      - name: new_out
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: iso3166_3
+      - name: last_updated_date

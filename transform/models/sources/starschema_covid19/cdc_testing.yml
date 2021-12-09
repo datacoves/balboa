@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: cdc_testing
+        identifier: CDC_TESTING
+
+models:
+  - name: cdc_testing
+    columns:
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: date
+      - name: positive
+      - name: negative
+      - name: inconclusive

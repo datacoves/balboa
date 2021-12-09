@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: who_situation_reports
+        identifier: WHO_SITUATION_REPORTS
+
+models:
+  - name: who_situation_reports
+    columns:
+      - name: country
+      - name: total_cases
+      - name: cases_new
+      - name: deaths
+      - name: deaths_new
+      - name: transmission_classification
+      - name: days_since_last_reported_case
+      - name: iso3166_1
+      - name: country_region
+      - name: date
+      - name: situation_report_name
+      - name: situation_report_url
+      - name: last_update_date
+      - name: last_reported_flag

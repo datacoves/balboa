@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: ct_us_covid_tests
+        identifier: CT_US_COVID_TESTS
+
+models:
+  - name: ct_us_covid_tests
+    columns:
+      - name: country_region
+      - name: province_state
+      - name: date
+      - name: positive
+      - name: positive_since_previous_day
+      - name: negative
+      - name: negative_since_previous_day
+      - name: pending
+      - name: pending_since_previous_day
+      - name: death
+      - name: death_since_previous_day
+      - name: hospitalized
+      - name: hospitalized_since_previous_day
+      - name: total
+      - name: total_since_previous_day
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: last_updated_date
+      - name: last_reported_flag
+      - name: hospitalizedcurrently
+      - name: hospitalizedcurrentlyincrease
+      - name: hospitalizedcumulative
+      - name: hospitalizedcumulativeincrease
+      - name: inicucurrently
+      - name: inicucurrentlyincrease
+      - name: inicucumulative
+      - name: inicucumulativeincrease
+      - name: onventilatorcurrently
+      - name: onventilatorcurrentlyincrease
+      - name: onventilatorcumulative
+      - name: onventilatorcumulativeincrease

@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: goog_global_mobility_report
+        identifier: GOOG_GLOBAL_MOBILITY_REPORT
+
+models:
+  - name: goog_global_mobility_report
+    columns:
+      - name: country_region
+      - name: province_state
+      - name: iso_3166_1
+      - name: iso_3166_2
+      - name: date
+      - name: grocery_and_pharmacy_change_perc
+      - name: parks_change_perc
+      - name: residential_change_perc
+      - name: retail_and_recreation_change_perc
+      - name: transit_stations_change_perc
+      - name: workplaces_change_perc
+      - name: last_update_date
+      - name: last_reported_flag
+      - name: sub_region_2

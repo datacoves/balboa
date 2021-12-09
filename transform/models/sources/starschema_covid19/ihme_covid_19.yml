@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: public
+    database: starschema_covid19
+    schema: public
+    tables:
+      - name: ihme_covid_19
+        identifier: IHME_COVID_19
+
+models:
+  - name: ihme_covid_19
+    columns:
+      - name: date
+      - name: allbed_mean
+      - name: allbed_lower
+      - name: allbed_upper
+      - name: icubed_mean
+      - name: icubed_lower
+      - name: icubed_upper
+      - name: invven_mean
+      - name: invven_lower
+      - name: invven_upper
+      - name: deaths_mean
+      - name: deaths_lower
+      - name: deaths_upper
+      - name: admis_mean
+      - name: admis_lower
+      - name: admis_upper
+      - name: newicu_mean
+      - name: newicu_lower
+      - name: newicu_upper
+      - name: totdea_mean
+      - name: totdea_lower
+      - name: totdea_upper
+      - name: bedover_mean
+      - name: bedover_lower
+      - name: bedover_upper
+      - name: icuover_mean
+      - name: icuover_lower
+      - name: icuover_upper
+      - name: last_updated_date
+      - name: last_reported_flag
+      - name: country_region
+      - name: iso_3166_1
+      - name: iso_3166_2
+      - name: province_state
