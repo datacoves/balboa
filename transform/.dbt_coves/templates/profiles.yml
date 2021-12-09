@@ -1,7 +1,7 @@
 default:
     target: dev
     outputs:
-        daev:
+        dev:
             type: snowflake
             account: "toa80779"
             role: ANALYST
