@@ -53,7 +53,7 @@ Show created table and flattened version in sqltools
 Change `M49` to integer in flattening model
 
 Add metadata & tests to _airbyte_raw_country_codes:
-- description on source & model: "Raw country code data from GitHub datasets repository"
+
 - Tests:
 ```yaml
     # Model:
@@ -166,25 +166,32 @@ On error:
 ```
 - Click Build changes
     `dbt build --select _airbyte_raw_country_codes+`
-- Stage changes and run checks
+- Stage changes
+- run checks
+- Models will fail bec they dont have descriptions
+- Add descriptions to models:
+- source model: 
+`desciption: Raw country code data from GitHub datasets repository`
+- bay model: 
+`desciption: Cleaned up country codes`
 
 In `current_population.sql`:
 - Alias `value` to `population`
 
-Create Bay model `countries`
+Create Bay model `countries.sql`
 
 ```
-    select
-        countries.display_name,
-        countries.region_name,
-        countries.iso4217_currency_name as currency,
-        current_population.population
-    from {{ ref('base_country_codes') }} as countries
-    left join {{ ref('current_population') }} as current_population
-        on
-            current_population.country_code = countries.iso3166_1_alpha_3
-
+select
+    countries.display_name,
+    countries.region_name,
+    countries.iso4217_currency_name as currency,
+    current_population.population
+from {{ ref('base_country_codes') }} as countries
+left join {{ ref('current_population') }} as current_population
+    on
+        current_population.country_code = countries.iso3166_1_alpha_3
 ```
+
 - Create YML for current, and add description "Compiled Countries information"; and appropriate column descriptions
 - Stage, run checks, commit and push
 - Create Pull Request to release branch
