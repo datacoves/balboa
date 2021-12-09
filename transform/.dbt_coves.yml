@@ -2,6 +2,7 @@
 
 generate:
   sources:
+    database: RAW
     schemas:
       - RAW
     destination: "models/sources/{{ schema }}/{{ relation }}.sql"

@@ -2,13 +2,15 @@ version: 2
 
 sources:
   - name: nyt_covid
-    database: balboa
+    database: raw
     schema: raw
+    tags:
+      - daily_afternoon
     tables:
-      - name: cases
+      - name: nyt_covid_data
         description: >
           RAW <a href="https://github.com/nytimes/covid-19-data/" target="_blank">Covid information from the NYT</a>
-        identifier: _AIRBYTE_RAW_IMDATA_NYT_COVID_DATA_BY_STATE
+        identifier: _AIRBYTE_RAW_NYT_COVID_DATA
         columns:
           - name: _airbyte_ab_id
             descrition: "Airbyte's unitque identifier for this record"
@@ -22,9 +24,6 @@ sources:
 models:
   - name: base_cases
     description: Covid information from the NYT
-    config:
-      tags:
-        - weekly
     columns:
       - name: cases
         description: Reported Covid-19 cases
@@ -36,6 +35,8 @@ models:
         description: FIPS Code
       - name: state
         description: Reporting State
+        # meta:
+        #   masking_policy: full_field
         tests:
           - not_null
       - name: _airbyte_ab_id

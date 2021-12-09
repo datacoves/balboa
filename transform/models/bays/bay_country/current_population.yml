@@ -1,0 +1,9 @@
+version: 2
+models:
+  - name: current_population
+    description: Current Population by Country
+    columns:
+      - name: country_code
+      - name: country_name
+      - name: value
+      - name: year

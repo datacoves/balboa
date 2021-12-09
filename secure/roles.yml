@@ -1,0 +1,304 @@
+######################
+#  User Roles
+######################
+- z_base_business_analyst:
+    member_of:
+      - z_db_dev_commercial_dw
+      - z_db_dev_raw
+      - z_db_prd_commercial_dw
+      - z_db_prd_raw
+      - z_db_tst_commercial_dw
+      - z_db_tst_raw
+      
+      - z_schema_raw_ccm_pii
+      - z_schema_raw_dbt_artifacts
+      - z_schema_raw_iconnect
+      - z_schema_raw_jira
+
+      - z_schema_commercial_dw_bay_product
+
+      - z_wh_transformation
+
+- emea_business_analyst:
+    member_of:
+      - z_base_business_analyst
+      - z_tables_views_general
+      - z_policy_row_region_all
+
+- emea_business_analyst_pii:
+    member_of:
+      - emea_business_analyst
+      - z_policy_unmask_pii_type_2
+      - z_policy_unmask_pii_type_3
+
+- de_business_analyst:
+    member_of:
+      - z_base_business_analyst
+      - z_tables_views_general
+      - z_policy_row_region_de
+
+- de_business_analyst_pii:
+    member_of:
+      - de_business_analyst
+      - z_policy_unmask_pii_type_2
+      - z_policy_unmask_pii_type_3
+
+- emea_management:
+    member_of:
+      - z_db_prd_commercial_dw
+      - z_db_prd_raw
+      # - z_schema_bay_crm
+      # - z_schema_bay_customer
+      # - z_schema_code_omnichannel
+      - z_tables_views_general
+      - z_policy_row_region_all
+      - z_wh_reporting
+
+
+##########################
+#  Service Account Roles
+#########################
+- loader_airbyte_dev:
+    # Can read/write dev raw db; becomes owner of all dev raw schemas through creation
+    member_of:
+      - z_db_dev_raw_write
+      - z_wh_loading
+    owns:
+      schemas:
+        - dev_raw.*
+
+- loader_airbyte_prd:
+  # Can read/write prd raw db; becomes owner of all prd raw schemas through creation
+    member_of:
+      - z_db_prd_raw_write
+      - z_wh_loading
+    owns:
+      schemas:
+        - prd_raw.*
+
+- transformer_dbt_prd:
+  # Owns prd_commercial_dw
+  # Becomes owner of all prd_commercial_dw schemas through creation
+  # Owner of dev_raw database through creation (cloning)
+  # Owns all uat databases through creation (cloning); these are not defined here but cloned from dev
+
+  # TODO
+  # figure out how to do this from permifrost
+  # grant create database on account to role transformer_dbt_prd
+    member_of:
+      - z_db_dev_raw_write
+      - z_db_prd_raw_write
+      - z_wh_transformation
+      - z_tables_views_general
+      - z_schema_raw_dbt_artifacts
+    owns:
+      databases:
+        - dev_commercial_dw
+        - prd_commercial_dw
+        - dev_raw
+      schemas:
+        - prd_commercial_dw.*
+
+
+##########################
+#  Global Roles
+##########################
+- accountadmin:
+    member_of:
+        - sysadmin
+        - z_wh_transformation
+        - securityadmin
+
+- securityadmin:
+    member_of:
+        - z_wh_transformation
+        - useradmin
+    privileges:
+      databases:
+        read:
+          - prd_raw
+          - dev_raw
+          - prd_commercial_dw
+          - dev_commercial_dw
+      schemas:
+        read:
+          - prd_raw.*
+          - dev_raw.*
+          - prd_commercial_dw.*
+          - dev_commercial_dw.*
+
+- useradmin:
+    member_of:
+        - z_wh_transformation
+
+- sysadmin:
+    member_of:
+        - z_wh_transformation
+        - loader_airbyte_dev
+        - loader_airbyte_prd
+        - transformer_dbt_prd
+
+
+#======================#
+#     Policy Roles     #
+#======================#
+
+##########################
+#  General Policy Roles
+##########################
+- z_policy_apply_masking:
+    owner: securityadmin
+- z_policy_apply_row_access:
+    owner: securityadmin
+- z_policy_create_database:
+    owner: securityadmin
+- z_policy_create_integration:
+    owner: securityadmin
+- z_policy_monitor_usage:
+    owner: securityadmin
+
+
+##########################
+#  Row Access Policy Roles
+##########################
+- z_policy_row_region_de:
+    owner: securityadmin
+- z_policy_row_region_all:
+    owner: securityadmin
+
+
+##########################
+#  PII Access Policy Roles
+##########################
+- z_policy_unmask_pii_type_2:
+    owner: securityadmin
+- z_policy_unmask_pii_type_3:
+    owner: securityadmin
+
+
+#======================#
+#     Object Roles     #
+#======================#
+
+##########################
+#  Warehouse Roles
+##########################
+- z_wh_loading:
+    warehouses:
+        - wh_loading
+- z_wh_reporting:
+    warehouses:
+        - wh_reporting
+- z_wh_transformation:
+    warehouses:
+        - wh_transformation
+
+
+##########################
+#  Database Roles
+##########################
+- z_db_dev_commercial_dw:
+    privileges:
+      databases:
+        read:
+          - dev_commercial_dw
+        write:
+          - dev_commercial_dw
+
+- z_db_dev_raw:
+    privileges:
+      databases:
+        read:
+          - dev_raw
+
+- z_db_dev_raw_write:
+    privileges:
+      databases:
+        read:
+          - dev_raw
+        write:
+          - dev_raw
+      schemas:
+        read:
+          - dev_raw.*
+        write:
+          - dev_raw.*
+
+# This role is created but has no grants
+# The grants will be added by the CI script
+# - z_db_tst_commercial_dw:
+
+- z_db_prd_commercial_dw:
+    privileges:
+      databases:
+        read:
+          - prd_commercial_dw
+
+- z_db_prd_raw:
+    privileges:
+      databases:
+        read:
+          - prd_raw
+
+- z_db_prd_raw_write:
+    privileges:
+      databases:
+        read:
+          - prd_raw
+        write:
+          - prd_raw
+
+
+##########################
+#  Schema Roles
+##########################
+
+# RAW
+- z_schema_raw_ccm_pii:
+    privileges:
+      schemas:
+        read:
+          # - prd_raw.ccm_pii #not yet created
+          - dev_raw.ccm_pii
+
+- z_schema_raw_dbt_artifacts:
+    privileges:
+      schemas:
+        read:
+          - prd_raw.dbt_artifacts
+
+- z_schema_raw_iconnect:
+    privileges:
+      schemas:
+        read:
+          # - prd_raw.iconnect #not yet created
+          - dev_raw.iconnect
+
+- z_schema_raw_jira:
+    privileges:
+      schemas:
+        read:
+          # - prd_raw.jira #not yet created
+          - dev_raw.jira
+
+#  BAYS
+- z_schema_commercial_dw_bay_product:
+    privileges:
+      schemas:
+        read:
+          - prd_commercial_dw.bay_product
+
+
+#  COVES
+
+
+##########################
+#  Table & View Roles
+##########################
+- z_tables_views_general:
+    privileges:
+      tables:
+        read:
+          - prd_raw.*.*
+          - dev_raw.*.*
+          - prd_commercial_dw.*.*

@@ -1,0 +1,11 @@
+- dev_raw:
+    shared: false
+- prd_raw:
+    shared: false
+- dev_commercial_dw:
+    shared: false
+- prd_commercial_dw:
+    shared: false
+  # Snowflake database contains metadata describing usage
+- snowflake: 
+    shared: true
