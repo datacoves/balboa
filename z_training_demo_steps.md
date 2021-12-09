@@ -203,8 +203,11 @@ left join {{ ref('current_population') }} as current_population
 
 Hotfix - a user is cleaning up `current_population.sql`
 - Create hotfix branch for jira story `git checkout -b hotfix/current_population/DD-4`
-- Rename `value` to `country_population`
-- Rename `year` to `population_year`
+- Rename columns
+```
+    value as country_population,
+    year as population_year
+```
 - Make changes in .yml also, with descriptions
 - Commit and push
 - Create pull request, wait for CI, and merge
