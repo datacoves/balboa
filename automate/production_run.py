@@ -31,8 +31,7 @@ def main(args):
     else:
         subprocess.run(["dbt", "build"], check=True, cwd=cwd)
 
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_manifest_catalog",
-        "--args", "{filenames: [manifest, run_results]}"], check=True, cwd=cwd)
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_manifest_catalog", check=True, cwd=cwd)
 
     subprocess.run(["rm", "-rf", cwd], check=True)
 
