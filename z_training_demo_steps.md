@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/datasets/country-codes/master/data/country-cod
 
 Start Jira story for creating model
 
-Create new git branch for jira story git checkout -b feature/country_codes/DD-3
+Create new git branch for jira story `git checkout -b feature/country_codes/DD-3`
 
 - dbt-coves generate sources
   - Select _airbyte_raw_country_codes
@@ -202,19 +202,33 @@ left join {{ ref('current_population') }} as current_population
 # Demo 3:
 
 Hotfix - a user is cleaning up `current_population.sql`
-- Create hotfix branch off main
-- Rename `value` to `country_population`
-- Rename `year` to `population_year`
-- Make changes in .yml also, with descriptions
+- Create hotfix branch for jira story `git checkout -b hotfix/current_population/DD-4`
+- Rename columns
+```sql
+    value as country_population,
+    year as population_year
+```
+- Make changes in .yml also
+```
+      - name: country_code
+        description: "3 Letter Country Code"
+      - name: country_name
+        description: "Name of the country"
+      - name: country_population
+        description: "Total population for the country"
+      - name: population_year
+        description: "Year population was collected"
+```
 - Commit and push
 - Create pull request, wait for CI, and merge
 
-Continue with original release:
-- Merge pull request to release branch
-- Create pull request to main from release branch
-- In GitHub interface, 'Resolve Conflicts'
-  - Edit to `value as population, year as population_year`
-  - Mark as resolved
-  - Commit merge
+Continue with original feature:
+`git checkout feature/country_codes/DD-3`
+- Pull main to feature branch
+`git pull origin main`
+- Fix the merge conflicts
+- Commit and push changes
+- Merge PR
+
 
 
