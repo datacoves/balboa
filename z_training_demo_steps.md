@@ -42,7 +42,7 @@ https://raw.githubusercontent.com/datasets/country-codes/master/data/country-cod
 
 Start Jira story for creating model
 
-Create new git branch for jira story git checkout -b feature/country_codes/DD-3
+Create new git branch for jira story `git checkout -b feature/country_codes/DD-3`
 
 - dbt-coves generate sources
   - Select _airbyte_raw_country_codes
@@ -202,7 +202,7 @@ left join {{ ref('current_population') }} as current_population
 # Demo 3:
 
 Hotfix - a user is cleaning up `current_population.sql`
-- Create hotfix branch off main
+- Create hotfix branch for jira story `git checkout -b hotfix/current_population/DD-4`
 - Rename `value` to `country_population`
 - Rename `year` to `population_year`
 - Make changes in .yml also, with descriptions
