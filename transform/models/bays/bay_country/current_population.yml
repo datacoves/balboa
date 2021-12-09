@@ -5,5 +5,5 @@ models:
     columns:
       - name: country_code
       - name: country_name
-      - name: population
+      - name: value
       - name: year

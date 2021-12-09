@@ -1,9 +1,0 @@
-version: 2
-models:
-  - name: countries
-    description: Basic country information
-    columns:
-      - name: display_name
-      - name: region_name
-      - name: currency
-      - name: population
