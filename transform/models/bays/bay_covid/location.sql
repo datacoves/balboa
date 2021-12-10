@@ -8,12 +8,13 @@ with jhu_covid_19 as (
         iso3166_1,
         iso3166_2,
         date
-    from {{ source('starschema_covid19', 'jhu_covid_19') }}
+    from {{ ref('jhu_covid_19') }}
 ),
 
 rank_locations as (
     select
-        hash(country_region || '|' || province_state || '|' || county) as location_id,
+        hash(country_region || '|' || province_state || '|' || county) as snowflake_location_id,
+        {{ dbt_utils.surrogate_key(['country_region', 'province_state', 'county']) }} as location_id,
         country_region as country,
         province_state as state,
         county,

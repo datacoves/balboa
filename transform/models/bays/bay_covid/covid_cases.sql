@@ -10,7 +10,7 @@ with raw_cases as (
 ),
 create_location_id as (
     select
-        hash(country_region || '|' || province_state || '|' || county) as location_id,
+        {{ dbt_utils.surrogate_key(['country_region', 'province_state', 'county']) }} as location_id,
         cases,
         date,
         case_type
