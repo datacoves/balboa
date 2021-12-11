@@ -171,9 +171,9 @@ On error:
 - Models will fail bec they dont have descriptions
 - Add descriptions to models:
 - source model: 
-`desciption: Raw country code data from GitHub datasets repository`
+`description: Raw country code data from GitHub datasets repository`
 - bay model: 
-`desciption: Cleaned up country codes`
+`description: Cleaned up country codes`
 
 In `current_population.sql`:
 - Alias `value` to `population`

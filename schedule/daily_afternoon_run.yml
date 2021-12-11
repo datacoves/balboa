@@ -16,7 +16,6 @@ daily_afternoon_run:
       task_group_name: extract_and_load
       # Update tag for job
       dbt_list_args: "--select tag:daily_afternoon"
-      sources_database: RAW
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
