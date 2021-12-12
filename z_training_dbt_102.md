@@ -1,24 +1,8 @@
 # dbt 102 training
 
 ## todo:
-- Create an int in cove to join before countries, state, county
-- Add config blocks to each model in cove_covid/agg
-- @noel - add an external table via S3
-    - Create a Snowflake Stage connected to S3 https://docs.snowflake.com/en/sql-reference/sql/create-stage.html
-        - Stage created in Balboa, analyst granted usage
-        LIST @lineage_data/
-    - Ensure queries work for the file we want (select * from @stage_name.file_name)
-    - @chris - add the dbt-external-tables source
-- Add custom materialization to slides (diagram of .sql in the middle, materialization options down the left)
-- Create a macro (import a good example from dbt_utils)
-    - create a custom log_info macro to wrap logging with info
-    - Show logging
 - Show freshness check
-
-
-## Setup
-- Ensure your dev schema is completely empty
-Run `dbt run-operation reset_for_dbt_102`
+- Ensure prod run is complete and uploaded via dbt-artifacts before training delivered
 
 
 ## Demo 0 - Docs Overview
@@ -174,7 +158,27 @@ exposures:
 - visit the Snowplow package
 - View the model snowplow/models/page_views/default/snowplow_web_page_context
 https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowplow_web_page_context.sql
+- Demonstrate dbt-external-tables
+    - View the yml `models/sources/lineage/lineage_files.yml`
+    - Run `dbt run-operation stage_external_sources --args "select: lineage" --vars "ext_full_refresh: true"`
+    - In Snowflake, show `select * from raw.raw.lineage_processing;`
 
+## Demo - Snapshots
+- We've been advised that Johns Hopkins will stop maintaining the jhu_covid_19 dataset, and will only be maintaining the 'dashboard' dataset going forward.  
+    This dataset shows the current information, rather than storing historical results.  
+    We need to store historical information ourselves.
+- Show `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
+- Show yml at models/sources/jhu_dashboard_covid_19_global.yml
+    - Contains freshness tests:
+        - Check data is fresh by running `dbt source freshness`
+        - Adjust warn_after to 24 hours
+- Show snapshot at snapshots/snp_jhu_dashboard_covid_19_global.sql
+    - Discuss unique key, timestamp field
+    - Move to a folder matching folder layout
+    - Run `dbt snapshot` and show in Snowflake in (dev schema).snp_jhu_dashboard_covid_19_global
+- Discuss how snapshot can create the same output as jhu_covid_19, but only if it had been created at the start
+    - can't recreate historical data from master data, so start snapshotting early
+    - can't recreate missed versions of data, so snapshot frequently
 
 ## Demo - Selectors
 - Edit `models/bays/bay_covid/location` to add the statement `where province_state ilike '%princess%'` to remove the cruise ships (setting up for state:modified)
@@ -190,6 +194,7 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
     - `dbt ls --select +int_covid_cases+ --exclude covid_cases_county`
     - `dbt ls --select @int_covid_cases` (includes upstream, downstream, and location, as parent of a child)
         - No need to use @ if we can defer
+    - Run `dbt run-operation empty_dev_schema --args '{dry_run: false}'` to empty dev schema (we'll look at macro later)
     - Use button `get prod metadata`, then run `dbt build --defer --select state:modified+`
         
 - Buttons `get prod metadata` + `build all` - this should run almost everything needed while developing
