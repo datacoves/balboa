@@ -1,7 +1,6 @@
 # dbt 102 training
 
 ## todo:
-- Show freshness check
 - Ensure prod run is complete and uploaded via dbt-artifacts before training delivered
 
 
@@ -168,6 +167,8 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
     This dataset shows the current information, rather than storing historical results.  
     We need to store historical information ourselves.
 - Show `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
+- Discuss pros/cons of using an incremental table for this use case
+    - incremental would not store previous values if data was updated to a more accurate value after the fact
 - Show yml at models/sources/jhu_dashboard_covid_19_global.yml
     - Contains freshness tests:
         - Check data is fresh by running `dbt source freshness`
@@ -176,9 +177,19 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
     - Discuss unique key, timestamp field
     - Move to a folder matching folder layout
     - Run `dbt snapshot` and show in Snowflake in (dev schema).snp_jhu_dashboard_covid_19_global
+    - In Snowflake, discuss dbt_* fields
+    - To use a snapshot, select `where dbt_valid_to is null`
 - Discuss how snapshot can create the same output as jhu_covid_19, but only if it had been created at the start
     - can't recreate historical data from master data, so start snapshotting early
     - can't recreate missed versions of data, so snapshot frequently
+
+## Demo - Materializations
+- Show macros/helpers/materialized_view_materialization
+    - Source: https://github.com/dbt-labs/dbt-labs-experimental-features
+    - Other use cases:
+        - lambda views
+        - Snowflake streams + tasks (using change data capture to trigger runs between dbt runs)
+
 
 ## Demo - Selectors
 - Edit `models/bays/bay_covid/location` to add the statement `where province_state ilike '%princess%'` to remove the cruise ships (setting up for state:modified)
@@ -208,14 +219,31 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - General cleanup of DRYness in cove
 - Move config to dbt_project from config blocks in cove_covid/agg models
 
+## Demo - Macros
+- Show usage of `generate_imports` macro in `models/coves/cove_covid/agg/agg_cases_by_month.sql`
+    - Show code of `macros/helpers/generate_imports`
+    - Add `generate_imports` macro to new int_covid_cases model created above, to replace CTEs
+- Create new rank macro
+    - Open `bay_covid/location.sql`,` bay_country/current_population.yml` to show repeated use of rank logic
+    - Copy rank statement from either
+    - Open macros/rank_desc.sql, show basic macro framework
+    - Paste rank statement, and replace partition and order by with `{{ partition_fields }}` and `{{ datefield }}`
+    - Discuss documentation of macros, importance of usage
+        - Create `macros/rank_desc.yml` and document the rank_desc model (reference `macros/generate_imports.yml` for syntax)
+        - Show documentation of new macro in docs
+    - Reopen `bay_covid/location.sql` and replace inline rank with new macro
+- Demonstrate debugging
+    - Show logging in Macro `empty_dev_schema`
+    - Create new macro `helpers/log_info.sql`
 
-## Demo - Snapshots
+```
+{% macro log_info(message) %}
+    {%- do log(dbt_utils.pretty_log_format(message), true) -%}
+{% endmacro %}
+```
 
-- Open Snowsight  
-    Run `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
-    - Use profiling column on right, to tour the data
-    - Click on the first date, show Diamond Princess etc (cruise ships in early covid outbreak) to show exceptions
-    - Describe how snapshotting this table since day 1 would produce same results as jhu_covid_19
-    - Describe importance of profiling tool in creating sources
-        - Will need to remove old dates from dashboard to get a current picture of the world
+- Replace log rows in `empty_dev_schema` with `{{ log_info(message) }}
+- Run `dbt run-operation empty_dev_schema` to demonstrate
 
+## TODO: Set up performance analysis example
+## TODO: Set up Testing example

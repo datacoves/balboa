@@ -2,7 +2,7 @@
 
 {{
     config(
-      unique_key="country_region||'|'||province_state||'|'||county||'|'||date",
+      unique_key="ifnull(country_region,'') || '|' || ifnull(province_state,'') || '|' || ifnull(county,'') || '|' || to_varchar(date)",
       target_schema=target.schema,
       strategy='timestamp',
       updated_at='last_update_date',
