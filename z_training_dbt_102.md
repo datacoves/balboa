@@ -103,6 +103,7 @@ add ** in description to show bold (markdown)
 - build dbt docs
 `dbt docs generate`
 
+
 ## Demo 1 - Intro
 - Describe project folder layout:
     - automate, schedule, transform, etc
