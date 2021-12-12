@@ -1,5 +1,5 @@
 with covid_cases as (
-    select * from {{ ref('int_covid_cases') }}
+    select * from {{ ref('covid_cases') }}
 ),
 
 location as (

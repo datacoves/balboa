@@ -14,9 +14,94 @@
     - Show logging
 - Show freshness check
 
+- YML topics
+    - Show how to do long descriptions
+
+    - add Docs path to dbt_project.yml
+        `docs-paths: ["docs"]`
+
+
 ## Setup
 - Ensure your dev schema is completely empty
+Run `dbt run-operation reset_for_dbt_102`
 
+
+## Demo 0 - Docs Overview
+- Show dbt docs to connect what they just saw
+- Open lineage graph, show components, show filtering 
+add `tag:daily_afternoon` to --select
+add `+` at the end
+change to `base_cases`
+add `+` at the start
+add `+` at the end
+add `+` at both ends
+add `1` at the end
+- Show Project vs Database view
+    - Sources
+    - Exposures
+    - Projects
+        every package that gets imported into dbt will show as a project
+
+- Click on exposures and show how they are linked to viz
+
+- Show folder overview pages
+- Add landing page for dbt_artifacts by updating overview.md
+```
+{% docs __dbt_artifacts__ %}
+# DBT Artifacts
+This package enables capture of dbt artifacts and analysis such as finding the critical path of the dbt dag.
+
+More information can be found on their <a href="https://github.com/tailsdotcom/dbt_artifacts/tree/0.5.0/" target="_blank">project page</a>
+{% enddocs %}
+```
+- build dbt docs
+`dbt docs generate`
+- Every project folder can get an overview, even Exposures, but not sources
+
+- Add Desciption to starschema_covide19 source
+    - Create file `jhu_covid_19.md`
+```
+{% docs jhu_covid_19 %}
+# Starschema Covid 19
+This data comes from the Snowflake Data Marketplace
+
+This data can be used as a single source of truth regarding the coronavirus outbreak, assess contingency plans and make informed, data-driven decisions in view of the global health emergency. In addition, various other data sources are included that bear on the handling of the pandemic, such as healthcare resource availability, demographics and testing data. Vaccination information, as well as data on the load on the healthcare system, can assist businesses and individuals in monitoring the progress of the pandemic.
+
+More information can be found <a href="https://app.snowflake.com/marketplace/listing/GZSNZ7F5UH" target="_blank">here</a>
+{% enddocs %}
+```
+
+- add description to jhu_covid_19.yml
+`description: '{{ doc("jhu_covid_19") }}' `  
+
+- add other attributes to the jhu_covid_19.yml
+`loader: Snowflake Data Marketplace`
+
+add a long description to the source to show multiline 
+```
+        description: >
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+          sed do eiusmod tempor incididunt ut labore et dolore magna 
+          aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+          ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+          Duis aute irure dolor in reprehenderit in voluptate velit 
+          esse cillum dolore eu fugiat nulla pariatur.
+
+```
+add ** in description to show bold (markdown)
+
+- build dbt docs
+`dbt docs generate`
+
+- Create folder `assets`
+- edit dbt_project.yml and add assets path
+`asset-paths: ["assets"]`
+- drag image from desktop to the assets folder
+- add covid image to `jhu_covid_19.md`
+`![Corona image](assets/covid_19.jpeg)`
+
+- build dbt docs
+`dbt docs generate`
 
 ## Demo 1 - Intro
 - Describe project folder layout:
