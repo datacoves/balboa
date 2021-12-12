@@ -30,6 +30,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 seeds:
   +schema: seeds
   +quote_columns: false
+  +persist_docs:
+      relation: true
+      columns: true
 
 models:
   balboa:
@@ -42,6 +45,10 @@ models:
     sources:
       country_data:
         +schema: country_data
+
+    +persist_docs:
+        relation: true
+        columns: true
 
   post-hook: 
     - "{{ dbt_snow_mask.apply_masking_policy() }}"

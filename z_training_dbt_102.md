@@ -2,7 +2,6 @@
 
 ## todo:
 - Create an int in cove to join before countries, state, county
-- Add an exposure to counties
 - Add config blocks to each model in cove_covid/agg
 - @noel - add an external table via S3
     - Create a Snowflake Stage connected to S3 https://docs.snowflake.com/en/sql-reference/sql/create-stage.html
@@ -13,12 +12,6 @@
     - create a custom log_info macro to wrap logging with info
     - Show logging
 - Show freshness check
-
-- YML topics
-    - Show how to do long descriptions
-
-    - add Docs path to dbt_project.yml
-        `docs-paths: ["docs"]`
 
 
 ## Setup
@@ -46,7 +39,7 @@ add `1` at the end
 
 - Show folder overview pages
 - Add landing page for dbt_artifacts by updating overview.md
-```
+```md
 {% docs __dbt_artifacts__ %}
 # DBT Artifacts
 This package enables capture of dbt artifacts and analysis such as finding the critical path of the dbt dag.
@@ -60,7 +53,7 @@ More information can be found on their <a href="https://github.com/tailsdotcom/d
 
 - Add Desciption to starschema_covide19 source
     - Create file `jhu_covid_19.md`
-```
+```md
 {% docs jhu_covid_19 %}
 # Starschema Covid 19
 This data comes from the Snowflake Data Marketplace
@@ -78,7 +71,7 @@ More information can be found <a href="https://app.snowflake.com/marketplace/lis
 `loader: Snowflake Data Marketplace`
 
 add a long description to the source to show multiline 
-```
+```yml
         description: >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
           sed do eiusmod tempor incididunt ut labore et dolore magna 
@@ -103,8 +96,15 @@ add ** in description to show bold (markdown)
 - build dbt docs
 `dbt docs generate`
 
+- Show seeds file
+balboa -> data -> state_codes
+- Talk about persisting docs in db
+`describe table balboa_dev.gomezn.state_codes`
+Column-level comments are not supported on Snowflake views
 
-## Demo 1 - Intro
+
+
+## Demo - Project layout
 - Describe project folder layout:
     - automate, load, schedule, transform, etc
     - transform/models/bays, coves, sources etc
@@ -120,31 +120,54 @@ add ** in description to show bold (markdown)
         GPS coordinates change over time in the raw data as it gets more accurate  
         This model provides a single source of truth for geocoding - location "master data".  
         - Will be built at balboa_dev.(dev schema).location
-    - models/bays/bay_covid/int_covid_cases
+    - models/bays/bay_covid/covid_cases
         Pivoted from Johns Hopkins data  
         Allows summarizing / comparing individual fields
-        - Will be built at balboa_dev.(dev schema).int_covid_cases
+        - Will be built at balboa_dev.(dev schema).covid_cases
     - models/coves/cove_covid/covid_cases_country, covid_cases_state, covid_cases_county
         Separated various geographic granularities, as county figures are duplicated as a sum in state, and states in country.
         These should never be queried together, so are separated to different models.
 
-- Open Snowsight  
-    Run `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
-    - Use profiling column on right, to tour the data
-    - Click on the first date, show Diamond Princess etc (cruise ships in early covid outbreak) to show exceptions
-    - Describe how snapshotting this table since day 1 would produce same results as jhu_covid_19
-    - Describe importance of profiling tool in creating sources
-        - Will need to remove old dates from dashboard to get a current picture of the world
 - Open dbt docs
     - Show searching for 'John Hopkins' in dbt docs and in vscode to easily find models by metadata
     - Write descriptions for searchability, not just usage
     - Describe the importance of discoverability - discovering by database location, or by folder
-- Open Metabase, show creation of a very basic graph using covid_cases_country
-    - Create exposure using package
-        - show code in vscode
-        - show experience in docs
 
-## Demo 2 - Selectors
+
+
+## Demo - Exposures
+- Create file in the exposures folder named `covid_prediction.yml`
+
+```yml
+version: 2
+
+exposures:
+  - name: covid_infections_prediction
+    # dashboard, notebook, analysis, ml, application
+    type: ml
+    maturity: medium
+    url: https://datacoves.com/covid_predictions
+    description: >
+      Predicts the number of Covid-19 cases by country for a future weeks
+    
+    depends_on:
+      - ref('covid_cases')
+      - ref('location')
+      - source('starschema_covid19', 'jhu_covid_19')
+      
+    owner:
+      name: Santiago Pelufo
+      email: santiago@datacoves.com
+``` 
+- build dbt docs
+`dbt docs generate`
+- Show the exposure
+- change ml to `notebook`
+- build dbt docs
+`dbt docs generate`
+
+
+## Demo - Selectors
 - Edit `models/bays/bay_covid/location` to add the statement `where province_state ilike '%princess%'` to remove the cruise ships (setting up for state:modified)
 - Run each, showing what is selected:
     - `dbt ls --select int_covid_cases`
@@ -164,9 +187,21 @@ add ** in description to show bold (markdown)
     - Discuss small stories and continuous release to align with the above
 
 
-## Demo 3 - Modelling best practice
+## Demo - Modelling best practice
 - Open coves/covid_cases_country, show difference with covid_cases_state
 - Split logic to coves/cove_covid/int/int_covid_cases
 - Point covid_cases_country, state, county to new intermediate
 - General cleanup of DRYness in cove
 - Move config to dbt_project from config blocks in cove_covid/agg models
+
+
+## Demo - Snapshots
+
+- Open Snowsight  
+    Run `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
+    - Use profiling column on right, to tour the data
+    - Click on the first date, show Diamond Princess etc (cruise ships in early covid outbreak) to show exceptions
+    - Describe how snapshotting this table since day 1 would produce same results as jhu_covid_19
+    - Describe importance of profiling tool in creating sources
+        - Will need to remove old dates from dashboard to get a current picture of the world
+
