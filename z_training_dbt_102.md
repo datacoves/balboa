@@ -106,7 +106,7 @@ add ** in description to show bold (markdown)
 
 ## Demo 1 - Intro
 - Describe project folder layout:
-    - automate, schedule, transform, etc
+    - automate, load, schedule, transform, etc
     - transform/models/bays, coves, sources etc
 - Walk through models:
     - models/sources/starschema_covid19/jhu_covid_19:  
