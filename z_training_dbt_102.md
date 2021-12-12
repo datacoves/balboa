@@ -5,6 +5,8 @@
 - Add config blocks to each model in cove_covid/agg
 - @noel - add an external table via S3
     - Create a Snowflake Stage connected to S3 https://docs.snowflake.com/en/sql-reference/sql/create-stage.html
+        - Stage created in Balboa, analyst granted usage
+        LIST @lineage_data/
     - Ensure queries work for the file we want (select * from @stage_name.file_name)
     - @chris - add the dbt-external-tables source
 - Add custom materialization to slides (diagram of .sql in the middle, materialization options down the left)
@@ -165,6 +167,13 @@ exposures:
 - change ml to `notebook`
 - build dbt docs
 `dbt docs generate`
+
+## Demo - Packages
+- Visit dbt hub `https://hub.getdbt.com`
+- Talk about different types of packages, utils vs transformations
+- visit the Snowplow package
+- View the model snowplow/models/page_views/default/snowplow_web_page_context
+https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowplow_web_page_context.sql
 
 
 ## Demo - Selectors
