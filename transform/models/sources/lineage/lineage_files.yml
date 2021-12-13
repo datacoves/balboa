@@ -5,7 +5,7 @@ sources:
     database: raw
     schema: raw
     loader: S3
-    loaded_at_field: load_timestamp
+    # loaded_at_field: load_timestamp
     
     tables:
       - name: lineage_processing
@@ -14,6 +14,7 @@ sources:
           location: "@balboa.public.lineage_data"
           file_format: "( type = csv skip_header = 1 )"
           pattern: ".*PROCESSING.csv"
+          auto_refresh: false
               
         columns:
           - name: source

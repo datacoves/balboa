@@ -1,10 +1,13 @@
 # dbt 102 training
 
+- questions:
+
+
 ## todo:
 - Ensure prod run is complete and uploaded via dbt-artifacts before training delivered
 
 
-## Demo 0 - Docs Overview
+## Demo - Docs Overview
 - Show dbt docs to connect what they just saw
 - Open lineage graph, show components, show filtering 
 add `tag:daily_afternoon` to --select
@@ -157,10 +160,17 @@ exposures:
 - visit the Snowplow package
 - View the model snowplow/models/page_views/default/snowplow_web_page_context
 https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowplow_web_page_context.sql
+
 - Demonstrate dbt-external-tables
+    - in snwoflake we have files on S3, not in snowflake
+        `select * from balboa.information_schema.stages`
+        `list @balboa.public.lineage_data`
+    - We use package dbt-external-tables that creates a view over the external files
     - View the yml `models/sources/lineage/lineage_files.yml`
     - Run `dbt run-operation stage_external_sources --args "select: lineage" --vars "ext_full_refresh: true"`
     - In Snowflake, show `select * from raw.raw.lineage_processing;`
+    - when new cols show up in source, VALUES get automatically updated, and yml needs to be updated to map the new col
+
 
 ## Demo - Snapshots
 - We've been advised that Johns Hopkins will stop maintaining the jhu_covid_19 dataset, and will only be maintaining the 'dashboard' dataset going forward.  
@@ -169,6 +179,8 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Show `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
 - Discuss pros/cons of using an incremental table for this use case
     - incremental would not store previous values if data was updated to a more accurate value after the fact
+    - Snapshot will keep every version of truth
+    # TODO add diagram
 - Show snapshot at snapshots/snp_jhu_dashboard_covid_19_global.sql
     - Discuss unique key, timestamp field
     - Make a subfolder of snapshots `starschema_covid19` and move snapshot, to align with best practise

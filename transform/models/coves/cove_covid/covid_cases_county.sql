@@ -3,7 +3,7 @@ with covid_cases as (
 ),
 
 location as (
-    select * from {{ ref('location') }}
+    select * from {{ ref('covid_location') }}
 )
 
 select
