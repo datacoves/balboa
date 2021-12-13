@@ -100,11 +100,11 @@ Column-level comments are not supported on Snowflake views
             Data source: starschema public Snowflake share - we just imported it to the database  
             https://app.snowflake.com/marketplace/listing/GZSNZ7F5UH
         - Base will be built at balboa_dev.(dev schema).jhu_covid_19
-    - models/bays/bay_covid/location:
+    - models/bays/bay_covid/covid_location:
         Location data from jhu_covid_19  
         GPS coordinates change over time in the raw data as it gets more accurate  
         This model provides a single source of truth for geocoding - location "master data".  
-        - Will be built at balboa_dev.(dev schema).location
+        - Will be built at balboa_dev.(dev schema).covid_location
     - models/bays/bay_covid/covid_cases
         Pivoted from Johns Hopkins data  
         Allows summarizing / comparing individual fields
@@ -137,7 +137,7 @@ exposures:
     
     depends_on:
       - ref('covid_cases')
-      - ref('location')
+      - ref('covid_location')
       - source('starschema_covid19', 'jhu_covid_19')
       
     owner:
@@ -192,7 +192,7 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 
 
 ## Demo - Selectors
-- Edit `models/bays/bay_covid/location` to add the statement `where province_state ilike '%princess%'` to remove the cruise ships (setting up for state:modified)
+- Edit `models/bays/bay_covid/covid_location` to add the statement `where province_state ilike '%princess%'` to remove the cruise ships (setting up for state:modified)
 - Run each, showing what is selected:
     - `dbt ls --select int_covid_cases`
     - Use button `run current` to run the above - describe the helpfulness of automations
@@ -203,7 +203,7 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
     - `dbt ls --select source:balboa.starschema_covid19.jhu_covid_19+,balboa.bays` shows only bays downstream
     - `dbt ls --select source:balboa.starschema_covid19.jhu_covid_19+1`
     - `dbt ls --select +int_covid_cases+ --exclude covid_cases_county`
-    - `dbt ls --select @int_covid_cases` (includes upstream, downstream, and location, as parent of a child)
+    - `dbt ls --select @int_covid_cases` (includes upstream, downstream, and covid_location, as parent of a child)
         - No need to use @ if we can defer
     - Run `dbt run-operation empty_dev_schema --args '{dry_run: false}'` to empty dev schema (we'll look at macro later)
     - Use button `get prod metadata`, then run `dbt build --defer --select state:modified+`
@@ -224,14 +224,14 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
     - Show code of `macros/helpers/generate_imports`
     - Add `generate_imports` macro to new int_covid_cases model created above, to replace CTEs
 - Create new rank macro
-    - Open `bay_covid/location.sql`,` bay_country/current_population.yml` to show repeated use of rank logic
+    - Open `bay_covid/covid_location.sql`,` bay_country/current_population.yml` to show repeated use of rank logic
     - Copy rank statement from either
     - Open macros/rank_desc.sql, show basic macro framework
     - Paste rank statement, and replace partition and order by with `{{ partition_fields }}` and `{{ datefield }}`
     - Discuss documentation of macros, importance of usage
         - Create `macros/rank_desc.yml` and document the rank_desc model (reference `macros/generate_imports.yml` for syntax)
         - Show documentation of new macro in docs
-    - Reopen `bay_covid/location.sql` and replace inline rank with new macro
+    - Reopen `bay_covid/covid_location.sql` and replace inline rank with new macro
 - Demonstrate debugging
     - Show logging in Macro `empty_dev_schema`
     - Create new macro `helpers/log_info.sql`
@@ -245,5 +245,8 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Replace log rows in `empty_dev_schema` with `{{ log_info(message) }}
 - Run `dbt run-operation empty_dev_schema` to demonstrate
 
-## TODO: Set up performance analysis example
-## TODO: Set up Testing example
+## Testing
+- Custom test for expected pre-existing values
+- Show covid_cases.yml test
+- Show data/test_values/covid_cases_expected_values
+- Show custom test macro macros/tests/check_critical_rows_exist_in_seed
