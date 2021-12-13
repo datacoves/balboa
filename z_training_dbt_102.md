@@ -238,7 +238,7 @@ from {{ ref('int_covid_cases') }}
     - Open `bay_covid/covid_location.sql`,` bay_country/current_population.yml` to show repeated use of rank logic
     - Copy rank statement from either
     - Open macros/rank_desc.sql, show basic macro framework
-    - Paste rank statement, and replace partition and order by with `{{ partition_fields }}` and `{{ datefield }}`
+    - Paste rank statement, and replace partition `location_id` with `{{ partition_fields }}` and `date` with `{{ datefield }}`
     - Discuss documentation of macros, importance of usage
         - Create `macros/rank_desc.yml` and document the rank_desc model (reference `macros/generate_imports.yml` for syntax)
         - Show documentation of new macro in docs

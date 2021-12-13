@@ -1,6 +1,6 @@
 {# Macro to wrap around rank expression #}
 {# Usage:
-    {{ rank_desc('partition_field_1, partition_field_2', 'datefield') }}
+    {{ rank_desc('location_id', 'date') }}
 #}
 
 {% macro rank_desc(partition_fields, datefield) %}
