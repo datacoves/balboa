@@ -169,13 +169,9 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Show `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
 - Discuss pros/cons of using an incremental table for this use case
     - incremental would not store previous values if data was updated to a more accurate value after the fact
-- Show yml at models/sources/jhu_dashboard_covid_19_global.yml
-    - Contains freshness tests:
-        - Check data is fresh by running `dbt source freshness`
-        - Adjust warn_after to 24 hours
 - Show snapshot at snapshots/snp_jhu_dashboard_covid_19_global.sql
     - Discuss unique key, timestamp field
-    - Move to a folder matching folder layout
+    - Make a subfolder of snapshots `starschema_covid19` and move snapshot, to align with best practise
     - Run `dbt snapshot` and show in Snowflake in (dev schema).snp_jhu_dashboard_covid_19_global
     - In Snowflake, discuss dbt_* fields
     - To use a snapshot, select `where dbt_valid_to is null`
@@ -245,7 +241,15 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Replace log rows in `empty_dev_schema` with `{{ log_info(message) }}
 - Run `dbt run-operation empty_dev_schema` to demonstrate
 
+## Performance Analysis
+- Run in Snowflake `select node_id, name, total_node_runtime as runtime_seconds from balboa.dbt_artifacts.fct_dbt__latest_full_model_executions;`
+- Discuss model runtime, and how it might be optimized
+
 ## Testing
+- Show yml at models/sources/starschema_covid19/jhu_dashboard_covid_19_global.yml
+    - Contains freshness tests:
+        - Check data is fresh by running `dbt source freshness`
+        - Adjust warn_after to 24 hours
 - Custom test for expected pre-existing values
 - Show covid_cases.yml test
 - Show data/test_values/covid_cases_expected_values
