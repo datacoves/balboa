@@ -4,6 +4,8 @@
         ( 'states', ref('state_codes') ),
     ]
 ) }}
+
+
 {# with cases as (
     select
         *
@@ -15,6 +17,8 @@ states as (
         *
     from {{ ref('state_codes') }}
 ) #}
+
+
 , final_monthly_cases as (
     select
         date,
