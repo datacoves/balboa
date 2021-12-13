@@ -36,7 +36,7 @@ seeds:
 
 snapshots:
   balboa:
-    +target_database: "{{ 'balboa_dev' if target.name == 'dev' else 'raw' }}"
+    +target_database: raw
     +target_schema: snapshots
 
 models:

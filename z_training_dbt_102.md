@@ -5,6 +5,7 @@
 
 ## todo:
 - Ensure prod run is complete and uploaded via dbt-artifacts before training delivered
+    - `dbt --no-write-json run-operation upload_manifest_catalog --target prd`
 
 
 ## Demo - Docs Overview
@@ -139,7 +140,6 @@ exposures:
       Predicts the number of Covid-19 cases by country for a future weeks
     
     depends_on:
-      - ref('covid_cases')
       - ref('covid_location')
       - source('starschema_covid19', 'jhu_covid_19')
       
@@ -184,23 +184,15 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Show snapshot at snapshots/snp_jhu_dashboard_covid_19_global.sql
     - Discuss unique key, timestamp field
     - Make a subfolder of snapshots `starschema_covid19` and move snapshot, to align with best practise
-    - Run `dbt snapshot` and show in Snowflake in (dev schema).snp_jhu_dashboard_covid_19_global
+    - Run `dbt snapshot` and show in Snowflake in raw.snapshots.snp_jhu_dashboard_covid_19_global
     - In Snowflake, discuss dbt_* fields
     - To use a snapshot, select `where dbt_valid_to is null`
 - Discuss how snapshot can create the same output as jhu_covid_19, but only if it had been created at the start
     - can't recreate historical data from master data, so start snapshotting early
     - can't recreate missed versions of data, so snapshot frequently
-
-## Demo - Materializations
-- Show macros/helpers/materialized_view_materialization
-    - Source: https://github.com/dbt-labs/dbt-labs-experimental-features
-    - Other use cases:
-        - lambda views
-        - Snowflake streams + tasks (using change data capture to trigger runs between dbt runs)
-
+- Discuss snapshotting models as well as sources - need to use `dbt build` to do so, so they are included in the DAG
 
 ## Demo - Selectors
-- Edit `models/bays/bay_covid/covid_location` to add the statement `where province_state ilike '%princess%'` to remove the cruise ships (setting up for state:modified)
 - Run each, showing what is selected:
     - `dbt ls --select int_covid_cases`
     - Use button `run current` to run the above - describe the helpfulness of automations
@@ -213,23 +205,34 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
     - `dbt ls --select +int_covid_cases+ --exclude covid_cases_county`
     - `dbt ls --select @int_covid_cases` (includes upstream, downstream, and covid_location, as parent of a child)
         - No need to use @ if we can defer
-    - Run `dbt run-operation empty_dev_schema --args '{dry_run: false}'` to empty dev schema (we'll look at macro later)
-    - Use button `get prod metadata`, then run `dbt build --defer --select state:modified+`
+
+## Demo - Deferral
+- Edit `models/bays/bay_covid/covid_location` to add the statement `where province_state ilike '%princess%'` to remove the cruise ships (setting up for state:modified)
+- Run `dbt run-operation empty_dev_schema --args '{dry_run: false}'` to empty dev schema (we'll look at macro later)
+- Show in Snowflake the `balboa_dev.gomezn` schema with data in it
+- Use button `get prod metadata`, then run `dbt build --defer --select state:modified+`
         
-- Buttons `get prod metadata` + `build all` - this should run almost everything needed while developing
+- Discuss buttons `prod metadata` + `build changes` - this should run almost everything needed while developing
     - Discuss small stories and continuous release to align with the above
 
 
 ## Demo - Modelling best practice
 - Open coves/covid_cases_country, show difference with covid_cases_state
-- Split logic to coves/cove_covid/int/int_covid_cases
+- Generate an intermediate view coves/cove_covid/int/int_covid_cases
+    - Copy logic from covid_cases_county
+    - Remove the where statement
 - Point covid_cases_country, state, county to new intermediate
+```
+select *
+from {{ ref('int_covid_cases') }}
+(original where statement)
+```
 - General cleanup of DRYness in cove
 - Move config to dbt_project from config blocks in cove_covid/agg models
 
 ## Demo - Macros
 - Show usage of `generate_imports` macro in `models/coves/cove_covid/agg/agg_cases_by_month.sql`
-    - Show code of `macros/helpers/generate_imports`
+    - Show code of `macros/generate_imports`
     - Add `generate_imports` macro to new int_covid_cases model created above, to replace CTEs
 - Create new rank macro
     - Open `bay_covid/covid_location.sql`,` bay_country/current_population.yml` to show repeated use of rank logic

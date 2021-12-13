@@ -18,7 +18,7 @@
   {% if result %}
       {%- for to_delete in result -%}
         {%- if dry_run -%}
-            {%- do log_info('to be dropped: ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1]) -%}
+            {%- do log('to be dropped: ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) -%}
         {%- else -%}
             {%- do log('dropping ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) -%}
             {% set drop_command = 'drop ' ~ to_delete[2] ~ ' if exists ' ~ to_delete[0] ~ '.' ~ to_delete[1] ~ ' cascade;' %}
