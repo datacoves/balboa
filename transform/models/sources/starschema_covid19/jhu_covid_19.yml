@@ -19,9 +19,8 @@ models:
     columns:
       - name: country_region
         meta:
-          business_owner: John Doe
-          business_analyst: Jane Doe
-
+          classification: highly_restricted
+          masking_policy: full_field
       - name: province_state
       - name: county
       - name: fips
