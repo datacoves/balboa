@@ -49,6 +49,8 @@ models:
     coves:
       cove_covid:
         +schema: cove_covid
+      +materialized: table
+
     sources:
       country_data:
         +schema: country_data
@@ -69,10 +71,9 @@ models:
     staging:
       +schema: stg_dbt_artifacts
     enabled: false
-    
+
 tests:
   +store_failures: true
-
 
 vars:
   'dbt_date:time_zone': 'America/Los_Angeles'

@@ -253,7 +253,7 @@ from {{ ref('int_covid_cases') }}
 ```
 {# 
     This macro can be used to print a log message starting with a timestamp
-    dbt run-operation log_info()
+    dbt run-operation log_info --args '{message: "test message"}'
  #}
 
 {% macro log_info(message) %}
@@ -261,11 +261,17 @@ from {{ ref('int_covid_cases') }}
 {% endmacro %}
 ```
 
-- Replace log rows in `empty_dev_schema` with `{{ log_info(message) }}
+- Replace log rows in `empty_dev_schema` with `{{ log_info(message) }}`
 - Run `dbt run-operation empty_dev_schema` to demonstrate
 
 ## Performance Analysis
-- Run in Snowflake `select node_id, name, total_node_runtime as runtime_seconds from balboa.dbt_artifacts.fct_dbt__latest_full_model_executions;`
+- Run in Snowflake 
+```
+select name,node_id, total_node_runtime as runtime_seconds 
+from balboa.dbt_artifacts.fct_dbt__latest_full_model_executions
+order by runtime_seconds desc;
+```
+
 - Discuss model runtime, and how it might be optimized
 
 ## Testing
@@ -273,7 +279,11 @@ from {{ ref('int_covid_cases') }}
     - Contains freshness tests:
         - Check data is fresh by running `dbt source freshness`
         - Adjust warn_after to 24 hours
+        - Run `dbt source freshness`
+
 - Custom test for expected pre-existing values
-- Show covid_cases.yml test
-- Show data/test_values/covid_cases_expected_values
-- Show custom test macro macros/tests/check_critical_rows_exist_in_seed
+    - Show `covid_cases.yml` test
+    - Show `data/test_values/covid_cases_expected_values`
+    - Show custom test macro `macros/tests/check_critical_rows_exist_in_seed`
+
+    
