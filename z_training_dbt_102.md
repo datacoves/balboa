@@ -180,7 +180,6 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Discuss pros/cons of using an incremental table for this use case
     - incremental would not store previous values if data was updated to a more accurate value after the fact
     - Snapshot will keep every version of truth
-    # TODO add diagram
 - Show snapshot at snapshots/snp_jhu_dashboard_covid_19_global.sql
     - Discuss unique key, timestamp field
     - Make a subfolder of snapshots `starschema_covid19` and move snapshot, to align with best practise
