@@ -243,13 +243,21 @@ from {{ ref('int_covid_cases') }}
         - Create `macros/rank_desc.yml` and document the rank_desc model (reference `macros/generate_imports.yml` for syntax)
         - Show documentation of new macro in docs
     - Reopen `bay_covid/covid_location.sql` and replace inline rank with new macro
-- Demonstrate debugging
+- Demonstrate `if statement`, `for loops`, and `set` statements
     - Show logging in Macro `empty_dev_schema`
+    - Run `dbt run-operation empty_dev_schema` to demonstrate
+
+- Demonstrate debugging with better logging
     - Create new macro `helpers/log_info.sql`
 
 ```
+{# 
+    This macro can be used to print a log message starting with a timestamp
+    dbt run-operation log_info()
+ #}
+
 {% macro log_info(message) %}
-    {%- do log(dbt_utils.pretty_log_format(message), true) -%}
+    {{ log(dbt_utils.pretty_log_format(message), true) }}
 {% endmacro %}
 ```
 

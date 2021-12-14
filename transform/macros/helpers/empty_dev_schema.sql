@@ -1,3 +1,8 @@
+{# 
+  This macro drops tables and view for the default schema
+  dbt run-operation empty_dev_schema
+ #}
+
 {% macro empty_dev_schema(dry_run=true) %}
 
   {% set query %}
@@ -18,15 +23,15 @@
   {% if result %}
       {%- for to_delete in result -%}
         {%- if dry_run -%}
-            {%- do log('to be dropped: ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) -%}
+            {{ log('to be dropped: ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) }}
         {%- else -%}
-            {%- do log('dropping ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) -%}
+            {{ log('dropping ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) }}
             {% set drop_command = 'drop ' ~ to_delete[2] ~ ' if exists ' ~ to_delete[0] ~ '.' ~ to_delete[1] ~ ' cascade;' %}
             {% do run_query(drop_command) %}
-            {%- do log('dropped ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) -%}
+            {{ log('dropped ' ~ to_delete[2] ~ ' ' ~ to_delete[0] ~ '.' ~ to_delete[1], true) }}
         {%- endif -%}
       {%- endfor -%}
   {% else %}
-    {% do log('no models to clean.', true) %}
+    {{ log('no models to clean.', true) }}
   {% endif %}
 {% endmacro %}
