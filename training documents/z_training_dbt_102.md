@@ -1,10 +1,8 @@
 # dbt 102 training
 
-- questions:
-
-
-## todo:
+## setup:
 - Ensure prod run is complete and uploaded via dbt-artifacts before training delivered
+    - `dbt run`
     - `dbt --no-write-json run-operation upload_manifest_catalog --target prd`
 
 
@@ -235,7 +233,7 @@ from {{ ref('int_covid_cases') }}
     - Add `generate_imports` macro to new int_covid_cases model created above, to replace CTEs
 - Create new rank macro
     - Open `bay_covid/covid_location.sql`,` bay_country/current_population.yml` to show repeated use of rank logic
-    - Copy rank statement from either
+    - Copy rank statement from covid_location
     - Open macros/rank_desc.sql, show basic macro framework
     - Paste rank statement, and replace partition `location_id` with `{{ partition_fields }}` and `date` with `{{ datefield }}`
     - Discuss documentation of macros, importance of usage
