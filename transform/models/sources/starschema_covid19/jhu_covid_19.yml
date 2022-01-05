@@ -7,7 +7,7 @@ sources:
     tables:
       - name: jhu_covid_19
         identifier: JHU_COVID_19
-        description: ''
+        description: 'Starschema John Hopkins COVID19 data'
 
 models:
   - name: jhu_covid_19

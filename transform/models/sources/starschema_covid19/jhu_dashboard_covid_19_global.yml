@@ -6,7 +6,7 @@ sources:
     schema: public
     tables:
       - name: jhu_dashboard_covid_19_global
-        description: ''
+        description: 'Starschema Global COVID data'
         freshness:
           warn_after:
             count: 1
