@@ -13,11 +13,11 @@
             },
             "previewLimit": 50,
             "driver": "Snowflake",
-            "name": "dev_balboa",
+            "name": "raw",
             "account": "toa80779",
             "username": "{{ snowflake_username }}",
             "password": "{{ snowflake_password }}",
-            "database": "DEV_BALBOA",
+            "database": "RAW",
             "warehouse": "TRANSFORMING_WAREHOUSE"
         },
         {
@@ -33,11 +33,11 @@
             },
             "previewLimit": 50,
             "driver": "Snowflake",
-            "name": "dev_raw",
+            "name": "balboa_dev",
             "account": "toa80779",
             "username": "{{ snowflake_username }}",
             "password": "{{ snowflake_password }}",
-            "database": "DEV_RAW",
+            "database": "BALBOA_DEV",
             "warehouse": "TRANSFORMING_WAREHOUSE"
         }
     ],
@@ -54,11 +54,12 @@
 			"reloadButton": null,
 			"commands": [
                 {
-					"name": "▶️ Build current",
+					"name": "▶️ Run current",
                     "cwd": "/config/workspace/transform",
                     "color": "white",
 					"singleInstance": true,
-					"command": "dbt build --select ${fileBasenameNoExtension} --defer --state logs"
+					"command": "dbt run --select ${fileBasenameNoExtension} --defer --state logs"
+                    // "command": "dbt run --select ${fileBasenameNoExtension} --defer --state logs"
 				},
 				{
                     "name": "⏭ Build changes",
@@ -74,19 +75,28 @@
 					"singleInstance": true,
 					"command": "dbt-coves check" // This is executed in the terminal.
 				},
+                // {
+				// 	"name": "✔️ lint current",
+                //     "cwd": "/config/workspace/transform",
+                //     "color": "white",
+				// 	"singleInstance": true,
+				// 	"command": "sqlfluff lint ${file}" // This is executed in the terminal.
+				// },
+                // {
+                //     "name": "📝 YML for current",
+                //     "cwd": "${fileDirname}",
+                //     "color": "white",
+                //     "singleInstance": true,
+                //     "command": "dbt run-operation gen_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
+                // },
                 {
-					"name": "✔️ lint current",
+                    "name": "📝 Generate Docs",
+                    // "cwd": "${fileDirname}",
                     "cwd": "/config/workspace/transform",
                     "color": "white",
-					"singleInstance": true,
-					"command": "sqlfluff lint ${file}" // This is executed in the terminal.
-				},
-                {
-                    "name": "📝 Create YML for current",
-                    "cwd": "${fileDirname}",
-                    "color": "white",
                     "singleInstance": true,
-                    "command": "dbt run-operation gen_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
+                    "command": "dbt docs generate"
+                    // "command": "dbt run-operation gen_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
                 },
                 {
 					"name": "🗳️ Prod metadata",

@@ -7,7 +7,7 @@ default:
             role: ANALYST
             user: "{{ snowflake_username }}"
             password: "{{ snowflake_password }}"
-            database: BALBOA
+            database: BALBOA_DEV
             warehouse: TRANSFORMING_WAREHOUSE
             schema: "{{ snowflake_username }}"
             threads: 8
