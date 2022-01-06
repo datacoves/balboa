@@ -11,3 +11,6 @@ packages:
   - package: tailsdotcom/dbt_artifacts
     version: 0.5.0
     # <see https://github.com/tailsdotcom/dbt_artifacts/releases/latest> for the latest version tag
+  - package: dbt-labs/dbt_external_tables
+    version: 0.7.1
+    # <see https://github.com/dbt-labs/dbt-external-tables/releases/tag/0.7.1> for the latest version tag

@@ -1,0 +1,13 @@
+version: 2
+models:
+  - name: covid_location
+    description: Latest version of location data for John Hopkins COVID19 data
+    columns:
+      - name: location_id
+      - name: country
+      - name: state
+      - name: county
+      - name: lat
+      - name: long
+      - name: iso3166_1
+      - name: iso3166_2
