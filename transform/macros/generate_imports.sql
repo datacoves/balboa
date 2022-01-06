@@ -2,28 +2,26 @@
 {# Usage:
     {{ generate_imports(
         [
-            ( 'alias_model_1', ref('model_1') ),
-            ( 'alias_model_2', ref('model_2') ),
+            'model_1'.
+            'model_2',
             ...
         ]
-    ) }}
-    , cte_logic as (
+    ) }},
+    
+    cte_logic as (
         any non-import CTEs that are required in this model
     )
 #}
 
-{% macro generate_imports(tuple_list) %}
+{% macro generate_imports(model_list) %}
 
-WITH{% for cte_ref in tuple_list %} {{cte_ref[0]}} AS (
+WITH 
+{% for cte_ref in model_list %} 
+{{cte_ref}} AS (
 
-    SELECT * 
-    FROM {{ cte_ref[1] }}
-
-)
-    {%- if not loop.last -%}
-    ,
-    {%- endif -%}
-    
-    {%- endfor -%}
+SELECT * 
+FROM {{ ref(cte_ref) }}
+){# Add a comma after each CTE except the last one #} {%- if not loop.last -%},{%- endif -%}
+{%- endfor -%}
 
 {%- endmacro %}

@@ -1,10 +1,10 @@
-{{ generate_imports(
+{{ 
+    generate_imports(
     [
-        ( 'cases', ref('base_cases') ),
-        ( 'states', ref('state_codes') ),
-    ]
-) }}
-
+        'base_cases',
+        'state_codes'
+    ]) 
+}},
 
 {# with cases as (
     select
@@ -18,26 +18,25 @@ states as (
     from {{ ref('state_codes') }}
 ) #}
 
-
-, final_monthly_cases as (
+final_monthly_cases as (
     select
         date,
         state,
         cases,
         deaths
     from(
-        select
-            cases,
-            deaths,
-            date,
-            state,
-            row_number() over (
-                partition by
-                    state,
-                    year(date),
-                    month(date)
-                order by day(date) desc) as row_num
-        from cases)
+            select
+                cases,
+                deaths,
+                date,
+                state,
+                row_number() over (
+                    partition by
+                        state,
+                        year(date),
+                        month(date)
+                    order by day(date) desc) as row_num
+            from base_cases)
     where row_num = 1
     order by date
 )
