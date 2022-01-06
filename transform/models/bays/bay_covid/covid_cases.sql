@@ -22,14 +22,10 @@ pivoted_model as (
     select
         location_id,
         date,
-        {# sum("'Confirmed'") as confirmed,
+        sum("'Confirmed'") as confirmed,
         sum("'Deaths'") as deaths,
         sum("'Active'") as active,
-        sum("'Recovered'") as recovered #}
-        sum(1) as confirmed,
-        sum(1) as deaths,
-        sum(1) as active,
-        sum(1) as recovered
+        sum("'Recovered'") as recovered
     from create_location_id
     pivot (sum(cases) for case_type in( 'Confirmed', 'Deaths', 'Active', 'Recovered' )) as case_pivot
     group by location_id, date
