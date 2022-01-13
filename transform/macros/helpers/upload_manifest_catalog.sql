@@ -1,7 +1,7 @@
 {# Macro for uploading dbt manifest and catalog to snowflake. #}
 {# 
     Run using
-    dbt --no-write-json run-operation upload_manifest_catalog
+    dbt --no-write-json run-operation upload_manifest_catalog --target prd
 #}
 
 {% macro upload_manifest_catalog() %}

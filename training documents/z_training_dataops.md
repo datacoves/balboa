@@ -1,7 +1,4 @@
 # Setup:
-### To do:
-Add a feature-1 branch to merge to release branch for reversion
-
 ### Add button to settings.json:
 ```yaml
                 {
@@ -18,11 +15,13 @@ export DBT_HOME="/config/workspace/transform"
 ```
 
 ### Reset Environment:
-- Ensure `current_population.sql` has no aliases
+- Ensure `models/bays/bay_country/current_population.sql` has no aliases
 - Remove all models and yml not related to population in models/country_analysis
 - Delete all local and github branches related to dataops-training
 - Create release/dataops-training branch from main
-- Merge feature-1 to release (for later reversion)
+- Create feature/training-feature-to-revert from main
+    - Add Nevada to list
+- Merge feature/training-feature-to-revert to release/dataops-training branch (for later reversion)
 - Delete Airbyte country codes source & connection
 
 
@@ -176,7 +175,7 @@ On error:
 `description: Cleaned up country codes`
 
 In `current_population.sql`:
-- Alias `value` to `population`
+- Alias `value` to `population` (will need to be changed in yml also)
 
 Create Bay model `countries.sql`
 
