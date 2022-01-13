@@ -1,4 +1,4 @@
-select 
+select
     start_time,
     end_time,
     warehouse_id,
@@ -7,5 +7,5 @@ select
     month(start_time) as start_date,
     datediff(hour, start_time, end_time) as warehouse_operation_hours,
     hour(start_time) as time_of_day
-from {{ ref('warehouse_metering_history')}}
+from {{ ref('warehouse_metering_history') }}
 

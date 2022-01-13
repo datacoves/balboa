@@ -4,7 +4,7 @@ with cte_date_generator as (
     from table(generator(rowcount=>730))
 )
 
-select 
+select
     to_date(day_row) as date,
     year(day_row) as year,
     quarter(day_row) as quarter,

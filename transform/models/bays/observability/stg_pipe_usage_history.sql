@@ -1,4 +1,4 @@
-select 
+select
     pipe_id,
     pipe_name,
     start_time,
