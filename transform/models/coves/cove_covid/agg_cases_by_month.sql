@@ -19,8 +19,8 @@ states as (
 ) #}
 
 final_monthly_cases as (
-    select
-        date,
+    SELECT
+         date,
         state,
         cases,
         deaths
