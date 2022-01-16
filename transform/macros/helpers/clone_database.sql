@@ -10,5 +10,5 @@
       CREATE DATABASE {{ target_db }} CLONE {{ source_db }};
   {% endset %}
   {% do run_query(clone_db_sql) %}
-  {{ log("Cloined Database: " ~ target_db ~ " from " ~ source_db, info=true) }}
+  {{ log("Cloned Database: " ~ target_db ~ " from " ~ source_db, info=true) }}
 {%- endmacro -%}
