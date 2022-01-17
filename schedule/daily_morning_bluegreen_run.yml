@@ -17,7 +17,6 @@ daily_morning_bluegreen_run:
       # Update tag for job
       run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"
-      sources_database: RAW
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
