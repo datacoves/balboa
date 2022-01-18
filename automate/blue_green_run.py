@@ -24,7 +24,7 @@ def main(args):
     """
     tag = args[0] if args else ""
     commit_hash = get_commit_hash()
-    cwd = f"/home/airflow/transform-{commit_hash}"
+    cwd = f"/home/airflow/transform-pr-{commit_hash}"
 
     print("Copying dbt project to temp directory")
     subprocess.run(["cp", "-rf", DBT_PROJECT_DIR, cwd], check=True)
