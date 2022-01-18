@@ -17,7 +17,12 @@
 {% endif %}
 
 -- setup
+
+
+{#
 {%- do dbt_utils._is_relation(model, 'check_critical_rows_exist_in_seed') -%}
+This was in the dbt_utils model I modeled this one after, but doesn't run here.
+#}
 
 {#-
 If the compare_cols arg is provided, we can run this test without querying the
