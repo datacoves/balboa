@@ -33,7 +33,8 @@ def main(args):
     subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
 
     print("Setting db to staging database")
-    subprocess.run(["export", "DBT_DATABASE="+DBT_STAGING_DB_NAME], check=True, cwd=cwd)
+    os.environ['DBT_DATABASE'] = DBT_STAGING_DB_NAME
+    #subprocess.run(["export", "DBT_DATABASE="+DBT_STAGING_DB_NAME], check=True, cwd=cwd)
     
     print("Checking that staging database does not exist")
     while 1:
