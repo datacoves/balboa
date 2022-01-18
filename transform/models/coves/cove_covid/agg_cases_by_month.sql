@@ -19,7 +19,7 @@ states as (
 ) #}
 
 final_monthly_cases as (
-    SELECT
+    select
          date,
         state,
         cases,
