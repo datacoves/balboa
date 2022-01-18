@@ -40,7 +40,7 @@ def main(args):
     logging.info("Checking that staging database does not exist")
     while 1:
         try:
-            subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", "'{db_name: "+DBT_STAGING_DB_NAME+"}'"], check=True, cwd=cwd)
+            subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", '{"db_name": "%d"}' % (DBT_STAGING_DB_NAME)], check=True, cwd=cwd)
             break
         except:
             logging.info("Staging database "+DBT_STAGING_DB_NAME+" exists, waiting 60 seconds to try again")
