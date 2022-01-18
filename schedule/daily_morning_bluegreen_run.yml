@@ -15,8 +15,8 @@ daily_morning_bluegreen_run:
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
       # Update tag for job
+      run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"
-      sources_database: RAW
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job

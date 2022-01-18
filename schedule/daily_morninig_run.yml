@@ -1,6 +1,6 @@
 daily_morning_run:
   description: "Daily run at 3am"
-  schedule_interval: "46 05 * * *"
+  schedule_interval: "04 05 * * *"
   default_args:
     start_date: 2021-01-01
   catchup: False
@@ -15,6 +15,7 @@ daily_morning_run:
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
       # Update tag for job
+      run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"
     transform:
       operator: airflow.operators.bash_operator.BashOperator
