@@ -20,5 +20,5 @@ daily_morning_bluegreen_run:
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/blue_green_run.py daily_morning"
+      bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/blue_green_run.py --production_run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
