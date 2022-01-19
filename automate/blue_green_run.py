@@ -63,7 +63,7 @@ def main(args):
     logging.warning("Checking that staging database does not exist")
     DBT_CHECK_DB_ARGS = '{"db_name": "DBT_STAGING_DB_NAME"}'
 
-    logging.warning("dbt swap args: "+DBT_SWAP_ARGS)
+    logging.warning("dbt swap args: "+DBT_CHECK_DB_ARGS)
 #     while 1:
     # try:
             
