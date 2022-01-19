@@ -61,26 +61,27 @@ def main(args):
     os.environ['DBT_DATABASE'] = DBT_STAGING_DB_NAME
     
     logging.warning("Checking that staging database does not exist")
-    DBT_CHECK_DB_ARGS = '{"db_name": "DBT_STAGING_DB_NAME"}'
+    CHECK_DB_ARGS = '{"db_name": "DBT_STAGING_DB_NAME"}'
 
-    logging.warning("dbt swap args: "+DBT_CHECK_DB_ARGS)
+    logging.warning("dbt swap args: "+CHECK_DB_ARGS)
 #     while 1:
     # try:
             
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", DBT_CHECK_DB_ARGS], check=True, cwd=cwd)
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", CHECK_DB_ARGS], check=True, cwd=cwd)
     #     break
     # except:
     #     logging.warning("Staging database "+DBT_STAGING_DB_NAME+" exists, waiting 60 seconds to try again")
     #     time.sleep(60)
 
+    CLONE_DB_ARGS = '{"source_db": "' + DBT_FINAL_DB_NAME + '", "target_db": "' + DBT_STAGING_DB_NAME + '"}'
     logging.warning("Cloning db to 'staging'")
-    subprocess.run(["dbt", "run-operation", "clone_database", "--args", "'{source_db: " + DBT_FINAL_DB_NAME +
-        ", target_db: " + DBT_STAGING_DB_NAME + "}'"], check=True, cwd=cwd)
+    subprocess.run(["dbt", "run-operation", "clone_database", "--args", CLONE_DB_ARGS], check=True, cwd=cwd)
 
     run_dbt(args)
 
     logging.warning("Swapping staging database " + DBT_STAGING_DB_NAME + " with production " + DBT_FINAL_DB_NAME)
-    subprocess.run(["dbt", "run-operation", "swap_database", "--args", "'{db1: "+DBT_FINAL_DB_NAME + ", db2: " + DBT_STAGING_DB_NAME+"}'"], check=True, cwd=cwd)
+    SWAP_DB_ARGS = '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
+    subprocess.run(["dbt", "run-operation", "swap_database", "--args", SWAP_DB_ARGS], check=True, cwd=cwd)
     
     logging.warning("Removing dbt project temp directory")
     subprocess.run(["rm", "-rf", cwd], check=True)
