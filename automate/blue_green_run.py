@@ -61,12 +61,13 @@ def main(args):
     os.environ['DBT_DATABASE'] = DBT_STAGING_DB_NAME
     
     logging.warning("Checking that staging database does not exist")
-    DBT_SWAP_ARGS = str({"db_name": DBT_STAGING_DB_NAME})
+    DBT_CHECK_DB_ARGS = '{"db_name": "DBT_STAGING_DB_NAME"}'
+
     logging.warning("dbt swap args: "+DBT_SWAP_ARGS)
 #     while 1:
     # try:
             
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", DBT_SWAP_ARGS], check=True, cwd=cwd)
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", DBT_CHECK_DB_ARGS], check=True, cwd=cwd)
     #     break
     # except:
     #     logging.warning("Staging database "+DBT_STAGING_DB_NAME+" exists, waiting 60 seconds to try again")
