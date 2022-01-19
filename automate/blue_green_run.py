@@ -22,22 +22,22 @@ def get_commit_hash():
 def run_dbt(args):
     if args.is_production:
         if args.selector:
-            logging.info("Running dbt build with selector " + args.selector +"+")
+            logging.warning("Running dbt build with selector " + args.selector +"+")
             subprocess.run(["dbt", "build", "-s", f"{args.selector}+"], check=True, cwd=cwd)
         else:
-            logging.info("Production run of dbt")
+            logging.warning("Production run of dbt")
             subprocess.run(["dbt", "build"], check=True, cwd=cwd)
     else:
-        logging.info("Getting prod manifest")
+        logging.warning("Getting prod manifest")
         # this env_var is referenced by get_artifacts
         os.environ['DBT_HOME'] = cwd
         subprocess.run(["/opt/airflow/dags/repo/balboa.git/automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
         
-        logging.info("Deployment run of dbt")
+        logging.warning("Deployment run of dbt")
         subprocess.run(["dbt", "build", '--state', 'logs', '-s', 'state:modified+'], check=True, cwd=cwd)
 
     subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
-    logging.info("Uploading new prod manifest")
+    logging.warning("Uploading new prod manifest")
     subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_manifest_catalog"], check=True, cwd=cwd)
 
 
@@ -51,34 +51,34 @@ def main(args):
     commit_hash = get_commit_hash()
     cwd = f"/home/airflow/transform-pr-{commit_hash}"
 
-    logging.info("Copying dbt project to temp directory")
+    logging.warning("Copying dbt project to temp directory")
     subprocess.run(["cp", "-rf", DBT_PROJECT_DIR, cwd], check=True)
 
-    logging.info("Loading dbt dependencies")
+    logging.warning("Loading dbt dependencies")
     subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
 
-    logging.info("Setting db to staging database")
+    logging.warning("Setting db to staging database")
     os.environ['DBT_DATABASE'] = DBT_STAGING_DB_NAME
     
-#     logging.info("Checking that staging database does not exist")
+#     logging.warning("Checking that staging database does not exist")
 #     while 1:
 #         try:
 #             subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", '{"db_name": "%d"}' % (DBT_STAGING_DB_NAME)], check=True, cwd=cwd)
 #             break
 #         except:
-#             logging.info("Staging database "+DBT_STAGING_DB_NAME+" exists, waiting 60 seconds to try again")
+#             logging.warning("Staging database "+DBT_STAGING_DB_NAME+" exists, waiting 60 seconds to try again")
 #             time.sleep(60)
 
-    logging.info("Cloning db to 'staging'")
+    logging.warning("Cloning db to 'staging'")
     subprocess.run(["dbt", "run-operation", "clone_database", "--args", "'{source_db: " + DBT_FINAL_DB_NAME +
         ", target_db: " + DBT_STAGING_DB_NAME + "}'"], check=True, cwd=cwd)
 
     run_dbt(args)
 
-    logging.info("Swapping staging database " + DBT_STAGING_DB_NAME + " with production " + DBT_FINAL_DB_NAME)
+    logging.warning("Swapping staging database " + DBT_STAGING_DB_NAME + " with production " + DBT_FINAL_DB_NAME)
     subprocess.run(["dbt", "run-operation", "swap_database", "--args", "'{db1: "+DBT_FINAL_DB_NAME + ", db2: " + DBT_STAGING_DB_NAME+"}'"], check=True, cwd=cwd)
     
-    logging.info("Removing dbt project temp directory")
+    logging.warning("Removing dbt project temp directory")
     subprocess.run(["rm", "-rf", cwd], check=True)
 
 
@@ -105,5 +105,5 @@ if __name__ == "__main__":
         main(args)
 
     except Exception as ex:
-        logging.info(ex)
+        logging.warning(ex)
         exit(1)
