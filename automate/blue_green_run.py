@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
+import argparse
 import subprocess
-import sys
+# import sys
 import os
-import time
+# import time
 import logging
-LOGGER = LOGGER.getLogger("airflow.task")
+
 
 DBT_PROJECT_DIR = "/opt/airflow/dags/repo/balboa.git/transform"
-DBT_PROD_DB_NAME = "balboa"
-DBT_STAGING_DB_NAME = "staging_balboa" #This db must be prefaced 'staging' to work with /transform/macros/ref.sql override
-DBT_STAGING_PROFILE_NAME = "staging" #This profile must be set up in prod to point to the staging db
+DBT_FINAL_DB_NAME = os.environ['DBT_DATABASE']
 
+#This db must be prefaced 'staging' to work with /transform/macros/ref.sql override
+DBT_STAGING_DB_NAME = "staging_" + os.environ['DBT_DATABASE'] 
 
 def get_commit_hash():
     return subprocess.run(['git', 'rev-parse', 'HEAD'],
@@ -18,60 +19,91 @@ def get_commit_hash():
         text=True,
         cwd=DBT_PROJECT_DIR).stdout.strip("\n")
 
+def run_dbt(args):
+    if args.is_production:
+        if args.selector:
+            logging.info("Running dbt build with selector " + args.selector +"+")
+            subprocess.run(["dbt", "build", "-s", f"{args.selector}+"], check=True, cwd=cwd)
+        else:
+            logging.info("Production run of dbt")
+            subprocess.run(["dbt", "build"], check=True, cwd=cwd)
+    else:
+        logging.info("Getting prod manifest")
+        # this env_var is referenced by get_artifacts
+        os.environ['DBT_HOME'] = cwd
+        subprocess.run(["/opt/airflow/dags/repo/balboa.git/automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
+        
+        logging.info("Deployment run of dbt")
+        subprocess.run(["dbt", "build", '--state', 'logs', '-s', 'state:modified+'], check=True, cwd=cwd)
+
+    subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
+    logging.info("Uploading new prod manifest")
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_manifest_catalog"], check=True, cwd=cwd)
+
 
 def main(args):
     """
     Runs dbt build
     """
-    tag = args[0] if args else ""
+    print(args.selector)
+    print(args.is_production)
+
     commit_hash = get_commit_hash()
     cwd = f"/home/airflow/transform-pr-{commit_hash}"
 
-    LOGGER.info("Copying dbt project to temp directory")
+    logging.info("Copying dbt project to temp directory")
     subprocess.run(["cp", "-rf", DBT_PROJECT_DIR, cwd], check=True)
 
-    LOGGER.info("Loading dbt dependencies")
+    logging.info("Loading dbt dependencies")
     subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
 
-    LOGGER.info("Setting db to staging database")
+    logging.info("Setting db to staging database")
     os.environ['DBT_DATABASE'] = DBT_STAGING_DB_NAME
-    #subprocess.run(["export", "DBT_DATABASE="+DBT_STAGING_DB_NAME], check=True, cwd=cwd)
     
-    LOGGER.info("Checking that staging database does not exist")
-    while 1:
-        try:
-            subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", '{"db_name": "%d"}' % (DBT_STAGING_DB_NAME)], check=True, cwd=cwd)
-            break
-        except:
-            LOGGER.info("Staging database "+DBT_STAGING_DB_NAME+" exists, waiting 60 seconds to try again")
-            time.sleep(60)
+#     logging.info("Checking that staging database does not exist")
+#     while 1:
+#         try:
+#             subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", '{"db_name": "%d"}' % (DBT_STAGING_DB_NAME)], check=True, cwd=cwd)
+#             break
+#         except:
+#             logging.info("Staging database "+DBT_STAGING_DB_NAME+" exists, waiting 60 seconds to try again")
+#             time.sleep(60)
 
-    LOGGER.info("Cloning db to 'staging'")
-    subprocess.run(["dbt", "run-operation", "clone_database", "--args", "'{source_db: "+DBT_PROD_DB_NAME+", target_db: "+DBT_STAGING_DB_NAME+"}'"], check=True, cwd=cwd)
+    logging.info("Cloning db to 'staging'")
+    subprocess.run(["dbt", "run-operation", "clone_database", "--args", "'{source_db: " + DBT_FINAL_DB_NAME +
+        ", target_db: " + DBT_STAGING_DB_NAME + "}'"], check=True, cwd=cwd)
 
-    if tag: #If specific run is requested
-        LOGGER.info("Running dbt build "+tag+"+")
-        subprocess.run(["dbt", "build", "-s", f"tag:{tag}+"], check=True, cwd=cwd)
-    else:
-        LOGGER.info("Getting prod manifest")
-        subprocess.run(["export", "DBT_HOME="+cwd], check=True, cwd=cwd) #this env_var is referenced by get_artifacts
-        subprocess.run(["/opt/airflow/dags/repo/balboa.git/automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
-        LOGGER.info("Building all changes and their dependencies")
-        subprocess.run(["dbt", "build", '--state', 'logs', '-s', 'state:modified+'], check=True, cwd=cwd)
+    run_dbt(args)
 
-    LOGGER.info("Swapping staging database "+DBT_STAGING_DB_NAME+" with production "+DBT_PROD_DB_NAME)
-    subprocess.run(["dbt", "run-operation", "swap_database", "--args", "'{db1: "+DBT_PROD_DB_NAME+", db2: "+DBT_STAGING_DB_NAME+"}'"], check=True, cwd=cwd)
+    logging.info("Swapping staging database " + DBT_STAGING_DB_NAME + " with production " + DBT_FINAL_DB_NAME)
+    subprocess.run(["dbt", "run-operation", "swap_database", "--args", "'{db1: "+DBT_FINAL_DB_NAME + ", db2: " + DBT_STAGING_DB_NAME+"}'"], check=True, cwd=cwd)
     
-    LOGGER.info("Uploading new prod manifest")
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_manifest_catalog"], check=True, cwd=cwd)
-
-    LOGGER.info("Removing dbt project temp directory")
+    logging.info("Removing dbt project temp directory")
     subprocess.run(["rm", "-rf", cwd], check=True)
+
 
 if __name__ == "__main__":
     try:
-        main(sys.argv[1:])
-    except Exception as ex:
-        LOGGER.info(ex)
-        exit(1)
+        parser = argparse.ArgumentParser(
+            description='Used to run dbt, with blue/green steps during deployment or in produciton.',
+            epilog='--deployment-run and --production-run are mutually exclusive')
+        
+        parser.add_argument('-s','--select', dest='selector', action='store',
+                            help='Specify the dbt selector to use during the run')
 
+        group = parser.add_mutually_exclusive_group(required=True)
+        group.add_argument('--deployment-run', 
+                            dest='is_production', 
+                            action='store_false',
+                            help='Defines if the run is a Deployment run')
+        group.add_argument('--production-run', 
+                            dest='is_production', 
+                            action='store_true',
+                            help='Defines if the run is a Production run')
+
+        args = parser.parse_args()
+        main(args)
+
+    except Exception as ex:
+        logging.info(ex)
+        exit(1)
