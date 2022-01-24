@@ -14,6 +14,7 @@ daily_afternoon_run:
       dbt_project_path: /opt/airflow/dags/repo/balboa.git/transform
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
+      run_dbt_compile: false
       # Update tag for job
       dbt_list_args: "--select tag:daily_afternoon"
     transform:
@@ -21,3 +22,4 @@ daily_afternoon_run:
       # Update tag for job
       bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/production_run.py daily_afternoon"
       dependencies: ["extract_and_load"]
+

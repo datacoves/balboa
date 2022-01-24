@@ -43,6 +43,7 @@
       member_of:
           - emea_business_analyst
           - de_business_analyst
+          - es_business_analyst
           - emea_management
           - accountadmin
           - transformer_dbt_prd
