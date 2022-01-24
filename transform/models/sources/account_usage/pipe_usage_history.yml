@@ -6,10 +6,12 @@ sources:
     schema: account_usage
     tables:
       - name: pipe_usage_history
+        description: Pipe usage history raw data
         identifier: PIPE_USAGE_HISTORY
 
 models:
   - name: pipe_usage_history
+    description: Pipe usage history raw data
     columns:
       - name: pipe_id
       - name: pipe_name

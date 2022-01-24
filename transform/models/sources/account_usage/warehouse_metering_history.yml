@@ -6,10 +6,12 @@ sources:
     schema: account_usage
     tables:
       - name: warehouse_metering_history
+        description: Warehouse metering history raw data
         identifier: WAREHOUSE_METERING_HISTORY
 
 models:
   - name: warehouse_metering_history
+    description: Warehouse metering history raw data
     columns:
       - name: start_time
       - name: end_time

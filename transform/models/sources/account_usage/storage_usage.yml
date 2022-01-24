@@ -6,10 +6,12 @@ sources:
     schema: account_usage
     tables:
       - name: storage_usage
+        description: Storage usage raw data
         identifier: STORAGE_USAGE
 
 models:
   - name: storage_usage
+    description: Storage usage raw data
     columns:
       - name: usage_date
       - name: storage_bytes
