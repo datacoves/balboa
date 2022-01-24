@@ -35,8 +35,9 @@ models:
         description: FIPS Code
       - name: state
         description: Reporting State
-        meta:
-          masking_policy: full_field
+        # No masking policies in Standard Snowflake account
+        # meta:
+        #   masking_policy: full_field
         tests:
           - not_null
       - name: _airbyte_ab_id
