@@ -19,9 +19,9 @@ models:
         data_steward: Jake Doe
     columns:
       - name: country_region
-        meta:
-          classification: highly_restricted
-          masking_policy: full_field
+        # meta:
+        #   classification: highly_restricted
+        #   masking_policy: full_field
       - name: province_state
       - name: county
       - name: fips
