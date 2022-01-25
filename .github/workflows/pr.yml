@@ -6,7 +6,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-
 jobs:
   build:
     name: Pull Request CI
@@ -36,7 +35,7 @@ jobs:
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: 'dbt --no-write-json run-operation create_database'
+          command: "dbt --no-write-json run-operation create_database"
 
       - name: Run governance checks
         uses: datacoves/dbt-coves-action@v1.1
@@ -54,4 +53,10 @@ jobs:
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: 'dbt --no-write-json run-operation grant_access_to_pr_database'
+          command: "dbt --no-write-json run-operation grant_access_to_pr_database"
+
+      - name: Test new Datacoves ci-basic action
+        uses: datacoves/ci-basic-action
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt deps"
