@@ -56,7 +56,7 @@ jobs:
           command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Test new Datacoves ci-basic action
-        uses: datacoves/ci-basic-action
+        uses: datacoves/ci-basic-action@v1.1
         with:
           dbt_project_folder: "transform"
           command: "dbt deps"
