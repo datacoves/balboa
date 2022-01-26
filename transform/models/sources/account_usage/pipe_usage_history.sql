@@ -1,8 +1,6 @@
 with raw_source as (
 
-    select
-        *
-    from {{ source('account_usage', 'pipe_usage_history') }}
+    select * from {{ source('account_usage', 'pipe_usage_history') }}
 
 ),
 
