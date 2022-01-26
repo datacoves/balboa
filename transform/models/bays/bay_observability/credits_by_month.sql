@@ -15,5 +15,3 @@ select
 from
     cte
 order by month_n asc
-
-

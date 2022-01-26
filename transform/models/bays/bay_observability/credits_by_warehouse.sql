@@ -11,4 +11,3 @@ group by
     month_n, warehouse_name
 order by
     month_n asc
-

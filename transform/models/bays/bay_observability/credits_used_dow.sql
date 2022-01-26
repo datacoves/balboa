@@ -4,4 +4,3 @@ select
 from {{ ref('stg_warehouse_metering_history') }}
 group by day
 order by day
-

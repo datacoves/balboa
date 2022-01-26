@@ -6,4 +6,3 @@ where
     usage_month >= dateadd(year, -1, date_trunc(month, current_date)) and usage_month < date_trunc(month, current_date)
 group by usage_month
 order by usage_month
-
