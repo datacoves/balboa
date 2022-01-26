@@ -38,11 +38,11 @@ jobs:
           dbt_project_folder: "transform"
           command: 'dbt --no-write-json run-operation create_database'
 
-      - name: Run governance checks
-        uses: datacoves/dbt-coves-action@v1.1
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt-coves check --no-fix"
+      # - name: Run governance checks
+      #   uses: datacoves/dbt-coves-action@v1.1
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt-coves check --no-fix"
 
       - name: Run dbt build
         uses: datacoves/dbt-coves-action@v1.1

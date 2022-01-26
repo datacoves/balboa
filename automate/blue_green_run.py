@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 import subprocess
+# import sys
 import os
+# import time
 import logging
 
 
@@ -27,12 +29,6 @@ def run_dbt(args, cwd):
         else:
             logging.info("Production run of dbt")
             subprocess.run(["dbt", "build","--fail-fast"], check=True, cwd=cwd)
-        
-        subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
-        logging.info("Uploading new prod manifest")
-
-        MANIFEST_ARGS = '{"filenames": ["manifest", "run_results"]}'
-        subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_dbt_artifacts", "--args", MANIFEST_ARGS], check=True, cwd=cwd)
     else:
         logging.info("Getting prod manifest")
         # this env_var is referenced by get_artifacts
@@ -42,6 +38,12 @@ def run_dbt(args, cwd):
         logging.info("Deployment run of dbt")
         subprocess.run(["dbt", "build", "--defer", "--fail-fast",'--state', 'logs', '-s', 'state:modified+'], check=True, cwd=cwd)
 
+    # Save the latest manifest to snowflake
+    subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
+    logging.info("Uploading new prod manifest")
+
+    MANIFEST_ARGS = '{"filenames": ["manifest", "run_results"]}'
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_dbt_artifacts", "--args", MANIFEST_ARGS], check=True, cwd=cwd)
 
 def main(args):
     """
