@@ -1,7 +1,7 @@
 {# This macro drops a database and recreates it as a clone of another database. #}
 {#
     To run: 
-    dbt run-operation clone_database --args '{source_db: demo_db, target_db: demo_db2}'
+    dbt run-operation clone_database --args '{source_db: dev_commercial_dw, target_db: dev_commercial_dw2}'
 #}
 
 {%- macro clone_database(source_db, target_db) -%}
