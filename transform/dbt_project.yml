@@ -46,10 +46,13 @@ models:
         +schema: bay_country
       bay_covid:
         +schema: bay_covid
+      +enabled: false
+
     coves:
       cove_covid:
         +schema: cove_covid
       +materialized: table
+      +enabled: false
 
     sources:
       country_data:
@@ -57,6 +60,9 @@ models:
       starschema_covid19:
         +schema: starschema_covid19
     +schema: z_schema_not_configured
+
+    exposures:
+      +enabled: false
 
     +persist_docs:
         relation: true
