@@ -8,4 +8,3 @@ select
     datediff(hour, start_time, end_time) as warehouse_operation_hours,
     hour(start_time) as time_of_day
 from {{ ref('warehouse_metering_history') }}
-
