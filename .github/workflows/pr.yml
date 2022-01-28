@@ -76,4 +76,4 @@ jobs:
       - name: Test Airflow DAGs validity
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
-          command: "python /home/runner/work/balboa/balboa/automate/airflow/dags/dagbag_validator.py"
+          command: "python dagbag_validator.py"
