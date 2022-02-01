@@ -62,7 +62,7 @@ jobs:
         with:
           command: "airflow db init"
 
-      - name: Test Airflow DAGs validity
+      - name: Test Airflow DAGs
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
           command: "python /dagbag_validator.py"
