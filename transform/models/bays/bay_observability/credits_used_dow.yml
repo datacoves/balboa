@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: credits_used_dow
+    description: "credits used by day of week"
+    columns:
+      - name: credits_used
+      - name: day

@@ -46,6 +46,9 @@ models:
         +schema: bay_country
       bay_covid:
         +schema: bay_covid
+      bay_observability:
+        +schema: bay_observability
+
     coves:
       cove_covid:
         +schema: cove_covid
@@ -59,6 +62,7 @@ models:
       starschema_covid19:
         +schema: source_starschema_covid19
     +schema: z_schema_not_configured
+
 
     +persist_docs:
         relation: true

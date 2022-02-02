@@ -1,6 +1,6 @@
-daily_morning_run:
-  description: "Daily run at 3am"
-  schedule_interval: "04 05 * * *"
+daily_morning_bluegreen_run:
+  description: "Bluegreen run at 7am"
+  schedule_interval: "56 6 * * *"
   default_args:
     start_date: 2021-01-01
   catchup: False
@@ -20,5 +20,5 @@ daily_morning_run:
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/production_run.py daily_morning"
+      bash_command: "python /opt/airflow/dags/repo/balboa.git/automate/blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
