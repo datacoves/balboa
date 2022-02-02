@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: raw
+    database: RAW
+    schema: raw
+    tables:
+      - name: lineage_processing
+        identifier: LINEAGE_PROCESSING
+
+models:
+  - name: lineage_processing
+    columns:
+      - name: c1
+      - name: c2
+      - name: c3
+      - name: c4
+      - name: c5
+      - name: c7
+      - name: source
+      - name: source_object
+      - name: process
+      - name: destination
+      - name: destination_object
+      - name: comment
+      - name: data_lineage_existance_check
