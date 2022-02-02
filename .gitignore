@@ -1,6 +1,7 @@
 # dbt
 target/
-dbt_modules/
+dbt_modules
+dbt_packages
 .config/.user.yml
 /profiles.yml
 /.user.yml
