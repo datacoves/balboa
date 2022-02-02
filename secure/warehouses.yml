@@ -1,7 +1,4 @@
 - wh_loading:
     size: x-small
-- wh_reporting:
-    size: x-small
-    owner: role_name
-- wh_transformation:
+- wh_transforming:
     size: x-small
