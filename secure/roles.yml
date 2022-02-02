@@ -86,9 +86,10 @@
   # figure out how to do this from permifrost
   # grant create database on account to role transformer_dbt_prd
     member_of:
-      - z_db_dev_raw_write
-      - z_db_prd_raw_write
-      - z_wh_transformation
+      - z_db_raw_write
+      - z_db_balboa_write
+      - z_db_snowflake
+      - z_wh_transforming
       - z_tables_views_general
       - z_schema_raw_dbt_artifacts
     owns:
