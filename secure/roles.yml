@@ -17,8 +17,7 @@
       - z_schema_source_country_data
       - z_schema_source_starschema_covid19
       - z_schema_seeds
-      - z_schema_dbt_artifacts
-      - z_schema_stg_dbt_artifacts
+      - z_schema_source_dbt_artifacts
       - z_schema_dbt_metrics
       - z_schema_dbt_test__audit
       - z_schema_bay_country
@@ -77,7 +76,7 @@
       - z_db_snowflake
       - z_db_starschema_covid19
       - z_tables_views_general
-      - z_schema_dbt_artifacts
+      - z_schema_source_dbt_artifacts
       - z_wh_transforming
     owns:
       databases:
@@ -278,11 +277,11 @@
         read:
           - balboa.seeds
 
-- z_schema_dbt_artifacts:
+- z_schema_source_dbt_artifacts:
     privileges:
       schemas:
         read:
-          - balboa.dbt_artifacts
+          - balboa.source_dbt_artifacts
 
 # - z_schema_stg_dbt_artifacts:
 #     privileges:
