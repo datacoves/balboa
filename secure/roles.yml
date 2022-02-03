@@ -215,7 +215,11 @@
           - raw
         write:
           - raw
-
+      schemas:
+        read:
+          - raw.*
+        write:
+          - raw.*
 
 # need to grant this to this role as well
 # grant imported privileges on database snowflake to role z_db_snowflake;
@@ -280,17 +284,17 @@
         read:
           - balboa.dbt_artifacts
 
-- z_schema_stg_dbt_artifacts:
-    privileges:
-      schemas:
-        read:
-          - balboa.stg_dbt_artifacts
+# - z_schema_stg_dbt_artifacts:
+#     privileges:
+#       schemas:
+#         read:
+#           - balboa.stg_dbt_artifacts
 
-- z_schema_dbt_metrics:
-    privileges:
-      schemas:
-        read:
-          - balboa.dbt_metrics
+# - z_schema_dbt_metrics:
+#     privileges:
+#       schemas:
+#         read:
+#           - balboa.dbt_metrics
 
 - z_schema_dbt_test__audit:
     privileges:
