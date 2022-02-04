@@ -1,11 +1,13 @@
-- dev_raw:
+- raw:
     shared: false
-- prd_raw:
+- balboa:
     shared: false
-- dev_commercial_dw:
+- balboa_dev:
     shared: false
-- prd_commercial_dw:
+- convexa_dev:
     shared: false
   # Snowflake database contains metadata describing usage
 - snowflake: 
+    shared: true
+- starschema_covid19:
     shared: true

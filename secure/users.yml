@@ -1,94 +1,73 @@
-- rroux4:
-      can_login: true
-      member_of:
-          - emea_management
-- tvandenw:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- kstobbel:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- bgeens2:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- hsrinv3:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- sgupt186:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- fcastro:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- egomezp:
-      can_login: true
-      member_of:
-          - emea_management
-- kthijs3:
-      can_login: true
-      member_of:
-          - emea_management
-- nmelis:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- ngomez3:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-          - de_business_analyst
-          - es_business_analyst
-          - emea_management
-          - accountadmin
-          - transformer_dbt_prd
-- ssassi:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- vnormand:
-      can_login: true
-      member_of:
-          - emea_management
-- jirvin1:
-      can_login: true
-      member_of:
-          - emea_management
-- msollman:
-      can_login: true
-      member_of:
-          - emea_management
-- bvanden1:
-      can_login: true
-      member_of:
-        - emea_business_analyst
-        - accountadmin
-- efripp:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-- cjenkin2:
-      can_login: true
-      member_of:
-          - emea_business_analyst
-          - de_business_analyst
-          - accountadmin
-          - securityadmin
-          - emea_management
-- svc_jenkins:
-      can_login: true
-      member_of:
-        - transformer_dbt_prd
-- svc_airflow:
-      can_login: true
-      member_of:
-        - transformer_dbt_prd
-- svc_qlik_dev:
-      can_login: true
-      member_of:
-        - emea_business_analyst
+- BRUNO:
+    can_login: true
+    member_of:
+      - analyst
+
+- EMILIANO:
+    can_login: true
+    member_of:
+      - analyst
+
+- GOMEZN:
+    can_login: true
+    member_of:
+      - accountadmin
+      - securityadmin
+      - analyst
+      - loader_airbyte
+      - transformer_dbt_prd
+
+- JENKINSC:
+    can_login: true
+    member_of:
+      - accountadmin
+      - securityadmin
+      - analyst
+
+- MARTIN:
+    can_login: true
+    member_of:
+      - analyst
+
+- SEBASTIAN:
+    can_login: true
+    member_of:
+      - accountadmin
+      - securityadmin
+      - analyst
+
+
+- SVC_AIRBYTE:
+    can_login: true
+    member_of:
+      - loader_airbyte
+
+- SVC_AIRFLOW:
+    can_login: true
+    member_of:
+      - transformer_dbt_prd
+
+- SVC_GITHUB_ACTIONS:
+    can_login: true
+    member_of:
+      - transformer_dbt_prd
+
+# - SVC_CONVEXA:
+#     can_login: false
+#     member_of:
+#       - convexa_analyst
+
+# - SVC_WILLOW_BAY:
+#     can_login: false
+#     member_of:
+#       - willow_bay_app
+
+- SVC_BALBOA:
+    can_login: false
+    member_of:
+      - analyst
+
+- SVC_DATAMEER:
+    can_login: true
+    member_of:
+      - analyst
