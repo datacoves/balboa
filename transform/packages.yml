@@ -9,7 +9,7 @@ packages:
     version: 0.1.5
     # <see https://github.com/entechlog/dbt-snow-mask/releases/latest> for the latest version tag
   - package: brooklyn-data/dbt_artifacts
-    version: 0.5.0
+    version: 0.7.0
   #   # <see https://github.com/tailsdotcom/dbt_artifacts/releases/latest> for the latest version tag
   # - package: brooklyn-data/dbt_artifacts
   #   version: 0.7.0
