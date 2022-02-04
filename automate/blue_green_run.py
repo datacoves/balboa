@@ -42,8 +42,7 @@ def run_dbt(args, cwd):
     subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
     logging.info("Uploading new prod manifest")
 
-    MANIFEST_ARGS = '{"filenames": ["manifest", "run_results"]}'
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_dbt_artifacts", "--args", MANIFEST_ARGS], check=True, cwd=cwd)
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_artifacts"], check=True, cwd=cwd)
 
 def main(args):
     """
