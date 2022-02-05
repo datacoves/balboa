@@ -70,6 +70,10 @@ def main(args):
     CLONE_DB_ARGS = '{"source_db": "' + DBT_FINAL_DB_NAME + '", "target_db": "' + DBT_STAGING_DB_NAME + '"}'
     subprocess.run(["dbt", "run-operation", "clone_database", "--args", CLONE_DB_ARGS], check=True, cwd=cwd)
 
+    # this is here because cloning of db does not clone the stage
+    logging.info("Creating stage for dbt_aritifacts")
+    subprocess.run(["dbt", "run-operation", "create_artifact_resources"], check=True, cwd=cwd)
+
     run_dbt(args, cwd)
 
     logging.info("Granting usage to staging database ")
