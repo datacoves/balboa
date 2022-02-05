@@ -5,16 +5,20 @@
 #}
 
 {%- macro remove_closed_pr_dbs(pr_ids) -%}
-  {% set pr_array = pr_ids.split("|") %}
+  {% if pr_ids is not none %}
+  
+    {% set pr_array = pr_ids.split("|") %}
 
-  {% for this_pr in pr_array %}
-    {% set this_db = 'BALBOA_PR_' ~ this_pr %}
-    
-    {{ log("Running drop statement for database: " ~ this_db, info=true) }}
-    {% set drop_db_sql %}
-        DROP DATABASE IF EXISTS {{ this_db }};
-    {% endset %}
-    
-    {% do run_query(drop_db_sql) %}
-  {% endfor %}
+    {% for this_pr in pr_array %}
+      {% set this_db = 'BALBOA_PR_' ~ this_pr %}
+      
+      {{ log("Running drop statement for database: " ~ this_db, info=true) }}
+      {% set drop_db_sql %}
+          DROP DATABASE IF EXISTS {{ this_db }};
+      {% endset %}
+      
+      {% do run_query(drop_db_sql) %}
+    {% endfor %}
+
+  {% endif %}
 {%- endmacro -%}
