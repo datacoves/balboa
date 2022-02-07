@@ -1,103 +1,90 @@
 ######################
 #  User Roles
 ######################
-- z_base_business_analyst:
+- z_base_analyst:
     member_of:
-      - z_db_dev_commercial_dw
-      - z_db_dev_raw
-      - z_db_prd_commercial_dw
-      - z_db_prd_raw
-      - z_db_tst_commercial_dw
-      - z_db_tst_raw
-      
-      - z_schema_raw_ccm_pii
-      - z_schema_raw_dbt_artifacts
-      - z_schema_raw_iconnect
-      - z_schema_raw_jira
+      - z_db_raw
+      - z_db_balboa
+      - z_db_balboa_tst
+      - z_db_balboa_dev
+      - z_db_snowflake
+      - z_db_starschema_covid19
 
-      - z_schema_commercial_dw_bay_product
+      - z_schema_raw
+      - z_schema_snapshots
 
-      - z_wh_transformation
+      - z_schema_source_account_usage
+      - z_schema_source_country_data
+      - z_schema_source_starschema_covid19
+      - z_schema_seeds
+      - z_schema_source_dbt_artifacts
+      - z_schema_dbt_metrics
+      - z_schema_dbt_test__audit
+      - z_schema_bay_country
+      - z_schema_bay_covid
+      - z_schema_cove_covid
 
-- emea_business_analyst:
+      - z_wh_transforming
+
+- analyst:
     member_of:
-      - z_base_business_analyst
+      - z_base_analyst
       - z_tables_views_general
       - z_policy_row_region_all
 
-- emea_business_analyst_pii:
+- analyst_pii:
     member_of:
-      - emea_business_analyst
-      - z_policy_unmask_pii_type_2
-      - z_policy_unmask_pii_type_3
+      - analyst
+      - z_policy_unmask_pii
 
-- de_business_analyst:
+- de_analyst:
     member_of:
-      - z_base_business_analyst
+      - z_base_analyst
       - z_tables_views_general
       - z_policy_row_region_de
 
 - de_business_analyst_pii:
     member_of:
-      - de_business_analyst
-      - z_policy_unmask_pii_type_2
-      - z_policy_unmask_pii_type_3
-
-- emea_management:
-    member_of:
-      - z_db_prd_commercial_dw
-      - z_db_prd_raw
-      # - z_schema_bay_crm
-      # - z_schema_bay_customer
-      # - z_schema_code_omnichannel
-      - z_tables_views_general
-      - z_policy_row_region_all
-      - z_wh_reporting
+      - de_analyst
+      - z_policy_unmask_pii
 
 
 ##########################
 #  Service Account Roles
 #########################
-- loader_airbyte_dev:
-    # Can read/write dev raw db; becomes owner of all dev raw schemas through creation
+- loader_airbyte:
+  # Can read/write raw db; becomes owner of all raw schemas through creation
     member_of:
-      - z_db_dev_raw_write
+      - z_db_raw_write
       - z_wh_loading
     owns:
       schemas:
-        - dev_raw.*
-
-- loader_airbyte_prd:
-  # Can read/write prd raw db; becomes owner of all prd raw schemas through creation
-    member_of:
-      - z_db_prd_raw_write
-      - z_wh_loading
-    owns:
-      schemas:
-        - prd_raw.*
+        - raw.*
 
 - transformer_dbt_prd:
-  # Owns prd_commercial_dw
-  # Becomes owner of all prd_commercial_dw schemas through creation
-  # Owner of dev_raw database through creation (cloning)
-  # Owns all uat databases through creation (cloning); these are not defined here but cloned from dev
+  # Owns balboa
+  # Becomes owner of all balboa schemas through creation
+  # Owner of raw database through creation
+  # Owns all uat databases through creation; these are not defined here but created via CI
 
   # TODO
   # figure out how to do this from permifrost
   # grant create database on account to role transformer_dbt_prd
     member_of:
-      - z_db_dev_raw_write
-      - z_db_prd_raw_write
-      - z_wh_transformation
+      - z_db_raw_write
+      - z_db_balboa_write
+      - z_db_snowflake
+      - z_db_starschema_covid19
       - z_tables_views_general
-      - z_schema_raw_dbt_artifacts
+      - z_schema_source_dbt_artifacts
+      - z_wh_transforming
     owns:
       databases:
-        - dev_commercial_dw
-        - prd_commercial_dw
-        - dev_raw
+        - balboa
+        - balboa_dev
+        - raw
       schemas:
-        - prd_commercial_dw.*
+        - balboa.*
 
 
 ##########################
@@ -106,37 +93,33 @@
 - accountadmin:
     member_of:
         - sysadmin
-        - z_wh_transformation
         - securityadmin
+        - z_wh_transforming
 
 - securityadmin:
     member_of:
-        - z_wh_transformation
         - useradmin
+        - z_wh_transforming
+
     privileges:
       databases:
         read:
-          - prd_raw
-          - dev_raw
-          - prd_commercial_dw
-          - dev_commercial_dw
+          - raw
+          - balboa_dev
+          - balboa
       schemas:
         read:
-          - prd_raw.*
-          - dev_raw.*
-          - prd_commercial_dw.*
-          - dev_commercial_dw.*
+          - raw.*
+          - balboa_dev.*
+          - balboa.*
 
 - useradmin:
     member_of:
-        - z_wh_transformation
+        - z_wh_transforming
 
 - sysadmin:
     member_of:
-        - z_wh_transformation
-        - loader_airbyte_dev
-        - loader_airbyte_prd
-        - transformer_dbt_prd
+        - z_wh_transforming
 
 
 #======================#
@@ -170,11 +153,8 @@
 ##########################
 #  PII Access Policy Roles
 ##########################
-- z_policy_unmask_pii_type_2:
+- z_policy_unmask_pii:
     owner: securityadmin
-- z_policy_unmask_pii_type_3:
-    owner: securityadmin
-
 
 #======================#
 #     Object Roles     #
@@ -186,110 +166,162 @@
 - z_wh_loading:
     warehouses:
         - wh_loading
-- z_wh_reporting:
+- z_wh_transforming:
     warehouses:
-        - wh_reporting
-- z_wh_transformation:
-    warehouses:
-        - wh_transformation
+        - wh_transforming
 
 
 ##########################
 #  Database Roles
 ##########################
-- z_db_dev_commercial_dw:
+- z_db_balboa_dev:
     privileges:
       databases:
         read:
-          - dev_commercial_dw
+          - balboa_dev
         write:
-          - dev_commercial_dw
+          - balboa_dev
 
-- z_db_dev_raw:
-    privileges:
-      databases:
-        read:
-          - dev_raw
-
-- z_db_dev_raw_write:
-    privileges:
-      databases:
-        read:
-          - dev_raw
-        write:
-          - dev_raw
-      schemas:
-        read:
-          - dev_raw.*
-        write:
-          - dev_raw.*
 
 # This role is created but has no grants
 # The grants will be added by the CI script
-# - z_db_tst_commercial_dw:
+# - z_db_balboa_tst
 
-- z_db_prd_commercial_dw:
+- z_db_balboa_write:
     privileges:
       databases:
         read:
-          - prd_commercial_dw
-
-- z_db_prd_raw:
-    privileges:
-      databases:
-        read:
-          - prd_raw
-
-- z_db_prd_raw_write:
-    privileges:
-      databases:
-        read:
-          - prd_raw
+          - balboa
         write:
-          - prd_raw
+          - balboa
 
+- z_db_balboa:
+    privileges:
+      databases:
+        read:
+          - balboa
 
+- z_db_raw:
+    privileges:
+      databases:
+        read:
+          - raw
+
+- z_db_raw_write:
+    privileges:
+      databases:
+        read:
+          - raw
+        write:
+          - raw
+      schemas:
+        read:
+          - raw.*
+        write:
+          - raw.*
+
+# need to grant this to this role as well
+# grant imported privileges on database snowflake to role z_db_snowflake;
+
+- z_db_snowflake:
+    privileges:
+      databases:
+        read:
+          - snowflake
+
+- z_db_starschema_covid19:
+    privileges:
+      databases:
+        read:
+          - starschema_covid19
+          
 ##########################
 #  Schema Roles
 ##########################
 
 # RAW
-- z_schema_raw_ccm_pii:
+- z_schema_raw:
     privileges:
       schemas:
         read:
-          # - prd_raw.ccm_pii #not yet created
-          - dev_raw.ccm_pii
+          - raw.*
 
-- z_schema_raw_dbt_artifacts:
+- z_schema_snapshots:
     privileges:
       schemas:
         read:
-          - prd_raw.dbt_artifacts
+          - raw.snapshots
 
-- z_schema_raw_iconnect:
+# SOURCES
+- z_schema_source_account_usage:
     privileges:
       schemas:
         read:
-          # - prd_raw.iconnect #not yet created
-          - dev_raw.iconnect
+          - balboa.source_account_usage
 
-- z_schema_raw_jira:
+- z_schema_source_country_data:
     privileges:
       schemas:
         read:
-          # - prd_raw.jira #not yet created
-          - dev_raw.jira
+          - balboa.source_country_data
 
-#  BAYS
-- z_schema_commercial_dw_bay_product:
+- z_schema_source_starschema_covid19:
     privileges:
       schemas:
         read:
-          - prd_commercial_dw.bay_product
+          - balboa.source_starschema_covid19
 
+- z_schema_seeds:
+    privileges:
+      schemas:
+        read:
+          - balboa.seeds
+
+- z_schema_source_dbt_artifacts:
+    privileges:
+      schemas:
+        read:
+          - balboa.source_dbt_artifacts
+
+# - z_schema_stg_dbt_artifacts:
+#     privileges:
+#       schemas:
+#         read:
+#           - balboa.stg_dbt_artifacts
+
+# - z_schema_dbt_metrics:
+#     privileges:
+#       schemas:
+#         read:
+#           - balboa.dbt_metrics
+
+- z_schema_dbt_test__audit:
+    privileges:
+      schemas:
+        read:
+          - balboa.dbt_test__audit
+
+# BAYS
+
+- z_schema_bay_country:
+    privileges:
+      schemas:
+        read:
+          - balboa.bay_country
+
+- z_schema_bay_covid:
+    privileges:
+      schemas:
+        read:
+          - balboa.bay_covid
 
 #  COVES
+
+- z_schema_cove_covid:
+    privileges:
+      schemas:
+        read:
+          - balboa.cove_covid
 
 
 ##########################
@@ -299,6 +331,5 @@
     privileges:
       tables:
         read:
-          - prd_raw.*.*
-          - dev_raw.*.*
-          - prd_commercial_dw.*.*
+          - raw.*.*
+          - balboa.*.*

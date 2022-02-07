@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Pull Request CI
+    name: Pull Request Integration Tests
     runs-on: ubuntu-latest
 
     env:
@@ -45,11 +45,12 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt-coves check --no-fix"
 
+      # dont need to get productin manifest if dbt-coves check is run before
       - name: Run dbt build
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: "dbt build --defer --state logs --select state:modified+"
+          command: "dbt build --fail-fast --defer --state logs --select state:modified+"
 
       - name: Grant access to PR database
         uses: datacoves/dbt-coves-action@v1.1

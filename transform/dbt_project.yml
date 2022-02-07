@@ -41,22 +41,31 @@ snapshots:
 
 models:
   balboa:
+    materialized: view
+    +schema: z_schema_not_configured
+
     bays:
       bay_country:
         +schema: bay_country
       bay_covid:
         +schema: bay_covid
+      bay_observability:
+        +schema: bay_observability
+
     coves:
       cove_covid:
         +schema: cove_covid
       +materialized: table
 
     sources:
+      account_usage:
+        +schema: source_account_usage
       country_data:
-        +schema: country_data
+        +schema: source_country_data
       starschema_covid19:
-        +schema: starschema_covid19
-    +schema: z_schema_not_configured
+        +schema: source_starschema_covid19
+      dbt_artifacts:
+        +schema: source_dbt_artifacts
 
     +persist_docs:
         relation: true
@@ -65,15 +74,24 @@ models:
   post-hook: 
     - "{{ dbt_snow_mask.apply_masking_policy() }}"
 
-  materialized: view
+  
   dbt_artifacts:
-    +schema: dbt_artifacts
+    +schema: source_dbt_artifacts
+    # +database: balboa
     staging:
-      +schema: stg_dbt_artifacts
-    enabled: false
+      +schema: source_dbt_artifacts
+    incremental:
+      fct_dbt__run_results:
+        +enabled: false
+    #   +database: balboa
+    # enabled: false
 
 tests:
   +store_failures: true
 
 vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
+
+  dbt_artifacts:
+    dbt_artifacts_database: balboa # optional, default is your target database
+    dbt_artifacts_schema: source_dbt_artifacts # optional, default is 'dbt_artifacts'
