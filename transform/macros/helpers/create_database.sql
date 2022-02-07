@@ -11,7 +11,7 @@
       identifier="tables") -%}
   {% if not database_exists %}
     {% set create_db_sql %}
-        use role z_create_database;
+        use role transformer_dbt_prd;
         create database {{ target.database }};
         grant ownership on database {{ target.database }} to role {{ target.role }};
         use role {{ target.role }};
