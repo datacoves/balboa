@@ -223,6 +223,9 @@
 # need to grant this to this role as well
 # grant imported privileges on database snowflake to role z_db_snowflake;
 
+# also need to grant access to monitor pipeline usage
+# grant monitor usage on account to role z_db_snowflake;
+
 - z_db_snowflake:
     privileges:
       databases:
