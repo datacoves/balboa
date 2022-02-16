@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Pull Request Integration Tests
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
 
     env:
       DBT_USER: ${{ secrets.DBT_USER }}
