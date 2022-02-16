@@ -61,7 +61,7 @@ jobs:
       - name: Init Airflow DB
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
-          command: "airflow db init"
+          command: "airflow db init && airflow connections add --conn-host airbyte-server --conn-port 8001 --conn-type airbyte airbyte_connection"
 
       - name: Test Airflow DAGs
         uses: datacoves/ci-airflow-action@v0.4.0
