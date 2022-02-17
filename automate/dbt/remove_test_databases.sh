@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 export merged_prs=$(git log --all --oneline | grep -m 20 -Eo "Merge pull request #([0-9]+)" | awk -F# '{print $2}' | sort -uVr | tr '\n' '|'  | sed 's/.$//')
 # git log -> return commit messages from all branches
 # grep: Filter to the last 20 commit messages containing "Merge pull request #number"
