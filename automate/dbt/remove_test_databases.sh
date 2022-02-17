@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
-echo HELLO
+export t=HELLO
+echo $t
 
 
 # export merged_prs=$(git log --all --oneline | grep -m 20 -Eo "Merge pull request #([0-9]+)" | awk -F# '{print $2}' | sort -uVr | tr '\n' '|'  | sed 's/.$//')
