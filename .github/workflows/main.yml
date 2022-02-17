@@ -28,6 +28,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
           with:
+            ref: ${{ github.event.push.head.sha }}
             fetch-depth: 50
       # - name: Install dbt packages
       #   uses: datacoves/dbt-coves-action@v1
