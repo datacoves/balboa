@@ -37,17 +37,17 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt deps"
 
-      # - name: Run blue / green deployment
-      #   uses: datacoves/dbt-coves-action@v1
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "../automate/blue_green_run.py --deployment-run"
+      - name: Run blue / green deployment
+        uses: datacoves/dbt-coves-action@v1
+        with:
+          dbt_project_folder: "transform"
+          command: "../automate/blue_green_run.py --deployment-run"
                     
-      # - name: Generate dbt documentation
-      #   uses: datacoves/dbt-coves-action@v1
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "dbt docs generate"
+      - name: Generate dbt documentation
+        uses: datacoves/dbt-coves-action@v1
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt docs generate"
 
       - name: Delete merged test databases
         uses: datacoves/dbt-coves-action@v1
@@ -55,8 +55,8 @@ jobs:
           dbt_project_folder: "transform"
           command: "../automate/dbt/remove_test_databases.sh"
 
-      # - name: Deploy docs 🚀
-      #   uses: JamesIves/github-pages-deploy-action@4.1.4
-      #   with:
-      #     branch: gh-pages
-      #     folder: transform/target
+      - name: Deploy docs 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: transform/target
