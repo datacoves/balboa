@@ -5,7 +5,7 @@ sources:
     database: raw
     schema: raw
     tags:
-      - daily_afternoon
+      - daily_morning
     tables:
       - name: nyt_covid_data
         description: >
@@ -27,6 +27,8 @@ models:
     columns:
       - name: cases
         description: Reported Covid-19 cases
+        tests:
+          - not_null
       - name: deaths
         description: Reported deaths due to Covid-19
       - name: date
