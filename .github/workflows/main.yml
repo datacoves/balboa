@@ -31,11 +31,11 @@ jobs:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 50
 
-      # - name: Install dbt packages
-      #   uses: datacoves/dbt-coves-action@v1
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "dbt deps"
+      - name: Install dbt packages
+        uses: datacoves/dbt-coves-action@v1
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt deps"
 
       # - name: Run blue / green deployment
       #   uses: datacoves/dbt-coves-action@v1
