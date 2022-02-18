@@ -8,6 +8,7 @@ sources:
     tables:
       - name: _airbyte_raw_accountcleaninfo
         identifier: _AIRBYTE_RAW_ACCOUNTCLEANINFO
+        description: "Raw Account information from Salesforce as cleaned data"
 
 models:
   - name: _airbyte_raw_accountcleaninfo

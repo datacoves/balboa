@@ -8,6 +8,7 @@ sources:
     tables:
       - name: _airbyte_raw_account
         identifier: _AIRBYTE_RAW_ACCOUNT
+        description: "Raw Account information from Salesforce"
 
 models:
   - name: _airbyte_raw_account
