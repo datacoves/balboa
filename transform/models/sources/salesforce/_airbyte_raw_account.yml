@@ -12,6 +12,7 @@ sources:
 
 models:
   - name: _airbyte_raw_account
+    description: "Raw Account information from Salesforce"
     columns:
       - name: accountnumber
       - name: accountsource

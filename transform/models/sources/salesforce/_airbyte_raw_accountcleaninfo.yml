@@ -12,6 +12,7 @@ sources:
 
 models:
   - name: _airbyte_raw_accountcleaninfo
+    description: "Raw Account information from Salesforce as cleaned data"
     columns:
       - name: _airbyte_ab_id
       - name: _airbyte_data
