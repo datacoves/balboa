@@ -1,7 +1,7 @@
 with raw_source as (
 
     select
-        *
+        * as airbyte_data_clean
     from {{ source('salesforce', '_airbyte_raw_account') }}
 
 ),
