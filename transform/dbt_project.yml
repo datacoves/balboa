@@ -79,7 +79,7 @@ models:
       +schema: source_dbt_artifacts
     incremental:
       fct_dbt__run_results:
-        +enabled: false
+        +enabled: true
     #   +database: balboa
     # enabled: false
 
