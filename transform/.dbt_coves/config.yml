@@ -4,7 +4,7 @@ generate:
   sources:
     database: RAW
     schemas:
-      - RAW
+      - SALESFORCE
     destination: "models/sources/{{ schema }}/{{ relation }}.sql"
     model_props_strategy: one_file_per_model
     # override default templates creating source_model_props.yml and source_model.sql under this folder
@@ -12,7 +12,7 @@ generate:
 
 extract:
   airbyte:
-    path: /config/workspace/load
-    host: http://airbyte-server
+    path: ../load
+    host: http://localhost
     port: 8001
-    dbt_list_args: --exclude source:dbt_artifacts
+    dbt_list_args: -s tag:salesforce

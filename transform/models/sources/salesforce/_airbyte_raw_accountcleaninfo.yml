@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: salesforce
+    database: RAW
+    schema: salesforce
+    tags: [salesforce]
+    tables:
+      - name: _airbyte_raw_accountcleaninfo
+        identifier: _AIRBYTE_RAW_ACCOUNTCLEANINFO
+
+models:
+  - name: _airbyte_raw_accountcleaninfo
+    columns:
+      - name: _airbyte_ab_id
+      - name: _airbyte_data
+      - name: _airbyte_emitted_at

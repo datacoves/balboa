@@ -1,0 +1,79 @@
+version: 2
+
+sources:
+  - name: salesforce
+    database: RAW
+    schema: salesforce
+    tags: [salesforce]
+    tables:
+      - name: _airbyte_raw_account
+        identifier: _AIRBYTE_RAW_ACCOUNT
+
+models:
+  - name: _airbyte_raw_account
+    columns:
+      - name: accountnumber
+      - name: accountsource
+      - name: active__c
+      - name: annualrevenue
+      - name: billingcity
+      - name: billingcountry
+      - name: billinggeocodeaccuracy
+      - name: billinglatitude
+      - name: billinglongitude
+      - name: billingpostalcode
+      - name: billingstate
+      - name: billingstreet
+      - name: cleanstatus
+      - name: createdbyid
+      - name: createddate
+      - name: customerpriority__c
+      - name: dandbcompanyid
+      - name: description
+      - name: dunsnumber
+      - name: fax
+      - name: id
+      - name: industry
+      - name: isdeleted
+      - name: jigsaw
+      - name: jigsawcompanyid
+      - name: lastactivitydate
+      - name: lastmodifiedbyid
+      - name: lastmodifieddate
+      - name: lastreferenceddate
+      - name: lastvieweddate
+      - name: masterrecordid
+      - name: naicscode
+      - name: naicsdesc
+      - name: name
+      - name: numberofemployees
+      - name: numberoflocations__c
+      - name: ownerid
+      - name: ownership
+      - name: parentid
+      - name: phone
+      - name: photourl
+      - name: rating
+      - name: slaexpirationdate__c
+      - name: slaserialnumber__c
+      - name: sla__c
+      - name: shippingcity
+      - name: shippingcountry
+      - name: shippinggeocodeaccuracy
+      - name: shippinglatitude
+      - name: shippinglongitude
+      - name: shippingpostalcode
+      - name: shippingstate
+      - name: shippingstreet
+      - name: sic
+      - name: sicdesc
+      - name: site
+      - name: systemmodstamp
+      - name: tickersymbol
+      - name: tradestyle
+      - name: type
+      - name: upsellopportunity__c
+      - name: website
+      - name: yearstarted
+      - name: _airbyte_ab_id
+      - name: _airbyte_emitted_at
