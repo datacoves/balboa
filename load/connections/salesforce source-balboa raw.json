@@ -1,0 +1,1325 @@
+{
+    "name": "default",
+    "namespaceDefinition": "customformat",
+    "namespaceFormat": "SALESFORCE",
+    "prefix": "",
+    "operationIds": [],
+    "syncCatalog": {
+        "streams": [
+            {
+                "stream": {
+                    "name": "Account",
+                    "jsonSchema": {
+                        "type": "object",
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "properties": {
+                            "Id": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Fax": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Sic": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Name": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Site": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Type": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Phone": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Jigsaw": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Rating": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "SLA__c": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "OwnerId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "SicDesc": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Website": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Industry": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ParentId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "PhotoUrl": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Active__c": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsDeleted": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "NaicsCode": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "NaicsDesc": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Ownership": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "DunsNumber": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Tradestyle": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "BillingCity": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CleanStatus": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CreatedById": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CreatedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "Description": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "YearStarted": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "BillingState": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ShippingCity": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TickerSymbol": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "AccountNumber": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "AccountSource": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "AnnualRevenue": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "BillingStreet": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ShippingState": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "BillingAddress": {
+                                "type": [
+                                    "object",
+                                    "null"
+                                ],
+                                "properties": {
+                                    "city": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "state": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "street": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "country": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "latitude": {
+                                        "type": [
+                                            "null",
+                                            "number"
+                                        ]
+                                    },
+                                    "longitude": {
+                                        "type": [
+                                            "null",
+                                            "number"
+                                        ]
+                                    },
+                                    "postalCode": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "geocodeAccuracy": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    }
+                                }
+                            },
+                            "BillingCountry": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "DandbCompanyId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LastViewedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "MasterRecordId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ShippingStreet": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "SystemModstamp": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "BillingLatitude": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "JigsawCompanyId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ShippingAddress": {
+                                "type": [
+                                    "object",
+                                    "null"
+                                ],
+                                "properties": {
+                                    "city": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "state": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "street": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "country": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "latitude": {
+                                        "type": [
+                                            "null",
+                                            "number"
+                                        ]
+                                    },
+                                    "longitude": {
+                                        "type": [
+                                            "null",
+                                            "number"
+                                        ]
+                                    },
+                                    "postalCode": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "geocodeAccuracy": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    }
+                                }
+                            },
+                            "ShippingCountry": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "BillingLongitude": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "LastActivityDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date"
+                            },
+                            "LastModifiedById": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LastModifiedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "ShippingLatitude": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "BillingPostalCode": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "NumberOfEmployees": {
+                                "type": [
+                                    "integer",
+                                    "null"
+                                ]
+                            },
+                            "ShippingLongitude": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "LastReferencedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "SLASerialNumber__c": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ShippingPostalCode": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CustomerPriority__c": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "NumberofLocations__c": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "SLAExpirationDate__c": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date"
+                            },
+                            "UpsellOpportunity__c": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "BillingGeocodeAccuracy": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ShippingGeocodeAccuracy": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        },
+                        "additionalProperties": true
+                    },
+                    "supportedSyncModes": [
+                        "full_refresh",
+                        "incremental"
+                    ],
+                    "sourceDefinedCursor": true,
+                    "defaultCursorField": [
+                        "SystemModstamp"
+                    ],
+                    "sourceDefinedPrimaryKey": [
+                        [
+                            "Id"
+                        ]
+                    ],
+                    "namespace": null
+                },
+                "config": {
+                    "syncMode": "full_refresh",
+                    "cursorField": [
+                        "SystemModstamp"
+                    ],
+                    "destinationSyncMode": "append",
+                    "primaryKey": [
+                        [
+                            "Id"
+                        ]
+                    ],
+                    "aliasName": "Account",
+                    "selected": true
+                }
+            },
+            {
+                "stream": {
+                    "name": "AccountCleanInfo",
+                    "jsonSchema": {
+                        "type": "object",
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "properties": {
+                            "Id": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Fax": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Sic": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "City": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Name": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Phone": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "State": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Street": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Address": {
+                                "type": [
+                                    "object",
+                                    "null"
+                                ],
+                                "properties": {
+                                    "city": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "state": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "street": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "country": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "latitude": {
+                                        "type": [
+                                            "null",
+                                            "number"
+                                        ]
+                                    },
+                                    "longitude": {
+                                        "type": [
+                                            "null",
+                                            "number"
+                                        ]
+                                    },
+                                    "postalCode": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    },
+                                    "geocodeAccuracy": {
+                                        "type": [
+                                            "null",
+                                            "string"
+                                        ]
+                                    }
+                                }
+                            },
+                            "Country": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Website": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Industry": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Latitude": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "AccountId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsDeleted": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "Longitude": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "NaicsCode": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Ownership": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "DunsNumber": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsInactive": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "PostalCode": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Tradestyle": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "AccountSite": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CompanyName": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CreatedById": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CreatedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "Description": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "YearStarted": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "CleanedByJob": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "DataDotComId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TickerSymbol": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "AnnualRevenue": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "CleanedByUser": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedFax": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedSic": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentFax": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentSic": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "SicDescription": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "SystemModstamp": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "GeocodeAccuracy": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentCity": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedPhone": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "LastMatchedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "IsDifferentPhone": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentState": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "LastModifiedById": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LastModifiedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "NaicsDescription": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentStreet": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongFax": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongSic": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedAddress": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedWebsite": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "NumberOfEmployees": {
+                                "type": [
+                                    "integer",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentCountry": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentWebsite": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedIndustry": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "DunsRightMatchGrade": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentIndustry": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongPhone": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedNaicsCode": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedOwnership": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentNaicsCode": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentOwnership": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentStateCode": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedDunsNumber": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedTradestyle": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentDunsNumber": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentPostalCode": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentTradestyle": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongAddress": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongWebsite": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedAccountSite": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedCompanyName": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedYearStarted": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "LastStatusChangedById": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LastStatusChangedDate": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "format": "date-time"
+                            },
+                            "DandBCompanyDunsNumber": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentAccountSite": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentCompanyName": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentCountryCode": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentYearStarted": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongIndustry": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedTickerSymbol": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "CompanyStatusDataDotCom": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentTickerSymbol": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongNaicsCode": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongOwnership": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedAnnualRevenue": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "DunsRightMatchConfidence": {
+                                "type": [
+                                    "integer",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentAnnualRevenue": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongDunsNumber": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongTradestyle": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedSicDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentSicDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongAccountSite": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongCompanyName": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongYearStarted": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongTickerSymbol": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedNaicsDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentNaicsDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongAnnualRevenue": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedNumberOfEmployees": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentNumberOfEmployees": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongSicDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongNaicsDescription": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsFlaggedWrongNumberOfEmployees": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsReviewedDandBCompanyDunsNumber": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "IsDifferentDandBCompanyDunsNumber": {
+                                "type": [
+                                    "boolean",
+                                    "null"
+                                ]
+                            }
+                        },
+                        "additionalProperties": true
+                    },
+                    "supportedSyncModes": [
+                        "full_refresh",
+                        "incremental"
+                    ],
+                    "sourceDefinedCursor": true,
+                    "defaultCursorField": [
+                        "SystemModstamp"
+                    ],
+                    "sourceDefinedPrimaryKey": [
+                        [
+                            "Id"
+                        ]
+                    ],
+                    "namespace": null
+                },
+                "config": {
+                    "syncMode": "full_refresh",
+                    "cursorField": [
+                        "SystemModstamp"
+                    ],
+                    "destinationSyncMode": "append",
+                    "primaryKey": [
+                        [
+                            "Id"
+                        ]
+                    ],
+                    "aliasName": "AccountCleanInfo",
+                    "selected": true
+                }
+            }
+        ]
+    },
+    "schedule": null,
+    "status": "active",
+    "resourceRequirements": {
+        "cpu_request": null,
+        "cpu_limit": null,
+        "memory_request": null,
+        "memory_limit": null
+    },
+    "sourceName": "salesforce source",
+    "destinationName": "balboa raw"
+}

@@ -1,0 +1,12 @@
+{
+    "connectionConfiguration": {
+        "api_type": "BULK",
+        "client_id": "3MVG9LBJLApeX_PAYvdyJ6a7CWtJ01jja9qnitahylTlvCeZ4CbLYGX2OHg3jhSobEhPs.gNFs9QiFyG4Tkcw",
+        "is_sandbox": false,
+        "wait_timeout": 10,
+        "client_secret": "**********",
+        "refresh_token": "**********"
+    },
+    "name": "Salesforce Source",
+    "sourceName": "Salesforce"
+}

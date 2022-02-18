@@ -1,0 +1,16 @@
+{
+    "connectionConfiguration": {
+        "host": "toa80779.snowflakecomputing.com",
+        "role": "LOADER_AIRBYTE",
+        "schema": "RAW",
+        "database": "RAW",
+        "password": "**********",
+        "username": "SVC_AIRBYTE",
+        "warehouse": "WH_LOADING",
+        "loading_method": {
+            "method": "Standard"
+        }
+    },
+    "name": "BALBOA Raw",
+    "destinationName": "Snowflake"
+}
