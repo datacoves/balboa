@@ -1,8 +1,0 @@
-version: 2
-
-models:
-  - name: credits_mtd
-    description: "Credits used month to date"
-    columns:
-      - name: mtd_credits_used
-      - name: previous_mtd_credits_used

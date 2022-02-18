@@ -51,7 +51,7 @@ jobs:
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: "dbt build -s tag:salesforce --fail-fast --defer --state logs --select state:modified+"
+          command: "dbt build --fail-fast --defer --state logs --select state:modified+"
 
       - name: Grant access to PR database
         uses: datacoves/dbt-coves-action@v1.1

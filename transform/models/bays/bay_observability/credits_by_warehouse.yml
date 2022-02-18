@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: credits_by_warehouse
-    description: "credits used by warehouse"
-    columns:
-      - name: warehouse_name
-      - name: monthly_credits
-      - name: month_n

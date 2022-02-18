@@ -1,8 +1,0 @@
-version: 2
-
-models:
-  - name: storage_usage_m
-    description: "Storage usage by month (last 12 months)"
-    columns:
-      - name: usage_month
-      - name: storage
