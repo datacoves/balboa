@@ -6,7 +6,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-
 jobs:
   build:
     name: Pull Request Integration Tests
@@ -36,7 +35,7 @@ jobs:
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: 'dbt --no-write-json run-operation create_database'
+          command: "dbt --no-write-json run-operation create_database"
 
       - name: Run governance checks
         uses: datacoves/dbt-coves-action@v1.1
@@ -55,4 +54,25 @@ jobs:
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: 'dbt --no-write-json run-operation grant_access_to_pr_database'
+          command: "dbt --no-write-json run-operation grant_access_to_pr_database"
+
+      - name: Init Airflow DB
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          command: "airflow db init"
+
+      - name: Create Mock Server
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          command: "python /usr/app/test_connection.py"
+
+      - name: Create Airflow-Airbyte connection
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          command: "airflow connections add --conn-host localhost --conn-port 8001 --conn-type airbyte airbyte_connection"
+
+      - name: Test Airflow DAGs
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          dbt_project_folder: "transform"
+          command: "python /usr/app/dagbag_validator.py"
