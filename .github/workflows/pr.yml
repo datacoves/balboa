@@ -20,6 +20,7 @@ jobs:
       DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
       DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
       DBT_SNOWFLAKE_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_WAREHOUSE }}
+      DATACOVES__YAML_DAGS_FOLDER: /github/workspace/schedule
 
     steps:
       - name: Checkout branch
@@ -69,12 +70,12 @@ jobs:
       - name: Create Mock Server
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
-          command: "python /usr/app/test_connection.py &"
+          command: "nohup python /usr/app/test_connection.py &"
 
-      - name: Create Airflow-Airbyte connection
-        uses: datacoves/ci-airflow-action@v0.4.0
-        with:
-          command: "airflow connections add --conn-host localhost --conn-port 8001 --conn-type airbyte airbyte_connection"
+      # - name: Create Airflow-Airbyte connection
+      #   uses: datacoves/ci-airflow-action@v0.4.0
+      #   with:
+      #     command: "airflow connections add --conn-host localhost --conn-port 8001 --conn-type airbyte airbyte_connection"
 
       - name: Test Airflow DAGs
         uses: datacoves/ci-airflow-action@v0.4.0
