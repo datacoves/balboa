@@ -72,7 +72,7 @@ def main(args):
 
     # this is here because cloning of db does not clone the stage
     logging.info("Creating stage for dbt_aritifacts")
-    subprocess.run(["dbt", "run-operation", "create_artifact_resources"], check=True, cwd=cwd)
+    subprocess.run(["dbt", "run-operation", "create_dbt_artifacts_stage"], check=True, cwd=cwd)
 
     run_dbt(args, cwd)
 
