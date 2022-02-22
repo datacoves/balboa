@@ -64,7 +64,7 @@ jobs:
       - name: Create Mock Server
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
-          command: "python /usr/app/test_connection.py"
+          command: "python /usr/app/test_connection.py &"
 
       - name: Create Airflow-Airbyte connection
         uses: datacoves/ci-airflow-action@v0.4.0
