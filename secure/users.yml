@@ -24,6 +24,11 @@
       - securityadmin
       - analyst
 
+- JOE:
+    can_login: true
+    member_of:
+      - analyst
+
 - MARTIN:
     can_login: true
     member_of:
