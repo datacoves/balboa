@@ -9,3 +9,5 @@
   # Snowflake database contains metadata describing usage
 - snowflake: 
     shared: true
+- starschema_covid19:
+    shared: true

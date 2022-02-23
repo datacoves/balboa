@@ -42,8 +42,7 @@ def run_dbt(args, cwd):
     subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
     logging.info("Uploading new prod manifest")
 
-    MANIFEST_ARGS = '{"filenames": ["manifest", "run_results"]}'
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_dbt_artifacts", "--args", MANIFEST_ARGS], check=True, cwd=cwd)
+    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_artifacts"], check=True, cwd=cwd)
 
 def main(args):
     """
@@ -70,6 +69,10 @@ def main(args):
 
     CLONE_DB_ARGS = '{"source_db": "' + DBT_FINAL_DB_NAME + '", "target_db": "' + DBT_STAGING_DB_NAME + '"}'
     subprocess.run(["dbt", "run-operation", "clone_database", "--args", CLONE_DB_ARGS], check=True, cwd=cwd)
+
+    # this is here because cloning of db does not clone the stage
+    logging.info("Creating stage for dbt_aritifacts")
+    subprocess.run(["dbt", "run-operation", "create_dbt_artifacts_stage"], check=True, cwd=cwd)
 
     run_dbt(args, cwd)
 

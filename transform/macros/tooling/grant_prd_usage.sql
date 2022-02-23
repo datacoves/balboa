@@ -5,7 +5,7 @@
 #}
 
 {%- macro grant_prd_usage() -%}
-    {% set db_name = 'STAGING_PRD_COMMERCIAL_DW' %}
+    {% set db_name = 'STAGING_BALBOA' %}
 
     {% set apply_db_grants_sql %}
         grant usage on database {{ db_name }} to role analyst;

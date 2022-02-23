@@ -14,12 +14,19 @@
       - accountadmin
       - securityadmin
       - analyst
+      - loader_airbyte
+      - transformer_dbt_prd
 
 - JENKINSC:
     can_login: true
     member_of:
       - accountadmin
       - securityadmin
+      - analyst
+
+- JOE:
+    can_login: true
+    member_of:
       - analyst
 
 - MARTIN:
@@ -62,5 +69,10 @@
 
 - SVC_BALBOA:
     can_login: false
+    member_of:
+      - analyst
+
+- SVC_DATAMEER:
+    can_login: true
     member_of:
       - analyst
