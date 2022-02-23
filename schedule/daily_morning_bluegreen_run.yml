@@ -11,7 +11,7 @@ daily_morning_bluegreen_run:
     load:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
-      dbt_project_path: ../../../transform
+      dbt_project_path: transform
       deploy_path: /home/airflow/load
       task_group_name: extract_and_load
       # Update tag for job
@@ -20,5 +20,5 @@ daily_morning_bluegreen_run:
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "python ../../blue_green_run.py --production-run -s tag:daily_morning"
+      bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
