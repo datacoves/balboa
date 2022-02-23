@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 def main():
-    dags_folder = os.environ.get("AIRFLOW__CORE__DAGS_FOLDER")
+    dags_folder = os.environ.get("DATACOVES__YAML_DAGS_FOLDER")
     current_commit = subprocess.run(['git', 'rev-parse', 'HEAD'],
         capture_output=True,
         text=True,
@@ -21,7 +21,6 @@ def main():
         with open(current_pickle, "rb") as f:
             all_dags = pickle.load(f)
     else:
-        dags_folder = os.environ.get("DATACOVES__YAML_DAGS_FOLDER")
         yaml_config_files = glob.glob(f"{dags_folder}/*.yml") + glob.glob(f"{dags_folder}/*.yaml")
 
         all_dags = dict()
