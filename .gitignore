@@ -23,3 +23,6 @@ logs/
 
 # Python cache
 __pycache__
+.gitsecret/keys/random_seed
+load/secrets/**/*.*
+!*.secret
