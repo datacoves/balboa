@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: metric_mkt_cost
+  - name: metric_mkt_revenue

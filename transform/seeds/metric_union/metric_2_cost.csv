@@ -1,0 +1,13 @@
+campaign_name,campaign_execution_datetime,campaign_status,campaign_tag,target_list_name,metric_name,metric_value
+campaign1,1/1/22,active,network,standard,cost,5341.9
+campaign2,1/8/22,active,network,standard,cost,199.5
+campaign3,1/15/22,cancelled,network,cable,cost,3618.9
+campaign4,1/22/22,complete,network,cable,cost,4492.74
+campaign5,1/29/22,active,network,standard,cost,387.14
+campaign6,2/5/22,cancelled,digital,loyalty,cost,8776.98
+campaign7,1/1/22,active,digital,loyalty,cost,1878.56
+campaign8,1/8/22,cancelled,digital,new users,cost,9075.05
+campaign9,1/15/22,cancelled,digital,new users,cost,7043.43
+campaign10,1/22/22,complete,digital,standard test,cost,2817.57
+campaign11,1/29/22,complete,digital,standard test,cost,6557.78
+campaign12,2/5/22,complete,digital,standard test,cost,2188.65

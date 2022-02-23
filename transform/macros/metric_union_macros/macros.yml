@@ -1,0 +1,9 @@
+version: 2
+
+macros:
+  - name: metric_union_macro
+    arguments:
+      - name: model_reference
+      - name: metric_name
+      - name: dimension_list
+      - name: reporting_date
