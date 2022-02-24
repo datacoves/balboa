@@ -19,7 +19,7 @@ def get_commit_hash():
     return subprocess.run(['git', 'rev-parse', 'HEAD'],
         capture_output=True,
         text=True,
-        cwd=os.environ['DBT_HOME']).stdout.strip("\n")
+        cwd=DBT_HOME).stdout.strip("\n")
 
 def run_dbt(args, cwd):
     if args.is_production:
@@ -31,8 +31,7 @@ def run_dbt(args, cwd):
             subprocess.run(["dbt", "build","--fail-fast"], check=True, cwd=cwd)
     else:
         logging.info("Getting prod manifest")
-        # this env_var is referenced by get_artifacts
-        os.environ['DBT_HOME'] = cwd
+
         subprocess.run(["../automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
         
         logging.info("Deployment run of dbt")
