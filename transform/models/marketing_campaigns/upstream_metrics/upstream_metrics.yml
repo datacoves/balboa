@@ -1,0 +1,6 @@
+version: 2
+
+models:
+  - name: metric_mkt_revenue
+  - name: metric_mkt_clicks
+  - name: metric_mkt_views

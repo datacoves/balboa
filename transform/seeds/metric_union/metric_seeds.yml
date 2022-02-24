@@ -1,5 +1,0 @@
-version: 2
-
-data:
-  - name: metric_1_revenue
-  - name: metric_2_cost

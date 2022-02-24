@@ -1,0 +1,5 @@
+version: 2
+
+data:
+  - name: metric_source_data
+  - name: master_metric_fields
