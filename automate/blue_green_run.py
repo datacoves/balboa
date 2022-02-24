@@ -85,14 +85,13 @@ def main(args):
     SWAP_DB_ARGS = '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
     subprocess.run(["dbt", "run-operation", "swap_database", "--args", SWAP_DB_ARGS], check=True, cwd=cwd)
     
-    if args.is_production:
-        logging.info("Removing dbt project temp directory")
-        subprocess.run(["rm", "-rf", cwd], check=True)
-
     logging.info("Dropping staging database")
     subprocess.run(["dbt", "run-operation", "drop_staging_db", "--args", STAGING_DB_ARGS], check=True, cwd=cwd)
     logging.info("done with dropping!!!!")
 
+    if args.is_production:
+        logging.info("Removing dbt project temp directory")
+        subprocess.run(["rm", "-rf", cwd], check=True)
 
 
 if __name__ == "__main__":
