@@ -13,7 +13,7 @@ DBT_FINAL_DB_NAME = os.environ['DBT_DATABASE']
 #This db must be prefaced 'staging' to work with /transform/macros/ref.sql override
 DBT_STAGING_DB_NAME = "staging_" + os.environ['DBT_DATABASE'] 
 
-DBT_HOME = os.environ.get("DBT_HOME", os.environ["DATACOVES_DBT_HOME"])
+DBT_HOME = os.environ.get("DBT_HOME", os.environ["DATACOVES__DBT_HOME"])
 
 def get_commit_hash():
     return subprocess.run(['git', 'rev-parse', 'HEAD'],
