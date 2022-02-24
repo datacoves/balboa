@@ -32,6 +32,8 @@ def run_dbt(args, cwd):
     else:
         logging.info("Getting prod manifest")
 
+        # this env_var is referenced by get_artifacts
+        os.environ['DBT_HOME'] = cwd
         subprocess.run(["../automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
         
         logging.info("Deployment run of dbt")
@@ -54,6 +56,7 @@ def main(args):
         cwd = f"/home/airflow/transform-pr-{commit_hash}"
         logging.info("Copying dbt project to temp directory")
         subprocess.run(["cp", "-rf", DBT_HOME, cwd], check=True)
+        subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
     else:
         cwd = DBT_HOME
         logging.info("DBT_HOME " + DBT_HOME)
