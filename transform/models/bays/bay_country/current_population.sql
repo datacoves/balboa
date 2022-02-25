@@ -16,3 +16,4 @@ from (
     )
 where
     rank_years = 1
+    and year > 2017
