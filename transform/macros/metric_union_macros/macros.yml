@@ -7,3 +7,7 @@ macros:
       - name: metric_name
       - name: dimension_list
       - name: reporting_date
+  - name: metric_prep
+
+
+

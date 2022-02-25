@@ -1,5 +1,5 @@
-metric_domain, field
-marketing_campaign, campaign_name
-marketing_campaign, campaign_status
-marketing_campaign, campaign_tag
-marketing_campaign, target_list_name
+METRIC_DOMAIN, FIELD
+MARKETING_CAMPAIGN, CAMPAIGN_NAME
+MARKETING_CAMPAIGN, CAMPAIGN_STATUS
+MARKETING_CAMPAIGN, CAMPAIGN_TAG
+MARKETING_CAMPAIGN, TARGET_LIST_NAME

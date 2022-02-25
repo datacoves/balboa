@@ -1,19 +1,18 @@
-with
-views as (
-    select
-        campaign_name	
-        , campaign_status	
-        , campaign_tag	
-        , target_list_name	
-        , 'views' as metric_name	
-        , sum(views) as metric_value
-    from {{ ref('metric_source_data') }}
-    group by 
-        campaign_name	
-        , campaign_status	
-        , campaign_tag	
-        , target_list_name	
-        , metric_name	    
-)
+{% set dimensions_list = metric_prep() %}
 
-select * from views
+select
+
+    {% for dim in dimensions_list %}
+    {{dim}},
+    {% endfor %}
+
+    'VIEWS' as metric_name,
+    sum(views) as metric_value
+
+from {{ ref('metric_source_data') }}
+
+group by 
+    {% for dim in dimensions_list %}
+    {{dim}},
+    {% endfor %}
+    metric_name
