@@ -16,7 +16,7 @@ def is_running(running_flag):
     """Checks running flag file and return if process is still running"""
     if running_flag.exists():
         mtime = datetime.fromtimestamp(running_flag.stat().st_mtime, tz=timezone.utc)
-        expired = (datetime.utcnow() - mtime).seconds > TIMEOUT
+        expired = (datetime.now(tz=timezone.utc) - mtime).seconds > TIMEOUT
         if expired:
             running_flag.unlink()
         return not expired
