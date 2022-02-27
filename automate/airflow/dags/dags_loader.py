@@ -42,19 +42,19 @@ def main():
         cwd=dags_folder).stdout.strip("\n")
     print(f"Generating dags for commit '{current_commit}'")
     
-    running_flag = WORKING_DIR / "running"
-    if is_running(running_flag):
-        return
+    current_pickle = WORKING_DIR / f"{current_commit}.pickle"
+    if current_pickle.exists():
+        # Load cached dags
+        with open(current_pickle, "rb") as f:
+            all_dags = pickle.load(f)
+        register_dags(all_dags)
     else:
-        running_flag.touch()
-    
-    try:
-        current_pickle = WORKING_DIR / f"{current_commit}.pickle"
-        if current_pickle.exists():
-            # Load cached dags
-            with open(current_pickle, "rb") as f:
-                all_dags = pickle.load(f)
+        running_flag = WORKING_DIR / "running"
+        if is_running(running_flag):
+            return
         else:
+            running_flag.touch()
+        try:
             # Recalculate dags
             yaml_config_files = glob.glob(f"{dags_folder}/*.yml") + glob.glob(f"{dags_folder}/*.yaml")
 
@@ -65,9 +65,7 @@ def main():
                 all_dags.update(dags)
             with open(current_pickle, "wb") as f:
                 pickle.dump(all_dags, f)
-
-        register_dags(all_dags)
-    finally:
-        running_flag.unlink()
+        finally:
+            running_flag.unlink()
 
 main()
