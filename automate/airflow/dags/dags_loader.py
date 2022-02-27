@@ -3,24 +3,12 @@ import dagfactory
 import glob
 import pickle
 import subprocess
-from datetime import datetime, timezone
 from airflow import DAG
 from pathlib import Path
 
 
 WORKING_DIR = Path("/home/airflow")
 TIMEOUT = 300   # seconds
-
-
-def is_running(running_flag):
-    """Checks running flag file and return if process is still running"""
-    if running_flag.exists():
-        mtime = datetime.fromtimestamp(running_flag.stat().st_mtime, tz=timezone.utc)
-        expired = (datetime.now(tz=timezone.utc) - mtime).seconds > TIMEOUT
-        if expired:
-            running_flag.unlink()
-        return not expired
-    return False
 
 
 def register_dags(all_dags):
@@ -47,25 +35,17 @@ def main():
         # Load cached dags
         with open(current_pickle, "rb") as f:
             all_dags = pickle.load(f)
-        register_dags(all_dags)
     else:
-        running_flag = WORKING_DIR / "running"
-        if is_running(running_flag):
-            return
-        else:
-            running_flag.touch()
-        try:
-            # Recalculate dags
-            yaml_config_files = glob.glob(f"{dags_folder}/*.yml") + glob.glob(f"{dags_folder}/*.yaml")
+        # Recalculate dags
+        yaml_config_files = glob.glob(f"{dags_folder}/*.yml") + glob.glob(f"{dags_folder}/*.yaml")
 
-            all_dags = dict()
-            for config_file in yaml_config_files:
-                dag_factory = dagfactory.DagFactory(os.path.abspath(config_file))
-                dags = dag_factory.build_dags()
-                all_dags.update(dags)
-            with open(current_pickle, "wb") as f:
-                pickle.dump(all_dags, f)
-        finally:
-            running_flag.unlink()
+        all_dags = dict()
+        for config_file in yaml_config_files:
+            dag_factory = dagfactory.DagFactory(os.path.abspath(config_file))
+            dags = dag_factory.build_dags()
+            all_dags.update(dags)
+        with open(current_pickle, "wb") as f:
+            pickle.dump(all_dags, f)
+    register_dags(all_dags)
 
 main()
