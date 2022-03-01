@@ -76,10 +76,10 @@ jobs:
         with:
           command: "airflow connections add --conn-host localhost --conn-port 8080 --conn-type airbyte airbyte_connection"
 
-      - name: Load DAGs Bag
-        uses: datacoves/ci-airflow-action@v0.4.0
-        with:
-          command: "python /usr/app/load_dagbag.py"
+      # - name: Load DAGs Bag
+      #   uses: datacoves/ci-airflow-action@v0.4.0
+      #   with:
+      #     command: "python /usr/app/load_dagbag.py"
 
       - name: Test Airflow DAGs
         uses: datacoves/ci-airflow-action@v0.4.0
