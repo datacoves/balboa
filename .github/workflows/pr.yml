@@ -24,6 +24,7 @@ jobs:
       DATACOVES__YAML_DAGS_FOLDER: /github/workspace/schedule
       AIRBYTE__EXTRACT_LOCATION: /github/workspace/load
       AIRFLOW__CORE__DAGS_FOLDER: /github/workspace/automate/airflow/dags
+      TEST_MODE: True
 
     steps:
       - name: Checkout branch
