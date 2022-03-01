@@ -72,7 +72,7 @@ jobs:
       - name: Create Airflow-Airbyte connection
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
-          command: "airflow connections add --conn-host localhost --conn-port 8080 --conn-type airbyte airbyte_connection"
+          command: "airflow connections add --conn-host localhost --conn-port 8001 --conn-type airbyte airbyte_connection"
 
       - name: Load DAGs Bag
         uses: datacoves/ci-airflow-action@v0.4.0
