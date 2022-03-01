@@ -66,10 +66,6 @@ jobs:
         with:
           command: "airflow db init"
 
-      # - name: LS usr app
-      #   uses: datacoves/ci-airflow-action@v0.4.0
-      #   with:
-      #     command: "ls -la /usr/app"
       - name: Create Airflow-Airbyte connection
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
