@@ -23,6 +23,7 @@ jobs:
       DATACOVES__REPO_PATH: /github/workspace
       DATACOVES__YAML_DAGS_FOLDER: /github/workspace/schedule
       AIRBYTE__EXTRACT_LOCATION: /github/workspace/load
+      AIRFLOW__CORE__DAGS_FOLDER: /github/workspace/automate/airflow/dags
 
     steps:
       - name: Checkout branch
@@ -59,20 +60,20 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
-      # - name: Init Airflow DB
-      #   uses: datacoves/ci-airflow-action@v0.4.0
-      #   with:
-      #     command: "airflow db init"
+      - name: Init Airflow DB
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          command: "airflow db init"
 
       # - name: LS usr app
       #   uses: datacoves/ci-airflow-action@v0.4.0
       #   with:
       #     command: "ls -la /usr/app"
 
-      # - name: Create Mock Server
-      #   uses: datacoves/ci-airflow-action@v0.4.0
-      #   with:
-      #     command: "nohup python /usr/app/test_connection.py &"
+      - name: Load DAGs Bag
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          command: "python /usr/app/load_dagbag.py"
 
       # - name: Create Airflow-Airbyte connection
       #   uses: datacoves/ci-airflow-action@v0.4.0
