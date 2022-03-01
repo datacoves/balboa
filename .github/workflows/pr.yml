@@ -66,6 +66,11 @@ jobs:
         with:
           command: "airflow db init"
 
+      - name: Echo TEST_MODE
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          command: "echo $TEST_MODE"
+
       - name: Create Airflow-Airbyte connection
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
