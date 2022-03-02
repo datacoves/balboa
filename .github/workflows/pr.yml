@@ -24,6 +24,7 @@ jobs:
       DATACOVES__YAML_DAGS_FOLDER: /github/workspace/schedule
       AIRBYTE__EXTRACT_LOCATION: /github/workspace/load
       AIRFLOW__CORE__DAGS_FOLDER: /github/workspace/automate/airflow/dags
+      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
       TEST_MODE: "True"
 
     steps:
@@ -68,9 +69,6 @@ jobs:
 
       - name: mkdir
         run: mkdir –p /tmp/load
-
-      - name: airflow timeout grep
-        run: airflow config list|grep -i timeout
 
       - name: Load DAGs Bag
         uses: datacoves/ci-airflow-action@v0.4.0
