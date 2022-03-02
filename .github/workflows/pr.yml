@@ -69,8 +69,8 @@ jobs:
       - name: ls /home
         run: ls /home
 
-      - name: ls /home/airflow
-        run: ls /home/airflow
+      - name: git rev-parse HEAD
+        run: git rev-parse HEAD
 
       - name: Create Airflow-Airbyte connection
         uses: datacoves/ci-airflow-action@v0.4.0
