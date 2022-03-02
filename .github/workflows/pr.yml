@@ -66,8 +66,11 @@ jobs:
         with:
           command: "airflow db init"
 
-      - name: ls /home/airflow/load
-        run: ls /home/airflow/load
+      - name: ls /home
+        run: ls /home
+
+      - name: ls /home/airflow
+        run: ls /home/airflow
 
       - name: Create Airflow-Airbyte connection
         uses: datacoves/ci-airflow-action@v0.4.0
