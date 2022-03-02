@@ -66,8 +66,8 @@ jobs:
         with:
           command: "airflow db init"
 
-      - name: Echo TEST_MODE
-        run: echo $TEST_MODE
+      - name: ls /home/airflow/load
+        run: ls /home/airflow/load
 
       - name: Create Airflow-Airbyte connection
         uses: datacoves/ci-airflow-action@v0.4.0
