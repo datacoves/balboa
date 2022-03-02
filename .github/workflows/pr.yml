@@ -66,8 +66,8 @@ jobs:
         with:
           command: "airflow db init"
 
-      - name: ls /home
-        run: ls /home
+      - name: mkdir
+        run: mkdir –p /tmp/load
 
       - name: git rev-parse HEAD
         run: git rev-parse HEAD

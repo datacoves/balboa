@@ -12,7 +12,7 @@ daily_morning_run:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
       dbt_project_path: transform
-      deploy_path: /home
+      deploy_path: /tmp/load
       task_group_name: extract_and_load
       # Update tag for job
       run_dbt_compile: false
