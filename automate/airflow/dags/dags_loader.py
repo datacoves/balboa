@@ -7,14 +7,14 @@ from airflow import DAG
 from pathlib import Path
 
 
-WORKING_DIR = Path("/home/airflow")
-TIMEOUT = 300   # seconds
+WORKING_DIR = Path("/tmp/load")
+TIMEOUT = 300  # seconds
 
 
 def register_dags(all_dags):
     """Register all dags in globals for airflow to load them"""
     dagfactory.DagFactory.register_dags(all_dags, globals())
-    dags_wo_default = [x for x in all_dags.keys() if x != 'default']
+    dags_wo_default = [x for x in all_dags.keys() if x != "default"]
     if dags_wo_default:
         random_dag = dags_wo_default[0]
         if random_dag in globals() and globals()[random_dag].tasks:
@@ -24,12 +24,11 @@ def register_dags(all_dags):
 
 def main():
     dags_folder = os.environ.get("DATACOVES__YAML_DAGS_FOLDER")
-    current_commit = subprocess.run(['git', 'rev-parse', 'HEAD'],
-        capture_output=True,
-        text=True,
-        cwd=dags_folder).stdout.strip("\n")
+    current_commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=dags_folder
+    ).stdout.strip("\n")
     print(f"Generating dags for commit '{current_commit}'")
-    
+
     current_pickle = WORKING_DIR / f"{current_commit}.pickle"
     if current_pickle.exists():
         # Load cached dags
@@ -37,7 +36,9 @@ def main():
             all_dags = pickle.load(f)
     else:
         # Recalculate dags
-        yaml_config_files = glob.glob(f"{dags_folder}/*.yml") + glob.glob(f"{dags_folder}/*.yaml")
+        yaml_config_files = glob.glob(f"{dags_folder}/*.yml") + glob.glob(
+            f"{dags_folder}/*.yaml"
+        )
 
         all_dags = dict()
         for config_file in yaml_config_files:
@@ -47,5 +48,6 @@ def main():
         with open(current_pickle, "wb") as f:
             pickle.dump(all_dags, f)
     register_dags(all_dags)
+
 
 main()
