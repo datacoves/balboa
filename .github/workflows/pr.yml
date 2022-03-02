@@ -67,9 +67,6 @@ jobs:
         with:
           command: "airflow db init"
 
-      - name: mkdir
-        run: mkdir –p /tmp/load
-
       - name: Load DAGs Bag
         uses: datacoves/ci-airflow-action@v0.4.0
         with:

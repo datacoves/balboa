@@ -7,7 +7,7 @@ from airflow import DAG
 from pathlib import Path
 
 
-WORKING_DIR = Path("/tmp/load")
+WORKING_DIR = Path("/tmp")
 TIMEOUT = 300  # seconds
 
 
