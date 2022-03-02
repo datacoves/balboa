@@ -62,17 +62,12 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
-      - name: Init Airflow DB
-        uses: datacoves/ci-airflow-action@v0.4.0
-        with:
-          command: "airflow db init"
-
-      - name: Load DAGs Bag
+      - name: Test DAG structure integrity (DagBag Loading)
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
           command: "python /usr/app/load_dagbag.py"
 
-      - name: Test Airflow DAGs
+      - name: Test DBT Sources against DAGs' YAML files
         uses: datacoves/ci-airflow-action@v0.4.0
         with:
           dbt_project_folder: "transform"
