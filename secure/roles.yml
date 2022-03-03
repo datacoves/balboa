@@ -22,6 +22,7 @@
       - z_schema_dbt_test__audit
       - z_schema_bay_country
       - z_schema_bay_covid
+      - z_schema_bay_observability
       - z_schema_cove_covid
 
       - z_wh_transforming
@@ -317,6 +318,12 @@
       schemas:
         read:
           - balboa.bay_covid
+
+- z_schema_bay_observability:
+    privileges:
+      schemas:
+        read:
+          - balboa.bay_observability
 
 #  COVES
 
