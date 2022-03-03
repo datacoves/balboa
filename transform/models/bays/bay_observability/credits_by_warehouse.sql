@@ -1,6 +1,6 @@
 select
     date_trunc(month, start_time) as month_n,
-    sum(credits_used) as monthly_credits,
+    credits_used,
     warehouse_name
 from
     {{ ref('stg_warehouse_metering_history') }}

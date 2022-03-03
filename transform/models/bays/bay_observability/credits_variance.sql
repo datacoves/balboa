@@ -16,7 +16,7 @@ with this_month as (
             when timestampdiff(month, start_time, current_date) = 13 then 13
         end as month_n,
         date_trunc(month, start_time) as month_d,
-        sum(credits_used) as monthly_credits
+        credits_used
     from
         {{ ref('stg_warehouse_metering_history') }}
     where
@@ -46,7 +46,7 @@ prev_month as (
             when timestampdiff(month, start_time, current_date) = 13 then 12
         end as prev_month,
         date_trunc(month, start_time) as prev_month_d,
-        sum(credits_used) as prev_monthly_credits
+        credits_used as prev_month_credits
     from
         {{ ref('stg_warehouse_metering_history') }}
     where
@@ -62,9 +62,9 @@ select
     this_month.month_n,
     this_month.month_d,
     prev_month.prev_month,
-    this_month.monthly_credits,
-    prev_month.prev_monthly_credits,
-    this_month.monthly_credits - prev_month.prev_monthly_credits as difference,
+    this_month.credits_used,
+    prev_month.prev_month_credits,
+    this_month.credits_used - prev_month.prev_month_credits as difference,
     sum(difference) over (order by this_month.month_n desc rows between unbounded preceding and current row) as variance
 from this_month
 left join prev_month on this_month.month_n = prev_month.prev_month

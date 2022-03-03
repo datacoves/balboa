@@ -1,4 +1,4 @@
-select sum(credits_used) as credits_used
+select credits_used as credits_used
 from
     {{ ref('stg_warehouse_metering_history') }}
 where
