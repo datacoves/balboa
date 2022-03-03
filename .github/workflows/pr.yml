@@ -6,7 +6,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-
 jobs:
   build:
     name: Pull Request Integration Tests
@@ -21,6 +20,12 @@ jobs:
       DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
       DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
       DBT_SNOWFLAKE_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_WAREHOUSE }}
+      DATACOVES__REPO_PATH: /github/workspace
+      DATACOVES__YAML_DAGS_FOLDER: /github/workspace/schedule
+      AIRBYTE__EXTRACT_LOCATION: /github/workspace/load
+      AIRFLOW__CORE__DAGS_FOLDER: /github/workspace/automate/airflow/dags
+      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
+      TEST_MODE: "True"
 
     steps:
       - name: Checkout branch
@@ -36,7 +41,7 @@ jobs:
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: 'dbt --no-write-json run-operation create_database'
+          command: "dbt --no-write-json run-operation create_database"
 
       - name: Run governance checks
         uses: datacoves/dbt-coves-action@v1.1
@@ -55,4 +60,15 @@ jobs:
         uses: datacoves/dbt-coves-action@v1.1
         with:
           dbt_project_folder: "transform"
-          command: 'dbt --no-write-json run-operation grant_access_to_pr_database'
+          command: "dbt --no-write-json run-operation grant_access_to_pr_database"
+
+      - name: Test DAG structure integrity (DagBag Loading)
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          command: "python /usr/app/load_dagbag.py"
+
+      - name: Test DBT Sources against DAGs' YAML files
+        uses: datacoves/ci-airflow-action@v0.4.0
+        with:
+          dbt_project_folder: "transform"
+          command: "python /usr/app/test_dags.py"
