@@ -5,4 +5,4 @@ models:
     description: "Credits used by time of day"
     columns:
       - name: credits_used
-      - name: hour
+      - name: start_time
