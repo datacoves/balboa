@@ -1,5 +1,5 @@
 select
-    total_billable_storage_tb as storage,
+    sum(total_billable_storage_tb) as storage,
     usage_month
 from {{ ref('stg_storage_usage') }}
 where
