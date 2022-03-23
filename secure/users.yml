@@ -76,3 +76,8 @@
     can_login: true
     member_of:
       - analyst
+
+- SVC_SELECTSTAR:
+    can_login: true
+    member_of:
+      - analyst
