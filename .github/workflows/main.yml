@@ -39,7 +39,7 @@ jobs:
           command: "dbt deps"
 
       - name: Run blue / green deployment
-        uses: datacoves/dbt-coves-action@v1
+        uses: datacoves/ci-basic-action@v0.4.0.202203270022
         with:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
