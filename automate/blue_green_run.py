@@ -13,13 +13,13 @@ DBT_FINAL_DB_NAME = os.environ['DBT_DATABASE']
 #This db must be prefaced 'staging' to work with /transform/macros/ref.sql override
 DBT_STAGING_DB_NAME = "staging_" + os.environ['DBT_DATABASE'] 
 
-DBT_HOME = os.environ['DBT_HOME']
+DBT_HOME = os.environ.get("DBT_HOME", os.environ.get("DATACOVES__DBT_HOME"))
 
 def get_commit_hash():
     return subprocess.run(['git', 'rev-parse', 'HEAD'],
         capture_output=True,
         text=True,
-        cwd=os.environ['DBT_HOME']).stdout.strip("\n")
+        cwd=DBT_HOME).stdout.strip("\n")
 
 def run_dbt(args, cwd):
     if args.is_production:
@@ -31,6 +31,7 @@ def run_dbt(args, cwd):
             subprocess.run(["dbt", "build","--fail-fast"], check=True, cwd=cwd)
     else:
         logging.info("Getting prod manifest")
+
         # this env_var is referenced by get_artifacts
         os.environ['DBT_HOME'] = cwd
         subprocess.run(["../automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
@@ -55,6 +56,7 @@ def main(args):
         cwd = f"/home/airflow/transform-pr-{commit_hash}"
         logging.info("Copying dbt project to temp directory")
         subprocess.run(["cp", "-rf", DBT_HOME, cwd], check=True)
+        subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
     else:
         cwd = DBT_HOME
         logging.info("DBT_HOME " + DBT_HOME)
@@ -83,14 +85,13 @@ def main(args):
     SWAP_DB_ARGS = '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
     subprocess.run(["dbt", "run-operation", "swap_database", "--args", SWAP_DB_ARGS], check=True, cwd=cwd)
     
-    if args.is_production:
-        logging.info("Removing dbt project temp directory")
-        subprocess.run(["rm", "-rf", cwd], check=True)
-
     logging.info("Dropping staging database")
     subprocess.run(["dbt", "run-operation", "drop_staging_db", "--args", STAGING_DB_ARGS], check=True, cwd=cwd)
     logging.info("done with dropping!!!!")
 
+    if args.is_production:
+        logging.info("Removing dbt project temp directory")
+        subprocess.run(["rm", "-rf", cwd], check=True)
 
 
 if __name__ == "__main__":
