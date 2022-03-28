@@ -58,6 +58,7 @@
     member_of:
       - z_db_raw_write
       - z_wh_loading
+      - z_db_starschema_covid19
     owns:
       schemas:
         - raw.*
