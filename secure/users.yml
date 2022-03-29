@@ -29,6 +29,11 @@
     member_of:
       - analyst
 
+- ALIEU:
+    can_login: true
+    member_of:
+      - analyst
+
 - MARTIN:
     can_login: true
     member_of:
