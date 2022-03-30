@@ -41,3 +41,10 @@ Add the following to `~/.gitconfig`
   prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
 ```
 
+## Loading Airbyte configs
+Reveal git secrets
+
+Run
+```
+dbt-coves load airbyte --path ../load --host http://airbyte-server-svc --port 8001 --secrets ../load/secrets
+```

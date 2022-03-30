@@ -34,6 +34,11 @@
     member_of:
       - analyst
 
+- ALEX:
+    can_login: true
+    member_of:
+      - analyst
+
 - MARTIN:
     can_login: true
     member_of:
