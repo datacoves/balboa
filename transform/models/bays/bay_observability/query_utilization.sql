@@ -16,7 +16,6 @@ select
     warehouse_name,
     query_time,
     role,
-    query_type,
     user_name,
     query_status,
     start_time,

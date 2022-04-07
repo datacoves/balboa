@@ -6,10 +6,12 @@ sources:
     schema: account_usage
     tables:
       - name: query_history
+        description: "Query history source model"
         identifier: QUERY_HISTORY
 
 models:
   - name: query_history
+    description: "Query history raw data"
     columns:
       - name: query_id
       - name: query_text
