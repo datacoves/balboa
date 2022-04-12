@@ -42,5 +42,3 @@ repos:
   - id: check-model-has-description
     args: ["--manifest", "transform/target/manifest.json"]
     files: ^transform/models/
-
-
