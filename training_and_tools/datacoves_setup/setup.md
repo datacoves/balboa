@@ -48,3 +48,21 @@ Run
 ```
 dbt-coves load airbyte --path ../load --host http://airbyte-server-svc --port 8001 --secrets ../load/secrets
 ```
+
+# Setup power tools
+install vscode-dbt-0.4.0.vsix
+install vscode-dbt-power-user-0.5.2-datacoves.vsix
+
+in terminal intall sync server
+`pip install dbt-sync-server`
+
+Update the PATH
+`export PATH=$PATH:/config/.local/bin`
+
+Run the server
+`dbt_sync_server --inject-rpc`
+
+in Settings -> Text Editor -> Files, add Associations
+*.sql     jinja-sql
+
+Open ports 8580 and 8581 on localhost
