@@ -60,6 +60,8 @@
       - z_wh_loading
       - z_db_starschema_covid19
     owns:
+      databases:
+        - raw
       schemas:
         - raw.*
 
@@ -84,7 +86,6 @@
       databases:
         - balboa
         - balboa_dev
-        - raw
       schemas:
         - balboa.*
 
