@@ -5,7 +5,7 @@ select
     from (
       
         select *
-        from staging_BALBOA.dbt_test__audit.check_critical_rows_exist_in_s_cbc1c03738dd375dd81393e0971baa0c
+        from staging_BALBOA.dbt_test__audit.source_not_null_nyt_covid_nyt_covid_data__airbyte_ab_id
     
       
     ) dbt_internal_test
