@@ -4,9 +4,11 @@
     #}
 
 {% macro ref(modelname) %}
+
     {% if builtins.ref(modelname).database.startswith('staging') %}
-        {{ builtins.ref(modelname).include(database=False).render() }}
+        {{ return(builtins.ref(modelname).include(database=False)) }}
     {% else %}
-        {{ builtins.ref(modelname) }}
+        {{ return(builtins.ref(modelname)) }}
     {% endif %}
+
 {% endmacro %}

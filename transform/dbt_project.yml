@@ -64,8 +64,6 @@ models:
         +schema: source_country_data
       starschema_covid19:
         +schema: source_starschema_covid19
-      dbt_artifacts:
-        +schema: source_dbt_artifacts
 
     +persist_docs:
         relation: true
@@ -80,14 +78,8 @@ models:
   
   dbt_artifacts:
     +schema: source_dbt_artifacts
-    # +database: balboa
     staging:
       +schema: source_dbt_artifacts
-    incremental:
-      fct_dbt__run_results:
-        +enabled: false
-    #   +database: balboa
-    # enabled: false
 
 tests:
   +store_failures: true
