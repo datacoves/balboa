@@ -8,7 +8,7 @@ models:
           group_by: [state]
           timestamp_column: date
           datepart: day
-          interval: 90
+          interval: 180
     columns:
       - name: deaths
         description: Total Cummolative deaths due to covid-19
