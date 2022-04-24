@@ -3,49 +3,23 @@
 with snapshots as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.dim_dbt__snapshots
-    
-
+    from BALBOA.source_dbt_artifacts.dim_dbt__snapshots
 
 ),
 
-snapshot_executions as (
+node_executions as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.stg_dbt__snapshot_executions
-    
-
-
-),
-
-run_results as (
-
-    select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__run_results
-    
-
+    from BALBOA.source_dbt_artifacts.stg_dbt__node_executions
 
 ),
 
 snapshot_executions_incremental as (
 
-    select snapshot_executions.*
-    from snapshot_executions
-    -- Inner join with run results to enforce consistency and avoid race conditions.
-    -- https://github.com/brooklyn-data/dbt_artifacts/issues/75
-    inner join run_results on
-        snapshot_executions.artifact_run_id = run_results.artifact_run_id
-
-    
-        -- this filter will only be applied on an incremental run
-        where snapshot_executions.artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.fct_dbt__snapshot_executions)
-    
+    select *
+    from node_executions
+    where resource_type = 'snapshot'
+        
 
 ),
 
@@ -57,10 +31,7 @@ snapshot_executions_with_materialization as (
         snapshots.name
     from snapshot_executions_incremental
     left join snapshots on
-        (
-            snapshot_executions_incremental.command_invocation_id = snapshots.command_invocation_id
-            or snapshot_executions_incremental.dbt_cloud_run_id = snapshots.dbt_cloud_run_id
-        )
+        snapshot_executions_incremental.artifact_run_id = snapshots.artifact_run_id
         and snapshot_executions_incremental.node_id = snapshots.node_id
 
 ),
@@ -68,7 +39,7 @@ snapshot_executions_with_materialization as (
 fields as (
 
     select
-        snapshot_execution_id,
+        node_execution_id as snapshot_execution_id,
         command_invocation_id,
         dbt_cloud_run_id,
         artifact_run_id,

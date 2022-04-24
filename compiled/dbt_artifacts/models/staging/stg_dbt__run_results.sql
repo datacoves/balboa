@@ -1,11 +1,14 @@
 with base as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.stg_dbt__artifacts
-    
+    from BALBOA.source_dbt_artifacts.stg_dbt__artifacts
 
+),
+
+base_v2 as (
+
+    select *
+    from balboa.source_dbt_artifacts.dbt_run_results
 
 ),
 
@@ -17,18 +20,11 @@ run_results as (
 
 ),
 
-dbt_run as (
-
-    select *
-    from run_results
-    where data:args:which in ('run', 'seed', 'snapshot', 'test')
-
-),
-
 fields as (
 
+    -- V1
     select
-        generated_at as artifact_generated_at,
+        generated_at::timestamp_tz as artifact_generated_at,
         command_invocation_id,
         dbt_cloud_run_id,
         artifact_run_id,
@@ -37,9 +33,26 @@ fields as (
         data:elapsed_time::float as elapsed_time,
         data:args:which::string as execution_command,
         coalesce(data:args:full_refresh, 'false')::boolean as was_full_refresh,
-        data:args:models as selected_models,
+        coalesce(data:args:models, data:args:select) as selected_models,
         data:args:target::string as target
-    from dbt_run
+    from run_results
+
+    union all
+
+    -- V2
+    select
+        artifact_generated_at,
+        command_invocation_id,
+        dbt_cloud_run_id,
+        artifact_run_id,
+        dbt_version,
+        env,
+        elapsed_time,
+        execution_command,
+        was_full_refresh,
+        selected_models,
+        target
+    from base_v2
 
 )
 

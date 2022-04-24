@@ -8,11 +8,7 @@ with latest_grouped_timestamps as (
         max(1) as join_key,
         max(date) as latest_timestamp_column
     from
-        
-    
         BALBOA.cove_covid.agg_cases_by_month
-    
-
     
 
     group by 1

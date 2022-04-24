@@ -3,11 +3,7 @@ select
     (
         select sum(credits_used) as credits_used_sum
         from
-            
-    
-        BALBOA.bay_observability.stg_warehouse_metering_history
-    
-
+            BALBOA.bay_observability.stg_warehouse_metering_history
         where
             (
                 timestampdiff(year, current_date, start_time) = 0 --year(current_date) = year(start_time)
@@ -22,11 +18,7 @@ select
             )
     ) as previous_mtd_credits_used
 from
-
-    
-        BALBOA.bay_observability.stg_warehouse_metering_history
-    
-
+BALBOA.bay_observability.stg_warehouse_metering_history
 -- left join prev_month on this_month.start_time = prev_month.pm_start_time
 where
     year(current_date) = year(start_time)

@@ -1,31 +1,38 @@
 with run_results as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__run_results
-    
-
+    from BALBOA.source_dbt_artifacts.fct_dbt__run_results
 
 ),
 
 model_executions as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__model_executions
-    
+    from BALBOA.source_dbt_artifacts.fct_dbt__model_executions
 
+),
+
+model_execution_counts as (
+
+    select
+        artifact_run_id,
+        count(*) as executed_models
+    from model_executions
+    group by artifact_run_id
 
 ),
 
 latest_full as (
 
-    select *
+    select run_results.*
     from run_results
-    where execution_command = 'run' and selected_models is null and was_full_refresh = false
-    order by artifact_generated_at desc
+    inner join model_execution_counts on
+        run_results.artifact_run_id = model_execution_counts.artifact_run_id
+    where run_results.execution_command in ('run', 'build')
+        and run_results.selected_models is null
+        and run_results.was_full_refresh = false
+        and model_execution_counts.executed_models >= 1
+    order by run_results.artifact_generated_at desc
     limit 1
 
 ),

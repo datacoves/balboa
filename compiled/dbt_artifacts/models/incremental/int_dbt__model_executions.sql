@@ -1,33 +1,26 @@
 
 
-with model_executions as (
+with node_executions as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.stg_dbt__model_executions
-    
-
+    from BALBOA.source_dbt_artifacts.stg_dbt__node_executions
 
 ),
 
 model_executions_incremental as (
 
     select *
-    from model_executions
-    -- NOTE: Consistency check for this model is done in the fact table not here. See: fct_dbt__model_executions.
+    from node_executions
+    where resource_type = 'model'
 
-    
-        -- this filter will only be applied on an incremental run
-        where artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.int_dbt__model_executions)
-    
+        
 
 ),
 
 fields as (
 
     select
-        model_execution_id,
+        node_execution_id as model_execution_id,
         command_invocation_id,
         dbt_cloud_run_id,
         artifact_run_id,

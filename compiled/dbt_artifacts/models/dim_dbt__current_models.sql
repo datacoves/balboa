@@ -1,33 +1,21 @@
 with run_results as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__run_results
-    
-
+    from BALBOA.source_dbt_artifacts.fct_dbt__run_results
 
 ),
 
 models as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.dim_dbt__models
-    
-
+    from BALBOA.source_dbt_artifacts.dim_dbt__models
 
 ),
 
 model_executions as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__model_executions
-    
-
+    from BALBOA.source_dbt_artifacts.fct_dbt__model_executions
 
 ),
 

@@ -5,11 +5,7 @@ with all_values as (
     select distinct
         state as value_field
 
-    from 
-    
-        BALBOA.cove_covid.agg_cases_by_month
-    
-
+    from BALBOA.cove_covid.agg_cases_by_month
     
 
 ),

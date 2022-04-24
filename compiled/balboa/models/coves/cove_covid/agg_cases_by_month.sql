@@ -5,20 +5,12 @@ WITH
 base_cases AS (
 
 SELECT * 
-FROM 
-    
-        BALBOA.bay_covid.base_cases
-    
-
+FROM BALBOA.bay_covid.base_cases
 ), 
 state_codes AS (
 
 SELECT * 
-FROM 
-    
-        BALBOA.seeds.state_codes
-    
-
+FROM BALBOA.seeds.state_codes
 ),
 
 

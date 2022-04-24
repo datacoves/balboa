@@ -3,11 +3,7 @@ select
     sum(credits_used) as monthly_credits,
     warehouse_name
 from
-    
-    
-        BALBOA.bay_observability.stg_warehouse_metering_history
-    
-
+    BALBOA.bay_observability.stg_warehouse_metering_history
 where
     start_time >= dateadd(year, -1, date_trunc(month, current_date))
     and start_time < date_trunc(month, current_date)

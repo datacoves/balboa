@@ -1,20 +1,12 @@
 with model_executions as (
 
-    select * from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__model_executions
-    
-
+    select * from BALBOA.source_dbt_artifacts.fct_dbt__model_executions
 
 ),
 
 exposures_record as (
 
-    select * from 
-    
-        BALBOA.source_dbt_artifacts.dim_dbt__exposures
-    
-
+    select * from BALBOA.source_dbt_artifacts.dim_dbt__exposures
 
 ),
 

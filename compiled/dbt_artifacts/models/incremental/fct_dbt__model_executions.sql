@@ -3,48 +3,22 @@
 with models as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.dim_dbt__models
-    
-
+    from BALBOA.source_dbt_artifacts.dim_dbt__models
 
 ),
 
 model_executions as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.int_dbt__model_executions
-    
-
-
-),
-
-run_results as (
-
-    select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__run_results
-    
-
+    from BALBOA.source_dbt_artifacts.int_dbt__model_executions
 
 ),
 
 model_executions_incremental as (
 
-    select model_executions.*
+    select *
     from model_executions
-    -- Inner join with run results to enforce consistency and avoid race conditions.
-    -- https://github.com/brooklyn-data/dbt_artifacts/issues/75
-    inner join run_results on
-        model_executions.artifact_run_id = run_results.artifact_run_id
 
-    
-        -- this filter will only be applied on an incremental run
-        where model_executions.artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.fct_dbt__model_executions)
     
 
 ),
@@ -58,10 +32,7 @@ model_executions_with_materialization as (
         models.name
     from model_executions_incremental
     left join models on
-        (
-            model_executions_incremental.command_invocation_id = models.command_invocation_id
-            or model_executions_incremental.dbt_cloud_run_id = models.dbt_cloud_run_id
-        )
+        model_executions_incremental.artifact_run_id = models.artifact_run_id
         and model_executions_incremental.node_id = models.node_id
 
 ),

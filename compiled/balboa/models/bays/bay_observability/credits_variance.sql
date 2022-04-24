@@ -18,11 +18,7 @@ with this_month as (
         date_trunc(month, start_time) as month_d,
         sum(credits_used) as monthly_credits
     from
-        
-    
         BALBOA.bay_observability.stg_warehouse_metering_history
-    
-
     where
         start_time >= dateadd(month, -13, date_trunc(month, current_date))
         and start_time < date_trunc(month, current_date)
@@ -52,11 +48,7 @@ prev_month as (
         date_trunc(month, start_time) as prev_month_d,
         sum(credits_used) as prev_monthly_credits
     from
-        
-    
         BALBOA.bay_observability.stg_warehouse_metering_history
-    
-
     where
         start_time >= dateadd(month, -13, date_trunc(month, current_date))
         and start_time < date_trunc(month, current_date)

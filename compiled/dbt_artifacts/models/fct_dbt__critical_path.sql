@@ -1,22 +1,14 @@
 with models as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.stg_dbt__models
-    
-
+    from BALBOA.source_dbt_artifacts.dim_dbt__models
 
 ),
 
 latest_executions as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__latest_full_model_executions
-    
-
+    from BALBOA.source_dbt_artifacts.fct_dbt__latest_full_model_executions
 
 ),
 

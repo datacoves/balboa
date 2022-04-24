@@ -5,11 +5,7 @@
 with run_results as (
 
     select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.stg_dbt__run_results
-    
-
+    from BALBOA.source_dbt_artifacts.stg_dbt__run_results
 
 ),
 
@@ -18,9 +14,6 @@ incremental_run_results as (
     select *
     from run_results
 
-    
-    -- this filter will only be applied on an incremental run
-    where artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.fct_dbt__run_results)
     
 
 ),

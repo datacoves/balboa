@@ -1,17 +1,9 @@
 with covid_cases as (
-    select * from 
-    
-        BALBOA.bay_covid.covid_cases
-    
-
+    select * from BALBOA.bay_covid.covid_cases
 ),
 
 location as (
-    select * from 
-    
-        BALBOA.bay_covid.covid_location
-    
-
+    select * from BALBOA.bay_covid.covid_location
 )
 
 select

@@ -1,59 +1,38 @@
 
 
-with dbt_exposures as (
+with dbt_nodes as (
 
-    select * from 
-    
-        BALBOA.source_dbt_artifacts.stg_dbt__exposures
-    
-
-
-),
-
-run_results as (
-
-    select *
-    from 
-    
-        BALBOA.source_dbt_artifacts.fct_dbt__run_results
-    
-
+    select * from BALBOA.source_dbt_artifacts.stg_dbt__nodes
 
 ),
 
 dbt_exposures_incremental as (
 
-    select dbt_exposures.*
-    from dbt_exposures
-    -- Inner join with run results to enforce consistency and avoid race conditions.
-    -- https://github.com/brooklyn-data/dbt_artifacts/issues/75
-    inner join run_results on
-        dbt_exposures.artifact_run_id = run_results.artifact_run_id
+    select *
+    from dbt_nodes
+    where resource_type = 'exposure'
 
-    
-        -- this filter will only be applied on an incremental run
-        where dbt_exposures.artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.dim_dbt__exposures)
-    
+        
 
 ),
 
 fields as (
 
     select
-        t.manifest_exposure_id,
+        t.manifest_node_id as manifest_exposure_id,
         t.command_invocation_id,
         t.dbt_cloud_run_id,
         t.artifact_run_id,
         t.artifact_generated_at,
         t.node_id,
         t.name,
-        t.type,
-        t.owner,
-        t.maturity,
+        t.node_json:type::string as type,
+        t.node_json:owner:name::string as owner,
+        t.node_json:maturity::string as maturity,
         f.value::string as output_feeds,
-        t.package_name
+        t.node_json:package_name::string as package_name
     from dbt_exposures_incremental as t,
-        lateral flatten(input => depends_on_nodes) as f
+        lateral flatten(input => to_array(t.node_json:depends_on:nodes)) as f
 
 )
 
