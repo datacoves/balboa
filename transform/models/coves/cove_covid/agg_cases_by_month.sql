@@ -1,12 +1,12 @@
-{{ 
+{# {{ 
     generate_imports(
     [
         'base_cases',
         'state_codes'
     ]) 
-}},
+}}, #}
 
-{# with cases as (
+with cases as (
     select
         *
     from {{ ref('base_cases') }}
@@ -16,7 +16,7 @@ states as (
     select
         *
     from {{ ref('state_codes') }}
-) #}
+)
 
 final_monthly_cases as (
     select
