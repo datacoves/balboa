@@ -19,8 +19,6 @@
     {% endif %}
     
     {% set objects_to_be_created = [] %}
-    
-
     {% if obj_type == "Schemas"%}
         {% set permifrost_databases = [] %}
         {% set permifrost_schemas = [] %}
@@ -33,7 +31,6 @@
         {% endfor %}
 
         {% set snowflake_objects_names = [] %}
-
         {% for db in permifrost_databases %}
             {% set showflake_schemas = run_query("show " ~ obj_type ~ " in database " ~ db) %}
             {% set snowflake_schemas_names = showflake_schemas.columns["name"].values() %}
@@ -72,8 +69,7 @@
         {% endfor %}
     {% endif %}
 
-    {% if objects_to_be_created %}
-        
+    {% if objects_to_be_created %}        
         {% if obj_type == "Warehouses"%}
             {{ create_snowflake_warehouses(objects_to_be_created) }}
         {%endif%}
