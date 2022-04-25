@@ -36,7 +36,7 @@ final_monthly_cases as (
                         year(date),
                         month(date)
                     order by day(date) desc) as row_num
-            from base_cases)
+            from cases)
     where row_num = 1
     order by date
 )
