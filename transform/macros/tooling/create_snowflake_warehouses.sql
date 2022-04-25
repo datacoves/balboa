@@ -26,9 +26,5 @@
 
             {% do run_query(create_wh_sql) %}
             {{ log("Warehouse "~wh["name"]~" created", info=true) }}
-
-
-            
-        
     {% endfor %}
 {% endmacro %}
