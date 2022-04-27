@@ -6,7 +6,7 @@
 
 {%- macro create_dbt_artifacts_stage(db_nmae) -%}
   {% set sql %}
-      create stage if not exists {{ target.database }}.source_dbt_artifacts.artifacts
+      create stage if not exists {{ target.database }}.source_dbt_artifacts.dbt_artifacts_stage
       file_format = ( type =  json );
   {% endset %}
   {% do run_query(sql) %}
