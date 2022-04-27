@@ -18,7 +18,7 @@ select
             )
     ) as previous_mtd_credits_used
 from
-{{ ref('stg_warehouse_metering_history') }}
+    {{ ref('stg_warehouse_metering_history') }}
 -- left join prev_month on this_month.start_time = prev_month.pm_start_time
 where
     year(current_date) = year(start_time)
