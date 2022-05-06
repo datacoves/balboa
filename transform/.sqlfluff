@@ -7,8 +7,18 @@ templater = dbt
 
 # rules = None
 rules = L001, L003, L005, L009, L010, L012
-# rules = L001, L003, L005, L009, L010, L012
 
+# Suggested core rules
+# L001 - L006
+# L008 - L010
+# L012 - L026
+# L028
+# L030
+# L033
+# L038 - L041
+# L045 - L050
+# L052
+# L054
 
 recurse = 0
 output_line_length = 80
