@@ -15,6 +15,7 @@ select
                 and month(current_date) - 1 = 0
                 and month(start_time) = 12
                 and day(current_date) >= day(start_time)
+                and 1=1
             )
     ) as previous_mtd_credits_used
 from

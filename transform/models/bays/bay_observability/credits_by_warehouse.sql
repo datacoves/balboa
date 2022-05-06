@@ -7,6 +7,7 @@ from
 where
     start_time >= dateadd(year, -1, date_trunc(month, current_date))
     and start_time < date_trunc(month, current_date)
+    and 1=1
 group by
     month_n, warehouse_name
 order by
