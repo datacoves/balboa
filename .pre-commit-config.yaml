@@ -15,7 +15,7 @@ repos:
     args: ["--models", "@state:modified", "--cmd-flags", "++defer", "++project+dir", "transform", "++state", "logs", "--"]
   - id: dbt-docs-generate
     files: ^transform/models/
-    args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"] 
+    args: ["--cmd-flags", "++project+dir", "transform"] 
   - id: check-source-table-has-description  
     files: ^transform/models/  
   - id: check-script-semicolon
