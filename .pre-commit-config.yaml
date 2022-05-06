@@ -32,7 +32,7 @@ repos:
     args: ["--manifest", "transform/target/manifest.json"]
     files: ^transform/models/
   - id: check-model-has-all-columns
-    args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
+    args: ["--manifest", "transform/logs/manifest.json", "--catalog", "transform/target/catalog.json"]
     files: ^transform/models/
     # files: ^transform/models/
   - id: check-model-has-description
