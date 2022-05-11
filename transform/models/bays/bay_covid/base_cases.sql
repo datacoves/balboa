@@ -1,5 +1,6 @@
 {{ config(materialized='ephemeral') }}
 
+
 with raw_source as (
 
     select * from {{ source('nyt_covid', 'nyt_covid_data') }}
