@@ -7,12 +7,13 @@ repos:
       language: script
       types: [python]
       pass_filenames: false
+      always_run: true
 - repo: https://github.com/datacoves/pre-commit-dbt
   rev: a9f897359ae9b5dca62090b3fbf6cadef5f63143
   hooks:
-  - id: dbt-run
+  - id: dbt-compile
     files: ^transform/models/
-    args: ["--models", "state:modified+", "--cmd-flags", "++defer", "++project+dir", "transform", "++state", "logs", "--"]
+    args: ["--models", "state:modified+", "--cmd-flags", "++project+dir", "transform", "++state", "logs", "--"]
   - id: dbt-docs-generate
     files: ^transform/models/
     args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"] 
@@ -34,7 +35,6 @@ repos:
   - id: check-model-has-all-columns
     args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
     files: ^transform/models/
-    # files: ^transform/models/
   - id: check-model-has-description
     args: ["--manifest", "transform/target/manifest.json"]
     files: ^transform/models/
