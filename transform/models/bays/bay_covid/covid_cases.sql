@@ -9,6 +9,7 @@ with raw_cases as (
     from {{ source('starschema_covid19', 'jhu_covid_19') }}
 ),
 
+
 create_location_id as (
     select
         {{ dbt_utils.surrogate_key(['country_region', 'province_state', 'county']) }} as location_id,
