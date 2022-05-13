@@ -14,11 +14,12 @@ repos:
   - id: dbt-compile
     files: ^transform/models/
     args: ["--models", "state:modified+", "--cmd-flags", "++project+dir", "transform", "++state", "logs", "--"]
+    always_run: true
   - id: dbt-docs-generate
     files: ^transform/models/
     args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"] 
-  - id: check-source-table-has-description  
-    files: ^transform/models/  
+  - id: check-source-table-has-description
+    files: ^transform/models/
   - id: check-script-semicolon
     files: ^transform/models/
   - id: check-script-has-no-table-name
@@ -28,7 +29,6 @@ repos:
     args: ["--manifest", "transform/target/manifest.json"]
   - id: generate-model-properties-file
     args: ["--properties-file", "/models/{schema}/{name}.yml", "--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json", "--"]
-
   - id: check-model-has-properties-file
     args: ["--manifest", "transform/target/manifest.json"]
     files: ^transform/models/
