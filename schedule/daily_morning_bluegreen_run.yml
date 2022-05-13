@@ -12,6 +12,7 @@ daily_morning_bluegreen_run:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
       dbt_project_path: transform
+      virtualenv_path: ~/.virtualenvs/datacoves
       deploy_path: /tmp/load
       task_group_name: extract_and_load
       # Update tag for job
@@ -20,5 +21,5 @@ daily_morning_bluegreen_run:
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
+      bash_command: "source ~/.virtualenvs/datacoves/bin/activate && python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
