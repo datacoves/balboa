@@ -9,7 +9,7 @@ repos:
       pass_filenames: false
       always_run: true
 - repo: https://github.com/datacoves/pre-commit-dbt
-  rev: a9f897359ae9b5dca62090b3fbf6cadef5f63143
+  rev: 641b4bdd46536bf3d5390e94af672602d3937694
   hooks:
   - id: dbt-compile
     files: ^transform/models/
