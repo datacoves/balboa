@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: cpi_gasoline
+    database: raw
+    schema: cpi_gasoline
+    tags:
+      - daily_morning
+    tables:
+      - name: cpi_gasoline
+        identifier: _AIRBYTE_RAW_CPI_GASOLINE
+
+models:
+  - name: cpi_gasoline
+    columns:
+      - name: value
+      - name: footnote_codes
+      - name: period
+      - name: series_id
+      - name: year
+      - name: _airbyte_ab_id
+      - name: _airbyte_emitted_at
