@@ -33,7 +33,7 @@ outdated_grouped_timestamps as (
 
     dateadd(
         day,
-        -90,
+        -180,
         cast(convert_timezone('UTC', 'America/Los_Angeles', 
     current_timestamp::
     timestamp_ntz

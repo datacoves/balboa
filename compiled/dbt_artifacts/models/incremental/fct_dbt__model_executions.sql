@@ -20,6 +20,9 @@ model_executions_incremental as (
     from model_executions
 
     
+        -- this filter will only be applied on an incremental run
+        where coalesce(artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.fct_dbt__model_executions), true)
+    
 
 ),
 

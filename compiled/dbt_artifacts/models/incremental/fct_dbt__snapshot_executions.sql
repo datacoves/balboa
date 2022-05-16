@@ -20,6 +20,9 @@ snapshot_executions_incremental as (
     from node_executions
     where resource_type = 'snapshot'
         
+            -- this filter will only be applied on an incremental run
+            and coalesce(artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.fct_dbt__snapshot_executions), true)
+        
 
 ),
 

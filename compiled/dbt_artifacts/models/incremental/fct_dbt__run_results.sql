@@ -15,6 +15,9 @@ incremental_run_results as (
     from run_results
 
     
+    -- this filter will only be applied on an incremental run
+    where coalesce(artifact_generated_at > (select max(artifact_generated_at) from BALBOA.source_dbt_artifacts.fct_dbt__run_results), true)
+    
 
 ),
 

@@ -1,19 +1,16 @@
 
 
-WITH 
- 
-base_cases AS (
-
-SELECT * 
-FROM BALBOA.bay_covid.base_cases
-), 
-state_codes AS (
-
-SELECT * 
-FROM BALBOA.seeds.state_codes
+with cases as (
+    select
+        *
+    from BALBOA.bay_covid.base_cases
 ),
 
-
+states as (
+    select
+        *
+    from BALBOA.seeds.state_codes
+),
 
 final_monthly_cases as (
     select
@@ -21,19 +18,20 @@ final_monthly_cases as (
         state,
         cases,
         deaths
-    from(
-            select
-                cases,
-                deaths,
-                date,
-                state,
-                row_number() over (
-                    partition by
-                        state,
-                        year(date),
-                        month(date)
-                    order by day(date) desc) as row_num
-            from base_cases)
+    from (
+        select
+            cases,
+            deaths,
+            date,
+            state,
+            row_number() over (
+                partition by
+                    state,
+                    year(date),
+                    month(date)
+                order by day(date) desc) as row_num
+        from cases
+    ) as __q
     where row_num = 1
     order by date
 )

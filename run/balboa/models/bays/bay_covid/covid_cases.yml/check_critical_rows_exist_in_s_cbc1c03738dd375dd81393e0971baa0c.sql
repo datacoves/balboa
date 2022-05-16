@@ -5,7 +5,7 @@ select
     from (
       
         select *
-        from staging_BALBOA.dbt_test__audit.dbt_expectations_expect_groupe_faf0873fa4b08ba538c7cfe018b7e925
+        from staging_BALBOA.dbt_test__audit.check_critical_rows_exist_in_s_cbc1c03738dd375dd81393e0971baa0c
     
       
     ) dbt_internal_test
