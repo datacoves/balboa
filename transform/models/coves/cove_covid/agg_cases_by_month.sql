@@ -6,6 +6,7 @@
     ]) 
 }}, #}
 
+
 with cases as (
     select
         *

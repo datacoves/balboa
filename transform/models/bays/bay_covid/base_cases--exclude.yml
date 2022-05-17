@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: base_cases
+  - name: base_cases_exclude
     description: Covid information from the NYT
     columns:
       - name: cases
