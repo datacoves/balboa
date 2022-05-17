@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 import subprocess
-# import sys
 import os
-# import time
 import logging
 
-
-# DBT_PROJECT_DIR = "/opt/airflow/dags/repo/balboa.git/transform"
 DBT_FINAL_DB_NAME = os.environ['DBT_DATABASE']
 
 #This db must be prefaced 'staging' to work with /transform/macros/ref.sql override
@@ -31,7 +27,6 @@ def run_dbt(args, cwd):
             subprocess.run(["dbt", "build","--fail-fast"], check=True, cwd=cwd)
     else:
         logging.info("Getting prod manifest")
-
         # this env_var is referenced by get_artifacts
         os.environ['DBT_HOME'] = cwd
         subprocess.run(["../automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
@@ -42,6 +37,8 @@ def run_dbt(args, cwd):
     # Save the latest manifest to snowflake
     subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
     logging.info("Uploading new prod manifest")
+
+    logging.info("Running dbt against Database: " + os.environ['DBT_DATABASE'])
 
     subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_artifacts"], check=True, cwd=cwd)
     subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_dbt_artifacts_v2"], check=True, cwd=cwd)
@@ -57,13 +54,13 @@ def main(args):
         cwd = f"/home/airflow/transform-pr-{commit_hash}"
         logging.info("Copying dbt project to temp directory")
         subprocess.run(["cp", "-rf", DBT_HOME, cwd], check=True)
-        subprocess.run(["dbt", "deps"], check=True, cwd=cwd)
     else:
         cwd = DBT_HOME
         logging.info("DBT_HOME " + DBT_HOME)
 
     logging.info("Setting db to staging database")
     os.environ['DBT_DATABASE'] = DBT_STAGING_DB_NAME
+    logging.info("Running dbt against Database: " + os.environ['DBT_DATABASE'])
 
     logging.info("Checking that staging database does not exist")
     STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
