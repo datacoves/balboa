@@ -5,7 +5,7 @@
 
 {% macro ref(modelname) %}
 
-    {% if builtins.ref(modelname).database.startswith('staging') %}
+    {% if builtins.ref(modelname).database and builtins.ref(modelname).database.startswith('staging') %}
         {{ return(builtins.ref(modelname).include(database=False)) }}
     {% else %}
         {{ return(builtins.ref(modelname)) }}
