@@ -8,7 +8,7 @@ with base as (
 base_v2 as (
 
     select *
-    from balboa.source_dbt_artifacts.dbt_run_results
+    from BALBOA.source_dbt_artifacts.dbt_run_results
 
 ),
 

@@ -15,7 +15,7 @@ base_nodes as (
 base_v2 as (
 
     select *
-    from balboa.source_dbt_artifacts.dbt_run_results_nodes
+    from BALBOA.source_dbt_artifacts.dbt_run_results_nodes
 
 ),
 

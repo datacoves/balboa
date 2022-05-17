@@ -1,7 +1,7 @@
 with base as (
 
     select *
-    from balboa.source_dbt_artifacts.artifacts
+    from BALBOA.source_dbt_artifacts.artifacts
 
 ),
 
