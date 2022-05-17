@@ -32,7 +32,7 @@ def run_dbt(args, cwd):
         subprocess.run(["../automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
         
         logging.info("Deployment run of dbt")
-        # subprocess.run(["dbt", "build", "--defer", "--fail-fast",'--state', 'logs', '-s', 'state:modified+'], check=True, cwd=cwd)
+        subprocess.run(["dbt", "build", "--defer", "--fail-fast",'--state', 'logs', '-s', 'state:modified+'], check=True, cwd=cwd)
 
     # Save the latest manifest to snowflake
     subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
