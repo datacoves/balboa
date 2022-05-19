@@ -1,13 +1,12 @@
-
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'balboa'
-version: '1.0.0'
+name: "balboa"
+version: "1.0.0"
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'default'
+profile: "default"
 
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
@@ -19,10 +18,9 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
-    - "target"
-
+target-path: "target" # directory which will store compiled SQL files
+clean-targets: # directories to be removed by `dbt clean`
+  - "target"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -31,8 +29,8 @@ seeds:
   +schema: seeds
   +quote_columns: false
   +persist_docs:
-      relation: true
-      columns: true
+    relation: true
+    columns: true
 
 snapshots:
   balboa:
@@ -66,8 +64,8 @@ models:
         +schema: source_starschema_covid19
 
     +persist_docs:
-        relation: true
-        columns: true
+      relation: true
+      columns: true
 
   post-hook:
     - "{{ dbt_snow_mask.apply_masking_policy() }}"
@@ -75,9 +73,9 @@ models:
   # Snowflake Defualts
   +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
   copy_grants: true
-  
+
   dbt_artifacts:
-    # +enabled: "{{ false if target.name == 'dev' else true }}"
+    +enabled: "{{ false if target.name == 'dev' else true }}"
     +schema: source_dbt_artifacts
     staging:
       +schema: source_dbt_artifacts
@@ -86,7 +84,7 @@ tests:
   +store_failures: true
 
 vars:
-  'dbt_date:time_zone': 'America/Los_Angeles'
+  "dbt_date:time_zone": "America/Los_Angeles"
 
   dbt_artifacts:
     dbt_artifacts_schema: source_dbt_artifacts # optional, default is 'dbt_artifacts'
