@@ -23,7 +23,7 @@ def get_commit_hash():
 
 
 def run_venv_command(command: str, cwd: str=None):
-    cmd_list = shlex.split(f"/bin/bash -c 'source {VIRTUALENV_PATH} && {command}'")
+    cmd_list = shlex.split(f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'")
     try:
         process = subprocess.run(cmd_list, check=True, cwd=cwd)
     except Exception:
