@@ -64,6 +64,7 @@ def main(args):
         cwd = f"/home/airflow/transform-pr-{commit_hash}"
         logging.info("Copying dbt project to temp directory")
         subprocess.run(["cp", "-rf", DBT_HOME, cwd], check=True)
+        run_venv_command("dbt deps", cwd=cwd)
     else:
         cwd = DBT_HOME
         logging.info("DBT_HOME " + DBT_HOME)
