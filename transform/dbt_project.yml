@@ -77,7 +77,7 @@ models:
   copy_grants: true
   
   dbt_artifacts:
-    # +enabled: "{{ false if target.name == 'dev' else true }}"
+    +enabled: "{{ true if target.name == 'prod' else false }}"
     +schema: source_dbt_artifacts
     staging:
       +schema: source_dbt_artifacts

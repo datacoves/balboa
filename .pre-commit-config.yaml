@@ -7,6 +7,7 @@ repos:
       language: script
       types: [python]
       pass_filenames: false
+      always_run: true
 - repo: https://github.com/datacoves/pre-commit-dbt
   rev: 641b4bdd46536bf3d5390e94af672602d3937694
   hooks:

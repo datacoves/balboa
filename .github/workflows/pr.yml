@@ -43,18 +43,18 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation create_database"
 
-      - name: Run governance checks
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt-coves check --no-fix"
-
       # dont need to get productin manifest if dbt-coves check is run before
       - name: Run dbt build
         uses: datacoves/ci-basic-action@v0.5.0.202205121958
         with:
           dbt_project_folder: "transform"
           command: "dbt build --fail-fast --defer --state logs --select state:modified+"
+
+      - name: Run governance checks
+        uses: datacoves/ci-basic-action@v0.5.0.202205121958
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt-coves check --no-fix"
 
       - name: Grant access to PR database
         uses: datacoves/ci-basic-action@v0.5.0.202205121958
