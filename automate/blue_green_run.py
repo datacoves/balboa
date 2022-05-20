@@ -3,6 +3,7 @@ import argparse
 import subprocess
 import os
 import logging
+import shlex
 
 DBT_FINAL_DB_NAME = os.environ['DBT_DATABASE']
 
@@ -11,37 +12,46 @@ DBT_STAGING_DB_NAME = "staging_" + os.environ['DBT_DATABASE']
 
 DBT_HOME = os.environ.get("DBT_HOME", os.environ.get("DATACOVES__DBT_HOME"))
 
+VIRTUALENV_PATH = "/home/airflow/.virtualenvs/datacoves"
+
+
 def get_commit_hash():
     return subprocess.run(['git', 'rev-parse', 'HEAD'],
         capture_output=True,
         text=True,
         cwd=DBT_HOME).stdout.strip("\n")
 
+
+def run_venv_command(command: str, cwd: str=None):
+    cmd_list = shlex.split(f"/bin/bash -c 'source {VIRTUALENV_PATH} && {command}'")
+    return subprocess.run(cmd_list, check=True, cwd=cwd)
+
+
 def run_dbt(args, cwd):
     if args.is_production:
         if args.selector:
             logging.info("Running dbt build with selector " + args.selector +"+")
-            subprocess.run(["dbt", "build","--fail-fast","-s", f"{args.selector}+"], check=True, cwd=cwd)
+            run_venv_command(f"dbt build --fail-fast -s {args.selector}+", cwd=cwd)
         else:
             logging.info("Production run of dbt")
-            subprocess.run(["dbt", "build","--fail-fast"], check=True, cwd=cwd)
+            run_venv_command("dbt build --fail-fast", cwd=cwd)
     else:
         logging.info("Getting prod manifest")
         # this env_var is referenced by get_artifacts
         os.environ['DBT_HOME'] = cwd
-        subprocess.run(["../automate/dbt/get_artifacts.sh"], check=True, cwd=cwd)
+        run_venv_command("../automate/dbt/get_artifacts.sh", cwd=cwd)
         
         logging.info("Deployment run of dbt")
-        subprocess.run(["dbt", "build", "--defer", "--fail-fast",'--state', 'logs', '-s', 'state:modified+'], check=True, cwd=cwd)
+        run_venv_command("dbt build --defer --fail-fast --state logs -s state:modified+", cwd=cwd)
 
     # Save the latest manifest to snowflake
-    subprocess.run(["dbt", "compile"], check=True, cwd=cwd)
+    run_venv_command("dbt compile", cwd=cwd)
     logging.info("Uploading new prod manifest")
 
     logging.info("Running dbt against Database: " + os.environ['DBT_DATABASE'])
 
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_artifacts"], check=True, cwd=cwd)
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "upload_dbt_artifacts_v2"], check=True, cwd=cwd)
+    run_venv_command("dbt --no-write-json run-operation upload_artifacts", cwd=cwd)
+    run_venv_command("dbt --no-write-json run-operation upload_dbt_artifacts_v2", cwd=cwd)
 
 def main(args):
     """
@@ -65,26 +75,26 @@ def main(args):
     logging.info("Checking that staging database does not exist")
     STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
     logging.info(STAGING_DB_ARGS)
-    subprocess.run(["dbt", "--no-write-json", "run-operation", "check_db_does_not_exist", "--args", STAGING_DB_ARGS], check=True, cwd=cwd)
+    run_venv_command(f"dbt --no-write-json run-operation check_db_does_not_exist --args {STAGING_DB_ARGS}", cwd=cwd)
 
     CLONE_DB_ARGS = '{"source_db": "' + DBT_FINAL_DB_NAME + '", "target_db": "' + DBT_STAGING_DB_NAME + '"}'
-    subprocess.run(["dbt", "run-operation", "clone_database", "--args", CLONE_DB_ARGS], check=True, cwd=cwd)
+    run_venv_command(f"dbt run-operation clone_database --args {CLONE_DB_ARGS}", cwd=cwd)
 
     # this is here because cloning of db does not clone the stage
     logging.info("Creating stage for dbt_aritifacts")
-    subprocess.run(["dbt", "run-operation", "create_dbt_artifacts_stage"], check=True, cwd=cwd)
+    run_venv_command("dbt run-operation create_dbt_artifacts_stage", cwd=cwd)
 
     run_dbt(args, cwd)
 
     logging.info("Granting usage to staging database ")
-    subprocess.run(["dbt", "run-operation", "grant_prd_usage"], check=True, cwd=cwd)
+    run_venv_command("dbt run-operation grant_prd_usage", cwd=cwd)
 
     logging.info("Swapping staging database " + DBT_STAGING_DB_NAME + " with production " + DBT_FINAL_DB_NAME)
     SWAP_DB_ARGS = '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
-    subprocess.run(["dbt", "run-operation", "swap_database", "--args", SWAP_DB_ARGS], check=True, cwd=cwd)
+    run_venv_command(f"dbt run-operation swap_database --args {SWAP_DB_ARGS}", cwd=cwd)
     
     logging.info("Dropping staging database")
-    subprocess.run(["dbt", "run-operation", "drop_staging_db", "--args", STAGING_DB_ARGS], check=True, cwd=cwd)
+    run_venv_command(f"dbt run-operation drop_staging_db --args {STAGING_DB_ARGS}", cwd=cwd)
     logging.info("done with dropping!!!!")
 
     if args.is_production:
