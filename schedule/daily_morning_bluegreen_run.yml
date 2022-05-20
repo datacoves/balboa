@@ -14,12 +14,12 @@ daily_morning_bluegreen_run:
       dbt_project_path: transform
       deploy_path: /tmp/load
       task_group_name: extract_and_load
-      virtualenv_path: ~/.virtualenvs/datacoves
+      virtualenv_path: /home/airflow/.virtualenvs/datacoves
       # Update tag for job
       run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "source ~/.virtualenvs/datacoves/bin/activate && python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
+      bash_command: "source /home/airflow/.virtualenvs/datacoves/bin/activate && python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
