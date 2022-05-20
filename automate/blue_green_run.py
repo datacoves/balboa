@@ -24,11 +24,7 @@ def get_commit_hash():
 
 def run_venv_command(command: str, cwd: str=None):
     cmd_list = shlex.split(f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'")
-    try:
-        process = subprocess.run(cmd_list, check=True, cwd=cwd)
-    except Exception:
-        print(f"Failed process output: {process.stdout.decode()}")
-        raise
+    process = subprocess.run(cmd_list, check=True, cwd=cwd)
 
 
 def run_dbt(args, cwd):
@@ -79,10 +75,10 @@ def main(args):
     logging.info("Checking that staging database does not exist")
     STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
     logging.info(STAGING_DB_ARGS)
-    run_venv_command(f"dbt --no-write-json run-operation check_db_does_not_exist --args {STAGING_DB_ARGS}", cwd=cwd)
+    run_venv_command(f"dbt --no-write-json run-operation check_db_does_not_exist --args \"{STAGING_DB_ARGS}\"", cwd=cwd)
 
     CLONE_DB_ARGS = '{"source_db": "' + DBT_FINAL_DB_NAME + '", "target_db": "' + DBT_STAGING_DB_NAME + '"}'
-    run_venv_command(f"dbt run-operation clone_database --args {CLONE_DB_ARGS}", cwd=cwd)
+    run_venv_command(f"dbt run-operation clone_database --args \"{CLONE_DB_ARGS}\"", cwd=cwd)
 
     # this is here because cloning of db does not clone the stage
     logging.info("Creating stage for dbt_aritifacts")
@@ -95,10 +91,10 @@ def main(args):
 
     logging.info("Swapping staging database " + DBT_STAGING_DB_NAME + " with production " + DBT_FINAL_DB_NAME)
     SWAP_DB_ARGS = '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
-    run_venv_command(f"dbt run-operation swap_database --args {SWAP_DB_ARGS}", cwd=cwd)
+    run_venv_command(f"dbt run-operation swap_database --args \"{SWAP_DB_ARGS}\"", cwd=cwd)
     
     logging.info("Dropping staging database")
-    run_venv_command(f"dbt run-operation drop_staging_db --args {STAGING_DB_ARGS}", cwd=cwd)
+    run_venv_command(f"dbt run-operation drop_staging_db --args \"{STAGING_DB_ARGS}\"", cwd=cwd)
     logging.info("done with dropping!!!!")
 
     if args.is_production:
