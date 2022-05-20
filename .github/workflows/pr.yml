@@ -50,17 +50,17 @@ jobs:
       #     dbt_project_folder: "transform"
       #     command: "dbt build --fail-fast --defer --state logs --select state:modified+"
 
-      - name: Run governance checks
-        uses: datacoves/ci-basic-action@v0.5.0.202205181950
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt-coves check --no-fix"
+      # - name: Run governance checks
+      #   uses: datacoves/ci-basic-action@v0.5.0.202205181950
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt-coves check --no-fix"
 
-      - name: Grant access to PR database
-        uses: datacoves/ci-basic-action@v0.5.0.202205181950
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation grant_access_to_pr_database"
+      # - name: Grant access to PR database
+      #   uses: datacoves/ci-basic-action@v0.5.0.202205181950
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Test DAG structure integrity (DagBag Loading)
         uses: datacoves/ci-airflow-action@v0.5.202205200411
