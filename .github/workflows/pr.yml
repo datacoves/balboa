@@ -43,6 +43,12 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation create_database"
 
+      - name: Get prod manifest
+        uses: datacoves/ci-basic-action@v0.5.0.202205121958
+        with:
+          dbt_project_folder: "transform"
+          command: "../automate/dbt/get_artifacts.sh"
+
       # dont need to get productin manifest if dbt-coves check is run before
       - name: Run dbt build
         uses: datacoves/ci-basic-action@v0.5.0.202205121958
