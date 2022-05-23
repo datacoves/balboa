@@ -22,6 +22,7 @@
       - z_schema_dbt_test__audit
       - z_schema_bay_country
       - z_schema_bay_covid
+      - z_schema_bay_observability
       - z_schema_cove_covid
 
       - z_wh_transforming
@@ -57,7 +58,10 @@
     member_of:
       - z_db_raw_write
       - z_wh_loading
+      - z_db_starschema_covid19
     owns:
+      databases:
+        - raw
       schemas:
         - raw.*
 
@@ -82,9 +86,9 @@
       databases:
         - balboa
         - balboa_dev
-        - raw
       schemas:
         - balboa.*
+        - raw.snapshots
 
 
 ##########################
@@ -317,6 +321,12 @@
       schemas:
         read:
           - balboa.bay_covid
+
+- z_schema_bay_observability:
+    privileges:
+      schemas:
+        read:
+          - balboa.bay_observability
 
 #  COVES
 

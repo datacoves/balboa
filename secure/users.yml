@@ -29,6 +29,20 @@
     member_of:
       - analyst
 
+- ALIEU:
+    can_login: true
+    member_of:
+      - analyst
+
+- ALEX:
+    can_login: true
+    member_of:
+      - accountadmin
+      - securityadmin
+      - analyst
+      - loader_airbyte
+      - transformer_dbt_prd
+
 - MARTIN:
     can_login: true
     member_of:
@@ -39,6 +53,12 @@
     member_of:
       - accountadmin
       - securityadmin
+      - analyst
+
+# Snowflake demo account
+- SNOWFLAKE_DEMO:
+    can_login: true
+    member_of:
       - analyst
 
 
@@ -73,6 +93,11 @@
       - analyst
 
 - SVC_DATAMEER:
+    can_login: true
+    member_of:
+      - analyst
+
+- SVC_SELECTSTAR:
     can_login: true
     member_of:
       - analyst

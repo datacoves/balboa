@@ -3,12 +3,12 @@ default:
     outputs:
         dev:
             type: snowflake
-            account: "toa80779"
-            role: ANALYST
+            account: toa80779
+            role: analyst
             user: "{{ snowflake_username }}"
             password: "{{ snowflake_password }}"
-            database: BALBOA_DEV
-            warehouse: TRANSFORMING_WAREHOUSE
+            database: balboa_dev
+            warehouse: wh_transforming
             schema: "{{ snowflake_username }}"
             threads: 8
             keepalives_idle: 0

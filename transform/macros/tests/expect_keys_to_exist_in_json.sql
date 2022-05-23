@@ -10,7 +10,7 @@
                 tests:
                   # This test assures that columns exist in the JSON blob in the _airbyte_data column
                   - expect_keys_to_exist_in_json:
-                      value_set: ['Id', 'Name', 'PersonBirthdate', 'Status__c']
+                      value_set: ['id', 'name', 'date', 'status']
                       rows_to_check: 3
 #}
 

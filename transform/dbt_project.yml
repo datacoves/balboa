@@ -64,8 +64,6 @@ models:
         +schema: source_country_data
       starschema_covid19:
         +schema: source_starschema_covid19
-      dbt_artifacts:
-        +schema: source_dbt_artifacts
 
     +persist_docs:
         relation: true
@@ -74,17 +72,15 @@ models:
   post-hook:
     - "{{ dbt_snow_mask.apply_masking_policy() }}"
 
+  # Snowflake Defualts
+  +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
+  copy_grants: true
   
   dbt_artifacts:
+    +enabled: "{{ true if target.name == 'prod' else false }}"
     +schema: source_dbt_artifacts
-    # +database: balboa
     staging:
       +schema: source_dbt_artifacts
-    incremental:
-      fct_dbt__run_results:
-        +enabled: false
-    #   +database: balboa
-    # enabled: false
 
 tests:
   +store_failures: true
@@ -93,5 +89,5 @@ vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
 
   dbt_artifacts:
-    dbt_artifacts_database: balboa # optional, default is your target database
     dbt_artifacts_schema: source_dbt_artifacts # optional, default is 'dbt_artifacts'
+
