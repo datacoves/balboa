@@ -1,8 +1,0 @@
-version: 2
-
-models:
-  - name: credits_used_tod
-    description: "Credits used by time of day"
-    columns:
-      - name: credits_used
-      - name: hour
