@@ -207,7 +207,7 @@ if __name__ == "__main__":
             help="Defines if the run is a Production run",
         )
 
-        args = parser.parse_args()
+        args = vars(parser.parse_args())
 
         main(**args)
 
