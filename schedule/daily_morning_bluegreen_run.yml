@@ -1,6 +1,6 @@
 daily_morning_bluegreen_run:
   description: "Bluegreen run at 7am"
-  schedule_interval: "56 6 * * *"
+  schedule_interval: "01 6 * * *"
   default_args:
     start_date: 2021-01-01
   catchup: False
@@ -12,8 +12,9 @@ daily_morning_bluegreen_run:
       generator: dagfactory.AirbyteDbtGenerator
       airflow_connection_id: airbyte_connection
       dbt_project_path: transform
-      deploy_path: /home/airflow/load
+      deploy_path: /tmp/load
       task_group_name: extract_and_load
+      virtualenv_path: /home/airflow/.virtualenvs/datacoves
       # Update tag for job
       run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"
