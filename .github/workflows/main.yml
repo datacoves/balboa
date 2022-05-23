@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 50
 
       - name: Install dbt packages
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
+        uses: datacoves/ci-basic-action@v0.5.0.202205181950
 
         with:
           dbt_project_folder: "transform"
@@ -44,13 +44,13 @@ jobs:
           command: "../automate/blue_green_run.py --deployment-run"
 
       - name: Generate dbt documentation
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
+        uses: datacoves/ci-basic-action@v0.5.0.202205181950
         with:
           dbt_project_folder: "transform"
           command: "dbt docs generate"
 
       - name: Delete merged test databases
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
+        uses: datacoves/ci-basic-action@v0.5.0.202205181950
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/remove_test_databases.sh"
