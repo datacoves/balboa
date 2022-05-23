@@ -2,13 +2,23 @@
 verbose = 0
 nocolor = False
 dialect = snowflake
+
 templater = dbt
+
 # rules = None
-rules = L001, L003, L005, L010, L012
-# rules = L001, L003, L005, L009, L010, L012
+rules = L001, L003, L005, L009, L010, L012
 
-
-project_dir = ./
+# Suggested core rules
+# L001 - L006
+# L008 - L010
+# L012 - L026
+# L028
+# L030
+# L033
+# L038 - L041
+# L045 - L050
+# L052
+# L054
 
 recurse = 0
 output_line_length = 80
@@ -24,6 +34,10 @@ sql_file_exts = .sql,.sql.j2,.dml,.ddl
 exclude_rules = L032,L044, L030, L031, L034
 
 ### OPINIONATED DEFAULTS
+
+[sqlfluff:templater:dbt]
+project_dir = ./
+
 
 # Some rules can be configured directly from the config common to other rules.
 [sqlfluff:rules]
@@ -46,6 +60,8 @@ unwrap_wrapped_queries = True
 # Some rules have their own specific config.
 [sqlfluff:rules:L003]
 lint_templated_tokens = True
+indent_unit = space
+tab_space_size = 4
 
 [sqlfluff:rules:L010]  # Keywords
 capitalisation_policy = lower

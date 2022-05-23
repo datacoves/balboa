@@ -3,6 +3,6 @@ select
     usage_month
 from {{ ref('stg_storage_usage') }}
 where
-    usage_month >= dateadd(year, -1, date_trunc(month, current_date)) and usage_month < date_trunc(month, current_date)
+    datediff(month, usage_month, current_date) <= 12 and datediff(month, usage_month, current_date) >= 1
 group by usage_month
 order by usage_month

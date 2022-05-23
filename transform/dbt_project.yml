@@ -12,10 +12,10 @@ profile: 'default'
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
-source-paths: ["models"]
+model-paths: ["models"]
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
-data-paths: ["data"]
+seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
@@ -64,27 +64,23 @@ models:
         +schema: source_country_data
       starschema_covid19:
         +schema: source_starschema_covid19
-      dbt_artifacts:
-        +schema: source_dbt_artifacts
 
     +persist_docs:
         relation: true
         columns: true
 
-  post-hook: 
+  post-hook:
     - "{{ dbt_snow_mask.apply_masking_policy() }}"
 
+  # Snowflake Defualts
+  +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
+  copy_grants: true
   
   dbt_artifacts:
+    +enabled: "{{ true if target.name == 'prod' else false }}"
     +schema: source_dbt_artifacts
-    # +database: balboa
     staging:
       +schema: source_dbt_artifacts
-    incremental:
-      fct_dbt__run_results:
-        +enabled: false
-    #   +database: balboa
-    # enabled: false
 
 tests:
   +store_failures: true
@@ -93,5 +89,5 @@ vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
 
   dbt_artifacts:
-    dbt_artifacts_database: balboa # optional, default is your target database
     dbt_artifacts_schema: source_dbt_artifacts # optional, default is 'dbt_artifacts'
+
