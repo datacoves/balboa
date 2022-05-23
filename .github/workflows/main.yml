@@ -38,7 +38,7 @@ jobs:
           command: "dbt deps"
 
       - name: Run blue / green deployment
-        uses: datacoves/ci-airflow-action@v0.5.0.202204221358
+        uses: datacoves/ci-airflow-action@v0.5.202205201718
         with:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
