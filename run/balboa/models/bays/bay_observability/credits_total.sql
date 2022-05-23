@@ -1,4 +1,39 @@
-select
+
+  create or replace  view staging_BALBOA.bay_observability.credits_total
+  
+    
+    
+(
+  
+    
+      CREDITS_USED
+    
+    , 
+  
+    
+      START_TIME
+    
+    , 
+  
+    
+      RANK
+    
+    , 
+  
+    
+      DAY_NAME
+    
+    , 
+  
+    
+      TOD
+    
+    
+  
+)
+
+  copy grants as (
+    select
     credits_used,
     start_time,
     case
@@ -13,4 +48,5 @@ select
     dayname(start_time) as day_name,
     hour(start_time) as tod
 from
-    BALBOA.bay_observability.stg_warehouse_metering_history
+    bay_observability.stg_warehouse_metering_history
+  );
