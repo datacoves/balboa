@@ -32,13 +32,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dbt packages
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
+        uses: datacoves/ci-basic-action@v0.5.0.202205181950
         with:
           dbt_project_folder: "transform"
           command: "dbt deps"
 
       - name: Create PR database
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
+        uses: datacoves/ci-basic-action@v0.5.0.202205181950
         with:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation create_database"
@@ -50,31 +50,31 @@ jobs:
           command: "../automate/dbt/get_artifacts.sh"
 
       # dont need to get productin manifest if dbt-coves check is run before
-      - name: Run dbt build
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt build --fail-fast --defer --state logs --select state:modified+"
+      # - name: Run dbt build
+      #   uses: datacoves/ci-basic-action@v0.5.0.202205181950
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt build --fail-fast --defer --state logs --select state:modified+"
 
-      - name: Run governance checks
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt-coves check --no-fix"
+      # - name: Run governance checks
+      #   uses: datacoves/ci-basic-action@v0.5.0.202205181950
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt-coves check --no-fix"
 
-      - name: Grant access to PR database
-        uses: datacoves/ci-basic-action@v0.5.0.202205121958
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation grant_access_to_pr_database"
+      # - name: Grant access to PR database
+      #   uses: datacoves/ci-basic-action@v0.5.0.202205181950
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Test DAG structure integrity (DagBag Loading)
-        uses: datacoves/ci-airflow-action@v0.5.0.202204221358
+        uses: datacoves/ci-airflow-action@v0.5.202205201718
         with:
           command: "python /usr/app/load_dagbag.py"
 
       - name: Test DBT Sources against DAGs' YAML files
-        uses: datacoves/ci-airflow-action@v0.5.0.202204221358
+        uses: datacoves/ci-airflow-action@v0.5.202205201718
         with:
           dbt_project_folder: "transform"
           command: "python /usr/app/test_dags.py"
