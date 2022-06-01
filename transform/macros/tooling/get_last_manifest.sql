@@ -4,10 +4,10 @@
         dbt run-operation get_last_manifest | more
     Ths problem may be in how the manifest.json file is writen.
     For that, try this and check that the output starts with {  "child_map": {
-        dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" | jq . | more
+        dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" | more
    
     Normally, we get the latest manifest for deferral / slim CI running:
-        dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" | jq . > logs/manifest.json
+        dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" > logs/manifest.json
 #}
 {# Once this is completed, deferral and state modifiers are available using --state logs #}
 
