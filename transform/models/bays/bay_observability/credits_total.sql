@@ -14,4 +14,3 @@ select
     hour(start_time) as tod
 from
     {{ ref('stg_warehouse_metering_history') }}
-
