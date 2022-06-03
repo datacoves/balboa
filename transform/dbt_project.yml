@@ -72,7 +72,7 @@ models:
   post-hook:
     - "{{ dbt_snow_mask.apply_masking_policy() }}"
 
-  # Snowflake Defualts
+  # Snowflake Defaults
   +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
   copy_grants: true
   
