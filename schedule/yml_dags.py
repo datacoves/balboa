@@ -39,7 +39,6 @@ def main():
         yaml_config_files = glob.glob(f"{dags_folder}/*.yml") + glob.glob(
             f"{dags_folder}/*.yaml"
         )
-
         all_dags = dict()
         for config_file in yaml_config_files:
             dag_factory = dagfactory.DagFactory(os.path.abspath(config_file))
