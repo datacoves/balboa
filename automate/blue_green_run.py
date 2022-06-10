@@ -14,8 +14,8 @@ DBT_HOME = os.environ.get("DBT_HOME", os.environ.get("DATACOVES__DBT_HOME"))
 
 # Specifying virtual env path on each image where this script is ran
 VIRTUALENVS = {
-    "airflow-airflow": "/home/airflow/.virtualenvs/datacoves",
-    "ci-airflow": "/root/.virtualenvs/datacoves",
+    "airflow-airflow": "/opt/datacoves/virtualenvs/main",
+    "ci-airflow": "/opt/datacoves/virtualenvs/main",
 }
 
 
