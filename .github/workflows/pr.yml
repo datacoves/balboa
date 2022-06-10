@@ -63,12 +63,12 @@ jobs:
       #     command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Test DAG structure integrity (DagBag Loading)
-        uses: datacoves/ci-airflow-action@v0.5.202205201718
+        uses: datacoves/ci-airflow-action@v0.5.202206101726
         with:
           command: "python /usr/app/load_dagbag.py"
 
       - name: Test DBT Sources against DAGs' YAML files
-        uses: datacoves/ci-airflow-action@v0.5.202205201718
+        uses: datacoves/ci-airflow-action@v0.5.202206101726
         with:
           dbt_project_folder: "transform"
           command: "python /usr/app/test_dags.py"
