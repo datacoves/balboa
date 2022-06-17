@@ -8,5 +8,6 @@
         "dataset_name": "country_populations"
     },
     "name": "Country Populations",
-    "sourceName": "File"
+    "sourceName": "File",
+    "connectorVersion": "1.2"
 }

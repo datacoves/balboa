@@ -14,7 +14,7 @@ daily_morning_bluegreen_run:
       dbt_project_path: transform
       deploy_path: /tmp/load
       task_group_name: extract_and_load
-      virtualenv_path: /home/airflow/.virtualenvs/datacoves
+      virtualenv_path: /opt/datacoves/virtualenvs/main
       # Update tag for job
       run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"

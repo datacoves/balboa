@@ -8,5 +8,6 @@
         "dataset_name": "nyt_covid_data"
     },
     "name": "nyt_covid_data",
-    "sourceName": "File"
+    "sourceName": "File",
+    "connectorVersion": "1.2"
 }

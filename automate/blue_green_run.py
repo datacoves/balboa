@@ -12,11 +12,7 @@ DBT_STAGING_DB_NAME = "staging_" + os.environ["DBT_DATABASE"]
 
 DBT_HOME = os.environ.get("DBT_HOME", os.environ.get("DATACOVES__DBT_HOME"))
 
-# Specifying virtual env path on each image where this script is ran
-VIRTUALENVS = {
-    "airflow-airflow": "/home/airflow/.virtualenvs/datacoves",
-    "ci-airflow": "/root/.virtualenvs/datacoves",
-}
+VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 
 
 def main(is_production: bool = False, selector: str = None):
@@ -163,17 +159,10 @@ def get_commit_hash():
 
 def run_venv_command(command: str, cwd: str = None, is_production: bool = False):
     """Activates a python environment and runs a command using it"""
-    virtualenv_path = get_virtualenv(is_production)
     cmd_list = shlex.split(
-        f"/bin/bash -c 'source {virtualenv_path}/bin/activate && {command}'"
+        f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
     )
     subprocess.run(cmd_list, check=True, cwd=cwd)
-
-
-def get_virtualenv(is_production: bool):
-    return (
-        VIRTUALENVS["airflow-airflow"] if is_production else VIRTUALENVS["ci-airflow"]
-    )
 
 
 if __name__ == "__main__":
