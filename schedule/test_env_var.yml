@@ -11,7 +11,7 @@ daily_morning_bluegreen_run:
     transform_2:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:daily_morning"
+      bash_command: "python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:test_env"
       dependencies: ["extract_and_load"]
       env:
         TEST_VAR: "{{ vars.value.TEST_VAR }}"
