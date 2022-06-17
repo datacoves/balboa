@@ -1,4 +1,4 @@
-daily_morning_bluegreen_run:
+test_env_var:
   description: "Bluegreen run at 7am"
   schedule_interval: "01 6 * * *"
   default_args:
@@ -8,10 +8,20 @@ daily_morning_bluegreen_run:
     extract_and_load:
       tooltip: "Extract and Load tasks"
   tasks:
+    load:
+      generator: dagfactory.AirbyteDbtGenerator
+      airflow_connection_id: airbyte_connection
+      dbt_project_path: transform
+      deploy_path: /tmp/load
+      task_group_name: extract_and_load
+      virtualenv_path: /opt/datacoves/virtualenvs/main
+      # Update tag for job
+      run_dbt_compile: false
+      dbt_list_args: "--select tag:daily_morning"
     transform_2:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:test_env"
+      bash_command: "python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
       env:
         TEST_VAR: "{{ vars.value.TEST_VAR }}"
