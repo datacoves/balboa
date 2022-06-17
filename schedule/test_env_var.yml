@@ -1,0 +1,17 @@
+daily_morning_bluegreen_run:
+  description: "Bluegreen run at 7am"
+  schedule_interval: "01 6 * * *"
+  default_args:
+    start_date: 2021-01-01
+  catchup: False
+  task_groups:
+    extract_and_load:
+      tooltip: "Extract and Load tasks"
+  tasks:
+    transform_2:
+      operator: airflow.operators.bash_operator.BashOperator
+      # Update tag for job
+      bash_command: "python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:daily_morning"
+      dependencies: ["extract_and_load"]
+      env:
+        TEST_VAR: "{{ vars.value.TEST_VAR }}"
