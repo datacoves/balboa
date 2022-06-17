@@ -18,10 +18,15 @@ test_env_var:
       # Update tag for job
       run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"
-    transform_2:
+    test_env:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "echo $TEST_VAR && python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:daily_morning"
+      bash_command: "echo $TEST_VAR"
       dependencies: ["extract_and_load"]
       env:
         TEST_VAR: "{{ vars.value.TEST_VAR }}"
+    transform_2:
+      operator: airflow.operators.bash_operator.BashOperator
+      # Update tag for job
+      bash_command: "python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:daily_morning"
+      dependencies: ["extract_and_load"]
