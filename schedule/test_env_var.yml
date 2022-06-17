@@ -24,7 +24,7 @@ test_env_var:
       bash_command: "echo $TEST_VAR"
       dependencies: ["extract_and_load"]
       env:
-        TEST_VAR: "{{ vars.value.TEST_VAR }}"
+        TEST_VAR: "{{ var.value.TEST_VAR }}"
     transform_2:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
