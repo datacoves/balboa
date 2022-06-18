@@ -1,53 +1,9 @@
 {
-    "sqltools.connections": [
-        {
-            "authenticator": "SNOWFLAKE",
-            "ocspOptions": {
-                "ocspFailOpen": true
-            },
-            "snowflakeOptions": {
-                "clientSessionKeepAlive": true,
-                "clientSessionKeepAliveHeartbeatFrequency": 3600,
-                "schema": "PUBLIC",
-                "role": "ANALYST"
-            },
-            "previewLimit": 50,
-            "driver": "Snowflake",
-            "name": "raw",
-            "account": "toa80779",
-            "username": "{{ snowflake_username }}",
-            "password": "{{ snowflake_password }}",
-            "database": "RAW",
-            "warehouse": "TRANSFORMING_WAREHOUSE"
-        },
-        {
-            "authenticator": "SNOWFLAKE",
-            "ocspOptions": {
-                "ocspFailOpen": true
-            },
-            "snowflakeOptions": {
-                "clientSessionKeepAlive": true,
-                "clientSessionKeepAliveHeartbeatFrequency": 3600,
-                "schema": "PUBLIC",
-                "role": "ANALYST"
-            },
-            "previewLimit": 50,
-            "driver": "Snowflake",
-            "name": "balboa_dev",
-            "account": "toa80779",
-            "username": "{{ snowflake_username }}",
-            "password": "{{ snowflake_password }}",
-            "database": "BALBOA_DEV",
-            "warehouse": "TRANSFORMING_WAREHOUSE"
-        }
-    ],
-    "sqltools.tableTreeItemsExpanded": true,
-    "sqltools.showStatusbar": false,
-    "sqltools.format": {
-        "reservedWordCase": "lower",
-        "language": "sql"
-    },
     "terminal.integrated.cwd": "/config/workspace/transform",
+    "sqlfluff.ignoreParsing": false,
+    "sqlfluff.config": "/config/workspace/transform/.sqlfluff",
+    "sqlfluff.executablePath": "/usr/local/bin/sqlfluff",
+    "sqlfluff.linter.run": "onSave",
     "actionButtons": {
         "defaultColor": "#ff0034", // Can also use string color names.
 			"loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
