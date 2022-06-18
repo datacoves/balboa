@@ -25,7 +25,6 @@ jobs:
       AIRBYTE__EXTRACT_LOCATION: /github/workspace/load
       AIRFLOW__CORE__DAGS_FOLDER: /github/workspace/automate/airflow/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
-      TEST_MODE: "True"
 
     steps:
       - name: Checkout branch
@@ -44,8 +43,7 @@ jobs:
           command: "dbt --no-write-json run-operation create_database"
 
       - name: Get prod manifest
-        uses: datacoves/ci-basic-action@v0.5.202206011956
-                                        
+        uses: datacoves/ci-basic-action@v0.5.202206011956                       
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
