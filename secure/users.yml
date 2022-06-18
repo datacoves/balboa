@@ -49,6 +49,11 @@
     member_of:
       - analyst
 
+- ROCKY:
+    can_login: true
+    member_of:
+      - analyst
+
 - SEBASTIAN:
     can_login: true
     member_of:

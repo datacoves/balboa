@@ -12,5 +12,6 @@
         }
     },
     "name": "Datacoves_Snowflake",
-    "destinationName": "Snowflake"
+    "destinationName": "Snowflake",
+    "connectorVersion": "1.2"
 }
