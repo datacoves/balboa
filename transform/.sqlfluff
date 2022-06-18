@@ -20,6 +20,11 @@ templater = dbt
 # L052
 # L054
 
+
+# Excluded rules
+# exclude_rules = L032,L044, L030, L031, L034
+exclude_rules = L031, L034, L057, L059
+
 recurse = 0
 output_line_length = 80
 runaway_limit = 10
@@ -29,11 +34,6 @@ ignore_templated_areas = True
 # Comma separated list of file extensions to lint.
 # NB: This config will only apply in the root folder.
 sql_file_exts = .sql,.sql.j2,.dml,.ddl
-
-# Excluded rules
-# exclude_rules = L032,L044, L030, L031, L034
-exclude_rules = L031, L034, L057
-
 
 ### OPINIONATED DEFAULTS
 
