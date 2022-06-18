@@ -12,7 +12,11 @@ DBT_STAGING_DB_NAME = "staging_" + os.environ["DBT_DATABASE"]
 
 DBT_HOME = os.environ.get("DBT_HOME", os.environ.get("DATACOVES__DBT_HOME"))
 
-VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
+# Specifying virtual env path on each image where this script is ran
+VIRTUALENVS = {
+    "airflow-airflow": "/home/airflow/.virtualenvs/datacoves",
+    "ci-airflow": "/root/.virtualenvs/datacoves",
+}
 
 
 def main(is_production: bool = False, selector: str = None):
@@ -21,6 +25,9 @@ def main(is_production: bool = False, selector: str = None):
     """
     logging.info("\n\n===== STARTING BLUE / GREEN RUN =====\n")
     commit_hash = get_commit_hash()
+
+    test_env_var = os.environ.get("TEST_VAR")
+    print(test_env_var)
 
     if is_production:
         cwd = f"/home/airflow/transform-pr-{commit_hash}"
@@ -159,10 +166,17 @@ def get_commit_hash():
 
 def run_venv_command(command: str, cwd: str = None, is_production: bool = False):
     """Activates a python environment and runs a command using it"""
+    virtualenv_path = get_virtualenv(is_production)
     cmd_list = shlex.split(
-        f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
+        f"/bin/bash -c 'source {virtualenv_path}/bin/activate && {command}'"
     )
     subprocess.run(cmd_list, check=True, cwd=cwd)
+
+
+def get_virtualenv(is_production: bool):
+    return (
+        VIRTUALENVS["airflow-airflow"] if is_production else VIRTUALENVS["ci-airflow"]
+    )
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-daily_morning_bluegreen_run:
+test_env_var:
   description: "Bluegreen run at 7am"
   schedule_interval: "01 6 * * *"
   default_args:
@@ -18,8 +18,15 @@ daily_morning_bluegreen_run:
       # Update tag for job
       run_dbt_compile: false
       dbt_list_args: "--select tag:daily_morning"
-    transform:
+    test_env:
       operator: airflow.operators.bash_operator.BashOperator
       # Update tag for job
-      bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
+      bash_command: "echo $TEST_VAR"
+      dependencies: ["extract_and_load"]
+      env:
+        TEST_VAR: "{{ var.value.TEST_VAR }}"
+    transform_2:
+      operator: airflow.operators.bash_operator.BashOperator
+      # Update tag for job
+      bash_command: "python $DATACOVES__REPO_PATH/automate/new_blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
