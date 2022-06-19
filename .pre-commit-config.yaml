@@ -44,6 +44,6 @@ repos:
         files: ^transform/models/
 
       # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
-      - id: check-model-has-all-columns
-        args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
-        files: ^transform/models/
+      # - id: check-model-has-all-columns
+      #   args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
+      #   files: ^transform/models/
