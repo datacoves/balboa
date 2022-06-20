@@ -1,4 +1,5 @@
 {
+    "sqlfluff.config": "/config/workspace/transform/.sqlfluff",
     "terminal.integrated.cwd": "/config/workspace/transform",
     "actionButtons": {
         "defaultColor": "#ff0034", // Can also use string color names.
