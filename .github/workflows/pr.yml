@@ -29,7 +29,8 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
-        fetch-depth: 2
+        with:
+          fetch-depth: 2
 
       - name: Install dbt packages
         uses: datacoves/ci-basic-action@v0.5.202206011956
