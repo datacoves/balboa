@@ -54,5 +54,5 @@ repos:
         language: python
         additional_dependencies: ["sqlfluff-templater-dbt", "dbt-core", "dbt-snowflake"]
         args: [--config,
-                /config/workspace/transform/.sqlfluff
+                transform/.sqlfluff
                 ]

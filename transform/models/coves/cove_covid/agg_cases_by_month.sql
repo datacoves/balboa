@@ -6,7 +6,6 @@
     ]) 
 }}, #}
 
-
 with cases as (
     SELECT *
     from {{ ref('base_cases') }}
