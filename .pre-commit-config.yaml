@@ -47,3 +47,12 @@ repos:
       # - id: check-model-has-all-columns
       #   args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
       #   files: ^transform/models/
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 0.11.2
+    hooks:
+      - id: sqlfluff-lint
+        language: python
+        additional_dependencies: ["sqlfluff-templater-dbt", "dbt-core", "dbt-snowflake"]
+        args: [--config,
+                /config/workspace/transform/.sqlfluff
+                ]
