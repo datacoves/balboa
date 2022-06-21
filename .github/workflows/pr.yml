@@ -50,6 +50,11 @@ jobs:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
 
+      - name: Run diff
+        uses: datacoves/ci-basic-action@v0.5.202206011956
+        with:
+          command: "git diff HEAD~ HEAD --name-status"
+          
       - name: Run governance checks
         uses: datacoves/ci-basic-action@v0.5.202206011956
         with:
