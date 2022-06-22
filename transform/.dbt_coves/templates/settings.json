@@ -1,9 +1,6 @@
 {
     "terminal.integrated.cwd": "/config/workspace/transform",
-    "sqlfluff.ignoreParsing": false,
-    "sqlfluff.config": "/config/workspace/transform/.sqlfluff",
-    "sqlfluff.executablePath": "/usr/local/bin/sqlfluff",
-    "sqlfluff.linter.run": "onSave",
+    "sqlfluff.config": "/config/workspace/transform/",
     "actionButtons": {
         "defaultColor": "#ff0034", // Can also use string color names.
 			"loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
