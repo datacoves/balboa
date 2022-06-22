@@ -11,6 +11,7 @@ with cases as (
     from {{ ref('base_cases') }}
 ),
 
+
 final_monthly_cases as (
     select
         date,
