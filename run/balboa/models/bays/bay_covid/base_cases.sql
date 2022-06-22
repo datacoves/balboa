@@ -1,4 +1,49 @@
-with raw_source as (
+
+  create or replace  view staging_BALBOA.bay_covid.base_cases
+  
+    
+    
+(
+  
+    
+      CASES
+    
+    , 
+  
+    
+      DEATHS
+    
+    , 
+  
+    
+      DATE
+    
+    , 
+  
+    
+      FIPS
+    
+    , 
+  
+    
+      STATE
+    
+    , 
+  
+    
+      _AIRBYTE_AB_ID
+    
+    , 
+  
+    
+      _AIRBYTE_EMITTED_AT
+    
+    
+  
+)
+
+  copy grants as (
+    with raw_source as (
 
     select * from raw.raw._AIRBYTE_RAW_NYT_COVID_DATA
 
@@ -20,3 +65,4 @@ final as (
 )
 
 select * from final
+  );
