@@ -7,7 +7,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'default'
+profile: 'default' # trigger1
 
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
@@ -72,7 +72,7 @@ models:
   post-hook:
     - "{{ dbt_snow_mask.apply_masking_policy() }}"
 
-  # Snowflake Defualts
+  # Snowflake Defaults
   +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
   copy_grants: true
   

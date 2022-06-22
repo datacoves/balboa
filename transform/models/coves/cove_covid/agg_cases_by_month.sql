@@ -7,15 +7,8 @@
 }}, #}
 
 with cases as (
-    select
-        *
+    select *
     from {{ ref('base_cases') }}
-),
-
-states as (
-    select
-        *
-    from {{ ref('state_codes') }}
 ),
 
 final_monthly_cases as (
@@ -37,7 +30,7 @@ final_monthly_cases as (
                     month(date)
                 order by day(date) desc) as row_num
         from cases
-    ) as __q
+    )
     where row_num = 1
     order by date
 )
