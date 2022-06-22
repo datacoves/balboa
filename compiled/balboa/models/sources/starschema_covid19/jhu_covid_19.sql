@@ -1,7 +1,6 @@
 with raw_source as (
 
-    select
-        *
+    select *
     from starschema_covid19.public.JHU_COVID_19
 
 ),

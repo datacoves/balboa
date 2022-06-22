@@ -3,16 +3,34 @@
       create or replace transient table staging_BALBOA.cove_covid.agg_cases_by_month copy grants as
       (
 
-with cases as (
-    select
-        *
-    from bay_covid.base_cases
+with  __dbt__cte__base_cases as (
+
+
+with raw_source as (
+
+    select * from raw.raw._AIRBYTE_RAW_NYT_COVID_DATA
+
 ),
 
-states as (
+final as (
+
     select
-        *
-    from seeds.state_codes
+        _airbyte_data:cases::varchar as cases,
+        _airbyte_data:deaths::varchar as deaths,
+        _airbyte_data:date::timestamp_ntz as date,
+        _airbyte_data:fips::varchar as fips,
+        _airbyte_data:state::varchar as state,
+        _airbyte_ab_id,
+        _airbyte_emitted_at
+
+    from raw_source
+
+)
+
+select * from final
+),cases as (
+    select *
+    from __dbt__cte__base_cases
 ),
 
 final_monthly_cases as (
@@ -34,7 +52,7 @@ final_monthly_cases as (
                     month(date)
                 order by day(date) desc) as row_num
         from cases
-    ) as __q
+    )
     where row_num = 1
     order by date
 )

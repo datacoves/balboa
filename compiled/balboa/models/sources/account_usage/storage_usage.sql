@@ -1,7 +1,6 @@
 with raw_source as (
 
-    select
-        *
+    select *
     from snowflake.account_usage.STORAGE_USAGE
 
 ),

@@ -6,10 +6,23 @@ with latest_grouped_timestamps as (
     select
         state,
         max(1) as join_key,
-        max(date) as latest_timestamp_column
+        max(cast(date as 
+    timestamp_ntz
+)) as latest_timestamp_column
     from
         BALBOA.cove_covid.agg_cases_by_month
-    
+    where
+        -- to exclude erroneous future dates
+        cast(date as 
+    timestamp_ntz
+) <= cast(convert_timezone('UTC', 'America/Los_Angeles', 
+    current_timestamp::
+    timestamp_ntz
+
+) as 
+    timestamp_ntz
+)
+        
 
     group by 1
 
@@ -29,7 +42,10 @@ outdated_grouped_timestamps as (
     from
         latest_grouped_timestamps
     where
-        latest_timestamp_column < 
+        -- are the max timestamps per group older than the specified cutoff?
+        latest_timestamp_column <
+            cast(
+                
 
     dateadd(
         day,
@@ -44,6 +60,10 @@ outdated_grouped_timestamps as (
         )
 
 
+                as 
+    timestamp_ntz
+
+            )
 
 ),
 validation_errors as (

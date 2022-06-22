@@ -64,14 +64,12 @@
 
   copy grants as (
     with query_fail as (
-    select
-        count_if(query_status like 'FAIL') / count(query_status) * 100 as query_fail_percentage
+    select count_if(query_status like 'FAIL') / count(query_status) * 100 as query_fail_percentage
     from bay_observability.stg_query_history
 ),
 
 queries_per_user as (
-    select
-        count(query_id) / count(distinct user_name) as queries
+    select count(query_id) / count(distinct user_name) as queries
     from bay_observability.stg_query_history
 )
 select

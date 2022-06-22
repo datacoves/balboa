@@ -45,8 +45,7 @@
   copy grants as (
     with raw_source as (
 
-    select
-        *
+    select *
     from snowflake.account_usage.WAREHOUSE_METERING_HISTORY
 
 ),
