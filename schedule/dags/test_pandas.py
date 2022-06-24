@@ -5,6 +5,7 @@ import pendulum
 from airflow import DAG
 from airflow.decorators import task
 from airflow.example_dags.libs.helper import print_stuff
+from airflow.operators.python import PythonOperator
 from airflow.settings import AIRFLOW_HOME
 
 from kubernetes.client import models as k8s
@@ -27,6 +28,8 @@ with DAG(
             )
         ),
     }
+
+    t1 = PythonOpera
 
     @task(executor_config=executor_config_template)
     def task_with_template():
