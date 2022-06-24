@@ -29,8 +29,6 @@ with DAG(
         ),
     }
 
-    t1 = PythonOpera
-
     @task(executor_config=executor_config_template)
     def task_with_template():
         print("test_pandas ran successfully")
