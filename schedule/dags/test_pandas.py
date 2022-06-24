@@ -10,7 +10,7 @@ from airflow.settings import AIRFLOW_HOME
 from kubernetes.client import models as k8s
 
 with DAG(
-    dag_id="example_pod_template_file",
+    dag_id="test_pandas",
     schedule_interval=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
@@ -30,4 +30,4 @@ with DAG(
 
     @task(executor_config=executor_config_template)
     def task_with_template():
-        print_stuff()
+        print("test_pandas ran successfully")
