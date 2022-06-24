@@ -1,0 +1,11 @@
+test_schedule_images:
+  description: "Test custom images building"
+  schedule_interval: "01 6 * * *"
+  default_args:
+    start_date: 2021-01-01
+  catchup: False
+  tasks:
+    test_pandas:
+      operator: airflow.operators.bash_operator.BashOperator
+      # Update tag for job
+      bash_command: "python $DATACOVES__REPO_PATH/automate/test_pandas.py"
