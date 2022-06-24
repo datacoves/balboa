@@ -6,6 +6,7 @@ from airflow import DAG
 from airflow.decorators import task
 from airflow.example_dags.libs.helper import print_stuff
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 from airflow.settings import AIRFLOW_HOME
 
 from kubernetes.client import models as k8s
@@ -29,8 +30,13 @@ with DAG(
         ),
     }
 
-    @task(executor_config=executor_config_template)
-    def task_with_template():
-        print("test_pandas ran successfully")
+    task_x = BashOperator(
+        task_id="bash_executor_config",
+        executor_config=executor_config_template,
+        bash_command="echo SUCCESS",
+    )
+    # @task(executor_config=executor_config_template)
+    # def task_with_template():
+    #     print("test_pandas ran successfully")
 
-    task_x = task_with_template()
+    task_x
