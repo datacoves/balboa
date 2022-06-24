@@ -20,8 +20,16 @@ daily_morning_bluegreen_run:
       dbt_list_args: "--select tag:daily_morning"
     transform:
       operator: airflow.operators.bash_operator.BashOperator
+      executor_config:
+        pod_override:
+          V1Pod:
+            V1PodSpec:
+              containers:
+                V1Container:
+                  name: base
+                  image: datacoves/airflow-pandas:latest
       # Example of how to set Airflow vars as ENV vars
-      env: 
+      env:
         DBT_USER: "{{ var.value.DBT_USER }}"
       # Update tag for job
       bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
