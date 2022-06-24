@@ -33,7 +33,7 @@ ignore_templated_areas = True
 # rules = L001, L002, L003, L004, L005, L006, L008, L009, L010, L012
 
 # Excluded rules
-exclude_rules = L031, L034, L036, L057, L059
+exclude_rules = L031, L034, L057, L059
 
 [sqlfluff:templater:dbt]
 project_dir = ./
