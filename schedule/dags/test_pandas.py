@@ -31,3 +31,5 @@ with DAG(
     @task(executor_config=executor_config_template)
     def task_with_template():
         print("test_pandas ran successfully")
+
+    task_x = task_with_template()
