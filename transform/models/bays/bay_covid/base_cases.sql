@@ -7,10 +7,10 @@ with raw_source as (
 final as (
 
     select
-        _airbyte_data:cases::integer as cases,
-        _airbyte_data:deaths::integer as deaths,
+        _airbyte_data:cases::varchar as cases,
+        _airbyte_data:deaths::varchar as deaths,
         _airbyte_data:date::timestamp_ntz as date,
-        _airbyte_data:fips::integer as fips,
+        _airbyte_data:fips::varchar as fips,
         _airbyte_data:state::varchar as state,
         _airbyte_ab_id,
         _airbyte_emitted_at

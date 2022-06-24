@@ -1,7 +1,6 @@
 with raw_source as (
 
-    select
-        *
+    select *
     from {{ source('starschema_covid19', 'jhu_covid_19') }}
 
 ),

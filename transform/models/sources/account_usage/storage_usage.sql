@@ -1,7 +1,6 @@
 with raw_source as (
 
-    select
-        *
+    select *
     from {{ source('account_usage', 'storage_usage') }}
 
 ),

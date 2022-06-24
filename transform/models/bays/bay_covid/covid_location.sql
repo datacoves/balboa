@@ -1,3 +1,5 @@
+{{ config(materialized='ephemeral') }}
+
 with jhu_covid_19 as (
     select
         country_region,
