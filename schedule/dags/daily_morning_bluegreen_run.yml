@@ -22,10 +22,69 @@ daily_morning_bluegreen_run:
       operator: airflow.operators.bash_operator.BashOperator
       executor_config:
         pod_override:
+          api_version: None
+          kind: None
+          metadata: None
           spec:
+            active_deadline_seconds: None
+            affinity: None
+            automount_service_account_token: None
             containers:
-              - name: base
+              - args: None
+                command: None
+                env: None
+                env_from: None
                 image: datacoves/airflow-pandas:latest
+                image_pull_policy: None
+                lifecycle: None
+                liveness_probe: None
+                name: base,
+                ports: None
+                readiness_probe: None
+                resources: None
+                security_context: None
+                startup_probe: None
+                stdin: None
+                stdin_once: None
+                termination_message_path: None
+                termination_message_policy: None
+                tty: None
+                volume_devices: None
+                volume_mounts: None
+                working_dir: None
+            dns_config: None
+            dns_policy: None
+            enable_service_links: None
+            ephemeral_containers: None
+            host_aliases: None
+            host_ipc: None
+            host_network: None
+            host_pid: None
+            hostname: None
+            image_pull_secrets: None
+            init_containers: None
+            node_name: None
+            node_selector: None
+            os: None
+            overhead: None
+            preemption_policy: None
+            priority: None
+            priority_class_name: None
+            readiness_gates: None
+            restart_policy: None
+            runtime_class_name: None
+            scheduler_name: None
+            security_context: None
+            service_account: None
+            service_account_name: None
+            set_hostname_as_fqdn: None
+            share_process_namespace: None
+            subdomain: None
+            termination_grace_period_seconds: None
+            tolerations: None
+            topology_spread_constraints: None
+            volumes: None
+          status: None
       # Example of how to set Airflow vars as ENV vars
       env:
         DBT_USER: "{{ var.value.DBT_USER }}"
