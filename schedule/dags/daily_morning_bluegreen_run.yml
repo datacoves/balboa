@@ -20,7 +20,71 @@ daily_morning_bluegreen_run:
       dbt_list_args: "--select tag:daily_morning"
     transform:
       operator: airflow.operators.bash_operator.BashOperator
-      executor_config: '{"pod_override":{"spec": {"containers": [{"name":"base", "image":"datacoves/airflow-pandas:latest"}]}}}'
+      executor_config:
+        pod_override:
+          api_version:
+          kind:
+          metadata:
+          spec:
+            active_deadline_seconds:
+            affinity:
+            automount_service_account_token:
+            containers:
+              - args:
+                command:
+                env:
+                env_from:
+                image: datacoves/airflow-pandas:latest
+                image_pull_policy:
+                lifecycle:
+                liveness_probe:
+                name: base
+                ports:
+                readiness_probe:
+                resources:
+                security_context:
+                startup_probe:
+                stdin:
+                stdin_once:
+                termination_message_path:
+                termination_message_policy:
+                tty:
+                volume_devices:
+                volume_mounts:
+                working_dir:
+            dns_config:
+            dns_policy:
+            enable_service_links:
+            ephemeral_containers:
+            host_aliases:
+            host_ipc:
+            host_network:
+            host_pid:
+            hostname:
+            image_pull_secrets:
+            init_containers:
+            node_name:
+            node_selector:
+            os:
+            overhead:
+            preemption_policy:
+            priority:
+            priority_class_name:
+            readiness_gates:
+            restart_policy:
+            runtime_class_name:
+            scheduler_name:
+            security_context:
+            service_account:
+            service_account_name:
+            set_hostname_as_fqdn:
+            share_process_namespace:
+            subdomain:
+            termination_grace_period_seconds:
+            tolerations:
+            topology_spread_constraints:
+            volumes:
+          status:
       # Example of how to set Airflow vars as ENV vars
       env:
         DBT_USER: "{{ var.value.DBT_USER }}"
