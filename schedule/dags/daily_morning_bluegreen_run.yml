@@ -38,7 +38,7 @@ daily_morning_bluegreen_run:
                 image_pull_policy: None
                 lifecycle: None
                 liveness_probe: None
-                name: base,
+                name: base
                 ports: None
                 readiness_probe: None
                 resources: None
