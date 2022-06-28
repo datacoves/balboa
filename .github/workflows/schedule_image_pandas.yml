@@ -1,7 +1,7 @@
 # Detect changes on /schedule/images/*
 # when changed, docker build schedule/images/pandas, docker push datacoves/airflow-pandas..
 
-name: Test and Check on Pull Request
+name: Build and push schedule images
 
 on:
   push:
