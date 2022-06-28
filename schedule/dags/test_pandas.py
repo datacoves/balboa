@@ -23,11 +23,11 @@ with DAG(
             spec=k8s.V1PodSpec(
                 containers=[
                     k8s.V1Container(
-                        name="base", image="datacoves/airflow-pandas:latest"
+                        image="datacoves/airflow-pandas:latest"
                     )
                 ]
             )
-        ),
+        ), 
     }
 
     task_x = BashOperator(
