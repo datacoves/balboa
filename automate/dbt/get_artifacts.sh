@@ -4,5 +4,17 @@
 set -e
 
 cd $DBT_HOME
+
 dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" > logs/manifest.json
-echo "Updated manifest from production"
+LINES_IN_MANIFEST="$(wc -l < logs/manifest.json)"
+echo "lines in manifest"
+echo $LINES_IN_MANIFEST
+
+if [ $LINES_IN_MANIFEST -eq 0 ]
+then
+    echo "Manifest for this version of dbt not found in Snowflake, contact the Snowflake administrator to load a updated manifest to snowflake."
+    export DBT_RETURN_CODE=1
+else
+    echo "Updated manifest from production"
+    export DBT_RETURN_CODE=0
+fi

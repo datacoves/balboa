@@ -14,7 +14,6 @@ DBT_HOME = os.environ.get("DBT_HOME", os.environ.get("DATACOVES__DBT_HOME"))
 
 VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 
-
 def main(is_production: bool = False, selector: str = None):
     """
     Manages blue/green deployment workflow
@@ -26,7 +25,7 @@ def main(is_production: bool = False, selector: str = None):
         cwd = f"/home/airflow/transform-pr-{commit_hash}"
         logging.info("Copying dbt project to temp directory")
         subprocess.run(["cp", "-rf", DBT_HOME, cwd], check=True)
-        run_venv_command("dbt deps", cwd=cwd, is_production=is_production)
+        run_venv_command("dbt deps")
     else:
         cwd = DBT_HOME
         logging.info("DBT_HOME " + DBT_HOME)
@@ -39,9 +38,7 @@ def main(is_production: bool = False, selector: str = None):
     STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
     logging.info(STAGING_DB_ARGS)
     run_venv_command(
-        f'dbt --no-write-json run-operation check_db_does_not_exist --args "{STAGING_DB_ARGS}"',
-        cwd=cwd,
-        is_production=is_production,
+        f'dbt --no-write-json run-operation check_db_does_not_exist --args "{STAGING_DB_ARGS}"'
     )
 
     CLONE_DB_ARGS = (
@@ -52,24 +49,20 @@ def main(is_production: bool = False, selector: str = None):
         + '"}'
     )
     run_venv_command(
-        f'dbt run-operation clone_database --args "{CLONE_DB_ARGS}"',
-        cwd=cwd,
-        is_production=is_production,
+        f'dbt run-operation clone_database --args "{CLONE_DB_ARGS}"'
     )
 
     # this is here because cloning of db does not clone the stage
     logging.info("Creating stage for dbt_aritifacts")
     run_venv_command(
-        "dbt run-operation create_dbt_artifacts_stage",
-        cwd=cwd,
-        is_production=is_production,
+        "dbt run-operation create_dbt_artifacts_stage"
     )
 
     run_dbt(cwd, is_production=is_production, selector=selector)
 
     logging.info("Granting usage to staging database ")
     run_venv_command(
-        "dbt run-operation grant_prd_usage", cwd=cwd, is_production=is_production
+        "dbt run-operation grant_prd_usage"
     )
 
     logging.info(
@@ -82,16 +75,12 @@ def main(is_production: bool = False, selector: str = None):
         '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
     )
     run_venv_command(
-        f'dbt run-operation swap_database --args "{SWAP_DB_ARGS}"',
-        cwd=cwd,
-        is_production=is_production,
+        f'dbt run-operation swap_database --args "{SWAP_DB_ARGS}"'
     )
 
     logging.info("Dropping staging database")
     run_venv_command(
-        f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"',
-        cwd=cwd,
-        is_production=is_production,
+        f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"'
     )
     logging.info("done with dropping!!!!")
 
@@ -108,45 +97,45 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
         if selector:
             logging.info("Running dbt build with selector " + selector + "+")
             run_venv_command(
-                f"dbt build --fail-fast -s {selector}+",
-                cwd=cwd,
-                is_production=is_production,
+                f"dbt build --fail-fast -s {selector}+"
             )
         else:
             logging.info("Production run of dbt")
             run_venv_command(
-                "dbt build --fail-fast", cwd=cwd, is_production=is_production
+                "dbt build --fail-fast"
             )
     else:
         logging.info("Getting prod manifest")
         # this env_var is referenced by get_artifacts
         os.environ["DBT_HOME"] = cwd
         run_venv_command(
-            "../automate/dbt/get_artifacts.sh", cwd=cwd, is_production=is_production
+            "../automate/dbt/get_artifacts.sh"
         )
 
-        logging.info("Deployment run of dbt")
-        run_venv_command(
-            "dbt build --defer --fail-fast --state logs -s state:modified+",
-            cwd=cwd,
-            is_production=is_production,
-        )
+        DBT_RETURN_CODE = os.environ["DBT_RETURN_CODE"]
+
+        if DBT_RETURN_CODE == 0:
+            logging.info("Slim deployment run of dbt")
+            run_venv_command(
+                "dbt build --defer --fail-fast --state logs -s @state:modified"
+            )
+        else:
+            logging.info("Full deployment run of dbt")
+            run_venv_command(
+                "dbt build --fail-fast"
+            )  
 
     # Save the latest manifest to snowflake
-    run_venv_command("dbt compile", cwd=cwd, is_production=is_production)
+    run_venv_command("dbt compile")
     logging.info("Uploading new prod manifest")
 
     logging.info("Running dbt against Database: " + os.environ["DBT_DATABASE"])
 
     run_venv_command(
-        "dbt --no-write-json run-operation upload_artifacts",
-        cwd=cwd,
-        is_production=is_production,
+        "dbt --no-write-json run-operation upload_artifacts"
     )
     run_venv_command(
-        "dbt --no-write-json run-operation upload_dbt_artifacts_v2",
-        cwd=cwd,
-        is_production=is_production,
+        "dbt --no-write-json run-operation upload_dbt_artifacts_v2"
     )
 
 
@@ -157,12 +146,12 @@ def get_commit_hash():
     ).stdout.strip("\n")
 
 
-def run_venv_command(command: str, cwd: str = None, is_production: bool = False):
+def run_venv_command(command: str, cwd: str = None):
     """Activates a python environment and runs a command using it"""
     cmd_list = shlex.split(
         f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
     )
-    subprocess.run(cmd_list, check=True, cwd=cwd)
+    subprocess.run(cmd_list, check=True)
 
 
 if __name__ == "__main__":
