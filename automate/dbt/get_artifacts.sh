@@ -7,8 +7,6 @@ cd $DBT_HOME
 
 dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" > logs/manifest.json
 LINES_IN_MANIFEST="$(wc -l < logs/manifest.json)"
-echo "lines in manifest"
-echo $LINES_IN_MANIFEST
 
 if [ $LINES_IN_MANIFEST -eq 0 ]
 then

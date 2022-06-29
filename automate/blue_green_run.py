@@ -42,11 +42,8 @@ def main(is_production: bool = False, selector: str = None):
     )
 
     CLONE_DB_ARGS = (
-        '{"source_db": "'
-        + DBT_FINAL_DB_NAME
-        + '", "target_db": "'
-        + DBT_STAGING_DB_NAME
-        + '"}'
+        '{"source_db": "' + DBT_FINAL_DB_NAME
+        + '", "target_db": "' + DBT_STAGING_DB_NAME + '"}'
     )
     run_venv_command(
         f'dbt run-operation clone_database --args "{CLONE_DB_ARGS}"'
@@ -113,6 +110,7 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
         )
 
         DBT_RETURN_CODE = os.environ["DBT_RETURN_CODE"]
+        logging.info("DBT_RETURN_CODE = " + DBT_RETURN_CODE)
 
         if DBT_RETURN_CODE == 0:
             logging.info("Slim deployment run of dbt")
