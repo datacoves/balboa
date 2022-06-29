@@ -2,12 +2,11 @@
 
 #NOTE: Install the svc_permifrost_key.p8 key to ~/.ssh
 
-export DATACOVES_USER=gomezn
 export PERMISSION_BOT_ACCOUNT=toa80779
 export PERMISSION_BOT_WAREHOUSE=WH_TRANSFORMING
 export PERMISSION_BOT_DATABASE=RAW
 export PERMISSION_BOT_ROLE=SECURITYADMIN
-export PERMISSION_BOT_USER="$DATACOVES_USER"
+export PERMISSION_BOT_USER="${DATACOVES_USER_EMAIL%@*}"
 export PERMISSION_BOT_KEY_PATH="/config/.ssh/user_permifrost.p8"
 export PERMISSION_BOT_KEY_PASSPHRASE=permifrost
 export PATH=$PATH:/config/.local/bin
