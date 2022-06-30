@@ -37,13 +37,13 @@ jobs:
 
       - name: test If condition
         uses: datacoves/ci-basic-action@v0.5.202206221457
-        if: env.NEED != 'BALBOA'
+        if: env.DBT_DATABASE != 'BALBOA'
         with:
           command: "echo NOT BALBOA"
 
       - name: test If condition2
         uses: datacoves/ci-basic-action@v0.5.202206221457
-        if: env.NEED == 'BALBOA'
+        if: env.DBT_DATABASE == 'BALBOA'
         with:
           command: "echo it is BALBOA"
       # - name: List of files changed
