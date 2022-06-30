@@ -62,24 +62,24 @@ def main(is_production: bool = False, selector: str = None):
         "dbt run-operation grant_prd_usage"
     )
 
-    # logging.info(
-    #     "Swapping staging database "
-    #     + DBT_STAGING_DB_NAME
-    #     + " with production "
-    #     + DBT_FINAL_DB_NAME
-    # )
-    # SWAP_DB_ARGS = (
-    #     '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
-    # )
-    # run_venv_command(
-    #     f'dbt run-operation swap_database --args "{SWAP_DB_ARGS}"'
-    # )
+    logging.info(
+        "Swapping staging database "
+        + DBT_STAGING_DB_NAME
+        + " with production "
+        + DBT_FINAL_DB_NAME
+    )
+    SWAP_DB_ARGS = (
+        '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
+    )
+    run_venv_command(
+        f'dbt run-operation swap_database --args "{SWAP_DB_ARGS}"'
+    )
 
-    # logging.info("Dropping staging database")
-    # run_venv_command(
-    #     f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"'
-    # )
-    # logging.info("done with dropping!!!!")
+    logging.info("Dropping staging database")
+    run_venv_command(
+        f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"'
+    )
+    logging.info("done with dropping!!!!")
 
     if is_production:
         logging.info("Removing dbt project temp directory")
