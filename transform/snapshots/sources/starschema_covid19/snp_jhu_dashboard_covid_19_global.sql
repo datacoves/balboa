@@ -29,5 +29,6 @@
         last_update_date
     from
         {{ source('starschema_covid19', 'jhu_dashboard_covid_19_global') }}
-
+    where
+        last_reported_flag = true
 {% endsnapshot %}
