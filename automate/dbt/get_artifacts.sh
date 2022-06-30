@@ -11,10 +11,10 @@ LINES_IN_MANIFEST="$(wc -l < logs/manifest.json)"
 if [ $LINES_IN_MANIFEST -eq 0 ]
 then
     echo "Manifest for this version of dbt not found in Snowflake, contact the Snowflake administrator to load a updated manifest to snowflake."
-    export DBT_RETURN_CODE=1
+    export DBT_MANIFEST_FOUND=false
 else
     echo "Updated manifest from production"
-    export DBT_RETURN_CODE=0
+    export DBT_MANIFEST_FOUND=true
 fi
 
-echo $DBT_RETURN_CODE
+echo $DBT_MANIFEST_FOUND

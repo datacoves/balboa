@@ -49,15 +49,13 @@ jobs:
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
-        env:
-          DBT_RETURN_CODE: ${{ env.DBT_RETURN_CODE }}
 
       - name: test return code
-        if: env.DBT_RETURN_CODE == 0
+        if: env.DBT_MANIFEST_FOUND == 'true'
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
-          command: 'echo "DBT_RETURN_CODE: ${{ env.DBT_RETURN_CODE }}"'
+          command: 'echo "DBT_MANIFEST_FOUND: $DBT_MANIFEST_FOUND"'
       
 
       # - name: Create PR database
