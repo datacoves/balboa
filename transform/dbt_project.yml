@@ -89,5 +89,4 @@ vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
 
   dbt_artifacts:
-    dbt_artifacts_database: balboa 
     dbt_artifacts_schema: source_dbt_artifacts # optional, default is 'dbt_artifacts'

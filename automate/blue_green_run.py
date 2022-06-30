@@ -108,7 +108,7 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
         
         # we sent a return code to stdout in the subprocess command and extract it here
         DBT_RETURN_CODE = run_venv_command(
-            "../automate/dbt/get_artifacts.sh"
+            "../automate/dbt/get_artifacts.sh", capture_output=True
         ).stdout.decode("utf-8").split('\n')[-2]
 
         logging.info("DBT_RETURN_CODE = " + DBT_RETURN_CODE)
@@ -146,13 +146,12 @@ def get_commit_hash():
     ).stdout.strip("\n")
 
 
-def run_venv_command(command: str, cwd: str = None):
+def run_venv_command(command: str, cwd: str = None, capture_output=False):
     """Activates a python environment and runs a command using it"""
     cmd_list = shlex.split(
-        # f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
-        f"{command}"
+        f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
     )
-    return subprocess.run(cmd_list, check=True, capture_output=True)
+    return subprocess.run(cmd_list, check=True, capture_output=capture_output)
 
 
 if __name__ == "__main__":

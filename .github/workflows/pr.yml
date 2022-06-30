@@ -51,17 +51,25 @@ jobs:
           command: "dbt --no-write-json run-operation create_database"
 
       - name: Get prod manifest
+        id: prod-manifest
         uses: datacoves/ci-basic-action@v0.5.202206221457                       
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
 
-      # dont need to get productin manifest if dbt-coves check is run before
-      - name: Run dbt build
+      - name: Run dbt build slim mode
+        if: ${{ steps.prod-manifest.outputs.manifest_found == 'true' }}
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
           command: "dbt build --fail-fast --defer --state logs --select @state:modified"
+      
+      - name: Run dbt build full run
+        if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt build --fail-fast"
 
       - name: Grant access to PR database
         uses: datacoves/ci-basic-action@v0.5.202206221457
