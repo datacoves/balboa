@@ -45,6 +45,7 @@ jobs:
           command: "dbt deps"
 
       - name: Get prod manifest
+        id: prod-manifest
         uses: datacoves/ci-basic-action@v0.5.202206221457                       
         with:
           dbt_project_folder: "transform"
@@ -54,7 +55,7 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
-          command: "../automate/dbt/test_manifest.sh"
+          command: 'echo "Manifest found: ${{ steps.prod-manifest.outputs.found }}"'
       
 
       # - name: Create PR database
