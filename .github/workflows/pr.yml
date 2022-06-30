@@ -55,7 +55,7 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
-          command: 'echo code && echo "$DBT_RETURN_CODE"'
+          command: 'echo "DBT_RETURN_CODE: $DBT_RETURN_CODE"'
       
 
       # - name: Create PR database
