@@ -49,6 +49,8 @@ jobs:
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
+        env:
+          DBT_RETURN_CODE: ${{ env.DBT_RETURN_CODE }}
 
       - name: test return code
         if: env.DBT_RETURN_CODE == 0
