@@ -54,7 +54,7 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
-          command: "echo $DBT_MANIFEST_FOUND"
+          command: "../automate/dbt/test_manifest.sh"
       
 
       # - name: Create PR database
