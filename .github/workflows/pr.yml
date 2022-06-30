@@ -49,7 +49,7 @@ jobs:
 
       # ADDED HERE TEMP TO TEST BLUE-GREEN
       - name: Run blue / green deployment
-        uses: datacoves/ci-airflow-action@v0.5.202206151931
+        uses: datacoves/ci-airflow-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
