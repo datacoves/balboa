@@ -44,6 +44,12 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt deps"
 
+      - name: Create PR database
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt --no-write-json run-operation create_database"
+
       - name: Get prod manifest
         id: prod-manifest
         uses: datacoves/ci-basic-action@v0.5.202206221457                       
@@ -51,65 +57,39 @@ jobs:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
 
-      - name: test if manifest was not found
-        uses: datacoves/ci-basic-action@v0.5.202206221457
-        if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
-        with:
-          dbt_project_folder: "transform"
-          command: 'echo "Manifest found: ${{ steps.prod-manifest.outputs.manifest_found }}"'
-      
-      - name: test if manifest was found
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+      - name: Run dbt build slim mode
         if: ${{ steps.prod-manifest.outputs.manifest_found == 'true' }}
+        uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
-          command: 'echo "Manifest found: ${{ steps.prod-manifest.outputs.manifest_found }}"'
+          command: "dbt build --fail-fast --defer --state logs --select @state:modified"
       
-      # - name: Create PR database
-      #   uses: datacoves/ci-basic-action@v0.5.202206221457
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "dbt --no-write-json run-operation create_database"
+      - name: Run dbt build full run
+        if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt build --fail-fast"
 
-      # - name: Get prod manifest
-      #   uses: datacoves/ci-basic-action@v0.5.202206221457                       
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "../automate/dbt/get_artifacts.sh"
+      - name: Grant access to PR database
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
-      # - name: Run dbt build slim mode
-      #   if: env.DBT_RETURN_CODE == 0
-      #   uses: datacoves/ci-basic-action@v0.5.202206221457
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "dbt build --fail-fast --defer --state logs --select @state:modified"
-      
-      # - name: Run dbt build full run
-      #   if: env.DBT_RETURN_CODE != 0
-      #   uses: datacoves/ci-basic-action@v0.5.202206221457
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "dbt build --fail-fast"
+      - name: Run governance checks
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "pre-commit run --from-ref HEAD^ --to-ref HEAD"
 
-      # - name: Grant access to PR database
-      #   uses: datacoves/ci-basic-action@v0.5.202206221457
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "dbt --no-write-json run-operation grant_access_to_pr_database"
+      - name: Test DAG structure integrity (DagBag Loading)
+        uses: datacoves/ci-airflow-action@v0.5.202206221457
+        with:
+          command: "python /usr/app/load_dagbag.py"
 
-      # - name: Run governance checks
-      #   uses: datacoves/ci-basic-action@v0.5.202206221457
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "pre-commit run --from-ref HEAD^ --to-ref HEAD"
-
-      # - name: Test DAG structure integrity (DagBag Loading)
-      #   uses: datacoves/ci-airflow-action@v0.5.202206221457
-      #   with:
-      #     command: "python /usr/app/load_dagbag.py"
-
-      # - name: Test DBT Sources against DAGs' YAML files
-      #   uses: datacoves/ci-airflow-action@v0.5.202206221457
-      #   with:
-      #     dbt_project_folder: "transform"
-      #     command: "python /usr/app/test_dags.py"
+      - name: Test DBT Sources against DAGs' YAML files
+        uses: datacoves/ci-airflow-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "python /usr/app/test_dags.py"
