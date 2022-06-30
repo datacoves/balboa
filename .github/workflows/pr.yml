@@ -14,9 +14,7 @@ jobs:
     env:
       DBT_USER: ${{ secrets.DBT_USER }}
       DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-      # DBT_DATABASE: BALBOA_PR_${{ github.event.number }}
-      DBT_DATABASE: BALBOA
-
+      DBT_DATABASE: BALBOA_PR_${{ github.event.number }}
       DBT_PROFILES_DIR: /github/workspace/automate
       DBT_HOME: /github/workspace/transform
       DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
