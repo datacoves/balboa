@@ -51,7 +51,7 @@ jobs:
           command: "../automate/dbt/get_artifacts.sh"
 
       - name: test if manifest was not found
-        if: env.DBT_MANIFEST_FOUND == 'false'
+        # if: env.DBT_MANIFEST_FOUND == 'false'
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
