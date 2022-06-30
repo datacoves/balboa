@@ -149,7 +149,8 @@ def get_commit_hash():
 def run_venv_command(command: str, cwd: str = None):
     """Activates a python environment and runs a command using it"""
     cmd_list = shlex.split(
-        f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
+        # f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
+        f"{command}"
     )
     return subprocess.run(cmd_list, check=True, capture_output=True)
 
