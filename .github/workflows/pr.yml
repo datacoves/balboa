@@ -53,10 +53,17 @@ jobs:
 
       - name: test if manifest was not found
         uses: datacoves/ci-basic-action@v0.5.202206221457
-        if: ${{ steps.prod-manifest.outputs.found == 'false' }}
+        if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
         with:
           dbt_project_folder: "transform"
-          command: 'echo "Manifest found: ${{ steps.prod-manifest.outputs.found }}"'
+          command: 'echo "Manifest found: ${{ steps.prod-manifest.outputs.manifest_found }}"'
+      
+      - name: test if manifest was found
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        if: ${{ steps.prod-manifest.outputs.manifest_found == 'true' }}
+        with:
+          dbt_project_folder: "transform"
+          command: 'echo "Manifest found: ${{ steps.prod-manifest.outputs.manifest_found }}"'
       
 
       # - name: Create PR database
