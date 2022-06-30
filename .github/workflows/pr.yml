@@ -45,17 +45,18 @@ jobs:
           command: "dbt deps"
 
       - name: Get prod manifest
+        id: get_manifest
         uses: datacoves/ci-basic-action@v0.5.202206221457                       
         with:
           dbt_project_folder: "transform"
-          command: "../automate/dbt/get_artifacts.sh"
+          command: "../automate/dbt/get_artifacts.sh; echo ::set-output name=manifest_found::$DBT_MANIFEST_FOUND"
 
-      - name: test if manifest was not found
+      - name: test return code
+        if: steps.get_manifest.outputs.manifest_found == 0
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
-          command: "../automate/dbt/test_manifest.sh"
-      
+          command: 'echo "DBT_RETURN_CODE: ${{ env.DBT_RETURN_CODE }}"'
 
       # - name: Create PR database
       #   uses: datacoves/ci-basic-action@v0.5.202206221457
