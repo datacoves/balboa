@@ -65,7 +65,6 @@ jobs:
           dbt_project_folder: "transform"
           command: 'echo "Manifest found: ${{ steps.prod-manifest.outputs.manifest_found }}"'
       
-
       # - name: Create PR database
       #   uses: datacoves/ci-basic-action@v0.5.202206221457
       #   with:
