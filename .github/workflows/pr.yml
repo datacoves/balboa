@@ -58,7 +58,6 @@ jobs:
           command: "echo code && echo $DBT_RETURN_CODE"
       
 
-
       # - name: Create PR database
       #   uses: datacoves/ci-basic-action@v0.5.202206221457
       #   with:
