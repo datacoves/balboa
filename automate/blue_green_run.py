@@ -105,12 +105,14 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
         logging.info("Getting prod manifest")
         # this env_var is referenced by get_artifacts
         os.environ["DBT_HOME"] = cwd
-        run_venv_command(
+        
+        # we sent a return code to stdout in the subprocess command and extract it here
+        DBT_RETURN_CODE = run_venv_command(
             "../automate/dbt/get_artifacts.sh"
-        )
+        ).stdout.decode("utf-8").split('\n')[-2]
 
-        DBT_RETURN_CODE = os.environ["DBT_RETURN_CODE"]
         logging.info("DBT_RETURN_CODE = " + DBT_RETURN_CODE)
+        DBT_RETURN_CODE = int(DBT_RETURN_CODE)
 
         if DBT_RETURN_CODE == 0:
             logging.info("Slim deployment run of dbt")
@@ -147,9 +149,10 @@ def get_commit_hash():
 def run_venv_command(command: str, cwd: str = None):
     """Activates a python environment and runs a command using it"""
     cmd_list = shlex.split(
-        f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
+        # f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
+        f"{command}"
     )
-    subprocess.run(cmd_list, check=True)
+    return subprocess.run(cmd_list, check=True, capture_output=True)
 
 
 if __name__ == "__main__":

@@ -16,3 +16,5 @@ else
     echo "Updated manifest from production"
     export DBT_RETURN_CODE=0
 fi
+
+echo $DBT_RETURN_CODE
