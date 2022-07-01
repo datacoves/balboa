@@ -5,3 +5,7 @@ models:
     description: "Total number of credits used (last 12 months)"
     columns:
       - name: credits_used
+      - name: start_time
+      - name: rank
+      - name: day_name
+      - name: tod

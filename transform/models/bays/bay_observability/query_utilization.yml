@@ -14,4 +14,4 @@ models:
       - name: query_status
       - name: start_time
       - name: query_fail_percentage
-      - name: avg_query_per_user
+      - name: avg_queries_per_user
