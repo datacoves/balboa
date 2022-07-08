@@ -24,4 +24,7 @@ else
 
     # This is used by Jenkins
     export MANIFEST_FOUND=1
+    echo "manifest found is"
+    echo $MANIFEST_FOUND
+    echo "finish get_artifacts"
 fi
