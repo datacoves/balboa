@@ -131,6 +131,8 @@ def get_commit_hash():
 
 
 def run_command(command: str, cwd: str = None, capture_output=False):
+    my_env = os.environ.copy()
+
     if os.path.exists(VIRTUALENV_PATH):
         """Activates a python environment and runs a command using it"""
         cmd_list = shlex.split(
@@ -139,7 +141,7 @@ def run_command(command: str, cwd: str = None, capture_output=False):
     else:
         cmd_list = shlex.split(command)
 
-    return subprocess.run(cmd_list, check=True, capture_output=capture_output)
+    return subprocess.Popen(cmd_list, env=my_env, check=True, capture_output=capture_output)
 
 
 if __name__ == "__main__":
