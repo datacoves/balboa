@@ -98,9 +98,10 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
 
         logging.info("BEFORE get_artifacts")
         run_command("../automate/dbt/get_artifacts.sh")
+        logging.info( os.environ["MANIFEST_FOUND"] )
         logging.info("AFTER get_artifacts")
 
-        # we set a return code to MANIFEST_FOUND when we get the manifest and get it here
+        # we set a return code to MANIFEST_FOUND when we get the manifest and set it here
         MANIFEST_FOUND = os.environ["MANIFEST_FOUND"]
 
         logging.info("MANIFEST_FOUND = " + MANIFEST_FOUND)
