@@ -90,3 +90,4 @@ vars:
 
   dbt_artifacts:
     dbt_artifacts_schema: source_dbt_artifacts # optional, default is 'dbt_artifacts'
+    dbt_artifacts_database: BALBOA

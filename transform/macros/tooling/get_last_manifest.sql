@@ -14,8 +14,14 @@
 {% macro get_last_manifest() %}
 
     {% do log("Getting manifest for dbt version: " ~ dbt_version, info=true) %}
-    {# {% do log("artifacts schema: " ~ var("dbt_artifacts","dbt_artifacts_schema"), info=true) %} #}
+
+    {# Override database for staging since we want artifacts to go there not current prod database #}
     {% set artifacts = source('dbt_artifacts', 'artifacts') %}
+
+    {% if target.database.startswith('staging_') %}
+        {% set artifacts = api.Relation.create(database = target.database, schema=artifacts.schema, identifier=artifacts.identifier) %}
+    {% endif %}
+
     {% do log("Getting manifest from: " ~ artifacts, info=true) %}
 
     {% set manifest_query %}
