@@ -96,17 +96,17 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
         # this env_var is referenced by get_artifacts
         os.environ["DBT_HOME"] = cwd
 
-        logging.info("BEFORE get_artifacts")
-        run_command("../automate/dbt/get_artifacts.sh")
-        logging.info( os.environ["MANIFEST_FOUND"] )
-        logging.info("AFTER get_artifacts")
+        # logging.info("BEFORE get_artifacts")
+        # run_command("../automate/dbt/get_artifacts.sh")
+        # logging.info( os.environ["MANIFEST_FOUND"] )
+        # logging.info("AFTER get_artifacts")
 
         # we set a return code to MANIFEST_FOUND when we get the manifest and set it here
         MANIFEST_FOUND = os.environ["MANIFEST_FOUND"]
 
         logging.info("MANIFEST_FOUND = " + MANIFEST_FOUND)
  
-        if MANIFEST_FOUND == 1:
+        if MANIFEST_FOUND == 'true':
             logging.info("Slim deployment run of dbt")
             run_command("dbt build --defer --fail-fast --state logs -s @state:modified")
         else:
