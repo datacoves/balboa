@@ -97,16 +97,11 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
         os.environ["DBT_HOME"] = cwd
 
         # we sent a return code to stdout in the subprocess command and extract it here
-        DBT_RETURN_CODE = (
-            run_command("../automate/dbt/get_artifacts.sh", capture_output=True)
-            .stdout.decode("utf-8")
-            .split("\n")[-2]
-        )
+        MANIFEST_FOUND = os.environ["MANIFEST_FOUND"]
 
-        logging.info("DBT_RETURN_CODE = " + DBT_RETURN_CODE)
-        DBT_RETURN_CODE = int(DBT_RETURN_CODE)
-
-        if DBT_RETURN_CODE == 0:
+        logging.info("MANIFEST_FOUND = " + MANIFEST_FOUND)
+ 
+        if MANIFEST_FOUND == 1:
             logging.info("Slim deployment run of dbt")
             run_command("dbt build --defer --fail-fast --state logs -s @state:modified")
         else:
