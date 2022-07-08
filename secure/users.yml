@@ -54,6 +54,12 @@
     member_of:
       - analyst
 
+- SANTIAGO:
+    can_login: true
+    member_of:
+      - securityadmin
+      - analyst
+
 - SEBASTIAN:
     can_login: true
     member_of:
@@ -77,6 +83,11 @@
     can_login: true
     member_of:
       - transformer_dbt_prd
+
+- SVC_DATACOVES:
+    can_login: true
+    member_of:
+      - securityadmin
 
 - SVC_GITHUB_ACTIONS:
     can_login: true
