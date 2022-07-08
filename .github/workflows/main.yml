@@ -45,7 +45,7 @@ jobs:
 
       - name: Run blue / green deployment
         env: 
-          MANIFEST_FOUND: steps.prod-manifest.outputs.manifest_found
+          MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
