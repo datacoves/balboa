@@ -137,7 +137,8 @@ def run_command(command: str, cwd: str = None, capture_output=False):
             f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
         )
     else:
-        cmd_list = command.split()
+        cmd_list = shlex.split(command)
+
     return subprocess.run(cmd_list, check=True, capture_output=capture_output)
 
 
