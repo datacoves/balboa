@@ -96,7 +96,7 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
         # this env_var is referenced by get_artifacts
         os.environ["DBT_HOME"] = cwd
 
-        run_command("../automate/dbt/get_artifacts.sh", capture_output=True)
+        run_command("../automate/dbt/get_artifacts.sh")
 
         # we set a return code to MANIFEST_FOUND when we get the manifest and get it here
         MANIFEST_FOUND = os.environ["MANIFEST_FOUND"]
