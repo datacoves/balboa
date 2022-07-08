@@ -24,5 +24,4 @@ else
 
     # This is used by Jenkins
     export MANIFEST_FOUND=true
-    echo "leaving get_artifacts"
 fi
