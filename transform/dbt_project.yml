@@ -3,8 +3,11 @@
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
 name: 'balboa'
+# this is the project version, has nothing to do with dbt version
 version: '1.0.0'
 config-version: 2
+
+require-dbt-version: ">=1.1.0"
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default' # trigger1
