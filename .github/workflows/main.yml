@@ -17,7 +17,7 @@ jobs:
       DBT_USER: ${{ secrets.DBT_USER }}
       DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
       DBT_DATABASE: BALBOA
-      DBT_PROFILES_DIR: /github/workspace/automate
+      DBT_PROFILES_DIR: /github/workspace/automate/dbt
       DBT_HOME: /github/workspace/transform
       DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
       DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
