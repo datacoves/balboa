@@ -78,7 +78,7 @@ repos:
     hooks:
       - id: sqlfluff-lint
         language: python
-        additional_dependencies: ["sqlfluff-templater-dbt", "dbt-core", "dbt-snowflake"]
+        additional_dependencies: ["sqlfluff-templater-dbt==1.0.0", "dbt-core", "dbt-snowflake"]
         args: 
           [
             --config,
