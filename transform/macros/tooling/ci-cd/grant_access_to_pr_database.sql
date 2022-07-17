@@ -4,7 +4,7 @@
     dbt run-operation grant_uat_permissions --args '{db_name: test_commercial_dw_pr_100}'
 #}
 
-{%- macro grant_uat_permissions(db_name) -%}
+{%- macro grant_access_to_pr_database(db_name) -%}
     {% set db_name = db_name | upper %}
 
     {% set apply_db_grants_sql %}

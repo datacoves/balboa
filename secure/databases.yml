@@ -2,6 +2,8 @@
     shared: false
 - balboa:
     shared: false
+    schemas:
+        - seeds
 - balboa_dev:
     shared: false
 - convexa_dev:
