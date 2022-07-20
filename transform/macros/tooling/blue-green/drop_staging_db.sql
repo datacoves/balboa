@@ -5,9 +5,10 @@
 #}
 
 {%- macro drop_staging_db(db_name) -%}
+    {% set db_name = db_name | lower %}
 
     {# Only want this for stating with staging #}
-    {% if not db_name.startswith('staging')%}
+    {% if (not db_name.startswith('staging')) and (not db_name.endswith('staging')) %}
         {{ log("Database is not a staging db: " ~ db_name, true)}}
         {{ exceptions.raise_compiler_error("Not a staging Database") }}
     {% else %}

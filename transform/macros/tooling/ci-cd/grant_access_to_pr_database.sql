@@ -1,15 +1,17 @@
 {# This macro grants access to a test database #}
 {#
     To run: 
-    dbt run-operation grant_uat_permissions --args '{db_name: test_commercial_dw_pr_100}'
+    dbt run-operation grant_access_to_pr_database
 #}
 
-{%- macro grant_uat_permissions(db_name) -%}
-    {% set db_name = db_name | upper %}
+{%- macro grant_access_to_pr_database() -%}
+    {% set db_role_name = 'z_db_balboa_tst' %}
+    {% set db_name = target.database %}
 
     {% set apply_db_grants_sql %}
-        grant usage on database {{ db_name }} to role z_db_tst_commercial_dw;
+        grant usage on database {{ db_name }} to role {{db_role_name}};
     {% endset %}
+
     {% do run_query(apply_db_grants_sql) %}
 
     {% set schemas_list %}
