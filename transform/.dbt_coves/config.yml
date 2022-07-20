@@ -8,7 +8,7 @@ generate:
     destination: "models/sources/{{ schema }}/{{ relation }}.sql"
     model_props_strategy: one_file_per_model
     # override default templates creating source_model_props.yml and source_model.sql under this folder
-    templates_folder: "templates"
+    templates_folder: ".dbt_coves/templates"
 
 extract:
   airbyte:
