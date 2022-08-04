@@ -51,6 +51,12 @@ jobs:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
 
+      - name: test db name
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "echo $DBT_DATABASE"
+
       - name: Generate dbt documentation
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:

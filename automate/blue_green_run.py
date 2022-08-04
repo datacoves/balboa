@@ -75,6 +75,11 @@ def main(is_production: bool = False, selector: str = None):
     run_command(f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"')
     logging.info("done with dropping!!!!")
 
+    logging.info("#############")
+    logging.info(os.environ["DBT_DATABASE"])
+    logging.info("#############")
+
+
     if is_production:
         logging.info("Removing dbt project temp directory")
         subprocess.run(["rm", "-rf", cwd], check=True)
