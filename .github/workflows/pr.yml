@@ -34,51 +34,51 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: List of files changed
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202208082001
         with:
           command: "git diff HEAD^ HEAD --name-status"
 
       - name: Install dbt packages
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202208082001
         with:
           dbt_project_folder: "transform"
           command: "dbt deps"
 
       - name: Create PR database
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202208082001
         with:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation create_database"
 
       - name: Get prod manifest
         id: prod-manifest
-        uses: datacoves/ci-basic-action@v0.5.202206221457                       
+        uses: datacoves/ci-basic-action@v0.5.202208082001                       
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
 
       - name: Run dbt build slim mode
         if: ${{ steps.prod-manifest.outputs.manifest_found == 'true' }}
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202208082001
         with:
           dbt_project_folder: "transform"
           command: "dbt build --fail-fast --defer --state logs --select @state:modified"
       
       - name: Run dbt build full run
         if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202208082001
         with:
           dbt_project_folder: "transform"
           command: "dbt build --fail-fast"
 
       - name: Grant access to PR database
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202208082001
         with:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Run governance checks
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202208082001
         with:
           dbt_project_folder: "transform"
           command: "pre-commit run --from-ref HEAD^ --to-ref HEAD"
