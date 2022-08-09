@@ -15,7 +15,7 @@ repos:
 
   # Forked the original repo to support ephemeral models
   - repo: https://github.com/datacoves/pre-commit-dbt
-    rev: bc117b39fe2c1535d2364440a3503cd2577c9a1e
+    rev: 1105861c3be73f5a774dbb319e0b2a939e8ba3d4
 
     hooks:
       # - id: dbt-compile
