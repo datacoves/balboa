@@ -19,4 +19,4 @@ final as (
 
 )
 
-select *, 1 as test from final
+select * from final
