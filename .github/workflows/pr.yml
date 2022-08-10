@@ -36,7 +36,7 @@ jobs:
       - name: List of files changed
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
-          command: "git diff ${{ github.event.pull_request.base.ref }} HEAD --name-status"
+          command: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
       - name: Install dbt packages
         uses: datacoves/ci-basic-action@v0.5.202206221457
