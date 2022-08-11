@@ -62,7 +62,7 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
-          command: "dbt build --fail-fast --defer --state logs --select @state:modified"
+          command: "dbt build --fail-fast --defer --state logs --select state:modified+"
       
       - name: Run dbt build full run
         if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
