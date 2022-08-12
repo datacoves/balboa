@@ -7,6 +7,7 @@ location as (
 )
 
 select
+    1 as test_col,
     location.country,
     location.state,
     location.lat,

@@ -106,7 +106,7 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
  
         if MANIFEST_FOUND == 'true':
             logging.info("Slim deployment run of dbt")
-            run_command("dbt build --defer --fail-fast --state logs -s @state:modified")
+            run_command("dbt build --defer --fail-fast --state logs -s state:modified+")
         else:
             logging.info("Full deployment run of dbt")
             run_command("dbt build --fail-fast")

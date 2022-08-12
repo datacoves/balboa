@@ -23,3 +23,4 @@ models:
           - not_null
       - name: _airbyte_ab_id
       - name: _airbyte_emitted_at
+      - name: yml_col_only
