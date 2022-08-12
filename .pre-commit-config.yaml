@@ -8,14 +8,14 @@ repos:
         types: [python]
         pass_filenames: false
         always_run: true
-  
+
   # Original Repo
   # - repo: https://github.com/offbi/pre-commit-dbt
   #   rev: v1.0.0
 
   # Forked the original repo to support ephemeral models
   - repo: https://github.com/datacoves/pre-commit-dbt
-    rev: 3d4b61ffa8a0ef3a84207dd8b842cf8cde180c19
+    rev: 6f3987309d6cfeddc8c6c11e6d02c55cc6b4a5b9
 
     hooks:
       # - id: dbt-compile
@@ -33,13 +33,7 @@ repos:
       #     ]
       - id: dbt-docs-generate
         files: ^transform/models/
-        args: 
-          [
-            "--cmd-flags",
-            "++project+dir",
-            "transform",
-            "++no+compile"
-          ]
+        args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
       - id: check-source-table-has-description
         files: ^transform/models/
       - id: check-script-semicolon
@@ -48,39 +42,30 @@ repos:
         files: ^transform/models/
       - id: check-script-ref-and-source
         files: ^transform/models/
-        args: 
-          [
-            "--manifest", 
-            "transform/target/manifest.json"
-          ]
+        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-description
         files: ^transform/models/
-        args: 
-          [
-            "--manifest", 
-            "transform/target/manifest.json"
-          ]
+        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-properties-file
         files: ^transform/models/
-        args: 
-          [
-            "--manifest",
-            "transform/target/manifest.json"
-          ]
+        args: ["--manifest", "transform/target/manifest.json"]
 
       # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
       - id: check-model-has-all-columns
-        args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
         files: ^transform/models/
-        
+
   - repo: https://github.com/sqlfluff/sqlfluff
     rev: 0.11.2
     hooks:
       - id: sqlfluff-lint
         language: python
-        additional_dependencies: ["sqlfluff-templater-dbt==1.0.0", "dbt-core", "dbt-snowflake"]
-        args: 
-          [
-            --config,
-            transform/.sqlfluff
-          ]
+        additional_dependencies:
+          ["sqlfluff-templater-dbt==1.0.0", "dbt-core", "dbt-snowflake"]
+        args: [--config, transform/.sqlfluff]
