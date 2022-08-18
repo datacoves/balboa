@@ -1,15 +1,10 @@
-- BRUNO:
+- bruno:
     can_login: true
     member_of:
       - analyst
       - securityadmin
 
-- EMILIANO:
-    can_login: true
-    member_of:
-      - analyst
-
-- GOMEZN:
+- gomezn:
     can_login: true
     member_of:
       - accountadmin
@@ -18,24 +13,24 @@
       - loader_airbyte
       - transformer_dbt_prd
 
-- JENKINSC:
+- jenkinsc:
     can_login: true
     member_of:
       - accountadmin
       - securityadmin
       - analyst
 
-- JOE:
+- joe:
     can_login: true
     member_of:
       - analyst
 
-- ALIEU:
+- alieu:
     can_login: true
     member_of:
       - analyst
 
-- ALEX:
+- alex:
     can_login: true
     member_of:
       - accountadmin
@@ -44,77 +39,82 @@
       - loader_airbyte
       - transformer_dbt_prd
 
-- MARTIN:
+- martin:
     can_login: true
     member_of:
       - analyst
 
-- ROCKY:
+- rocky:
     can_login: true
     member_of:
       - analyst
 
-- SANTIAGO:
+- santiago:
     can_login: true
     member_of:
       - securityadmin
       - analyst
 
-- SEBASTIAN:
+- sebastian:
     can_login: true
     member_of:
       - accountadmin
       - securityadmin
       - analyst
 
-# Snowflake demo account
-- SNOWFLAKE_DEMO:
+- yeison:
+    can_login: true
+    member_of:
+      - analyst
+
+# snowflake demo account
+- snowflake_demo:
     can_login: true
     member_of:
       - analyst
 
 
-- SVC_AIRBYTE:
+- svc_airbyte:
     can_login: true
     member_of:
       - loader_airbyte
 
-- SVC_AIRFLOW:
+- svc_airflow:
     can_login: true
     member_of:
       - transformer_dbt_prd
 
-- SVC_DATACOVES:
+- svc_datacoves:
     can_login: true
     member_of:
       - securityadmin
 
-- SVC_GITHUB_ACTIONS:
+- svc_github_actions:
     can_login: true
     member_of:
       - transformer_dbt_prd
 
-# - SVC_CONVEXA:
+# - svc_convexa:
 #     can_login: false
 #     member_of:
 #       - convexa_analyst
 
-# - SVC_WILLOW_BAY:
+# - svc_willow_bay:
 #     can_login: false
 #     member_of:
 #       - willow_bay_app
 
-- SVC_BALBOA:
+- svc_balboa:
     can_login: false
     member_of:
       - analyst
 
-- SVC_DATAMEER:
+- svc_datameer:
     can_login: true
     member_of:
       - analyst
 
-- SVC_SELECTSTAR:
+- svc_selectstar:
     can_login: true
     member_of:
       - analyst
