@@ -2,14 +2,14 @@
 
 # NOTE: you must generate an encrypted version of your ssh key before running permifrost
 # you will need to rerun this when the key is rotated
-# openssl rsa -des -in ~/.ssh/id_rsa -out ~/.ssh/id_rsa_encrypted.key
+# openssl rsa -des -in ~/.ssl/prd-private.pem -out ~/.ssl/prd-private_encrypted.pem
 
 export PERMISSION_BOT_ACCOUNT=toa80779
 export PERMISSION_BOT_WAREHOUSE=WH_TRANSFORMING
 export PERMISSION_BOT_DATABASE=BALBOA_DEV
 export PERMISSION_BOT_ROLE=SECURITYADMIN
 export PERMISSION_BOT_USER="${DATACOVES_USER_EMAIL%@*}"
-export PERMISSION_BOT_KEY_PATH="/config/.ssh/id_rsa_encrypted.key"
+export PERMISSION_BOT_KEY_PATH="/config/.ssl/prd-private_encrypted.pem"
 export PERMISSION_BOT_KEY_PASSPHRASE=permifrost
 export PATH=$PATH:/config/.local/bin
 
