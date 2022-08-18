@@ -51,17 +51,17 @@ jobs:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
 
-      - name: Generate dbt documentation
-        uses: datacoves/ci-basic-action@v0.5.202206221457
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt docs generate"
-
       - name: Delete merged test databases
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/remove_test_databases.sh"
+
+      - name: Generate dbt documentation
+        uses: datacoves/ci-basic-action@v0.5.202206221457
+        with:
+          dbt_project_folder: "transform"
+          command: "dbt docs generate"
 
       - name: Deploy docs 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4

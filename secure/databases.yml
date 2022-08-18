@@ -3,7 +3,17 @@
 - balboa:
     shared: false
     schemas:
-        - seeds
+        - BAY_COUNTRY
+        - BAY_COVID
+        - BAY_OBSERVABILITY
+        - COVE_COVID
+        - DBT_TEST__AUDIT
+        - SEEDS
+        - SOURCE_ACCOUNT_USAGE
+        - SOURCE_COUNTRY_DATA
+        - SOURCE_DBT_ARTIFACTS
+        - SOURCE_STARSCHEMA_COVID19
+
 - balboa_dev:
     shared: false
 - convexa_dev:
