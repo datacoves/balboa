@@ -38,24 +38,18 @@ jobs:
 
       - name: Get prod manifest
         id: prod-manifest
-        uses: datacoves/ci-basic-action@v0.5.202206221457                       
+        uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
 
       - name: Run blue / green deployment
-        env: 
+        env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
         uses: datacoves/ci-basic-action@v0.5.202206221457
         with:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
-
-      - name: test db name
-        uses: datacoves/ci-basic-action@v0.5.202206221457
-        with:
-          dbt_project_folder: "transform"
-          command: "echo $DBT_DATABASE"
 
       - name: Generate dbt documentation
         uses: datacoves/ci-basic-action@v0.5.202206221457
