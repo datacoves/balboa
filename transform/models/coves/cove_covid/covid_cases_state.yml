@@ -11,4 +11,3 @@ models:
       - name: confirmed
       - name: deaths
       - name: active
-      - name: recovered
