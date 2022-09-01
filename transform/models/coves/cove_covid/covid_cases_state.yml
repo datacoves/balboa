@@ -10,3 +10,4 @@ models:
       - name: confirmed
       - name: deaths
       - name: active
+      - name: missing_from_sql
