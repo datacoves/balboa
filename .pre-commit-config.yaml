@@ -34,32 +34,32 @@ repos:
       - id: dbt-docs-generate
         files: ^transform/models/
         args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
-      # - id: check-source-table-has-description
-      #   files: ^transform/models/
-      # - id: check-script-semicolon
-      #   files: ^transform/models/
-      # - id: check-script-has-no-table-name
-      #   files: ^transform/models/
-      # - id: check-script-ref-and-source
-      #   files: ^transform/models/
-      #   args: ["--manifest", "transform/target/manifest.json"]
-      # - id: check-model-has-description
-      #   files: ^transform/models/
-      #   args: ["--manifest", "transform/target/manifest.json"]
-      # - id: check-model-has-properties-file
-      #   files: ^transform/models/
-      #   args: ["--manifest", "transform/target/manifest.json"]
+      - id: check-source-table-has-description
+        files: ^transform/models/
+      - id: check-script-semicolon
+        files: ^transform/models/
+      - id: check-script-has-no-table-name
+        files: ^transform/models/
+      - id: check-script-ref-and-source
+        files: ^transform/models/
+        args: ["--manifest", "transform/target/manifest.json"]
+      - id: check-model-has-description
+        files: ^transform/models/
+        args: ["--manifest", "transform/target/manifest.json"]
+      - id: check-model-has-properties-file
+        files: ^transform/models/
+        args: ["--manifest", "transform/target/manifest.json"]
 
-      # # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
-      # - id: check-model-has-all-columns
-      #   args:
-      #     [
-      #       "--manifest",
-      #       "transform/target/manifest.json",
-      #       "--catalog",
-      #       "transform/target/catalog.json",
-      #     ]
-      #   files: ^transform/models/
+      # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
+      - id: check-model-has-all-columns
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
+        files: ^transform/models/
 
   - repo: https://github.com/sqlfluff/sqlfluff
     rev: 0.11.2
