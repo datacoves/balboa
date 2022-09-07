@@ -1,7 +1,6 @@
 version: 2
 models:
   - name: covid_cases_state
-    description: Cleaned up John Hopkins COVID19 cases
     columns:
       - name: country
       - name: state
@@ -11,4 +10,4 @@ models:
       - name: confirmed
       - name: deaths
       - name: active
-      - name: recovered
+      - name: missing_from_sql

@@ -1,0 +1,4 @@
+version: 2
+macro:
+  - name: dim_test__ng_test
+    description: Test base_cases
