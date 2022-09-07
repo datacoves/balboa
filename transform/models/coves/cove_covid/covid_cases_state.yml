@@ -1,6 +1,7 @@
 version: 2
 models:
   - name: covid_cases_state
+    description: covid cases by state
     columns:
       - name: country
       - name: state
@@ -10,4 +11,4 @@ models:
       - name: confirmed
       - name: deaths
       - name: active
-      - name: missing_from_sql
+      - name: recovered

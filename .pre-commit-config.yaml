@@ -15,22 +15,9 @@ repos:
 
   # Forked the original repo to support ephemeral models
   - repo: https://github.com/datacoves/pre-commit-dbt
-    rev: 4f82d588d944afb756b34fce7c78e07952317663
+    rev: 8eaa44f4c1e9502537723c0391463b916a2bfc77
 
     hooks:
-      # - id: dbt-compile
-      #   files: ^transform/models/
-      #   args:
-      #     [
-      #       "--models",
-      #       "state:modified+",
-      #       "--cmd-flags",
-      #       "++project+dir",
-      #       "transform",
-      #       "++state",
-      #       "logs",
-      #       "--"
-      #     ]
       - id: dbt-docs-generate
         files: ^transform/models/
         args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
@@ -62,10 +49,10 @@ repos:
         files: ^transform/models/
 
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 0.11.2
+    rev: 1.1.0
     hooks:
       - id: sqlfluff-lint
         language: python
         additional_dependencies:
-          ["sqlfluff-templater-dbt==1.0.0", "dbt-core", "dbt-snowflake"]
+          ["sqlfluff-templater-dbt==1.1.0", "dbt-core==1.1.1", "dbt-snowflake"]
         args: [--config, transform/.sqlfluff]
