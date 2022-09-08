@@ -26,9 +26,9 @@ daily_morning_bluegreen_run:
         name: base
         image: datacoves/airflow-pandas:latest
       # Example of how to set Airflow vars as ENV vars
-      env:
-        TEST__USER: "{{ var.value.TEST__USER }}"
-        DATACOVES__REPO_PATH: "/opt/airflow/dags/repo"
+      # env:
+      #   TEST__USER: "{{ var.value.TEST__USER }}"
+      #   DATACOVES__REPO_PATH: "/opt/airflow/dags/repo"
       # Update tag for job
       bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]
