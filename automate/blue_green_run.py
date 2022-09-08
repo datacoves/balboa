@@ -58,7 +58,12 @@ def main(is_production: bool = False, selector: str = None):
     run_dbt(cwd, is_production=is_production, selector=selector)
 
     logging.info("Granting usage to staging database ")
-    run_command("dbt run-operation grant_prd_usage")
+    USAGE_ARGS = (
+        '{"db_name": "'
+        + DBT_STAGING_DB_NAME
+        + '"}'
+    )
+    run_command(f'dbt run-operation grant_prd_usage --args "{USAGE_ARGS}"')
 
     logging.info(
         "Swapping staging database "
