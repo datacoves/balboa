@@ -14,14 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DBT_USER: ${{ secrets.DBT_USER }}
-      DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-      DBT_DATABASE: BALBOA
       DBT_PROFILES_DIR: /github/workspace/automate/dbt
       DBT_HOME: /github/workspace/transform
-      DBT_SNOWFLAKE_ACCOUNT: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
-      DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
-      DBT_SNOWFLAKE_WAREHOUSE: ${{ secrets.DBT_SNOWFLAKE_WAREHOUSE }}
+      
+      DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
+      DATACOVES__MAIN__ROLE: ${{ secrets.DATACOVES__MAIN__ROLE }}
+      DATACOVES__MAIN__WAREHOUSE: ${{ secrets.DATACOVES__MAIN__WAREHOUSE }}
+      DATACOVES__MAIN__DATABASE: BALBOA
+      DATACOVES__MAIN__USER: ${{ secrets.DATACOVES__MAIN__USER }}
+      DATACOVES__MAIN__PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
     steps:
       - name: Checkout branch

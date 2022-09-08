@@ -1,6 +1,8 @@
 daily_morning_bluegreen_run:
   description: "Bluegreen run at 7am"
   schedule_interval: "01 6 * * *"
+  tags:
+    - version_3
   default_args:
     start_date: 2021-01-01
   catchup: False
@@ -23,9 +25,10 @@ daily_morning_bluegreen_run:
       container_spec:
         name: base
         image: datacoves/airflow-pandas:latest
-      # Example of how to set Airflow vars as ENV vars
+      # Example of how to set Airflow vars as ENV vars (please add `append_env: true` when adding new env vars)
       env:
-        DBT_USER: "{{ var.value.DBT_USER }}"
+        TEST__USER: "{{ var.value.TEST__USER }}"
+      append_env: true
       # Update tag for job
       bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
       dependencies: ["extract_and_load"]

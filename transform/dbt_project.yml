@@ -79,6 +79,10 @@ models:
   +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
   copy_grants: true
   
+  # NOTE: BALBOA uses dbt_artifacts version 0.8.0 because changes
+  # were made to the package which no longer upload the full JSON files
+  # see below for setup instructions
+  # this config is where dbt_artifacts will build its models using dbt
   dbt_artifacts:
     +enabled: "{{ true if target.name == 'prod' else false }}"
     +schema: source_dbt_artifacts
@@ -91,6 +95,11 @@ tests:
 vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
 
+
+  # set up artifacts objects by running:
+  # dbt run-operation create_artifact_resources -t prd
+  # This is where dbt artifacts will load dbt's artifacts *.json
   dbt_artifacts:
-    dbt_artifacts_schema: source_dbt_artifacts # optional, default is 'dbt_artifacts'
-    dbt_artifacts_database: BALBOA
+    # this is where artifacts will be loaded
+    dbt_artifacts_database: raw 
+    dbt_artifacts_schema: dbt_artifacts
