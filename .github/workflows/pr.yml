@@ -34,7 +34,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: get sqlfluff version
-        uses: datacoves/ci-basic-action@v0.5.202206221457
+        uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
           command: "sqlfluff --version"
