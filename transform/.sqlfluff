@@ -33,7 +33,7 @@ ignore_templated_areas = True
 # rules = L001, L002, L003, L004, L005, L006, L008, L009, L010, L012
 
 # Excluded rules
-exclude_rules = L031, L034, L057, L059
+exclude_rules = L031, L034, L051, L057, L059
 
 [sqlfluff:templater:dbt]
 project_dir = ./
@@ -60,6 +60,9 @@ unwrap_wrapped_queries = True
 lint_templated_tokens = True
 indent_unit = space
 tab_space_size = 4
+
+[sqlfluff:rules:L007]  # Operator before/after new line
+operator_new_lines = after
 
 [sqlfluff:rules:L010]  # Keywords
 capitalisation_policy = lower
@@ -88,3 +91,6 @@ forbid_subquery_in = join
 
 [sqlfluff:rules:L047]  # Consistent syntax to count all rows
 prefer_count_1 = False
+
+[sqlfluff:rules:L054]  # Group by and Order by style
+group_by_and_order_by_style = consistent

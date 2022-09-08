@@ -17,7 +17,7 @@ select
     covid_cases.active,
     covid_cases.recovered
 from covid_cases
-left outer join location
+left join location
     on location.location_id = covid_cases.location_id
-where location.state is not null and
-    location.county is null
+where location.state is not null
+    and location.county is null

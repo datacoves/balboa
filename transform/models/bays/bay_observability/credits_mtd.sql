@@ -5,7 +5,7 @@ select
         from
             {{ ref('stg_warehouse_metering_history') }}
         where
-            timestampdiff(month, start_time, current_date) = 1
+            timestampdiff(month, start_time, current_date) = 1 and
             and day(current_date) >= day(start_time)
     ) as previous_mtd_credits_used
 from
