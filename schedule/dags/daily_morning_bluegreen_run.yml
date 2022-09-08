@@ -2,7 +2,7 @@ daily_morning_bluegreen_run:
   description: "Bluegreen run at 7am"
   schedule_interval: "01 6 * * *"
   tags:
-    - version_1
+    - version_2
   default_args:
     start_date: 2021-01-01
   catchup: False
