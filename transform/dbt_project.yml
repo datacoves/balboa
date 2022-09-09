@@ -10,7 +10,7 @@ config-version: 2
 require-dbt-version: ">=1.1.0"
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'default' # trigger1
+profile: 'default'
 
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
@@ -78,7 +78,7 @@ models:
   # Snowflake Defaults
   +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
   copy_grants: true
-  
+
   # NOTE: BALBOA uses dbt_artifacts version 0.8.0 because changes
   # were made to the package which no longer upload the full JSON files
   # see below for setup instructions
@@ -101,5 +101,5 @@ vars:
   # This is where dbt artifacts will load dbt's artifacts *.json
   dbt_artifacts:
     # this is where artifacts will be loaded
-    dbt_artifacts_database: raw 
+    dbt_artifacts_database: raw
     dbt_artifacts_schema: dbt_artifacts

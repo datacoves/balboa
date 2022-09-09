@@ -35,6 +35,28 @@ ignore_templated_areas = True
 # Excluded rules
 exclude_rules = L031, L034, L051, L057, L059
 
+# -------
+# Added for sqlfmt
+# -------
+
+# exclude_rules = L003, L018, L036, L031, L034, L051, L057, L059
+
+#[sqlfluff:rules]
+#capitalisation_policy = lower
+#extended_capitalisation_policy = lower
+
+#[sqlfluff:indentation]
+#indented_joins = False
+#indented_using_on = True
+#template_blocks_indent = False
+
+#[sqlfluff:rules:L052]
+#multiline_newline = True
+
+# -------
+# END Added for sqlfmt
+# -------
+
 [sqlfluff:templater:dbt]
 project_dir = ./
 
