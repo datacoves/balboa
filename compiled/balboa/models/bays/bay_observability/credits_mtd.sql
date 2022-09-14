@@ -10,6 +10,5 @@ select
     ) as previous_mtd_credits_used
 from
     BALBOA.bay_observability.stg_warehouse_metering_history
--- left join prev_month on this_month.start_time = prev_month.pm_start_time
 where
     timestampdiff(month, start_time, current_date) = 0

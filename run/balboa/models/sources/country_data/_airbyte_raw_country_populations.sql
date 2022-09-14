@@ -1,4 +1,44 @@
-with raw_source as (
+
+  create or replace  view BALBOA_STAGING.source_country_data._airbyte_raw_country_populations
+  
+    
+    
+(
+  
+    
+      COUNTRY_CODE
+    
+    , 
+  
+    
+      COUNTRY_NAME
+    
+    , 
+  
+    
+      VALUE
+    
+    , 
+  
+    
+      YEAR
+    
+    , 
+  
+    
+      _AIRBYTE_AB_ID
+    
+    , 
+  
+    
+      _AIRBYTE_EMITTED_AT
+    
+    
+  
+)
+
+  copy grants as (
+    with raw_source as (
 
     select
         parse_json(replace(_airbyte_data::string, '"NaN"', 'null')) as airbyte_data_clean,
@@ -23,3 +63,4 @@ final as (
 
 select * from final
 order by country_code
+  );

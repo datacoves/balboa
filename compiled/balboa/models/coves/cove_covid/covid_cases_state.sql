@@ -38,6 +38,7 @@ rank_locations as (
 )
 
 select
+    1 as test_col,
     location_id,
     country,
     state,
@@ -61,13 +62,13 @@ select
     location.state,
     location.lat,
     location.long,
-    cases.date,
-    cases.confirmed,
-    cases.deaths,
-    cases.active,
-    cases.recovered
-from covid_cases as cases
-left join location as location
-    on location.location_id = cases.location_id
+    covid_cases.date,
+    covid_cases.confirmed,
+    covid_cases.deaths,
+    covid_cases.active,
+    covid_cases.recovered
+from covid_cases
+left join location
+    on location.location_id = covid_cases.location_id
 where location.state is not null
     and location.county is null

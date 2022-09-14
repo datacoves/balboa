@@ -37,6 +37,7 @@ rank_locations as (
 )
 
 select
+    1 as test_col,
     location_id,
     country,
     state,

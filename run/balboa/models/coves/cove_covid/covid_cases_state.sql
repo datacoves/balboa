@@ -1,4 +1,7 @@
-with  __dbt__cte__covid_location as (
+
+
+      create or replace transient table BALBOA_STAGING.cove_covid.covid_cases_state copy grants as
+      (with  __dbt__cte__covid_location as (
 
 
 with jhu_covid_19 as (
@@ -11,7 +14,7 @@ with jhu_covid_19 as (
         iso3166_1,
         iso3166_2,
         date
-    from BALBOA.source_starschema_covid19.jhu_covid_19
+    from BALBOA_STAGING.source_starschema_covid19.jhu_covid_19
 ),
 
 rank_locations as (
@@ -50,7 +53,7 @@ select
 from rank_locations
 where rowrank = 1
 ),covid_cases as (
-    select * from BALBOA.bay_covid.covid_cases
+    select * from BALBOA_STAGING.bay_covid.covid_cases
 ),
 
 location as (
@@ -59,15 +62,18 @@ location as (
 
 select
     location.country,
+    location.state,
     location.lat,
     location.long,
-    cases.date,
-    cases.confirmed,
-    cases.deaths,
-    cases.active,
-    cases.recovered
-from covid_cases as cases
-left join location as location
-    on location.location_id = cases.location_id
-where location.country is not null
-    and location.state is null
+    covid_cases.date,
+    covid_cases.confirmed,
+    covid_cases.deaths,
+    covid_cases.active,
+    covid_cases.recovered
+from covid_cases
+left join location
+    on location.location_id = covid_cases.location_id
+where location.state is not null
+    and location.county is null
+      );
+    
