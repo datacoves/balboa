@@ -8,38 +8,19 @@ repos:
         types: [python]
         pass_filenames: false
         always_run: true
-  
+
   # Original Repo
   # - repo: https://github.com/offbi/pre-commit-dbt
   #   rev: v1.0.0
 
   # Forked the original repo to support ephemeral models
   - repo: https://github.com/datacoves/pre-commit-dbt
-    rev: 641b4bdd46536bf3d5390e94af672602d3937694
+    rev: d18e535d9af6bb8d81e9ea07b381e617672000c6
 
     hooks:
-      # - id: dbt-compile
-      #   files: ^transform/models/
-      #   args:
-      #     [
-      #       "--models",
-      #       "state:modified+",
-      #       "--cmd-flags",
-      #       "++project+dir",
-      #       "transform",
-      #       "++state",
-      #       "logs",
-      #       "--"
-      #     ]
       - id: dbt-docs-generate
         files: ^transform/models/
-        args: 
-          [
-            "--cmd-flags",
-            "++project+dir",
-            "transform",
-            "++no+compile"
-          ]
+        args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
       - id: check-source-table-has-description
         files: ^transform/models/
       - id: check-script-semicolon
@@ -48,39 +29,30 @@ repos:
         files: ^transform/models/
       - id: check-script-ref-and-source
         files: ^transform/models/
-        args: 
-          [
-            "--manifest", 
-            "transform/target/manifest.json"
-          ]
+        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-description
         files: ^transform/models/
-        args: 
-          [
-            "--manifest", 
-            "transform/target/manifest.json"
-          ]
+        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-properties-file
         files: ^transform/models/
-        args: 
-          [
-            "--manifest",
-            "transform/target/manifest.json"
-          ]
+        args: ["--manifest", "transform/target/manifest.json"]
 
       # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
       - id: check-model-has-all-columns
-        args: ["--manifest", "transform/target/manifest.json", "--catalog", "transform/target/catalog.json"]
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
         files: ^transform/models/
-        
+
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 0.11.2
+    rev: 1.1.0
     hooks:
       - id: sqlfluff-lint
         language: python
-        additional_dependencies: ["sqlfluff-templater-dbt==1.0.0", "dbt-core", "dbt-snowflake"]
-        args: 
-          [
-            --config,
-            transform/.sqlfluff
-          ]
+        additional_dependencies:
+          ["sqlfluff-templater-dbt==1.1.0", "dbt-core==1.1.1", "dbt-snowflake"]
+        args: [--config, transform/.sqlfluff]

@@ -1,4 +1,13 @@
+# AUTO_SUSPEND: Setting 0 or NULL value means the warehouse never suspends
+
 - wh_loading:
     size: x-small
+    auto_suspend: 600
+    auto_resume: true
+    initially_suspended: true
+
 - wh_transforming:
     size: x-small
+    auto_suspend: 600
+    auto_resume: true
+    initially_suspended: true

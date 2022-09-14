@@ -33,13 +33,13 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: List of files changed
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
-          command: "git diff HEAD^ HEAD --name-status"
+          command: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
       - name: Install dbt packages
         uses: datacoves/ci-basic-action@v0.5.202209072119
@@ -65,7 +65,7 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "dbt build --fail-fast --defer --state logs --select @state:modified"
+          command: "dbt build --fail-fast --defer --state logs --select state:modified+"
       
       - name: Run dbt build full run
         if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
@@ -84,7 +84,7 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "pre-commit run --from-ref HEAD^ --to-ref HEAD"
+          command: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
 
       - name: Test DAG structure integrity (DagBag Loading)
         uses: datacoves/ci-airflow-action@v0.5.202209072119

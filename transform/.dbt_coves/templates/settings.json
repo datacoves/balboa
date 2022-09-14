@@ -20,7 +20,7 @@
 					"color": "white",
 					"singleInstance": true,
 					"command": "dbt build --select state:modified"
-                    // "command": "dbt build --select @state:modified --defer --state logs"
+                    // "command": "dbt build --select state:modified+ --defer --state logs"
 				},
                 {
 					"name": "✔️ Run checks",

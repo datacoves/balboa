@@ -1,7 +1,7 @@
 version: 2
 models:
   - name: covid_cases_state
-    description: Cleaned up John Hopkins COVID19 cases
+    description: covid cases by state
     columns:
       - name: country
       - name: state

@@ -1,3 +1,12 @@
+- alex:
+    can_login: true
+    member_of:
+      - accountadmin
+      - securityadmin
+      - analyst
+      - loader_airbyte
+      - transformer_dbt_prd
+
 - bruno:
     can_login: true
     member_of:
@@ -13,38 +22,7 @@
       - loader_airbyte
       - transformer_dbt_prd
 
-- jenkinsc:
-    can_login: true
-    member_of:
-      - accountadmin
-      - securityadmin
-      - analyst
-
-- joe:
-    can_login: true
-    member_of:
-      - analyst
-
-- alieu:
-    can_login: true
-    member_of:
-      - analyst
-
-- alex:
-    can_login: true
-    member_of:
-      - accountadmin
-      - securityadmin
-      - analyst
-      - loader_airbyte
-      - transformer_dbt_prd
-
-- martin:
-    can_login: true
-    member_of:
-      - analyst
-
-- rocky:
+- robert:
     can_login: true
     member_of:
       - analyst
@@ -61,18 +39,6 @@
       - accountadmin
       - securityadmin
       - analyst
-
-- yeison:
-    can_login: true
-    member_of:
-      - analyst
-
-# snowflake demo account
-- snowflake_demo:
-    can_login: true
-    member_of:
-      - analyst
-
 
 - svc_airbyte:
     can_login: true

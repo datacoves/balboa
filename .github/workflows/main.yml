@@ -56,13 +56,13 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "dbt docs generate"
+          command: "../automate/dbt/remove_test_databases.sh"
 
       - name: Delete merged test databases
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "../automate/dbt/remove_test_databases.sh"
+          command: "dbt docs generate"
 
       - name: Deploy docs 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
