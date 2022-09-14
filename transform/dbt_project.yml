@@ -59,13 +59,13 @@ models:
     materialized: view
     +schema: z_schema_not_configured
 
-    sources:
+    inlets:
       account_usage:
-        +schema: source_account_usage
+        +schema: inlet_account_usage
       country_data:
-        +schema: source_country_data
+        +schema: inlet_country_data
       starschema_covid19:
-        +schema: source_starschema_covid19
+        +schema: inlet_starschema_covid19
 
     bays:
       bay_country:
@@ -97,9 +97,9 @@ models:
   # this config is where dbt_artifacts will build its models using dbt
   dbt_artifacts:
     +enabled: "{{ true if target.name == 'prod' else false }}"
-    +schema: source_dbt_artifacts
+    +schema: inlet_dbt_artifacts
     staging:
-      +schema: source_dbt_artifacts
+      +schema: inlet_dbt_artifacts
 
 tests:
   +store_failures: true
