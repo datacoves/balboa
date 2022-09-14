@@ -9,17 +9,17 @@
         - COVE_COVID
         - DBT_TEST__AUDIT
         - SEEDS
-        - SOURCE_ACCOUNT_USAGE
-        - SOURCE_COUNTRY_DATA
-        - SOURCE_DBT_ARTIFACTS
-        - SOURCE_STARSCHEMA_COVID19
+        - INLET_ACCOUNT_USAGE
+        - INLET_COUNTRY_DATA
+        - INLET_DBT_ARTIFACTS
+        - INLET_STARSCHEMA_COVID19
 
 - balboa_dev:
     shared: false
 - convexa_dev:
     shared: false
   # Snowflake database contains metadata describing usage
-- snowflake: 
+- snowflake:
     shared: true
 - starschema_covid19:
     shared: true
