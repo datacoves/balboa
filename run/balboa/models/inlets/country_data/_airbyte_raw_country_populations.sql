@@ -1,5 +1,5 @@
 
-  create or replace  view BALBOA_STAGING.source_country_data._airbyte_raw_country_populations
+  create or replace  view BALBOA_STAGING.inlet_country_data._airbyte_raw_country_populations
   
     
     

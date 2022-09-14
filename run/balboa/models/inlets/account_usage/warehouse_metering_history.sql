@@ -1,5 +1,5 @@
 
-  create or replace  view BALBOA_STAGING.source_account_usage.warehouse_metering_history
+  create or replace  view BALBOA_STAGING.inlet_account_usage.warehouse_metering_history
   
     
     

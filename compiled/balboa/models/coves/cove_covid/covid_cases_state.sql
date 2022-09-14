@@ -11,7 +11,7 @@ with jhu_covid_19 as (
         iso3166_1,
         iso3166_2,
         date
-    from BALBOA.source_starschema_covid19.jhu_covid_19
+    from BALBOA.inlet_starschema_covid19.jhu_covid_19
 ),
 
 rank_locations as (
