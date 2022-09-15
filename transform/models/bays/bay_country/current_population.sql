@@ -2,7 +2,7 @@ select
     country_code,
     country_name,
     value,
-    1 as sql_field
+    year
 from (
         select
             country_code,
