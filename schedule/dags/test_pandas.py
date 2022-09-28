@@ -6,6 +6,7 @@ from airflow import DAG
 from airflow.decorators import task
 from airflow.example_dags.libs.helper import print_stuff
 from airflow.operators.python import PythonOperator
+from airflow.operators.email_operator import EmailOperator
 from airflow.operators.bash import BashOperator
 from airflow.settings import AIRFLOW_HOME
 
@@ -35,8 +36,13 @@ with DAG(
         executor_config=executor_config_template,
         bash_command="echo SUCCESS",
     )
-    # @task(executor_config=executor_config_template)
-    # def task_with_template():
-    #     print("test_pandas ran successfully")
+    
+    email = EmailOperator(
+        task_id='send_email',
+        to='sebastian@convexa.ai',
+        subject='Airflow Alert',
+        html_content=""" <h3>Email Test</h3> """,
+        dag=dag
+    )
 
-    task_x
+    task_x >> email
