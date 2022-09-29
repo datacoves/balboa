@@ -20,7 +20,6 @@ with DAG(
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
     tags=["sample_tag"],
-    on_failure_callback=send
 ) as dag:
     executor_config_template = {
         "pod_override": k8s.V1Pod(
