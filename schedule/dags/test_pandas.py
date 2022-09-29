@@ -4,20 +4,24 @@ import pendulum
 
 from airflow import DAG
 from airflow.decorators import task
-from airflow.example_dags.libs.helper import print_stuff
-from airflow.operators.python import PythonOperator
-from airflow.operators.email_operator import EmailOperator
 from airflow.operators.bash import BashOperator
-from airflow.settings import AIRFLOW_HOME
+from airflow.utils.email import send_email
 
 from kubernetes.client import models as k8s
 
+def send(**context):
+    subject = "Test"
+    body = f"""
+        Test email
+    """
+    send_email("sebastian@convexa.ai", subject, body)
+
 with DAG(
     dag_id="test_pandas",
-    schedule_interval=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["example3"],
+    tags=["sample_tag"],
+    on_failure_callback=send
 ) as dag:
     executor_config_template = {
         "pod_override": k8s.V1Pod(
@@ -37,12 +41,9 @@ with DAG(
         bash_command="echo SUCCESS",
     )
     
-    email = EmailOperator(
-        task_id='send_email',
-        to='sebastian@convexa.ai',
-        subject='Airflow Alert',
-        html_content=""" <h3>Email Test</h3> """,
-        dag=dag
+    fail = BashOperator(
+        task_id='failing',
+        bash_command="false"
     )
 
-    task_x >> email
+    task_x >> fail
