@@ -11,6 +11,13 @@ from airflow.settings import AIRFLOW_HOME
 
 from kubernetes.client import models as k8s
 
+
+default_args = {
+    'owner': 'airflow',
+    'email': 'gomezn@datacoves.com',   # Replace with recipient's email address
+    'email_on_failure': True
+}
+
 with DAG(
     dag_id="test_pandas",
     schedule_interval=None,
@@ -23,7 +30,7 @@ with DAG(
             spec=k8s.V1PodSpec(
                 containers=[
                     k8s.V1Container(
-                        name="base", image="datacoves/airflow-pandas:latest"
+                        name="base", image="datacoves/airflow-pandas:latest2"
                     )
                 ]
             )
@@ -34,6 +41,7 @@ with DAG(
         task_id="bash_executor_config",
         executor_config=executor_config_template,
         bash_command="echo SUCCESS",
+        on_failure_callback=send
     )
     # @task(executor_config=executor_config_template)
     # def task_with_template():
