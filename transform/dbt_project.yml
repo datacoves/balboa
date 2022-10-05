@@ -28,6 +28,7 @@ snapshot-paths: ["snapshots"]
 # model-paths: ["models_bq"]
 # snapshot-paths: ["snapshots_bq"]
 
+packages-install-path: dbt_packages
 
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
