@@ -4,10 +4,7 @@ import pendulum
 
 from airflow import DAG
 from airflow.decorators import task
-from airflow.example_dags.libs.helper import print_stuff
-from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
-from airflow.settings import AIRFLOW_HOME
 
 from kubernetes.client import models as k8s
 
@@ -20,10 +17,10 @@ default_args = {
 
 with DAG(
     dag_id="test_pandas",
-    schedule_interval=None,
+    default_args=default_args,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["example3"],
+    tags=["sample_tag"],
 ) as dag:
     executor_config_template = {
         "pod_override": k8s.V1Pod(
@@ -43,8 +40,10 @@ with DAG(
         bash_command="echo SUCCESS",
         on_failure_callback=send
     )
-    # @task(executor_config=executor_config_template)
-    # def task_with_template():
-    #     print("test_pandas ran successfully")
 
-    task_x
+    fail = BashOperator(
+        task_id='failing',
+        bash_command="dates"
+    )
+
+    task_x >> fail

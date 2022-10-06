@@ -1,6 +1,6 @@
 daily_morning_bluegreen_run:
   description: "Bluegreen run at 7am"
-  schedule_interval: "01 6 * * *"
+  schedule_interval: "0 * * 1/12 *"
   tags:
     - version_3
   default_args:
