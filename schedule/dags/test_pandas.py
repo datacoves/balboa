@@ -27,7 +27,7 @@ with DAG(
             spec=k8s.V1PodSpec(
                 containers=[
                     k8s.V1Container(
-                        name="base", image="datacoves/airflow-pandas:latest2"
+                        name="base", image="datacoves/airflow-pandas:latest"
                     )
                 ]
             )
