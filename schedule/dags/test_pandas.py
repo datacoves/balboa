@@ -37,8 +37,7 @@ with DAG(
     task_x = BashOperator(
         task_id="bash_executor_config",
         executor_config=executor_config_template,
-        bash_command="echo SUCCESS",
-        on_failure_callback=send
+        bash_command="echo SUCCESS"
     )
 
     fail = BashOperator(
