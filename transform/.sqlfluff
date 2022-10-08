@@ -79,7 +79,6 @@ unwrap_wrapped_queries = True
 
 # Some rules have their own specific config.
 [sqlfluff:rules:L003]
-lint_templated_tokens = True
 indent_unit = space
 tab_space_size = 4
 
