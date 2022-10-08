@@ -8,17 +8,23 @@ from airflow.operators.bash import BashOperator
 
 from kubernetes.client import models as k8s
 
-def custom_success_function(context):
-    "Define custom success notification behavior"
-    dag_run = context.get('dag_run')
-    task_instances = dag_run.get_task_instances()
-    print("These task instances succeeded:", task_instances)
+# def custom_success_function(context):
+#     "Define custom success notification behavior"
+#     dag_run = context.get('dag_run')
+#     task_instances = dag_run.get_task_instances()
+#     print("These task instances succeeded:", task_instances)
+
+# default_args = {
+#     'owner': 'airflow',
+#     'email': 'gomezn@convexa.ai',
+#     'email_on_failure': True,
+#     'on_success_callback': custom_success_function
+# }
 
 default_args = {
     'owner': 'airflow',
     'email': 'gomezn@convexa.ai',
-    'email_on_failure': True,
-    'on_success_callback': custom_success_function
+    'email_on_failure': True
 }
 
 with DAG(
@@ -46,10 +52,10 @@ with DAG(
         bash_command="echo SUCCESS"
     )
 
-    # fail = BashOperator(
-    #     task_id='failing',
-    #     bash_command="dates"
-    # )
+    fail = BashOperator(
+        task_id='failing',
+        bash_command="dates"
+    )
 
-    # task_x >> fail
-    task_x
+    task_x >> fail
+    # task_x
