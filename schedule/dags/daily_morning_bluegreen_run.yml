@@ -1,13 +1,14 @@
 daily_morning_bluegreen_run:
   description: "Bluegreen run at 7am"
-  schedule_interval: "0 * * 1/12 *"
+  # schedule_interval: "0 * * 1/12 *"
+  schedule_interval: "0 * * 1 *"
   tags:
     - version_3
   default_args:
     start_date: 2021-01-01
-    owner: airflow
-    email: gomezn@gmail.com
-    email_on_failure: true
+    # owner: airflow
+    # email: gomezn@gmail.com
+    # email_on_failure: true
 
   catchup: False
   task_groups:
