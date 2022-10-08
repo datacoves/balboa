@@ -35,7 +35,7 @@ with DAG(
             spec=k8s.V1PodSpec(
                 containers=[
                     k8s.V1Container(
-                        name="base", image="datacoves/airflow-pandas:latest2"
+                        name="base", image="datacoves/airflow-pandas:latest"
                     )
                 ]
             )
@@ -45,8 +45,7 @@ with DAG(
     task_x = BashOperator(
         task_id="bash_executor_config",
         executor_config=executor_config_template,
-        bash_command="echo SUCCESS",
-        on_failure_callback=send
+        bash_command="echo SUCCESS"
     )
 
     fail = BashOperator(
