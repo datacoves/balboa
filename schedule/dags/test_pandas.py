@@ -18,7 +18,7 @@ default_args = {
     'owner': 'airflow',
     'email': 'gomezn@convexa.ai',
     'email_on_failure': True,
-    'on_success_callback': custom_success_function
+    # 'on_success_callback': custom_success_function
 }
 
 with DAG(
@@ -51,4 +51,5 @@ with DAG(
         bash_command="dates"
     )
 
-    task_x >> fail
+    # task_x >> fail
+    task_x
