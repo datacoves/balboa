@@ -11,9 +11,17 @@ from kubernetes.client import models as k8s
 
 default_args = {
     'owner': 'airflow',
-    'email': 'gomezn@datacoves.com',   # Replace with recipient's email address
-    'email_on_failure': True
+    'email': 'gomezn@convexa.ai',
+    'email_on_failure': True,
+    'on_success_callback': custom_success_function
 }
+
+def custom_success_function(context):
+    "Define custom success notification behavior"
+    dag_run = context.get('dag_run')
+    task_instances = dag_run.get_task_instances()
+    print("These task instances succeeded:", task_instances)
+
 
 with DAG(
     dag_id="test_pandas",
