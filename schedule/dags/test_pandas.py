@@ -46,10 +46,10 @@ with DAG(
         bash_command="echo SUCCESS"
     )
 
-    fail = BashOperator(
-        task_id='failing',
-        bash_command="dates"
-    )
+    # fail = BashOperator(
+    #     task_id='failing',
+    #     bash_command="dates"
+    # )
 
     # task_x >> fail
     task_x
