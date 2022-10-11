@@ -1,0 +1,5 @@
+
+pip install dbt-osmosis
+dbt-osmosis serve --port 8582 --register-project
+
+dbt-osmosis diff  –model base_cases
