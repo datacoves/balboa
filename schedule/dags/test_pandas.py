@@ -41,7 +41,7 @@ with DAG(
                     k8s.V1Container(
                         name="base", image="datacoves/airflow-pandas:latest",
                         resources=k8s.V1ResourceRequirements(
-                            requests={"memory": "16Gi"}
+                            requests={"memory": "12Gi"}
                         )
                     )
                 ]
