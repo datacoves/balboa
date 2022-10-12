@@ -8,19 +8,6 @@ from airflow.operators.bash import BashOperator
 
 from kubernetes.client import models as k8s
 
-# def custom_success_function(context):
-#     "Define custom success notification behavior"
-#     dag_run = context.get('dag_run')
-#     task_instances = dag_run.get_task_instances()
-#     print("These task instances succeeded:", task_instances)
-
-# default_args = {
-#     'owner': 'airflow',
-#     'email': 'gomezn@convexa.ai',
-#     'email_on_failure': True,
-#     'on_success_callback': custom_success_function
-# }
-
 default_args = {
     'owner': 'airflow',
     'email': 'gomezn@convexa.ai',
@@ -39,10 +26,7 @@ with DAG(
             spec=k8s.V1PodSpec(
                 containers=[
                     k8s.V1Container(
-                        name="base", image="datacoves/airflow-pandas:latest",
-                        resources=k8s.V1ResourceRequirements(
-                            requests={"memory": "12Gi"}
-                        )
+                        name="base", image="datacoves/airflow-pandas:latest"
                     )
                 ]
             )
