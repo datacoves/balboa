@@ -39,7 +39,10 @@ with DAG(
             spec=k8s.V1PodSpec(
                 containers=[
                     k8s.V1Container(
-                        name="base", image="datacoves/airflow-pandas:latest"
+                        name="base", image="datacoves/airflow-pandas:latest",
+                        resources=k8s.V1ResourceRequirements(
+                            requests={"memory": "8Gb"}
+                        )
                     )
                 ]
             )
