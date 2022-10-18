@@ -1,5 +1,5 @@
 with covid_cases as (
-    select * from {{ ref('covid_cases') }}
+    select * from {{ ref('total_covid_cases') }}
 ),
 
 location as (
@@ -8,6 +8,8 @@ location as (
 
 select
     location.country,
+    location.state,
+    location.county,
     location.lat,
     location.long,
     cases.date,
@@ -18,5 +20,4 @@ select
 from covid_cases as cases
 left join location as location
     on location.location_id = cases.location_id
-where location.country is not null
-    and location.state is null
+where location.county is not null

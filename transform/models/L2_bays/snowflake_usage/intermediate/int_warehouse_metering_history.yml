@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_warehouse_metering_history
+  - name: int_warehouse_metering_history
     description: "warehouse metering history staging model"
     columns:
       - name: start_time

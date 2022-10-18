@@ -13,4 +13,4 @@ select
     dayname(start_time) as day_name,
     hour(start_time) as tod
 from
-    {{ ref('stg_warehouse_metering_history') }}
+    {{ ref('int_warehouse_metering_history') }}

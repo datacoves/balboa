@@ -1,0 +1,31 @@
+version: 2
+models:
+- name: base_cases
+  description: Covid information from the NYT
+  columns:
+  - name: cases
+    description: Reported Covid-19 cases
+    tests:
+    - not_null
+  - name: deaths
+    description: Reported deaths due to Covid-19
+  - name: date
+    description: Reporting date
+  - name: fips
+    description: FIPS Code
+  - name: state
+    description: Reporting State
+    tests:
+    - not_null
+  - name: country_region
+  - name: province_state
+  - name: county
+  - name: case_type
+  - name: long
+  - name: lat
+  - name: iso3166_1
+  - name: iso3166_2
+  - name: difference
+  - name: last_updated_date
+  - name: last_reported_flag
+  - name: new_cases

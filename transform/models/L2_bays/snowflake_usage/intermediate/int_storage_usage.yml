@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_storage_usage
+  - name: int_storage_usage
     description: "storage usage staging model"
     columns:
       - name: usage_month

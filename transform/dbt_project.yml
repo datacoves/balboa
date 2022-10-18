@@ -47,8 +47,8 @@ seeds:
   +schema: seeds
   +quote_columns: false
   +persist_docs:
-      relation: true
-      columns: true
+      relation: True
+      columns: True
 
 snapshots:
   balboa:
@@ -57,10 +57,10 @@ snapshots:
 
 models:
   balboa:
-    materialized: view
+    +materialized: view
     +schema: z_schema_not_configured
 
-    inlets:
+    L1_inlets:
       account_usage:
         +schema: inlet_account_usage
       country_data:
@@ -68,17 +68,17 @@ models:
       starschema_covid19:
         +schema: inlet_starschema_covid19
 
-    bays:
-      bay_country:
-        +schema: bay_country
-      bay_covid:
-        +schema: bay_covid
-      bay_observability:
-        +schema: bay_observability
+    L2_bays:
+      country_demographics:
+        +schema: L2_country_demographics
+      covid_observations:
+        +schema: L2_covid_observations
+      snowflake_usage:
+        +schema: L2_snowflake_usage
 
-    coves:
-      cove_covid:
-        +schema: cove_covid
+    L3_coves:
+      covid_analytics:
+        +schema: L3_covid_analytics
       +materialized: table
 
     +persist_docs:

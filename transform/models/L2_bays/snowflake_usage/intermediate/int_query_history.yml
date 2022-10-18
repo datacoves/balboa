@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_query_history
+  - name: int_query_history
     description: "staging model for query history"
     columns:
       - name: query_id

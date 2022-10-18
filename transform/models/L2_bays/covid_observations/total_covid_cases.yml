@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: covid_cases
+  - name: total_covid_cases
     description: Cleaned up John Hopkins COVID19 cases
     tests:
       - check_critical_rows_exist_in_seed:
