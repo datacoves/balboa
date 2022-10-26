@@ -40,6 +40,12 @@
       - securityadmin
       - analyst
 
+# Added for Datameer demo
+- steve:
+    can_login: true
+    member_of:
+      - analyst
+
 - svc_airbyte:
     can_login: true
     member_of:
