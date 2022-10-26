@@ -10,6 +10,12 @@ generate:
     # override default templates creating source_model_props.yml and source_model.sql under this folder
     templates_folder: ".dbt_coves/templates"
 
+  properties:
+    destination: "{{model_folder_path}}/{{model_file_name}}.yml" # Where models yml files will be generated
+    # You can specify a different path by declaring it explicitly, i.e.: "models/staging/{{model_file_name}}.yml"
+    update-strategy: ask # Action to perform when a property file already exists. Options: update, recreate, fail, ask (per file)
+
+
 extract:
   airbyte:
     path: /config/workspace/load
