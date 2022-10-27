@@ -1,5 +1,11 @@
-
+pip uninstall sqlfluff-templater-dbt
 pip install dbt-osmosis
-dbt-osmosis serve --port 8582 --register-project
+
+dbt-osmosis server serve --port 8582 --register-project
 
 dbt-osmosis diff  –model base_cases
+
+
+python -m pip install --upgrade dbt-core~=1.3.0rc2 dbt-snowflake~=1.3.0rc2 --pre
+
+
