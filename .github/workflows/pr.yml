@@ -87,12 +87,12 @@ jobs:
           command: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
 
       - name: Test DAG structure integrity (DagBag Loading)
-        uses: datacoves/ci-airflow-action@v0.5.202209072119
+        uses: datacoves/ci-airflow-action@v0.5.202210272117
         with:
           command: "python /usr/app/load_dagbag.py"
 
       - name: Test DBT Sources against DAGs' YAML files
-        uses: datacoves/ci-airflow-action@v0.5.202209072119
+        uses: datacoves/ci-airflow-action@v0.5.202210272117
         with:
           dbt_project_folder: "transform"
           command: "python /usr/app/test_dags.py"
