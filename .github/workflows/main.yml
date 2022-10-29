@@ -44,7 +44,7 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: $DATACOVES__STAGING__DATABASE'"
+          command: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__STAGING__DATABASE}}'"
 
 
       # - name: Get prod manifest
