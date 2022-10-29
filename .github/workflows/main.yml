@@ -76,4 +76,4 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation create_database"
+          command: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: balboa_staging'"
