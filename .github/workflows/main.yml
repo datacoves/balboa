@@ -21,6 +21,7 @@ jobs:
       DATACOVES__MAIN__ROLE: ${{ secrets.DATACOVES__MAIN__ROLE }}
       DATACOVES__MAIN__WAREHOUSE: ${{ secrets.DATACOVES__MAIN__WAREHOUSE }}
       DATACOVES__MAIN__DATABASE: BALBOA
+      DATACOVES__STAGING__DATABASE: BALBOA_STAGING
       DATACOVES__MAIN__USER: ${{ secrets.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
@@ -37,43 +38,52 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt deps"
 
-      - name: Get prod manifest
-        id: prod-manifest
-        uses: datacoves/ci-basic-action@v0.5.202209072119
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/dbt/get_artifacts.sh"
 
-      - name: Run blue / green deployment
-        id: run-blue-green
-        env:
-          MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        uses: datacoves/ci-basic-action@v0.5.202209072119
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/blue_green_run.py --deployment-run"
-
-      - name: Delete merged test databases
-        uses: datacoves/ci-basic-action@v0.5.202209072119
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/dbt/remove_test_databases.sh"
-
-      - name: Generate dbt documentation
-        uses: datacoves/ci-basic-action@v0.5.202209072119
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt docs generate"
-
-      - name: Deploy docs 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: dbt-docs
-          folder: transform/target
 
       - name: Drop staging db on Failure
-        if: always() && (steps.run-blue-green.outcome == 'failure')
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation drop_staging_db --args \'db_name: balboa_staging\'"
+          command: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: $DATACOVES__STAGING__DATABASE'"
+
+
+      # - name: Get prod manifest
+      #   id: prod-manifest
+      #   uses: datacoves/ci-basic-action@v0.5.202209072119
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "../automate/dbt/get_artifacts.sh"
+
+      # - name: Run blue / green deployment
+      #   id: run-blue-green
+      #   env:
+      #     MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
+      #   uses: datacoves/ci-basic-action@v0.5.202209072119
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "../automate/blue_green_run.py --deployment-run"
+
+      # - name: Delete merged test databases
+      #   uses: datacoves/ci-basic-action@v0.5.202209072119
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "../automate/dbt/remove_test_databases.sh"
+
+      # - name: Generate dbt documentation
+      #   uses: datacoves/ci-basic-action@v0.5.202209072119
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt docs generate"
+
+      # - name: Deploy docs 🚀
+      #   uses: JamesIves/github-pages-deploy-action@4.1.4
+      #   with:
+      #     branch: dbt-docs
+      #     folder: transform/target
+
+      # - name: Drop staging db on Failure
+      #   if: always() && (steps.run-blue-green.outcome == 'failure')
+      #   uses: datacoves/ci-basic-action@v0.5.202209072119
+      #   with:
+      #     dbt_project_folder: "transform"
+      #     command: "dbt --no-write-json run-operation drop_staging_db --args \'db_name: balboa_staging\'"
