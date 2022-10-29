@@ -53,13 +53,13 @@ jobs:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
 
-      - name: Generate dbt documentation
+      - name: Delete merged test databases
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/remove_test_databases.sh"
 
-      - name: Delete merged test databases
+      - name: Generate dbt documentation
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
@@ -76,4 +76,4 @@ jobs:
         uses: datacoves/ci-basic-action@v0.5.202209072119
         with:
           dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: balboa_staging'"
+          command: "dbt --no-write-json run-operation drop_staging_db --args \'db_name: balboa_staging\'"
