@@ -6,6 +6,6 @@ dbt-osmosis server serve --port 8582 --register-project
 
 dbt-osmosis diff  –model base_cases
 
-
 curl http://localhost:8581/health
 curl localhost:8581/parse?reset=true
+
