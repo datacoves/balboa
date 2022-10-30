@@ -15,6 +15,12 @@ generate:
     update-strategy: ask # Action to perform when a property file already exists. Options: update, recreate, fail, ask (per file)
     models: "models/" # Model(s) path where 'generate properties' will look for models for generation
 
+  metadata:
+    database: RAW
+    # schemas: # List of schema names where to look for source tables
+    #   - RAW
+    # destination: "metadata.csv"
+
 extract:
   airbyte:
     path: /config/workspace/load # Where json files will be generated
