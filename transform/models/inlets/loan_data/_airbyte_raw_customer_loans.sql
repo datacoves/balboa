@@ -5,10 +5,6 @@ with raw_source as (
 
 ),
 
-select * from steve._airbyte_raw_personal_loans
-select * from steve._airbyte_raw_customer_loans
-select * from steve._airbyte_raw_zip_coordinates
-
 final as (
 
     select
