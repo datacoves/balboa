@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: {{ relation.schema.lower() }}
+{%- if source_database %}
+    database: {{ source_database }}
+{%- endif %}
+    tables:
+      - name: {{ relation.name.lower() }}

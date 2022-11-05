@@ -13,6 +13,7 @@
         - INLET_COUNTRY_DATA
         - INLET_DBT_ARTIFACTS
         - INLET_STARSCHEMA_COVID19
+        - INLET_LOANS
 
 - balboa_dev:
     shared: false
