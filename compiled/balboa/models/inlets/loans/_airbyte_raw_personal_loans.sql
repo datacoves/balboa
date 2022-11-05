@@ -1,7 +1,7 @@
 with raw_source as (
 
     select *
-    from RAW.datameer._airbyte_raw_personal_loans
+    from RAW.loans._airbyte_raw_personal_loans
 
 ),
 
@@ -60,9 +60,9 @@ final as (
         _airbyte_data:"URL"::varchar as url,
         _airbyte_data:"VERIFICATION_STATUS"::varchar as verification_status,
         _airbyte_data:"ZIP_CODE"::varchar as zip_code,
-        "_AIRBYTE_AB_ID" as airbyte_ab_id,
-        "_AIRBYTE_DATA" as airbyte_data,
-        "_AIRBYTE_EMITTED_AT" as airbyte_emitted_at
+        "_AIRBYTE_AB_ID"::VARCHAR as airbyte_ab_id,
+        "_AIRBYTE_DATA"::VARIANT as airbyte_data,
+        "_AIRBYTE_EMITTED_AT"::TIMESTAMP_TZ as airbyte_emitted_at
 
     from raw_source
 
