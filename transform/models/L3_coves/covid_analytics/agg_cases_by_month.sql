@@ -10,7 +10,7 @@ from {{ metrics.calculate(
         and state='California'",
     start_date='2020-01-01'
 ) }}
-order by date_year desc
+order by 1 desc
 
 
 {#

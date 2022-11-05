@@ -1,6 +1,7 @@
 version: 2
 models:
   - name: _airbyte_raw_personal_loans
+    description: Raw data on personal loans
     columns:
       - name: addr_state
       - name: annual_inc

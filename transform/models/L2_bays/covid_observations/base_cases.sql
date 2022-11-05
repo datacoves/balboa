@@ -8,3 +8,4 @@ with final as (
 )
 
 select * from final
+limit 3
