@@ -68,8 +68,8 @@ models:
         +schema: inlet_country_data
       starschema_covid19:
         +schema: inlet_starschema_covid19
-      loan_data:
-        +schema: inlet_loan_data
+      loans:
+        +schema: inlet_loans
 
     bays:
       bay_country:

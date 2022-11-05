@@ -1,5 +1,4 @@
 version: 2
-
 models:
   - name: _airbyte_raw_personal_loans
     columns:

@@ -13,11 +13,14 @@
       - z_schema_raw
       - z_schema_snapshots
 
-      - z_schema_inlet_account_usage
-      - z_schema_inlet_country_data
-      - z_schema_inlet_starschema_covid19
       - z_schema_seeds
       - z_schema_inlet_dbt_artifacts
+      - z_schema_inlet_account_usage
+      - z_schema_inlet_country_data
+      - z_schema_inlet_dbt_artifacts
+      - z_schema_inlet_starschema_covid19
+      - z_schema_inlet_loans
+
       - z_schema_dbt_metrics
       - z_schema_dbt_test__audit
       - z_schema_bay_country
@@ -278,17 +281,23 @@
         read:
           - balboa.inlet_starschema_covid19
 
-- z_schema_seeds:
-    privileges:
-      schemas:
-        read:
-          - balboa.seeds
-
 - z_schema_inlet_dbt_artifacts:
     privileges:
       schemas:
         read:
           - balboa.inlet_dbt_artifacts
+
+- z_schema_inlet_loans:
+    privileges:
+      schemas:
+        read:
+          - balboa.inlet_loans
+
+- z_schema_seeds:
+    privileges:
+      schemas:
+        read:
+          - balboa.seeds
 
 - z_schema_dbt_test__audit:
     privileges:
