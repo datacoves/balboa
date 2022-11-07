@@ -9,3 +9,5 @@ dbt-osmosis diff  –model base_cases
 curl http://localhost:8581/health
 curl localhost:8581/parse?reset=true
 
+
+pip install sqlfmt[jinja]

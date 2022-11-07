@@ -9,7 +9,7 @@ final as (
 
     select
         _airbyte_data:"ADDR_STATE"::varchar as addr_state,
-        _airbyte_data:"ANNUAL_INC"::varchar as annual_inc,
+        _airbyte_data:"ANNUAL_INC"::numeric as annual_inc,
         _airbyte_data:"COLLECTIONS_12_MTHS_EX_MED"::varchar as collections_12_mths_ex_med,
         _airbyte_data:"COLLECTION_RECOVERY_FEE"::varchar as collection_recovery_fee,
         _airbyte_data:"DELINQ_2YRS"::varchar as delinq_2yrs,
@@ -25,7 +25,7 @@ final as (
         _airbyte_data:"INITIAL_LIST_STATUS"::varchar as initial_list_status,
         _airbyte_data:"INQ_LAST_6MTHS"::varchar as inq_last_6mths,
         _airbyte_data:"INSTALLMENT"::varchar as installment,
-        _airbyte_data:"INT_RATE"::varchar as int_rate,
+        _airbyte_data:"INT_RATE"::float as int_rate,
         _airbyte_data:"ISSUE_D"::varchar as issue_d,
         _airbyte_data:"LAST_CREDIT_PULL_D"::varchar as last_credit_pull_d,
         _airbyte_data:"LAST_PYMNT_AMNT"::varchar as last_pymnt_amnt,
