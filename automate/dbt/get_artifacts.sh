@@ -5,8 +5,6 @@ set -e
 
 cd $DBT_HOME
 
-ls
-
 mkdir -p logs
 
 dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" > logs/manifest.json
