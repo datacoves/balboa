@@ -6,8 +6,6 @@ from {{ metrics.calculate(
     grain='year',
     dimensions=['country','state'],
 
-    where="country='United States'
-        and state='California'",
     start_date='2020-01-01'
 ) }}
 order by 1 desc
