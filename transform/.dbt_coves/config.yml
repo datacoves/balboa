@@ -3,9 +3,9 @@ generate:
     database: RAW # Database where to look for source tables
     # schemas: # List of schema names where to look for source tables
     #   - RAW
-    sources_destination: "models/inlets/{{schema}}/{{schema}}.yml" # Where sources yml files will be generated
-    models_destination: "models/inlets/{{schema}}/{{relation}}.sql" # Where models sql files will be generated
-    model_props_destination: "models/inlets/{{schema}}/{{relation}}.yml" # Where models yml files will be generated
+    sources_destination: "models/L1_inlets/{{schema}}/{{schema}}.yml" # Where sources yml files will be generated
+    models_destination: "models/L1_inlets/{{schema}}/{{relation}}.sql" # Where models sql files will be generated
+    model_props_destination: "models/L1_inlets/{{schema}}/{{relation}}.yml" # Where models yml files will be generated
     update_strategy: ask # Action to perform when a property file already exists. Options: update, recreate, fail, ask (per file)
     templates_folder: ".dbt_coves/templates" # Folder where source generation jinja templates are located. Override default templates creating  source_props.yml, source_model_props.yml, and source_model.sql under this folder
 

@@ -1,0 +1,13 @@
+pip install sqlfmt[jinja]
+
+Add sqlfmt to settings.json
+
+In Airbyte load source
+ZIP_COORDINATES
+schema: loans
+https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/ZIP_COORDINATES.csv
+
+Generate sources:
+Preview data pre-flatten
+
+cast lat and long to float

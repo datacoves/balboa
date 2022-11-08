@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: covid_cases_state
+    description: covid cases by state
+    columns:
+      - name: location_id
+      - name: country
+      - name: state
+      - name: lat
+      - name: long
+      - name: date
+      - name: cases
+      - name: deaths
+      - name: active
+      - name: recovered

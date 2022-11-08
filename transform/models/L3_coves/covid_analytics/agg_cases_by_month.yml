@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: agg_cases_by_month
+    description: Aggregated Covid data by month
+    tests:
+      - dbt_expectations.expect_grouped_row_values_to_have_recent_data:
+          group_by:
+            - state
+          timestamp_column: date_month
+          datepart: month
+          interval: 24
+    columns:
+      - name: date_month
+        description: metrics month
+      - name: state
+        description: Reporting State
+        tests:
+          - dbt_expectations.expect_column_distinct_values_to_contain_set:
+              value_set:
+                - Arizona
+                - California
+      - name: country
+        description: Total Cummolative deaths due to covid-19
+      - name: sum_cases
+        description: Total Cummolative deaths due to covid-19

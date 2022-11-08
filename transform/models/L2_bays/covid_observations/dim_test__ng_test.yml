@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: dim_test__ng_test
+    description: Test base_cases
+    columns:
+      - name: country_region
+      - name: province_state
+      - name: county
+      - name: fips
+      - name: date
+      - name: case_type
+      - name: cases
+      - name: long
+      - name: lat
+      - name: iso3166_1
+      - name: iso3166_2
+      - name: difference
+      - name: last_updated_date
+      - name: last_reported_flag
+      - name: new_cases

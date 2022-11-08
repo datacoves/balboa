@@ -3,17 +3,22 @@
 - balboa:
     shared: false
     schemas:
-        - BAY_COUNTRY
-        - BAY_COVID
-        - BAY_OBSERVABILITY
-        - COVE_COVID
+        - L1_ACCOUNT_USAGE
+        - L1_COUNTRY_DATA
+        - L1_DBT_ARTIFACTS
+        - L1_STARSCHEMA_COVID19
+        - L1_LOANS
+
+        - L2_COUNTRY_DEMOGRAPHICS
+        - L2_COVID_OBSERVATIONS
+        - L2_SNOWFLAKE_USAGE
+
+        - L3_COVID_ANALYTICS
+
         - DBT_TEST__AUDIT
+        - DBT_METRICS
+
         - SEEDS
-        - INLET_ACCOUNT_USAGE
-        - INLET_COUNTRY_DATA
-        - INLET_DBT_ARTIFACTS
-        - INLET_STARSCHEMA_COVID19
-        - INLET_LOANS
 
 - balboa_dev:
     shared: false

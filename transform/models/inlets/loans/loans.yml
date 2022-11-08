@@ -1,7 +1,0 @@
-version: 2
-sources:
-  - name: loans
-    database: RAW
-    tables:
-      - name: _airbyte_raw_personal_loans
-      - name: _airbyte_raw_zip_coordinates
