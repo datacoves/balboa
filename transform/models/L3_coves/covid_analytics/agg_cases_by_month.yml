@@ -10,8 +10,8 @@ models:
           datepart: month
           interval: 24
     columns:
-      - name: date_year
-        description: metrics year
+      - name: date_month
+        description: metrics month
       - name: state
         description: Reporting State
         tests:
@@ -21,6 +21,5 @@ models:
                 - California
       - name: country
         description: Total Cummolative deaths due to covid-19
-
       - name: sum_cases
         description: Total Cummolative deaths due to covid-19
