@@ -86,7 +86,6 @@
       - z_db_snowflake
       - z_db_starschema_covid19
       - z_tables_views_general
-      - z_schema_inlet_dbt_artifacts
       - z_wh_transforming
     owns:
       databases:
