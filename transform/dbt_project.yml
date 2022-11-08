@@ -57,7 +57,7 @@ snapshots:
     +target_schema: snapshots
 
 models:
-  dbt_metrics:
+  metrics:
     +schema: dbt_metrics
 
   balboa:
@@ -66,25 +66,25 @@ models:
 
     L1_inlets:
       account_usage:
-        +schema: inlet_account_usage
+        +schema: l1_account_usage
       country_data:
-        +schema: inlet_country_data
+        +schema: l1_country_data
       starschema_covid19:
-        +schema: inlet_starschema_covid19
+        +schema: l1_starschema_covid19
       loans:
-        +schema: inlet_loans
+        +schema: l1_loans
 
     L2_bays:
       country_demographics:
-        +schema: country_demographics
+        +schema: l2_country_demographics
       covid_observations:
-        +schema: covid_observations
+        +schema: l2_covid_observations
       snowflake_usage:
-        +schema: snowflake_usage
+        +schema: l2_snowflake_usage
 
     L3_coves:
       covid_analytics:
-        +schema: covid_analytics
+        +schema: l3_covid_analytics
       +materialized: table
 
     +persist_docs:

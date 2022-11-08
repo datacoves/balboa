@@ -14,19 +14,22 @@
       - z_schema_snapshots
 
       - z_schema_seeds
-      - z_schema_inlet_dbt_artifacts
-      - z_schema_inlet_account_usage
-      - z_schema_inlet_country_data
-      - z_schema_inlet_dbt_artifacts
-      - z_schema_inlet_starschema_covid19
-      - z_schema_inlet_loans
+
+      - z_schema_l1_dbt_artifacts
+      - z_schema_l1_account_usage
+      - z_schema_l1_country_data
+      - z_schema_l1_dbt_artifacts
+      - z_schema_l1_starschema_covid19
+      - z_schema_l1_loans
 
       - z_schema_dbt_test__audit
+      - z_schema_dbt_metrics
 
-      - z_schema_country_demographics
-      - z_schema_covid_observations
-      - z_schema_snowflake_usage
-      - z_schema_covid_analytics
+      - z_schema_l2_country_demographics
+      - z_schema_l2_covid_observations
+      - z_schema_l2_snowflake_usage
+
+      - z_schema_l3_covid_analytics
 
       - z_wh_transforming
 
@@ -263,35 +266,35 @@
           - raw.snapshots
 
 # INLETS
-- z_schema_inlet_account_usage:
+- z_schema_l1_account_usage:
     privileges:
       schemas:
         read:
-          - balboa.inlet_account_usage
+          - balboa.l1_account_usage
 
-- z_schema_inlet_country_data:
+- z_schema_l1_country_data:
     privileges:
       schemas:
         read:
-          - balboa.inlet_country_data
+          - balboa.l1_country_data
 
-- z_schema_inlet_starschema_covid19:
+- z_schema_l1_starschema_covid19:
     privileges:
       schemas:
         read:
-          - balboa.inlet_starschema_covid19
+          - balboa.l1_starschema_covid19
 
-- z_schema_inlet_dbt_artifacts:
+- z_schema_l1_dbt_artifacts:
     privileges:
       schemas:
         read:
-          - balboa.inlet_dbt_artifacts
+          - balboa.l1_dbt_artifacts
 
-- z_schema_inlet_loans:
+- z_schema_l1_loans:
     privileges:
       schemas:
         read:
-          - balboa.inlet_loans
+          - balboa.l1_loans
 
 - z_schema_seeds:
     privileges:
@@ -305,31 +308,37 @@
         read:
           - balboa.dbt_test__audit
 
+- z_schema_dbt_metrics:
+    privileges:
+      schemas:
+        read:
+          - balboa.dbt_metrics
+
 # BAYS
-- z_schema_country_demographics:
+- z_schema_l2_country_demographics:
     privileges:
       schemas:
         read:
-          - balboa.country_demographics
+          - balboa.l2_country_demographics
 
-- z_schema_covid_observations:
+- z_schema_l2_covid_observations:
     privileges:
       schemas:
         read:
-          - balboa.covid_observations
+          - balboa.l2_covid_observations
 
-- z_schema_snowflake_usage:
+- z_schema_l2_snowflake_usage:
     privileges:
       schemas:
         read:
-          - balboa.snowflake_usage
+          - balboa.l2_snowflake_usage
 
 #  COVES
-- z_schema_covid_analytics:
+- z_schema_l3_covid_analytics:
     privileges:
       schemas:
         read:
-          - balboa.covid_analytics
+          - balboa.l3_covid_analytics
 
 
 ##########################
