@@ -60,15 +60,9 @@ final as (
         _airbyte_data:"URL"::varchar as url,
         _airbyte_data:"VERIFICATION_STATUS"::varchar as verification_status,
         _airbyte_data:"ZIP_CODE"::varchar as zip_code,
-<<<<<<< HEAD:transform/models/L1_inlets/loans/_airbyte_raw_personal_loans.sql
         "_AIRBYTE_AB_ID"::varchar as airbyte_ab_id,
         "_AIRBYTE_DATA"::variant as airbyte_data,
         "_AIRBYTE_EMITTED_AT"::timestamp_tz as airbyte_emitted_at
-=======
-        "_AIRBYTE_AB_ID"::VARCHAR as airbyte_ab_id,
-        "_AIRBYTE_DATA"::VARIANT as airbyte_data,
-        "_AIRBYTE_EMITTED_AT"::TIMESTAMP_TZ as airbyte_emitted_at
->>>>>>> main:transform/models/inlets/loan_data/_airbyte_raw_personal_loans.sql
 
     from raw_source
 
