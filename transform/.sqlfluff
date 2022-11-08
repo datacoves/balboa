@@ -65,7 +65,7 @@ project_dir = ./
 tab_space_size = 4
 max_line_length = 140
 indent_unit = space
-comma_style = trailing
+layout:type:comma:line_position = trailing
 allow_scalar = True
 single_table_references = unqualified
 unquoted_identifiers_policy = all
@@ -83,7 +83,7 @@ indent_unit = space
 tab_space_size = 4
 
 [sqlfluff:rules:L007]  # Operator before/after new line
-operator_new_lines = after
+layout:type:binary_operator:line_position = leading
 
 [sqlfluff:rules:L010]  # Keywords
 capitalisation_policy = lower
