@@ -3,7 +3,7 @@ from {{ metrics.calculate(
     [
         metric('sum_cases')
     ],
-    grain='year',
+    grain='month',
     dimensions=['country','state'],
 
     start_date='2020-01-01'

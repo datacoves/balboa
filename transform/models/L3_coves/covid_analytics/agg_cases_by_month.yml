@@ -6,9 +6,9 @@ models:
       - dbt_expectations.expect_grouped_row_values_to_have_recent_data:
           group_by:
             - state
-          timestamp_column: date_year
-          datepart: year
-          interval: 5
+          timestamp_column: date_month
+          datepart: month
+          interval: 24
     columns:
       - name: date_year
         description: metrics year

@@ -73,15 +73,15 @@ models:
 
     L2_bays:
       country_demographics:
-        +schema: L2_country_demographics
+        +schema: country_demographics
       covid_observations:
-        +schema: L2_covid_observations
+        +schema: covid_observations
       snowflake_usage:
-        +schema: L2_snowflake_usage
+        +schema: snowflake_usage
 
     L3_coves:
       covid_analytics:
-        +schema: L3_covid_analytics
+        +schema: covid_analytics
       +materialized: table
 
     +persist_docs:
