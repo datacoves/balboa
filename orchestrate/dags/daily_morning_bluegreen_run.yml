@@ -19,7 +19,7 @@ daily_morning_bluegreen_run:
       virtualenv_path: /opt/datacoves/virtualenvs/main
       # Update tag for job
       run_dbt_compile: false
-      dbt_list_args: "--select tag:daily_morning"
+      dbt_list_args: "--select tag:loan_daily"
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       container_spec:
@@ -30,5 +30,5 @@ daily_morning_bluegreen_run:
         TEST__USER: "{{ var.value.TEST__USER }}"
       append_env: true
       # Update tag for job
-      bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_morning"
+      bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:loan_daily"
       dependencies: ["extract_and_load"]

@@ -3,7 +3,7 @@ sources:
   - name: loans
     database: RAW
     tags:
-      - daily_morning
+      - loan_daily
     tables:
       - name: _airbyte_raw_personal_loans
         description: Raw data on personal loans

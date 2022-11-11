@@ -33,7 +33,7 @@ ignore_templated_areas = True
 # rules = L001, L002, L003, L004, L005, L006, L008, L009, L010, L012
 
 # Excluded rules
-exclude_rules = L031, L034, L051, L057, L059
+exclude_rules = L011, L022, L036, L031, L034, L051, L057, L059
 
 # -------
 # Added for sqlfmt
@@ -72,6 +72,7 @@ unquoted_identifiers_policy = all
 
 [sqlfluff:indentation]
 indented_joins = False
+indented_ctes = true
 template_blocks_indent = True
 
 [sqlfluff:templater]
@@ -81,6 +82,7 @@ unwrap_wrapped_queries = True
 [sqlfluff:rules:L003]
 indent_unit = space
 tab_space_size = 4
+hanging_indents: false
 
 [sqlfluff:rules:L007]  # Operator before/after new line
 layout:type:binary_operator:line_position = leading

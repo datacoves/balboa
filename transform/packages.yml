@@ -1,7 +1,7 @@
 packages:
 
-  - package: calogica/dbt_expectations
-    version: 0.7.0
+  # - package: calogica/dbt_expectations
+  #   version: 0.7.0
   - package: entechlog/dbt_snow_mask
     version: 0.2.3
     # <see https://github.com/entechlog/dbt-snow-mask/releases/latest> for the latest version tag
