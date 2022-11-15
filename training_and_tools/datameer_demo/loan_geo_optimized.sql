@@ -21,4 +21,3 @@ with
     )
 
 select * from final
-
