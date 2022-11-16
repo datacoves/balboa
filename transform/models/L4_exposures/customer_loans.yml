@@ -1,0 +1,18 @@
+version: 2
+
+exposures:
+
+  - name: customer_loans
+    type: dashboard
+    maturity: high
+    url: https://superset-dev123.east-us-a.datacoves.com:443/r/1
+    description: >
+      Loan Performance
+
+    depends_on:
+      - ref('_airbyte_raw_personal_loans')
+      - ref('current_population')
+
+    owner:
+      name: Steve Egan
+      email: segan@datameer.com

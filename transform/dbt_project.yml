@@ -55,6 +55,8 @@ snapshots:
   balboa:
     +target_database: raw
     +target_schema: snapshots
+  +docs:
+    node_color: "#881C11"
 
 models:
   metrics:
@@ -65,6 +67,8 @@ models:
     +schema: z_schema_not_configured
 
     L1_inlets:
+      # +docs:
+      #   node_color: "#F49C34"
       account_usage:
         +schema: l1_account_usage
       country_data:
@@ -75,6 +79,8 @@ models:
         +schema: l1_loans
 
     L2_bays:
+      # +docs:
+      #   node_color: "#00044a"
       country_demographics:
         +schema: l2_country_demographics
       covid_observations:
@@ -83,6 +89,8 @@ models:
         +schema: l2_snowflake_usage
 
     L3_coves:
+      +docs:
+        node_color: "#928570"
       covid_analytics:
         +schema: l3_covid_analytics
       +materialized: table
