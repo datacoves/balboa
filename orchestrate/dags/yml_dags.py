@@ -1,9 +1,9 @@
 import os
-import dagfactory
 import glob
 import pickle
 import subprocess
 from airflow import DAG
+from dagfactory import dagfactory
 from pathlib import Path
 
 
