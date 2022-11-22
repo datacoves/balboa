@@ -33,14 +33,14 @@ jobs:
           fetch-depth: 50
 
       - name: Install dbt packages
-        uses: datacoves/ci-basic-action@v0.5.202211041504
+        uses: datacoves/ci-basic-action@v1.0.202211221321
         with:
           dbt_project_folder: "transform"
           command: "dbt deps"
 
       - name: Get prod manifest
         id: prod-manifest
-        uses: datacoves/ci-basic-action@v0.5.202211041504
+        uses: datacoves/ci-basic-action@v1.0.202211221321
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/get_artifacts.sh"
@@ -49,19 +49,19 @@ jobs:
         id: run-blue-green
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        uses: datacoves/ci-basic-action@v0.5.202211041504
+        uses: datacoves/ci-basic-action@v1.0.202211221321
         with:
           dbt_project_folder: "transform"
           command: "../automate/blue_green_run.py --deployment-run"
 
       - name: Delete merged test databases
-        uses: datacoves/ci-basic-action@v0.5.202211041504
+        uses: datacoves/ci-basic-action@v1.0.202211221321
         with:
           dbt_project_folder: "transform"
           command: "../automate/dbt/remove_test_databases.sh"
 
       - name: Generate dbt documentation
-        uses: datacoves/ci-basic-action@v0.5.202211041504
+        uses: datacoves/ci-basic-action@v1.0.202211221321
         with:
           dbt_project_folder: "transform"
           command: "dbt docs generate"
@@ -74,7 +74,7 @@ jobs:
 
       - name: Drop staging db on Failure
         if: always() && (steps.run-blue-green.outcome == 'failure')
-        uses: datacoves/ci-basic-action@v0.5.202211041504
+        uses: datacoves/ci-basic-action@v1.0.202211221321
         with:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__STAGING__DATABASE}}'"
