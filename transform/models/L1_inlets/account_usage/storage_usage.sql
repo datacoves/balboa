@@ -1,7 +1,7 @@
 with raw_source as (
 
     select *
-    from {{ source('account_usage', 'storage_usage') }}
+    from {{ source('ACCOUNT_USAGE', 'STORAGE_USAGE') }}
 
 ),
 

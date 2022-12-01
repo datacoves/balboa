@@ -1,16 +1,5 @@
 version: 2
 
-sources:
-  - name: raw
-    database: raw
-    schema: raw
-    tags:
-      - loan_daily
-    tables:
-      - name: _airbyte_raw_country_populations
-        identifier: _AIRBYTE_RAW_COUNTRY_POPULATIONS
-        description: "Raw population information from Github Datasets repository"
-
 models:
   - name: _airbyte_raw_country_populations
     description: "Raw population information from Github Datasets repository"
@@ -19,5 +8,6 @@ models:
       - name: country_name
       - name: value
       - name: year
-      - name: _airbyte_ab_id
-      - name: _airbyte_emitted_at
+      - name: airbyte_data
+      - name: airbyte_ab_id
+      - name: airbyte_emitted_at
