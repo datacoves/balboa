@@ -5,4 +5,4 @@ sources:
     database: RAW
     tables:
       - name: _AIRBYTE_RAW_COUNTRY_POPULATIONS
-        description: ''
+        description: "Raw population information from Github Datasets repository"

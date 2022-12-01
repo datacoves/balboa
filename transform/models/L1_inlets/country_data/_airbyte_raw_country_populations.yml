@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: _airbyte_raw_country_populations
-    description: "Raw population information from Github Datasets repository"
+    description: "Flattened population information from Github Datasets repository"
     columns:
       - name: country_code
       - name: country_name
