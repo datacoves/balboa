@@ -1,7 +1,7 @@
 with raw_source as (
 
     select *
-    from {{ source('loans', '_airbyte_raw_personal_loans') }}
+    from {{ source('LOANS', '_AIRBYTE_RAW_PERSONAL_LOANS') }}
 
 ),
 

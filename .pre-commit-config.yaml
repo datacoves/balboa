@@ -1,17 +1,8 @@
 repos:
-  - repo: local
-    hooks:
-      - id: dbt-get-manifest
-        name: dbt-get-manifest
-        entry: automate/dbt/get_artifacts.sh
-        language: script
-        types: [python]
-        pass_filenames: false
-        always_run: true
 
   # Original Repo
-  - repo: https://github.com/offbi/pre-commit-dbt
-    rev: 34a2341234675d7a6b61766b2c33bdd5c33d090b
+  - repo: https://github.com/datacoves/pre-commit-dbt
+    rev: v2.0.0
 
     hooks:
       - id: dbt-docs-generate

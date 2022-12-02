@@ -5,8 +5,8 @@ version: 2
 
 sources:
   - name: lineage
-    database: raw
-    schema: raw
+    database: RAW
+    schema: RAW
     loader: S3
     # loaded_at_field: load_timestamp
 
@@ -14,12 +14,12 @@ sources:
       - name: lineage_processing
         description: "Lineage for Processing step"
 
-        
+
         external:
           location: "@raw.raw.lineage_data"
 
-          file_format: "( type = csv 
-            skip_header = 1 
+          file_format: "( type = csv
+            skip_header = 1
             field_delimiter = ','
             null_if = ('NULL', 'null')
             empty_field_as_null = true
@@ -33,7 +33,7 @@ sources:
 
 
           auto_refresh: false
-              
+
         columns:
           - name: source
             data_type: string
@@ -69,11 +69,11 @@ sources:
 # grant usage on stage raw.raw.lineage_data to role analyst;
 # grant usage on file format lineage_data_format to role analyst;
 
-# You need to run the command to create the table with the LOADER role from dbt 
+# You need to run the command to create the table with the LOADER role from dbt
 
 # dbt run-operation stage_external_sources --args "select: lineage.lineage_processing" --vars "ext_full_refresh: true" -t load
 
-# then grant access to the created table 
+# then grant access to the created table
 # grant select on raw.raw.lineage_processing to role analyst;
 
 
