@@ -1,5 +1,7 @@
 with
-    raw_source as (select * from {{ source("starschema_covid19", "jhu_covid_19") }}),
+    raw_source as (
+        select * from {{ source("starschema_covid19", "jhu_covid_19") }}
+    ),
 
     final as (
 
