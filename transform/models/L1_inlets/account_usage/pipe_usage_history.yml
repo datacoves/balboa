@@ -1,14 +1,5 @@
 version: 2
 
-sources:
-  - name: account_usage
-    database: snowflake
-    schema: account_usage
-    tables:
-      - name: pipe_usage_history
-        description: Pipe usage history raw data
-        identifier: PIPE_USAGE_HISTORY
-
 models:
   - name: pipe_usage_history
     description: Pipe usage history raw data
