@@ -1,4 +1,124 @@
-with raw_source as (
+
+  create or replace  view BALBOA_STAGING.l1_loans._airbyte_raw_personal_loans
+  
+    
+    
+(
+  
+    "ADDR_STATE" COMMENT $$$$, 
+  
+    "ANNUAL_INC" COMMENT $$$$, 
+  
+    "COLLECTIONS_12_MTHS_EX_MED" COMMENT $$$$, 
+  
+    "COLLECTION_RECOVERY_FEE" COMMENT $$$$, 
+  
+    "DELINQ_2YRS" COMMENT $$$$, 
+  
+    "DESC" COMMENT $$$$, 
+  
+    "DTI" COMMENT $$$$, 
+  
+    "EARLIEST_CR_LINE" COMMENT $$$$, 
+  
+    "EMP_LENGTH" COMMENT $$$$, 
+  
+    "EMP_TITLE" COMMENT $$$$, 
+  
+    "FUNDED_AMNT" COMMENT $$$$, 
+  
+    "FUNDED_AMNT_INV" COMMENT $$$$, 
+  
+    "GRADE" COMMENT $$$$, 
+  
+    "HOME_OWNERSHIP" COMMENT $$$$, 
+  
+    "INITIAL_LIST_STATUS" COMMENT $$$$, 
+  
+    "INQ_LAST_6MTHS" COMMENT $$$$, 
+  
+    "INSTALLMENT" COMMENT $$$$, 
+  
+    "INT_RATE" COMMENT $$$$, 
+  
+    "ISSUE_D" COMMENT $$$$, 
+  
+    "LAST_CREDIT_PULL_D" COMMENT $$$$, 
+  
+    "LAST_PYMNT_AMNT" COMMENT $$$$, 
+  
+    "LAST_PYMNT_D" COMMENT $$$$, 
+  
+    "LOAN_AMNT" COMMENT $$$$, 
+  
+    "LOAN_ID" COMMENT $$$$, 
+  
+    "LOAN_STATUS" COMMENT $$$$, 
+  
+    "MEMBER_ID" COMMENT $$$$, 
+  
+    "MTHS_SINCE_LAST_DELINQ" COMMENT $$$$, 
+  
+    "MTHS_SINCE_LAST_MAJOR_DEROG" COMMENT $$$$, 
+  
+    "MTHS_SINCE_LAST_RECORD" COMMENT $$$$, 
+  
+    "NEXT_PYMNT_D" COMMENT $$$$, 
+  
+    "OPEN_ACC" COMMENT $$$$, 
+  
+    "OUT_PRNCP" COMMENT $$$$, 
+  
+    "OUT_PRNCP_INV" COMMENT $$$$, 
+  
+    "POLICY_CODE" COMMENT $$$$, 
+  
+    "PUB_REC" COMMENT $$$$, 
+  
+    "PURPOSE" COMMENT $$$$, 
+  
+    "PYMNT_PLAN" COMMENT $$$$, 
+  
+    "RECOVERIES" COMMENT $$$$, 
+  
+    "REVOL_BAL" COMMENT $$$$, 
+  
+    "REVOL_UTIL" COMMENT $$$$, 
+  
+    "SUB_GRADE" COMMENT $$$$, 
+  
+    "TERM" COMMENT $$$$, 
+  
+    "TITLE" COMMENT $$$$, 
+  
+    "TOTAL_ACC" COMMENT $$$$, 
+  
+    "TOTAL_PYMNT" COMMENT $$$$, 
+  
+    "TOTAL_PYMNT_INV" COMMENT $$$$, 
+  
+    "TOTAL_REC_INT" COMMENT $$$$, 
+  
+    "TOTAL_REC_LATE_FEE" COMMENT $$$$, 
+  
+    "TOTAL_REC_PRNCP" COMMENT $$$$, 
+  
+    "URL" COMMENT $$$$, 
+  
+    "VERIFICATION_STATUS" COMMENT $$$$, 
+  
+    "ZIP_CODE" COMMENT $$$$, 
+  
+    "AIRBYTE_AB_ID" COMMENT $$$$, 
+  
+    "AIRBYTE_DATA" COMMENT $$$$, 
+  
+    "AIRBYTE_EMITTED_AT" COMMENT $$$$
+  
+)
+
+  copy grants as (
+    with raw_source as (
 
     select *
     from RAW.LOANS._AIRBYTE_RAW_PERSONAL_LOANS
@@ -69,3 +189,4 @@ final as (
 )
 
 select * from final
+  );

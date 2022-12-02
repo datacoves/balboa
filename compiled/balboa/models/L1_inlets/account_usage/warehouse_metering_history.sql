@@ -1,7 +1,7 @@
 with raw_source as (
 
     select *
-    from snowflake.account_usage.WAREHOUSE_METERING_HISTORY
+    from SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY
 
 ),
 

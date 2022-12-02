@@ -1,4 +1,134 @@
-with raw_source as (
+
+  create or replace  view BALBOA_STAGING.l1_account_usage.query_history
+  
+    
+    
+(
+  
+    "QUERY_ID" COMMENT $$$$, 
+  
+    "QUERY_TEXT" COMMENT $$$$, 
+  
+    "DATABASE_ID" COMMENT $$$$, 
+  
+    "DATABASE_NAME" COMMENT $$$$, 
+  
+    "SCHEMA_ID" COMMENT $$$$, 
+  
+    "SCHEMA_NAME" COMMENT $$$$, 
+  
+    "QUERY_TYPE" COMMENT $$$$, 
+  
+    "SESSION_ID" COMMENT $$$$, 
+  
+    "USER_NAME" COMMENT $$$$, 
+  
+    "ROLE_NAME" COMMENT $$$$, 
+  
+    "WAREHOUSE_ID" COMMENT $$$$, 
+  
+    "WAREHOUSE_NAME" COMMENT $$$$, 
+  
+    "WAREHOUSE_SIZE" COMMENT $$$$, 
+  
+    "WAREHOUSE_TYPE" COMMENT $$$$, 
+  
+    "CLUSTER_NUMBER" COMMENT $$$$, 
+  
+    "QUERY_TAG" COMMENT $$$$, 
+  
+    "EXECUTION_STATUS" COMMENT $$$$, 
+  
+    "ERROR_CODE" COMMENT $$$$, 
+  
+    "ERROR_MESSAGE" COMMENT $$$$, 
+  
+    "START_TIME" COMMENT $$$$, 
+  
+    "END_TIME" COMMENT $$$$, 
+  
+    "TOTAL_ELAPSED_TIME" COMMENT $$$$, 
+  
+    "BYTES_SCANNED" COMMENT $$$$, 
+  
+    "PERCENTAGE_SCANNED_FROM_CACHE" COMMENT $$$$, 
+  
+    "BYTES_WRITTEN" COMMENT $$$$, 
+  
+    "BYTES_WRITTEN_TO_RESULT" COMMENT $$$$, 
+  
+    "BYTES_READ_FROM_RESULT" COMMENT $$$$, 
+  
+    "ROWS_PRODUCED" COMMENT $$$$, 
+  
+    "ROWS_INSERTED" COMMENT $$$$, 
+  
+    "ROWS_UPDATED" COMMENT $$$$, 
+  
+    "ROWS_DELETED" COMMENT $$$$, 
+  
+    "ROWS_UNLOADED" COMMENT $$$$, 
+  
+    "BYTES_DELETED" COMMENT $$$$, 
+  
+    "PARTITIONS_SCANNED" COMMENT $$$$, 
+  
+    "PARTITIONS_TOTAL" COMMENT $$$$, 
+  
+    "BYTES_SPILLED_TO_LOCAL_STORAGE" COMMENT $$$$, 
+  
+    "BYTES_SPILLED_TO_REMOTE_STORAGE" COMMENT $$$$, 
+  
+    "BYTES_SENT_OVER_THE_NETWORK" COMMENT $$$$, 
+  
+    "COMPILATION_TIME" COMMENT $$$$, 
+  
+    "EXECUTION_TIME" COMMENT $$$$, 
+  
+    "QUEUED_PROVISIONING_TIME" COMMENT $$$$, 
+  
+    "QUEUED_REPAIR_TIME" COMMENT $$$$, 
+  
+    "QUEUED_OVERLOAD_TIME" COMMENT $$$$, 
+  
+    "TRANSACTION_BLOCKED_TIME" COMMENT $$$$, 
+  
+    "OUTBOUND_DATA_TRANSFER_CLOUD" COMMENT $$$$, 
+  
+    "OUTBOUND_DATA_TRANSFER_REGION" COMMENT $$$$, 
+  
+    "OUTBOUND_DATA_TRANSFER_BYTES" COMMENT $$$$, 
+  
+    "INBOUND_DATA_TRANSFER_CLOUD" COMMENT $$$$, 
+  
+    "INBOUND_DATA_TRANSFER_REGION" COMMENT $$$$, 
+  
+    "INBOUND_DATA_TRANSFER_BYTES" COMMENT $$$$, 
+  
+    "LIST_EXTERNAL_FILES_TIME" COMMENT $$$$, 
+  
+    "CREDITS_USED_CLOUD_SERVICES" COMMENT $$$$, 
+  
+    "RELEASE_VERSION" COMMENT $$$$, 
+  
+    "EXTERNAL_FUNCTION_TOTAL_INVOCATIONS" COMMENT $$$$, 
+  
+    "EXTERNAL_FUNCTION_TOTAL_SENT_ROWS" COMMENT $$$$, 
+  
+    "EXTERNAL_FUNCTION_TOTAL_RECEIVED_ROWS" COMMENT $$$$, 
+  
+    "EXTERNAL_FUNCTION_TOTAL_SENT_BYTES" COMMENT $$$$, 
+  
+    "EXTERNAL_FUNCTION_TOTAL_RECEIVED_BYTES" COMMENT $$$$, 
+  
+    "QUERY_LOAD_PERCENT" COMMENT $$$$, 
+  
+    "IS_CLIENT_GENERATED_STATEMENT" COMMENT $$$$
+  
+)
+
+  copy grants as (
+    with raw_source as (
 
     select *
     from SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
@@ -74,3 +204,4 @@ final as (
 )
 
 select * from final
+  );
