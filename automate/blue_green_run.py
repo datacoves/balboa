@@ -102,10 +102,10 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
     if is_production:
         if selector:
             logging.info("Running dbt build with selector " + selector + "+")
-            run_command(f"dbt build --fail-fast -s {selector}+")
+            run_command(f"dbt build --fail-fast -s {selector}+ -t prd")
         else:
             logging.info("Production run of dbt")
-            run_command("dbt build --fail-fast")
+            run_command("dbt build --fail-fast -t prd")
     else:
         # NOTE: you must have gotten the prod manifest in a step prior to this
 
