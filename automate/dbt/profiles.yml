@@ -1,6 +1,19 @@
 default:
     target: test
     outputs:
+      prd:
+        type: snowflake
+        threads: 8
+        database: "{{ env_var('DATACOVES__MAIN__DATABASE') }}"
+        schema: NOT_DEFINED_FIX_ME
+        user: "{{ env_var('DATACOVES__MAIN__USER') }}"
+        password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
+        account: "{{ env_var('DATACOVES__MAIN__ACCOUNT') }}"
+        role: "{{ env_var('DATACOVES__MAIN__ROLE') }}"
+        warehouse: "{{ env_var('DATACOVES__MAIN__WAREHOUSE') }}"
+        client_session_keep_alive: true
+
+    
       test:
         type: snowflake
 
@@ -36,5 +49,5 @@ default:
         # Set the DATACOVES__MAIN__WAREHOUSE in your CI or update this to the actual Warehouse you use in Snowflake
         warehouse: "{{ env_var('DATACOVES__MAIN__WAREHOUSE') }}"
 
-        client_session_keep_alive: False
+        client_session_keep_alive: true
         # query_tag: my_tag
