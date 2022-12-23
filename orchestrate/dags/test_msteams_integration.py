@@ -35,7 +35,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="test_pandas",
+    dag_id="test_msteams",
     default_args=default_args,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
