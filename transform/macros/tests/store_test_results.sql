@@ -1,6 +1,6 @@
 /*
-  --add "{{ store_test_results(results) }}" to an on-run-end: block in dbt_project.yml 
-  --The next v.1.0.X release of dbt will include post run hooks for dbt test! 
+  --add "{{ store_test_results(results) }}" to an on-run-end: block in dbt_project.yml
+  --The next v.1.0.X release of dbt will include post run hooks for dbt test!
 */
 {% macro store_test_results(results) %}
   {%- set test_results = [] -%}
@@ -16,11 +16,11 @@
 
   {%- set central_tbl -%} {{ target.schema }}.test_results_central {%- endset -%}
   {%- set history_tbl -%} {{ target.schema }}.test_results_history {%- endset -%}
-  
+
   {{ log("Centralizing " ~ test_results|length ~ " test results in " + central_tbl, info = true) if execute }}
   {{ log(test_results, info=true) }}
   create or replace table {{ central_tbl }} as (
-  
+
   {%- for result in test_results %}
 
     {%- set test_name = '' -%}
@@ -30,7 +30,7 @@
     {%- if result.node.test_metadata is defined -%}
       {%- set test_name = result.node.test_metadata.name -%}
       {%- set test_type = 'generic' -%}
-      
+
       {%- if test_name == 'relationships' -%}
         {%- set column_name = result.node.test_metadata.kwargs.field ~ ',' ~ result.node.test_metadata.kwargs.column_name -%}
       {%- else -%}
@@ -40,7 +40,7 @@
       {%- set test_name = result.node.name -%}
       {%- set test_type = 'singular' -%}
     {%- endif %}
-    
+
     select
       '{{ test_name }}'::text as test_name,
       '{{ result.node.config.severity }}'::text as test_severity_config,
@@ -61,24 +61,24 @@
       '{{ env_var("DBT_CLOUD_URL", "https://cloud.getdbt.com/#/accounts/account_id/projects/") }}'||_audit_project_id||'/runs/'||_audit_run_id::text as _audit_run_url,
       current_timestamp as _timestamp
     {{ "union all" if not loop.last }}
-  
+
   {%- endfor %}
-  
+
   );
 
   {% if target.name != 'default' %}
       create table if not exists {{ history_tbl }} as (
-        select 
-          {{ dbt_utils.surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id, 
-          * 
+        select
+          {{ dbt_utils.generate_surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id,
+          *
         from {{ central_tbl }}
         where false
       );
 
-    insert into {{ history_tbl }} 
-      select 
-       {{ dbt_utils.surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id, 
-       * 
+    insert into {{ history_tbl }}
+      select
+       {{ dbt_utils.generate_surrogate_key(["test_name", "test_result", "_timestamp"]) }} as sk_id,
+       *
       from {{ central_tbl }}
     ;
   {% endif %}
@@ -103,7 +103,7 @@
           {{ refs.append(ref|join('.')) }}
         {% else %}
           {{ refs.append(ref[0]) }}
-        {% endif %} 
+        {% endif %}
       {% endfor %}
 
       {{ return(refs|join(',')) }}

@@ -1,5 +1,4 @@
 repos:
-
   # Original Repo
   - repo: https://github.com/datacoves/pre-commit-dbt
     rev: v2.0.0
@@ -44,9 +43,12 @@ repos:
         # Need these two dependencies.
         #   sqlfluff-templater-dbt should match the version of sqlfluff above in rev (pip show sqlfluff-templater-dbt)
         #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
-        additional_dependencies: ["sqlfluff-templater-dbt==1.4.1", "dbt-snowflake==1.3.0"]
-        args:
-          [
-            --config,
-            transform/.sqlfluff
-          ]
+        additional_dependencies:
+          ["sqlfluff-templater-dbt==1.4.1", "dbt-snowflake==1.3.0"]
+        args: [--config, transform/.sqlfluff]
+
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.17.0
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint]

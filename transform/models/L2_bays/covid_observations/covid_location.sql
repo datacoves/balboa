@@ -16,7 +16,7 @@ with jhu_covid_19 as (
 rank_locations as (
     select
         HASH(country_region || '|' || province_state || '|' || county) as snowflake_location_id,
-        {{ dbt_utils.surrogate_key(['country_region', 'province_state', 'county']) }} as location_id,
+        {{ dbt_utils.generate_surrogate_key(['country_region', 'province_state', 'county']) }} as location_id, --noqa
         country_region as country,
         province_state as state,
         county,
