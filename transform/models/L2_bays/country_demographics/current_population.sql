@@ -1,4 +1,4 @@
-with population_rank as {
+with population_rank as (
     select
     country_code,
     country_name,
@@ -8,7 +8,7 @@ with population_rank as {
         partition by country_code, country_name order by year desc
     ) as rank_years
         from {{ ref('_airbyte_raw_country_populations') }}
-}
+)
 
 select
     country_code,
