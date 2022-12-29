@@ -11,7 +11,7 @@ with raw_cases as (
 
 create_location_id as (
     select
-        {{ dbt_utils.generate_surrogate_key(['country_region', 'province_state', 'county']) }} as location_id,
+        {{ dbt_utils.generate_surrogate_key(['country_region', 'province_state', 'county']) }} as location_id, --noqa
         new_cases,
         date,
         case_type
