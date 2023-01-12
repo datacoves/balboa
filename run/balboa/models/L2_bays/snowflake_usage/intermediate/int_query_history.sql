@@ -36,5 +36,5 @@
     user_name,
     execution_status as query_status,
     start_time
-from BALBOA_STAGING.l1_account_usage.query_history
+from l1_account_usage.query_history
   );

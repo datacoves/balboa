@@ -4,7 +4,7 @@
 
         create or replace transient table BALBOA_STAGING.l3_covid_analytics.agg_cases_by_month copy grants as
         (select *
-from -- depends on: BALBOA_STAGING.dbt_metrics.dbt_metrics_default_calendar
+from -- depends on: dbt_metrics.dbt_metrics_default_calendar
     
 
 (
@@ -13,7 +13,7 @@ with calendar as (
 
     select 
         * 
-    from BALBOA_STAGING.dbt_metrics.dbt_metrics_default_calendar
+    from dbt_metrics.dbt_metrics_default_calendar
     where date_day >= cast('2020-01-01' as date) 
 )
 
@@ -43,17 +43,22 @@ with calendar as (
                 (cases) as property_to_aggregate
 
         from BALBOA_STAGING.l3_covid_analytics.covid_cases_state base_model 
-        left join BALBOA_STAGING.dbt_metrics.dbt_metrics_default_calendar calendar_table
+        
 
-        
-            on cast(base_model.date as date) = calendar_table.date_day
-        
+    left join dbt_metrics.dbt_metrics_default_calendar calendar_table
+    
+        on cast(base_model.date as date) = calendar_table.date_day
+    
+
+ 
 
         where 1=1
-            and (
-            cast(date as date) >= cast('2020-01-01' as date) 
-            )
         
+        
+        and (
+        cast(base_model.date as date) >= cast('2020-01-01' as date) 
+        )
+    
     ) as base_query
 
     where 1=1

@@ -38,17 +38,22 @@ with calendar as (
                 (cases) as property_to_aggregate
 
         from BALBOA.l3_covid_analytics.covid_cases_state base_model 
-        left join BALBOA.dbt_metrics.dbt_metrics_default_calendar calendar_table
+        
 
-        
-            on cast(base_model.date as date) = calendar_table.date_day
-        
+    left join BALBOA.dbt_metrics.dbt_metrics_default_calendar calendar_table
+    
+        on cast(base_model.date as date) = calendar_table.date_day
+    
+
+ 
 
         where 1=1
-            and (
-            cast(date as date) >= cast('2020-01-01' as date) 
-            )
         
+        
+        and (
+        cast(base_model.date as date) >= cast('2020-01-01' as date) 
+        )
+    
     ) as base_query
 
     where 1=1

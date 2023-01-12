@@ -17,7 +17,9 @@ with jhu_covid_19 as (
 rank_locations as (
     select
         HASH(country_region || '|' || province_state || '|' || county) as snowflake_location_id,
-        md5(cast(coalesce(cast(country_region as TEXT), '') || '-' || coalesce(cast(province_state as TEXT), '') || '-' || coalesce(cast(county as TEXT), '') as TEXT)) as location_id,
+        
+    
+md5(cast(coalesce(cast(country_region as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(province_state as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(county as TEXT), '_dbt_utils_surrogate_key_null_') as TEXT)) as location_id, --noqa
         country_region as country,
         province_state as state,
         county,

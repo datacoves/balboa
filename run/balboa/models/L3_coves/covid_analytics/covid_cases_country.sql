@@ -16,13 +16,15 @@ with jhu_covid_19 as (
         iso3166_1,
         iso3166_2,
         date
-    from BALBOA_STAGING.l1_starschema_covid19.jhu_covid_19
+    from l1_starschema_covid19.jhu_covid_19
 ),
 
 rank_locations as (
     select
         HASH(country_region || '|' || province_state || '|' || county) as snowflake_location_id,
-        md5(cast(coalesce(cast(country_region as TEXT), '') || '-' || coalesce(cast(province_state as TEXT), '') || '-' || coalesce(cast(county as TEXT), '') as TEXT)) as location_id,
+        
+    
+md5(cast(coalesce(cast(country_region as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(province_state as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(county as TEXT), '_dbt_utils_surrogate_key_null_') as TEXT)) as location_id, --noqa
         country_region as country,
         province_state as state,
         county,
@@ -53,7 +55,7 @@ where rowrank = 1
         deaths,
         active,
         recovered
-    from BALBOA_STAGING.l2_covid_observations.total_covid_cases
+    from l2_covid_observations.total_covid_cases
 ),
 
 location as (

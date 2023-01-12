@@ -16,7 +16,7 @@
     select
         date_trunc(month, start_time) as month_n,
         sum(credits_used) as monthly_credits
-    from BALBOA_STAGING.l2_snowflake_usage.int_warehouse_metering_history
+    from l2_snowflake_usage.int_warehouse_metering_history
     where
         datediff(month, start_time, current_date) >= 1
     group by month_n
