@@ -13,6 +13,8 @@ templater = dbt
 
 recurse = 0
 output_line_length = 80
+max_line_length = 140
+
 runaway_limit = 10
 ignore = parsing,templating
 ignore_templated_areas = True
@@ -35,20 +37,9 @@ ignore_templated_areas = True
 # Excluded rules
 exclude_rules = L031, L034, L035, L051, L052, L054, L056, L057, L059, L062, L045
 
-[sqlfluff:templater:dbt]
-project_dir = ./
-
-# Some rules can be configured directly from the config common to other rules.
-[sqlfluff:rules]
-tab_space_size = 4
-max_line_length = 140
-indent_unit = space
-layout:type:comma:line_position = trailing
-allow_scalar = True
-single_table_references = unqualified
-unquoted_identifiers_policy = all
-
 [sqlfluff:indentation]
+tab_space_size = 4
+indent_unit = space
 indented_joins = False
 indented_ctes = true
 template_blocks_indent = True
@@ -56,11 +47,19 @@ template_blocks_indent = True
 [sqlfluff:templater]
 unwrap_wrapped_queries = True
 
+[sqlfluff:templater:dbt]
+project_dir = ./
+
+# Some rules can be configured directly from the config common to other rules.
+[sqlfluff:rules]
+layout:type:comma:line_position = trailing
+allow_scalar = True
+single_table_references = unqualified
+unquoted_identifiers_policy = all
+
+
+
 # Some rules have their own specific config.
-[sqlfluff:rules:L003]
-indent_unit = space
-tab_space_size = 4
-hanging_indents: false
 
 [sqlfluff:rules:L007]  # Operator before/after new line
 layout:type:binary_operator:line_position = leading
@@ -84,8 +83,6 @@ extended_capitalisation_policy = lower
 ignore_comment_clauses = True
 ignore_comment_lines = True
 indent_unit = space
-max_line_length = 200
-tab_space_size = 4
 
 [sqlfluff:rules:L019]
 ayout:type:comma:line_position = trailing
@@ -131,4 +128,4 @@ extended_capitalisation_policy = lower
 preferred_quoted_literal_style = single_quotes
 
 [sqlfluff:rules:L066]
-min_alias_length = 3
+min_alias_length = 7
