@@ -9,4 +9,7 @@ curl http://localhost:8581/health
 curl localhost:8581/parse?reset=true
 
 
+curl -X POST localhost:8581/lint?sql_path=/config/workspace/transform/models/L2_bays/country_demographics/current_population.sql&extra_config_path=/config/workspace/transform/.sqlfluff
+
+
 pip install sqlfmt[jinja]
