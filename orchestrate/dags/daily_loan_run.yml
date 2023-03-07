@@ -26,8 +26,8 @@ daily_loan_run:
         name: base
         image: datacoves/airflow-pandas:latest
       # Example of how to set Airflow vars as ENV vars (please add `append_env: true` when adding new env vars)
-      env:
-        TEST__USER: "{{ var.value.TEST__USER }}"
+      # env:
+      #   TEST__USER: "{{ var.value.TEST__USER }}"
       append_env: true
       # Update tag for job
       bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:loan_daily"
