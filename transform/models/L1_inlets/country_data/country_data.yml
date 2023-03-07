@@ -3,6 +3,8 @@ version: 2
 sources:
   - name: RAW
     database: RAW
+    tags:
+      - loan_daily
     tables:
       - name: _AIRBYTE_RAW_COUNTRY_POPULATIONS
         description: "Raw population information from Github Datasets repository"
