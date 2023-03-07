@@ -46,6 +46,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 # These settings can be overridden in the individual model files
 seeds:
   +schema: seeds
+  +docs:
+    node_color: "#379965"
   +quote_columns: false
   +persist_docs:
       relation: True
@@ -56,19 +58,19 @@ snapshots:
     +target_database: raw
     +target_schema: snapshots
   +docs:
-    node_color: "#881C11"
+    node_color: "#0f703d"
 
 models:
   metrics:
     +schema: dbt_metrics
+    +docs:
+      node_color: "#379965"
 
   balboa:
     +materialized: view
     +schema: z_schema_not_configured
 
     L1_inlets:
-      # +docs:
-      #   node_color: "#F49C34"
       account_usage:
         +schema: l1_account_usage
       country_data:
@@ -79,8 +81,8 @@ models:
         +schema: l1_loans
 
     L2_bays:
-      # +docs:
-      #   node_color: "#00044a"
+      +docs:
+        node_color: "#000899"
       country_demographics:
         +schema: l2_country_demographics
       covid_observations:
@@ -90,10 +92,25 @@ models:
 
     L3_coves:
       +docs:
-        node_color: "#928570"
+        node_color: "#366ccf"
       covid_analytics:
         +schema: l3_covid_analytics
       +materialized: table
+
+    # L4_shares:
+    #   +docs:
+    #     node_color: "#FCA868"
+    #   materialized: table
+    #   +database: "{{ 'prd_shared_dw' if target.name == 'prd' else target.database }}"
+    #   digital_product_analytics:
+    #     +schema: cove_digital_product_analytics
+    #   +copy_grants: false
+    #   +post-hook: "{{ add_grants_to_share('PRD_SHARED_CONSUMER_HEALTH_DW_SNOWFLAKE_SECURE_SHARE_1670638752970') }}"
+    #   +transient: false
+    #   +persist_docs:
+    #       relation: false
+    #       columns: false
+
 
     +persist_docs:
         relation: true
@@ -115,6 +132,7 @@ models:
     +schema: inlet_dbt_artifacts
     staging:
       +schema: inlet_dbt_artifacts
+
 
 tests:
   +store_failures: true
