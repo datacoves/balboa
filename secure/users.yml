@@ -27,6 +27,11 @@
       - loader_airbyte
       - transformer_dbt_prd
 
+- raphael:
+    can_login: true
+    member_of:
+      - analyst
+      
 - robert:
     can_login: true
     member_of:
