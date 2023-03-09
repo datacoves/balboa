@@ -1,11 +1,8 @@
 with raw_source as (
-
     select * from SNOWFLAKE.ACCOUNT_USAGE.PIPE_USAGE_HISTORY
-
 ),
 
 final as (
-
     select
         "PIPE_ID" as pipe_id,
         "PIPE_NAME" as pipe_name,
@@ -14,9 +11,7 @@ final as (
         "CREDITS_USED" as credits_used,
         "BYTES_INSERTED" as bytes_inserted,
         "FILES_INSERTED" as files_inserted
-
     from raw_source
-
 )
 
 select * from final
