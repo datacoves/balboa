@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import argparse
 import logging
 import os
@@ -91,7 +91,7 @@ def main(is_production: bool = False, selector: str = None):
     if is_production:
         logging.info("Removing dbt project temp directory")
         subprocess.run(["rm", "-rf", cwd], check=True)
-        
+
 
 
 
