@@ -99,6 +99,9 @@
 ##########################
 #  Global Roles
 ##########################
+- orgadmin:
+    owner: ""
+
 - accountadmin:
     member_of:
         - sysadmin
