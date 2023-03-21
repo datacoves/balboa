@@ -69,6 +69,12 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt docs generate"
 
+      - name: Optimize dbt documentation
+        uses: datacoves/ci-basic-action@v1.0.202211241542
+        with:
+          dbt_project_folder: "transform"
+          command: "../automate/dbt/dbt_docs_optimizer.py"
+
       - name: Deploy docs 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
