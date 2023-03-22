@@ -6,13 +6,13 @@ generate:
     sources_destination: "models/L1_inlets/{{schema}}/{{schema}}.yml" # Where sources yml files will be generated
     models_destination: "models/L1_inlets/{{schema}}/{{relation}}.sql" # Where models sql files will be generated
     model_props_destination: "models/L1_inlets/{{schema}}/{{relation}}.yml" # Where models yml files will be generated
-    update_strategy: ask # Action to perform when a property file already exists. Options: update, recreate, fail, ask (per file)
-    templates_folder: ".dbt_coves/templates" # Folder where source generation jinja templates are located. Override default templates creating  source_props.yml, source_model_props.yml, and source_model.sql under this folder
+    update_strategy: ask # Action to perform when a property file exists. Options: update, recreate, fail, ask
+    templates_folder: ".dbt_coves/templates" # Folder where source generation jinja templates are located. source_props.yml, source_model_props.yml, and source_model.sql
 
   properties:
     destination: "{{model_folder_path}}/{{model_file_name}}.yml" # Where models yml files will be generated
     # You can specify a different path by declaring it explicitly, i.e.: "models/staging/{{model_file_name}}.yml"
-    update-strategy: ask # Action to perform when a property file already exists. Options: update, recreate, fail, ask (per file)
+    update-strategy: ask # Action to perform when a property file already exists. Options: update, recreate, fail, ask
     models: "models/" # Model(s) path where 'generate properties' will look for models for generation
 
   metadata:
@@ -35,5 +35,5 @@ load:
     port: 8001
     dbt_list_args: --exclude source:dbt_artifacts
     secrets_path: /config/workspace/secrets # Secret files location for Airbyte configuration
-    secrets_manager: datacoves # Secret credentials provider (secrets_path OR secrets_manager should be used, can't load secrets locally and remotely at the same time)
+    secrets_manager: datacoves # Secret credentials provider (secrets_path OR secrets_manager should be used
     secrets_url: https://api.datacoves.localhost/service-credentials/airbyte # Secret credentials provider url
