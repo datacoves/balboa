@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral') }}
+{{ config(materialized='view') }}
 
 with jhu_covid_19 as (
     select distinct
