@@ -86,7 +86,6 @@ def main(is_production: bool = False, selector: str = None):
     logging.info("Uploading new prod manifest")
 
     run_command("dbt --no-write-json run-operation upload_artifacts")
-    run_command("dbt --no-write-json run-operation upload_dbt_artifacts_v2")
 
     if is_production:
         logging.info("Removing dbt project temp directory")

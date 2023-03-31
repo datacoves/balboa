@@ -5,11 +5,6 @@ packages:
   - package: entechlog/dbt_snow_mask
     version: 0.2.3
     # <see https://github.com/entechlog/dbt-snow-mask/releases/latest> for the latest version tag
-  # - package: brooklyn-data/dbt_artifacts
-  #   version: 0.8.0
-  - git: "https://github.com/datacoves/dbt_artifacts.git" # git URL
-    revision: update_dbt_utils_082 # tag or branch name
-
   - package: dbt-labs/dbt_external_tables
     version: 0.8.2
     # <see https://github.com/dbt-labs/dbt-external-tables/releases/tag/0.7.1> for the latest version tag

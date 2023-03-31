@@ -1,39 +1,37 @@
-{# Macro for returning dbt manifest from snowflake. #}
+{# Macro for returning dbt manifest from a snowflake stage. #}
 {#
-    If there is a problem getting manifest, runL
-        dbt run-operation get_last_manifest | more
-    Ths problem may be in how the manifest.json file is writen.
-    For that, try this and check that the output starts with {  "child_map": {
-        dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" | more
-
-    Normally, we get the latest manifest for deferral / slim CI running:
-        dbt run-operation get_last_manifest | awk '/{/ { f = 1 } f'  | sed  "1s/.*/{/" > logs/manifest.json
+    dbt run-operation get_last_manifest
 #}
 {# Once this is completed, deferral and state modifiers are available using --state logs #}
 
-{% macro get_last_manifest() %}
+{% macro get_last_manifest(stage = 'RAW.DBT_ARTIFACTS.ARTIFACTS', run_as_role = 'transformer_dbt_prd') %}
+    {# we will put the manifest.json in the log directory and use the with the --state param in dbt #}
+    {% set logs_dir = env_var('DBT_HOME') ~ "/logs/" %}
 
-    {% do log("Getting manifest for dbt version: " ~ dbt_version, info=true) %}
+    {% set set_role_query %}
+        use role {{ run_as_role }};
+    {% endset %}
+    {% do run_query(set_role_query) %}
 
-    {# Override database for staging since we want artifacts to go there not current prod database #}
-    {% set artifacts = source('dbt_artifacts', 'artifacts') %}
-
-    {% if target.database.startswith('staging_') %}
-        {% set artifacts = api.Relation.create(database = target.database, schema=artifacts.schema, identifier=artifacts.identifier) %}
-    {% endif %}
-
-    {% do log("Getting manifest from: " ~ artifacts, info=true) %}
-
-    {% set manifest_query %}
-        select data
-        from  {{ artifacts }}
-        where artifact_type = 'manifest.json'
-        {# and data:"metadata":"dbt_version" = '{{ dbt_version }}' #}
-        order by generated_at desc limit 1
+    {# List only the .json files in the root folder (excludes archive dir) #}
+    {% set list_stage_query %}
+        LIST @{{ stage }} PATTERN = '^((?!(archive/)).)*.json$';
     {% endset %}
 
-    {% set results = run_query(manifest_query) %}
+    {{ print("\nCurrent items in stage " ~ stage) }}
+    {% set results = run_query(list_stage_query) %}
+    {{ results.exclude('md5').print_table(max_column_width=40) }}
+    {{ print("\n" ~ "="*85) }}
 
-    {{ log(results.columns[0].values()[0], info=True) }}
+    {% set manifest_destination =  "file://" + logs_dir %}
+
+    {% set put_query %}
+        get @{{ stage }}/manifest.json {{ manifest_destination }}
+    {% endset %}
+
+    {{ print("\nSnowflake GET query") }}
+    {{ print(put_query.lstrip()) }}
+
+    {% set results = run_query(put_query) %}
 
 {% endmacro %}
