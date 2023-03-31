@@ -1,10 +1,11 @@
 version: 2
-
 models:
   - name: credits_by_warehouse
-    description: "credits used by warehouse"
+    description: Contains credits used by warehouse
     columns:
       - name: start_time
+        description: The start time for the period during which credits were used
       - name: credits_used
+        description: The number of credits used during the specified period
       - name: warehouse_name
-      
+        description: The name of the warehouse where credits were used

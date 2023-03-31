@@ -1,0 +1,13 @@
+version: 2
+models:
+  - name: covid_location
+    description: covid data location information
+    columns:
+      - name: iso3166_1
+      - name: county
+      - name: location_id
+      - name: state
+      - name: country
+      - name: iso3166_2
+      - name: lat
+      - name: long
