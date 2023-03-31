@@ -1,7 +1,18 @@
 repos:
-  # Original Repo
-  - repo: https://github.com/datacoves/pre-commit-dbt
-    rev: v2.0.0
+  - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
+    rev: v1.0.0
+    # rev: v1.1.0
+
+    # hooks:
+    #   - id: dbt-docs-generate
+    #     args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
+    #   - id: check-source-table-has-description
+    #   - id: check-script-semicolon
+    #   - id: check-script-has-no-table-name
+    #   - id: check-script-ref-and-source
+    #   - id: check-model-has-description
+    #   - id: check-model-has-properties-file
+    #   - id: check-model-has-all-columns
 
     hooks:
       - id: dbt-docs-generate
@@ -34,21 +45,21 @@ repos:
           ]
         files: ^transform/models/
 
-  - repo: https://github.com/sqlfluff/sqlfluff
-    # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
-    rev: 1.4.1
-    hooks:
-      - id: sqlfluff-lint
-        language: python
-        # Need these two dependencies.
-        #   sqlfluff-templater-dbt should match the version of sqlfluff above in rev (pip show sqlfluff-templater-dbt)
-        #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
-        additional_dependencies:
-          ["sqlfluff-templater-dbt==1.4.1", "dbt-snowflake==1.3.0"]
-        args: [--config, transform/.sqlfluff]
+  # - repo: https://github.com/sqlfluff/sqlfluff
+  #   # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
+  #   rev: 2.0.0
+  #   hooks:
+  #     - id: sqlfluff-lint
+  #       language: python
+  #       # Need these two dependencies.
+  #       #   sqlfluff-templater-dbt should match the version of sqlfluff above in rev (pip show sqlfluff-templater-dbt)
+  #       #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
+  #       additional_dependencies:
+  #         ["sqlfluff-templater-dbt==2.0.0", "dbt-snowflake==1.3.1"]
+  #       args: [--config, transform/.sqlfluff]
 
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.17.0
-    hooks:
-      - id: yamllint
-        args: [-c=.yamllint]
+  # - repo: https://github.com/adrienverge/yamllint.git
+  #   rev: v1.17.0
+  #   hooks:
+  #     - id: yamllint
+  #       args: [-c=.yamllint]

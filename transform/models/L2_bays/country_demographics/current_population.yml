@@ -5,6 +5,9 @@ models:
     columns:
       - name: country_code
         description: "3 Letter Country Code"
+        tests:
+          - not_null
+          - unique
       - name: country_name
         description: "Name of the country"
       - name: value

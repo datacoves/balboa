@@ -21,26 +21,22 @@
 - gomezn:
     can_login: true
     member_of:
+      - orgadmin
       - accountadmin
       - securityadmin
       - analyst
       - loader_airbyte
       - transformer_dbt_prd
 
+- joe:
+    can_login: true
+    member_of:
+      - analyst
+      - accountadmin
+
 - raphael:
     can_login: true
     member_of:
-      - analyst
-      
-- robert:
-    can_login: true
-    member_of:
-      - analyst
-
-- santiago:
-    can_login: true
-    member_of:
-      - securityadmin
       - analyst
 
 - sebastian:
@@ -48,12 +44,6 @@
     member_of:
       - accountadmin
       - securityadmin
-      - analyst
-
-# Added for Datameer demo
-- steve:
-    can_login: true
-    member_of:
       - analyst
 
 - svc_airbyte:
