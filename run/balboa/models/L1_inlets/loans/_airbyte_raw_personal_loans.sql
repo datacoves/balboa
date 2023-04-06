@@ -122,7 +122,7 @@
 
     select *
     from RAW.LOANS._AIRBYTE_RAW_PERSONAL_LOANS
-limit 3
+
 ),
 
 final as (

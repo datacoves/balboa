@@ -25,7 +25,7 @@
 
 select
     month_n,
-    sum(monthly_credits) over(order by month_n asc rows between unbounded preceding and current row) as cumulative_sum
+    sum(monthly_credits) over (order by month_n asc rows between unbounded preceding and current row) as cumulative_sum
 from
     credits_by_month
 order by month_n asc
