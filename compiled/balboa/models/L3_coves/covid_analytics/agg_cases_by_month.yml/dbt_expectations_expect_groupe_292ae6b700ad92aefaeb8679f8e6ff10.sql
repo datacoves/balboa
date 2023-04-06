@@ -6,12 +6,12 @@ with latest_grouped_timestamps as (
     select
         state,
         max(1) as join_key,
-        max(cast(date_month as TIMESTAMP)) as latest_timestamp_column
+        max(cast(date_month as timestamp_ntz)) as latest_timestamp_column
     from
         BALBOA.l3_covid_analytics.agg_cases_by_month
     where
         -- to exclude erroneous future dates
-        cast(date_month as TIMESTAMP) <= convert_timezone('UTC', 'America/Los_Angeles',
+        cast(date_month as timestamp_ntz) <= convert_timezone('UTC', 'America/Los_Angeles',
     cast(convert_timezone('UTC', current_timestamp()) as TIMESTAMP)
 )
         
@@ -50,7 +50,7 @@ outdated_grouped_timestamps as (
         )
 
 
-                as TIMESTAMP
+                as timestamp_ntz
             )
 
 ),
