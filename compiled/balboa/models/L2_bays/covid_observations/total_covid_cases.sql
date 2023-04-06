@@ -1,3 +1,5 @@
+
+
 with raw_cases as (
     select
         country_region,
