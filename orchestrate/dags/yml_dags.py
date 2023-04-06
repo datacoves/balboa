@@ -24,9 +24,10 @@ def register_dags(all_dags):
 
 def main():
     dags_folder = os.environ.get("DATACOVES__YAML_DAGS_FOLDER")
-    current_commit = subprocess.run(
-        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=dags_folder
-    ).stdout.strip("\n")
+    repo_path = os.environ.get("DATACOVES__REPO_PATH")
+    current_commit = subprocess.run(["ls"], cwd=repo_path.replace("/repo", ""),
+        capture_output=True, text=True
+    ).stdout.replace("\n", "").replace("repo", "")
     print(f"Generating dags for commit '{current_commit}'")
 
     current_pickle = WORKING_DIR / f"{current_commit}.pickle"

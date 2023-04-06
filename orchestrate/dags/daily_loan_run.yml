@@ -2,10 +2,10 @@ daily_loan_run:
   description: "Blue / Green run"
   schedule_interval: "0 * * 1/12 *"
   tags:
-    - version_4
+    - version_7
   default_args:
     start_date: 2021-01-01
-  catchup: False
+  catchup: false
   task_groups:
     extract_and_load:
       tooltip: "Extract and Load tasks"
@@ -22,13 +22,6 @@ daily_loan_run:
       dbt_list_args: "--select tag:loan_daily"
     transform:
       operator: airflow.operators.bash_operator.BashOperator
-      container_spec:
-        name: base
-        image: datacoves/airflow-pandas:latest
-      # Example of how to set Airflow vars as ENV vars (please add `append_env: true` when adding new env vars)
-      env:
-        TEST__USER: "{{ var.value.TEST__USER }}"
-      append_env: true
       # Update tag for job
       bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:loan_daily"
       dependencies: ["extract_and_load"]

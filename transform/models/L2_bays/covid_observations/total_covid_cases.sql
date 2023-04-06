@@ -1,3 +1,5 @@
+{{ config(materialized='view') }}
+
 with raw_cases as (
     select
         country_region,
@@ -27,7 +29,7 @@ pivoted_model as (
         sum("'Active'") as active,
         sum("'Recovered'") as recovered
     from create_location_id
-    pivot (sum(new_cases) for case_type in('Confirmed', 'Deaths', 'Active', 'Recovered')) as case_pivot
+    pivot (sum(new_cases) for case_type in ('Confirmed', 'Deaths', 'Active', 'Recovered')) as case_pivot
     group by location_id, date
 )
 

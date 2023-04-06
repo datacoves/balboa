@@ -55,12 +55,11 @@
       - de_analyst
       - z_policy_unmask_pii
 
-
 ##########################
 #  Service Account Roles
 #########################
 - loader_airbyte:
-  # Can read/write raw db; becomes owner of all raw schemas through creation
+    # Can read/write raw db; becomes owner of all raw schemas through creation
     member_of:
       - z_db_raw_write
       - z_wh_loading
@@ -72,14 +71,14 @@
         - raw.*
 
 - transformer_dbt_prd:
-  # Owns balboa
-  # Becomes owner of all balboa schemas through creation
-  # Owner of raw database through creation
-  # Owns all uat databases through creation; these are not defined here but created via CI
+    # Owns balboa
+    # Becomes owner of all balboa schemas through creation
+    # Owner of raw database through creation
+    # Owns all uat databases through creation; these are not defined here but created via CI
 
-  # TODO
-  # figure out how to do this from permifrost
-  # grant create database on account to role transformer_dbt_prd
+    # TODO
+    # figure out how to do this from permifrost
+    # grant create database on account to role transformer_dbt_prd
     member_of:
       - z_db_raw_write
       - z_db_balboa_write
@@ -95,20 +94,22 @@
         - balboa.*
         - raw.snapshots
 
-
 ##########################
 #  Global Roles
 ##########################
+- orgadmin:
+    owner: ""
+
 - accountadmin:
     member_of:
-        - sysadmin
-        - securityadmin
-        - z_wh_transforming
+      - sysadmin
+      - securityadmin
+      - z_wh_transforming
 
 - securityadmin:
     member_of:
-        - useradmin
-        - z_wh_transforming
+      - useradmin
+      - z_wh_transforming
 
     privileges:
       databases:
@@ -124,12 +125,11 @@
 
 - useradmin:
     member_of:
-        - z_wh_transforming
+      - z_wh_transforming
 
 - sysadmin:
     member_of:
-        - z_wh_transforming
-
+      - z_wh_transforming
 
 #======================#
 #     Policy Roles     #
@@ -149,7 +149,6 @@
 - z_policy_monitor_usage:
     owner: securityadmin
 
-
 ##########################
 #  Row Access Policy Roles
 ##########################
@@ -157,7 +156,6 @@
     owner: securityadmin
 - z_policy_row_region_all:
     owner: securityadmin
-
 
 ##########################
 #  PII Access Policy Roles
@@ -174,11 +172,10 @@
 ##########################
 - z_wh_loading:
     warehouses:
-        - wh_loading
+      - wh_loading
 - z_wh_transforming:
     warehouses:
-        - wh_transforming
-
+      - wh_transforming
 
 ##########################
 #  Database Roles
@@ -190,7 +187,6 @@
           - balboa_dev
         write:
           - balboa_dev
-
 
 # This role is created but has no grants
 # The grants will be added by the CI script
@@ -338,7 +334,6 @@
       schemas:
         read:
           - balboa.l3_covid_analytics
-
 
 ##########################
 #  Table & View Roles

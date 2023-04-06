@@ -13,7 +13,7 @@ final as (
 {%- if adapter_name == 'SnowflakeAdapter' or adapter_name == 'RedshiftAdapter' %}
 {%- for key, cols in nested.items() %}
   {%- for col in cols %}
-        {{ key }}:{{ '"' + col + '"' }}::{{ cols[col]["type"].lower() }} as {{ cols[col]["id"] }}{% if not loop.last or columns %},{% endif %}
+        {{ key.lower() }}:{{ '"' + col + '"' }}::{{ cols[col]["type"].lower() }} as {{ cols[col]["id"] }}{% if not loop.last or columns %},{% endif %}
   {%- endfor %}
 {%- endfor %}
 {%- for col in columns %}
