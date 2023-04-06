@@ -17,7 +17,7 @@ then
     echo "::set-output name=manifest_found::false"
 
     # This is used by Jenkins
-    # echo "false" >> temp_MANIFEST_FOUND.txt
+    # echo "false" > temp_MANIFEST_FOUND.txt
 else
     echo "Updated manifest from production"
 
@@ -25,5 +25,5 @@ else
     echo "::set-output name=manifest_found::true"
 
     # This is used by Jenkins
-    # echo "true" >> temp_MANIFEST_FOUND.txt
+    # echo "true" > temp_MANIFEST_FOUND.txt
 fi

@@ -80,11 +80,11 @@ def main(is_production: bool = False, selector: str = None):
     run_command(f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"')
     logging.info("done with dropping!!!!")
 
-    # Save the latest manifest to snowflake
+    # Save the latest manifest to snowflake stage
     os.environ["DATACOVES__MAIN__DATABASE"] = DBT_FINAL_DB_NAME
     run_command("dbt compile")
-    logging.info("Uploading new prod manifest")
 
+    logging.info("Uploading new prod manifest")
     run_command("dbt --no-write-json run-operation upload_artifacts")
 
     if is_production:
