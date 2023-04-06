@@ -26,6 +26,9 @@ processes = -1
 # Set to zero or negative to disable checks.
 max_line_length = 140
 
+[sqlfluff:templater:dbt]
+project_dir = ./
+
 [sqlfluff:rules:aliasing.table]
 # Aliasing preference for tables
 aliasing = explicit
