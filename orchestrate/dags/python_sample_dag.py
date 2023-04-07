@@ -12,7 +12,8 @@ IMAGE_TAG = "latest"
 default_args = {
     'owner': 'airflow',
     'email': 'gomezn@datacoves.com',
-    'email_on_failure': True
+    'email_on_failure': True,
+    'description': "Sample python dag"
 }
 
 CONFIG = {
