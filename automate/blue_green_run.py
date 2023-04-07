@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import argparse
 import logging
 import os
@@ -80,18 +80,17 @@ def main(is_production: bool = False, selector: str = None):
     run_command(f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"')
     logging.info("done with dropping!!!!")
 
-    # Save the latest manifest to snowflake
+    # Save the latest manifest to snowflake stage
     os.environ["DATACOVES__MAIN__DATABASE"] = DBT_FINAL_DB_NAME
     run_command("dbt compile")
-    logging.info("Uploading new prod manifest")
 
+    logging.info("Uploading new prod manifest")
     run_command("dbt --no-write-json run-operation upload_artifacts")
-    run_command("dbt --no-write-json run-operation upload_dbt_artifacts_v2")
 
     if is_production:
         logging.info("Removing dbt project temp directory")
         subprocess.run(["rm", "-rf", cwd], check=True)
-        
+
 
 
 
@@ -102,10 +101,10 @@ def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
     if is_production:
         if selector:
             logging.info("Running dbt build with selector " + selector + "+")
-            run_command(f"dbt build --fail-fast -s {selector}+")
+            run_command(f"dbt build --fail-fast -s {selector}+ -t prd")
         else:
             logging.info("Production run of dbt")
-            run_command("dbt build --fail-fast")
+            run_command("dbt build --fail-fast -t prd")
     else:
         # NOTE: you must have gotten the prod manifest in a step prior to this
 

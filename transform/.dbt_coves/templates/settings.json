@@ -1,55 +1,5 @@
 {
     "terminal.integrated.cwd": "/config/workspace/transform",
     "sqlfluff.config": "/config/workspace/transform/.sqlfluff",
-    "actionButtons": {
-        "defaultColor": "#ff0034", // Can also use string color names.
-			"loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
-			"reloadButton": null,
-			"commands": [
-                {
-					"name": "▶️ Run current",
-                    "cwd": "/config/workspace/transform",
-                    "color": "white",
-					"singleInstance": true,
-					"command": "dbt run --select ${fileBasenameNoExtension}"
-                    // "command": "dbt run --select ${fileBasenameNoExtension} --defer --state logs"
-				},
-				{
-                    "name": "⏭ Build all",
-                    "cwd": "/config/workspace/transform",
-					"color": "white",
-					"singleInstance": true,
-					"command": "dbt build --select state:modified"
-                    // "command": "dbt build --select state:modified+ --defer --state logs"
-				},
-                {
-					"name": "✔️ Run checks",
-                    "cwd": "/config/workspace/transform",
-                    "color": "white",
-					"singleInstance": true,
-					"command": "dbt-coves check" // This is executed in the terminal.
-				},
-                {
-					"name": "✔️ lint current",
-                    "cwd": "/config/workspace/transform",
-                    "color": "white",
-					"singleInstance": true,
-					"command": "sqlfluff lint ${file}" // This is executed in the terminal.
-				},
-                {
-                    "name": "📝 Generate Docs",
-                    "cwd": "/config/workspace/transform",
-                    "color": "white",
-                    "singleInstance": true,
-                    "command": "dbt docs generate"
-                },
-                {
-					"name": "🗳️ Prod metadata",
-                    "cwd": "/config/workspace/transform",
-                    "color": "white",
-					"singleInstance": true,
-					"command": "/config/workspace/automate/dbt/get_artifacts.sh"
-				}
-			]
-    }
+    "betterStatusBar.configurationFile": "/config/workspace/.vscode/statusbar.jsonc"
 }

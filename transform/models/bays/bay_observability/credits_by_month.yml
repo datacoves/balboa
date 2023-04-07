@@ -1,8 +1,0 @@
-version: 2
-
-models:
-  - name: credits_by_month
-    description: "Credit usage by month (last 12 months)"
-    columns:
-      - name: month_n
-      - name: cumulative_sum

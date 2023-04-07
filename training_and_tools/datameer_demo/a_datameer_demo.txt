@@ -1,0 +1,22 @@
+CHECK Pre-Reqs
+pip install shandy-sqlfmt[jinjafmt]
+Add sqlfmt to settings.json
+
+Delete Airbyte source
+run dbt docs generate
+
+In Airbyte load source
+ZIP_COORDINATES
+schema: loans
+https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/ZIP_COORDINATES.csv
+
+Generate sources:
+Preview data pre-flatten
+
+cast lat and long to float
+
+Replace FROM statements
+
+from {{ ref("_airbyte_raw_personal_loans") }}
+
+{{ ref("_airbyte_raw_zip_coordinates") }}

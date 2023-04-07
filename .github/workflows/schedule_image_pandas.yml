@@ -1,14 +1,14 @@
-# Detect changes on /schedule/images/*
-# when changed, docker build schedule/images/pandas, docker push datacoves/airflow-pandas..
+# Detect changes on /orchestrate/images/*
+# when changed, docker build orchestrate/images/pandas, docker push datacoves/airflow-pandas..
 
-name: Build and push schedule images
+name: Build and push orchestrate images
 
-on:
+on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - main
     paths:
-      - "schedule/images/pandas/*"
+      - "orchestrate/images/pandas/*"
 
 jobs:
   build_and_push:
@@ -38,6 +38,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: schedule/images/pandas
+          context: orchestrate/images/pandas
           push: true
           tags: datacoves/airflow-pandas:latest

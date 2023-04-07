@@ -7,6 +7,7 @@ DBT_PROFILES_YML = Path(home) / ".dbt" / "profiles.yml"
 
 # NOTE: pyarrow needs to be this version for snowpark
 # pyarrow==8.0.0
+# pip install "snowflake-connector-python[pandas]"
 
 # Needed to create the snowflake session using key based auth
 from cryptography.hazmat.backends import default_backend
@@ -22,7 +23,7 @@ def generate_connection_properties(profile = 'default', target='dev'):
 
             if "private_key_path" in snowflake_conn_properties:
                 print('Using Key Based Authentication')
-                # Read the private key defined in profiles.yml and transform it to the format 
+                # Read the private key defined in profiles.yml and transform it to the format
                 # Snowflake expects
                 private_key_path = snowflake_conn_properties['private_key_path']
                 with open(private_key_path, "rb") as key:
@@ -51,16 +52,17 @@ connection_properties = generate_connection_properties()
 session = Session.builder.configs(connection_properties).create()
 
 # find local pydicom location with : pip show pydicom
-# session.add_import("/usr/local/lib/python3.8/site-packages")  
+# session.add_import("/usr/local/lib/python3.8/site-packages")
 # session.add_import("pydicom")
 
 # You can run SQL directly like:
 session.sql("select current_warehouse() wh, current_database() db, current_schema() schema, current_version() ver").show()
 
-# df = session.table("BALBOA.BAY_COUNTRY.CURRENT_POPULATION")
-# df.describe().show()
+df = session.table("BALBOA.L1_COUNTRY_DATA._AIRBYTE_RAW_COUNTRY_POPULATIONS").select(["country_code","country_name"]).distinct()
+df.describe().show()
 
-# rows = df.select('COUNTRY_CODE').count()
-# print(rows)
 
-print('done')
+rows = df.limit(5)
+rows.show()
+
+print('test done')

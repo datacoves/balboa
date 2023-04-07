@@ -1,0 +1,27 @@
+daily_loan_run:
+  description: "Blue / Green run"
+  schedule_interval: "0 * * 1/12 *"
+  tags:
+    - version_7
+  default_args:
+    start_date: 2021-01-01
+  catchup: false
+  task_groups:
+    extract_and_load:
+      tooltip: "Extract and Load tasks"
+  tasks:
+    load:
+      generator: dagfactory.AirbyteDbtGenerator
+      airflow_connection_id: airbyte_connection
+      dbt_project_path: transform
+      deploy_path: /tmp/load
+      task_group_name: extract_and_load
+      virtualenv_path: /opt/datacoves/virtualenvs/main
+      # Update tag for job
+      run_dbt_compile: false
+      dbt_list_args: "--select tag:loan_daily"
+    transform:
+      operator: airflow.operators.bash_operator.BashOperator
+      # Update tag for job
+      bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:loan_daily"
+      dependencies: ["extract_and_load"]

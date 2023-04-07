@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import glob
 import json
@@ -66,10 +66,10 @@ def get_warehouses(file):
     with open(file, "r") as stream:
         try:
             yaml_loaded = yaml.safe_load(stream)
-            
+
             for wh in yaml_loaded:
                 warehouses_list = get_warehouses_and_attributes(wh, warehouses_list)
-            
+
             return warehouses_list
 
         except yaml.YAMLError as exc:
@@ -83,7 +83,7 @@ def get_warehouses_and_attributes(wh, wh_list):
             wh_dict["parameters"] = dict()
             for param, value in v.items():
                 wh_dict["parameters"][param] = value
-    
+
     wh_list.append(wh_dict)
 
     return wh_list
@@ -182,7 +182,7 @@ if __name__ == "__main__":
         parser.add_argument(
                     "-t",
                     "--target",
-                    action='store', 
+                    action='store',
                     type=str,
                     help = 'dbt target to use for credentials'
         )

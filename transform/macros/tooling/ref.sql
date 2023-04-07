@@ -4,11 +4,11 @@
     #}
 
 {% macro ref(modelname) %}
-
-    {% if builtins.ref(modelname).database and builtins.ref(modelname).database.startswith('staging') %}
-        {{ return(builtins.ref(modelname).include(database=False)) }}
+    {% set db_name = builtins.ref(modelname).database | lower %}}
+    {% if db_name.startswith('staging') or 
+        db_name.endswith('staging')  %}
+        {{ return(builtins.ref(modelname).include(database=false)) }}
     {% else %}
         {{ return(builtins.ref(modelname)) }}
     {% endif %}
-
 {% endmacro %}

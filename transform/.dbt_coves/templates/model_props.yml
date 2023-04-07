@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: {{ model }}
+    description: ''
+    columns:
+{%- for col in columns %}
+      - name: {{ col['id'] }}
+      {%- if col['description'] %}
+        description: "{{ col['description'] }}"
+      {%- endif %}
+{%- endfor %}

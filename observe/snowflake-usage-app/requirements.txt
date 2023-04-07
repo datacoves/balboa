@@ -1,0 +1,8 @@
+streamlit>=1.10.0  # Requires multipage app
+requests
+matplotlib
+millify
+plost #= {editable = true, ref = "streamlit-style", git = "https://github.com/jrieke/plost"} # Docs https://share.streamlit.io/jrieke/plost/streamlit-style/
+numpy
+snowflake-connector-python>=2.7.8
+sqlparse

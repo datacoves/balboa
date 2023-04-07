@@ -1,40 +1,22 @@
+files: ^transform/models/
+
 repos:
-  - repo: local
-    hooks:
-      - id: dbt-get-manifest
-        name: dbt-get-manifest
-        entry: automate/dbt/get_artifacts.sh
-        language: script
-        types: [python]
-        pass_filenames: false
-        always_run: true
-
-  # Original Repo
-  # - repo: https://github.com/offbi/pre-commit-dbt
-  #   rev: v1.0.0
-
-  # Forked the original repo to support ephemeral models
-  - repo: https://github.com/datacoves/pre-commit-dbt
-    rev: 1bfcbec2e64532fcdad42949c816ad1694d2194d
+  - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
+    rev: v1.0.0
 
     hooks:
       - id: dbt-docs-generate
-        files: ^transform/models/
         args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
       - id: check-source-table-has-description
         files: ^transform/models/
+
       - id: check-script-semicolon
-        files: ^transform/models/
       - id: check-script-has-no-table-name
-        files: ^transform/models/
       - id: check-script-ref-and-source
-        files: ^transform/models/
         args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-description
-        files: ^transform/models/
         args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-properties-file
-        files: ^transform/models/
         args: ["--manifest", "transform/target/manifest.json"]
 
       # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
@@ -46,20 +28,23 @@ repos:
             "--catalog",
             "transform/target/catalog.json",
           ]
-        files: ^transform/models/
 
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
-    rev: 1.1.0
+    rev: 2.0.3
     hooks:
       - id: sqlfluff-lint
         language: python
         # Need these two dependencies.
         #   sqlfluff-templater-dbt should match the version of sqlfluff above in rev (pip show sqlfluff-templater-dbt)
         #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
-        additional_dependencies: ["sqlfluff-templater-dbt==1.1.0", "dbt-snowflake==1.1.0"]
-        args:
-          [
-            --config,
-            transform/.sqlfluff
-          ]
+        additional_dependencies:
+          ["sqlfluff-templater-dbt==2.0.3", "dbt-snowflake==1.3.1"]
+        args: [--config, transform/.sqlfluff]
+
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.17.0
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint]
+        exclude: ^transform/.dbt_coves/templates
