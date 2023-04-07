@@ -20,9 +20,7 @@
 )
 
   copy grants as (
-    
-
-with raw_cases as (
+    with raw_cases as (
     select
         country_region,
         province_state,
