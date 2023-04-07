@@ -4,6 +4,7 @@ yaml_sample_dag:
   tags:
     - version_4
   catchup: false
+
   default_args:
     start_date: 2021-01-01
     owner: airflow
@@ -11,14 +12,23 @@ yaml_sample_dag:
     email: gomezn@datacoves.com
     email_on_failure: true
 
+
   tasks:
-    successful_task:
+    # successful_task:
+    #   operator: airflow.operators.bash_operator.BashOperator
+    #   container_spec:
+    #     name: base
+    #     # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
+    #     image: datacoves/airflow-pandas:latest
+    #   bash_command: "echo SUCCESS!"
+
+    dbt_build:
       operator: airflow.operators.bash_operator.BashOperator
       container_spec:
         name: base
-        # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
         image: datacoves/airflow-pandas:latest
       bash_command: "echo SUCCESS!"
+
 
     # failing_task:
     #   operator: airflow.operators.bash_operator.BashOperator
