@@ -31,5 +31,5 @@ rules:
     level: warning
   # 120 chars should be enough, but don't fail if a line is longer
   line-length:
-    max: 120
+    max: 150
     level: warning

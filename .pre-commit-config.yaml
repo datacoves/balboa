@@ -1,12 +1,15 @@
+files: ^transform/models/
+
 repos:
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
     rev: v1.0.0
-    files: ^transform/models/
 
     hooks:
       - id: dbt-docs-generate
         args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
       - id: check-source-table-has-description
+        files: ^transform/models/
+
       - id: check-script-semicolon
       - id: check-script-has-no-table-name
       - id: check-script-ref-and-source
@@ -44,3 +47,4 @@ repos:
     hooks:
       - id: yamllint
         args: [-c=.yamllint]
+        exclude: ^transform/.dbt_coves/templates

@@ -3,7 +3,7 @@
 
 name: Build and push orchestrate images
 
-on:
+on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - main
