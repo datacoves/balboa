@@ -1,6 +1,6 @@
 daily_loan_run:
   description: "Blue / Green run"
-  schedule_interval: "0 * * 1/12 *"
+  schedule_interval: "0 0 1 */12 *"
   tags:
     - version_7
   default_args:

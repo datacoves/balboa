@@ -34,7 +34,7 @@ with DAG(
     catchup = False,
     tags = ["version_3"],
     description = "Sample python dag dbt run",
-    schedule_interval = "0 * * 1/12 *"
+    schedule_interval = "0 0 1 */12 *"
 ) as dag:
 
     successful_task = BashOperator(
