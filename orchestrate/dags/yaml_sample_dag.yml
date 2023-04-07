@@ -2,7 +2,7 @@ yaml_sample_dag:
   description: "Sample yaml dag dbt run"
   schedule_interval: "0 * * 1/12 *"
   tags:
-    - version_4
+    - version_5
   catchup: false
 
   default_args:
@@ -11,7 +11,6 @@ yaml_sample_dag:
     # Replace with the email of the recipient for failures
     email: gomezn@datacoves.com
     email_on_failure: true
-
 
   tasks:
     # successful_task:
