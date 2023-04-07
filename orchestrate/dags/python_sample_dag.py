@@ -88,13 +88,13 @@ with DAG(
 ) as dag:
 
     successful_task = BashOperator(
-        task_id = "bash_executor_config",
+        task_id = "successful_task",
         executor_config = CONFIG,
         bash_command = "echo SUCCESS"
     )
 
     failing_task = BashOperator(
-        task_id = 'failing',
+        task_id = 'failing_task',
         bash_command = "dates"
     )
 

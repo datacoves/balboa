@@ -1,11 +1,11 @@
 yaml_sample_dag:
   description: "Sample yaml dag dbt run"
-  start_date: 2021-01-01
   schedule_interval: "0 * * 1/12 *"
   tags:
     - version_2
   catchup: false
   default_args:
+    start_date: 2021-01-01
     owner: airflow
     # Replace with the email of the recipient for failures
     email: gomezn@datacoves.com
@@ -19,4 +19,6 @@ yaml_sample_dag:
         # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
         image: datacoves/airflow-pandas:latest
 
+      bash_command: "echo SUCCESS!"
+    failing_task:
       bash_command: "echo SUCCESS!"
