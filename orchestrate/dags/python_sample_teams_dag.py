@@ -8,6 +8,7 @@ import urllib.parse
 from ms_teams.ms_teams_webhook_operator import MSTeamsWebhookOperator
 
 AIRFLOW_BASE_URL = os.environ.get("AIRFLOW__WEBSERVER__BASE_URL")
+DATACOVES_INTEGRATION_NAME = "DATACOVES MS TEAMS"
 
 default_args = {
     'owner': 'airflow',
@@ -26,10 +27,13 @@ def ms_teams_send_logs(context):
 
     logs_url = f"{AIRFLOW_BASE_URL}/log?dag_id={dag_id}&task_id={task_id}&execution_date={timestamp}"
     ms_teams_notification = MSTeamsWebhookOperator(
-        task_id="msteams_notify_failure", trigger_rule="all_done",
+        task_id="msteams_notify_failure",
+        trigger_rule="all_done",
         message="`{}` has failed on task: `{}`".format(dag_id, task_id),
-        button_text="View log", button_url=logs_url,
-        theme_color="FF0000", http_conn_id='MSTEAMS_NOTIFICATIONS')
+        button_text="View log",
+        button_url=logs_url,
+        theme_color="FF0000",
+        http_conn_id=DATACOVES_INTEGRATION_NAME)
 
     ms_teams_notification.execute(context)
 
@@ -39,7 +43,7 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
-    tags = ["version_1"],
+    tags = ["version_2"],
     description = "Sample python dag dbt run",
     schedule_interval = "0 0 1 */12 *"
 ) as dag:
