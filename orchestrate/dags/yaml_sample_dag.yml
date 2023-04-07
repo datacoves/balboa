@@ -35,7 +35,8 @@
 #     #   dependencies: ["successful_task"]
 
 my_dag:
-  start_date: 2021-01-01
+  default_args:
+    start_date: 2021-01-01
   tasks:
     dbt_build:
       operator: airflow.operators.bash_operator.BashOperator
