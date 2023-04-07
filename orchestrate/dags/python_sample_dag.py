@@ -84,7 +84,8 @@ with DAG(
     start_date = datetime(2021, 1, 1),
     catchup = False,
     tags = ["version_2"],
-    description = "Sample python dag dbt run"
+    description = "Sample python dag dbt run",
+    schedule_interval = "0 * * 1/12 *"
 ) as dag:
 
     successful_task = BashOperator(
