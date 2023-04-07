@@ -49,5 +49,5 @@ my_dag3:
       operator: airflow.operators.bash_operator.BashOperator
       container_spec:
         name: base
-        image: datacoves/airflow-pandas:latest
+        image: "datacoves/airflow-pandas:latest"
       bash_command: "echo SUCCESS!"
