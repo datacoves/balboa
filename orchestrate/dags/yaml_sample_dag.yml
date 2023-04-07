@@ -34,7 +34,7 @@
 #     #   bash_command: "some_non_existant_command"
 #     #   dependencies: ["successful_task"]
 
-my_dag:
+my_dag2:
   tags:
     - version_3
   schedule_interval: "0 * * 1/12 *"
