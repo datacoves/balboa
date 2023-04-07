@@ -48,6 +48,6 @@ my_dag3:
     dbt_build:
       operator: airflow.operators.bash_operator.BashOperator
       container_spec:
-        name: base
+        name: "base"
         image: "datacoves/airflow-pandas:latest"
       bash_command: "echo SUCCESS!"
