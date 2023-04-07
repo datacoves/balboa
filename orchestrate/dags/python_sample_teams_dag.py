@@ -39,7 +39,7 @@ default_args = {
 
 
 with DAG(
-    dag_id = "python_sample_dag",
+    dag_id = "python_sample_teams_dag",
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
