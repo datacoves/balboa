@@ -79,11 +79,12 @@ CONFIG = {
 }
 
 with DAG(
-    dag_id="python_sample_dag",
-    default_args=default_args,
-    start_date=datetime(2021, 1, 1),
-    catchup=False,
-    tags=["version_2"],
+    dag_id = "python_sample_dag",
+    default_args = default_args,
+    start_date = datetime(2021, 1, 1),
+    catchup = False,
+    tags = ["version_2"],
+    description = "Sample python dag dbt run"
 ) as dag:
 
     successful_task = BashOperator(
