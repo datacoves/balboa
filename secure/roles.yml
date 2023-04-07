@@ -131,21 +131,26 @@
     member_of:
       - z_wh_transforming
 
-#======================#
-#     Policy Roles     #
-#======================#
+## ======================#
+##     Policy Roles      #
+## ======================#
 
 ##########################
 #  General Policy Roles
 ##########################
+
 - z_policy_apply_masking:
     owner: securityadmin
+
 - z_policy_apply_row_access:
     owner: securityadmin
+
 - z_policy_create_database:
     owner: securityadmin
+
 - z_policy_create_integration:
     owner: securityadmin
+
 - z_policy_monitor_usage:
     owner: securityadmin
 
@@ -163,9 +168,9 @@
 - z_policy_unmask_pii:
     owner: securityadmin
 
-#======================#
-#     Object Roles     #
-#======================#
+## ======================#
+##     Object Roles     #
+## ======================#
 
 ##########################
 #  Warehouse Roles

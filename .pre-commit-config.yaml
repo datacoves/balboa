@@ -44,3 +44,4 @@ repos:
     hooks:
       - id: yamllint
         args: [-c=.yamllint]
+        exclude: ^transform/.dbt_coves/templates

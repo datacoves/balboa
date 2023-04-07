@@ -3,28 +3,28 @@
 - balboa:
     shared: false
     schemas:
-        - L1_ACCOUNT_USAGE
-        - L1_COUNTRY_DATA
-        - L1_DBT_ARTIFACTS
-        - L1_STARSCHEMA_COVID19
-        - L1_LOANS
+      - L1_ACCOUNT_USAGE
+      - L1_COUNTRY_DATA
+      - L1_DBT_ARTIFACTS
+      - L1_STARSCHEMA_COVID19
+      - L1_LOANS
 
-        - L2_COUNTRY_DEMOGRAPHICS
-        - L2_COVID_OBSERVATIONS
-        - L2_SNOWFLAKE_USAGE
+      - L2_COUNTRY_DEMOGRAPHICS
+      - L2_COVID_OBSERVATIONS
+      - L2_SNOWFLAKE_USAGE
 
-        - L3_COVID_ANALYTICS
+      - L3_COVID_ANALYTICS
 
-        - DBT_TEST__AUDIT
-        - DBT_METRICS
+      - DBT_TEST__AUDIT
+      - DBT_METRICS
 
-        - SEEDS
+      - SEEDS
 
 - balboa_dev:
     shared: false
 - convexa_dev:
     shared: false
-  # Snowflake database contains metadata describing usage
+# Snowflake database contains metadata describing usage
 - snowflake:
     shared: true
 - starschema_covid19:

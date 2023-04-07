@@ -50,11 +50,8 @@ sources:
           - name: data_lineage_existance_check
             data_type: string
 
-
-
 # This was only done for a single table
 # setup in snowflake was as follows
-
 
 # use database RAW;
 
