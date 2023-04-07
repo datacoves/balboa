@@ -43,7 +43,7 @@ jobs:
         uses: datacoves/ci-basic-action@v1.4.202303161735
         with:
           # command: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
-          command: "git diff origin/${{ github.base_ref }}..${{ github.sha }} --name-status"
+          command: "git diff origin/${{ github.base_ref }} HEAD --name-status"
 
       - name: Install dbt packages
         uses: datacoves/ci-basic-action@v1.4.202303161735
