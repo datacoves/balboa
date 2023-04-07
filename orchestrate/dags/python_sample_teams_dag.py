@@ -35,9 +35,10 @@ default_args = {
     'email_on_failure': True,
     'description': "Sample python dag with MS Teams notification",
     # IMPORTANT: it's the reference to the method, do not call() it
-    'on_failure_callback': ms_teams_send_logs
+    'on_success_callback': ms_teams_send_logs,
+    'on_failure_callback': ms_teams_send_logs,
+    'on_retry_callback': ms_teams_send_logs
 }
-
 
 with DAG(
     dag_id = "python_sample_teams_dag",
@@ -54,9 +55,4 @@ with DAG(
         bash_command = "echo SUCCESS"
     )
 
-    failing_task = BashOperator(
-        task_id = 'failing_task',
-        bash_command = "some_non_existant_command"
-    )
-
-    successful_task >> failing_task
+    successful_task
