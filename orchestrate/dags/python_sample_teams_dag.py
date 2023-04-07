@@ -10,15 +10,6 @@ from ms_teams.ms_teams_webhook_operator import MSTeamsWebhookOperator
 AIRFLOW_BASE_URL = os.environ.get("AIRFLOW__WEBSERVER__BASE_URL")
 DATACOVES_INTEGRATION_NAME = "DATACOVES MS TEAMS"
 
-default_args = {
-    'owner': 'airflow',
-    'email': 'gomezn@datacoves.com',
-    'email_on_failure': True,
-    'description': "Sample python dag with MS Teams notification",
-    # IMPORTANT: it's the reference to the method, do not call() it
-    'on_failure_callback': ms_teams_send_logs
-}
-
 def ms_teams_send_logs(context):
     dag_id = context["dag_run"].dag_id
     task_id = context["task_instance"].task_id
@@ -36,6 +27,15 @@ def ms_teams_send_logs(context):
         http_conn_id=DATACOVES_INTEGRATION_NAME)
 
     ms_teams_notification.execute(context)
+
+default_args = {
+    'owner': 'airflow',
+    'email': 'gomezn@datacoves.com',
+    'email_on_failure': True,
+    'description': "Sample python dag with MS Teams notification",
+    # IMPORTANT: it's the reference to the method, do not call() it
+    'on_failure_callback': ms_teams_send_logs
+}
 
 
 with DAG(
