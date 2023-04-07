@@ -12,14 +12,15 @@ yaml_sample_dag:
     email_on_failure: true
 
   tasks:
-    dbt_build:
+    successful_task:
       operator: airflow.operators.bash_operator.BashOperator
       container_spec:
         name: base
         # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
         image: datacoves/airflow-pandas:latest
-
       bash_command: "echo SUCCESS!"
+
     failing_task:
       operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "echo SUCCESS!"
+      bash_command: "some_non_existant_command"
+      dependencies: ["successful_task"]
