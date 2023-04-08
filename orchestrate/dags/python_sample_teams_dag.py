@@ -60,7 +60,7 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
-    tags = ["version_14"],
+    tags = ["version_15"],
     description = "Sample python dag dbt run",
     schedule_interval = "0 0 1 */12 *",
     on_success_callback = ms_teams_send_logs,
@@ -74,7 +74,7 @@ with DAG(
 
     failing_task = BashOperator(
         task_id = "failing_task",
-        bash_command = "echo ERROR"
+        bash_command = "some_non_existant_command"
     )
 
     # Call the helper function to set the callbacks for all tasks
