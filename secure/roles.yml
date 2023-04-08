@@ -31,6 +31,8 @@
 
       - z_schema_l3_covid_analytics
 
+      - z_stage_dbt_artifacts_read
+
       - z_wh_transforming
 
 - analyst:
@@ -86,6 +88,7 @@
       - z_db_starschema_covid19
       - z_tables_views_general
       - z_wh_transforming
+      - z_stage_dbt_artifacts_write
     owns:
       databases:
         - balboa
@@ -181,6 +184,15 @@
 - z_wh_transforming:
     warehouses:
       - wh_transforming
+
+##########################
+#  Stage Roles
+##########################
+- z_stage_dbt_artifacts_read:
+    owner: securityadmin
+- z_stage_dbt_artifacts_write:
+    owner: securityadmin
+
 
 ##########################
 #  Database Roles
