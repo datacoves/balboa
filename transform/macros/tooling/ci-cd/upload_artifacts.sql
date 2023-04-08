@@ -3,7 +3,7 @@
     dbt run-operation upload_artifacts --args "{stage: 'RAW.DBT_ARTIFACTS.ARTIFACTS', artifacts: ['manifest.json', 'run_results.json']}"
 #}
 
-{% macro upload_artifacts(stage = 'RAW.DBT_ARTIFACTS.ARTIFACTS', artifacts = ['manifest.json', 'run_results.json'], run_as_role = 'transformer_dbt_prd') %}
+{% macro upload_artifacts(stage = 'RAW.DBT_ARTIFACTS.ARTIFACTS', artifacts = ['manifest.json', 'run_results.json'], run_as_role = 'transformer_dbt') %}
     {{ print("Uploading manifest for dbt version: " ~ dbt_version) }}
 
     {% set set_date_query %}
@@ -35,7 +35,8 @@
 
         {% set artifact_path =  "file://" + target_dir ~ artifact %}
 
-        {% set artifact_archive_path =  archive_folder_name ~ file_prefix ~ artifact %}
+        {% set artifact_file_name = file_prefix ~ artifact %}
+        {% set artifact_archive_path =  archive_folder_name ~ artifact_file_name %}
 
         {% set put_query %}
             put {{ artifact_path }} @{{ stage }} AUTO_COMPRESS=false OVERWRITE=true;
