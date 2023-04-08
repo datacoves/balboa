@@ -21,12 +21,10 @@ def ms_teams_send_logs(context):
     # configure message based on run state
     if context['dag_run'].state == 'success':
         message = f"`{dag_id}` has completed successfully"
-        theme_color = "00FF00",
-
+        theme_color = "00FF00"
     elif context['dag_run'].state == 'failed':
         message = f"`{dag_id}` has failed on task: `{task_id}`"
-        theme_color = "FF0000",
-
+        theme_color = "FF0000"
 
     ms_teams_notification = MSTeamsWebhookOperator(
         task_id = "msteams_notify_failure",
@@ -55,7 +53,7 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
-    tags = ["version_5"],
+    tags = ["version_6"],
     description = "Sample python dag dbt run",
     schedule_interval = "0 0 1 */12 *"
 ) as dag:
