@@ -33,7 +33,7 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
-    tags = ["version_3"],
+    tags = ["version_4"],
     description = "Sample python dag dbt run",
     schedule_interval = "0 0 1 */12 *"
 ) as dag:
@@ -41,7 +41,8 @@ with DAG(
     successful_task = BashOperator(
         task_id = "successful_task",
         executor_config = CONFIG,
-        bash_command = "echo SUCCESS"
+        # bash_command = "echo SUCCESS"
+        bash_command="source /opt/datacoves/virtualenvs/main/bin/activate && dbt-coves dbt -- build -s tag:loan_daily"
     )
 
     failing_task = BashOperator(
