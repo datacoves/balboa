@@ -60,7 +60,7 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
-    tags = ["version_13"],
+    tags = ["version_14"],
     description = "Sample python dag dbt run",
     schedule_interval = "0 0 1 */12 *",
     on_success_callback = ms_teams_send_logs,
