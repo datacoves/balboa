@@ -1,0 +1,34 @@
+yaml_sample_dag:
+  description: "Sample yaml dag dbt run"
+  schedule_interval: "0 0 1 */12 *"
+  tags:
+    - version_4
+  catchup: false
+
+  default_args:
+    start_date: 2023-01-01
+    owner: airflow
+    # Replace with the email of the recipient for failures
+    email: gomezn@datacoves.com
+    email_on_failure: true
+    custom_callbacks:
+        on_success_callback:
+            module: callbacks.microsoft_teams
+            callable: inform_success
+            args:
+                - connection_id: DATACOVES_INTEGRATION_NAME
+        on_failure_callback:
+            module: callbacks.microsoft_teams
+            callable: inform_failure
+            args:
+                - connection_id: DATACOVES_INTEGRATION_NAME
+
+  tasks:
+    successful_task:
+      operator: airflow.operators.bash_operator.BashOperator
+      bash_command: "echo SUCCESS!"
+
+    failing_task:
+      operator: airflow.operators.bash_operator.BashOperator
+      bash_command: "some_non_existant_command"
+      dependencies: ["successful_task"]
