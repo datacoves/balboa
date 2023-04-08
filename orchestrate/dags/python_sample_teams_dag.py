@@ -16,6 +16,7 @@ def ms_teams_send_logs(context):
     context["task_instance"].xcom_push(key=dag_id, value=True)
     timestamp = urllib.parse.quote(context['ts'])
     message = ''
+    theme_color = ''
 
     logs_url = f"{AIRFLOW_BASE_URL}/log?dag_id={dag_id}&task_id={task_id}&execution_date={timestamp}"
 
@@ -54,7 +55,7 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
-    tags = ["version_7"],
+    tags = ["version_8"],
     description = "Sample python dag dbt run",
     schedule_interval = "0 0 1 */12 *"
 ) as dag:
