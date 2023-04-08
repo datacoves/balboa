@@ -28,8 +28,8 @@ def ms_teams_send_logs(context):
         message = f"`{dag_id}` has failed on task: `{task_id}`"
         theme_color = "FF0000"
     else:
-        message = context['dag_run'].state
-        theme_color = "0000FF"
+        # we dont want to send a message if DAG is still running
+        return
 
     ms_teams_notification = MSTeamsWebhookOperator(
         task_id = "msteams_notify_failure",
@@ -47,9 +47,6 @@ def set_task_callbacks(dag, on_success_callback, on_failure_callback):
     for task in dag.tasks:
         task.on_success_callback = ms_teams_send_logs
         task.on_failure_callback = ms_teams_send_logs
-
-    # 'on_success_callback': ms_teams_send_logs,
-    # 'on_failure_callback': ms_teams_send_logs
 
 default_args = {
     'owner': 'airflow',
@@ -72,10 +69,15 @@ with DAG(
 
     successful_task = BashOperator(
         task_id = "successful_task",
-        bash_command = "33echo SUCCESS"
+        bash_command = "echo SUCCESS"
+    )
+
+    failing_task = BashOperator(
+        task_id = "failing_task",
+        bash_command = "echo ERROR"
     )
 
     # Call the helper function to set the callbacks for all tasks
     set_task_callbacks(dag, ms_teams_send_logs, ms_teams_send_logs)
 
-    successful_task
+    successful_task >> failing_task
