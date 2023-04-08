@@ -43,14 +43,20 @@ def ms_teams_send_logs(context):
 
     ms_teams_notification.execute(context)
 
+def set_task_callbacks(dag, on_success_callback, on_failure_callback):
+    for task:
+        # IMPORTANT: it's the reference to the method, do not call() it
+        task.on_success, task.on_success_callback = ms_teams_send_logs
+        task.on_failure_callback = ms_teams_send_logs
+
+    # 'on_success_callback': ms_teams_send_logs,
+    # 'on_failure_callback': ms_teams_send_logs
+
 default_args = {
     'owner': 'airflow',
     'email': 'gomezn@datacoves.com',
     'email_on_failure': True,
     'description': "Sample python dag with MS Teams notification",
-    # IMPORTANT: it's the reference to the method, do not call() it
-    'on_success_callback': ms_teams_send_logs,
-    'on_failure_callback': ms_teams_send_logs
 }
 
 with DAG(
@@ -58,14 +64,19 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2021, 1, 1),
     catchup = False,
-    tags = ["version_10"],
+    tags = ["version_11"],
     description = "Sample python dag dbt run",
-    schedule_interval = "0 0 1 */12 *"
+    schedule_interval = "0 0 1 */12 *",
+    on_success_callback = ms_teams_send_logs,
+    on_failure_callback = ms_teams_send_logs
 ) as dag:
 
     successful_task = BashOperator(
         task_id = "successful_task",
         bash_command = "echo SUCCESS"
     )
+
+    # Call the helper function to set the callbacks for all tasks
+    set_task_callbacks(dag, ms_teams_send_logs, ms_teams_send_logs)
 
     successful_task
