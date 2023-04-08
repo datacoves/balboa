@@ -122,17 +122,6 @@ models:
     +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
     copy_grants: true
 
-    # NOTE: BALBOA uses dbt_artifacts version 0.8.0 because changes
-    # were made to the package which no longer upload the full JSON files
-    # see below for setup instructions
-    # this config is where dbt_artifacts will build its models using dbt
-    dbt_artifacts:
-        +enabled: "{{ true if target.name == 'prod' else false }}"
-        +schema: inlet_dbt_artifacts
-        staging:
-            +schema: inlet_dbt_artifacts
-
-
 tests:
     +store_failures: true
 

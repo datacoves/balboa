@@ -1,11 +1,12 @@
 {# Macro for setting up Snowflake objects. #}
 {#
     Run using
-    dbt run-operation create_non_permifrost_items  --args {'database_name: my_database, accounts_to_share_to: [acct1, acct2], stages: [stg10, stg11]'}
+    dbt run-operation create_non_permifrost_items  --args {'database_name: balboa'}
+    dbt run-operation create_non_permifrost_items  --args {'database_name: balboa, accounts_to_share_to: [acct1, acct2], stages: [stg10, stg11]'}
 
 #}
 
-{% macro create_non_permifrost_items(database_name, accounts_to_share_to, stages) %}
+{% macro create_non_permifrost_items(database_name, accounts_to_share_to = [], stages = []) %}
 
     {% set create_schema_sql %}
         use role accountadmin;
@@ -19,6 +20,12 @@
         grant imported privileges on database snowflake to role z_db_snowflake;
         grant monitor usage on account to role z_db_snowflake;
 
+        create role if not exists z_stage_dbt_artifacts_read;
+        grant read on stage RAW.DBT_ARTIFACTS.ARTIFACTS to role z_stage_dbt_artifacts_read;
+        create role if not exists z_stage_dbt_artifacts_write;
+        grant read on stage RAW.DBT_ARTIFACTS.ARTIFACTS to role z_stage_dbt_artifacts_write;
+        grant write on stage RAW.DBT_ARTIFACTS.ARTIFACTS to role z_stage_dbt_artifacts_write;
+
         {% for stage in stages %}
             create role if not exists z_stage_{{stage}};
             grant usage on stage raw.public.{{stage}} to role z_stage_{{stage}};
@@ -26,7 +33,7 @@
 
     {% endset %}
 
-    {# {% do run_query(create_schema_sql) %} #}
+    {% do run_query(create_schema_sql) %}
     {{ print("Ran statements: " ~ create_schema_sql) }}
 
 {% endmacro %}
