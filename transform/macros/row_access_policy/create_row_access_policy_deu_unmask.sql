@@ -1,9 +1,9 @@
 {% macro create_row_access_policy_region(node_database,node_schema) %}
-{# 
-  This should be run by dbt-snow-mask, but as this does not currently support row masking, 
+{#
+  This should be run by dbt-snow-mask, but as this does not currently support row masking,
   is is manually run for now.
 
-    To run: 
+    To run:
     dbt run-operation create_row_access_policy_region --args '{node_database: prd_commercial_dw, node_schema: source_marketedge}'
 
   To apply to a table / view:
@@ -22,15 +22,15 @@
 
   {% set create_policy_sql %} {# to remove #}
     use role securityadmin;
-    create or replace row access policy {{node_database}}.{{node_schema}}.z_policy_row_region 
-    as (country_code string) 
+    create or replace row access policy {{node_database}}.{{node_schema}}.z_policy_row_region
+    as (country_code string)
       returns boolean ->
-          case 
+          case
             when is_role_in_session('Z_POLICY_ROW_REGION_ALL') then true
             when country_code = 'DEU' AND is_role_in_session('Z_POLICY_ROW_REGION_DE') then true
             else false
           end;
-    grant apply on row access policy {{node_database}}.{{node_schema}}.z_policy_row_region to role transformer_dbt_prd;
+    grant apply on row access policy {{node_database}}.{{node_schema}}.z_policy_row_region to role transformer_dbt;
   {% endset %} {# to remove #}
   {% do run_query(create_policy_sql) %} {# to remove #}
   {{ log("Created policy: " ~ create_policy_sql, info=true) }}
