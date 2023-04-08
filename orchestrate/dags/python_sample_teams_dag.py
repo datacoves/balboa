@@ -72,7 +72,7 @@ with DAG(
 
     successful_task = BashOperator(
         task_id = "successful_task",
-        bash_command = "echo SUCCESS"
+        bash_command = "33echo SUCCESS"
     )
 
     # Call the helper function to set the callbacks for all tasks
