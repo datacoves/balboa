@@ -17,13 +17,24 @@ def ms_teams_send_logs(context):
     timestamp = urllib.parse.quote(context['ts'])
 
     logs_url = f"{AIRFLOW_BASE_URL}/log?dag_id={dag_id}&task_id={task_id}&execution_date={timestamp}"
+
+    # configure message based on run state
+    if context['dag_run'].state == 'success':
+        message = f"`{dag_id}` has completed successfully"
+        theme_color = "00FF00",
+
+    elif context['dag_run'].state == 'failed':
+        message = f"`{dag_id}` has failed on task: `{task_id}`"
+        theme_color = "FF0000",
+
+
     ms_teams_notification = MSTeamsWebhookOperator(
         task_id = "msteams_notify_failure",
         trigger_rule = "all_done",
-        message = "`{}` has failed on task: `{}`".format(dag_id, task_id),
         button_text = "View log",
         button_url = logs_url,
-        theme_color = "FF0000",
+        message = message,
+        theme_color = theme_color,
         http_conn_id = DATACOVES_INTEGRATION_NAME
     )
 
@@ -36,8 +47,7 @@ default_args = {
     'description': "Sample python dag with MS Teams notification",
     # IMPORTANT: it's the reference to the method, do not call() it
     'on_success_callback': ms_teams_send_logs,
-    'on_failure_callback': ms_teams_send_logs,
-    'on_retry_callback': ms_teams_send_logs
+    'on_failure_callback': ms_teams_send_logs
 }
 
 with DAG(
