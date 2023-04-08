@@ -15,6 +15,7 @@ def ms_teams_send_logs(context):
     task_id = context["task_instance"].task_id
     context["task_instance"].xcom_push(key=dag_id, value=True)
     timestamp = urllib.parse.quote(context['ts'])
+    message = ''
 
     logs_url = f"{AIRFLOW_BASE_URL}/log?dag_id={dag_id}&task_id={task_id}&execution_date={timestamp}"
 
