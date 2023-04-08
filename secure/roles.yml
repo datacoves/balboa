@@ -58,7 +58,7 @@
 ##########################
 #  Service Account Roles
 #########################
-- loader_airbyte:
+- loader:
     # Can read/write raw db; becomes owner of all raw schemas through creation
     member_of:
       - z_db_raw_write
@@ -70,7 +70,7 @@
       schemas:
         - raw.*
 
-- transformer_dbt_prd:
+- transformer_dbt:
     # Owns balboa
     # Becomes owner of all balboa schemas through creation
     # Owner of raw database through creation
@@ -78,7 +78,7 @@
 
     # TODO
     # figure out how to do this from permifrost
-    # grant create database on account to role transformer_dbt_prd
+    # grant create database on account to role transformer_dbt
     member_of:
       - z_db_raw_write
       - z_db_balboa_write
