@@ -58,7 +58,7 @@ default_args = {
 with DAG(
     dag_id = "python_sample_teams_dag",
     default_args = default_args,
-    start_date = datetime(2021, 1, 1),
+    start_date = datetime(2023, 1, 1),
     catchup = False,
     tags = ["version_17"],
     description = "Sample python dag dbt run",
