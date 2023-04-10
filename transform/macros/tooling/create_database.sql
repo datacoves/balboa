@@ -1,6 +1,6 @@
 {# This macro creates a database for use in pull request CI scripts. #}
 {#
-    To run: 
+    To run:
     dbt run-operation create_database
 #}
 
@@ -11,7 +11,7 @@
       identifier="tables") -%}
   {% if not database_exists %}
     {% set create_db_sql %}
-        use role transformer_dbt_prd;
+        use role transformer_dbt;
         create database {{ target.database }};
         grant ownership on database {{ target.database }} to role {{ target.role }};
         use role {{ target.role }};

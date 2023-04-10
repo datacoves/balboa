@@ -4,8 +4,8 @@
       - accountadmin
       - securityadmin
       - analyst
-      - loader_airbyte
-      - transformer_dbt_prd
+      - loader
+      - transformer_dbt
 
 - barry:
     can_login: true
@@ -25,8 +25,8 @@
       - accountadmin
       - securityadmin
       - analyst
-      - loader_airbyte
-      - transformer_dbt_prd
+      - loader
+      - transformer_dbt
 
 - joe:
     can_login: true
@@ -49,22 +49,27 @@
 - svc_airbyte:
     can_login: true
     member_of:
-      - loader_airbyte
+      - loader
 
 - svc_airflow:
     can_login: true
     member_of:
-      - transformer_dbt_prd
+      - transformer_dbt
 
 - svc_datacoves:
     can_login: true
     member_of:
       - securityadmin
 
+- svc_fivetran:
+    can_login: true
+    member_of:
+      - loader
+
 - svc_github_actions:
     can_login: true
     member_of:
-      - transformer_dbt_prd
+      - transformer_dbt
 
 # - svc_convexa:
 #     can_login: false
