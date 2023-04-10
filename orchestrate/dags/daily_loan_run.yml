@@ -2,7 +2,7 @@ daily_loan_run:
   description: "Blue / Green run"
   schedule_interval: "0 0 1 */12 *"
   tags:
-    - version_10
+    - version_11
   default_args:
     start_date: 2023-01-01
   catchup: false
@@ -12,16 +12,16 @@ daily_loan_run:
     extract_and_load_fivetran:
       tooltip: "Fivetran Extract and Load tasks"
   tasks:
-    load_airbyte:
-      generator: dagfactory.AirbyteDbtGenerator
-      airflow_connection_id: airbyte_connection
-      dbt_project_path: transform
-      deploy_path: /tmp/load
-      task_group_name: extract_and_load_airbyte
-      virtualenv_path: /opt/datacoves/virtualenvs/main
-      # Update tag for job
-      run_dbt_compile: false
-      dbt_list_args: "--select tag:daily_run_airbyte"
+    # load_airbyte:
+    #   generator: dagfactory.AirbyteDbtGenerator
+    #   airflow_connection_id: airbyte_connection
+    #   dbt_project_path: transform
+    #   deploy_path: /tmp/load
+    #   task_group_name: extract_and_load_airbyte
+    #   virtualenv_path: /opt/datacoves/virtualenvs/main
+    #   # Update tag for job
+    #   run_dbt_compile: false
+    #   dbt_list_args: "--select tag:daily_run_airbyte"
     load_fivetran:
       generator: dagfactory.FivetranDbtGenerator
       airflow_connection_id: fivetran_connection
@@ -33,4 +33,5 @@ daily_loan_run:
     transform:
       operator: airflow.operators.bash_operator.BashOperator
       bash_command: "python $DATACOVES__REPO_PATH/automate/blue_green_run.py --production-run -s tag:daily_run_airbyte+ tag:daily_run_fivetran+"
-      dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
+      # dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
+      dependencies: ["extract_and_load_fivetran"]
