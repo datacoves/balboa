@@ -4,7 +4,7 @@ sources:
   - name: RAW
     database: RAW
     tags:
-      - daily_run
+      - daily_run_airbyte
     tables:
       - name: _AIRBYTE_RAW_COUNTRY_POPULATIONS
         description: "Raw population information from Github Datasets repository"
