@@ -15,7 +15,7 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 echo "Current Branch is:" $BRANCH
 
 # Only apply role changes from main branch
-if [ $BRANCH == 'main' ]; then
+if [ $BRANCH != 'main' ]; then
     echo 'This script can only be run from the main branch'
     exit 1
 else
