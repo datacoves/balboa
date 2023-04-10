@@ -4,19 +4,7 @@ sources:
   - name: GOOGLE_ANALYTICS_4
     database: RAW
     tags:
-      - daily_run
+      - daily_run_fivetran
     tables:
       - name: ENGAGEMENT_EVENTS_REPORT
-        description: ''
-      - name: ENGAGEMENT_PAGES_PATH_REPORT
-        description: ''
-      - name: TECH_BROWSER_REPORT
-        description: ''
-      - name: TECH_OS_WITH_VERSION_REPORT
-        description: ''
-      - name: TECH_SCREEN_RESOLUTION_REPORT
-        description: ''
-      - name: TRAFFIC_ACQUISITION_SESSION_SOURCE_MEDIUM_REPORT
-        description: ''
-      - name: USER_ACQUISITION_FIRST_USER_SOURCE_MEDIUM_REPORT
-        description: ''
+        description: 'Table containing raw data on user engagement events from Google Analytics 4'
