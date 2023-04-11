@@ -42,6 +42,16 @@ jobs:
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
+      - name: Test
+        uses: datacoves/ci-basic-action@v1.4.202304112229
+        with:
+          command: "git status"
+
+      - name: Test
+        uses: datacoves/ci-basic-action@v1.4.202304112229
+        with:
+          command: "ls -alh"
+
       - name: Install dbt packages
         uses: datacoves/ci-basic-action@v1.4.202304112229
         with:
