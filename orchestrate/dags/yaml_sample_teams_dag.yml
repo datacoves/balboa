@@ -16,19 +16,19 @@ yaml_sample_teams_dag:
             module: callbacks.microsoft_teams
             callable: inform_success
             args:
-                - connection_id: DATACOVES_INTEGRATION_NAME
+                - connection_id: DATACOVES_MS_TEAMS
         on_failure_callback:
             module: callbacks.microsoft_teams
             callable: inform_failure
             args:
-                - connection_id: DATACOVES_INTEGRATION_NAME
+                - connection_id: DATACOVES_MS_TEAMS
 
   tasks:
     successful_task:
       operator: airflow.operators.bash_operator.BashOperator
       bash_command: "echo SUCCESS!"
 
-    failing_task:
-      operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "some_non_existant_command"
-      dependencies: ["successful_task"]
+    # failing_task:
+    #   operator: airflow.operators.bash_operator.BashOperator
+    #   bash_command: "some_non_existant_command"
+    #   dependencies: ["successful_task"]
