@@ -1,8 +1,6 @@
 with raw_source as (
 
-    select
-        parse_json(replace(_airbyte_data::string, '"NaN"', 'null')) as airbyte_data_clean,
-        *
+    select *
     from {{ source('GOOGLE_ANALYTICS_4', 'ENGAGEMENT_EVENTS_REPORT') }}
 
 ),
