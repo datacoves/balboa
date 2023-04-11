@@ -42,6 +42,9 @@ jobs:
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
+      - name: Trust directory
+        run: "git config --global --add safe.directory /github/workspace"
+      
       - name: Test
         uses: datacoves/ci-basic-action@v1.4.202304112229
         with:
