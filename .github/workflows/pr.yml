@@ -34,16 +34,13 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
-
-      - name: Trust directory
-        run: "git config --global --add safe.directory /github/workspace"
       
       - name: Test
         uses: datacoves/ci-basic-action@v1.4.202304112229
