@@ -12,4 +12,4 @@ prompts:
     type: string
     hint: enter your usanme here as well
   role:
-    hint: "Enter the role"
+    hint: "Enter the role "
