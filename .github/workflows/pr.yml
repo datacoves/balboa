@@ -42,6 +42,12 @@ jobs:
       - name: List of files changed
         run: git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status
 
+      - name: PWD
+        uses: datacoves/ci-basic-action@v1.1.202302081612
+        with:
+          dbt_project_folder: "transform"
+          command: "pwd"
+
       - name: Install dbt packages
         uses: datacoves/ci-basic-action@v1.1.202302081612
         with:
