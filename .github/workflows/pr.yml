@@ -13,6 +13,10 @@ jobs:
   build:
     name: Pull Request Integration Tests
     runs-on: ubuntu-latest
+    container: datacoves/ci-airflow:1.4.202304112229-d4d58727
+    defaults:
+      run:
+        working-directory: transform
 
     env:
       DBT_PROFILES_DIR: /github/workspace/automate/dbt
@@ -42,68 +46,32 @@ jobs:
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
       
-      - name: Test
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          command: "git status"
-
-      - name: Test
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          command: "ls -alh"
-
       - name: Install dbt packages
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt deps"
+        run: "dbt deps"
 
       - name: Create PR database
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation create_database"
+        run: "dbt --no-write-json run-operation create_database"
 
       - name: Get prod manifest
         id: prod-manifest
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/dbt/get_artifacts.sh"
+        run: "../automate/dbt/get_artifacts.sh"
 
       - name: Run dbt build slim mode
         if: ${{ steps.prod-manifest.outputs.manifest_found == 'true' }}
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt build --fail-fast --defer --state logs --select state:modified+"
+        run: "dbt build --fail-fast --defer --state logs --select state:modified+"
 
       - name: Run dbt build full run
         if: ${{ steps.prod-manifest.outputs.manifest_found == 'false' }}
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt build --fail-fast"
+        run: "dbt build --fail-fast"
 
       - name: Grant access to PR database
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation grant_access_to_pr_database"
+        run: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Run governance checks
-        uses: datacoves/ci-basic-action@v1.4.202304112229
-        with:
-          dbt_project_folder: "transform"
-          command: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
+        run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
 
       - name: Test DAG structure integrity (DagBag Loading)
-        uses: datacoves/ci-airflow-action@v1.3.202303011255
-        with:
-          command: "python /usr/app/load_dagbag.py"
+        run: "python /usr/app/load_dagbag.py"
 
       - name: Test DBT Sources against DAGs' YAML files
-        uses: datacoves/ci-airflow-action@v1.3.202303011255
-        with:
-          dbt_project_folder: "transform"
-          command: "python /usr/app/test_dags.py"
+        run: "python /usr/app/test_dags.py"
