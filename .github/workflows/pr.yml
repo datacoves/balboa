@@ -16,7 +16,7 @@ jobs:
     container: datacoves/ci-airflow:1.4.202304112229-d4d58727
     defaults:
       run:
-        working-directory: transform
+        working-directory: /github/workspace/transform
 
     env:
       DBT_PROFILES_DIR: /github/workspace/automate/dbt
