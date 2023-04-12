@@ -15,10 +15,14 @@ jobs:
   build:
     name: Deployment Script
     runs-on: ubuntu-latest
+    container: datacoves/ci-basic:1.4.202304121800-7868b9ac
+    defaults:
+      run:
+        working-directory: /__w/balboa/balboa/transform
 
     env:
-      DBT_PROFILES_DIR: /github/workspace/automate/dbt
-      DBT_HOME: /github/workspace/transform
+      DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
+      DBT_HOME: /__w/balboa/balboa/transform
 
       DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
       DATACOVES__MAIN__ROLE: ${{ secrets.DATACOVES__MAIN__ROLE }}
@@ -35,45 +39,30 @@ jobs:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 50
 
+      - name: Set Secure Directory
+        run: git config --global --add safe.directory /__w/balboa/balboa
+
       - name: Install dbt packages
-        uses: datacoves/ci-basic-action@v1.4.202303161735
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt deps"
+        run: "dbt deps"
 
       - name: Get prod manifest
         id: prod-manifest
-        uses: datacoves/ci-basic-action@v1.4.202303161735
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/dbt/get_artifacts.sh"
+        run: "../automate/dbt/get_artifacts.sh"
 
       - name: Run blue / green deployment
         id: run-blue-green
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        uses: datacoves/ci-basic-action@v1.4.202303161735
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/blue_green_run.py --deployment-run"
+        run: "../automate/blue_green_run.py --deployment-run"
 
       - name: Delete merged test databases
-        uses: datacoves/ci-basic-action@v1.4.202303161735
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/dbt/remove_test_databases.sh"
+        run: "../automate/dbt/remove_test_databases.sh"
 
       - name: Generate dbt documentation
-        uses: datacoves/ci-basic-action@v1.4.202303161735
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt docs generate"
+        run: "dbt docs generate"
 
       - name: Optimize dbt documentation
-        uses: datacoves/ci-basic-action@v1.0.202211241542
-        with:
-          dbt_project_folder: "transform"
-          command: "../automate/dbt/dbt_docs_optimizer.py"
+        run: "../automate/dbt/dbt_docs_optimizer.py"
 
       - name: Deploy docs 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
@@ -83,7 +72,4 @@ jobs:
 
       - name: Drop staging db on Failure
         if: always() && (steps.run-blue-green.outcome == 'failure')
-        uses: datacoves/ci-basic-action@v1.4.202303161735
-        with:
-          dbt_project_folder: "transform"
-          command: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__STAGING__DATABASE}}'"  # yamllint disable-line rule:line-length
+        run: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__STAGING__DATABASE}}'"  # yamllint disable-line rule:line-length
