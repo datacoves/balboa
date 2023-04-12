@@ -1,18 +1,4 @@
-# Setup:
-### Add button to settings.json:
-```yaml
-                {
-                    "name": "📝 Create YML for current",
-                    "cwd": "${fileDirname}",
-                    "color": "white",
-                    "singleInstance": true,
-                    "command": "dbt run-operation gen_yaml --args '{'model_name': '${fileBasenameNoExtension}'}' | tail -n +2 | grep . > ${fileBasenameNoExtension}.yml" // This is executed in the terminal.
-                },
-```
-Add $DBT_HOME to /config/.bashrc:
-```bash
-export DBT_HOME="/config/workspace/transform"
-```
+
 
 ### Reset Environment:
 - Ensure `models/bays/bay_country/current_population.sql` has no aliases
@@ -87,7 +73,7 @@ On error:
     - Copy the following into base_country_codes.sql:
 
 ````sql
-    SELECT 
+    SELECT
         "CLDR_DISPLAY_NAME",
         "CAPITAL",
         "CONTINENT",
@@ -151,13 +137,13 @@ On error:
 
 
 - Clean up fields - (option+shift+i for multicursor), remove quotes & change to lowercase.
-- Add new column 
+- Add new column
     `coalesce(cldr_display_name, official_name_en) as display_name,`
 - build model
 - Add .yml for new base model with tests
     - Click 'Create model YML'
     - Add description "Cleaned up country codes"
-    - Add test `display_name`: 
+    - Add test `display_name`:
 ```yaml
         tests:
             - not_null
@@ -169,9 +155,9 @@ On error:
 - run checks
 - Models will fail bec they dont have descriptions
 - Add descriptions to models:
-- source model: 
+- source model:
 `description: Raw country code data from GitHub datasets repository`
-- bay model: 
+- bay model:
 `description: Cleaned up country codes`
 
 In `current_population.sql`:
@@ -228,6 +214,3 @@ Continue with original feature:
 - Fix the merge conflicts
 - Commit and push changes
 - Merge PR
-
-
-

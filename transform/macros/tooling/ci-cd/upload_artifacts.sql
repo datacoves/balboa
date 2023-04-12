@@ -11,7 +11,7 @@
     {% endset %}
     {% set results = run_query(set_date_query) %}
 
-    {% set target_dir = env_var('DBT_HOME') ~ "/target/" %}
+    {% set target_dir = env_var('DATACOVES__DBT_HOME') ~ "/target/" %}
 
     {% set file_prefix = results.columns[0].values()[0] ~ "_" %}
     {% set archive_folder_name = "archive/" ~ results.columns[1].values()[0] ~ "/" %}

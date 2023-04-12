@@ -13,7 +13,7 @@ DBT_FINAL_DB_NAME = os.environ["DATACOVES__MAIN__DATABASE"]
 DBT_STAGING_DB_NAME = DBT_FINAL_DB_NAME + '_STAGING'
 os.environ["DATACOVES__MAIN__DATABASE"] = DBT_STAGING_DB_NAME
 
-DBT_HOME = os.environ.get("DBT_HOME", os.environ.get("DATACOVES__DBT_HOME"))
+DBT_HOME = os.environ.get("DATACOVES__DBT_HOME"))
 
 VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 

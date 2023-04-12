@@ -2,7 +2,7 @@
 import os
 import json
 
-DBT_HOME = os.environ["DBT_HOME"]
+DBT_HOME = os.environ["DATACOVES__DBT_HOME"]
 
 if DBT_HOME == '':
     print("DBT_HOME is not defined. Please set it as an Environment Variable")
