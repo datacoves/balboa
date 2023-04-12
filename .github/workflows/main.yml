@@ -15,7 +15,7 @@ jobs:
   build:
     name: Deployment Script
     runs-on: ubuntu-latest
-    container: datacoves/ci-basic:1.4.202304112229-d4d58727
+    container: datacoves/datacoves/ci-basic:1.4.202304121651-300242f2
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
