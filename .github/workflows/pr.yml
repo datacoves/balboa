@@ -16,11 +16,11 @@ jobs:
     container: datacoves/ci-airflow:1.4.202304112229-d4d58727
     defaults:
      run:
-       working-directory: ${{ env.GITHUB_WORKSPACE }}/transform
+       working-directory: /__w/balboa/balboa/transform
 
     env:
-      DBT_PROFILES_DIR: ${{ env.GITHUB_WORKSPACE }}/automate/dbt
-      DBT_HOME: ${{ env.GITHUB_WORKSPACE }}/transform
+      DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
+      DBT_HOME: /__w/balboa/balboa/transform
 
       DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
       DATACOVES__MAIN__ROLE: ${{ secrets.DATACOVES__MAIN__ROLE }}
@@ -29,11 +29,11 @@ jobs:
       DATACOVES__MAIN__USER: ${{ secrets.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
-      DATACOVES__REPO_PATH: ${{ env.GITHUB_WORKSPACE }}
-      DATACOVES__YAML_DAGS_FOLDER: ${{ env.GITHUB_WORKSPACE }}/schedule
+      DATACOVES__REPO_PATH: /__w/balboa/balboa
+      DATACOVES__YAML_DAGS_FOLDER: /__w/balboa/balboa/schedule
 
-      AIRBYTE__EXTRACT_LOCATION: ${{ env.GITHUB_WORKSPACE }}/load
-      AIRFLOW__CORE__DAGS_FOLDER: ${{ env.GITHUB_WORKSPACE }}/automate/airflow/dags
+      AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
+      AIRFLOW__CORE__DAGS_FOLDER: /__w/balboa/balboa/automate/airflow/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
 
     steps:
