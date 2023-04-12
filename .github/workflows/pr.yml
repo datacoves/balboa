@@ -73,7 +73,7 @@ jobs:
     needs: dbt
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-airflow:1.4.202304112229-d4d58727
+    container: datacoves/datacoves/ci-airflow:1.4.202304121705-a0624f7f
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
