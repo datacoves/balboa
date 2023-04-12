@@ -14,13 +14,13 @@ jobs:
     name: Pull Request Integration Tests
     runs-on: ubuntu-latest
     container: datacoves/ci-airflow:1.4.202304112229-d4d58727
-    # defaults:
-    #  run:
-    #    working-directory: /github/workspace/transform
+    defaults:
+     run:
+       working-directory: ${{ env.GITHUB_WORKSPACE }}/transform
 
     env:
-      DBT_PROFILES_DIR: /github/workspace/automate/dbt
-      DBT_HOME: /github/workspace/transform
+      DBT_PROFILES_DIR: ${{ env.GITHUB_WORKSPACE }}/automate/dbt
+      DBT_HOME: ${{ env.GITHUB_WORKSPACE }}/transform
 
       DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
       DATACOVES__MAIN__ROLE: ${{ secrets.DATACOVES__MAIN__ROLE }}
@@ -29,11 +29,11 @@ jobs:
       DATACOVES__MAIN__USER: ${{ secrets.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
-      DATACOVES__REPO_PATH: /github/workspace
-      DATACOVES__YAML_DAGS_FOLDER: /github/workspace/schedule
+      DATACOVES__REPO_PATH: ${{ env.GITHUB_WORKSPACE }}
+      DATACOVES__YAML_DAGS_FOLDER: ${{ env.GITHUB_WORKSPACE }}/schedule
 
-      AIRBYTE__EXTRACT_LOCATION: /github/workspace/load
-      AIRFLOW__CORE__DAGS_FOLDER: /github/workspace/automate/airflow/dags
+      AIRBYTE__EXTRACT_LOCATION: ${{ env.GITHUB_WORKSPACE }}/load
+      AIRFLOW__CORE__DAGS_FOLDER: ${{ env.GITHUB_WORKSPACE }}/automate/airflow/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
 
     steps:
@@ -43,14 +43,12 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-#      - name: List of files changed
-#        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
+      - name: List of files changed
+        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
       
       - run: pwd
       
       - run: ls -alh
-      
-      - run: ls ${{ github.workspace }} -alh
 
       - name: Install dbt packages
         run: "dbt deps"
