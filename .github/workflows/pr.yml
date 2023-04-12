@@ -50,7 +50,7 @@ jobs:
       
       - run: ls -alh
       
-      - run: ls /github/workspace/ -alh
+      - run: ls ${{ github.workspace }} -alh
 
       - name: Install dbt packages
         run: "dbt deps"
