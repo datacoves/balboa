@@ -37,6 +37,10 @@ jobs:
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
 
     steps:
+      - run: pwd
+
+      - run: ls -alh
+
       - run: git config --global --add safe.directory /__w/balboa/balboa
 
       - name: Checkout branch
