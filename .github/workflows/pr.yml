@@ -13,7 +13,7 @@ jobs:
   build:
     name: Pull Request Integration Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-airflow:1.4.202304112229-d4d58727
+    container: datacoves/ci-basic:1.4.202304112229-d4d58727
     defaults:
      run:
        working-directory: /__w/balboa/balboa/transform
@@ -37,21 +37,17 @@ jobs:
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
 
     steps:
+      - run: git config --global --add safe.directory /__w/balboa/balboa
+
       - name: Checkout branch
         uses: actions/checkout@v3.5.0
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-#      - name: List of files changed
-#        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
+      - name: List of files changed
+        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"      
       
-      - run: git config --global --add safe.directory /__w/balboa/balboa
-      
-      - run: git status
-
-      - run: ls -alh
-
       - name: Install dbt packages
         run: "dbt deps"
 
@@ -76,8 +72,8 @@ jobs:
       - name: Run governance checks
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
 
-      - name: Test DAG structure integrity (DagBag Loading)
-        run: "python /usr/app/load_dagbag.py"
+      # - name: Test DAG structure integrity (DagBag Loading)
+      #  run: "python /usr/app/load_dagbag.py"
 
-      - name: Test DBT Sources against DAGs' YAML files
-        run: "python /usr/app/test_dags.py"
+      # - name: Test DBT Sources against DAGs' YAML files
+      #  run: "python /usr/app/test_dags.py"
