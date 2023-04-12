@@ -14,9 +14,9 @@ jobs:
     name: Pull Request Integration Tests
     runs-on: ubuntu-latest
     container: datacoves/ci-airflow:1.4.202304112229-d4d58727
-    defaults:
-      run:
-        working-directory: /github/workspace/transform
+    # defaults:
+    #  run:
+    #    working-directory: /github/workspace/transform
 
     env:
       DBT_PROFILES_DIR: /github/workspace/automate/dbt
@@ -46,6 +46,8 @@ jobs:
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
       
+      - run: pwd
+
       - name: Install dbt packages
         run: "dbt deps"
 
