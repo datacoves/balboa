@@ -39,7 +39,8 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - run: git config --global --add safe.directory /__w/balboa/balboa
+      - name: Set Secure Directory
+        run: git config --global --add safe.directory /__w/balboa/balboa
 
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"      
