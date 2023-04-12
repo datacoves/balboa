@@ -13,7 +13,7 @@ jobs:
   dbt:
     name: Pull Request Dbt Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-basic:1.4.202304112229-d4d58727
+    container: datacoves/ci-basic:1.4.202304121800-7868b9ac
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
