@@ -14,9 +14,9 @@ jobs:
     name: Pull Request Integration Tests
     runs-on: ubuntu-latest
     container: datacoves/ci-basic:1.4.202304112229-d4d58727
-    defaults:
-     run:
-       working-directory: /__w/balboa/balboa/transform
+    # defaults:
+    # run:
+    #   working-directory: /__w/balboa/balboa/transform
 
     env:
       DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
