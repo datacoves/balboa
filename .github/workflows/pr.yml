@@ -81,6 +81,12 @@ jobs:
           dbt_project_folder: "transform"
           command: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
+      - name: Safe Directory
+        uses: datacoves/ci-basic-action@v1.1.202302081612
+        with:
+          dbt_project_folder: "transform"
+          command: "git config --global --add safe.directory /__w/balboa/balboa"
+
       - name: Run governance checks
         uses: datacoves/ci-basic-action@v1.1.202302081612
         with:
