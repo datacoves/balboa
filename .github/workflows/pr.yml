@@ -14,9 +14,9 @@ jobs:
     name: Pull Request Integration Tests
     runs-on: ubuntu-latest
     container: datacoves/ci-basic:1.4.202304112229-d4d58727
-    # defaults:
-    # run:
-    #   working-directory: /__w/balboa/balboa/transform
+    defaults:
+      run:
+        working-directory: /__w/balboa/balboa/transform
 
     env:
       DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
@@ -37,17 +37,13 @@ jobs:
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
 
     steps:
-      - run: pwd
-
-      - run: ls -alh
-
-      - run: git config --global --add safe.directory /__w/balboa/balboa
-
       - name: Checkout branch
         uses: actions/checkout@v3.5.0
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
+
+      - run: git config --global --add safe.directory /__w/balboa/balboa
 
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"      
