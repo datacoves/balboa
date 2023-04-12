@@ -43,10 +43,14 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: List of files changed
-        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
+#      - name: List of files changed
+#        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
       
       - run: pwd
+      
+      - run: ls -alh
+      
+      - run: ls /github/workspace/ -alh
 
       - name: Install dbt packages
         run: "dbt deps"
