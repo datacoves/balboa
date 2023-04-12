@@ -46,8 +46,10 @@ jobs:
 #      - name: List of files changed
 #        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
       
-      - run: git status
+      - run: git config --global --add safe.directory /__w/balboa/balboa
       
+      - run: git status
+
       - run: ls -alh
 
       - name: Install dbt packages
