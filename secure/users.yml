@@ -18,6 +18,11 @@
       - analyst
       - securityadmin
 
+- davidscohen89:
+    can_login: true
+    member_of:
+      - analyst
+
 - gomezn:
     can_login: true
     member_of:

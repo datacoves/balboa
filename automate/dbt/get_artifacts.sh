@@ -3,7 +3,7 @@
 # Cause script to exit on error
 set -e
 
-cd $DBT_HOME
+cd $DATACOVES__DBT_HOME
 
 mkdir -p logs
 
