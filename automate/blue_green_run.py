@@ -85,7 +85,7 @@ def main(is_production: bool = False, selector: str = None):
     run_command("dbt compile")
 
     os.environ["DATACOVES__MAIN__DATABASE"] = DBT_FINAL_DB_NAME
-    run_command("cwd")
+    run_command("pwd")
 
     logging.info("Uploading new prod manifest")
     run_command("dbt --no-write-json run-operation upload_artifacts")

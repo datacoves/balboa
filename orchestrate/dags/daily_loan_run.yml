@@ -2,7 +2,7 @@ daily_loan_run:
   description: "Blue / Green run"
   schedule_interval: "0 0 1 */12 *"
   tags:
-    - version_14
+    - version_15
   default_args:
     start_date: 2023-01-01
   catchup: false
