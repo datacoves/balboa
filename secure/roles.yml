@@ -60,18 +60,6 @@
 ##########################
 #  Service Account Roles
 #########################
-- loader:
-    # Can read/write raw db; becomes owner of all raw schemas through creation
-    member_of:
-      - z_db_raw_write
-      - z_wh_loading
-      - z_db_starschema_covid19
-    owns:
-      databases:
-        - raw
-      schemas:
-        - raw.*
-
 - transformer_dbt:
     # Owns balboa
     # Becomes owner of all balboa schemas through creation
@@ -96,6 +84,16 @@
       schemas:
         - balboa.*
         - raw.snapshots
+
+- loader:
+    # Can read/write raw db; becomes owner of all raw schemas through creation
+    member_of:
+      - z_db_raw_write
+      - z_wh_loading
+      - z_db_starschema_covid19
+    owns:
+      databases:
+        - raw
 
 ##########################
 #  Global Roles

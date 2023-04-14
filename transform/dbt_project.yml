@@ -19,14 +19,6 @@ profile: 'default'
 model-paths: ["models"]
 snapshot-paths: ["snapshots"]
 
-# Redshift version
-# model-paths: ["models_rs"]
-# snapshot-paths: ["snapshots_rs"]
-
-# BigQuery version
-# model-paths: ["models_bq"]
-# snapshot-paths: ["snapshots_bq"]
-
 packages-install-path: dbt_packages
 
 analysis-paths: ["analysis"]
@@ -127,15 +119,6 @@ tests:
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'
-
-
-    # set up artifacts objects by running:
-    # dbt run-operation create_artifact_resources -t prd
-    # This is where dbt artifacts will load dbt's artifacts *.json
-    dbt_artifacts:
-        # this is where artifacts will be loaded
-        dbt_artifacts_database: raw
-        dbt_artifacts_schema: dbt_artifacts
 
     data_diff:
         prod_database: BALBOA

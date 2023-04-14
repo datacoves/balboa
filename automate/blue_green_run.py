@@ -15,7 +15,7 @@ os.environ["DATACOVES__MAIN__DATABASE"] = DBT_STAGING_DB_NAME
 
 DBT_HOME = os.environ.get("DATACOVES__DBT_HOME")
 
-# VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
+VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 
 def main(is_ci_run: bool = False, selector: str = None, target: str = None):
     """
@@ -107,18 +107,27 @@ def run_dbt(selector: str = None, dbt_target: str = None, is_ci_run: bool = Fals
     else:
         selector = ''
 
-    dbt_command = f"dbt-coves dbt -- build --fail-fast {selector}"
+    dbt_command = f"dbt-coves dbt -- build --fail-fast {selector} {dbt_target}"
     print(f"Running dbt command: \n{dbt_command}")
     run_command(dbt_command)
 
-def run_command(command: str, cwd: str = None, capture_output=False):
+def run_command(command: str, capture_output=False):
     my_env = os.environ.copy()
+
+    if os.path.exists(VIRTUALENV_PATH):
+        """Activates a python environment and runs a command using it"""
+        cmd_list = shlex.split(
+            f"/bin/bash -c 'source {VIRTUALENV_PATH}/bin/activate && {command}'"
+        )
+    else:
+        cmd_list = shlex.split(command)
 
     cmd_list = shlex.split(command)
 
     return subprocess.run(
         cmd_list, env=my_env, check=True, capture_output=capture_output
     )
+
 
 if __name__ == "__main__":
 
