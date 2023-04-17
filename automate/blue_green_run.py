@@ -122,8 +122,6 @@ def run_command(command: str, capture_output=False):
     else:
         cmd_list = shlex.split(command)
 
-    cmd_list = shlex.split(command)
-
     return subprocess.run(
         cmd_list, env=my_env, check=True, capture_output=capture_output
     )
