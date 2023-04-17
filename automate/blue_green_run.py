@@ -4,6 +4,7 @@ import logging
 import os
 import shlex
 import subprocess
+import tempfile
 
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
@@ -16,6 +17,8 @@ os.environ["DATACOVES__MAIN__DATABASE"] = DBT_STAGING_DB_NAME
 DBT_HOME = os.environ.get("DATACOVES__DBT_HOME")
 
 VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
+
+DBT_COVES__CLONE_PATH = tempfile.NamedTemporaryFile().name
 
 def main(is_ci_run: bool = False, selector: str = None, target: str = None):
     """
@@ -113,6 +116,8 @@ def run_dbt(selector: str = None, dbt_target: str = None, is_ci_run: bool = Fals
 
 def run_command(command: str, capture_output=False):
     my_env = os.environ.copy()
+
+    my_env["DBT_COVES__CLONE_PATH"] = DBT_COVES__CLONE_PATH
 
     if os.path.exists(VIRTUALENV_PATH):
         """Activates a python environment and runs a command using it"""
