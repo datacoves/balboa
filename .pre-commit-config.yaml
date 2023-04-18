@@ -9,15 +9,54 @@ repos:
         args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
       - id: check-source-table-has-description
         files: ^transform/models/
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
 
       - id: check-script-semicolon
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
       - id: check-script-has-no-table-name
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
       - id: check-script-ref-and-source
-        args: ["--manifest", "transform/target/manifest.json"]
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
       - id: check-model-has-description
-        args: ["--manifest", "transform/target/manifest.json"]
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
       - id: check-model-has-properties-file
-        args: ["--manifest", "transform/target/manifest.json"]
+        args:
+          [
+            "--manifest",
+            "transform/target/manifest.json",
+            "--catalog",
+            "transform/target/catalog.json",
+          ]
 
       # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
       - id: check-model-has-all-columns
