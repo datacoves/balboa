@@ -66,13 +66,8 @@ jobs:
       - name: Grant access to PR database
         run: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
-      - name: Check contents
-        run: "ls -alh"
-
-      - name: Check contents 2
-        run: "ls -alh target/"
-
       - name: Run governance checks
+        working-directory: /__w/balboa/balboa
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
 
   airflow:
