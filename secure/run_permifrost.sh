@@ -14,12 +14,5 @@ export PATH=$PATH:/config/.local/bin
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 echo "Current Branch is:" $BRANCH
 
-# Only apply role changes from main branch
-if [ $BRANCH != 'main' ]; then
-    echo 'This script can only be run from the main branch'
-    exit 1
-else
-    # This allows for running permifrost from any dir and returns to that dir at end of executiuon
-    cd /config/workspace/secure/ && permifrost run permifrost.yml
-    cd -
-fi
+cd /config/workspace/secure/ && permifrost run permifrost.yml
+cd -

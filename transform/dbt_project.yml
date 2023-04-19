@@ -66,6 +66,8 @@ models:
                 +schema: l1_account_usage
             country_data:
                 +schema: l1_country_data
+            google_analytics_4:
+                +schema: l1_google_analytics_4
             starschema_covid19:
                 +schema: l1_starschema_covid19
             loans:

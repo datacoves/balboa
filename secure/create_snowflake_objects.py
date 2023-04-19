@@ -10,7 +10,7 @@ import logging
 
 from pathlib import Path
 
-PROJECT_ROOT_PATH = os.getcwd()
+PROJECT_ROOT_PATH = "/config/workspace/"
 
 DBT_MACRO_NAME_ROLE_COMPARISON = "snowflake_role_comparison"
 DBT_MACRO_NAME_SCHEMA_COMPARISON = "snowflake_schema_comparison"

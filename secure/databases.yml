@@ -5,6 +5,7 @@
     schemas:
       - L1_ACCOUNT_USAGE
       - L1_COUNTRY_DATA
+      - L1_GOOGLE_ANALYTICS_4
       - L1_DBT_ARTIFACTS
       - L1_STARSCHEMA_COVID19
       - L1_LOANS
