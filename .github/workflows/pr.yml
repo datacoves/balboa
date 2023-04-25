@@ -45,6 +45,9 @@ jobs:
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
+      - name: files changed 2
+        run: echo ${{ steps.file_changes.outputs.files}}
+
       - name: Install dbt packages
         run: "dbt deps"
 
@@ -67,7 +70,8 @@ jobs:
         run: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Run governance checks
-        run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
+        # run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
+        run: pre-commit run --files ${{ steps.file_changes.outputs.files}}
 
   airflow:
     name: Pull Request Airflow Tests
