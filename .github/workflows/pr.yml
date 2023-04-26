@@ -13,7 +13,7 @@ jobs:
   dbt:
     name: Pull Request Dbt Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-basic:1.4.202304121800-7868b9ac
+    container: datacoves/ci-basic-dbt-snowflake:1.4.202304121800-7868b9ac
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
@@ -72,7 +72,7 @@ jobs:
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-airflow:1.4.202304121800-7868b9ac
+    container: datacoves/ci-airflow-dbt-snowflake:1.4.202304121800-7868b9ac
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
