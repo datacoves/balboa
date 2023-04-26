@@ -3,7 +3,6 @@ with raw_source as (
     select *
     from {{ source('GOOGLE_ANALYTICS_4', 'ENGAGEMENT_EVENTS_REPORT') }}
 
-
 ),
 
 final as (
