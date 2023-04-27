@@ -10,19 +10,22 @@ yaml_sample_teams_dag:
     owner: airflow
     # Replace with the email of the recipient for failures
     email: gomezn@datacoves.com
-    email_on_failure: true
-    custom_callbacks:
-        on_success_callback:
-            module: callbacks.microsoft_teams
-            callable: inform_success
-            args:
-                - connection_id: DATACOVES_MS_TEAMS
-        on_failure_callback:
-            module: callbacks.microsoft_teams
-            callable: inform_failure
-            args:
-                - connection_id: DATACOVES_MS_TEAMS
-
+    email_on_failure: true  
+  custom_callbacks:
+      on_success_callback:
+          module: callbacks.microsoft_teams
+          callable: inform_success
+          args:
+              - connection_id: DATACOVES_MS_TEAMS
+              # - message: Custom YML success message
+              # - color: 0000FF
+      on_failure_callback:
+          module: callbacks.microsoft_teams
+          callable: inform_failure
+          args:
+              - connection_id: DATACOVES_MS_TEAMS
+              # - message: Custom YML success message
+              # - color: 0000FF
   tasks:
     successful_task:
       operator: airflow.operators.bash_operator.BashOperator
