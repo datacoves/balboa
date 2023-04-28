@@ -2,7 +2,7 @@ yaml_sample_teams_dag:
   description: "Sample yaml dag dbt run"
   schedule_interval: "0 0 1 */12 *"
   tags:
-    - version_4
+    - version_5
   catchup: false
 
   default_args:
@@ -17,8 +17,6 @@ yaml_sample_teams_dag:
           callable: inform_success
           args:
               - connection_id: DATACOVES_MS_TEAMS
-              - message: Custom YML success message
-              - color: 0330FF
               # - message: Custom YML success message
               # - color: 0000FF
       on_failure_callback:
@@ -26,8 +24,8 @@ yaml_sample_teams_dag:
           callable: inform_failure
           args:
               - connection_id: DATACOVES_MS_TEAMS
-              - message: Custom YML success message
-              - color: 9900FF
+              # - message: Custom YML error message
+              # - color: 9900FF
   tasks:
     successful_task:
       operator: airflow.operators.bash_operator.BashOperator
@@ -36,7 +34,7 @@ yaml_sample_teams_dag:
       #   image: "datacoves/airflow-pandas:latest"
       bash_command: "echo SUCCESS!"
 
-    failing_task:
-      operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "some_non_existant_command"
-      dependencies: ["successful_task"]
+    # failing_task:
+    #   operator: airflow.operators.bash_operator.BashOperator
+    #   bash_command: "some_non_existant_command"
+    #   dependencies: ["successful_task"]
