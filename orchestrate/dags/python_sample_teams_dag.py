@@ -12,8 +12,6 @@ def run_inform_success(context):
         connection_id=DATACOVES_INTEGRATION_NAME,  # Only mandatory argument
         # message="Custom python success message",
         # color="FFFF00",
-        message="Custom python success message",
-        color="557700",
     )
 
 def run_inform_failure(context):
@@ -36,7 +34,7 @@ with DAG(
     default_args=default_args,
     start_date=datetime(2023, 1, 1),
     catchup=False,
-    tags=["version_24"],
+    tags=["version_25"],
     description="Sample python dag dbt run",
     schedule_interval="0 0 1 */12 *",
     on_success_callback=run_inform_success,
