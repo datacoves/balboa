@@ -60,10 +60,7 @@ with DAG(
         bash_command = "some_non_existant_command"
     )
 
-    # Call the helper function to set the callbacks for all tasks
-    set_task_callbacks(dag, ms_teams_send_logs, ms_teams_send_logs)
-
     # runs failing task
-    successful_task >> failing_task
+    # successful_task >> failing_task
 
     successful_task
