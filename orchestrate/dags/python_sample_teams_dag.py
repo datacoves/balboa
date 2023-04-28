@@ -4,8 +4,7 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from callbacks.microsoft_teams import inform_failure, inform_success
 
-DATACOVES_INTEGRATION_NAME = "DATACOVES_MS_TEAMS"
-
+DATACOVES_INTEGRATION_NAME = "MS_TEAMS_NOTIFICATIONS"
 
 def run_inform_success(context):
     inform_success(
@@ -13,8 +12,9 @@ def run_inform_success(context):
         connection_id=DATACOVES_INTEGRATION_NAME,  # Only mandatory argument
         # message="Custom python success message",
         # color="FFFF00",
+        message="Custom python success message",
+        color="557700",
     )
-
 
 def run_inform_failure(context):
     inform_failure(
@@ -22,14 +22,14 @@ def run_inform_failure(context):
         connection_id=DATACOVES_INTEGRATION_NAME,  # Only mandatory argument
         # message="Custom python failure message",
         # color="FF00FF",
+        message="MY Custom python failure message",
+        color="3466FF",
     )
 
-
-def set_task_callbacks(dag):  # Use if we want to set per-task callback
-    for task in dag.tasks:
-        task.on_success_callback = run_inform_success
-        task.on_failure_callback = run_inform_failure
-
+# def set_task_callbacks(dag):  # Use if you want to set per-task callback / messages
+#     for task in dag.tasks:
+#         task.on_success_callback = run_inform_success
+#         task.on_failure_callback = run_inform_failure
 
 default_args = {
     "owner": "airflow",
@@ -43,25 +43,27 @@ with DAG(
     default_args=default_args,
     start_date=datetime(2023, 1, 1),
     catchup=False,
-    tags=["version_17"],
+    tags=["version_18"],
     description="Sample python dag dbt run",
     schedule_interval="0 0 1 */12 *",
     on_success_callback=run_inform_success,
     on_failure_callback=run_inform_failure,
 ) as dag:
+
     successful_task = BashOperator(
-        task_id="successful_task", bash_command="echo SUCCESS"
+        task_id = "successful_task",
+        bash_command = "echo SUCCESS"
     )
 
-    # failing_task = BashOperator(
-    #     task_id = "failing_task",
-    #     bash_command = "some_non_existant_command"
-    # )
+    failing_task = BashOperator(
+        task_id = "failing_task",
+        bash_command = "some_non_existant_command"
+    )
 
     # Call the helper function to set the callbacks for all tasks
-    set_task_callbacks(dag)  # If we want to set per-task callback
+    set_task_callbacks(dag, ms_teams_send_logs, ms_teams_send_logs)
 
     # runs failing task
-    # successful_task >> failing_task
+    successful_task >> failing_task
 
     successful_task
