@@ -52,11 +52,6 @@ snapshots:
         node_color: "#0f703d"
 
 models:
-    metrics:
-        +schema: dbt_metrics
-        +docs:
-            node_color: "#379965"
-
     balboa:
         +materialized: view
         +schema: z_schema_not_configured
