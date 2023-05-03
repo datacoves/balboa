@@ -1,7 +1,6 @@
 with raw_source as (
 
-    select
-        *
+    select *
     from {% raw %}{{{% endraw %} source('{{ relation.schema }}', '{{ relation.name }}') {% raw %}}}{% endraw %}
 
 ),
