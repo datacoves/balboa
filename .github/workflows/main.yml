@@ -15,7 +15,7 @@ jobs:
   build:
     name: Deployment Script
     runs-on: ubuntu-latest
-    container: datacoves/ci-basic-dbt-snowflake:1.6.202304260031-d6b26368
+    container: datacoves/ci-basic-dbt-snowflake:1.6.202305042323-90ea45d5
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
