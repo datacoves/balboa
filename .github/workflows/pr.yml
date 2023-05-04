@@ -13,7 +13,7 @@ jobs:
   dbt:
     name: Pull Request Dbt Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-basic-dbt-snowflake:1.6.202304260031-d6b26368
+    container: datacoves/ci-basic-dbt-snowflake:1.6.202305042022-a4193823
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
