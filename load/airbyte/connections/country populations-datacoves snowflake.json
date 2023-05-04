@@ -1,6 +1,6 @@
 {
-    "name": "default",
-    "namespaceDefinition": "source",
+    "name": "Country Populations <> Datacoves Snowflake",
+    "namespaceDefinition": "destination",
     "namespaceFormat": "${SOURCE_NAMESPACE}",
     "prefix": "",
     "operationIds": [],
@@ -14,26 +14,36 @@
                         "$schema": "http://json-schema.org/draft-07/schema#",
                         "properties": {
                             "Year": {
-                                "type": "number"
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
                             },
                             "Value": {
-                                "type": "number"
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
                             },
                             "Country Code": {
-                                "type": "string"
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
                             },
                             "Country Name": {
-                                "type": "string"
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
                             }
                         }
                     },
                     "supportedSyncModes": [
                         "full_refresh"
                     ],
-                    "sourceDefinedCursor": null,
                     "defaultCursorField": [],
-                    "sourceDefinedPrimaryKey": [],
-                    "namespace": null
+                    "sourceDefinedPrimaryKey": []
                 },
                 "config": {
                     "syncMode": "full_refresh",
@@ -46,14 +56,12 @@
             }
         ]
     },
-    "schedule": null,
+    "scheduleType": "manual",
     "status": "active",
-    "resourceRequirements": {
-        "cpu_request": null,
-        "cpu_limit": null,
-        "memory_request": null,
-        "memory_limit": null
-    },
+    "sourceCatalogId": "e4cb8570-994d-4c0a-95ab-da85e177a17d",
+    "geography": "auto",
+    "notifySchemaChanges": true,
+    "nonBreakingChangesPreference": "ignore",
     "sourceName": "country populations",
-    "destinationName": "datacoves_snowflake"
+    "destinationName": "datacoves snowflake"
 }

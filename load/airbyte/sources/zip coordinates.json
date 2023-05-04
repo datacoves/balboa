@@ -1,0 +1,14 @@
+{
+    "connectionConfiguration": {
+        "url": "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/ZIP_COORDINATES.csv",
+        "format": "csv",
+        "provider": {
+            "storage": "HTTPS",
+            "user_agent": false
+        },
+        "dataset_name": "ZIP_COORDINATES"
+    },
+    "name": "Zip Coordinates",
+    "sourceName": "File",
+    "connectorVersion": "0.2.28"
+}

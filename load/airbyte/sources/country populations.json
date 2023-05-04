@@ -3,11 +3,12 @@
         "url": "https://raw.githubusercontent.com/datasets/population/master/data/population.csv",
         "format": "csv",
         "provider": {
-            "storage": "HTTPS"
+            "storage": "HTTPS",
+            "user_agent": false
         },
         "dataset_name": "country_populations"
     },
     "name": "Country Populations",
     "sourceName": "File",
-    "connectorVersion": "1.2"
+    "connectorVersion": "0.2.28"
 }

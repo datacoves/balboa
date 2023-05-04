@@ -1,0 +1,355 @@
+{
+    "name": "Personal Loans <> Datacoves Snowflake",
+    "namespaceDefinition": "customformat",
+    "namespaceFormat": "loans",
+    "prefix": "",
+    "operationIds": [],
+    "syncCatalog": {
+        "streams": [
+            {
+                "stream": {
+                    "name": "personal_loans",
+                    "jsonSchema": {
+                        "type": "object",
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "properties": {
+                            "DTI": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "URL": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "DESC": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TERM": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "GRADE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TITLE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ISSUE_D": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LOAN_ID": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "PUB_REC": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "PURPOSE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "INT_RATE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "OPEN_ACC": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ZIP_CODE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "EMP_TITLE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LOAN_AMNT": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "MEMBER_ID": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "OUT_PRNCP": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "REVOL_BAL": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "SUB_GRADE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TOTAL_ACC": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ADDR_STATE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "ANNUAL_INC": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "EMP_LENGTH": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "PYMNT_PLAN": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "RECOVERIES": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "REVOL_UTIL": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "DELINQ_2YRS": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "FUNDED_AMNT": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "INSTALLMENT": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LOAN_STATUS": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "POLICY_CODE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TOTAL_PYMNT": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LAST_PYMNT_D": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "NEXT_PYMNT_D": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "OUT_PRNCP_INV": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TOTAL_REC_INT": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "HOME_OWNERSHIP": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "INQ_LAST_6MTHS": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "FUNDED_AMNT_INV": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LAST_PYMNT_AMNT": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TOTAL_PYMNT_INV": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TOTAL_REC_PRNCP": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "EARLIEST_CR_LINE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "LAST_CREDIT_PULL_D": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "TOTAL_REC_LATE_FEE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "INITIAL_LIST_STATUS": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "VERIFICATION_STATUS": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "MTHS_SINCE_LAST_DELINQ": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "MTHS_SINCE_LAST_RECORD": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "COLLECTION_RECOVERY_FEE": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "COLLECTIONS_12_MTHS_EX_MED": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "MTHS_SINCE_LAST_MAJOR_DEROG": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    },
+                    "supportedSyncModes": [
+                        "full_refresh"
+                    ],
+                    "defaultCursorField": [],
+                    "sourceDefinedPrimaryKey": []
+                },
+                "config": {
+                    "syncMode": "full_refresh",
+                    "cursorField": [],
+                    "destinationSyncMode": "overwrite",
+                    "primaryKey": [],
+                    "aliasName": "personal_loans",
+                    "selected": true
+                }
+            }
+        ]
+    },
+    "scheduleType": "manual",
+    "status": "active",
+    "sourceCatalogId": "e111be3a-eeb2-4597-8cd5-cd4c71d5b40a",
+    "geography": "auto",
+    "notifySchemaChanges": true,
+    "nonBreakingChangesPreference": "ignore",
+    "sourceName": "personal loans",
+    "destinationName": "datacoves snowflake"
+}

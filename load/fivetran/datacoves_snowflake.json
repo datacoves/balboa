@@ -1,0 +1,250 @@
+{
+    "revise_beau": {
+        "details": {
+            "id": "revise_beau",
+            "group_id": "revise_beau",
+            "service": "snowflake",
+            "region": "AWS_US_EAST_1",
+            "time_zone_offset": "-8",
+            "setup_status": "connected",
+            "config": {
+                "snowflake_region": "us_west_2",
+                "database": "raw",
+                "password": "******",
+                "role": "LOADER",
+                "connection_type": "Directly",
+                "port": "443",
+                "auth": "PASSWORD",
+                "snowflake_cloud": "AWS",
+                "host": "toa80779.snowflakecomputing.com",
+                "user": "svc_fivetran"
+            }
+        },
+        "connectors": {
+            "speak_menial": {
+                "details": {
+                    "id": "speak_menial",
+                    "group_id": "revise_beau",
+                    "service": "google_analytics_4",
+                    "service_version": 0,
+                    "schema": "google_analytics_4",
+                    "connected_by": "usually_loom",
+                    "created_at": "2023-04-08T21:53:56.069364Z",
+                    "succeeded_at": "2023-04-17T21:15:41.432Z",
+                    "failed_at": null,
+                    "paused": false,
+                    "pause_after_trial": false,
+                    "sync_frequency": 1440,
+                    "schedule_type": "manual",
+                    "status": {
+                        "setup_state": "connected",
+                        "schema_status": "ready",
+                        "sync_state": "scheduled",
+                        "update_state": "on_schedule",
+                        "is_historical_sync": false,
+                        "tasks": [],
+                        "warnings": []
+                    },
+                    "config": {
+                        "sync_mode": "SPECIFIC_ACCOUNTS",
+                        "reports": [
+                            {
+                                "table": "user_acquisition_first_user_source_medium_report",
+                                "config_type": "PREBUILT",
+                                "prebuilt_report": "USER_ACQUISITION_FIRST_USER_SOURCE_MEDIUM_REPORT",
+                                "dimensions": [
+                                    "firstUserMedium",
+                                    "firstUserSource",
+                                    "date"
+                                ],
+                                "metrics": [
+                                    "totalUsers",
+                                    "eventCount",
+                                    "newUsers",
+                                    "totalRevenue",
+                                    "conversions",
+                                    "userEngagementDuration",
+                                    "engagementRate",
+                                    "engagedSessions"
+                                ]
+                            },
+                            {
+                                "table": "traffic_acquisition_session_source_medium_report",
+                                "config_type": "PREBUILT",
+                                "prebuilt_report": "TRAFFIC_ACQUISITION_SESSION_SOURCE_MEDIUM_REPORT",
+                                "dimensions": [
+                                    "sessionSource",
+                                    "sessionMedium",
+                                    "date"
+                                ],
+                                "metrics": [
+                                    "sessions",
+                                    "engagementRate",
+                                    "conversions",
+                                    "userEngagementDuration",
+                                    "eventsPerSession",
+                                    "eventCount",
+                                    "engagedSessions",
+                                    "totalRevenue",
+                                    "totalUsers"
+                                ]
+                            },
+                            {
+                                "table": "engagement_events_report",
+                                "config_type": "PREBUILT",
+                                "prebuilt_report": "EVENTS_REPORT",
+                                "dimensions": [
+                                    "eventName",
+                                    "date"
+                                ],
+                                "metrics": [
+                                    "eventCountPerUser",
+                                    "totalUsers",
+                                    "eventCount",
+                                    "totalRevenue"
+                                ]
+                            },
+                            {
+                                "table": "engagement_pages_path_report",
+                                "config_type": "PREBUILT",
+                                "prebuilt_report": "PAGES_PATH_REPORT",
+                                "dimensions": [
+                                    "pagePath",
+                                    "date"
+                                ],
+                                "metrics": [
+                                    "userEngagementDuration",
+                                    "totalRevenue",
+                                    "conversions",
+                                    "totalUsers",
+                                    "eventCount",
+                                    "screenPageViews",
+                                    "newUsers"
+                                ]
+                            },
+                            {
+                                "table": "tech_browser_report",
+                                "config_type": "PREBUILT",
+                                "prebuilt_report": "TECH_BROWSER_REPORT",
+                                "dimensions": [
+                                    "browser",
+                                    "date"
+                                ],
+                                "metrics": [
+                                    "engagementRate",
+                                    "engagedSessions",
+                                    "totalRevenue",
+                                    "conversions",
+                                    "totalUsers",
+                                    "eventCount",
+                                    "newUsers"
+                                ]
+                            },
+                            {
+                                "table": "tech_os_with_version_report",
+                                "config_type": "PREBUILT",
+                                "prebuilt_report": "TECH_OS_WITH_VERSION_REPORT",
+                                "dimensions": [
+                                    "operatingSystemWithVersion",
+                                    "date"
+                                ],
+                                "metrics": [
+                                    "engagementRate",
+                                    "engagedSessions",
+                                    "totalRevenue",
+                                    "conversions",
+                                    "totalUsers",
+                                    "eventCount",
+                                    "newUsers"
+                                ]
+                            },
+                            {
+                                "table": "tech_screen_resolution_report",
+                                "config_type": "PREBUILT",
+                                "prebuilt_report": "TECH_SCREEN_RESOLUTION_REPORT",
+                                "dimensions": [
+                                    "screenResolution",
+                                    "date"
+                                ],
+                                "metrics": [
+                                    "engagementRate",
+                                    "engagedSessions",
+                                    "totalRevenue",
+                                    "conversions",
+                                    "totalUsers",
+                                    "eventCount",
+                                    "newUsers"
+                                ]
+                            }
+                        ],
+                        "accounts": [
+                            "140354207"
+                        ],
+                        "properties": [
+                            "280980326",
+                            "279265809"
+                        ],
+                        "timeframe_months": "TWELVE"
+                    }
+                },
+                "schemas": {
+                    "google_analytics_4": {
+                        "name_in_destination": "google_analytics_4",
+                        "enabled": true,
+                        "tables": {
+                            "engagement_events_report": {
+                                "name_in_destination": "engagement_events_report",
+                                "enabled": true,
+                                "enabled_patch_settings": {
+                                    "allowed": true
+                                }
+                            },
+                            "engagement_pages_path_report": {
+                                "name_in_destination": "engagement_pages_path_report",
+                                "enabled": true,
+                                "enabled_patch_settings": {
+                                    "allowed": true
+                                }
+                            },
+                            "tech_browser_report": {
+                                "name_in_destination": "tech_browser_report",
+                                "enabled": true,
+                                "enabled_patch_settings": {
+                                    "allowed": true
+                                }
+                            },
+                            "tech_os_with_version_report": {
+                                "name_in_destination": "tech_os_with_version_report",
+                                "enabled": true,
+                                "enabled_patch_settings": {
+                                    "allowed": true
+                                }
+                            },
+                            "tech_screen_resolution_report": {
+                                "name_in_destination": "tech_screen_resolution_report",
+                                "enabled": true,
+                                "enabled_patch_settings": {
+                                    "allowed": true
+                                }
+                            },
+                            "traffic_acquisition_session_source_medium_report": {
+                                "name_in_destination": "traffic_acquisition_session_source_medium_report",
+                                "enabled": true,
+                                "enabled_patch_settings": {
+                                    "allowed": true
+                                }
+                            },
+                            "user_acquisition_first_user_source_medium_report": {
+                                "name_in_destination": "user_acquisition_first_user_source_medium_report",
+                                "enabled": true,
+                                "enabled_patch_settings": {
+                                    "allowed": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
