@@ -1,4 +1,4 @@
-FROM datacovesprivate/airflow-airflow:latest
+FROM datacovesprivate/airflow-airflow-dbt-snowflake:latest
 
 # pip install pandas==xx on /opt/datacoves/virtualenvs/main virtualenv
 COPY requirements.txt .
