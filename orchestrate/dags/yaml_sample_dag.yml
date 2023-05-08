@@ -2,7 +2,7 @@ yaml_sample_dag:
   description: "Sample yaml dag dbt run"
   schedule_interval: "0 0 1 */12 *"
   tags:
-    - version_8
+    - version_9
   catchup: false
 
   default_args:
@@ -21,7 +21,7 @@ yaml_sample_dag:
         image: datacoves/airflow-pandas:latest
       bash_command: "pip show pandas"
 
-    failing_task:
-      operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "some_non_existant_command"
-      dependencies: ["successful_task"]
+    # failing_task:
+    #   operator: airflow.operators.bash_operator.BashOperator
+    #   bash_command: "some_non_existant_command"
+    #   dependencies: ["successful_task"]
