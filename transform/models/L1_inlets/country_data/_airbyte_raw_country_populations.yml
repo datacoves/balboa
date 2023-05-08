@@ -3,6 +3,11 @@ version: 2
 models:
   - name: _airbyte_raw_country_populations
     description: Contains flattened population information from the Github Datasets repository.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - country_code
+            - year
     columns:
       - name: country_code
         description: The ISO 3166-1 alpha-2 code for the country
