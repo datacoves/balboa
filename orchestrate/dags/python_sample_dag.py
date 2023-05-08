@@ -18,10 +18,10 @@ default_args = {
 
 CONFIG = {
     "pod_override": k8s.V1Pod(
-        spec = k8s.V1PodSpec(
-            containers = [
+        spec=k8s.V1PodSpec(
+            containers=[
                 k8s.V1Container(
-                    name = "base", image = f"{IMAGE_REPO}:{IMAGE_TAG}"
+                    name="base", image=f"{IMAGE_REPO}:{IMAGE_TAG}"
                 )
             ]
         )
@@ -33,7 +33,7 @@ with DAG(
     default_args = default_args,
     start_date = datetime(2023, 1, 1),
     catchup = False,
-    tags = ["version_4"],
+    tags = ["version_5"],
     description = "Sample python dag dbt run",
     schedule_interval = "0 0 1 */12 *"
 ) as dag:
