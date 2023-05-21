@@ -23,17 +23,21 @@ generate:
 
 extract:
   airbyte:
-    path: /config/workspace/load  # Where json files will be generated
-    host: http://airbyte-server  # Airbyte's API hostname
-    port: 8001  # Airbyte's API port
-    dbt_list_args: --exclude source:dbt_artifacts  # Extra dbt arguments: selectors, modifiers, etc
+    path: /config/workspace/load/airbyte
+    host: http://gay725-airbyte-airbyte-server-svc
+    port: 8001
+
+  fivetran:
+    path: /config/workspace/extract/fivetran
 
 load:
   airbyte:
-    path: /config/workspace/load
-    host: http://airbyte-server
+    path: /config/workspace/load/airbyte
+    host: http://gay725-airbyte-airbyte-server-svc
     port: 8001
-    dbt_list_args: --exclude source:dbt_artifacts
-    secrets_path: /config/workspace/secrets  # Secret files location for Airbyte configuration
-    secrets_manager: datacoves  # Secret credentials provider (secrets_path OR secrets_manager should be used
-    secrets_url: https://api.datacoves.localhost/service-credentials/airbyte  # Secret credentials provider url
+    secrets_manager: datacoves
+
+  fivetran:
+    path: /config/workspace/load/fivetran
+    secrets_manager: datacoves
+    run_connection_tests: true
