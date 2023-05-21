@@ -1,8 +1,6 @@
 with raw_source as (
 
-    select
-        parse_json(replace(_airbyte_data::string, '"NaN"', 'null')) as airbyte_data_clean,
-        *
+    select *
     from {% raw %}{{{% endraw %} source('{{ relation.schema }}', '{{ relation.name }}') {% raw %}}}{% endraw %}
 
 ),

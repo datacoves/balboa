@@ -1,0 +1,61 @@
+{
+    "name": "Zip Coordinates <> Datacoves Snowflake",
+    "namespaceDefinition": "customformat",
+    "namespaceFormat": "loans",
+    "prefix": "",
+    "operationIds": [],
+    "syncCatalog": {
+        "streams": [
+            {
+                "stream": {
+                    "name": "ZIP_COORDINATES",
+                    "jsonSchema": {
+                        "type": "object",
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "properties": {
+                            "LAT": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "LON": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "ZIP": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            }
+                        }
+                    },
+                    "supportedSyncModes": [
+                        "full_refresh"
+                    ],
+                    "defaultCursorField": [],
+                    "sourceDefinedPrimaryKey": []
+                },
+                "config": {
+                    "syncMode": "full_refresh",
+                    "cursorField": [],
+                    "destinationSyncMode": "overwrite",
+                    "primaryKey": [],
+                    "aliasName": "ZIP_COORDINATES",
+                    "selected": true
+                }
+            }
+        ]
+    },
+    "scheduleType": "manual",
+    "status": "active",
+    "sourceCatalogId": "55c489f8-55af-4749-86c5-00b9aef10aaf",
+    "geography": "auto",
+    "notifySchemaChanges": true,
+    "nonBreakingChangesPreference": "ignore",
+    "sourceName": "zip coordinates",
+    "destinationName": "datacoves snowflake"
+}

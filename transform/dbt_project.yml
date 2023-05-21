@@ -19,14 +19,6 @@ profile: 'default'
 model-paths: ["models"]
 snapshot-paths: ["snapshots"]
 
-# Redshift version
-# model-paths: ["models_rs"]
-# snapshot-paths: ["snapshots_rs"]
-
-# BigQuery version
-# model-paths: ["models_bq"]
-# snapshot-paths: ["snapshots_bq"]
-
 packages-install-path: dbt_packages
 
 analysis-paths: ["analysis"]
@@ -60,11 +52,6 @@ snapshots:
         node_color: "#0f703d"
 
 models:
-    metrics:
-        +schema: dbt_metrics
-        +docs:
-            node_color: "#379965"
-
     balboa:
         +materialized: view
         +schema: z_schema_not_configured
@@ -74,6 +61,8 @@ models:
                 +schema: l1_account_usage
             country_data:
                 +schema: l1_country_data
+            google_analytics_4:
+                +schema: l1_google_analytics_4
             starschema_covid19:
                 +schema: l1_starschema_covid19
             loans:
@@ -128,17 +117,8 @@ tests:
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'
 
-
-    # set up artifacts objects by running:
-    # dbt run-operation create_artifact_resources -t prd
-    # This is where dbt artifacts will load dbt's artifacts *.json
-    dbt_artifacts:
-        # this is where artifacts will be loaded
-        dbt_artifacts_database: raw
-        dbt_artifacts_schema: dbt_artifacts
-
     data_diff:
         prod_database: BALBOA
-        # prod_schema: ''
-        # custom_schemas: true
-        # l2_country_demographics
+        prod_schema: NOT_DEFINED
+        prod_custom_schema: <custom_schema>
+        datasource_id: 6003

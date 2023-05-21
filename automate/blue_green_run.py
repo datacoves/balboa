@@ -4,6 +4,7 @@ import logging
 import os
 import shlex
 import subprocess
+import tempfile
 
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
@@ -17,33 +18,31 @@ DBT_HOME = os.environ.get("DATACOVES__DBT_HOME")
 
 VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 
+DBT_COVES__CLONE_PATH = tempfile.NamedTemporaryFile().name
 
-def main(is_production: bool = False, selector: str = None):
+def main(is_ci_run: bool = False, selector: str = None, target: str = None):
     """
     Manages blue/green deployment workflow
     """
-    logging.info("\n\n===== STARTING BLUE / GREEN RUN =====\n")
-    commit_hash = get_commit_hash()
 
-    if is_production:
-        logging.info("Copying dbt project to temp directory")
-        cwd = f"/home/airflow/transform-pr-{commit_hash}"
-        subprocess.run(["cp", "-rf", DBT_HOME, cwd], check=True)
-        logging.info("Copy successful")
-        subprocess.run(["ls"], cwd=cwd, check=True)
-        logging.info("Changing directory")
-        os.chdir(cwd)
-        logging.info("Changing directory successful")
-        run_command("dbt deps")
-    else:
-        cwd = DBT_HOME
-        logging.info("DBT_HOME " + DBT_HOME)
+    logging.info("\n\n===== STARTING BLUE / GREEN RUN =====\n")
+
+    dbt_target = ''
+
+    if target:
+        dbt_target = f" -t {target}"
+
+    #####
+    logging.info("\n\n===== REMOVE THIS =====\n")
+    STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
+    run_command(f'dbt-coves dbt -- run-operation drop_staging_db --args "{STAGING_DB_ARGS}" {dbt_target}')
+    ######
 
     logging.info("Checking that staging database does not exist")
     STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
     logging.info(STAGING_DB_ARGS)
     run_command(
-        f'dbt --no-write-json run-operation check_db_does_not_exist --args "{STAGING_DB_ARGS}"'
+        f'dbt-coves dbt -- --no-write-json run-operation check_db_does_not_exist --args "{STAGING_DB_ARGS}" {dbt_target}'
     )
 
     CLONE_DB_ARGS = (
@@ -53,9 +52,10 @@ def main(is_production: bool = False, selector: str = None):
         + DBT_STAGING_DB_NAME
         + '"}'
     )
-    run_command(f'dbt run-operation clone_database --args "{CLONE_DB_ARGS}"')
+    run_command(f'dbt-coves dbt -- run-operation clone_database --args "{CLONE_DB_ARGS}" {dbt_target}')
 
-    run_dbt(cwd, is_production=is_production, selector=selector)
+    # Performs the dbt run
+    run_dbt(selector=selector, dbt_target=dbt_target, is_ci_run=is_ci_run)
 
     logging.info("Granting usage to staging database ")
     USAGE_ARGS = (
@@ -63,7 +63,7 @@ def main(is_production: bool = False, selector: str = None):
         + DBT_STAGING_DB_NAME
         + '"}'
     )
-    run_command(f'dbt run-operation grant_prd_usage --args "{USAGE_ARGS}"')
+    run_command(f'dbt-coves dbt -- run-operation grant_prd_usage --args "{USAGE_ARGS}" {dbt_target}')
 
     logging.info(
         "Swapping staging database "
@@ -74,62 +74,50 @@ def main(is_production: bool = False, selector: str = None):
     SWAP_DB_ARGS = (
         '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
     )
-    run_command(f'dbt run-operation swap_database --args "{SWAP_DB_ARGS}"')
+    run_command(f'dbt-coves dbt -- run-operation swap_database --args "{SWAP_DB_ARGS}" {dbt_target}')
 
     logging.info("Dropping staging database")
-    run_command(f'dbt run-operation drop_staging_db --args "{STAGING_DB_ARGS}"')
+    run_command(f'dbt-coves dbt -- run-operation drop_staging_db --args "{STAGING_DB_ARGS}" {dbt_target}')
     logging.info("done with dropping!!!!")
 
     # Save the latest manifest to snowflake stage
     os.environ["DATACOVES__MAIN__DATABASE"] = DBT_FINAL_DB_NAME
-    run_command("dbt compile")
+    run_command(f"dbt-coves dbt -- compile {dbt_target}")
+
+    os.environ["DATACOVES__MAIN__DATABASE"] = DBT_FINAL_DB_NAME
 
     logging.info("Uploading new prod manifest")
-    run_command("dbt --no-write-json run-operation upload_artifacts")
-
-    if is_production:
-        logging.info("Removing dbt project temp directory")
-        subprocess.run(["rm", "-rf", cwd], check=True)
+    run_command(f"dbt-coves dbt -- --no-write-json run-operation upload_artifacts {dbt_target}")
 
 
-
-
-def run_dbt(cwd: str, is_production: bool = False, selector: str = None):
+def run_dbt(selector: str = None, dbt_target: str = None, is_ci_run: bool = False):
     """
     Runs dbt build and uploads artifacts
     """
-    if is_production:
-        if selector:
-            logging.info("Running dbt build with selector " + selector + "+")
-            run_command(f"dbt build --fail-fast -s {selector}+ -t prd")
-        else:
-            logging.info("Production run of dbt")
-            run_command("dbt build --fail-fast -t prd")
+    # NOTE: you must have gotten the prod manifest in a step prior to this
+    # we set an env variable MANIFEST_FOUND when we get the manifest
+    MANIFEST_FOUND = os.environ.get("MANIFEST_FOUND", "false")
+
+    logging.info("MANIFEST_FOUND = " + MANIFEST_FOUND)
+
+    if selector and is_ci_run:
+        print("CI and Selector provided, will use selector and not Slim CI")
+        selector = f"-s {selector}"
+    elif selector:
+        selector = f"-s {selector}"
+    elif is_ci_run and MANIFEST_FOUND == "true":
+        selector = f"--defer --state logs -s state:modified+"
     else:
-        # NOTE: you must have gotten the prod manifest in a step prior to this
+        selector = ''
 
-        # we set an env variable MANIFEST_FOUND when we get the manifest
-        MANIFEST_FOUND = os.environ["MANIFEST_FOUND"]
+    dbt_command = f"dbt-coves dbt -- build --fail-fast {selector} {dbt_target}"
+    print(f"Running dbt command: \n{dbt_command}")
+    run_command(dbt_command)
 
-        logging.info("MANIFEST_FOUND = " + MANIFEST_FOUND)
-
-        if MANIFEST_FOUND == "true":
-            logging.info("Slim deployment run of dbt")
-            run_command("dbt build --defer --fail-fast --state logs -s state:modified+")
-        else:
-            logging.info("Full deployment run of dbt")
-            run_command("dbt build --fail-fast")
-
-
-def get_commit_hash():
-    """Gets current commit hash"""
-    return subprocess.run(
-        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=DBT_HOME
-    ).stdout.strip("\n")
-
-
-def run_command(command: str, cwd: str = None, capture_output=False):
+def run_command(command: str, capture_output=False):
     my_env = os.environ.copy()
+
+    my_env["DBT_COVES__CLONE_PATH"] = DBT_COVES__CLONE_PATH
 
     if os.path.exists(VIRTUALENV_PATH):
         """Activates a python environment and runs a command using it"""
@@ -148,8 +136,7 @@ if __name__ == "__main__":
 
     try:
         parser = argparse.ArgumentParser(
-            description="Used to run dbt, with blue/green steps during deployment or in produciton.",
-            epilog="--deployment-run and --production-run are mutually exclusive",
+            description="Used to run dbt, with blue/green steps during deployment or in production.",
         )
 
         parser.add_argument(
@@ -160,18 +147,19 @@ if __name__ == "__main__":
             help="Specify the dbt selector to use during the run",
         )
 
-        group = parser.add_mutually_exclusive_group(required=True)
-        group.add_argument(
-            "--deployment-run",
-            dest="is_production",
-            action="store_false",
-            help="Defines if the run is a Deployment run",
+        parser.add_argument(
+            "-t",
+            "--target",
+            dest="target",
+            action="store",
+            help="Specify the dbt target to use during the run",
         )
-        group.add_argument(
-            "--production-run",
-            dest="is_production",
+
+        parser.add_argument(
+            "--ci-run",
+            dest="is_ci_run",
             action="store_true",
-            help="Defines if the run is a Production run",
+            help="Defines if the run is a ci run so it will run",
         )
 
         args = vars(parser.parse_args())

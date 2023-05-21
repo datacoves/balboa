@@ -2,16 +2,17 @@ files: ^transform/models/
 
 repos:
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-    rev: v1.0.0
+    rev: v1.1.0
 
     hooks:
       - id: dbt-docs-generate
         args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
       - id: check-source-table-has-description
-        files: ^transform/models/
-
+        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-script-semicolon
+        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-script-has-no-table-name
+        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-script-ref-and-source
         args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-description

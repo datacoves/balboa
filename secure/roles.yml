@@ -18,6 +18,7 @@
       - z_schema_l1_dbt_artifacts
       - z_schema_l1_account_usage
       - z_schema_l1_country_data
+      - z_schema_l1_google_analytics_4
       - z_schema_l1_dbt_artifacts
       - z_schema_l1_starschema_covid19
       - z_schema_l1_loans
@@ -60,18 +61,6 @@
 ##########################
 #  Service Account Roles
 #########################
-- loader:
-    # Can read/write raw db; becomes owner of all raw schemas through creation
-    member_of:
-      - z_db_raw_write
-      - z_wh_loading
-      - z_db_starschema_covid19
-    owns:
-      databases:
-        - raw
-      schemas:
-        - raw.*
-
 - transformer_dbt:
     # Owns balboa
     # Becomes owner of all balboa schemas through creation
@@ -96,6 +85,16 @@
       schemas:
         - balboa.*
         - raw.snapshots
+
+- loader:
+    # Can read/write raw db; becomes owner of all raw schemas through creation
+    member_of:
+      - z_db_raw_write
+      - z_wh_loading
+      - z_db_starschema_covid19
+    owns:
+      databases:
+        - raw
 
 ##########################
 #  Global Roles
@@ -289,6 +288,12 @@
       schemas:
         read:
           - balboa.l1_country_data
+
+- z_schema_l1_google_analytics_4:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_google_analytics_4
 
 - z_schema_l1_starschema_covid19:
     privileges:

@@ -11,7 +11,7 @@
     {% endset %}
     {% set results = run_query(set_date_query) %}
 
-    {% set target_dir = env_var('DATACOVES__DBT_HOME') ~ "/target/" %}
+    {% set target_dir = "target/" %}
 
     {% set file_prefix = results.columns[0].values()[0] ~ "_" %}
     {% set archive_folder_name = "archive/" ~ results.columns[1].values()[0] ~ "/" %}
@@ -35,7 +35,8 @@
 
         {% set artifact_path =  "file://" + target_dir ~ artifact %}
 
-        {% set artifact_archive_path =  archive_folder_name ~ file_prefix ~ artifact %}
+        {% set artifact_file_name = file_prefix ~ artifact %}
+        {% set artifact_archive_path =  archive_folder_name ~ artifact_file_name %}
 
         {% set put_query %}
             put {{ artifact_path }} @{{ stage }} AUTO_COMPRESS=false OVERWRITE=true;

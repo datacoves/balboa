@@ -20,6 +20,7 @@ def generate_connection_properties(profile = 'default', target='dev'):
         try:
             profiles = yaml.safe_load(stream)
             snowflake_conn_properties = profiles[profile]['outputs'][target]
+            snowflake_conn_properties['application'] = "Datacoves_SaaS"
 
             if "private_key_path" in snowflake_conn_properties:
                 print('Using Key Based Authentication')
