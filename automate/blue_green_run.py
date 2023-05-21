@@ -8,8 +8,7 @@ import tempfile
 
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
-DBT_FINAL_DB_NAME = os.environ["DATACOVES__MAIN__DATABASE"]
-
+DBT_FINAL_DB_NAME = os.environ.get("DATACOVES__MAIN__DATABASE", 'Database ENV VAR not set')
 # This db must be prefaced 'staging' to work with /transform/macros/ref.sql override
 DBT_STAGING_DB_NAME = DBT_FINAL_DB_NAME + '_STAGING'
 os.environ["DATACOVES__MAIN__DATABASE"] = DBT_STAGING_DB_NAME
@@ -159,7 +158,7 @@ if __name__ == "__main__":
             "--ci-cd-run",
             dest="is_ci_cd_run",
             action="store_true",
-            help="Defines if the run is a ci run so it will run",
+            help="Defines if the run is a ci/cd deployment run so it will run",
         )
 
         args = vars(parser.parse_args())
