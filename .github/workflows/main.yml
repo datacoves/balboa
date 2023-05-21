@@ -53,7 +53,7 @@ jobs:
         id: run-blue-green
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        run: "../automate/blue_green_run.py --deployment-run"
+        run: "../automate/blue_green_run.py --ci_cd_run"
 
       - name: Delete merged test databases
         run: "../automate/dbt/remove_test_databases.sh"
