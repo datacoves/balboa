@@ -1,5 +1,8 @@
 with raw_source as (
-    select * from SNOWFLAKE.ACCOUNT_USAGE.PIPE_USAGE_HISTORY
+
+    select *
+    from SNOWFLAKE.ACCOUNT_USAGE.PIPE_USAGE_HISTORY
+
 ),
 
 final as (

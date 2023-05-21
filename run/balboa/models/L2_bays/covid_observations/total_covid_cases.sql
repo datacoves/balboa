@@ -1,4 +1,26 @@
-with raw_cases as (
+
+  create or replace  view BALBOA_STAGING.l2_covid_observations.total_covid_cases
+  
+    
+    
+(
+  
+    "LOCATION_ID" COMMENT $$An ID that represents a location where the COVID-19 cases were reported$$, 
+  
+    "DATE" COMMENT $$The date when the COVID-19 cases were reported$$, 
+  
+    "CONFIRMED" COMMENT $$The number of confirmed COVID-19 cases for a given location and date$$, 
+  
+    "DEATHS" COMMENT $$The number of COVID-19 deaths for a given location and date$$, 
+  
+    "ACTIVE" COMMENT $$The number of active COVID-19 cases for a given location and date$$, 
+  
+    "RECOVERED" COMMENT $$The number of recovered COVID-19 cases for a given location and date$$
+  
+)
+
+  copy grants as (
+    with raw_cases as (
     select
         country_region,
         province_state,
@@ -6,7 +28,7 @@ with raw_cases as (
         new_cases,
         date,
         case_type
-    from BALBOA.l2_covid_observations.base_cases
+    from l2_covid_observations.base_cases
 ),
 
 create_location_id as (
@@ -33,3 +55,4 @@ pivoted_model as (
 
 select *
 from pivoted_model
+  );
