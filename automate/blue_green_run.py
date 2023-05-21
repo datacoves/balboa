@@ -20,7 +20,7 @@ VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 
 DBT_COVES__CLONE_PATH = tempfile.NamedTemporaryFile().name
 
-def main(is_ci_run: bool = False, selector: str = None, target: str = None):
+def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None):
     """
     Manages blue/green deployment workflow
     """
@@ -55,7 +55,7 @@ def main(is_ci_run: bool = False, selector: str = None, target: str = None):
     run_command(f'dbt-coves dbt -- run-operation clone_database --args "{CLONE_DB_ARGS}" {dbt_target}')
 
     # Performs the dbt run
-    run_dbt(selector=selector, dbt_target=dbt_target, is_ci_run=is_ci_run)
+    run_dbt(selector=selector, dbt_target=dbt_target, is_ci_cd_run=is_ci_cd_run)
 
     logging.info("Granting usage to staging database ")
     USAGE_ARGS = (
@@ -90,7 +90,7 @@ def main(is_ci_run: bool = False, selector: str = None, target: str = None):
     run_command(f"dbt-coves dbt -- --no-write-json run-operation upload_artifacts {dbt_target}")
 
 
-def run_dbt(selector: str = None, dbt_target: str = None, is_ci_run: bool = False):
+def run_dbt(selector: str = None, dbt_target: str = None, is_ci_cd_run: bool = False):
     """
     Runs dbt build and uploads artifacts
     """
@@ -100,12 +100,12 @@ def run_dbt(selector: str = None, dbt_target: str = None, is_ci_run: bool = Fals
 
     logging.info("MANIFEST_FOUND = " + MANIFEST_FOUND)
 
-    if selector and is_ci_run:
+    if selector and is_ci_cd_run:
         print("CI and Selector provided, will use selector and not Slim CI")
         selector = f"-s {selector}"
     elif selector:
         selector = f"-s {selector}"
-    elif is_ci_run and MANIFEST_FOUND == "true":
+    elif is_ci_cd_run and MANIFEST_FOUND == "true":
         selector = f"--defer --state logs -s state:modified+"
     else:
         selector = ''
@@ -156,8 +156,8 @@ if __name__ == "__main__":
         )
 
         parser.add_argument(
-            "--ci-run",
-            dest="is_ci_run",
+            "--ci-cd-run",
+            dest="is_ci_cd_run",
             action="store_true",
             help="Defines if the run is a ci run so it will run",
         )

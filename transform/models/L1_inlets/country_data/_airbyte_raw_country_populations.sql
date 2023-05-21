@@ -1,6 +1,8 @@
 with raw_source as (
+
     select *
     from {{ source('RAW', '_AIRBYTE_RAW_COUNTRY_POPULATIONS') }}
+
 ),
 
 final as (
