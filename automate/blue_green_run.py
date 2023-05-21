@@ -158,7 +158,7 @@ if __name__ == "__main__":
             "--ci-cd-run",
             dest="is_ci_cd_run",
             action="store_true",
-            help="Defines if the run is a ci/cd deployment run so it will run",
+            help="Defines if the run is a ci/cd deployment run",
         )
 
         args = vars(parser.parse_args())

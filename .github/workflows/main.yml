@@ -5,6 +5,7 @@ on:  # yamllint disable-line rule:truthy
     branches:
       - main
     paths:
+      - automate/*
       - transform/*
       - transform/**/*
 
