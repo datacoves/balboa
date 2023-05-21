@@ -1,6 +1,6 @@
 {
     "connectionConfiguration": {
-        "url": "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/PERSONAL_LOANS.csv",
+        "url": "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/PERSONAL_LOANS.csv4",
         "format": "csv",
         "provider": {
             "storage": "HTTPS",
