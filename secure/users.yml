@@ -44,6 +44,18 @@
       - analyst
       - accountadmin
 
+# snowflake
+- james:
+    can_login: true
+    member_of:
+      - analyst
+
+# snowflake
+- natalie:
+    can_login: true
+    member_of:
+      - analyst
+
 - raphael:
     can_login: true
     member_of:
