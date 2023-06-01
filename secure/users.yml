@@ -1,11 +1,12 @@
 - alex:
     can_login: true
     member_of:
-      - accountadmin
-      - securityadmin
       - analyst
-      - loader
-      - transformer_dbt
+
+- alejandro:
+    can_login: true
+    member_of:
+      - analyst
 
 - barry:
     can_login: true
@@ -18,6 +19,7 @@
       - analyst
       - securityadmin
 
+# Daniel Palma
 - daniel:
     can_login: true
     member_of:
@@ -56,6 +58,7 @@
     member_of:
       - analyst
 
+# Raphael Mansuy
 - raphael:
     can_login: true
     member_of:
@@ -82,6 +85,12 @@
     can_login: true
     member_of:
       - securityadmin
+
+# integration testing
+- datacoves_sa:
+    can_login: true
+    member_of:
+      - analyst
 
 - svc_fivetran:
     can_login: true
