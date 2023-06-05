@@ -78,7 +78,7 @@ jobs:
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    #default container: datacoves/ci-airflow-dbt-snowflake:1.6.202305082039-fa4492f2
+    #default container: datacoves/ci-airflow-dbt-snowflake:1.6.202306051339-26488638
     container: datacoves/pi2-ci-airflow-base:1.6.202305082038-20230521132745
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
