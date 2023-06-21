@@ -25,6 +25,11 @@
     member_of:
       - analyst
 
+- daniela:
+    can_login: true
+    member_of:
+      - analyst
+
 - davidscohen89:
     can_login: true
     member_of:

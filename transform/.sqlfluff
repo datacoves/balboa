@@ -13,7 +13,7 @@ exclude_rules = AM05, RF05, ST06
 # Ignore linting errors found within sections of code coming directly from
 # templated code (e.g. from within Jinja curly braces. Note that it does not
 # ignore errors from literal code found within template loops.
-ignore_templated_areas = True
+ignore_templated_areas = true
 
 # CPU processes to use while linting.
 # The default is "single threaded" to allow easy debugging, but this
