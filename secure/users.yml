@@ -57,6 +57,11 @@
     member_of:
       - analyst
 
+- mariano:
+    can_login: true
+    member_of:
+      - analyst
+
 # snowflake
 - natalie:
     can_login: true
