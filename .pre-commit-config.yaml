@@ -12,6 +12,7 @@ repos:
       - id: check-script-has-no-table-name
       - id: check-script-ref-and-source
       - id: check-model-has-description
+        # args: ["--exclude", "^models/demo"] This exclude can be used in case we want to exclude from the get_missing_filepaths logic
       - id: check-model-has-properties-file
 
       # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
