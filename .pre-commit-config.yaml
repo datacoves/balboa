@@ -2,33 +2,20 @@ files: ^transform/models/
 
 repos:
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-    rev: v1.1.0
+    rev: v1.1.1
 
     hooks:
       - id: dbt-docs-generate
-        args: ["--cmd-flags", "++project+dir", "transform", "++no+compile"]
+        args: ["--cmd-flags", "++no+compile"]
       - id: check-source-table-has-description
-        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-script-semicolon
-        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-script-has-no-table-name
-        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-script-ref-and-source
-        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-description
-        args: ["--manifest", "transform/target/manifest.json"]
       - id: check-model-has-properties-file
-        args: ["--manifest", "transform/target/manifest.json"]
 
       # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
       - id: check-model-has-all-columns
-        args:
-          [
-            "--manifest",
-            "transform/target/manifest.json",
-            "--catalog",
-            "transform/target/catalog.json",
-          ]
 
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
