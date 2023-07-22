@@ -2,7 +2,7 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from callbacks.microsoft_teams import inform_failure, inform_success
+from callbacks.slack_messages import inform_success, inform_success
 
 DATACOVES_INTEGRATION_NAME = "SLACK_TEST_01"
 
