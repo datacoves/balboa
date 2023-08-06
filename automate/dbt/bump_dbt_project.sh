@@ -14,7 +14,8 @@ bumped_version=$(echo "${version}" | awk -F. '{print $1+1"."$2"."$3}')
 echo "NEW_VERSION=${bumped_version}" >> $GITHUB_ENV
 sed -i "s/^version:.*/version: '$bumped_version'/g" dbt_project.yml
 
-# Comminting tag
+# Comminting tag with [skip ci] string to prevent infinite looping triggers
+# https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs
 git add dbt_project.yml
-git commit -am "Bumped version through github actions' [skip actions]"
-git tag -m "[skip actions]" "${bumped_version}"
+git commit -am "Bumped version through github actions' [skip ci]"
+git tag -m "[skip ci]" "${bumped_version}"
