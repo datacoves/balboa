@@ -72,6 +72,17 @@ jobs:
           branch: dbt-docs
           folder: transform/target
 
+      - uses: fregante/setup-git-user@v2
+      - name: Bump dbt project and git project version
+        run: "../automate/dbt/bump_dbt_project.sh"
+
+      - name: Push version changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
+          tags: true
+
       - name: Drop staging db on Failure
         if: always() && (steps.run-blue-green.outcome == 'failure')
         run: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__STAGING__DATABASE}}'"  # yamllint disable-line rule:line-length
