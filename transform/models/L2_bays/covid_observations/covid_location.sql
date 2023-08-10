@@ -39,3 +39,4 @@ select
     iso3166_2
 from rank_locations
 where rowrank = 1
+limit 10
