@@ -23,3 +23,4 @@ join location
 where
     location.state is not null
     and location.county is not null
+limit 10
