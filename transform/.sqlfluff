@@ -8,7 +8,15 @@ dialect = snowflake
 templater = dbt
 
 # Comma separated list of rules to exclude, or None
-exclude_rules = AM05, RF05, ST06
+
+# These are recommended unless you use sqlfmt
+# We recommend excluding the following rules
+# ambiguous.join(AM05), references.special_chars (RF05), structure.column_order(ST06)
+# exclude_rules = AM05, RF05, ST06
+
+# For sqlfmt compatibility, we need to exclude the following
+# layout.indent (LT02), layout.cte_bracket (LT07), layout.select_targets (LT09)
+exclude_rules = AM05, LT02, LT07, LT09, RF05, ST06
 
 # Ignore linting errors found within sections of code coming directly from
 # templated code (e.g. from within Jinja curly braces. Note that it does not
@@ -26,7 +34,9 @@ processes = -1
 # Max line length is set by default to be in line with the dbt style guide.
 # https://github.com/dbt-labs/corp/blob/main/dbt_style_guide.md
 # Set to zero or negative to disable checks.
-max_line_length = 140
+#max_line_length = 140
+# This is recommended if you use sqlfmt
+max_line_length = 88
 
 [sqlfluff:templater:dbt]
 project_dir = ./
@@ -59,21 +69,24 @@ group_by_and_order_by_style = consistent
 # Keywords
 capitalisation_policy = lower
 
-[sqlfluff:rules:capitalisation.identifiers]
-# Unquoted identifiers
+#[sqlfluff:rules:capitalisation.identifiers]
+## Unquoted identifiers
+#extended_capitalisation_policy = lower
+#
+#[sqlfluff:rules:capitalisation.functions]
+## Function names
+#extended_capitalisation_policy = lower
+#
+#[sqlfluff:rules:capitalisation.literals]
+## Null & Boolean Literals
+#capitalisation_policy = lower
+#
+#[sqlfluff:rules:capitalisation.types]
+## Data Types
 extended_capitalisation_policy = lower
 
-[sqlfluff:rules:capitalisation.functions]
-# Function names
-extended_capitalisation_policy = lower
-
-[sqlfluff:rules:capitalisation.literals]
-# Null & Boolean Literals
-capitalisation_policy = lower
-
-[sqlfluff:rules:capitalisation.types]
-# Data Types
-extended_capitalisation_policy = lower
+[sqlfluff:rules:convention.terminator]
+multiline_newline = True
 
 [sqlfluff:rules:references.consistent]
 # References must be consistently used
