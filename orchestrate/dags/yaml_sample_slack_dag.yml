@@ -16,14 +16,14 @@ yaml_sample_slack_dag:
           module: callbacks.slack_messages
           callable: inform_success
           args:
-              - connection_id: SLACK_INTEGRATION
+              - connection_id: DATACOVES_SLACK
               # - message: Custom YML success message
               # - color: 0000FF
       on_failure_callback:
           module: callbacks.slack_messages
           callable: inform_failure
           args:
-              - connection_id: SLACK_INTEGRATION
+              - connection_id: DATACOVES_SLACK
               # - message: Custom YML error message
               # - color: 9900FF
   tasks:

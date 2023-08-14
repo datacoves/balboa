@@ -4,7 +4,7 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from callbacks.slack_messages import inform_success
 
-DATACOVES_INTEGRATION_NAME = "SLACK_INTEGRATION"
+DATACOVES_INTEGRATION_NAME = "DATACOVES_SLACK"
 
 
 def run_inform_success(context):
