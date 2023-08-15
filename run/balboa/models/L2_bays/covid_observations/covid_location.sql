@@ -5,21 +5,21 @@
     
 (
   
-    "LOCATION_ID" COMMENT $$$$, 
+    "LOCATION_ID" COMMENT $$Unique identifier for the location$$, 
   
-    "COUNTRY" COMMENT $$$$, 
+    "COUNTRY" COMMENT $$Name of the country$$, 
   
-    "STATE" COMMENT $$$$, 
+    "STATE" COMMENT $$Name of the state$$, 
   
-    "COUNTY" COMMENT $$$$, 
+    "COUNTY" COMMENT $$Name of the county$$, 
   
-    "LAT" COMMENT $$$$, 
+    "LAT" COMMENT $$Latitude coordinate$$, 
   
-    "LONG" COMMENT $$$$, 
+    "LONG" COMMENT $$Longitude coordinate$$, 
   
-    "ISO3166_1" COMMENT $$$$, 
+    "ISO3166_1" COMMENT $$ISO 3166-1 code for the country$$, 
   
-    "ISO3166_2" COMMENT $$$$
+    "ISO3166_2" COMMENT $$ISO 3166-2 code for the country$$
   
 )
 
