@@ -4,10 +4,18 @@ models:
     description: covid data location information
     columns:
       - name: iso3166_1
+        description: ISO 3166-1 code for the country
       - name: county
+        description: Name of the county
       - name: location_id
+        description: Unique identifier for the location
       - name: state
+        description: Name of the state
       - name: country
+        description: Name of the country
       - name: iso3166_2
+        description: ISO 3166-2 code for the country
       - name: lat
+        description: Latitude coordinate
       - name: long
+        description: Longitude coordinate
