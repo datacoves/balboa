@@ -2,9 +2,9 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from callbacks.slack_messages import inform_success, inform_success
+from callbacks.slack_messages import inform_success
 
-DATACOVES_INTEGRATION_NAME = "SLACK_TEST_01"
+DATACOVES_INTEGRATION_NAME = "DATACOVES_SLACK"
 
 
 def run_inform_success(context):
@@ -27,11 +27,11 @@ default_args = {
     'owner': 'airflow',
     'email': 'some_user@example.com',
     'email_on_failure': True,
-    'description': "Sample python dag with MS Teams notification",
+    'description': "Sample python dag with Slack notification",
 }
 
 with DAG(
-    dag_id="mariano_test_01",
+    dag_id="python_sample_slack_dag",
     default_args=default_args,
     start_date=datetime(2023, 1, 1),
     catchup=False,
