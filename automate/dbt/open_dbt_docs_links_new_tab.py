@@ -1,12 +1,19 @@
 import os
 from pathlib import Path
 
+from rich import console
+
+console = console.Console()
+
 DBT_HOME = os.environ.get("DBT_HOME", "/config/workspace/transform")
 
 dbt_docs_index_path = Path(f"{DBT_HOME}/target/index.html")
 
 if not dbt_docs_index_path.exists():
-    raise Exception("DBT docs not generated")
+    console.print(
+        "[red]:cross_mark:[/red] DBT docs not found, run [i]'dbt docs generate'[/i] in your project folder"
+    )
+    exit(1)
 
 with open(dbt_docs_index_path, "r") as f:
     html_content = f.read()
@@ -22,5 +29,10 @@ if new_tab_tag not in html_content[head_start:head_end]:
     # Write the modified content back to the HTML file
     with open(dbt_docs_index_path, "w") as html_file:
         html_file.write(modified_content)
+    console.print(
+        "[green]:heavy_check_mark:[/green] dbt docs links will now open in a new tab"
+    )
 else:
-    print("New-tab tag already exists in the dbt-docs page.")
+    console.print(
+        "[red]:cross_mark:[/red] dbt-docs links are already being opened in a new tab."
+    )
