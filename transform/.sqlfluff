@@ -36,7 +36,7 @@ processes = -1
 # Set to zero or negative to disable checks.
 #max_line_length = 140
 # This is recommended if you use sqlfmt
-max_line_length = 88
+max_line_length = 120
 
 [sqlfluff:templater:dbt]
 project_dir = ./
