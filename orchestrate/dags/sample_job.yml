@@ -1,20 +1,19 @@
-sample_job:
-  description: "Sample Job"
+daily_loan_run:
+  description: "Blue / Green run"
   schedule_interval: "0 0 1 */12 *"
   tags:
     - version_18
   default_args:
     start_date: 2023-01-01
   catchup: false
+  task_groups:
+    extract_and_load_fivetran:
+      tooltip: "Fivetran Extract and Load tasks"
   tasks:
-    task_1:
+    load_fivetran:
+      generator: dagfactory.FivetranDbtGenerator
+      airflow_connection_id: fivetran_connection
+    transform:
       operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "echo 'send data to marketing tool'"
-    task_2:
-      operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "echo 'refresh data catalog'"
-      dependencies: ["task_1"]
-    task_3:
-      operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "echo 'refresh data catalog'"
-      dependencies: ["task_2"]
+      bash_command: "dbt build"
+      dependencies: ["extract_and_load_fivetran"]
