@@ -1,16 +1,11 @@
 sample_job:
-  description: "Blue / Green run"
+  description: "Sample Job"
   schedule_interval: "0 0 1 */12 *"
   tags:
     - version_18
   default_args:
     start_date: 2023-01-01
   catchup: false
-  task_groups:
-    extract_and_load_airbyte:
-      tooltip: "Airbyte Extract and Load tasks"
-    extract_and_load_fivetran:
-      tooltip: "Fivetran Extract and Load tasks"
   tasks:
     task_1:
       operator: airflow.operators.bash_operator.BashOperator
