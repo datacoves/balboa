@@ -24,14 +24,12 @@ daily_loan_run:
     load_fivetran:
       generator: dagfactory.FivetranDbtGenerator
       airflow_connection_id: fivetran_connection
-      dbt_project_path: transform
       task_group_name: extract_and_load_fivetran
-      virtualenv_path: /opt/datacoves/virtualenvs/main
-      poke_interval: 60
       dbt_list_args: "--select tag:daily_run_fivetran"
     transform:
-      operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'"
+      operator: airflow.operators.bash_operator.DatacovesDbtOperator
+      operator: airflow.operators.bash_operator.DbtCovesDbtOperator
+      dbt_sub_command: "build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'"
       dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
     marketing_automation:
       operator: airflow.operators.bash_operator.BashOperator
