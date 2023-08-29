@@ -1,4 +1,4 @@
-daily_loan_run:
+sample_job:
   description: "Blue / Green run"
   schedule_interval: "0 0 1 */12 *"
   tags:
