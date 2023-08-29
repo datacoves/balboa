@@ -33,3 +33,11 @@ daily_loan_run:
       operator: airflow.operators.bash_operator.BashOperator
       bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'"
       dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
+    deliver_marketing_automation:
+      operator: airflow.operators.bash_operator.BashOperator
+      bash_command: "echo 'send data to marketing tool'"
+      dependencies: ["transform"]
+    deliver_catalog:
+      operator: airflow.operators.bash_operator.BashOperator
+      bash_command: "echo 'refresh data catalog'"
+      dependencies: ["transform"]
