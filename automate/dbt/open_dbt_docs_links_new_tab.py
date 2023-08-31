@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+
+# This script is used to enable linking to external resources by updating descriptions
+# example:
+#    description: Current Population by Country [Read more](https://www.google.com/)
+
+
 import os
 from pathlib import Path
 
@@ -11,7 +18,7 @@ dbt_docs_index_path = Path(f"{DBT_HOME}/target/index.html")
 
 if not dbt_docs_index_path.exists():
     console.print(
-        "[red]:cross_mark:[/red] DBT docs not found, run [i]'dbt docs generate'[/i] in your project folder"
+        "[red]:cross_mark:[/red] dbt docs not found, run [i]'dbt docs generate'[/i] first"
     )
 else:
     with open(dbt_docs_index_path, "r") as f:
