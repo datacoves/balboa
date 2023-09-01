@@ -13,6 +13,8 @@ models:
         description: Name of the state
       - name: country
         description: Name of the country
+        tests:
+          - not_null
       - name: iso3166_2
         description: ISO 3166-2 code for the country
       - name: lat
