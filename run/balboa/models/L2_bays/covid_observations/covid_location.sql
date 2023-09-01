@@ -1,4 +1,30 @@
 
+  create or replace  view BALBOA_STAGING.l2_covid_observations.covid_location
+  
+    
+    
+(
+  
+    "LOCATION_ID" COMMENT $$Unique identifier for the location$$, 
+  
+    "COUNTRY" COMMENT $$Name of the country$$, 
+  
+    "STATE" COMMENT $$Name of the state$$, 
+  
+    "COUNTY" COMMENT $$Name of the county$$, 
+  
+    "LAT" COMMENT $$Latitude coordinate$$, 
+  
+    "LONG" COMMENT $$Longitude coordinate$$, 
+  
+    "ISO3166_1" COMMENT $$ISO 3166-1 code for the country$$, 
+  
+    "ISO3166_2" COMMENT $$ISO 3166-2 code for the country$$
+  
+)
+
+  copy grants as (
+    
 
 with
     jhu_covid_19 as (
@@ -11,7 +37,7 @@ with
             iso3166_1,
             iso3166_2,
             date
-        from BALBOA.l1_starschema_covid19.jhu_covid_19
+        from l1_starschema_covid19.jhu_covid_19
     ),
 
     rank_locations as (
@@ -34,3 +60,4 @@ with
 select location_id, country, state, county, lat, long, iso3166_1, iso3166_2
 from rank_locations
 where rowrank = 1
+  );
