@@ -38,4 +38,3 @@ with
 select location_id, country, state, county, lat, long, iso3166_1, iso3166_2
 from rank_locations
 where rowrank = 1
-limit 10
