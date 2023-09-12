@@ -31,7 +31,7 @@ daily_loan_run:
       dbt_list_args: "--select tag:daily_run_fivetran"
     transform:
       operator: airflow.operators.bash_operator.BashOperator
-      bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'"
+      bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
       dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
     marketing_automation:
       operator: airflow.operators.bash_operator.BashOperator
