@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: personal_loans
-    description: Contains raw data on personal loans
+    description: Contains data on personal loans
     columns:
       - name: addr_state
         description: The state in which the borrower resides

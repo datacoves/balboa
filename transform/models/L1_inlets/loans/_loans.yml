@@ -7,4 +7,4 @@ sources:
       - daily_run_airbyte
     tables:
       - name: PERSONAL_LOANS
-        description: ''
+        description: 'Personal Loans data'
