@@ -1,6 +1,6 @@
 {
     "name": "Country Populations <> Datacoves Snowflake",
-    "namespaceDefinition": "destination",
+    "namespaceDefinition": "source",
     "namespaceFormat": "${SOURCE_NAMESPACE}",
     "prefix": "",
     "operationIds": [],
@@ -51,16 +51,18 @@
                     "destinationSyncMode": "overwrite",
                     "primaryKey": [],
                     "aliasName": "country_populations",
-                    "selected": true
+                    "selected": true,
+                    "fieldSelectionEnabled": false
                 }
             }
         ]
     },
     "scheduleType": "manual",
     "status": "active",
-    "sourceCatalogId": "e4cb8570-994d-4c0a-95ab-da85e177a17d",
+    "sourceCatalogId": "b8999fc0-ac01-4e29-9893-0a0fabd677f8",
     "geography": "auto",
-    "notifySchemaChanges": true,
+    "notifySchemaChanges": false,
+    "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
     "sourceName": "country populations",
     "destinationName": "datacoves snowflake"

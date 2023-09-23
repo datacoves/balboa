@@ -9,6 +9,6 @@
         "dataset_name": "country_populations"
     },
     "name": "Country Populations",
-    "sourceName": "File",
-    "connectorVersion": "0.2.28"
+    "sourceName": "File (CSV, JSON, Excel, Feather, Parquet)",
+    "connectorVersion": "0.3.11"
 }

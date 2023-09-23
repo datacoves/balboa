@@ -1,7 +1,7 @@
 {
     "name": "Zip Coordinates <> Datacoves Snowflake",
     "namespaceDefinition": "customformat",
-    "namespaceFormat": "loans",
+    "namespaceFormat": "LOANS",
     "prefix": "",
     "operationIds": [],
     "syncCatalog": {
@@ -45,16 +45,18 @@
                     "destinationSyncMode": "overwrite",
                     "primaryKey": [],
                     "aliasName": "ZIP_COORDINATES",
-                    "selected": true
+                    "selected": true,
+                    "fieldSelectionEnabled": false
                 }
             }
         ]
     },
     "scheduleType": "manual",
     "status": "active",
-    "sourceCatalogId": "55c489f8-55af-4749-86c5-00b9aef10aaf",
+    "sourceCatalogId": "6a9578d7-80d8-443e-9427-a00603f64d5f",
     "geography": "auto",
-    "notifySchemaChanges": true,
+    "notifySchemaChanges": false,
+    "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
     "sourceName": "zip coordinates",
     "destinationName": "datacoves snowflake"
