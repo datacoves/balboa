@@ -57,14 +57,17 @@ jobs:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
         run: "../automate/blue_green_run.py --ci-cd-run -t prd"
 
+      - name: Drop relations in db that are no longer in dbt
+        run: "dbt run-operation drop_orphanate_relations --args '{\"dry_run\": false}'"
+
       - name: Delete merged test databases
         run: "../automate/dbt/remove_test_databases.sh"
 
       - name: Generate dbt documentation
         run: "dbt docs generate"
 
-      - name: Optimize dbt documentation
-        run: "../automate/dbt/dbt_docs_optimizer.py"
+      # - name: Optimize dbt documentation
+      #   run: "../automate/dbt/dbt_docs_optimizer.py"
 
       - name: Deploy docs 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
