@@ -30,7 +30,7 @@ select
     covid_cases.recovered
 from covid_cases
 join location
-    on location.location_id = covid_cases.location_id
+    on covid_cases.location_id = location.location_id
 where
     location.country is not null
     and location.state is null
