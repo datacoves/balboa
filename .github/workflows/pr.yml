@@ -16,10 +16,10 @@ concurrency:
 
 jobs:
   dbt:
-    name: Pull Request Dbt Tests
+    name: Pull Request dbt Tests
     runs-on: ubuntu-latest
-    # default container: datacoves/ci-basic-dbt-snowflake:1.6.202305082038-fa4492f2
-    container: datacoves/pi2-ci-basic-base:1.6.202305082038-20230521132745
+    # dbt 1.6 image
+    container: datacoves/pi7-ci-basic-base:1.9.202309122155-20230923154521
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
@@ -78,8 +78,8 @@ jobs:
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    #default container: datacoves/ci-airflow-dbt-snowflake:1.7.202307261721-dfc4e821
-    container: datacoves/pi2-ci-airflow-base:1.6.202305082038-20230521132745
+    # dbt 1.6 image
+    container: datacoves/pi7-ci-airflow-base:1.9.202309122155-20230923154521
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
       AIRFLOW__CORE__DAGS_FOLDER: /__w/balboa/balboa/automate/airflow/dags

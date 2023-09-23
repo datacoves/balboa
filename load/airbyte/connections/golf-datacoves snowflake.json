@@ -57,16 +57,18 @@
                     "destinationSyncMode": "overwrite",
                     "primaryKey": [],
                     "aliasName": "golf",
-                    "selected": true
+                    "selected": true,
+                    "fieldSelectionEnabled": false
                 }
             }
         ]
     },
     "scheduleType": "manual",
     "status": "active",
-    "sourceCatalogId": "18d1bd4c-b1c3-42f9-b44d-540034b1bf87",
+    "sourceCatalogId": "db485696-ba04-4b9c-9b15-b38b5ae54d37",
     "geography": "auto",
-    "notifySchemaChanges": true,
+    "notifySchemaChanges": false,
+    "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
     "sourceName": "golf",
     "destinationName": "datacoves snowflake"

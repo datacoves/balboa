@@ -1,7 +1,8 @@
 version: 2
+
 models:
-  - name: _airbyte_raw_personal_loans
-    description: Contains raw data on personal loans
+  - name: personal_loans
+    description: Contains data on personal loans
     columns:
       - name: addr_state
         description: The state in which the borrower resides
@@ -107,9 +108,3 @@ models:
         description: Indicates if income was verified by LC, not verified, or if the income source was verified
       - name: zip_code
         description: The first 3 numbers of the zip code provided by the borrower in the loan application
-      - name: airbyte_ab_id
-        description: The Airbyte-specific ID for the record
-      - name: airbyte_data
-        description: Airbyte-specific metadata for the record
-      - name: airbyte_emitted_at
-        description: The timestamp when the record was emitted by Airbyte

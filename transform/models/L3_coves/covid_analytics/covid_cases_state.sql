@@ -19,7 +19,7 @@ select
     covid_cases.recovered
 from covid_cases
 inner join location
-    on location.location_id = covid_cases.location_id
+    on covid_cases.location_id = location.location_id
 where
     location.state is not null
     and location.county is not null

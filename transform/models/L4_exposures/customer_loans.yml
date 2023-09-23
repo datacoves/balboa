@@ -10,7 +10,7 @@ exposures:
       Loan Performance
 
     depends_on:
-      - ref('_airbyte_raw_personal_loans')
+      - ref('personal_loans')
       - ref('current_population')
 
     owner:

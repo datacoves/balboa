@@ -1,5 +1,5 @@
 {
-    "name": "Personal Loans <> Datacoves Snowflake",
+    "name": "Personal Loans \u2192 Datacoves Snowflake",
     "namespaceDefinition": "customformat",
     "namespaceFormat": "loans",
     "prefix": "",
@@ -15,7 +15,7 @@
                         "properties": {
                             "DTI": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -63,7 +63,7 @@
                             },
                             "PUB_REC": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -75,13 +75,13 @@
                             },
                             "INT_RATE": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "OPEN_ACC": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -99,25 +99,25 @@
                             },
                             "LOAN_AMNT": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "MEMBER_ID": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "OUT_PRNCP": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "REVOL_BAL": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -129,7 +129,7 @@
                             },
                             "TOTAL_ACC": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -141,7 +141,7 @@
                             },
                             "ANNUAL_INC": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -159,7 +159,7 @@
                             },
                             "RECOVERIES": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -171,19 +171,19 @@
                             },
                             "DELINQ_2YRS": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "FUNDED_AMNT": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "INSTALLMENT": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -195,13 +195,13 @@
                             },
                             "POLICY_CODE": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "TOTAL_PYMNT": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -219,13 +219,13 @@
                             },
                             "OUT_PRNCP_INV": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "TOTAL_REC_INT": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -237,31 +237,31 @@
                             },
                             "INQ_LAST_6MTHS": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "FUNDED_AMNT_INV": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "LAST_PYMNT_AMNT": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "TOTAL_PYMNT_INV": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "TOTAL_REC_PRNCP": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -279,7 +279,7 @@
                             },
                             "TOTAL_REC_LATE_FEE": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -297,31 +297,31 @@
                             },
                             "MTHS_SINCE_LAST_DELINQ": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "MTHS_SINCE_LAST_RECORD": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "COLLECTION_RECOVERY_FEE": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "COLLECTIONS_12_MTHS_EX_MED": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "MTHS_SINCE_LAST_MAJOR_DEROG": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             }
@@ -339,16 +339,18 @@
                     "destinationSyncMode": "overwrite",
                     "primaryKey": [],
                     "aliasName": "personal_loans",
-                    "selected": true
+                    "selected": true,
+                    "fieldSelectionEnabled": false
                 }
             }
         ]
     },
     "scheduleType": "manual",
     "status": "active",
-    "sourceCatalogId": "e111be3a-eeb2-4597-8cd5-cd4c71d5b40a",
+    "sourceCatalogId": "9e00b943-1aae-4b9a-bf37-5be252c6ef8c",
     "geography": "auto",
-    "notifySchemaChanges": true,
+    "notifySchemaChanges": false,
+    "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
     "sourceName": "personal loans",
     "destinationName": "datacoves snowflake"

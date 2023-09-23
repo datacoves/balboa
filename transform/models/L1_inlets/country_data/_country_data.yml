@@ -6,5 +6,5 @@ sources:
     tags:
       - daily_run_airbyte
     tables:
-      - name: _AIRBYTE_RAW_COUNTRY_POPULATIONS
+      - name: COUNTRY_POPULATIONS
         description: "Raw population information from Github Datasets repository"
