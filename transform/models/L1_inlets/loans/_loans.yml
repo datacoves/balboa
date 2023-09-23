@@ -1,9 +1,10 @@
 version: 2
+
 sources:
   - name: LOANS
     database: RAW
     tags:
       - daily_run_airbyte
     tables:
-      - name: _AIRBYTE_RAW_PERSONAL_LOANS
-        description: Raw data on personal loans
+      - name: PERSONAL_LOANS
+        description: ''
