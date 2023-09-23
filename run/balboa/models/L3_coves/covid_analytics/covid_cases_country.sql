@@ -1,4 +1,10 @@
-with covid_cases as (
+
+  
+    
+
+        create or replace transient table BALBOA_STAGING.l3_covid_analytics.covid_cases_country
+        copy grants as
+        (with covid_cases as (
     select
         location_id,
         date,
@@ -6,7 +12,7 @@ with covid_cases as (
         deaths,
         active,
         recovered
-    from BALBOA.l2_covid_observations.total_covid_cases
+    from l2_covid_observations.total_covid_cases
 ),
 
 location as (
@@ -16,7 +22,7 @@ location as (
         country,
         lat,
         long
-    from BALBOA.l2_covid_observations.covid_location
+    from l2_covid_observations.covid_location
 )
 
 select
@@ -34,3 +40,6 @@ join location
 where
     location.country is not null
     and location.state is null
+        );
+      
+  

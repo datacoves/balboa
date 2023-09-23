@@ -7,7 +7,7 @@ with population_rank as (
         rank() over (
             partition by country_code, country_name order by year desc
         ) as rank_years
-    from BALBOA.l1_country_data._airbyte_raw_country_populations
+    from BALBOA.l1_country_data.country_populations
 )
 
 select
