@@ -7,7 +7,7 @@ session = Session.builder.configs(get_connection_properties()).create()
 # You can run SQL directly like:
 session.sql("select current_warehouse() wh, current_database() db, current_schema() schema, current_version() ver").show()
 
-df = session.table("BALBOA.L1_COUNTRY_DATA._AIRBYTE_RAW_COUNTRY_POPULATIONS")
+df = session.table("BALBOA.L1_COUNTRY_DATA.COUNTRY_POPULATIONS")
 
 # table profile
 df.select(["country_code","country_name"]).distinct().describe().show()
