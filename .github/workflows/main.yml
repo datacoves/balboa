@@ -51,6 +51,9 @@ jobs:
         id: prod-manifest
         run: "../automate/dbt/get_artifacts.sh"
 
+      - name: Generate dbt documentation
+        run: "dbt docs generate"
+
       - name: Run blue / green deployment
         id: run-blue-green
         env:
@@ -62,12 +65,6 @@ jobs:
 
       - name: Delete merged test databases
         run: "../automate/dbt/remove_test_databases.sh"
-
-      - name: Generate dbt documentation
-        run: "dbt docs generate"
-
-      # - name: Optimize dbt documentation
-      #   run: "../automate/dbt/dbt_docs_optimizer.py"
 
       - name: Deploy docs 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
