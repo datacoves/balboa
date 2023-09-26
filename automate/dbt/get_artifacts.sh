@@ -7,7 +7,7 @@ cd $DATACOVES__DBT_HOME
 
 mkdir -p logs
 
-dbt run-operation get_last_manifest
+dbt run-operation get_last_artifacts
 LINES_IN_MANIFEST="$(grep -c '^' logs/manifest.json)"
 
 if [ $LINES_IN_MANIFEST -eq 0 ]
