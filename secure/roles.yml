@@ -9,6 +9,7 @@
       - z_db_balboa_dev
       - z_db_snowflake
       - z_db_starschema_covid19
+      - z_db_snowflake_assessment
 
       - z_schema_raw
       - z_schema_snapshots
@@ -196,6 +197,15 @@
 ##########################
 #  Database Roles
 ##########################
+- z_db_snowflake_assessment:
+    privileges:
+      databases:
+        read:
+          - snowflake_assessment
+        write:
+          - snowflake_assessment
+
+
 - z_db_balboa_dev:
     privileges:
       databases:

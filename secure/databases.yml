@@ -30,3 +30,6 @@
     shared: true
 - starschema_covid19:
     shared: true
+
+- snowflake_assessment:
+    shared: false
