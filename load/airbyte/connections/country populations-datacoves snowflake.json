@@ -15,13 +15,13 @@
                         "properties": {
                             "Year": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
                             "Value": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
@@ -59,7 +59,7 @@
     },
     "scheduleType": "manual",
     "status": "active",
-    "sourceCatalogId": "b8999fc0-ac01-4e29-9893-0a0fabd677f8",
+    "sourceCatalogId": "6be500ee-22ba-4805-81ef-63d21f8130eb",
     "geography": "auto",
     "notifySchemaChanges": false,
     "notifySchemaChangesByEmail": false,

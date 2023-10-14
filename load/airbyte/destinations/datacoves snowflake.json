@@ -9,7 +9,8 @@
         "credentials": {
             "password": "**********",
             "auth_type": "Username and Password"
-        }
+        },
+        "raw_data_schema": "AIRBYTE_INTERNAL"
     },
     "name": "Datacoves Snowflake",
     "destinationName": "Snowflake",
