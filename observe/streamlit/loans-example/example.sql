@@ -16,4 +16,6 @@ from RAW.LOANS.PERSONAL_LOANS
 where left(addr_state, 1)> 'A';
 
 -- dropping dymanic table
-drop dynamic table balboa_dev.gomezn.PERSONAL_LOANS;
+use role analyst;
+use warehouse wh_transforming;
+drop dynamic table balboa_dev.gomezn.loans_by_state;
