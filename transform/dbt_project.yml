@@ -83,6 +83,11 @@ models:
                 node_color: "#366ccf"
             covid_analytics:
                 +schema: l3_covid_analytics
+            loan_analytics:
+                +schema: l3_loan_analytics
+                # cannot persist docs on dynamic tables
+                +persist_docs:
+                    relation: false
             +materialized: table
 
         # L4_shares:

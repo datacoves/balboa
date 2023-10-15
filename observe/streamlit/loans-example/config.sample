@@ -1,0 +1,13 @@
+# put your secret values and credentials here.
+# do not share this file and do not push it to github
+# rename without .sample and put in the ~/.snowsql/ folder (create it if it doesnt exist)
+
+[connections]
+authenticator = snowflake
+accountname = <snowflake account>
+warehousename = <snowflake warehouse>
+rolename = <snowflake role>
+dbname = <snowflake database>
+schemaname = <snowflake schema>
+username = <snowflake user>
+password = <snowflake password>
