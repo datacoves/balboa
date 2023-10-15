@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: LOANS_BY_STATE
+    description: 'This model aggregates the number of loans by state.'
+    columns:
+      - name: state
+        description: 'The state where the loans are located.'
+      - name: number_of_loans
+        description: 'The total number of loans in each state.'
