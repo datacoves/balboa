@@ -32,6 +32,7 @@
       - z_schema_l2_snowflake_usage
 
       - z_schema_l3_covid_analytics
+      - z_schema_l3_loan_analytics
 
       - z_stage_dbt_artifacts_read
 
@@ -83,6 +84,7 @@
       databases:
         - balboa
         - balboa_dev
+        - snowflake_assessment
       schemas:
         - balboa.*
         - raw.snapshots
@@ -120,11 +122,13 @@
           - raw
           - balboa_dev
           - balboa
+          - snowflake_assessment
       schemas:
         read:
           - raw.*
           - balboa_dev.*
           - balboa.*
+          - snowflake_assessment.*
 
 - useradmin:
     member_of:
@@ -213,6 +217,19 @@
           - balboa_dev
         write:
           - balboa_dev
+
+- z_db_snowflake_assessment:
+    privileges:
+      databases:
+        read:
+          - snowflake_assessment
+        write:
+          - snowflake_assessment
+      schemas:
+        read:
+          - snowflake_assessment.*
+        write:
+          - snowflake_assessment.*
 
 # This role is created but has no grants
 # The grants will be added by the CI script
@@ -366,6 +383,12 @@
       schemas:
         read:
           - balboa.l3_covid_analytics
+
+- z_schema_l3_loan_analytics:
+    privileges:
+      schemas:
+        read:
+          - balboa.l3_loan_analytics
 
 ##########################
 #  Table & View Roles
