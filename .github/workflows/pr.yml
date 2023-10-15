@@ -70,10 +70,16 @@ jobs:
         run: "dbt build --fail-fast"
 
       - name: Grant access to PR database
+        id: grant-access-to-database
         run: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Run governance checks
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
+
+      - name: Drop PR database on Failure
+        if: always() && (steps.grant-access-to-database.outcome == 'failure')
+        run: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__MAIN__DATABASE}}'"  # yamllint disable-line rule:line-length
+
 
   airflow:
     name: Pull Request Airflow Tests
