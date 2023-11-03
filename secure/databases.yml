@@ -20,6 +20,7 @@
       - DBT_TEST__AUDIT
       - DBT_METRICS
 
+      - APPS
       - SEEDS
 
 - balboa_dev:

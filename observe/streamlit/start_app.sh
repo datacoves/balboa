@@ -1,3 +1,3 @@
 #! /bin/bash
 
-streamlit run loans-example/loans.py
+streamlit run ~/workspace/observe/streamlit/loans-example/loans.py

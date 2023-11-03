@@ -15,6 +15,7 @@
       - z_schema_snapshots
 
       - z_schema_seeds
+      - z_schema_apps
 
       - z_schema_l1_dbt_artifacts
       - z_schema_l1_account_usage
@@ -339,6 +340,12 @@
       schemas:
         read:
           - balboa.l1_loans
+
+- z_schema_apps:
+    privileges:
+      schemas:
+        read:
+          - balboa.apps
 
 - z_schema_seeds:
     privileges:

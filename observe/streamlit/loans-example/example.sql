@@ -19,3 +19,30 @@ where left(addr_state, 1)> 'A';
 use role analyst;
 use warehouse wh_transforming;
 drop dynamic table balboa_dev.gomezn.loans_by_state;
+
+------
+
+-- Creating Streamlit App
+use role transformer_dbt;
+create schema balboa.apps;
+CREATE STAGE balboa.apps.streamlit
+    directory = (enable=true)
+    file_format = (type=CSV field_delimiter=None record_delimiter=None);
+
+PUT 'file:///config/workspace/observe/streamlit/loans-example/loans.py' @balboa.apps.streamlit
+    overwrite=true auto_compress=false;
+
+CREATE STREAMLIT IF NOT EXISTS balboa.apps.loans
+    ROOT_LOCATION = '@balboa.apps.streamlit'
+    MAIN_FILE = '/loans.py'
+    QUERY_WAREHOUSE = "WH_TRANSFORMING";
+
+grant usage on streamlit balboa.apps.loans to role analyst;
+
+-- Cheacking that analyst has access to app
+use role analyst;
+use database balboa;
+use schema apps;
+SHOW STREAMLITS;
+
+select * from balboa.l3_loan_analytics.loans_by_state order by NUMBER_OF_LOANS desc;
