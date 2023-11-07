@@ -10,7 +10,7 @@ from fivetran_provider.operators.fivetran import FivetranOperator
     default_args={"start_date": datetime.datetime(2023, 1, 1, 0, 0)},
     description="Blue / Green run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_2"],
+    tags=["version_3"],
     catchup=False,
 )
 def dbtcoves_dag():
@@ -46,7 +46,7 @@ def dbtcoves_dag():
             task_id="datacoves_snowflake_google_analytics_4_sensor",
             fivetran_conn_id="fivetran_connection",
             connector_id="speak_menial",
-            poke_interval="60",
+            poke_interval=60,
         )
         (
             datacoves_snowflake_google_analytics_4_trigger
