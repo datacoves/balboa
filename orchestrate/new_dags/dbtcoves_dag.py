@@ -10,7 +10,7 @@ from fivetran_provider.operators.fivetran import FivetranOperator
     default_args={"start_date": datetime.datetime(2023, 1, 1, 0, 0)},
     description="Blue / Green run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1"],
+    tags=["version_2"],
     catchup=False,
 )
 def dbtcoves_dag():
