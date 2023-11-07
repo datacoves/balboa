@@ -41,3 +41,28 @@ load:
     path: /config/workspace/load/fivetran
     secrets_manager: datacoves
     run_connection_tests: true
+
+airflow_dags:
+    secrets_manager: datacoves
+    secrets_project: analytics-local
+    secrets_tags: extract_and_load_fivetran"
+    from_path: /config/workspace/orchestrate/new_dags
+    generators_params:
+      AirbyteDbtGenerator:
+        host: http://dev123-airbyte-airbyte-server-svc
+        port: 8000
+        dbt_project_path: /config/workspace/transform
+        virtualenv_path: /opt/datacoves/virtualenvs/main
+        run_dbt_compile: true
+        run_dbt_deps: true
+      AirbyteGenerator:
+        host: http://dev123-airbyte-airbyte-server-svc
+        port: 8000
+      FivetranDbtGenerator:
+        dbt_project_path: /config/workspace/transform
+        virtualenv_path: /opt/datacoves/virtualenvs/main
+        wait_for_completion: true
+        run_dbt_compile: true
+        run_dbt_deps: true
+      FivetranGenerator:
+        wait_for_completion: true
