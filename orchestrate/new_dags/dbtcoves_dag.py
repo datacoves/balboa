@@ -44,10 +44,9 @@ def dbtcoves_dag():
         )
         datacoves_snowflake_google_analytics_4_sensor = FivetranSensor(
             task_id="datacoves_snowflake_google_analytics_4_sensor",
+            fivetran_conn_id="fivetran_connection",
             connector_id="speak_menial",
             poke_interval="60",
-            xcom="{ task_instance.xcom_pull('datacoves_snowflake_google_analytics_4_trigger', key='return_value') }",
-            fivetran_conn_id="fivetran_connection",
         )
         (
             datacoves_snowflake_google_analytics_4_trigger
