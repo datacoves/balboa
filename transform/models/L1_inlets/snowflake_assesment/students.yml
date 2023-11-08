@@ -1,0 +1,25 @@
+version: 2
+sources:
+
+# This leverages macro external_stage_to_table. To run execute
+# dbt run-operation ingest_external_table --args {'external_source_name: jsonFiles'}
+
+- name: jsonFiles
+  database: balboa_dev
+  schema: raw
+  loader: S3
+  tables:
+    - name: students
+      description: Snowflake Assessment data ingested from JSON files stored on S3
+
+      # This is used by the ingest_external_table macro to ingest the data into Snowflake
+      external:
+        # This is the external stage
+        location: '@raw.raw.ext_jsonFiles_stage'
+        file_format: ( type = json )
+        pattern: .*students_modified.json
+
+        # These is the Regex patter for the files we want to ingest
+        # pattern: .*(allergycast_202209[2-3][0-9]|allergycast_20221[0-2]|allergycast_202[3-9]).*\.jsonl.*
+        # We had to exclude one day (historical data) because it was invalid JSON
+        # pattern: .*(allergycast_20220919|allergycast_202209[2-3][0-9]|allergycast_20221[0-2]|allergycast_202[3-9]).*\.jsonl.*
