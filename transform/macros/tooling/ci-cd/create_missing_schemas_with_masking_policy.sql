@@ -1,7 +1,8 @@
 
 {# This macro creates schemas needed before creating masking policies #}
 {#
-    To run: dbt run-operation create_missing_schemas_with_masking_policy
+    To run: 
+    dbt run-operation create_missing_schemas_with_masking_policy
 #}
 
 {%- macro create_missing_schemas_with_masking_policy() -%}
