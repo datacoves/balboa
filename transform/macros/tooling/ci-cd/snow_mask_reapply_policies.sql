@@ -1,7 +1,7 @@
 {# This macro reapplies masking policies #}
 {#
     To run:
-    dbt run-operation snow_mask_reapply_policies
+    dbt run-operation snow_mask_reapply_policies --args '{operation_type: apply}'
 #}
 
 {% macro snow_mask_reapply_policies(operation_type="apply") %}
@@ -19,12 +19,12 @@
         {% set masking_policy_database = database %}
         {% set masking_policy_schema = schema %}
         {# Check if common masking policy database is set #}
-        {% if var('use_common_masking_policy_db', 'False') %}
+        {% if var('use_common_masking_policy_db', 'False') == 'True' and target.name == 'prod' %}
             {% set masking_policy_database = var('common_masking_policy_db', database) %}
             {% set masking_policy_schema = var('common_masking_policy_schema', schema) %}
         {% endif %}
         {# Check if common masking policy schema is set #}
-        {% if var('use_common_masking_policy_schema', 'False') %}
+        {% if var('use_common_masking_policy_schema', 'False') == 'True' %}
             {% set masking_policy_schema = var('common_masking_policy_schema', schema) %}
         {% endif %}
 

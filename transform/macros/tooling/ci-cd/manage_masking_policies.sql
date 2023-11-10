@@ -3,8 +3,8 @@
 # Cause script to exit on error
 {# This macro processes masking policies during ci/cd #}
 {#
-    To run: 
-    dbt run-operation manage_masking_policies
+    To run:
+    dbt run-operation manage_masking_policies -t prod
 #}
 
 {% macro manage_masking_policies() %}
@@ -16,7 +16,9 @@
     {% do snow_mask_reapply_policies('unapply') %}
 
     {{ log("Create masking policies", true) }}
-    {% do dbt_snow_mask.create_masking_policy(resource_type='sources') %}
+    {% if target.name in ['prod', 'test'] %}
+        {% do dbt_snow_mask.create_masking_policy(resource_type='sources') %}
+    {% endif %}
     {% do dbt_snow_mask.create_masking_policy(resource_type='models') %}
 
     {{ log("Reapply masking policies", true) }}
