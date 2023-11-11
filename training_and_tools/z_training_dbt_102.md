@@ -208,7 +208,6 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Run `dbt run-operation empty_dev_schema --args '{dry_run: false}'` to empty dev schema (we'll look at macro later)
 - Show in Snowflake the `balboa_dev.gomezn` schema with data in it
 - Use button `get prod metadata`, then run `dbt build --defer --select state:modified+`
-
 - Discuss buttons `prod metadata` + `build changes` - this should run almost everything needed while developing
     - Discuss small stories and continuous release to align with the above
 

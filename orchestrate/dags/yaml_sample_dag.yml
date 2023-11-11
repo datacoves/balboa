@@ -1,27 +1,31 @@
-yaml_sample_dag:
-  description: "Sample yaml dag dbt run"
-  schedule_interval: "0 0 1 */12 *"
-  tags:
-    - version_9
-  catchup: false
+description: "Sample yaml dag dbt run"
+schedule_interval: "0 0 1 */12 *"
+tags:
+  - version_1
+catchup: false
 
-  default_args:
-    start_date: 2023-01-01
-    owner: airflow
-    # Replace with the email of the recipient for failures
-    email: gomezn@datacoves.com
-    email_on_failure: true
+default_args:
+  start_date: 2023-01-01
+  owner: airflow
+  # Replace with the email of the recipient for failures
+  email: gomezn@datacoves.com
+  email_on_failure: true
 
-  tasks:
-    successful_task:
-      operator: airflow.operators.bash_operator.BashOperator
-      container_spec:
-        name: base
-        # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
-        image: datacoves/airflow-pandas:latest
-      bash_command: "pip show pandas"
+nodes:
+  successful_task:
+    operator: airflow.operators.bash.BashOperator
+    type: task
 
-    # failing_task:
-    #   operator: airflow.operators.bash_operator.BashOperator
-    #   bash_command: "some_non_existant_command"
-    #   dependencies: ["successful_task"]
+    container_spec:
+      name: base
+      # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
+      image: datacoves/airflow-pandas:latest
+
+    bash_command: "pip show pandas"
+
+  failing_task:
+    operator: airflow.operators.bash.BashOperator
+    type: task
+
+    bash_command: "some_non_existant_command"
+    dependencies: ["successful_task"]

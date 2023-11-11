@@ -21,6 +21,29 @@ generate:
     #   - RAW
     # destination: "metadata.csv"
 
+  airflow_dags:
+    secrets_manager: datacoves
+    secrets_tags: "extract_and_load_fivetran"
+    from_path: /config/workspace/orchestrate/dags
+    generators_params:
+      AirbyteDbtGenerator:
+        host: http://gay725-airbyte-airbyte-server-svc
+        port: 8001
+        dbt_project_path: /config/workspace/transform
+        run_dbt_compile: true
+        run_dbt_deps: true
+      AirbyteGenerator:
+        host: http://gay725-airbyte-airbyte-server-svc
+        port: 8001
+      FivetranDbtGenerator:
+        dbt_project_path: /config/workspace/transform
+        wait_for_completion: true
+        run_dbt_compile: true
+        run_dbt_deps: true
+      FivetranGenerator:
+        wait_for_completion: true
+
+
 extract:
   airbyte:
     path: /config/workspace/load/airbyte
