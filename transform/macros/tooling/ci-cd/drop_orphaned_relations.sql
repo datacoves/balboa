@@ -3,10 +3,10 @@
 
 {# Macro for deleting objects from the data warehouse that are no longer in dbt. #}
 {#
-    dbt run-operation drop_orphanate_relations --args '{"dry_run": true}'
+    dbt run-operation drop_orphaned_relations --args '{"dry_run": true}'
 #}
 
-{%- macro drop_orphanate_relations(dry_run='true') -%}
+{%- macro drop_orphaned_relations(dry_run='true') -%}
 
     {%- if execute -%}
 

@@ -79,15 +79,6 @@ def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None):
     run_command(f'dbt-coves dbt -- run-operation drop_staging_db --args "{STAGING_DB_ARGS}" {dbt_target}')
     logging.info("done with dropping!!!!")
 
-    # Save the latest manifest to snowflake stage
-    os.environ["DATACOVES__MAIN__DATABASE"] = DBT_FINAL_DB_NAME
-    run_command(f"dbt-coves dbt -- compile {dbt_target}")
-
-    os.environ["DATACOVES__MAIN__DATABASE"] = DBT_FINAL_DB_NAME
-
-    logging.info("Uploading new prod manifest")
-    run_command(f"dbt-coves dbt -- --no-write-json run-operation upload_artifacts {dbt_target}")
-
 
 def run_dbt(selector: str = None, dbt_target: str = None, is_ci_cd_run: bool = False):
     """
