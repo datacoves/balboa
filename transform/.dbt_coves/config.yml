@@ -24,7 +24,7 @@ generate:
   airflow_dags:
     secrets_manager: datacoves
     secrets_tags: "extract_and_load_fivetran"
-    from_path: /config/workspace/orchestrate/new_dags
+    from_path: /config/workspace/orchestrate/dags
     generators_params:
       AirbyteDbtGenerator:
         host: http://gay725-airbyte-airbyte-server-svc
