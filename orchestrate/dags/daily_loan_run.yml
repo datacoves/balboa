@@ -5,20 +5,21 @@ tags:
 default_args:
   start_date: 2021-01
 catchup: false
+
 nodes:
   extract_and_load_airbyte:
     generator: AirbyteDbtGenerator
     airbyte_conn_id: airbyte_connection
-
     type: task_group
+
     tooltip: "Airbyte Extract and Load"
     dbt_list_args: "--select tag:daily_run_airbyte"
 
   extract_and_load_fivetran:
     generator: FivetranDbtGenerator
     fivetran_conn_id: fivetran_connection
-
     type: task_group
+
     tooltip: "Fivetran Extract and Load"
     dbt_list_args: "--select tag:daily_run_fivetran"
 
