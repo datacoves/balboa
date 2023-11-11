@@ -57,8 +57,8 @@ jobs:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
         run: "../automate/blue_green_run.py --ci-cd-run -t prd"
 
-      - name: Drop relations in db that are no longer in dbt
-        run: "dbt run-operation drop_orphanate_relations --args '{\"dry_run\": false}'"
+      - name: Drop orphaned relations in db that are no longer in dbt
+        run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
 
       - name: Delete merged test databases
         run: "../automate/dbt/remove_test_databases.sh"
