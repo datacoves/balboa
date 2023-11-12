@@ -36,11 +36,11 @@ PUT 'file:///config/workspace/observe/streamlit/loans-example/loans.py' @balboa.
 drop streamlit balboa_apps.resources.loans;
 
 CREATE STREAMLIT IF NOT EXISTS balboa_apps.resources.loans
-    ROOT_LOCATION = '@balboa.apps.streamlit'
+    ROOT_LOCATION = '@balboa_apps.resources.streamlit'
     MAIN_FILE = '/loans.py'
     QUERY_WAREHOUSE = "WH_TRANSFORMING";
 
-grant usage on streamlit balboa.apps.loans to role analyst;
+grant usage on streamlit balboa_apps.resources.loans to role analyst;
 
 -- Cheacking that analyst has access to app
 use role analyst;
