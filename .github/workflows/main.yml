@@ -73,6 +73,9 @@ jobs:
           branch: dbt-docs
           folder: transform/target
 
+      - name: Deploy Streamlit App
+        run: "dbt run-operation deploy_streamlit_app --args \"{app_path: '/config/workspace/observe/streamlit/loans-example', app_file: loans.py}\""
+
       - name: Upload dbt artifacts
         run: "dbt run-operation upload_artifacts"
 
