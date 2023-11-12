@@ -23,6 +23,11 @@
       - APPS
       - SEEDS
 
+- balboa_apps:
+    shared: false
+    schemas:
+      - RESOURCES
+
 - balboa_dev:
     shared: false
 - convexa_dev:
@@ -32,8 +37,3 @@
     shared: true
 - starschema_covid19:
     shared: true
-
-- snowflake_assessment:
-    shared: false
-    schemas:
-      - AIRBYTE_INTERNAL

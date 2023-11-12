@@ -5,6 +5,7 @@
     member_of:
       - z_db_raw
       - z_db_balboa
+      - z_db_balboa_apps
       - z_db_balboa_tst
       - z_db_balboa_dev
       - z_db_snowflake
@@ -15,7 +16,6 @@
       - z_schema_snapshots
 
       - z_schema_seeds
-      - z_schema_apps
 
       - z_schema_l1_dbt_artifacts
       - z_schema_l1_account_usage
@@ -34,6 +34,8 @@
 
       - z_schema_l3_covid_analytics
       - z_schema_l3_loan_analytics
+
+      - z_schema_resources
 
       - z_stage_dbt_artifacts_read
 
@@ -76,6 +78,7 @@
     member_of:
       - z_db_raw_write
       - z_db_balboa_write
+      - z_db_balboa_apps_write
       - z_db_snowflake
       - z_db_starschema_covid19
       - z_tables_views_general
@@ -84,8 +87,8 @@
     owns:
       databases:
         - balboa
+        - balboa_apps
         - balboa_dev
-        - snowflake_assessment
       schemas:
         - balboa.*
         - raw.snapshots
@@ -121,15 +124,15 @@
       databases:
         read:
           - raw
-          - balboa_dev
           - balboa
-          - snowflake_assessment
+          - balboa_apps
+          - balboa_dev
       schemas:
         read:
           - raw.*
-          - balboa_dev.*
           - balboa.*
-          - snowflake_assessment.*
+          - balboa_apps.*
+          - balboa_dev.*
 
 - useradmin:
     member_of:
@@ -193,8 +196,12 @@
 ##########################
 #  Stage Roles
 ##########################
+- z_stage_dbt_artifacts:
+    owner: securityadmin
+
 - z_stage_dbt_artifacts_read:
     owner: securityadmin
+
 - z_stage_dbt_artifacts_write:
     owner: securityadmin
 
@@ -202,14 +209,9 @@
 ##########################
 #  Database Roles
 ##########################
-- z_db_snowflake_assessment:
-    privileges:
-      databases:
-        read:
-          - snowflake_assessment
-        write:
-          - snowflake_assessment
 
+- z_create_database:
+    owner: accountadmin
 
 - z_db_balboa_dev:
     privileges:
@@ -219,22 +221,11 @@
         write:
           - balboa_dev
 
-- z_db_snowflake_assessment:
-    privileges:
-      databases:
-        read:
-          - snowflake_assessment
-        write:
-          - snowflake_assessment
-      schemas:
-        read:
-          - snowflake_assessment.*
-        write:
-          - snowflake_assessment.*
 
 # This role is created but has no grants
 # The grants will be added by the CI script
-# - z_db_balboa_tst
+- z_db_balboa_tst:
+    owner: securityadmin
 
 - z_db_balboa_write:
     privileges:
@@ -249,6 +240,20 @@
       databases:
         read:
           - balboa
+
+- z_db_balboa_apps_write:
+    privileges:
+      databases:
+        read:
+          - balboa_apps
+        write:
+          - balboa_apps
+
+- z_db_balboa_apps:
+    privileges:
+      databases:
+        read:
+          - balboa_apps
 
 - z_db_raw:
     privileges:
@@ -341,11 +346,11 @@
         read:
           - balboa.l1_loans
 
-- z_schema_apps:
+- z_schema_resources:
     privileges:
       schemas:
         read:
-          - balboa.apps
+          - balboa_apps.resources
 
 - z_schema_seeds:
     privileges:
