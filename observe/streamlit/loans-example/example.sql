@@ -33,7 +33,9 @@ CREATE STAGE balboa_apps.resources.streamlit
 PUT 'file:///config/workspace/observe/streamlit/loans-example/loans.py' @balboa.apps.streamlit
     overwrite=true auto_compress=false;
 
-CREATE STREAMLIT IF NOT EXISTS balboa.apps.loans
+drop streamlit balboa_apps.resources.loans;
+
+CREATE STREAMLIT IF NOT EXISTS balboa_apps.resources.loans
     ROOT_LOCATION = '@balboa.apps.streamlit'
     MAIN_FILE = '/loans.py'
     QUERY_WAREHOUSE = "WH_TRANSFORMING";

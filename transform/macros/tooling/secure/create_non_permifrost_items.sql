@@ -26,6 +26,10 @@
         grant read on stage RAW.DBT_ARTIFACTS.ARTIFACTS to role z_stage_dbt_artifacts_write;
         grant write on stage RAW.DBT_ARTIFACTS.ARTIFACTS to role z_stage_dbt_artifacts_write;
 
+        create stage balboa_apps.resources.streamlit
+            directory = (enable=true)
+            file_format = (type=csv field_delimiter=none record_delimiter=none);
+
         {% for stage in stages %}
             create role if not exists z_stage_{{stage}};
             grant usage on stage raw.public.{{stage}} to role z_stage_{{stage}};
