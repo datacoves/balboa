@@ -1,7 +1,7 @@
 {{ config(
     materialized = 'dynamic_table',
     snowflake_warehouse = 'wh_transforming',
-    target_lag = '180 days',
+    target_lag = '190 days',
 ) }}
 
 select
