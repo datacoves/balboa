@@ -52,6 +52,7 @@ snapshots:
         node_color: "#0f703d"
 
 models:
+
     balboa:
         +materialized: view
         +schema: z_schema_not_configured
@@ -63,8 +64,8 @@ models:
                 +schema: l1_country_data
             google_analytics_4:
                 +schema: l1_google_analytics_4
-            starschema_covid19:
-                +schema: l1_starschema_covid19
+            covid19_epidemiological_data:
+                +schema: l1_covid19_epidemiological_data
             loans:
                 +schema: l1_loans
 
@@ -110,10 +111,11 @@ models:
             columns: true
 
     post-hook:
-        - "{{ dbt_snow_mask.apply_masking_policy() }}"
+        - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
+        - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
 
     # Snowflake Defaults
-    +transient: "{{ 'false' if target.name == 'prod' else 'true' }}"
+    +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
     copy_grants: true
 
 tests:
@@ -127,3 +129,9 @@ vars:
         prod_schema: NOT_DEFINED
         prod_custom_schema: <custom_schema>
         datasource_id: 6003
+
+    create_masking_policy_schema: "False"
+    use_common_masking_policy_db: "True"
+    common_masking_policy_db: "BALBOA"
+    common_masking_policy_schema: "MASKING_POLICIES"
+    use_force_applying_masking_policy: "True"

@@ -8,7 +8,7 @@
 
 ## Demo - Docs Overview
 - Show dbt docs to connect what they just saw
-- Open lineage graph, show components, show filtering 
+- Open lineage graph, show components, show filtering
 add `tag:daily_afternoon` to --select
 add `+` at the end
 change to `base_cases`
@@ -38,11 +38,11 @@ More information can be found on their <a href="https://github.com/tailsdotcom/d
 `dbt docs generate`
 - Every project folder can get an overview, even Exposures, but not sources
 
-- Add Desciption to starschema_covide19 source
+- Add Desciption to covid19_epidemiological_data source
     - Create file `jhu_covid_19.md`
 ```md
 {% docs jhu_covid_19 %}
-# Starschema Covid 19
+# Covid 19 Epidemiological_data
 This data comes from the Snowflake Data Marketplace
 
 This data can be used as a single source of truth regarding the coronavirus outbreak, assess contingency plans and make informed, data-driven decisions in view of the global health emergency. In addition, various other data sources are included that bear on the handling of the pandemic, such as healthcare resource availability, demographics and testing data. Vaccination information, as well as data on the load on the healthcare system, can assist businesses and individuals in monitoring the progress of the pandemic.
@@ -52,19 +52,19 @@ More information can be found <a href="https://app.snowflake.com/marketplace/lis
 ```
 
 - add description to jhu_covid_19.yml
-`description: '{{ doc("jhu_covid_19") }}' `  
+`description: '{{ doc("jhu_covid_19") }}' `
 
 - add other attributes to the jhu_covid_19.yml
 `loader: Snowflake Data Marketplace`
 
-add a long description to the source to show multiline 
+add a long description to the source to show multiline
 ```yml
         description: >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-          sed do eiusmod tempor incididunt ut labore et dolore magna 
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-          ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-          Duis aute irure dolor in reprehenderit in voluptate velit 
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna
+          aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor in reprehenderit in voluptate velit
           esse cillum dolore eu fugiat nulla pariatur.
 
 ```
@@ -96,19 +96,19 @@ Column-level comments are not supported on Snowflake views
     - automate, load, schedule, transform, etc
     - transform/models/bays, coves, sources etc
 - Walk through models:
-    - models/sources/starschema_covid19/jhu_covid_19:  
+    - models/sources/covid19_epidemiological_data/jhu_covid_19:
         Johns Hopkins raw COVID data
-        - Source at starschema_covid19.public.jhu_covid_19  
-            Data source: starschema public Snowflake share - we just imported it to the database  
+        - Source at covid19_epidemiological_data.public.jhu_covid_19
+            Data source: starschema public Snowflake share - we just imported it to the database
             https://app.snowflake.com/marketplace/listing/GZSNZ7F5UH
         - Base will be built at balboa_dev.(dev schema).jhu_covid_19
     - models/bays/bay_covid/covid_location:
-        Location data from jhu_covid_19  
-        GPS coordinates change over time in the raw data as it gets more accurate  
-        This model provides a single source of truth for geocoding - location "master data".  
+        Location data from jhu_covid_19
+        GPS coordinates change over time in the raw data as it gets more accurate
+        This model provides a single source of truth for geocoding - location "master data".
         - Will be built at balboa_dev.(dev schema).covid_location
     - models/bays/bay_covid/covid_cases
-        Pivoted from Johns Hopkins data  
+        Pivoted from Johns Hopkins data
         Allows summarizing / comparing individual fields
         - Will be built at balboa_dev.(dev schema).covid_cases
     - models/coves/cove_covid/covid_cases_country, covid_cases_state, covid_cases_county
@@ -136,15 +136,15 @@ exposures:
     url: https://datacoves.com/covid_predictions
     description: >
       Predicts the number of Covid-19 cases by country for a future weeks
-    
+
     depends_on:
       - ref('covid_location')
-      - source('starschema_covid19', 'jhu_covid_19')
-      
+      - source('covid19_epidemiological_data', 'jhu_covid_19')
+
     owner:
       name: Santiago Pelufo
       email: santiago@datacoves.com
-``` 
+```
 - build dbt docs
 `dbt docs generate`
 - Show the exposure
@@ -171,16 +171,16 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 
 
 ## Demo - Snapshots
-- We've been advised that Johns Hopkins will stop maintaining the jhu_covid_19 dataset, and will only be maintaining the 'dashboard' dataset going forward.  
-    This dataset shows the current information, rather than storing historical results.  
+- We've been advised that Johns Hopkins will stop maintaining the jhu_covid_19 dataset, and will only be maintaining the 'dashboard' dataset going forward.
+    This dataset shows the current information, rather than storing historical results.
     We need to store historical information ourselves.
-- Show `select * from starschema_covid19.public.jhu_dashboard_covid_19_global;`
+- Show `select * from covid19_epidemiological_data.public.jhu_dashboard_covid_19_global;`
 - Discuss pros/cons of using an incremental table for this use case
     - incremental would not store previous values if data was updated to a more accurate value after the fact
     - Snapshot will keep every version of truth
 - Show snapshot at snapshots/snp_jhu_dashboard_covid_19_global.sql
     - Discuss unique key, timestamp field
-    - Make a subfolder of snapshots `starschema_covid19` and move snapshot, to align with best practise
+    - Make a subfolder of snapshots `covid19_epidemiological_data` and move snapshot, to align with best practise
     - Run `dbt snapshot` and show in Snowflake in raw.snapshots.snp_jhu_dashboard_covid_19_global
     - In Snowflake, discuss dbt_* fields
     - To use a snapshot, select `where dbt_valid_to is null`
@@ -195,10 +195,10 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
     - Use button `run current` to run the above - describe the helpfulness of automations
     - `dbt ls --select coves.cove_covid.agg` lists all models in folder
     - `dbt ls --resource-type source` limits to a specific type
-    - `dbt ls --select source:balboa.starschema_covid19.jhu_covid_19+`
-    - `dbt ls --select source:balboa.starschema_covid19.jhu_covid_19+ --resource-type exposure` will show the exposure we created earlier
-    - `dbt ls --select source:balboa.starschema_covid19.jhu_covid_19+,balboa.bays` shows only bays downstream
-    - `dbt ls --select source:balboa.starschema_covid19.jhu_covid_19+1`
+    - `dbt ls --select source:balboa.covid19_epidemiological_data.jhu_covid_19+`
+    - `dbt ls --select source:balboa.covid19_epidemiological_data.jhu_covid_19+ --resource-type exposure` will show the exposure we created earlier
+    - `dbt ls --select source:balboa.covid19_epidemiological_data.jhu_covid_19+,balboa.bays` shows only bays downstream
+    - `dbt ls --select source:balboa.covid19_epidemiological_data.jhu_covid_19+1`
     - `dbt ls --select +int_covid_cases+ --exclude covid_cases_county`
     - `dbt ls --select @int_covid_cases` (includes upstream, downstream, and covid_location, as parent of a child)
         - No need to use @ if we can defer
@@ -208,7 +208,7 @@ https://github.com/dbt-labs/snowplow/blob/0.14.0/models/page_views/default/snowp
 - Run `dbt run-operation empty_dev_schema --args '{dry_run: false}'` to empty dev schema (we'll look at macro later)
 - Show in Snowflake the `balboa_dev.gomezn` schema with data in it
 - Use button `get prod metadata`, then run `dbt build --defer --select state:modified+`
-        
+
 - Discuss buttons `prod metadata` + `build changes` - this should run almost everything needed while developing
     - Discuss small stories and continuous release to align with the above
 
@@ -248,7 +248,7 @@ from {{ ref('int_covid_cases') }}
     - Create new macro `helpers/log_info.sql`
 
 ```
-{# 
+{#
     This macro can be used to print a log message starting with a timestamp
     dbt run-operation log_info --args '{message: "test message"}'
  #}
@@ -262,9 +262,9 @@ from {{ ref('int_covid_cases') }}
 - Run `dbt run-operation empty_dev_schema` to demonstrate
 
 ## Performance Analysis
-- Run in Snowflake 
+- Run in Snowflake
 ```
-select name,node_id, total_node_runtime as runtime_seconds 
+select name,node_id, total_node_runtime as runtime_seconds
 from balboa.dbt_artifacts.fct_dbt__latest_full_model_executions
 order by runtime_seconds desc;
 ```
@@ -272,7 +272,7 @@ order by runtime_seconds desc;
 - Discuss model runtime, and how it might be optimized
 
 ## Testing
-- Show yml at models/sources/starschema_covid19/jhu_dashboard_covid_19_global.yml
+- Show yml at models/sources/covid19_epidemiological_data/jhu_dashboard_covid_19_global.yml
     - Contains freshness tests:
         - Check data is fresh by running `dbt source freshness`
         - Adjust warn_after to 24 hours
@@ -282,5 +282,3 @@ order by runtime_seconds desc;
     - Show `covid_cases.yml` test
     - Show `data/test_values/covid_cases_expected_values`
     - Show custom test macro `macros/tests/check_critical_rows_exist_in_seed`
-
-    
