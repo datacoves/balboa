@@ -111,6 +111,7 @@ models:
             columns: true
 
     post-hook:
+        - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
         - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
 
     # Snowflake Defaults
@@ -129,6 +130,7 @@ vars:
         prod_custom_schema: <custom_schema>
         datasource_id: 6003
 
+    create_masking_policy_schema: "False"
     use_common_masking_policy_db: "True"
     common_masking_policy_db: "BALBOA"
     common_masking_policy_schema: "MASKING_POLICIES"

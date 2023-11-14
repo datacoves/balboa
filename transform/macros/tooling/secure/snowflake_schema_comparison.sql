@@ -1,5 +1,5 @@
 {# Macro for finding differences in roles between Permifrost and Snowflake #}
-{# 
+{#
     Run using
     dbt run-operation snowflake_schema_comparison  --args '{permifrost_schema_list: demo_schema1,demo_schema2, dry_run: true}'
 #}
@@ -24,7 +24,7 @@
 
         {# Get the databases for the schemas defined in permifrost #}
         {% for full_schema_name in permifrost_schemas %}
-            {% set db = full_schema_name.split('.')[0] %}            
+            {% set db = full_schema_name.split('.')[0] %}
             {% if db not in permifrost_databases %}
                 {{ permifrost_databases.append(db) }}
             {% endif %}
@@ -64,7 +64,7 @@
                     {% if permifrost_schema_name not in schemas_in_snowflake_db %}
                         {{ schemas_to_be_created.append(permifrost_schema_db + "." + permifrost_schema_name) }}
                     {% endif %}
-                {% endif %} 
+                {% endif %}
             {% endfor %}
         {% endfor %}
 
@@ -81,7 +81,7 @@
             {{ print('####### Schemas not in Snowflake #######')}}
             {{ print('########################################')}}
 
-            {{ print('\n'.join(schemas_to_be_created)) }} 
+            {{ print('\n'.join(schemas_to_be_created)) }}
             {{ print('\n') }}
 
             {% if dry_run == true %}
@@ -94,7 +94,7 @@
 
             {{ print('=========================================')}}
             {{ print('Schemas in Permifrost exist in Snowflake')}}
-            {{ print('=========================================')}}
+            {{ print('=========================================\n')}}
 
         {% endif %}
     {% endif %}

@@ -5,6 +5,7 @@
       - accountadmin
       - securityadmin
       - analyst
+      - analyst_pii
       - loader
       - transformer_dbt
 
