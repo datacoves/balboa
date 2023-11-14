@@ -11,6 +11,8 @@ models:
         description: Unique identifier for the location
       - name: state
         description: Name of the state
+        tests:
+          - not_null
       - name: country
         description: Name of the country
         tests:
