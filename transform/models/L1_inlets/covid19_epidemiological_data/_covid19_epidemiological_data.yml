@@ -1,10 +1,13 @@
 version: 2
 
 sources:
-  - name: starschema_covid19
-    database: starschema_covid19
+  - name: covid19_epidemiological_data
+    database: covid19_epidemiological_data
     schema: public
     tables:
+      - name: jhu_covid_19
+        identifier: JHU_COVID_19
+        description: 'Starschema John Hopkins COVID19 data'
       - name: jhu_dashboard_covid_19_global
         description: 'Starschema Global COVID data'
         freshness:
