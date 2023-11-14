@@ -11,4 +11,4 @@ sources:
         columns:
           - name: annual_inc
             meta:
-                masking_policy: masking_policy_pii_full_field_float
+              masking_policy: masking_policy_pii_full_field_float
