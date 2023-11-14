@@ -1,5 +1,9 @@
 - raw:
     shared: false
+    schemas:
+      - SNAPSHOTS
+      - DBT_ARTIFACTS
+
 - balboa:
     shared: false
     schemas:
@@ -7,7 +11,7 @@
       - L1_COUNTRY_DATA
       - L1_GOOGLE_ANALYTICS_4
       - L1_DBT_ARTIFACTS
-      - L1_STARSCHEMA_COVID19
+      - L1_COVID19_EPIDEMIOLOGICAL_DATA
       - L1_LOANS
 
       - L2_COUNTRY_DEMOGRAPHICS
@@ -18,10 +22,10 @@
       - L3_LOAN_ANALYTICS
 
       - DBT_TEST__AUDIT
-      - DBT_METRICS
 
-      - APPS
       - SEEDS
+
+      - MASKING_POLICIES
 
 - balboa_apps:
     shared: false
@@ -30,10 +34,11 @@
 
 - balboa_dev:
     shared: false
-- convexa_dev:
-    shared: false
+# - convexa_dev:
+#     shared: false
 # Snowflake database contains metadata describing usage
 - snowflake:
     shared: true
-- starschema_covid19:
+
+- covid19_epidemiological_data:
     shared: true

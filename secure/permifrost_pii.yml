@@ -1,0 +1,11 @@
+# Databases
+databases: !include databases.yml
+
+# Warehouses
+warehouses: !include warehouses.yml
+
+# Roles
+roles: !include roles.yml
+
+# Users
+users: !include users_pii.yml
