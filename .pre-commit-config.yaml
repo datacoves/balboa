@@ -5,16 +5,12 @@ repos:
     rev: v1.1.1
 
     hooks:
-      - id: dbt-docs-generate
-        args: ["--cmd-flags", "++no+compile"]
       - id: check-source-table-has-description
       - id: check-script-semicolon
       - id: check-script-has-no-table-name
       - id: check-script-ref-and-source
       - id: check-model-has-description
       - id: check-model-has-properties-file
-
-      # This does not work with deferral because dbt docs generate does not include models that dont exist in current db
       - id: check-model-has-all-columns
 
   - repo: https://github.com/sqlfluff/sqlfluff
