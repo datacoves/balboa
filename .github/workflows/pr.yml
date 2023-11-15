@@ -26,6 +26,8 @@ jobs:
 
     env:
       DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
+      PROFILES_DIR: /__w/balboa/balboa/automate/dbt
+
       DATACOVES__DBT_HOME: /__w/balboa/balboa/transform
 
       DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
