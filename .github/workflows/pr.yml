@@ -26,7 +26,6 @@ jobs:
 
     env:
       DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
-      PROFILES_DIR: /__w/balboa/balboa/automate/dbt
 
       DATACOVES__DBT_HOME: /__w/balboa/balboa/transform
 
@@ -76,7 +75,8 @@ jobs:
         run: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
       - name: Generate Docs Combining Prod and branch catalog.json
-        run: "dbt-coves generate docs --state logs"
+        #TODO: remove profiles-dir when dbt-coves is fixed
+        run: "dbt-coves generate docs --state logs --profiles-dir /__w/balboa/balboa/automate/dbt"
 
       - name: Run governance checks
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
