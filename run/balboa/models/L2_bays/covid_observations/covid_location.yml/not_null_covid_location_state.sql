@@ -5,7 +5,7 @@ select
     from (
       
         select *
-        from BALBOA_STAGING.dbt_test__audit.unique_current_population_country_code
+        from BALBOA_STAGING.dbt_test__audit.not_null_covid_location_state
     
       
     ) dbt_internal_test
