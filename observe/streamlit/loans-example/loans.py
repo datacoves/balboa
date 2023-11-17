@@ -41,12 +41,10 @@ def getSession():
 
         if 'password' in parser['connections']:
             auth =  {"password": parser.get(section, "password")}
-            st.write('psw')
         elif 'private_key_path' in parser['connections']:
             key_path = parser.get(section, "private_key_path")
             key = get_rsa_key(key_path)
             auth =  {"private_key": key}
-            st.write('key found')
         else:
             st.write('Did not find password or key')
 
