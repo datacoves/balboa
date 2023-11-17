@@ -27,7 +27,7 @@ SUCCESSFUL_TASK_CONFIG = {
     },
     description="Sample yaml dag dbt run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1"],
+    tags=["version_1", "dbt_coves"],
     catchup=False,
 )
 def yaml_sample_dag():

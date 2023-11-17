@@ -22,7 +22,7 @@ def run_inform_failure(context):
     },
     description="Sample yaml dag dbt run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_5"],
+    tags=["version_5", "dbt_coves"],
     catchup=False,
     on_success_callback=run_inform_success,
     on_failure_callback=run_inform_failure,
