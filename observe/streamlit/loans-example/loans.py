@@ -60,8 +60,6 @@ def getSession():
 def get_loan_data():
     conn = getSession()
 
-    conn.use_role('TRANSFORMER_DBT')
-
     data = conn.sql("select * from balboa.l3_loan_analytics.loans_by_state order by NUMBER_OF_LOANS desc") \
         .toPandas()
 

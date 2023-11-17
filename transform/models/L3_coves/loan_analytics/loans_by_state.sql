@@ -2,7 +2,13 @@
     materialized = 'dynamic_table',
     snowflake_warehouse = 'wh_transforming',
     target_lag = '190 days',
+
 ) }}
+{# 
+    grants:
+        select: ['analyst'] #}
+{# grant select on table BALBOA.L3_LOAN_ANALYTICS.LOANS_BY_STATE to role analyst; #}
+
 
 select
     addr_state as state,
