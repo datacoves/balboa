@@ -24,7 +24,8 @@ generate:
   airflow_dags:
     secrets_manager: datacoves
     secrets_tags: "extract_and_load_fivetran"
-    from_path: /config/workspace/orchestrate/dags
+    yml_path: /config/workspace/orchestrate/dags/
+    #dags_path: /config/workspace/orchestrate/dags/ Use if generating to a different folder
     generators_params:
       AirbyteDbtGenerator:
         host: http://gay725-airbyte-airbyte-server-svc
