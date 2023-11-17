@@ -7,6 +7,8 @@ on:  # yamllint disable-line rule:truthy
     paths:
       - .github/workflows/*
       - automate/*
+      - observe/*
+      - orchestrate/*
       - transform/*
       - transform/**/*
 
