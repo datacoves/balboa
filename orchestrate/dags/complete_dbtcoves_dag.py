@@ -97,7 +97,7 @@ def dbtcoves_dag():
     transform = BashOperator(
         task_id="transform",
         bash_command="$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
-        config=TRANSFORM_CONFIG,
+        executor_config=TRANSFORM_CONFIG,
     )
     transform.set_upstream([tg_extract_and_load_airbyte, tg_extract_and_load_fivetran])
     marketing_automation = BashOperator(
