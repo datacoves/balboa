@@ -3,6 +3,9 @@ version: 2
 models:
   - name: loans_by_state
     description: 'This model shows the top 10 states with loans.'
+    config:
+      grants:
+        select: ['analyst']
     columns:
       - name: state
         description: 'The state where the loans are located.'
