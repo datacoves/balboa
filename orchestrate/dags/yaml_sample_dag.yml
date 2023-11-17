@@ -16,8 +16,7 @@ nodes:
     operator: airflow.operators.bash.BashOperator
     type: task
 
-    container_spec:
-      name: base
+    config:
       # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
       image: datacoves/airflow-pandas:latest
 

@@ -15,16 +15,16 @@ custom_callbacks:
         module: callbacks.slack_messages
         callable: inform_success
         args:
-            - connection_id: DATACOVES_SLACK
-            # - message: Custom YML success message
-            # - color: 0000FF
+            connection_id: DATACOVES_SLACK
+            # message: Custom YML success message
+            # color: 0000FF
     on_failure_callback:
         module: callbacks.slack_messages
         callable: inform_failure
         args:
-            - connection_id: DATACOVES_SLACK
-            # - message: Custom YML error message
-            # - color: 9900FF
+            connection_id: DATACOVES_SLACK
+            # message: Custom YML error message
+            # color: 9900FF
 nodes:
   successful_task:
     operator: airflow.operators.bash.BashOperator
