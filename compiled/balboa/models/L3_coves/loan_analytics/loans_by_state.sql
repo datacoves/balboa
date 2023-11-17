@@ -1,5 +1,8 @@
 
 
+
+
+
 select
     addr_state as state,
     count(*) as number_of_loans
