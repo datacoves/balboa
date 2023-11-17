@@ -2,6 +2,7 @@ description: "Sample yaml dag dbt run"
 schedule_interval: "0 0 1 */12 *"
 tags:
   - version_5
+  - dbt_coves
 catchup: false
 
 default_args:

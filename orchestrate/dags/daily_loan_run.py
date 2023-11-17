@@ -12,25 +12,25 @@ from fivetran_provider.sensors.fivetran import FivetranSensor
     default_args={"start_date": "2021-01"},
     description="Daily Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1"],
+    tags=["version_1", "dbt_coves"],
     catchup=False,
 )
 def daily_loan_run():
     @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")
     def extract_and_load_airbyte():
-        country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
-            task_id="country_populations_datacoves_snowflake",
-            connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
-            airbyte_conn_id="airbyte_connection",
-        )
         personal_loans_datacoves_snowflake_pii = AirbyteTriggerSyncOperator(
             task_id="personal_loans_datacoves_snowflake_pii",
             connection_id="5bbf6394-9846-4237-8768-5847f58b6b95",
             airbyte_conn_id="airbyte_connection",
         )
+        country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
+            task_id="country_populations_datacoves_snowflake",
+            connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
+            airbyte_conn_id="airbyte_connection",
+        )
         (
-            country_populations_datacoves_snowflake
-            >> personal_loans_datacoves_snowflake_pii
+            personal_loans_datacoves_snowflake_pii
+            >> country_populations_datacoves_snowflake
         )
 
     tg_extract_and_load_airbyte = extract_and_load_airbyte()

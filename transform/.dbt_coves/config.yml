@@ -32,7 +32,7 @@ generate:
         port: 8001
         dbt_project_path: /config/workspace/transform
         run_dbt_compile: true
-        run_dbt_deps: true
+        run_dbt_deps: false
       AirbyteGenerator:
         host: http://gay725-airbyte-airbyte-server-svc
         port: 8001
@@ -40,7 +40,7 @@ generate:
         dbt_project_path: /config/workspace/transform
         wait_for_completion: true
         run_dbt_compile: true
-        run_dbt_deps: true
+        run_dbt_deps: false
       FivetranGenerator:
         wait_for_completion: true
 
