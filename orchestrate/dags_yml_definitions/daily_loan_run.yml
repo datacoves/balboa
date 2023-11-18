@@ -1,8 +1,7 @@
-description: "Daily Run"
+description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_1
-  - dbt_coves
+  - version_2
 default_args:
   start_date: 2021-01
 catchup: false
@@ -10,7 +9,6 @@ catchup: false
 nodes:
   extract_and_load_airbyte:
     generator: AirbyteDbtGenerator
-    airbyte_conn_id: airbyte_connection
     type: task_group
 
     tooltip: "Airbyte Extract and Load"
@@ -18,7 +16,6 @@ nodes:
 
   extract_and_load_fivetran:
     generator: FivetranDbtGenerator
-    fivetran_conn_id: fivetran_connection
     type: task_group
 
     tooltip: "Fivetran Extract and Load"
