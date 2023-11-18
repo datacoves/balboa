@@ -10,9 +10,9 @@ from fivetran_provider.sensors.fivetran import FivetranSensor
 
 @dag(
     default_args={"start_date": "2021-01"},
-    description="Daily Run",
+    description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1", "dbt_coves"],
+    tags=["version_2"],
     catchup=False,
 )
 def daily_loan_run():
