@@ -9,7 +9,7 @@ models:
       - name: annual_inc
         description: The borrower's annual income
         meta:
-          masking_policy: masking_policy_pii_full_field_float
+          masking_policy: masking_policy_pii_float
 
       - name: collections_12_mths_ex_med
         description: Number of collections in the last 12 months excluding medical collections
