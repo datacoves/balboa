@@ -1,0 +1,14 @@
+{
+    "connectionConfiguration": {
+        "url": "https://raw.githubusercontent.com/Roenbaeck/sisula/ETL/Examples/Golf/data/incoming/2019_data_sample.csv",
+        "format": "csv",
+        "provider": {
+            "storage": "HTTPS",
+            "user_agent": false
+        },
+        "dataset_name": "golf"
+    },
+    "name": "golf",
+    "sourceName": "File (CSV, JSON, Excel, Feather, Parquet)",
+    "connectorVersion": "0.3.15"
+}

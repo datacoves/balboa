@@ -1,0 +1,14 @@
+{
+    "connectionConfiguration": {
+        "url": "https://raw.githubusercontent.com/datasets/population/master/data/population.csv",
+        "format": "csv",
+        "provider": {
+            "storage": "HTTPS",
+            "user_agent": false
+        },
+        "dataset_name": "country_populations"
+    },
+    "name": "Country Populations",
+    "sourceName": "File (CSV, JSON, Excel, Feather, Parquet)",
+    "connectorVersion": "0.3.15"
+}

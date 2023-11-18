@@ -1,0 +1,18 @@
+{
+    "connectionConfiguration": {
+        "host": "toa80779.snowflakecomputing.com",
+        "role": "LOADER",
+        "schema": "RAW",
+        "database": "RAW",
+        "username": "SVC_AIRBYTE",
+        "warehouse": "WH_LOADING",
+        "credentials": {
+            "password": "**********",
+            "auth_type": "Username and Password"
+        },
+        "raw_data_schema": "AIRBYTE_INTERNAL"
+    },
+    "name": "Datacoves Snowflake",
+    "destinationName": "Snowflake",
+    "connectorVersion": "3.4.10"
+}

@@ -1,0 +1,68 @@
+{
+    "name": "Country Populations \u2192 Datacoves Redshift",
+    "namespaceDefinition": "destination",
+    "namespaceFormat": "${SOURCE_NAMESPACE}",
+    "prefix": "",
+    "operationIds": [],
+    "syncCatalog": {
+        "streams": [
+            {
+                "stream": {
+                    "name": "country_populations",
+                    "jsonSchema": {
+                        "type": "object",
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "properties": {
+                            "Year": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "Value": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "Country Code": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Country Name": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    },
+                    "supportedSyncModes": [
+                        "full_refresh"
+                    ],
+                    "defaultCursorField": [],
+                    "sourceDefinedPrimaryKey": []
+                },
+                "config": {
+                    "syncMode": "full_refresh",
+                    "cursorField": [],
+                    "destinationSyncMode": "overwrite",
+                    "primaryKey": [],
+                    "aliasName": "country_populations",
+                    "selected": true,
+                    "fieldSelectionEnabled": false
+                }
+            }
+        ]
+    },
+    "scheduleType": "manual",
+    "status": "inactive",
+    "geography": "auto",
+    "notifySchemaChanges": false,
+    "notifySchemaChangesByEmail": false,
+    "nonBreakingChangesPreference": "ignore",
+    "sourceName": "Country Populations",
+    "destinationName": "Datacoves Redshift"
+}

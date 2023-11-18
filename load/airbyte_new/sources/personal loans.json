@@ -1,0 +1,14 @@
+{
+    "connectionConfiguration": {
+        "url": "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/PERSONAL_LOANS.csv",
+        "format": "csv",
+        "provider": {
+            "storage": "HTTPS",
+            "user_agent": false
+        },
+        "dataset_name": "personal_loans"
+    },
+    "name": "Personal Loans",
+    "sourceName": "File (CSV, JSON, Excel, Feather, Parquet)",
+    "connectorVersion": "0.3.15"
+}
