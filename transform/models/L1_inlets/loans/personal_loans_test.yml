@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: PERSONAL_LOANS_TEST
+    description: 'This model represents personal loans data for testing purposes.'
+    columns:
+      - name: addr_state
+        description: 'The state in which the loan was issued.'
+      - name: total_loans
+        description: 'The total number of loans issued in the respective state.'

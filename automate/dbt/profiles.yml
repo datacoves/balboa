@@ -8,7 +8,9 @@ default:
             schema: NOT_DEFINED_FIX_ME
             user: "{{ env_var('DATACOVES__MAIN__USER') }}"
             password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
-            account: "{{ env_var('DATACOVES__MAIN__ACCOUNT') }}"
+            account: datacoves-main-pii
+
+            # account: "{{ env_var('DATACOVES__MAIN__ACCOUNT') }}"
             role: "{{ env_var('DATACOVES__MAIN__ROLE') }}"
             warehouse: "{{ env_var('DATACOVES__MAIN__WAREHOUSE') }}"
             client_session_keep_alive: true
