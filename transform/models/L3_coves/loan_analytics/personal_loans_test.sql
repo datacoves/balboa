@@ -17,4 +17,4 @@ final as (
 )
 
 select * from final
-limit 15
+limit 10
