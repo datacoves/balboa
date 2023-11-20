@@ -1,33 +1,39 @@
 {
-    "name": "Zip Coordinates <> Datacoves Snowflake",
-    "namespaceDefinition": "customformat",
-    "namespaceFormat": "LOANS",
+    "name": "Country Populations <> Datacoves Snowflake",
+    "namespaceDefinition": "source",
+    "namespaceFormat": "${SOURCE_NAMESPACE}",
     "prefix": "",
     "operationIds": [],
     "syncCatalog": {
         "streams": [
             {
                 "stream": {
-                    "name": "ZIP_COORDINATES",
+                    "name": "country_populations",
                     "jsonSchema": {
                         "type": "object",
                         "$schema": "http://json-schema.org/draft-07/schema#",
                         "properties": {
-                            "LAT": {
+                            "Year": {
                                 "type": [
                                     "number",
                                     "null"
                                 ]
                             },
-                            "LON": {
+                            "Value": {
                                 "type": [
                                     "number",
                                     "null"
                                 ]
                             },
-                            "ZIP": {
+                            "Country Code": {
                                 "type": [
-                                    "number",
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "Country Name": {
+                                "type": [
+                                    "string",
                                     "null"
                                 ]
                             }
@@ -44,7 +50,7 @@
                     "cursorField": [],
                     "destinationSyncMode": "overwrite",
                     "primaryKey": [],
-                    "aliasName": "ZIP_COORDINATES",
+                    "aliasName": "country_populations",
                     "selected": true,
                     "fieldSelectionEnabled": false
                 }
@@ -52,12 +58,11 @@
         ]
     },
     "scheduleType": "manual",
-    "status": "active",
-    "sourceCatalogId": "6a9578d7-80d8-443e-9427-a00603f64d5f",
+    "status": "inactive",
     "geography": "auto",
     "notifySchemaChanges": false,
     "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
-    "sourceName": "zip coordinates",
-    "destinationName": "datacoves snowflake"
+    "sourceName": "Country Populations",
+    "destinationName": "Datacoves Snowflake"
 }

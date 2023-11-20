@@ -1,6 +1,6 @@
 {
-    "name": "Country Populations <> Datacoves Snowflake",
-    "namespaceDefinition": "source",
+    "name": "Country Populations \u2192 Datacoves Redshift",
+    "namespaceDefinition": "destination",
     "namespaceFormat": "${SOURCE_NAMESPACE}",
     "prefix": "",
     "operationIds": [],
@@ -58,12 +58,11 @@
         ]
     },
     "scheduleType": "manual",
-    "status": "active",
-    "sourceCatalogId": "6be500ee-22ba-4805-81ef-63d21f8130eb",
+    "status": "inactive",
     "geography": "auto",
     "notifySchemaChanges": false,
     "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
-    "sourceName": "country populations",
-    "destinationName": "datacoves snowflake"
+    "sourceName": "Country Populations",
+    "destinationName": "Datacoves Redshift"
 }
