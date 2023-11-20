@@ -111,8 +111,11 @@ models:
             columns: true
 
     post-hook:
-        - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
-        - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
+        - "{{ dbt_snow_mask.apply_masking_policy('sources') }}"
+        - "{{ dbt_snow_mask.apply_masking_policy('models') }}"
+
+        # - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
+        # - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
 
     # Snowflake Defaults
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"

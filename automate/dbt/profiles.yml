@@ -43,7 +43,7 @@ default:
             # private_key_passphrase: "{{ env_var('DBT_KEY_PASSPHRASE') }}"
 
             # Set the DATACOVES__MAIN__ACCOUNT in your CI or update this to the actual Snowflake account like abc12345]
-            account: "{{ env_var('DATACOVES__MAIN__ACCOUNT') }}"
+            account: datacoves-main-pii
 
             # Set the DATACOVES__MAIN__ROLE in your CI or update this to the actual role you use in Snowflake
             role: "{{ env_var('DATACOVES__MAIN__ROLE') }}"
