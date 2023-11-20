@@ -2,6 +2,9 @@ version: 2
 
 models:
   - name: personal_loans_test
+    config:
+      +enabled: true
+
     description: 'This model represents personal loans data for testing purposes.'
     columns:
       - name: addr_state
