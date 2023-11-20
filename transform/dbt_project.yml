@@ -36,6 +36,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 # These settings can be overridden in the individual model files
 seeds:
+    +enabled: false
     +schema: seeds
     +docs:
         node_color: "#379965"
@@ -44,8 +45,11 @@ seeds:
         relation: true
         columns: true
 
+
 snapshots:
     balboa:
+        +enabled: false
+
         +target_database: raw
         +target_schema: snapshots
     +docs:
@@ -57,37 +61,16 @@ models:
 
     balboa:
 
-        +enabled: false
         +materialized: view
         +schema: z_schema_not_configured
 
         L1_inlets:
-            account_usage:
-                +schema: l1_account_usage
-            country_data:
-                +schema: l1_country_data
-            google_analytics_4:
-                +schema: l1_google_analytics_4
-            covid19_epidemiological_data:
-                +schema: l1_covid19_epidemiological_data
             loans:
                 +schema: l1_loans
-
-        L2_bays:
-            +docs:
-                node_color: "#000899"
-            country_demographics:
-                +schema: l2_country_demographics
-            covid_observations:
-                +schema: l2_covid_observations
-            snowflake_usage:
-                +schema: l2_snowflake_usage
 
         L3_coves:
             +docs:
                 node_color: "#366ccf"
-            covid_analytics:
-                +schema: l3_covid_analytics
             loan_analytics:
                 +schema: l3_loan_analytics
                 # cannot persist docs on dynamic tables

@@ -3,7 +3,7 @@ version: 2
 models:
   - name: personal_loans
     config:
-      +enabled: true
+      enabled: true
 
     description: Contains data on personal loans
     columns:

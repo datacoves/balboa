@@ -3,10 +3,15 @@ version: 2
 sources:
   - name: LOANS
     database: RAW
+    config:
+      enabled: true
+
     tags:
       - daily_run_airbyte
     tables:
+
       - name: PERSONAL_LOANS
+
         description: 'Personal Loans data'
         columns:
           - name: _airbyte_raw_id
