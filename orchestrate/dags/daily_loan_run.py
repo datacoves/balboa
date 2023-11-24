@@ -37,7 +37,7 @@ def daily_loan_run():
         group_id="extract_and_load_fivetran", tooltip="Fivetran Extract and Load"
     )
     def extract_and_load_fivetran():
-        datacoves_snowflake_google_analytics_4_trigger =  FivetranTrigger(
+        datacoves_snowflake_google_analytics_4_trigger =  FivetranOperator(
             task_id="datacoves_snowflake_google_analytics_4_trigger",
             connector_id="speak_menial",
             fivetran_conn_id="fivetran_connection",
