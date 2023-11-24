@@ -37,7 +37,11 @@ def daily_loan_run():
         group_id="extract_and_load_fivetran", tooltip="Fivetran Extract and Load"
     )
     def extract_and_load_fivetran():
-        datacoves_snowflake_google_analytics_4_trigger
+        datacoves_snowflake_google_analytics_4_trigger =  FivetranTrigger(
+            task_id="datacoves_snowflake_google_analytics_4_trigger",
+            connector_id="speak_menial",
+            fivetran_conn_id="fivetran_connection",
+        )
         datacoves_snowflake_google_analytics_4_sensor = FivetranSensor(
             task_id="datacoves_snowflake_google_analytics_4_sensor",
             connector_id="speak_menial",
@@ -50,21 +54,24 @@ def daily_loan_run():
         )
 
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
+
     transform = BashOperator(
         task_id="transform",
         bash_command="$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
     )
     transform.set_upstream([tg_extract_and_load_airbyte, tg_extract_and_load_fivetran])
+
     marketing_automation = BashOperator(
         task_id="marketing_automation",
         bash_command="echo 'send data to marketing tool'",
     )
     marketing_automation.set_upstream([transform])
+
     update_catalog = BashOperator(
         task_id="update_catalog", bash_command="echo 'refresh data catalog'"
     )
     update_catalog.set_upstream([transform])
-    tg_extract_and_load_airbyte
 
+    tg_extract_and_load_airbyte
 
 dag = daily_loan_run()
