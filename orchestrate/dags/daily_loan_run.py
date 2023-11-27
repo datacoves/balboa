@@ -2,8 +2,7 @@ import datetime
 
 from airflow.decorators import dag, task_group
 from airflow.operators.bash import BashOperator
-from airflow.providers.airbyte.operators.airbyte import \
-    AirbyteTriggerSyncOperator
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from fivetran_provider.operators.fivetran import FivetranOperator
 from fivetran_provider.sensors.fivetran import FivetranSensor
 
@@ -12,7 +11,7 @@ from fivetran_provider.sensors.fivetran import FivetranSensor
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_2"],
+    tags=["version_3"],
     catchup=False,
 )
 def daily_loan_run():
@@ -23,19 +22,16 @@ def daily_loan_run():
             connection_id="902432a8-cbed-4602-870f-33617fda6859",
             airbyte_conn_id="airbyte_connection",
         )
-        personal_loans_datacoves_snowflake
         personal_loans_datacoves_snowflake_pii = AirbyteTriggerSyncOperator(
             task_id="personal_loans_datacoves_snowflake_pii",
             connection_id="5bbf6394-9846-4237-8768-5847f58b6b95",
             airbyte_conn_id="airbyte_connection",
         )
-        personal_loans_datacoves_snowflake_pii
         country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
             task_id="country_populations_datacoves_snowflake",
             connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
             airbyte_conn_id="airbyte_connection",
         )
-        country_populations_datacoves_snowflake
 
     tg_extract_and_load_airbyte = extract_and_load_airbyte()
 
@@ -75,7 +71,6 @@ def daily_loan_run():
         task_id="update_catalog", bash_command="echo 'refresh data catalog'"
     )
     update_catalog.set_upstream([transform])
-    tg_extract_and_load_airbyte
 
 
 dag = daily_loan_run()
