@@ -31,9 +31,11 @@ def yaml_sample_teams_dag():
     successful_task = BashOperator(
         task_id="successful_task", bash_command="echo SUCCESS!"
     )
+
     failing_task = BashOperator(
         task_id="failing_task", bash_command="some_non_existant_command"
     )
+    
     failing_task.set_upstream([successful_task])
 
 
