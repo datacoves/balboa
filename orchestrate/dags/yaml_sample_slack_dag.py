@@ -35,7 +35,6 @@ def yaml_sample_slack_dag():
         task_id="failing_task", bash_command="some_non_existant_command"
     )
     failing_task.set_upstream([successful_task])
-    successful_task
 
 
 dag = yaml_sample_slack_dag()
