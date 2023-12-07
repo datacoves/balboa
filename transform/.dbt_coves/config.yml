@@ -6,13 +6,14 @@ generate:
     sources_destination: "models/L1_inlets/{{schema}}/_{{schema}}.yml"  # Where sources yml files will be generated
     models_destination: "models/L1_inlets/{{schema}}/{{relation}}.sql"  # Where models sql files will be generated
     model_props_destination: "models/L1_inlets/{{schema}}/{{relation}}.yml"  # Where models yml files will be generated
-    update_strategy: ask  # Action to perform when a property file exists. Options: update, recreate, fail, ask
+    update_strategy: update # Action to perform when a property file exists. Options: update, recreate, fail, ask
     templates_folder: ".dbt_coves/templates"  # Folder where source generation jinja templates are located.
+    flatten_json_fields: "no" # Action to perform when VARIANT / JSON field is encounted
 
   properties:
     destination: "{{model_folder_path}}/{{model_file_name}}.yml"  # Where models yml files will be generated
     # You can specify a different path by declaring it explicitly, i.e.: "models/staging/{{model_file_name}}.yml"
-    update-strategy: ask  # Action to perform when a property file already exists. Options: update, recreate, fail, ask
+    update_strategy: ask  # Action to perform when a property file already exists. Options: update, recreate, fail, ask
     models: "models/"  # Model(s) path where 'generate properties' will look for models for generation
 
   metadata:
@@ -25,7 +26,7 @@ generate:
     secrets_manager: datacoves
     secrets_tags: "extract_and_load_fivetran"
     yml_path: /config/workspace/orchestrate/dags_yml_definitions/
-    dags_path: /config/workspace/orchestrate/dags/ 
+    dags_path: /config/workspace/orchestrate/dags/
     generators_params:
       AirbyteDbtGenerator:
         host: http://gay725-airbyte-airbyte-server-svc
