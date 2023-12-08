@@ -1,0 +1,83 @@
+description: "Sample DAG with MS Teams notification, custom image, and resource requests"
+schedule_interval: "0 0 1 */12 *"
+tags:
+  - version_1
+  # - ms_teams_notification
+  - blue_green
+default_args:
+  start_date: 2023-01-01
+  owner: Noel Gomez
+  # Replace with the email of the recipient for failures
+  email: gomezn@example.com
+  email_on_failure: true
+catchup: false
+
+
+# Optional callbacks used to send notifications
+custom_callbacks:
+  on_success_callback:
+    module: callbacks.microsoft_teams
+    callable: inform_success
+    args:
+      connection_id: DATACOVES_MS_TEAMS
+      # message: Custom success message
+      color: 0000FF
+  on_failure_callback:
+    module: callbacks.microsoft_teams
+    callable: inform_failure
+    args:
+      connection_id: DATACOVES_MS_TEAMS
+      # message: Custom error message
+      color: 9900FF
+
+
+# DAG Tasks
+nodes:
+  extract_and_load_airbyte:
+    generator: AirbyteDbtGenerator
+    type: task_group
+
+    tooltip: "Airbyte Extract and Load"
+    dbt_list_args: "--select tag:daily_run_airbyte"
+
+  extract_and_load_fivetran:
+    generator: FivetranDbtGenerator
+    type: task_group
+
+    tooltip: "Fivetran Extract and Load"
+    dbt_list_args: "--select tag:daily_run_fivetran"
+
+  transform:
+    operator: airflow.operators.bash.BashOperator
+    type: task
+    config:
+      image: datacoves/airflow-pandas:latest
+      resources:
+        memory: 8Gi
+        cpu: 1000m
+
+    bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py
+                    -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+
+    dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
+
+  marketing_automation:
+    operator: airflow.operators.bash.BashOperator
+    type: task
+
+    bash_command: "echo 'send data to marketing tool'"
+    dependencies: ["transform"]
+
+  update_catalog:
+    operator: airflow.operators.bash.BashOperator
+    type: task
+
+    bash_command: "echo 'refresh data catalog'"
+    dependencies: ["transform"]
+
+  failing_task:
+    operator: airflow.operators.bash.BashOperator
+    type: task
+
+    bash_command: "some_non_existant_command"
+    dependencies: ["update_catalog"]
