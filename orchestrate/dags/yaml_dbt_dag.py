@@ -19,7 +19,7 @@ from airflow.operators.bash import BashOperator
 def yaml_dbt_dag():
     build_dbt = BashOperator(
         task_id="build_dbt",
-        bash_command="source /opt/datacoves/virtualenvs/main/bin/activate && dbt-coves dbt -- ls --resource-type nonexistent",
+        bash_command="source /opt/datacoves/virtualenvs/main/bin/activate && dbt-coves dbt -- run -s personal_loans",
     )
 
 
