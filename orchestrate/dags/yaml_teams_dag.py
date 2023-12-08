@@ -4,18 +4,52 @@ from airflow.decorators import dag, task_group
 from airflow.operators.bash import BashOperator
 from airflow.providers.airbyte.operators.airbyte import \
     AirbyteTriggerSyncOperator
+from callbacks.microsoft_teams import inform_failure, inform_success
 from fivetran_provider.operators.fivetran import FivetranOperator
 from fivetran_provider.sensors.fivetran import FivetranSensor
+from kubernetes.client import models as k8s
+
+
+def run_inform_success(context):
+    inform_success(context, connection_id="DATACOVES_MS_TEAMS", color="0000FF")
+
+
+def run_inform_failure(context):
+    inform_failure(context, connection_id="DATACOVES_MS_TEAMS", color="9900FF")
+
+
+TRANSFORM_CONFIG = {
+    "pod_override": k8s.V1Pod(
+        spec=k8s.V1PodSpec(
+            containers=[
+                k8s.V1Container(
+                    name="transform",
+                    image="datacoves/airflow-pandas:latest",
+                    resources=k8s.V1ResourceRequirements(
+                        requests={"memory": "8Gi", "cpu": "1000m"}
+                    ),
+                )
+            ]
+        )
+    ),
+}
 
 
 @dag(
-    default_args={"start_date": "2021-01"},
-    description="Loan Run",
+    default_args={
+        "start_date": datetime.datetime(2023, 1, 1, 0, 0),
+        "owner": "Noel Gomez",
+        "email": "gomezn@example.com",
+        "email_on_failure": True,
+    },
+    description="Sample DAG with MS Teams notification, custom image, and resource requests",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_2"],
+    tags=["version_1", "blue_green"],
     catchup=False,
+    on_success_callback=run_inform_success,
+    on_failure_callback=run_inform_failure,
 )
-def daily_loan_run():
+def yaml_teams_dag():
     @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")
     def extract_and_load_airbyte():
         country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
@@ -55,7 +89,8 @@ def daily_loan_run():
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
     transform = BashOperator(
         task_id="transform",
-        bash_command="/opt/datacoves/virtualenvs/main/bin/activate && dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
+        bash_command="$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
+        executor_config=TRANSFORM_CONFIG,
     )
     transform.set_upstream([tg_extract_and_load_airbyte, tg_extract_and_load_fivetran])
     marketing_automation = BashOperator(
@@ -67,6 +102,10 @@ def daily_loan_run():
         task_id="update_catalog", bash_command="echo 'refresh data catalog'"
     )
     update_catalog.set_upstream([transform])
+    failing_task = BashOperator(
+        task_id="failing_task", bash_command="some_non_existant_command"
+    )
+    failing_task.set_upstream([update_catalog])
 
 
-dag = daily_loan_run()
+dag = yaml_teams_dag()

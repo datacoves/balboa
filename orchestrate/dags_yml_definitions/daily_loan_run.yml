@@ -25,7 +25,10 @@ nodes:
     operator: airflow.operators.bash.BashOperator
     type: task
 
-    bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+    bash_command: "/opt/datacoves/virtualenvs/main/bin/activate &&
+                  dbt-coves dbt -- build
+                      -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+
     dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
 
   marketing_automation:
