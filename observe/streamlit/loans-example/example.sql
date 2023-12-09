@@ -24,20 +24,23 @@ drop dynamic table balboa_dev.gomezn.loans_by_state;
 
 -- Creating Streamlit App
 use role transformer_dbt;
-create schema balboa.apps;
-CREATE STAGE balboa.apps.streamlit
+create database balboa_apps;
+create schema balboa_apps.resources;
+CREATE STAGE balboa_apps.resources.streamlit
     directory = (enable=true)
     file_format = (type=CSV field_delimiter=None record_delimiter=None);
 
 PUT 'file:///config/workspace/observe/streamlit/loans-example/loans.py' @balboa.apps.streamlit
     overwrite=true auto_compress=false;
 
-CREATE STREAMLIT IF NOT EXISTS balboa.apps.loans
-    ROOT_LOCATION = '@balboa.apps.streamlit'
+drop streamlit balboa_apps.resources.loans;
+
+CREATE STREAMLIT IF NOT EXISTS balboa_apps.resources.loans
+    ROOT_LOCATION = '@balboa_apps.resources.streamlit'
     MAIN_FILE = '/loans.py'
     QUERY_WAREHOUSE = "WH_TRANSFORMING";
 
-grant usage on streamlit balboa.apps.loans to role analyst;
+grant usage on streamlit balboa_apps.resources.loans to role analyst;
 
 -- Cheacking that analyst has access to app
 use role analyst;
