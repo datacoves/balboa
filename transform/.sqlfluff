@@ -16,7 +16,7 @@ exclude_rules = AM05, RF05, ST06
 
 # For sqlfmt compatibility, we need to exclude the following
 # layout.indent (LT02), layout.cte_bracket (LT07), layout.select_targets (LT09)
-# exclude_rules = AM05, LT02, LT07, LT09, RF05, ST06, ST07
+#exclude_rules = AM05, LT02, LT07, LT09, RF05, ST06, ST07
 
 # Ignore linting errors found within sections of code coming directly from
 # templated code (e.g. from within Jinja curly braces. Note that it does not
