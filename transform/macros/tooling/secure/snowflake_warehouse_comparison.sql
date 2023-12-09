@@ -1,5 +1,5 @@
 {# Macro for finding differences in roles between Permifrost and Snowflake #}
-{# 
+{#
     Run using
     dbt run-operation snowflake_warehouse_comparison  --args '{permifrost_list: demo_db1,demo_db2, dry_run: true}'
 #}
@@ -10,7 +10,7 @@
     {{ print('\n')}}
 
     {% set permifrost_warehouses = [] %}
-    
+
     {% set warehouses_to_be_created = [] %}
     {% set warehouses_missing_in_permifrost = [] %}
 
@@ -53,7 +53,7 @@
         {% for warehouse in warehouses_to_be_created %}
             {{ print(warehouse['name'].upper()) }}
         {% endfor %}
-        
+
         {{ print('\n') }}
 
         {% if dry_run == true %}
@@ -66,8 +66,8 @@
 
         {{ print('===========================================')}}
         {{ print('Warehouses in Permifrost exist in Snowflake')}}
-        {{ print('===========================================')}}
+        {{ print('===========================================\n')}}
 
-    {% endif %} 
+    {% endif %}
 
 {% endmacro %}

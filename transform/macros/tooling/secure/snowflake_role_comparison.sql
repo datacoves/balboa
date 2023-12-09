@@ -1,5 +1,5 @@
 {# Macro for finding differences in roles between Permifrost and Snowflake #}
-{# 
+{#
     Run using
     dbt run-operation snowflake_role_comparison  --args '{permifrost_list: demo_db1,demo_db2, dry_run: true}'
 #}
@@ -19,9 +19,12 @@
 
         {% set roles_results = run_query("use role securityadmin; show roles;") %}
         {% set roles_in_snowflake = roles_results.columns["name"].values() %}
-        
+
+        {# We don't care about default snowflake schemas #}
+        {% set excluded_roles = ["ORGADMIN","ACCOUNTADMIN","SYSADMIN","SECURITYADMIN","USERADMIN"] %}
+
         {% for role in permifrost_roles %}
-            {% if role.upper() not in roles_in_snowflake %}
+            {% if  (role.upper() not in excluded_roles) and role.upper() not in roles_in_snowflake %}
                 {{ roles_to_be_created.append(role) }}
             {% endif %}
         {% endfor %}
@@ -45,7 +48,7 @@
             {{ print('####### Roles not in Snowflake #######')}}
             {{ print('#######################################')}}
 
-            {{ print('\n'.join(roles_to_be_created))}}   
+            {{ print('\n'.join(roles_to_be_created))}}
             {{ print('\n') }}
 
             {% if dry_run == true %}
@@ -58,7 +61,7 @@
 
             {{ print('=======================================')}}
             {{ print('Roles in Permifrost exist in Snowflake')}}
-            {{ print('=======================================')}}
+            {{ print('=======================================\n')}}
 
         {% endif %}
     {% endif %}

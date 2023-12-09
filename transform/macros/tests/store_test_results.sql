@@ -1,6 +1,8 @@
 /*
+
   --add "{{ store_test_results(results) }}" to an on-run-end: block in dbt_project.yml
   --The next v.1.0.X release of dbt will include post run hooks for dbt test!
+
 */
 {% macro store_test_results(results) %}
   {%- set test_results = [] -%}
