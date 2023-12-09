@@ -48,7 +48,7 @@
   {% set sql %}
     {{ sql }}
       case
-        when is_role_in_session('z_policy_unmask_pii') then val
+        when is_role_in_session('Z_POLICY_UNMASK_PII') then val
         else {{ mask_value }}
       end
   {% endset %}
