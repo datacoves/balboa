@@ -5,28 +5,26 @@
     member_of:
       - z_db_raw
       - z_db_balboa
+      - z_db_balboa_apps
       - z_db_balboa_tst
       - z_db_balboa_dev
       - z_db_snowflake
-      - z_db_starschema_covid19
-      - z_db_snowflake_assessment
+      - z_db_covid19_epidemiological_data
 
       - z_schema_raw
       - z_schema_snapshots
 
       - z_schema_seeds
-      - z_schema_apps
 
       - z_schema_l1_dbt_artifacts
       - z_schema_l1_account_usage
       - z_schema_l1_country_data
       - z_schema_l1_google_analytics_4
       - z_schema_l1_dbt_artifacts
-      - z_schema_l1_starschema_covid19
+      - z_schema_l1_covid19_epidemiological_data
       - z_schema_l1_loans
 
       - z_schema_dbt_test__audit
-      - z_schema_dbt_metrics
 
       - z_schema_l2_country_demographics
       - z_schema_l2_covid_observations
@@ -35,7 +33,10 @@
       - z_schema_l3_covid_analytics
       - z_schema_l3_loan_analytics
 
+      - z_schema_resources
+
       - z_stage_dbt_artifacts_read
+      - z_stage_resources_read
 
       - z_wh_transforming
 
@@ -76,16 +77,17 @@
     member_of:
       - z_db_raw_write
       - z_db_balboa_write
+      - z_db_balboa_apps_write
       - z_db_snowflake
-      - z_db_starschema_covid19
+      - z_db_covid19_epidemiological_data
       - z_tables_views_general
       - z_wh_transforming
       - z_stage_dbt_artifacts_write
     owns:
       databases:
         - balboa
+        - balboa_apps
         - balboa_dev
-        - snowflake_assessment
       schemas:
         - balboa.*
         - raw.snapshots
@@ -95,7 +97,8 @@
     member_of:
       - z_db_raw_write
       - z_wh_loading
-      - z_db_starschema_covid19
+      - z_db_covid19_epidemiological_data
+
     owns:
       databases:
         - raw
@@ -121,15 +124,15 @@
       databases:
         read:
           - raw
-          - balboa_dev
           - balboa
-          - snowflake_assessment
+          - balboa_apps
+          - balboa_dev
       schemas:
         read:
           - raw.*
-          - balboa_dev.*
           - balboa.*
-          - snowflake_assessment.*
+          - balboa_apps.*
+          - balboa_dev.*
 
 - useradmin:
     member_of:
@@ -175,6 +178,8 @@
 ##########################
 - z_policy_unmask_pii:
     owner: securityadmin
+    member_of:
+      - z_db_raw
 
 ## ======================#
 ##     Object Roles     #
@@ -195,21 +200,23 @@
 ##########################
 - z_stage_dbt_artifacts_read:
     owner: securityadmin
+
 - z_stage_dbt_artifacts_write:
+    owner: securityadmin
+
+- z_stage_resources_read:
+    owner: securityadmin
+
+- z_stage_resources_write:
     owner: securityadmin
 
 
 ##########################
 #  Database Roles
 ##########################
-- z_db_snowflake_assessment:
-    privileges:
-      databases:
-        read:
-          - snowflake_assessment
-        write:
-          - snowflake_assessment
 
+- z_create_database:
+    owner: securityadmin
 
 - z_db_balboa_dev:
     privileges:
@@ -219,22 +226,11 @@
         write:
           - balboa_dev
 
-- z_db_snowflake_assessment:
-    privileges:
-      databases:
-        read:
-          - snowflake_assessment
-        write:
-          - snowflake_assessment
-      schemas:
-        read:
-          - snowflake_assessment.*
-        write:
-          - snowflake_assessment.*
 
 # This role is created but has no grants
 # The grants will be added by the CI script
-# - z_db_balboa_tst
+- z_db_balboa_tst:
+    owner: securityadmin
 
 - z_db_balboa_write:
     privileges:
@@ -249,6 +245,20 @@
       databases:
         read:
           - balboa
+
+- z_db_balboa_apps_write:
+    privileges:
+      databases:
+        read:
+          - balboa_apps
+        write:
+          - balboa_apps
+
+- z_db_balboa_apps:
+    privileges:
+      databases:
+        read:
+          - balboa_apps
 
 - z_db_raw:
     privileges:
@@ -281,11 +291,12 @@
         read:
           - snowflake
 
-- z_db_starschema_covid19:
+- z_db_covid19_epidemiological_data:
     privileges:
       databases:
         read:
-          - starschema_covid19
+          - covid19_epidemiological_data
+
 
 ##########################
 #  Schema Roles
@@ -323,11 +334,11 @@
         read:
           - balboa.l1_google_analytics_4
 
-- z_schema_l1_starschema_covid19:
+- z_schema_l1_covid19_epidemiological_data:
     privileges:
       schemas:
         read:
-          - balboa.l1_starschema_covid19
+          - balboa.l1_covid19_epidemiological_data
 
 - z_schema_l1_dbt_artifacts:
     privileges:
@@ -341,11 +352,11 @@
         read:
           - balboa.l1_loans
 
-- z_schema_apps:
+- z_schema_resources:
     privileges:
       schemas:
         read:
-          - balboa.apps
+          - balboa_apps.resources
 
 - z_schema_seeds:
     privileges:
@@ -358,12 +369,6 @@
       schemas:
         read:
           - balboa.dbt_test__audit
-
-- z_schema_dbt_metrics:
-    privileges:
-      schemas:
-        read:
-          - balboa.dbt_metrics
 
 # BAYS
 - z_schema_l2_country_demographics:

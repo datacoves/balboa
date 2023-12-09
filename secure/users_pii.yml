@@ -1,0 +1,41 @@
+- gomezn:
+    can_login: true
+    member_of:
+      - orgadmin
+      - accountadmin
+      - securityadmin
+      - analyst
+      - analyst_pii
+      - loader
+      - transformer_dbt
+
+- svc_airbyte:
+    can_login: true
+    member_of:
+      - loader
+
+# - svc_airflow:
+#     can_login: true
+#     member_of:
+#       - transformer_dbt
+
+- svc_datacoves:
+    can_login: true
+    member_of:
+      - securityadmin
+
+# # integration testing
+# - datacoves_sa:
+#     can_login: true
+#     member_of:
+#       - analyst
+
+# - svc_fivetran:
+#     can_login: true
+#     member_of:
+#       - loader
+
+# - svc_github_actions:
+#     can_login: true
+#     member_of:
+#       - transformer_dbt
