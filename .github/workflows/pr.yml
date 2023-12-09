@@ -18,14 +18,15 @@ jobs:
   dbt:
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
-    # dbt 1.6 image
-    container: datacoves/pi7-ci-basic-base:1.9.202309122155-20230923154521
+    # dbt 1.6 image.
+    container: datacoves/pi7-ci-basic-base:2.1.202311072107-20231114235546
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
 
     env:
       DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
+
       DATACOVES__DBT_HOME: /__w/balboa/balboa/transform
 
       DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
@@ -73,6 +74,10 @@ jobs:
         id: grant-access-to-database
         run: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
+      - name: Generate Docs Combining Prod and branch catalog.json
+        #TODO: remove profiles-dir when dbt-coves is fixed
+        run: "dbt-coves generate docs --merge-deferred --state logs --profiles-dir /__w/balboa/balboa/automate/dbt"
+
       - name: Run governance checks
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
 
@@ -85,7 +90,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
     # dbt 1.6 image
-    container: datacoves/pi7-ci-airflow-base:1.9.202309122155-20230923154521
+    container: datacoves/pi7-ci-airflow-base:2.1.202311072107-20231114235546
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
       AIRFLOW__CORE__DAGS_FOLDER: /__w/balboa/balboa/automate/airflow/dags
