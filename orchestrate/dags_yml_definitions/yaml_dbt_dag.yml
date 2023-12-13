@@ -14,6 +14,6 @@ catchup: false
 nodes:
   build_dbt:
     type: task
-    operator: airflow.operators.bash.BashOperator
-    bash_command: "/opt/datacoves/virtualenvs/main/bin/activate && 
-                  dbt-coves dbt -- run -s personal_loans"
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    #virtualenv: /path/to/virtualenv or None: Datacoves Airflow venv will be used
+    bash_command: "dbt-coves dbt -- run -s personal_loans"
