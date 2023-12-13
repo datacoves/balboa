@@ -1,7 +1,7 @@
 import datetime
 
 from airflow.decorators import dag
-from airflow.operators.bash import BashOperator
+from operators.datacoves.bash import DatacovesBashOperator
 
 
 @dag(
@@ -17,9 +17,9 @@ from airflow.operators.bash import BashOperator
     catchup=False,
 )
 def yaml_dbt_dag():
-    build_dbt = BashOperator(
+    build_dbt = DatacovesBashOperator(
         task_id="build_dbt",
-        bash_command="source /opt/datacoves/virtualenvs/main/bin/activate && dbt-coves dbt -- run -s personal_loans",
+        bash_command="dbt-coves dbt -- run -s personal_loans",
     )
 
 
