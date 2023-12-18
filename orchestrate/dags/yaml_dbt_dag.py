@@ -18,8 +18,7 @@ from operators.datacoves.bash import DatacovesBashOperator
 )
 def yaml_dbt_dag():
     build_dbt = DatacovesBashOperator(
-        task_id="build_dbt",
-        bash_command="dbt-coves dbt -- run -s personal_loans",
+        task_id="build_dbt", bash_command="dbt-coves dbt -- run -s personal_loans"
     )
 
 
