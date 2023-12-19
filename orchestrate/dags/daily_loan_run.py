@@ -6,6 +6,7 @@ from airflow.providers.airbyte.operators.airbyte import \
     AirbyteTriggerSyncOperator
 from fivetran_provider.operators.fivetran import FivetranOperator
 from fivetran_provider.sensors.fivetran import FivetranSensor
+from operators.datacoves.bash import DatacovesBashOperator
 
 
 @dag(
@@ -53,7 +54,7 @@ def daily_loan_run():
         )
 
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
-    transform = BashOperator(
+    transform = DatacovesBashOperator(
         task_id="transform",
         bash_command="dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
     )
