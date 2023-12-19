@@ -44,7 +44,7 @@ TRANSFORM_CONFIG = {
     },
     description="Sample DAG with MS Teams notification, custom image, and resource requests",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1", "blue_green"],
+    tags=["version_1", "ms_teams_notification", "blue_green"],
     catchup=False,
     on_success_callback=run_inform_success,
     on_failure_callback=run_inform_failure,

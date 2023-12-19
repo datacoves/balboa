@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_2
+  - version_1
 default_args:
   start_date: 2021-01
 catchup: false
@@ -25,9 +25,8 @@ nodes:
     operator: airflow.operators.bash.BashOperator
     type: task
 
-    bash_command: "/opt/datacoves/virtualenvs/main/bin/activate &&
-                  dbt-coves dbt -- build
-                      -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+    bash_command: "dbt-coves dbt -- build
+                  -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 
     dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
 

@@ -12,7 +12,7 @@ from fivetran_provider.sensors.fivetran import FivetranSensor
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_2"],
+    tags=["version_1"],
     catchup=False,
 )
 def daily_loan_run():
@@ -55,7 +55,7 @@ def daily_loan_run():
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
     transform = BashOperator(
         task_id="transform",
-        bash_command="/opt/datacoves/virtualenvs/main/bin/activate && dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
+        bash_command="dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
     )
     transform.set_upstream([tg_extract_and_load_airbyte, tg_extract_and_load_fivetran])
     marketing_automation = BashOperator(
