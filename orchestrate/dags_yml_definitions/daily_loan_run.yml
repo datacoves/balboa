@@ -22,7 +22,7 @@ nodes:
     dbt_list_args: "--select tag:daily_run_fivetran"
 
   transform:
-    operator: airflow.operators.bash.BashOperator
+    operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
     bash_command: "dbt-coves dbt -- build
