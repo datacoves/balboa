@@ -13,6 +13,7 @@ from operators.datacoves.bash import DatacovesBashOperator
     },
     description="Sample DAG for dbt build",
     schedule_interval="0 0 1 */12 *",
+    tags=["version_1"],
     catchup=False,
 )
 def yaml_dbt_dag():
