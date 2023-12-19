@@ -2,7 +2,7 @@ description: "Sample DAG with MS Teams notification, custom image, and resource 
 schedule_interval: "0 0 1 */12 *"
 tags:
   - version_1
-  # - ms_teams_notification
+  - ms_teams_notification
   - blue_green
 default_args:
   start_date: 2023-01-01
