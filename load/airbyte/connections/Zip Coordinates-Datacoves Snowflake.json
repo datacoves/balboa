@@ -1,45 +1,33 @@
 {
-    "name": "golf <> Datacoves Snowflake",
-    "namespaceDefinition": "source",
-    "namespaceFormat": "${SOURCE_NAMESPACE}",
+    "name": "Zip Coordinates <> Datacoves Snowflake",
+    "namespaceDefinition": "customformat",
+    "namespaceFormat": "LOANS",
     "prefix": "",
     "operationIds": [],
     "syncCatalog": {
         "streams": [
             {
                 "stream": {
-                    "name": "golf",
+                    "name": "ZIP_COORDINATES",
                     "jsonSchema": {
                         "type": "object",
                         "$schema": "http://json-schema.org/draft-07/schema#",
                         "properties": {
-                            "Date": {
+                            "LAT": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
-                            "Value": {
+                            "LON": {
                                 "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             },
-                            "Variable": {
+                            "ZIP": {
                                 "type": [
-                                    "string",
-                                    "null"
-                                ]
-                            },
-                            "Statistic": {
-                                "type": [
-                                    "string",
-                                    "null"
-                                ]
-                            },
-                            "Player Name": {
-                                "type": [
-                                    "string",
+                                    "number",
                                     "null"
                                 ]
                             }
@@ -56,7 +44,7 @@
                     "cursorField": [],
                     "destinationSyncMode": "overwrite",
                     "primaryKey": [],
-                    "aliasName": "golf",
+                    "aliasName": "ZIP_COORDINATES",
                     "selected": true,
                     "fieldSelectionEnabled": false
                 }
@@ -65,11 +53,10 @@
     },
     "scheduleType": "manual",
     "status": "active",
-    "sourceCatalogId": "db485696-ba04-4b9c-9b15-b38b5ae54d37",
     "geography": "auto",
     "notifySchemaChanges": false,
     "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
-    "sourceName": "golf",
-    "destinationName": "datacoves snowflake"
+    "sourceName": "Zip Coordinates",
+    "destinationName": "Datacoves Snowflake"
 }

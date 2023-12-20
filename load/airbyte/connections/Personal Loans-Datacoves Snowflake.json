@@ -347,11 +347,10 @@
     },
     "scheduleType": "manual",
     "status": "active",
-    "sourceCatalogId": "9e00b943-1aae-4b9a-bf37-5be252c6ef8c",
     "geography": "auto",
     "notifySchemaChanges": false,
     "notifySchemaChangesByEmail": false,
     "nonBreakingChangesPreference": "ignore",
-    "sourceName": "personal loans",
-    "destinationName": "datacoves snowflake"
+    "sourceName": "Personal Loans",
+    "destinationName": "Datacoves Snowflake"
 }

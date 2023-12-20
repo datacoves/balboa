@@ -1,18 +1,19 @@
 {
     "connectionConfiguration": {
-        "host": "toa80779.snowflakecomputing.com",
-        "role": "LOADER",
+        "host": "PWFIRFI-MAIN_PII.snowflakecomputing.com",
+        "role": "Loader",
         "schema": "RAW",
         "database": "RAW",
-        "username": "SVC_AIRBYTE",
+        "username": "svc_airbyte",
         "warehouse": "WH_LOADING",
         "credentials": {
             "password": "**********",
             "auth_type": "Username and Password"
         },
-        "raw_data_schema": "AIRBYTE_INTERNAL"
+        "raw_data_schema": "AIRBYTE_INTERNAL",
+        "disable_type_dedupe": false
     },
-    "name": "Datacoves Snowflake",
+    "name": "Datacoves Snowflake PII",
     "destinationName": "Snowflake",
     "connectorVersion": "3.4.10"
 }

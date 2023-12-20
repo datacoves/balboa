@@ -10,5 +10,5 @@
     },
     "name": "golf",
     "sourceName": "File (CSV, JSON, Excel, Feather, Parquet)",
-    "connectorVersion": "0.3.11"
+    "connectorVersion": "0.3.15"
 }

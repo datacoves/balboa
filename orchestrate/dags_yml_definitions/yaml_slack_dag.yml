@@ -1,0 +1,53 @@
+description: "Sample DAG with Slack notification, custom image, and resource requests"
+schedule_interval: "0 0 1 */12 *"
+tags:
+  - version_1
+  - slack_notification
+  - blue_green
+default_args:
+  start_date: 2023-01-01
+  owner: Noel Gomez
+  # Replace with the email of the recipient for failures
+  email: gomezn@example.com
+  email_on_failure: true
+catchup: false
+
+
+# Optional callbacks used to send Slack notifications
+custom_callbacks:
+  on_success_callback:
+    module: callbacks.slack_messages
+    callable: inform_success
+    args:
+      connection_id: DATACOVES_SLACK
+      # message: Custom success message
+      color: 0000FF
+  on_failure_callback:
+    module: callbacks.slack_messages
+    callable: inform_failure
+    args:
+      connection_id: DATACOVES_SLACK
+      # message: Custom error message
+      color: 9900FF
+
+# DAG Tasks
+nodes:
+  transform:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+    config:
+      image: datacoves/airflow-pandas:latest
+      resources:
+        memory: 8Gi
+        cpu: 1000m
+
+    bash_command: "dbt-coves dbt -- run -s personal_loans"
+
+
+  # Sample failing task to test that notification is sent
+  failing_task:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+
+    bash_command: "some_non_existant_command"
+    dependencies: ["transform"]

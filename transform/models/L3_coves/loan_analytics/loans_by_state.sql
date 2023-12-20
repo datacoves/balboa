@@ -4,7 +4,7 @@
     target_lag = '190 days',
 
 ) }}
-{# 
+{#
     grants:
         select: ['analyst'] #}
 {# grant select on table BALBOA.L3_LOAN_ANALYTICS.LOANS_BY_STATE to role analyst; #}

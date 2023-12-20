@@ -10,7 +10,6 @@
     {{ print('\n')}}
 
     {% set permifrost_warehouses = [] %}
-
     {% set warehouses_to_be_created = [] %}
     {% set warehouses_missing_in_permifrost = [] %}
 
@@ -53,7 +52,6 @@
         {% for warehouse in warehouses_to_be_created %}
             {{ print(warehouse['name'].upper()) }}
         {% endfor %}
-
         {{ print('\n') }}
 
         {% if dry_run == true %}
