@@ -56,7 +56,7 @@ jobs:
 
       # this is needed bec our sample dynamic table is not getting refreshed
       - name: Refresh dynamic tables before blue-green
-        run: "dbt run -s materialization config.materialized:dynamic_table"
+        run: "dbt run -s materialization config.materialized:dynamic_table --full-refresh"
 
       - name: Run blue / green deployment
         id: run-blue-green
