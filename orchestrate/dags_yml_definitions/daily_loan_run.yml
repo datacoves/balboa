@@ -31,14 +31,14 @@ nodes:
     dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
 
   marketing_automation:
-    operator: airflow.operators.bash.BashOperator
+    operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
     bash_command: "echo 'send data to marketing tool'"
     dependencies: ["transform"]
 
   update_catalog:
-    operator: airflow.operators.bash.BashOperator
+    operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
     bash_command: "echo 'refresh data catalog'"
