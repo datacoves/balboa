@@ -6,14 +6,12 @@ default_args:
   start_date: 2023-01-01
   owner: Noel Gomez
   # Replace with the email of the recipient for failures
-  email: gomezn@datacoves.com
+  email: gomezn@example.com
   email_on_failure: true
 catchup: false
-
 
 nodes:
   build_dbt:
     type: task
     operator: operators.datacoves.bash.DatacovesBashOperator
-    #virtualenv: /path/to/virtualenv or None: Datacoves Airflow venv will be used
     bash_command: "dbt-coves dbt -- run -s personal_loans"

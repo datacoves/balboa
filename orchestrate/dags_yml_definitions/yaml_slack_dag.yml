@@ -13,7 +13,7 @@ default_args:
 catchup: false
 
 
-# Optional callbacks used to send notifications
+# Optional callbacks used to send Slack notifications
 custom_callbacks:
   on_success_callback:
     module: callbacks.slack_messages
@@ -30,25 +30,10 @@ custom_callbacks:
       # message: Custom error message
       color: 9900FF
 
-
 # DAG Tasks
 nodes:
-  extract_and_load_airbyte:
-    generator: AirbyteDbtGenerator
-    type: task_group
-
-    tooltip: "Airbyte Extract and Load"
-    dbt_list_args: "--select tag:daily_run_airbyte"
-
-  extract_and_load_fivetran:
-    generator: FivetranDbtGenerator
-    type: task_group
-
-    tooltip: "Fivetran Extract and Load"
-    dbt_list_args: "--select tag:daily_run_fivetran"
-
   transform:
-    operator: airflow.operators.bash.BashOperator
+    operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
     config:
       image: datacoves/airflow-pandas:latest
@@ -59,25 +44,24 @@ nodes:
     bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py
                     -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 
-    dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
-
   marketing_automation:
-    operator: airflow.operators.bash.BashOperator
+    operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
     bash_command: "echo 'send data to marketing tool'"
     dependencies: ["transform"]
 
   update_catalog:
-    operator: airflow.operators.bash.BashOperator
+    operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
     bash_command: "echo 'refresh data catalog'"
     dependencies: ["transform"]
 
+  # Sample failing task to test that notification is sent
   failing_task:
-    operator: airflow.operators.bash.BashOperator
+    operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
     bash_command: "some_non_existant_command"
-    dependencies: ["update_catalog"]
+    dependencies: ["transform"]

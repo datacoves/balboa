@@ -8,7 +8,7 @@ from operators.datacoves.bash import DatacovesBashOperator
     default_args={
         "start_date": datetime.datetime(2023, 1, 1, 0, 0),
         "owner": "Noel Gomez",
-        "email": "gomezn@datacoves.com",
+        "email": "gomezn@example.com",
         "email_on_failure": True,
     },
     description="Sample DAG for dbt build",

@@ -1,7 +1,6 @@
 import datetime
 
 from airflow.decorators import dag, task_group
-from airflow.operators.bash import BashOperator
 from airflow.providers.airbyte.operators.airbyte import \
     AirbyteTriggerSyncOperator
 from fivetran_provider.operators.fivetran import FivetranOperator
@@ -59,12 +58,12 @@ def daily_loan_run():
         bash_command="dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
     )
     transform.set_upstream([tg_extract_and_load_airbyte, tg_extract_and_load_fivetran])
-    marketing_automation = BashOperator(
+    marketing_automation = DatacovesBashOperator(
         task_id="marketing_automation",
         bash_command="echo 'send data to marketing tool'",
     )
     marketing_automation.set_upstream([transform])
-    update_catalog = BashOperator(
+    update_catalog = DatacovesBashOperator(
         task_id="update_catalog", bash_command="echo 'refresh data catalog'"
     )
     update_catalog.set_upstream([transform])
