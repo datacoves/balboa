@@ -37,8 +37,8 @@ nodes:
     operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
-    bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py
-                    -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+    bash_command: "dbt-coves dbt -- run -s personal_loans"
+
 
   # Sample failing task to test that notification is sent
   failing_task:

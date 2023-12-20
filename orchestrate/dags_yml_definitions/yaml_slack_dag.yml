@@ -41,22 +41,8 @@ nodes:
         memory: 8Gi
         cpu: 1000m
 
-    bash_command: "$DATACOVES__REPO_PATH/automate/blue_green_run.py
-                    -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+    bash_command: "dbt-coves dbt -- run -s personal_loans"
 
-  marketing_automation:
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    type: task
-
-    bash_command: "echo 'send data to marketing tool'"
-    dependencies: ["transform"]
-
-  update_catalog:
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    type: task
-
-    bash_command: "echo 'refresh data catalog'"
-    dependencies: ["transform"]
 
   # Sample failing task to test that notification is sent
   failing_task:
