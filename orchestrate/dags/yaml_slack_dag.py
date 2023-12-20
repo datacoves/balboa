@@ -48,18 +48,9 @@ TRANSFORM_CONFIG = {
 def yaml_slack_dag():
     transform = DatacovesBashOperator(
         task_id="transform",
-        bash_command="$DATACOVES__REPO_PATH/automate/blue_green_run.py -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
+        bash_command="dbt-coves dbt -- run -s personal_loans",
         executor_config=TRANSFORM_CONFIG,
     )
-    marketing_automation = DatacovesBashOperator(
-        task_id="marketing_automation",
-        bash_command="echo 'send data to marketing tool'",
-    )
-    marketing_automation.set_upstream([transform])
-    update_catalog = DatacovesBashOperator(
-        task_id="update_catalog", bash_command="echo 'refresh data catalog'"
-    )
-    update_catalog.set_upstream([transform])
     failing_task = DatacovesBashOperator(
         task_id="failing_task", bash_command="some_non_existant_command"
     )
