@@ -20,7 +20,8 @@ jobs:
     name: Deployment Script
     runs-on: ubuntu-latest
     # dbt 1.6 image
-    container: datacoves/pi7-ci-basic-base:2.2.202312181655-20231229194218
+    container: datacoves/pi7-ci-basic-base:2.2.202312181655-20240103163656
+
     defaults:
       run:
         working-directory: /__w/balboa/balboa/transform
