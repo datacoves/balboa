@@ -91,8 +91,8 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
     # dbt 1.6 image
-    # container: datacoves/pi7-ci-airflow-base:2.2.202312181655-20231229194218
-    container: datacoves/pi7-ci-airflow-base:2.1.202311072107-20231114235546
+    container: datacoves/pi7-ci-airflow-base:2.2.202312181655-20231229194218
+    # container: datacoves/pi7-ci-airflow-base:2.1.202311072107-20231114235546
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
       AIRFLOW__CORE__DAGS_FOLDER: /__w/balboa/balboa/automate/airflow/dags
