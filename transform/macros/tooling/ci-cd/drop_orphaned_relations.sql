@@ -74,8 +74,6 @@
 
     {%- endset -%}
 
-    {{ print(cleanup_query) }}
-
     -- Execute the DROP statments above
     {%- set drop_commands = run_query(cleanup_query) -%}
 
