@@ -1,13 +1,25 @@
 version: 2
 
 models:
-  - name: loans_by_state
+  - name: loans_by_state__dynamic
     description: 'This model shows the top 10 states with loans.'
     config:
       grants:
         select: ['analyst']
     columns:
       - name: state
-        description: 'The state where the loans are located.'
+        description: 'The name of the state.'
       - name: number_of_loans
-        description: 'The total number of loans in each state.'
+        description: 'The number of loans in the state.'
+
+
+  - name: loans_by_state__standard
+    description: 'This model shows the top 10 states with loans.'
+    config:
+      grants:
+        select: ['analyst']
+    columns:
+      - name: state
+        description: 'The name of the state.'
+      - name: number_of_loans
+        description: 'The number of loans in the state.'

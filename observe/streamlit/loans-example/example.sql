@@ -15,11 +15,19 @@ delete
 from RAW.LOANS.PERSONAL_LOANS
 where left(addr_state, 1)> 'A';
 
+select count(*)
+from RAW.LOANS.PERSONAL_LOANS;
+
+
+
 -- dropping dymanic table
 use role analyst;
 use warehouse wh_transforming;
-drop dynamic table balboa_dev.gomezn.loans_by_state;
+drop dynamic table balboa_dev.gomezn.loans_by_state__dynamic;
+drop dynamic table balboa_dev.gomezn.loans_by_state__standard;
 
+
+drop schema balboa_dev.fivetran_centre_straighten_staging;
 ------
 
 -- Creating Streamlit App
@@ -49,3 +57,8 @@ use schema apps;
 SHOW STREAMLITS;
 
 select * from balboa.l3_loan_analytics.loans_by_state order by NUMBER_OF_LOANS desc;
+
+
+
+select * from balboa_dev.gomezn.loans_by_state__standard;
+select * from balboa_dev.gomezn.loans_by_state__dynamic;
