@@ -7,7 +7,7 @@ on:  # yamllint disable-line rule:truthy
     paths:
       - .github/workflows/*
       - automate/*
-      - observe/*
+      - visualize/*
       - orchestrate/*
       - transform/*
       - transform/**/*
@@ -80,7 +80,7 @@ jobs:
           folder: transform/target
 
       - name: Deploy Streamlit App
-        run: "dbt run-operation deploy_streamlit_app --args \"{app_path: '../observe/streamlit/loans-example', app_file: loans.py}\""
+        run: "dbt run-operation deploy_streamlit_app --args \"{app_path: '../visualize/streamlit/loans-example', app_file: loans.py}\""
 
       - name: Upload dbt artifacts
         run: "dbt run-operation upload_artifacts"
