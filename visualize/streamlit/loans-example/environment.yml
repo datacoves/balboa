@@ -2,4 +2,4 @@ name: loans
 channels:
 - snowflake
 dependencies:
-- streamlit_autorefresh
+- schedule
