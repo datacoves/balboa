@@ -38,7 +38,7 @@ CREATE STAGE balboa_apps.resources.streamlit
     directory = (enable=true)
     file_format = (type=CSV field_delimiter=None record_delimiter=None);
 
-PUT 'file:///config/workspace/observe/streamlit/loans-example/loans.py' @balboa.apps.streamlit
+PUT 'file:///config/workspace/visualize/streamlit/loans-example/loans.py' @balboa.apps.streamlit
     overwrite=true auto_compress=false;
 
 drop streamlit balboa_apps.resources.loans;

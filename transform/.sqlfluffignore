@@ -5,4 +5,4 @@ templates/
 macros/
 models_bq/
 models_rs
-observe/
+visualize/
