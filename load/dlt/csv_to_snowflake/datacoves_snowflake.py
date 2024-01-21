@@ -9,7 +9,7 @@ def set_config_value(key, config_key, env_var_prefix = 'DATACOVES__MAIN__'):
 
     return value
 
-config_keys = ["account", "database", "warehouse", "role", "username", "password"]
+config_keys = ["account", "database", "warehouse", "role", "user", "password"]
 
 db_config = {}
 for key in config_keys:
@@ -24,3 +24,4 @@ for key in config_keys:
 
 # This is needed because by default dlt calls the snowflake account host
 db_config['host'] = db_config['account']
+db_config['username'] = db_config['user']
