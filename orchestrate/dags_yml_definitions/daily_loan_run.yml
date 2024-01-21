@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_5
+  - version_6
 default_args:
   start_date: 2021-01
 catchup: false
@@ -29,7 +29,9 @@ nodes:
     bash_command: "
       pwd &&
       echo =========== &&
-      dbt-coves dbt -- ls -s awer -t prd'"
+      dbt-coves dbt -- ls -s awer -t prd'
+      echo =========== &&
+      pwd"
 
   extract_and_load_dlt:
     type: task
@@ -43,6 +45,7 @@ nodes:
       echo =========== &&
       python csv_to_snowflake/load_csv_data.py &&
       echo ==========="
+    dependencies: ["transform"]
 
   # transform:
   #   operator: operators.datacoves.bash.DatacovesBashOperator
