@@ -28,9 +28,9 @@ nodes:
     bash_command: "
       cd $DATACOVES__DBT_HOME &&
       echo =========== &&
-      ls -ls &&
+      ls -la &&
       echo =========== &&
-      cd load/dlt/ &&
+      cd ../load/dlt/ &&
       python csv_to_snowflake/load_csv_data.py"
 
   # transform:
