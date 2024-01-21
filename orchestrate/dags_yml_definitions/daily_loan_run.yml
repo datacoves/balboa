@@ -24,6 +24,7 @@ nodes:
   extract_and_load_dlt:
     tooltip: "DLT Extract and Load"
     type: task
+    operator: operators.datacoves.bash.DatacovesBashOperator
 
     bash_command: "
       cd ../load/dlt/ &&
