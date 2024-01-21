@@ -21,6 +21,13 @@ nodes:
   #   tooltip: "Fivetran Extract and Load"
   #   dbt_list_args: "--select tag:daily_run_fivetran"
 
+
+  transform:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+
+    bash_command: "dbt-coves dbt -- ls -s awer -t prd'"
+
   extract_and_load_dlt:
     type: task
     operator: operators.datacoves.bash.DatacovesBashOperator
@@ -29,9 +36,10 @@ nodes:
       cd $DATACOVES__DBT_HOME &&
       cd ../load/dlt/ &&
       echo =========== &&
-      ls -la &&
+      pwd &&
       echo =========== &&
-      python csv_to_snowflake/load_csv_data.py"
+      python csv_to_snowflake/load_csv_data.py &&
+      echo ==========="
 
   # transform:
   #   operator: operators.datacoves.bash.DatacovesBashOperator

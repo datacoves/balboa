@@ -12,9 +12,12 @@ from operators.datacoves.bash import DatacovesBashOperator
     catchup=False,
 )
 def daily_loan_run():
+    transform = DatacovesBashOperator(
+        task_id="transform", bash_command="dbt-coves dbt -- ls -s awer -t prd'"
+    )
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        bash_command=" cd $DATACOVES__DBT_HOME && cd ../load/dlt/ && echo =========== && ls -la && echo =========== && python csv_to_snowflake/load_csv_data.py",
+        bash_command=" cd $DATACOVES__DBT_HOME && cd ../load/dlt/ && echo =========== && pwd && echo =========== && python csv_to_snowflake/load_csv_data.py && echo ===========",
     )
 
 
