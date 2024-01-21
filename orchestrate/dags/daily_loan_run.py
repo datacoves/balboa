@@ -14,7 +14,7 @@ from operators.datacoves.bash import DatacovesBashOperator
 def daily_loan_run():
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        bash_command=" pwd && echo =========== && ls -ls && echo =========== && cd load/dlt/ && python csv_to_snowflake/load_csv_data.py",
+        bash_command=" cd $DATACOVES__DBT_HOME && echo =========== && ls -la && echo =========== && cd ../load/dlt/ && python csv_to_snowflake/load_csv_data.py",
     )
 
 
