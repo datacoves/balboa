@@ -13,6 +13,7 @@ def set_config_value(key, env_var_prefix = 'DATACOVES__MAIN__', config_prefix = 
 config_keys = ["account", "database", "warehouse", "role", "username", "password"]
 
 db_config = {}
+db_config['account'] = None
 for key in config_keys:
     db_config[key] = set_config_value(key)
 
