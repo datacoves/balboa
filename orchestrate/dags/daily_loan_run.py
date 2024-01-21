@@ -55,13 +55,19 @@ def daily_loan_run():
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        bash_command=" cd ../load/dlt/ && python csv_to_snowflake/load_csv_data.py",
+        bash_command=" pwd && cd load/dlt/ && python csv_to_snowflake/load_csv_data.py",
     )
     transform = DatacovesBashOperator(
         task_id="transform",
         bash_command="dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
     )
-    transform.set_upstream([tg_extract_and_load_airbyte, tg_extract_and_load_fivetran])
+    transform.set_upstream(
+        [
+            tg_extract_and_load_airbyte,
+            extract_and_load_dlt,
+            tg_extract_and_load_fivetran,
+        ]
+    )
     marketing_automation = DatacovesBashOperator(
         task_id="marketing_automation",
         bash_command="echo 'send data to marketing tool'",

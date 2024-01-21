@@ -26,7 +26,8 @@ nodes:
     operator: operators.datacoves.bash.DatacovesBashOperator
 
     bash_command: "
-      cd ../load/dlt/ &&
+      pwd &&
+      cd load/dlt/ &&
       python csv_to_snowflake/load_csv_data.py"
 
   transform:
@@ -36,7 +37,7 @@ nodes:
     bash_command: "dbt-coves dbt -- build
                   -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 
-    dependencies: ["extract_and_load_airbyte","extract_and_load_fivetran"]
+    dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
 
   marketing_automation:
     operator: operators.datacoves.bash.DatacovesBashOperator
