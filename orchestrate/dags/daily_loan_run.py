@@ -8,12 +8,13 @@ from operators.datacoves.bash import DatacovesBashOperator
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_4"],
+    tags=["version_5"],
     catchup=False,
 )
 def daily_loan_run():
     transform = DatacovesBashOperator(
-        task_id="transform", bash_command="dbt-coves dbt -- ls -s awer -t prd'"
+        task_id="transform",
+        bash_command=" pwd && echo =========== && dbt-coves dbt -- ls -s awer -t prd'",
     )
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",

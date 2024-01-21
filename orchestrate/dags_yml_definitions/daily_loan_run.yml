@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_4
+  - version_5
 default_args:
   start_date: 2021-01
 catchup: false
@@ -26,7 +26,10 @@ nodes:
     operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
-    bash_command: "dbt-coves dbt -- ls -s awer -t prd'"
+    bash_command: "
+      pwd &&
+      echo =========== &&
+      dbt-coves dbt -- ls -s awer -t prd'"
 
   extract_and_load_dlt:
     type: task
