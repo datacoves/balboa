@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_7
+  - version_8
 default_args:
   start_date: 2021-01
 catchup: false
@@ -22,30 +22,29 @@ nodes:
   #   dbt_list_args: "--select tag:daily_run_fivetran"
 
 
-  transform:
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    type: task
+  # transform:
+  #   operator: operators.datacoves.bash.DatacovesBashOperator
+  #   type: task
 
-    bash_command: "
-      pwd &&
-      echo =========== &&
-      dbt-coves dbt -- ls -s awer -t prd &&
-      echo =========== &&
-      pwd"
+  #   bash_command: "
+  #     pwd &&
+  #     echo =========== &&
+  #     dbt-coves dbt -- ls -s awer -t prd &&
+  #     echo =========== &&
+  #     pwd"
 
   extract_and_load_dlt:
     type: task
     operator: operators.datacoves.bash.DatacovesBashOperator
-
+  #  cd $DATACOVES__DBT_HOME &&
+  #     cd ../load/dlt/ &&
     bash_command: "
-      cd $DATACOVES__DBT_HOME &&
-      cd ../load/dlt/ &&
       echo =========== &&
       pwd &&
       echo =========== &&
       python csv_to_snowflake/load_csv_data.py &&
       echo ==========="
-    dependencies: ["transform"]
+    # dependencies: ["transform"]
 
   # transform:
   #   operator: operators.datacoves.bash.DatacovesBashOperator
