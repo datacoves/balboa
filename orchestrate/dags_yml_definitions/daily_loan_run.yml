@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_6
+  - version_7
 default_args:
   start_date: 2021-01
 catchup: false
@@ -29,7 +29,7 @@ nodes:
     bash_command: "
       pwd &&
       echo =========== &&
-      dbt-coves dbt -- ls -s awer -t prd'
+      dbt-coves dbt -- ls -s awer -t prd &&
       echo =========== &&
       pwd"
 
