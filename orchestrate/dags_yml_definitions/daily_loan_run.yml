@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_3
+  - version_4
 default_args:
   start_date: 2021-01
 catchup: false
