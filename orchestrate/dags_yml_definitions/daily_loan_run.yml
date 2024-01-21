@@ -22,7 +22,6 @@ nodes:
     dbt_list_args: "--select tag:daily_run_fivetran"
 
   extract_and_load_dlt:
-    tooltip: "DLT Extract and Load"
     type: task
     operator: operators.datacoves.bash.DatacovesBashOperator
 
