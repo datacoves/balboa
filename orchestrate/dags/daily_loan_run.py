@@ -8,13 +8,13 @@ from operators.datacoves.bash import DatacovesBashOperator
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_14"],
+    tags=["version_16"],
     catchup=False,
 )
 def daily_loan_run():
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        bash_command=" echo =========== && echo 'this is temporary until DatacovesBashOperator is updated' && dbt-coves dbt -- ls -s somehting echo =========== && pwd && cd '$(cat /tmp/dbt_coves_dbt_clone_path.txt)' && cd ../load/dlt/ && echo =========== && python csv_to_snowflake/load_csv_data.py && echo ===========",
+        bash_command=" echo =========== && echo 'this is temporary until DatacovesBashOperator is updated' && dbt-coves dbt -- ls -s somehting echo =========== && pwd && cat /tmp/dbt_coves_dbt_clone_path.txt && project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) && cd $project_dir && cd ../load/dlt/ && echo =========== && python csv_to_snowflake/load_csv_data.py && echo ===========",
     )
 
 
