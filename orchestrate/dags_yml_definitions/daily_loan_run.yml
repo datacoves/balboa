@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_16
+  - version_17
 default_args:
   start_date: 2021-01
 catchup: false
@@ -36,7 +36,8 @@ nodes:
       cat /tmp/dbt_coves_dbt_clone_path.txt &&
       project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) &&
       cd $project_dir &&
-      cd ../load/dlt/ &&
+      pwd &&
+      cd load/dlt/ &&
       echo =========== &&
       python csv_to_snowflake/load_csv_data.py &&
       echo ==========="
