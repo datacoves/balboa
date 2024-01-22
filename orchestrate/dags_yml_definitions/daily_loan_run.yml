@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_21
+  - version_22
 default_args:
   start_date: 2021-01
 catchup: false
@@ -41,6 +41,10 @@ nodes:
       cd $project_dir &&
       echo =========== &&
       pwd &&
+      echo =========== &&
+      ls -la &&
+      echo =========== &&
+      cd .. &&
       echo =========== &&
       ls -la &&
       echo =========== &&
