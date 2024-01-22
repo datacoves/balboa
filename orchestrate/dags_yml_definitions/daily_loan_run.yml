@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_19
+  - version_20
 default_args:
   start_date: 2021-01
 catchup: false
@@ -41,6 +41,9 @@ nodes:
       cd $project_dir &&
       echo =========== &&
       pwd &&
+      echo =========== &&
+      ls -la &&
+      echo =========== &&
       cd load/dlt/ &&
       echo =========== &&
       python csv_to_snowflake/load_csv_data.py &&
