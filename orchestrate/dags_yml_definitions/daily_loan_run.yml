@@ -32,7 +32,7 @@ nodes:
       echo 'this is temporary until DatacovesBashOperator is updated' &&
       dbt-coves dbt -- ls -s somehting
       echo =========== &&
-      cd ../load/dlt/
+      cd ../load/dlt/ &&
       echo =========== &&
       python csv_to_snowflake/load_csv_data.py &&
       echo ==========="
