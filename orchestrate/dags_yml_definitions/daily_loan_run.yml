@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_11
+  - version_12
 default_args:
   start_date: 2021-01
 catchup: false
@@ -32,6 +32,7 @@ nodes:
       echo 'this is temporary until DatacovesBashOperator is updated' &&
       dbt-coves dbt -- ls -s somehting
       echo =========== &&
+      pwd &&
       cd ../load/dlt/ &&
       echo =========== &&
       python csv_to_snowflake/load_csv_data.py &&
