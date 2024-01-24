@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_27
+  - version_32
 default_args:
   start_date: 2021-01
 catchup: false
@@ -35,6 +35,8 @@ nodes:
       pwd &&
       echo =========== &&
       project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) &&
+      cd $project_dir &&
+      ls -la &&
       echo ======VAR===== &&
       echo $project_dir &&
       echo ======REPO_PATH===== &&
