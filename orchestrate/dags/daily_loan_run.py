@@ -8,13 +8,13 @@ from operators.datacoves.bash import DatacovesBashOperator
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_24"],
+    tags=["version_25"],
     catchup=False,
 )
 def daily_loan_run():
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        bash_command=" echo =========== && echo 'this is temporary until DatacovesBashOperator is updated' && dbt-coves dbt -- ls -s somehting echo =========== && pwd && echo =========== && project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) && echo ======VAR===== && echo $project_dir && echo =========== && cd $project_dir && echo =========== && cp -rpf $DATACOVES__REPO_PATH $project_dir && echo =========== && ls -la && echo =========== && cd .. && echo =========== && ls -la && echo =========== && cd ../load/dlt/ && echo =========== && ls -la && echo =========== && python csv_to_snowflake/load_csv_data.py && echo ===========",
+        bash_command=" echo =========== && echo 'this is temporary until DatacovesBashOperator is updated' && dbt-coves dbt -- ls -s somehting echo =========== && pwd && echo =========== && project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) && echo ======VAR===== && echo $project_dir && echo =========== && cp -rpf $DATACOVES__REPO_PATH $project_dir && echo =========== && cd $project_dir && echo =========== && ls -la && echo =========== && cd .. && echo =========== && ls -la && echo =========== && cd ../load/dlt/ && echo =========== && ls -la && echo =========== && python csv_to_snowflake/load_csv_data.py && echo ===========",
     )
 
 
