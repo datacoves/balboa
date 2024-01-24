@@ -41,7 +41,7 @@ from datacoves_snowflake import db_config
 def us_population():
     us_population_csv = "https://raw.githubusercontent.com/dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv"
     df = pd.read_csv(us_population_csv)
-    yield df
+    yield df.to_dict(orient="records") 
 
 # Source (corresponds to API or database)
 @dlt.source
