@@ -58,8 +58,8 @@ if __name__ == "__main__":
         progress = "enlighten",
         pipeline_name = "csv_to_snowflake",
         destination = datacoves_snowflake,
-        pipeline_dir = "/tmp/",
-        
+        pipelines_dir = "/tmp/",
+
         # dataset_name is the target schema name
         dataset_name="us_population"
     )
