@@ -1,7 +1,6 @@
 import datetime
 from time import sleep
 from airflow.decorators import dag, task
-from operators.datacoves.bash import DatacovesBashOperator
 
 
 @dag(
@@ -18,7 +17,7 @@ def wait_dag():
         sleep(600)
         return 'Waited for 10min'
 
-    wait_10_min()
+    run_this = wait_10_min()
 
 
 dag = wait_dag()
