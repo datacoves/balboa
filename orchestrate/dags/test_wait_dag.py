@@ -1,6 +1,6 @@
 import datetime
-
-from airflow.decorators import dag
+from time import sleep
+from airflow.decorators import dag, task
 from operators.datacoves.bash import DatacovesBashOperator
 
 
@@ -12,10 +12,13 @@ from operators.datacoves.bash import DatacovesBashOperator
     catchup=False,
 )
 def wait_dag():
-    wait_for_10_min = DatacovesBashOperator(
-        task_id="wait_for_10_min",
-        bash_command=" wait 10m && echo 'ended'",
-    )
+    @task(task_id="wait_10_min")
+    def wait_10_min(**kwargs):
+        """Print the Airflow context and ds variable from the context."""
+        sleep(600)
+        return 'Waited for 10min'
+
+    wait_10_min()
 
 
 dag = wait_dag()
