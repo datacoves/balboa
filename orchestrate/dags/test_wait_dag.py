@@ -1,28 +1,21 @@
-from time import sleep
-from airflow.decorators import dag
-from airflow.operators.python_operator import PythonOperator
+import datetime
 
-def my_task_function(**kwargs):
-    # Add your task logic here
-    print("Task is running...")
-    sleep(600)  # Sleep for 10 minutes
-    print("Task ended after 10min...")
+from airflow.decorators import dag
+from operators.datacoves.bash import DatacovesBashOperator
 
 
 @dag(
     default_args={"start_date": "2021-01"},
-    description="Loan Run",
+    description="Wait Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1"],
+    tags=["version_3"],
     catchup=False,
 )
-def test_waiting_dag():
-    my_task = PythonOperator(
-        task_id='my_task',
-        python_callable=my_task_function,
-        provide_context=True,
-        dag=dag,
+def wait_dag():
+    wait_for_10_min = DatacovesBashOperator(
+        task_id="wait_for_10_min",
+        bash_command=" wait 10m && echo 'ended'",
     )
 
 
-dag = test_waiting_dag()
+dag = wait_dag()
