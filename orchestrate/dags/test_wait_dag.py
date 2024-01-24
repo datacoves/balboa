@@ -13,10 +13,10 @@ def my_task_function(**kwargs):
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_27"],
+    tags=["version_1"],
     catchup=False,
 )
-def daily_loan_run():
+def test_waiting_dag():
     my_task = PythonOperator(
         task_id='my_task',
         python_callable=my_task_function,
@@ -25,4 +25,4 @@ def daily_loan_run():
     )
 
 
-dag = daily_loan_run()
+dag = test_waiting_dag()
