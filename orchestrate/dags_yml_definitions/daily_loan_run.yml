@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_22
+  - version_23
 default_args:
   start_date: 2021-01
 catchup: false
@@ -40,7 +40,7 @@ nodes:
       echo =========== &&
       cd $project_dir &&
       echo =========== &&
-      pwd &&
+      cp -rpf $DATACOVES__REPO_PATH $project_dir
       echo =========== &&
       ls -la &&
       echo =========== &&
