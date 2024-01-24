@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_25
+  - version_26
 default_args:
   start_date: 2021-01
 catchup: false
@@ -37,6 +37,8 @@ nodes:
       project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) &&
       echo ======VAR===== &&
       echo $project_dir &&
+      echo ======REPO_PATH===== &&
+      echo $DATACOVES__REPO_PATH &&
       echo =========== &&
       cp -rpf $DATACOVES__REPO_PATH $project_dir &&
       echo =========== &&
