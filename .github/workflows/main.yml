@@ -64,7 +64,7 @@ jobs:
         id: run-blue-green
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        run: "../automate/blue_green_run.py --ci-cd-run -t prd"
+        run: "../automate/blue_green_run.py --ci-cd-run"
 
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
