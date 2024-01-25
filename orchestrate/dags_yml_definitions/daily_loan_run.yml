@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_40
+  - version_42
 default_args:
   start_date: 2021-01
 catchup: false
@@ -40,6 +40,13 @@ nodes:
       cd $project_dir/load/dlt &&
       echo =====ls_project_dir====== &&
       ls -la &&
+      echo =====ENV_VARS_MAIN_LOAD====== &&
+      echo $DATACOVES__MAIN_LOAD__ACCOUNT &&
+      echo $DATACOVES__MAIN_LOAD__WAREHOUSE &&
+      echo $DATACOVES__MAIN_LOAD__ROLE &&
+      echo $DATACOVES__MAIN_LOAD__DATABASE &&
+      echo $DATACOVES__MAIN_LOAD__SCHEMA &&
+      echo $DATACOVES__MAIN_LOAD__USER &&
       echo =====RUN_DLT====== &&
       python csv_to_snowflake/load_csv_data.py &&
       echo ==========="
