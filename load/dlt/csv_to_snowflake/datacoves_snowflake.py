@@ -1,7 +1,7 @@
 import os
 import dlt
 
-def set_config_value(key, config_key, env_var_prefix = 'DATACOVES__MAIN__'):
+def set_config_value(key, config_key, env_var_prefix = 'DATACOVES__MAIN_LOAD__'):
 
     env_var = env_var_prefix + key.upper()
 
