@@ -1,10 +1,10 @@
 version: 2
 
 models:
-  - name: US_POPULATION
+  - name: us_population
     description: 'Model representing the population data for each state in the United States.'
     columns:
-      - name: states
+      - name: state_name
         description: 'The name of the state.'
       - name: id
         description: 'The unique identifier for each record in the model.'
