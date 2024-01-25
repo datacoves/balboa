@@ -1,25 +1,25 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_44
+  - version_1
 default_args:
   start_date: 2021-01
 catchup: false
 
 nodes:
-  # extract_and_load_airbyte:
-  #   generator: AirbyteDbtGenerator
-  #   type: task_group
+  extract_and_load_airbyte:
+    generator: AirbyteDbtGenerator
+    type: task_group
 
-  #   tooltip: "Airbyte Extract and Load"
-  #   dbt_list_args: "--select tag:daily_run_airbyte"
+    tooltip: "Airbyte Extract and Load"
+    dbt_list_args: "--select tag:daily_run_airbyte"
 
-  # extract_and_load_fivetran:
-  #   generator: FivetranDbtGenerator
-  #   type: task_group
+  extract_and_load_fivetran:
+    generator: FivetranDbtGenerator
+    type: task_group
 
-  #   tooltip: "Fivetran Extract and Load"
-  #   dbt_list_args: "--select tag:daily_run_fivetran"
+    tooltip: "Fivetran Extract and Load"
+    dbt_list_args: "--select tag:daily_run_fivetran"
 
 
   extract_and_load_dlt:
@@ -40,27 +40,26 @@ nodes:
       echo =====RUN_DLT====== &&
       python csv_to_snowflake/load_csv_data.py &&
       echo ==========="
-    # dependencies: ["transform"]
 
-  # transform:
-  #   operator: operators.datacoves.bash.DatacovesBashOperator
-  #   type: task
+  transform:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
 
-  #   bash_command: "dbt-coves dbt -- build
-  #                 -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+    bash_command: "dbt-coves dbt -- build
+                  -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 
-  #   dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
+    dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
 
-  # marketing_automation:
-  #   operator: operators.datacoves.bash.DatacovesBashOperator
-  #   type: task
+  marketing_automation:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
 
-  #   bash_command: "echo 'send data to marketing tool'"
-  #   dependencies: ["transform"]
+    bash_command: "echo 'send data to marketing tool'"
+    dependencies: ["transform"]
 
-  # update_catalog:
-  #   operator: operators.datacoves.bash.DatacovesBashOperator
-  #   type: task
+  update_catalog:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
 
-  #   bash_command: "echo 'refresh data catalog'"
-  #   dependencies: ["transform"]
+    bash_command: "echo 'refresh data catalog'"
+    dependencies: ["transform"]
