@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: us_population_unpivot
+    description: 'This model calculates the population difference year to year for each state in the US.'
+    columns:
+      - name: id
+        description: 'The unique identifier of the population record.'
+      - name: state_name
+        description: 'The name of the state where the population record is associated with.'
+      - name: state_code
+        description: 'The code representing the state where the population record is associated with.'
+      - name: year
+        description: 'The year of the population record.'
+      - name: population
+        description: 'The population count for a specific state and year.'
+      - name: previous_population
+        description: 'The population count for the previous year.'
+      - name: population_difference
+        description: 'The difference in population between the current year and the previous year.'
+      - name: absolute_population_difference
+        description: 'The absolute value of the population difference, ignoring the positive or negative sign.'

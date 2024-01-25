@@ -11,7 +11,7 @@ exposures:
 
     depends_on:
       - ref('personal_loans')
-      - ref('current_population')
+      - ref('country_population')
 
     owner:
       name: Steve Egan

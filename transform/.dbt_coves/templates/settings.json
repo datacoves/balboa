@@ -1,5 +1,0 @@
-{
-    "terminal.integrated.cwd": "/config/workspace/transform",
-    "sqlfluff.config": "/config/workspace/transform/.sqlfluff",
-    "betterStatusBar.configurationFile": "/config/workspace/.vscode/statusbar.jsonc"
-}
