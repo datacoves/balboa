@@ -8,7 +8,7 @@ from operators.datacoves.bash import DatacovesBashOperator
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_39"],
+    tags=["version_40"],
     catchup=False,
 )
 def daily_loan_run():
