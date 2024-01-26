@@ -1,0 +1,65 @@
+description: "Loan Run"
+schedule_interval: "0 0 1 */12 *"
+tags:
+  - version_1
+default_args:
+  start_date: 2021-01
+catchup: false
+
+nodes:
+  extract_and_load_airbyte:
+    generator: AirbyteDbtGenerator
+    type: task_group
+
+    tooltip: "Airbyte Extract and Load"
+    dbt_list_args: "--select tag:daily_run_airbyte"
+
+  # extract_and_load_fivetran:
+  #   generator: FivetranDbtGenerator
+  #   type: task_group
+
+  #   tooltip: "Fivetran Extract and Load"
+  #   dbt_list_args: "--select tag:daily_run_fivetran"
+
+
+  extract_and_load_dlt:
+    type: task
+    operator: operators.datacoves.bash.DatacovesBashOperator
+
+    bash_command: "
+      echo =========== &&
+      echo 'this is temporary until DatacovesBashOperator is updated' &&
+      dbt-coves dbt -- ls -s something
+      echo =====rm_project_dir====== &&
+      project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) &&
+      rm -rf $project_dir
+      echo =====CP_DATACOVES__REPO_PATH====== &&
+      cp -rpf $DATACOVES__REPO_PATH/ $project_dir &&
+      echo ====cd_project_dir_dlt======= &&
+      cd $project_dir/load/dlt &&
+      echo =====RUN_DLT====== &&
+      python csv_to_snowflake/load_csv_data.py &&
+      echo ==========="
+
+  transform:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+
+    bash_command: "dbt-coves dbt -- build
+                  -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+
+    dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
+
+  marketing_automation:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+
+    bash_command: "echo 'send data to marketing tool'"
+    dependencies: ["transform"]
+
+  update_catalog:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+
+    bash_command: "echo 'refresh data catalog'"
+    dependencies: ["transform"]
