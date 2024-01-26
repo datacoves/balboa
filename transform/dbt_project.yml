@@ -68,6 +68,8 @@ models:
                 +schema: l1_covid19_epidemiological_data
             loans:
                 +schema: l1_loans
+            us_population:
+                +schema: l1_country_data
 
         L2_bays:
             +docs:
