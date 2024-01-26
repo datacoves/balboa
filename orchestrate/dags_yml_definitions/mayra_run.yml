@@ -46,9 +46,9 @@ nodes:
     type: task
 
     bash_command: "dbt-coves dbt -- build
-                  -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+                  -s 'tag:daily_run_airbyte+ -t prd'"
 
-    dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
+    dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt"]
 
   marketing_automation:
     operator: operators.datacoves.bash.DatacovesBashOperator

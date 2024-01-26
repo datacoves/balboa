@@ -34,11 +34,9 @@ def mayra_run():
     )
     transform = DatacovesBashOperator(
         task_id="transform",
-        bash_command="dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
+        bash_command="dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ -t prd'",
     )
-    transform.set_upstream(
-        [tg_extract_and_load_airbyte, extract_and_load_dlt, extract_and_load_fivetran]
-    )
+    transform.set_upstream([tg_extract_and_load_airbyte, extract_and_load_dlt])
     marketing_automation = DatacovesBashOperator(
         task_id="marketing_automation",
         bash_command="echo 'send data to marketing tool'",
