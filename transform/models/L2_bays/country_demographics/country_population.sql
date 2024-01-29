@@ -13,7 +13,7 @@ with population_rank as (
 select
     country_code,
     country_name,
-    value,
+    value as total_population,
     year
 from population_rank
 where

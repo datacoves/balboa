@@ -18,27 +18,37 @@ jobs:
   dbt:
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
-
+    # Set environment variables in
+    # https://github.com//<your org>/<your repo>/settings/variables/actions
+    #
+    # Alternatively, You can define multiple ENV for different workflows.
+    # https://github.com/<org>/<repo>/settings/environments
+    # environment: PR_ENV
     container: datacoves/ci-basic-dbt-snowflake:2
 
     defaults:
       run:
-        working-directory: /__w/balboa/balboa/transform
+        working-directory: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/transform
 
     env:
-      DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
+      DATACOVES__REPO_NAME: ${{ github.event.repository.name }}
 
-      DATACOVES__DBT_HOME: /__w/balboa/balboa/transform
+      DBT_PROFILES_DIR: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/automate/dbt
+      DATACOVES__DBT_HOME: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/transform
 
-      DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
-      DATACOVES__MAIN__ROLE: ${{ secrets.DATACOVES__MAIN__ROLE }}
-      DATACOVES__MAIN__WAREHOUSE: ${{ secrets.DATACOVES__MAIN__WAREHOUSE }}
-      DATACOVES__MAIN__DATABASE: BALBOA_PR_${{ github.event.number }}
-      DATACOVES__MAIN__USER: ${{ secrets.DATACOVES__MAIN__USER }}
-      DATACOVES__MAIN__PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
+      DATACOVES__MAIN__ACCOUNT:   ${{ vars.DATACOVES__MAIN__ACCOUNT }}
 
-      DATACOVES__REPO_PATH: /__w/balboa/balboa
-      DATACOVES__YAML_DAGS_FOLDER: /__w/balboa/balboa/schedule
+      DATACOVES__MAIN__DATABASE:  ${{ vars.DATACOVES__REPO_NAME }}_PR_${{ github.event.number }}
+      DATACOVES__MAIN__SCHEMA:    ${{ vars.DATACOVES__MAIN__SCHEMA }}
+
+      DATACOVES__MAIN__ROLE:      ${{ vars.DATACOVES__MAIN__ROLE }}
+      DATACOVES__MAIN__WAREHOUSE: ${{ vars.DATACOVES__MAIN__WAREHOUSE }}
+
+      DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
+      DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
+
+      DATACOVES__REPO_PATH: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}
+      DATACOVES__YAML_DAGS_FOLDER: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/schedule
 
     steps:
       - name: Checkout branch
@@ -48,7 +58,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Secure Directory
-        run: git config --global --add safe.directory /__w/balboa/balboa
+        run: git config --global --add safe.directory /${{ vars.DATACOVES__REPO_PATH }}
 
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
@@ -64,11 +74,11 @@ jobs:
         run: "../automate/dbt/get_artifacts.sh"
 
       - name: Run dbt build slim mode
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' && ! contains(github.event.pull_request.labels.*.name, 'full-refresh') }}
         run: "dbt build --fail-fast --defer --state logs --select state:modified+"
 
       - name: Run dbt build full run
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' || contains(github.event.pull_request.labels.*.name, 'full-refresh') }}
         run: "dbt build --fail-fast"
 
       - name: Grant access to PR database
@@ -77,7 +87,7 @@ jobs:
 
       - name: Generate Docs Combining Prod and branch catalog.json
         #TODO: remove profiles-dir when dbt-coves is fixed
-        run: "dbt-coves generate docs --merge-deferred --state logs --profiles-dir /__w/balboa/balboa/automate/dbt"
+        run: "dbt-coves generate docs --merge-deferred --state logs --profiles-dir /${{ vars.DATACOVES__REPO_PATH }}/automate/dbt"
 
       - name: Run governance checks
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
@@ -94,8 +104,8 @@ jobs:
     container: datacoves/ci-airflow-dbt-snowflake:2
 
     env:
-      AIRBYTE__EXTRACT_LOCATION: /__w/balboa/balboa/load
-      AIRFLOW__CORE__DAGS_FOLDER: /__w/balboa/balboa/automate/airflow/dags
+      AIRBYTE__EXTRACT_LOCATION: /${{ vars.DATACOVES__REPO_PATH }}/load
+      AIRFLOW__CORE__DAGS_FOLDER: /${{ vars.DATACOVES__REPO_PATH }}/automate/airflow/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
 
     steps:
