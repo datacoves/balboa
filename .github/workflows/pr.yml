@@ -28,7 +28,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/transform
+        working-directory: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
 
     env:
       DATACOVES__REPO_NAME: ${{ github.event.repository.name }}
