@@ -32,9 +32,11 @@ jobs:
 
     env:
       DATACOVES__REPO_NAME: ${{ github.event.repository.name }}
+      DATACOVES__REPO_PATH: /__w/${{ DATACOVES__REPO_NAME }}/${{ DATACOVES__REPO_NAME }}
 
-      DBT_PROFILES_DIR: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/automate/dbt
-      DATACOVES__DBT_HOME: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/transform
+      DBT_PROFILES_DIR: /__w/${{ DATACOVES__REPO_PATH }}/automate/dbt
+      DATACOVES__DBT_HOME: /__w/${{ DATACOVES__REPO_PATH }}//transform
+      DATACOVES__YAML_DAGS_FOLDER: /__w/${{ DATACOVES__REPO_PATH }}/schedule
 
       DATACOVES__MAIN__ACCOUNT:   ${{ vars.DATACOVES__MAIN__ACCOUNT }}
 
@@ -47,8 +49,6 @@ jobs:
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
-      DATACOVES__REPO_PATH: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}
-      DATACOVES__YAML_DAGS_FOLDER: /__w/${{ vars.DATACOVES__REPO_NAME }}/${{ vars.DATACOVES__REPO_NAME }}/schedule
 
     steps:
       - name: Checkout branch
