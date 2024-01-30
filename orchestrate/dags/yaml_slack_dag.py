@@ -14,12 +14,12 @@ def run_inform_failure(context):
     inform_failure(context, connection_id="DATACOVES_SLACK", color="9900FF")
 
 
-TRANSFORM_CONFIG = {
+CUSTOM_CONFIG = {
     "pod_override": k8s.V1Pod(
         spec=k8s.V1PodSpec(
             containers=[
                 k8s.V1Container(
-                    name="transform",
+                    name="",
                     resources=k8s.V1ResourceRequirements(
                         requests={"memory": "8Gi", "cpu": "1000m"}
                     ),
