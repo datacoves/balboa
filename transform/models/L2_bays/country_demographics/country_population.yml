@@ -10,7 +10,7 @@ models:
           - unique
       - name: country_name
         description: "Name of the country"
-      - name: value
+      - name: total_population
         description: "Total population for the country"
       - name: year
         description: "Year population was collected"

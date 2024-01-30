@@ -9,7 +9,8 @@ import tempfile
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
 DBT_FINAL_DB_NAME = os.environ.get("DATACOVES__MAIN__DATABASE", 'Database ENV VAR not set')
-# This db must be prefaced 'staging' to work with /transform/macros/ref.sql override
+
+# This db must be suffixed as '_staging' to work with /transform/macros/ref.sql override
 DBT_STAGING_DB_NAME = DBT_FINAL_DB_NAME + '_STAGING'
 os.environ["DATACOVES__MAIN__DATABASE"] = DBT_STAGING_DB_NAME
 
@@ -19,20 +20,21 @@ VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 
 DBT_COVES__CLONE_PATH = tempfile.NamedTemporaryFile().name
 
-def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None):
+def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None, full_refresh: bool = False):
     """
     Manages blue/green deployment workflow
     """
 
     logging.info("\n\n===== STARTING BLUE / GREEN RUN =====\n")
+    logging.info(f'--target is {target}')
 
     dbt_target = ''
 
     if target:
         dbt_target = f" -t {target}"
 
-    #####
-    logging.info("\n\n===== REMOVE THIS =====\n")
+    ######
+    logging.info("\n\n===== REMOVE THIS IN A PRODUCTION DEPLOYMENT=====\n")
     STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
     run_command(f'dbt-coves dbt -- run-operation drop_staging_db --args "{STAGING_DB_ARGS}" {dbt_target}')
     ######
@@ -45,22 +47,22 @@ def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None):
     )
 
     CLONE_DB_ARGS = (
-        '{"source_db": "'
-        + DBT_FINAL_DB_NAME
-        + '", "target_db": "'
-        + DBT_STAGING_DB_NAME
-        + '"}'
+            '{"source_db": "'
+            + DBT_FINAL_DB_NAME
+            + '", "target_db": "'
+            + DBT_STAGING_DB_NAME
+            + '"}'
     )
     run_command(f'dbt-coves dbt -- run-operation clone_database --args "{CLONE_DB_ARGS}" {dbt_target}')
 
     # Performs the dbt run
-    run_dbt(selector=selector, dbt_target=dbt_target, is_ci_cd_run=is_ci_cd_run)
+    run_dbt(selector=selector, dbt_target=dbt_target, is_ci_cd_run=is_ci_cd_run, full_refresh=full_refresh)
 
     logging.info("Granting usage to staging database ")
     USAGE_ARGS = (
-        '{"db_name": "'
-        + DBT_STAGING_DB_NAME
-        + '"}'
+            '{"db_name": "'
+            + DBT_STAGING_DB_NAME
+            + '"}'
     )
     run_command(f'dbt-coves dbt -- run-operation grant_prd_usage --args "{USAGE_ARGS}" {dbt_target}')
 
@@ -71,7 +73,7 @@ def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None):
         + DBT_FINAL_DB_NAME
     )
     SWAP_DB_ARGS = (
-        '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
+            '{"db1": "' + DBT_FINAL_DB_NAME + '", "db2": "' + DBT_STAGING_DB_NAME + '"}'
     )
     run_command(f'dbt-coves dbt -- run-operation swap_database --args "{SWAP_DB_ARGS}" {dbt_target}')
 
@@ -80,13 +82,16 @@ def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None):
     logging.info("done with dropping!!!!")
 
 
-def run_dbt(selector: str = None, dbt_target: str = None, is_ci_cd_run: bool = False):
+def run_dbt(selector: str = None, dbt_target: str = None, is_ci_cd_run: bool = False, full_refresh: bool = False):
     """
     Runs dbt build and uploads artifacts
     """
     # NOTE: you must have gotten the prod manifest in a step prior to this
     # we set an env variable MANIFEST_FOUND when we get the manifest
     MANIFEST_FOUND = os.environ.get("MANIFEST_FOUND", "false")
+
+    # In the event of a full refresh, don't build from manifest. Full ground up build.
+    MANIFEST_FOUND = "false" if full_refresh else MANIFEST_FOUND
 
     logging.info("MANIFEST_FOUND = " + MANIFEST_FOUND)
 
@@ -99,6 +104,10 @@ def run_dbt(selector: str = None, dbt_target: str = None, is_ci_cd_run: bool = F
         selector = f"--defer --state logs -s state:modified+"
     else:
         selector = ''
+
+    if full_refresh:
+        # Should be triggered by adding a full-refresh label to the PR. Check main.yml workflow for details.
+        selector = f"{selector} --full-refresh"
 
     dbt_command = f"dbt-coves dbt -- build --fail-fast {selector} {dbt_target}"
     print(f"Running dbt command: \n{dbt_command}")
@@ -150,6 +159,13 @@ if __name__ == "__main__":
             dest="is_ci_cd_run",
             action="store_true",
             help="Defines if the run is a ci/cd deployment run",
+        )
+
+        parser.add_argument(
+            "--full-refresh",
+            dest="full_refresh",
+            action="store_true",
+            help="Indicates if run should be a full refresh",
         )
 
         args = vars(parser.parse_args())
