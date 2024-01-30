@@ -1,9 +1,9 @@
 with covid_cases as (
-    select * from BALBOA.l2_covid_observations.total_covid_cases
+    select * from balboa.l2_covid_observations.total_covid_cases
 ),
 
 location as (
-    select * from BALBOA.l2_covid_observations.covid_location
+    select * from balboa.l2_covid_observations.covid_location
 )
 
 select

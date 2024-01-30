@@ -2,7 +2,7 @@
         
     drop dynamic table if exists "BALBOA"."L1_LOANS"."PERSONAL_LOANS"
 ;
-    create or replace dynamic table BALBOA.l1_loans.personal_loans
+    create or replace dynamic table balboa.l1_loans.personal_loans
         target_lag = 'downstream'
         warehouse = wh_transforming
         as (
@@ -78,5 +78,5 @@ final as (
 select * from final
         )
     ;
-    alter dynamic table BALBOA.l1_loans.personal_loans refresh
+    alter dynamic table balboa.l1_loans.personal_loans refresh
     

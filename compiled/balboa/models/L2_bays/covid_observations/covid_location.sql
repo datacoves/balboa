@@ -10,7 +10,7 @@ with jhu_covid_19 as (
         iso3166_1,
         iso3166_2,
         date
-    from BALBOA.l1_covid19_epidemiological_data.jhu_covid_19
+    from balboa.l1_covid19_epidemiological_data.jhu_covid_19
 ),
 
 rank_locations as (

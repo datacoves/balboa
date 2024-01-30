@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.l2_country_demographics.country_population
+  create or replace   view balboa_STAGING.l2_country_demographics.country_population
   
     
     
@@ -9,7 +9,7 @@
   
     "COUNTRY_NAME" COMMENT $$Name of the country$$, 
   
-    "VALUE" COMMENT $$Total population for the country$$, 
+    "TOTAL_POPULATION" COMMENT $$Total population for the country$$, 
   
     "YEAR" COMMENT $$Year population was collected$$
   
@@ -31,7 +31,7 @@
 select
     country_code,
     country_name,
-    value,
+    value as total_population,
     year
 from population_rank
 where

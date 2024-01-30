@@ -7,13 +7,13 @@ with population_rank as (
         rank() over (
             partition by country_code, country_name order by year desc
         ) as rank_years
-    from BALBOA.l1_country_data.country_populations
+    from balboa.l1_country_data.country_populations
 )
 
 select
     country_code,
     country_name,
-    value,
+    value as total_population,
     year
 from population_rank
 where

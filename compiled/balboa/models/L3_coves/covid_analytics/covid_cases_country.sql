@@ -6,7 +6,7 @@ with covid_cases as (
         deaths,
         active,
         recovered
-    from BALBOA.l2_covid_observations.total_covid_cases
+    from balboa.l2_covid_observations.total_covid_cases
 ),
 
 location as (
@@ -16,7 +16,7 @@ location as (
         country,
         lat,
         long
-    from BALBOA.l2_covid_observations.covid_location
+    from balboa.l2_covid_observations.covid_location
 )
 
 select

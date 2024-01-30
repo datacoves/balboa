@@ -13,4 +13,4 @@ select
     dayname(start_time) as day_name,
     hour(start_time) as tod
 from
-    BALBOA.l2_snowflake_usage.int_warehouse_metering_history
+    balboa.l2_snowflake_usage.int_warehouse_metering_history

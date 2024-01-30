@@ -5,7 +5,7 @@ select
     from (
       
         select *
-        from BALBOA_STAGING.dbt_test__audit.not_null_country_population_country_code
+        from balboa_STAGING.dbt_test__audit.not_null_country_population_country_code
     
       
     ) dbt_internal_test

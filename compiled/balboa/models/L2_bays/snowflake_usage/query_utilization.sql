@@ -1,11 +1,11 @@
 with query_fail as (
     select count_if(query_status like 'FAIL') / count(query_status) * 100 as query_fail_percentage
-    from BALBOA.l2_snowflake_usage.int_query_history
+    from balboa.l2_snowflake_usage.int_query_history
 ),
 
 queries_per_user as (
     select count(query_id) / count(distinct user_name) as queries
-    from BALBOA.l2_snowflake_usage.int_query_history
+    from balboa.l2_snowflake_usage.int_query_history
 )
 select
     query_id,
@@ -19,4 +19,4 @@ select
     start_time,
     (select * from query_fail) as query_fail_percentage,
     (select * from queries_per_user) as avg_queries_per_user
-from BALBOA.l2_snowflake_usage.int_query_history
+from balboa.l2_snowflake_usage.int_query_history

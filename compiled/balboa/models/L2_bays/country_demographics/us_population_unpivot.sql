@@ -2,7 +2,7 @@
 
 with us_population as (
     select *
-    from BALBOA.l1_country_data.us_population
+    from balboa.l1_country_data.us_population
     unpivot (
         population for
         year in ("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019")
@@ -10,7 +10,7 @@ with us_population as (
 ),
 
 states as (
-    select * from BALBOA.seeds.state_codes
+    select * from balboa.seeds.state_codes
 ),
 
 population_info as (

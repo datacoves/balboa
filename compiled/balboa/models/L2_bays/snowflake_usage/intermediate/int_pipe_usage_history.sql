@@ -9,5 +9,5 @@ select
     to_date(start_time) as start_date,
     datediff(hour, start_time, end_time) as pipeline_operation_hours,
     hour(start_time) as time_of_day
-from BALBOA.l1_account_usage.pipe_usage_history
+from balboa.l1_account_usage.pipe_usage_history
 order by to_date(start_time) desc
