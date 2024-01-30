@@ -1,7 +1,9 @@
 name: Generate Docs on merge to Main
 
 on:  # yamllint disable-line rule:truthy
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - main
     paths:
@@ -16,28 +18,40 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 jobs:
+
   build:
+    # Need to make sure that when the PR was closed, it was actually merged.
+    if: github.event.pull_request.merged == true
     name: Deployment Script
     runs-on: ubuntu-latest
 
+    # Set environment variables in
+    # https://github.com//<your org>/<your repo>/settings/variables/actions
+    #
+    # Alternatively, You can define multiple ENV for different workflows.
+    # https://github.com/<org>/<repo>/settings/environments
+    # environment: PR_ENV
     container: datacoves/ci-basic-dbt-snowflake:2
 
     defaults:
       run:
-        working-directory: /__w/balboa/balboa/transform
+        working-directory: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+
 
     env:
-      DBT_PROFILES_DIR: /__w/balboa/balboa/automate/dbt
-      DATACOVES__DBT_HOME: /__w/balboa/balboa/transform
+      DBT_PROFILES_DIR: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/dbt
+      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
 
-      DATACOVES__MAIN__ACCOUNT: ${{ secrets.DATACOVES__MAIN__ACCOUNT }}
-      DATACOVES__MAIN__ROLE: ${{ secrets.DATACOVES__MAIN__ROLE }}
-      DATACOVES__MAIN__WAREHOUSE: ${{ secrets.DATACOVES__MAIN__WAREHOUSE }}
-      DATACOVES__MAIN__DATABASE: BALBOA
-      DATACOVES__STAGING__DATABASE: BALBOA_STAGING
-      DATACOVES__MAIN__SCHEMA: ${{ secrets.DATACOVES__MAIN__SCHEMA }}
-      DATACOVES__MAIN__USER: ${{ secrets.DATACOVES__MAIN__USER }}
-      DATACOVES__MAIN__PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
+      DATACOVES__MAIN__ACCOUNT:   ${{ vars.DATACOVES__MAIN__ACCOUNT }}
+
+      DATACOVES__MAIN__DATABASE:  ${{ vars.DATACOVES__MAIN__DATABASE }}
+      DATACOVES__MAIN__SCHEMA:    ${{ vars.DATACOVES__MAIN__SCHEMA }}
+
+      DATACOVES__MAIN__ROLE:      ${{ vars.DATACOVES__MAIN__ROLE }}
+      DATACOVES__MAIN__WAREHOUSE: ${{ vars.DATACOVES__MAIN__WAREHOUSE }}
+
+      DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
+      DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
     steps:
       - name: Checkout branch
@@ -47,7 +61,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set Secure Directory
-        run: git config --global --add safe.directory /__w/balboa/balboa
+        run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
       - name: Install dbt packages
         run: "dbt deps"
@@ -61,10 +75,18 @@ jobs:
         run: "dbt run -s materialization config.materialized:dynamic_table --full-refresh"
 
       - name: Run blue / green deployment
+        if: contains(github.event.pull_request.labels.*.name, 'full-refresh') != true
         id: run-blue-green
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
         run: "../automate/blue_green_run.py --ci-cd-run"
+
+      - name: Run blue / green deployment with full-refresh
+        if: contains(github.event.pull_request.labels.*.name, 'full-refresh')
+        id: run-blue-green-full-refresh
+        env:
+          MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
+        run: "../automate/blue_green_run.py --ci-cd-run --full-refresh"
 
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
