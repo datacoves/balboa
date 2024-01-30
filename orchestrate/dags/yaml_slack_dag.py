@@ -19,8 +19,6 @@ TRANSFORM_CONFIG = {
         spec=k8s.V1PodSpec(
             containers=[
                 k8s.V1Container(
-                    name="transform",
-                    image="datacoves/airflow-pandas:latest",
                     resources=k8s.V1ResourceRequirements(
                         requests={"memory": "8Gi", "cpu": "1000m"}
                     ),
