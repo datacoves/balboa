@@ -1,6 +1,6 @@
 {# This macro drops and recreates in a given database #}
 {#
-    To run: 
+    To run:
     dbt run-operation drop_recreate_db --args '{db_name: dev_commercial_dw2, recreate: False}'
 #}
 
@@ -11,10 +11,12 @@
         drop database if exists {{ db_name }};
         {% if recreate %}
             create database if not exists {{ db_name }};
-            {{ log("Recreating Database: " ~ db_name, info=true) }}
+            {{ print("Recreating Database: " ~ db_name) }}
+        {% else %}
+            {{ print("Dropped Database: " ~ db_name) }}
         {% endif %}
     {% endset %}
-    
+
     {% do run_query(drop_recreate_sql) %}
 
     {% if recreate %}
