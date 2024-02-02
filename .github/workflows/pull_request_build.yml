@@ -49,7 +49,7 @@ jobs:
 
       # This is used by datacoves to drop the test database if permissions
       # cannot be applied when using the Datacoves permifrost security model.
-      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL3 }}
+      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
 
     steps:
       - name: Checkout branch
