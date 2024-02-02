@@ -51,6 +51,17 @@ jobs:
       DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
 
     steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3.5.0
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set Secure Directory
+        run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+########
+
       - name: show value of DATACOVES__DROP_DB_ON_FAIL
         run: "echo $DATACOVES__DROP_DB_ON_FAIL"
 
@@ -59,16 +70,8 @@ jobs:
       - name: Drop PR database on Failure
         if: env.DATACOVES__DROP_DB_ON_FAIL == 'true'
         run: "echo dropped_db"
+########
 
-
-#       - name: Checkout branch
-#         uses: actions/checkout@v3.5.0
-#         with:
-#           fetch-depth: 0
-#           ref: ${{ github.event.pull_request.head.sha }}
-
-#       - name: Set Secure Directory
-#         run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
 #       - name: List of files changed
 #         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
