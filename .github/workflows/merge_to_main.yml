@@ -1,4 +1,4 @@
-name: Generate Docs on merge to Main
+name: Perform deployment to production
 
 on:  # yamllint disable-line rule:truthy
   pull_request:
@@ -52,6 +52,10 @@ jobs:
 
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
+
+      # This is used by datacoves to drop the staging database for blue/green
+      # deployments, most likely you don't want to set this, we use it for demos
+      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
 
     steps:
       - name: Checkout branch
