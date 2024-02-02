@@ -19,7 +19,7 @@ DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
     },
 
     catchup=False,
-    tags = ["version_2"],
+    tags = ["version_3"],
     description = "Datacoves Sample dag",
 
     # This is a regular CRON schedule. Helpful resources
@@ -32,7 +32,7 @@ def datacoves_sample_dag():
     # Calling dbt commands
     dbt_task = DatacovesDbtOperator(
         task_id = "run_dbt_task",
-        bash_command = "dbt-coves dbt -- debug"
+        bash_command = "dbt debug"
     )
 
     dbt_task.doc_md = """\
