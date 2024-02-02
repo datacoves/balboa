@@ -47,12 +47,17 @@ jobs:
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
+      # This is only used by datacoves for demo purposes
+      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
 
     steps:
-      # By setting this env var in GH Actions, we can drop test dbs on failure
-      # for Datacoves demos
+      - name: show value of DATACOVES__DROP_DB_ON_FAIL
+        run: "echo $DATACOVES__DROP_DB_ON_FAIL"
+
+      # By setting this env var to true in GH Actions,
+      # we can drop test dbs on failure for Datacoves demos
       - name: Drop PR database on Failure
-        if: vars.DATACOVES__DROP_DB_ON_FAIL == 'true'
+        if: env.DATACOVES__DROP_DB_ON_FAIL == 'true'
         run: "echo dropped_db"
 
 
