@@ -91,9 +91,6 @@ jobs:
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
 
-      - name: Delete merged test databases
-        run: "../automate/dbt/remove_test_databases.sh"
-
       - name: Generate dbt documentation
         run: "dbt docs generate"
 
