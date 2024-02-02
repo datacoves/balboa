@@ -1,7 +1,7 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_2
+  - version_3
 default_args:
   start_date: 2021-01
 catchup: false
@@ -11,7 +11,7 @@ nodes:
     operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
-    bash_command: "pip show dlt"
+    bash_command: "pip show dbt-coves && pip show dlt"
 
   # extract_and_load_airbyte:
   #   generator: AirbyteDbtGenerator
