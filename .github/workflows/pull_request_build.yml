@@ -49,9 +49,14 @@ jobs:
 
 
     steps:
+      # By setting this env var in GH Actions, we can drop test dbs on failure
+      # for Datacoves demos
+      - name: DATACOVES__DROP_DB_ON_FAIL value
+        run: "echo $DATACOVES__DROP_DB_ON_FAIL"
+
       - name: Drop PR database on Failure
         if: env.DATACOVES__DROP_DB_ON_FAIL == 'true'
-        run: "echo drop_db_true"
+        run: "echo dropped_db"
 
 
 #       - name: Checkout branch
