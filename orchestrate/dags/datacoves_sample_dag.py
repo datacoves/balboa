@@ -10,7 +10,6 @@ from operators.datacoves.bash import DatacovesBashOperator
 # Only here for reference, this is automatically activated by Datacoves Operator
 DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
 
-
 @dag(
     default_args={
         "start_date": datetime(2022, 10, 10),
@@ -20,7 +19,7 @@ DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
     },
 
     catchup=False,
-    tags = ["version_1"],
+    tags = ["version_2"],
     description = "Datacoves Sample dag",
 
     # This is a regular CRON schedule. Helpful resources
@@ -45,9 +44,7 @@ def datacoves_sample_dag():
     # use this instead of the Python Operator
     python_task = DatacovesBashOperator(
         task_id = "run_python_script",
-        bash_command = f" \
-            python $DATACOVES__REPO_PATH//orchestrate/python_scripts/sample_script.py \
-        "
+        bash_command = "orchestrate/python_scripts/sample_script.py"
     )
 
     # Define task dependencies
