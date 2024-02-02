@@ -47,8 +47,9 @@ jobs:
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
-      # This is only used by datacoves for demo purposes
-      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
+      # This is used by datacoves to drop the test database if permissions
+      # cannot be applied when using the Datacoves permifrost security model.
+      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL3 }}
 
     steps:
       - name: Checkout branch
@@ -60,21 +61,8 @@ jobs:
       - name: Set Secure Directory
         run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
-########
-
-      - name: show value of DATACOVES__DROP_DB_ON_FAIL
-        run: "echo $DATACOVES__DROP_DB_ON_FAIL"
-
-      # By setting this env var to true in GH Actions,
-      # we can drop test dbs on failure for Datacoves demos
-      - name: Drop PR database on Failure
-        if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true')
-        run: "echo dropped_db"
-########
-
-
-  #     - name: List of files changed
-  #       run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
+      - name: List of files changed
+        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
   #     - name: Install dbt packages
   #       run: "dbt deps"
