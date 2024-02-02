@@ -1,7 +1,7 @@
 description: "Sample DAG with Slack notification, custom image, and resource requests"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_1
+  - version_2
   - slack_notification
   - blue_green
 default_args:
@@ -45,9 +45,9 @@ nodes:
 
 
   # Sample failing task to test that notification is sent
-  failing_task:
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    type: task
+  # failing_task:
+  #   operator: operators.datacoves.bash.DatacovesBashOperator
+  #   type: task
 
-    bash_command: "some_non_existant_command"
-    dependencies: ["transform"]
+  #   bash_command: "some_non_existant_command"
+  #   dependencies: ["transform"]
