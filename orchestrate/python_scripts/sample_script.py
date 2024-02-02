@@ -1,4 +1,3 @@
-import snowflake
 import pandas as pd
 
 def print_sample_dataframe():
