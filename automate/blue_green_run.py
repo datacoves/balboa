@@ -20,6 +20,12 @@ VIRTUALENV_PATH = "/opt/datacoves/virtualenvs/main"
 
 DBT_COVES__CLONE_PATH = tempfile.NamedTemporaryFile().name
 
+
+# This is used by datacoves to drop the staging database for blue/green
+# deployments, most likely you don't want to set this, we use it for demos
+DATACOVES__DROP_DB_ON_FAIL = os.environ.get("DATACOVES__DROP_DB_ON_FAIL", 'false')
+
+
 def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None, full_refresh: bool = False):
     """
     Manages blue/green deployment workflow
@@ -34,9 +40,10 @@ def main(is_ci_cd_run: bool = False, selector: str = None, target: str = None, f
         dbt_target = f" -t {target}"
 
     ######
-    logging.info("\n\n===== REMOVE THIS IN A PRODUCTION DEPLOYMENT=====\n")
-    STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
-    run_command(f'dbt-coves dbt -- run-operation drop_staging_db --args "{STAGING_DB_ARGS}" {dbt_target}')
+    if DATACOVES__DROP_DB_ON_FAIL == 'true':
+        logging.info("\n\n===== DROPPING STAGING DATABASE =====\n")
+        STAGING_DB_ARGS = '{"db_name": "' + DBT_STAGING_DB_NAME + '"}'
+        run_command(f'dbt-coves dbt -- run-operation drop_staging_db --args "{STAGING_DB_ARGS}" {dbt_target}')
     ######
 
     logging.info("Checking that staging database does not exist")
