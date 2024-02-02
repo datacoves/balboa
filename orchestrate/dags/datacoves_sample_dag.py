@@ -19,7 +19,7 @@ DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
     },
 
     catchup=False,
-    tags = ["version_4"],
+    tags = ["version_5"],
     description = "Datacoves Sample dag",
 
     # This is a regular CRON schedule. Helpful resources
