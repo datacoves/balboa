@@ -23,8 +23,8 @@ generate:
     # destination: "metadata.csv"
 
   airflow_dags:
-    # secrets_manager: datacoves
-    # secrets_tags: "extract_and_load_fivetran"
+    secrets_manager: datacoves
+    secrets_tags: "extract_and_load_fivetran"
 
     yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
     dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
@@ -45,16 +45,16 @@ generate:
         port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
         airbyte_conn_id: airbyte_connection
 
-      # FivetranDbtGenerator:
-      #   dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
-      #   fivetran_conn_id: fivetran_connection
+      FivetranDbtGenerator:
+        dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
+        fivetran_conn_id: fivetran_connection
 
-      #   wait_for_completion: true
-      #   run_dbt_compile: true
-      #   run_dbt_deps: false
+        wait_for_completion: true
+        run_dbt_compile: true
+        run_dbt_deps: false
 
-      # FivetranGenerator:
-      #   wait_for_completion: true
+      FivetranGenerator:
+        wait_for_completion: true
 
 
 extract:
