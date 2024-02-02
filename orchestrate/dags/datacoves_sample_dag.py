@@ -47,7 +47,7 @@ def datacoves_sample_dag():
     )
 
     # Define task dependencies
-    # python_task.set_upstream([dbt_task])
+    python_task.set_upstream([dbt_task])
 
 # Invoke Dag
 dag = datacoves_sample_dag()

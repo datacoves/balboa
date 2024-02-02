@@ -33,7 +33,7 @@ custom_callbacks:
 # DAG Tasks
 nodes:
   transform:
-    operator: operators.datacoves.bash.DatacovesBashOperator
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
     type: task
     config:
       image: datacoves/airflow-pandas:latest
@@ -41,7 +41,7 @@ nodes:
         memory: 8Gi
         cpu: 1000m
 
-    bash_command: "dbt-coves dbt -- run -s personal_loans"
+    bash_command: "dbt run -s personal_loans"
 
 
   # Sample failing task to test that notification is sent

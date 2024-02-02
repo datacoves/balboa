@@ -21,32 +21,17 @@ nodes:
     tooltip: "Fivetran Extract and Load"
     dbt_list_args: "--select tag:daily_run_fivetran"
 
-
   extract_and_load_dlt:
     type: task
     operator: operators.datacoves.bash.DatacovesBashOperator
 
-    bash_command: "
-      echo =========== &&
-      echo 'this is temporary until DatacovesBashOperator is updated' &&
-      dbt-coves dbt -- ls -s somehting
-      echo =====rm_project_dir====== &&
-      project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) &&
-      rm -rf $project_dir
-      echo =====CP_DATACOVES__REPO_PATH====== &&
-      cp -rpf $DATACOVES__REPO_PATH/ $project_dir &&
-      echo ====cd_project_dir_dlt======= &&
-      cd $project_dir/load/dlt &&
-      echo =====RUN_DLT====== &&
-      python csv_to_snowflake/load_csv_data.py &&
-      echo ==========="
+    bash_command: "python load/dlt/csv_to_snowflake/load_csv_data.py"
 
   transform:
-    operator: operators.datacoves.bash.DatacovesBashOperator
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
     type: task
 
-    bash_command: "dbt-coves dbt -- build
-                  -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+    bash_command: "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 
     dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
 

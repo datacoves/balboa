@@ -34,10 +34,10 @@ custom_callbacks:
 # DAG Tasks
 nodes:
   transform:
-    operator: operators.datacoves.bash.DatacovesBashOperator
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
     type: task
 
-    bash_command: "dbt-coves dbt -- run -s personal_loans"
+    bash_command: "dbt run -s personal_loans"
 
 
   # Sample failing task to test that notification is sent
