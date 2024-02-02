@@ -32,23 +32,22 @@ def datacoves_sample_dag():
     # Calling dbt commands
     dbt_task = DatacovesDbtOperator(
         task_id = "run_dbt_task",
-        bash_command = "dbt debug"
+        bash_command = "dbt debug",
+        doc_md = """\
+            #### Task Documentation
+            This task leveraged the DatacovesDbtOperator
+        """
     )
-
-    dbt_task.doc_md = """\
-        #### Task Documentation
-        This task leveraged the DatacovesDbtOperator
-    """
 
     # This is calling an external Python file after activating the venv
     # use this instead of the Python Operator
     python_task = DatacovesBashOperator(
         task_id = "run_python_script",
-        bash_command = "orchestrate/python_scripts/sample_script.py"
+        bash_command = "python orchestrate/python_scripts/sample_script.py"
     )
 
     # Define task dependencies
-    python_task.set_upstream([dbt_task])
+    # python_task.set_upstream([dbt_task])
 
 # Invoke Dag
 dag = datacoves_sample_dag()
