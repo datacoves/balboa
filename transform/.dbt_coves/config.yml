@@ -23,42 +23,45 @@ generate:
     # destination: "metadata.csv"
 
   airflow_dags:
-    secrets_manager: datacoves
-    secrets_tags: "extract_and_load_fivetran"
-    yml_path: /config/workspace/orchestrate/dags_yml_definitions/
-    dags_path: /config/workspace/orchestrate/dags/
+    # secrets_manager: datacoves
+    # secrets_tags: "extract_and_load_fivetran"
+
+    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
+    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
+
     generators_params:
       AirbyteDbtGenerator:
-        host: http://gay725-airbyte-airbyte-server-svc
-        port: 8001
+
+        host: "{{ env_var('DATACOVES__AIRBYTE_HOST_NAME') }}"
+        port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
         airbyte_conn_id: airbyte_connection
 
-        dbt_project_path: /config/workspace/transform
+        dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
         run_dbt_compile: true
         run_dbt_deps: false
 
       AirbyteGenerator:
-        host: http://gay725-airbyte-airbyte-server-svc
-        port: 8001
+        host: "{{ env_var('DATACOVES__AIRBYTE_HOST_NAME') }}"
+        port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
         airbyte_conn_id: airbyte_connection
 
-      FivetranDbtGenerator:
-        dbt_project_path: /config/workspace/transform
-        fivetran_conn_id: fivetran_connection
+      # FivetranDbtGenerator:
+      #   dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
+      #   fivetran_conn_id: fivetran_connection
 
-        wait_for_completion: true
-        run_dbt_compile: true
-        run_dbt_deps: false
+      #   wait_for_completion: true
+      #   run_dbt_compile: true
+      #   run_dbt_deps: false
 
-      FivetranGenerator:
-        wait_for_completion: true
+      # FivetranGenerator:
+      #   wait_for_completion: true
 
 
 extract:
   airbyte:
     path: /config/workspace/load/airbyte
-    host: http://gay725-airbyte-airbyte-server-svc
-    port: 8001
+    host: "{{ env_var('DATACOVES__AIRBYTE_HOST_NAME') }}"
+    port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
 
   fivetran:
     path: /config/workspace/extract/fivetran
@@ -66,8 +69,8 @@ extract:
 load:
   airbyte:
     path: /config/workspace/load/airbyte
-    host: http://gay725-airbyte-airbyte-server-svc
-    port: 8001
+    host: "{{ env_var('DATACOVES__AIRBYTE_HOST_NAME') }}"
+    port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
     secrets_manager: datacoves
 
   fivetran:
