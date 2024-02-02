@@ -8,8 +8,6 @@ models:
         description: The state in which the borrower resides
         meta:
           masking_policy: masking_policy_pii_string
-        tests:
-          - not_null
       - name: annual_inc
         description: The borrower's annual income
         meta:

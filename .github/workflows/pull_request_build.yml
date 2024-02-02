@@ -47,6 +47,9 @@ jobs:
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
+      # This is used by datacoves to drop the test database if permissions
+      # cannot be applied when using the Datacoves permifrost security model.
+      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
 
     steps:
       - name: Checkout branch
@@ -90,10 +93,11 @@ jobs:
       - name: Run governance checks
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
 
-      - name: Drop PR database on Failure
-        if: always() && (steps.grant-access-to-database.outcome == 'failure')
+      # We drop the database when there is a failure to grant access to the db because
+      # most likely the schema was not set properly in dbt_project.yml so models built to default schema
+      - name: Drop PR database on Failure to grant security access
+        if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true') && (steps.grant-access-to-database.outcome == 'failure')
         run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
-
 
   airflow:
     name: Pull Request Airflow Tests
