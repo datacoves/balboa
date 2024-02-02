@@ -15,7 +15,6 @@ concurrency:
 
 jobs:
   dbt:
-    if: github.event.pull_request.merged == false
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
 
