@@ -3,7 +3,6 @@ import datetime
 from airflow.decorators import dag
 from callbacks.slack_messages import inform_failure, inform_success
 from kubernetes.client import models as k8s
-from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 
 
@@ -41,7 +40,7 @@ TRANSFORM_CONFIG = {
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1", "slack_notification", "blue_green"],
+    tags=["version_2", "slack_notification", "blue_green"],
     catchup=False,
     on_success_callback=run_inform_success,
     on_failure_callback=run_inform_failure,
@@ -52,10 +51,6 @@ def yaml_slack_dag():
         bash_command="dbt run -s personal_loans",
         executor_config=TRANSFORM_CONFIG,
     )
-    failing_task = DatacovesBashOperator(
-        task_id="failing_task", bash_command="some_non_existant_command"
-    )
-    failing_task.set_upstream([transform])
 
 
 dag = yaml_slack_dag()
