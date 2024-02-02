@@ -62,6 +62,7 @@ jobs:
         run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
       - name: List of files changed
+        if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true')
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
   #     - name: Install dbt packages
