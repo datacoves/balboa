@@ -25,7 +25,10 @@ jobs:
     # Alternatively, You can define multiple ENV for different workflows.
     # https://github.com/<org>/<repo>/settings/environments
     # environment: PR_ENV
-    container: datacoves/ci-basic-dbt-snowflake:2
+
+    # most people should use this one
+    # container: datacoves/ci-basic-dbt-snowflake:2
+    container: pi7-ci-basic-base:2.2.202402010012-20240202234635
 
     defaults:
       run:
