@@ -1,61 +1,55 @@
 description: "Loan Run"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_3
+  - version_5
 default_args:
   start_date: 2021-01
 catchup: false
 
 nodes:
-  check_for_dlt:
+  extract_and_load_airbyte:
+    generator: AirbyteDbtGenerator
+    type: task_group
+
+    tooltip: "Airbyte Extract and Load"
+    dbt_list_args: "--select tag:daily_run_airbyte"
+
+
+  extract_and_load_fivetran:
+    generator: FivetranDbtGenerator
+    type: task_group
+
+    tooltip: "Fivetran Extract and Load"
+    dbt_list_args: "--select tag:daily_run_fivetran"
+
+
+  extract_and_load_dlt:
+    type: task
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    activate_venv: true
+
+    bash_command: "python load/dlt/csv_to_snowflake/load_csv_data.py"
+
+
+  transform:
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    type: task
+
+    bash_command: "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+    dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
+
+
+  marketing_automation:
     operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
-    activate_venv: true
-    bash_command: "pip show dbt-coves && pip show dlt"
+    bash_command: "echo 'send data to marketing tool'"
+    dependencies: ["transform"]
 
-  # extract_and_load_airbyte:
-  #   generator: AirbyteDbtGenerator
-  #   type: task_group
 
-  #   tooltip: "Airbyte Extract and Load"
-  #   dbt_list_args: "--select tag:daily_run_airbyte"
+  update_catalog:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
 
-  #   dependencies: ["check_for_dlt"]
-
-  # extract_and_load_fivetran:
-  #   generator: FivetranDbtGenerator
-  #   type: task_group
-
-  #   tooltip: "Fivetran Extract and Load"
-  #   dbt_list_args: "--select tag:daily_run_fivetran"
-
-  #   dependencies: ["check_for_dlt"]
-
-  # extract_and_load_dlt:
-  #   type: task
-  #   operator: operators.datacoves.bash.DatacovesBashOperator
-
-  #   bash_command: "python load/dlt/csv_to_snowflake/load_csv_data.py"
-  #   dependencies: ["check_for_dlt"]
-
-  # transform:
-  #   operator: operators.datacoves.dbt.DatacovesDbtOperator
-  #   type: task
-
-  #   bash_command: "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
-  #   dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
-
-  # marketing_automation:
-  #   operator: operators.datacoves.bash.DatacovesBashOperator
-  #   type: task
-
-  #   bash_command: "echo 'send data to marketing tool'"
-  #   dependencies: ["transform"]
-
-  # update_catalog:
-  #   operator: operators.datacoves.bash.DatacovesBashOperator
-  #   type: task
-
-  #   bash_command: "echo 'refresh data catalog'"
-  #   dependencies: ["transform"]
+    bash_command: "echo 'refresh data catalog'"
+    dependencies: ["transform"]
