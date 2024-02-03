@@ -11,6 +11,7 @@ nodes:
     operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
+    activate_venv: true
     bash_command: "pip show dbt-coves && pip show dlt"
 
   # extract_and_load_airbyte:
