@@ -43,6 +43,7 @@ def datacoves_sample_dag():
     # use this instead of the Python Operator
     python_task = DatacovesBashOperator(
         task_id = "run_python_script",
+        activate_venv=True,
         bash_command = "python orchestrate/python_scripts/sample_script.py"
     )
 
