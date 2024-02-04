@@ -55,6 +55,12 @@ jobs:
       # deployments, most likely you don't want to set this, we use it for demos
       DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
 
+      # this is only here temporarilly until we updtae dbt-coves
+      DATACOVES__AIRFLOW_DAGS_YML_PATH: ''
+      DATACOVES__AIRFLOW_DAGS_PATH: ''
+      DATACOVES__AIRBYTE_HOST_NAME: ''
+      DATACOVES__AIRBYTE_PORT: ''
+
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
