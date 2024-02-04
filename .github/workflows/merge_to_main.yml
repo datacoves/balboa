@@ -1,17 +1,6 @@
 name: Perform deployment to production
 
 on:  # yamllint disable-line rule:truthy
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/*
-      - automate/*
-      - visualize/*
-      - orchestrate/*
-      - transform/*
-      - transform/**/*
-
   pull_request:
     types:
       - closed
