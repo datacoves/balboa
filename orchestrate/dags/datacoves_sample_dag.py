@@ -33,14 +33,17 @@ def datacoves_sample_dag():
     dbt_task = DatacovesDbtOperator(
         task_id = "run_dbt_task",
         bash_command = "dbt debug",
+        doc_md = """\
+            #### Task Documentation
+            This task leveraged the DatacovesDbtOperator
+        """
     )
 
     # This is calling an external Python file after activating the venv
     # use this instead of the Python Operator
     python_task = DatacovesBashOperator(
         task_id = "run_python_script",
-        # Virtual Environment is automatically activated
-        # activate_venv=True,
+        activate_venv=True,
         bash_command = "python orchestrate/python_scripts/sample_script.py"
     )
 
