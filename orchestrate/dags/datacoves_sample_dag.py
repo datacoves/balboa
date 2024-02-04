@@ -1,8 +1,13 @@
+"""## Datacoves Bash Operator DAG
+This DAG is a sample using the Datacoves Airflow Operators"""
+
 from pendulum import datetime
 from airflow import DAG
 from airflow.decorators import dag, task
+from operators.datacoves.dbt import DatacovesDbtOperator
 from operators.datacoves.bash import DatacovesBashOperator
 
+# Only here for reference, this is automatically activated by Datacoves Operator
 DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
 
 @dag(
@@ -14,7 +19,7 @@ DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
     },
 
     catchup=False,
-    tags = ["version_3"],
+    tags = ["version_6"],
     description = "Datacoves Sample dag",
 
     # This is a regular CRON schedule. Helpful resources
@@ -25,18 +30,21 @@ DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
 def datacoves_sample_dag():
 
     # Calling dbt commands
-    dbt_task = DatacovesBashOperator(
+    dbt_task = DatacovesDbtOperator(
         task_id = "run_dbt_task",
-        bash_command = "dbt-coves dbt -- debug"
+        bash_command = "dbt debug",
+        doc_md = """\
+            #### Task Documentation
+            This task leveraged the DatacovesDbtOperator
+        """
     )
 
     # This is calling an external Python file after activating the venv
     # use this instead of the Python Operator
     python_task = DatacovesBashOperator(
         task_id = "run_python_script",
-        bash_command = f" \
-            python $DATACOVES__REPO_PATH//orchestrate/python_scripts/sample_script.py \
-        "
+        activate_venv=True,
+        bash_command = "python orchestrate/python_scripts/sample_script.py"
     )
 
     # Define task dependencies
@@ -44,3 +52,4 @@ def datacoves_sample_dag():
 
 # Invoke Dag
 dag = datacoves_sample_dag()
+dag.doc_md = __doc__

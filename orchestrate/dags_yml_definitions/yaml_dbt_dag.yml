@@ -1,7 +1,7 @@
 description: "Sample DAG for dbt build"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_1
+  - version_2
 default_args:
   start_date: 2023-01-01
   owner: Noel Gomez
@@ -11,7 +11,7 @@ default_args:
 catchup: false
 
 nodes:
-  build_dbt:
+  run_dbt:
     type: task
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    bash_command: "dbt-coves dbt -- run -s personal_loans"
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    bash_command: "dbt run -s personal_loans"

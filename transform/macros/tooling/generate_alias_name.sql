@@ -1,4 +1,6 @@
 
+{#
+This is an example of how to override aliases with dbt
 
 {% macro generate_alias_name__DISABLED(custom_alias_name=none, node=none) -%}
 
@@ -8,4 +10,4 @@
         {{ node.name }}
     {%- endif -%}
 
-{%- endmacro %}
+{%- endmacro %} #}

@@ -6,13 +6,14 @@ from airflow.providers.airbyte.operators.airbyte import \
 from fivetran_provider.operators.fivetran import FivetranOperator
 from fivetran_provider.sensors.fivetran import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
+from operators.datacoves.dbt import DatacovesDbtOperator
 
 
 @dag(
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_1"],
+    tags=["version_5"],
     catchup=False,
 )
 def daily_loan_run():
@@ -55,11 +56,13 @@ def daily_loan_run():
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        bash_command=" echo =========== && echo 'this is temporary until DatacovesBashOperator is updated' && dbt-coves dbt -- ls -s somehting echo =====rm_project_dir====== && project_dir=$(cat /tmp/dbt_coves_dbt_clone_path.txt) && rm -rf $project_dir echo =====CP_DATACOVES__REPO_PATH====== && cp -rpf $DATACOVES__REPO_PATH/ $project_dir && echo ====cd_project_dir_dlt======= && cd $project_dir/load/dlt && echo =====RUN_DLT====== && python csv_to_snowflake/load_csv_data.py && echo ===========",
+        activate_venv=True,
+        tooltip="dlt Extract and Load",
+        bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
     )
-    transform = DatacovesBashOperator(
+    transform = DatacovesDbtOperator(
         task_id="transform",
-        bash_command="dbt-coves dbt -- build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
+        bash_command="dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
     )
     transform.set_upstream(
         [
