@@ -1,4 +1,4 @@
-name: Drop test db if pr is closed
+name: Drop test database when Pull Request is closed
 
 on:  # yamllint disable-line rule:truthy
   pull_request:
