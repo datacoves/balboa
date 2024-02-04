@@ -1,6 +1,10 @@
 name: Perform deployment to production
 
 on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+
   pull_request:
     types:
       - closed
