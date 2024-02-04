@@ -27,8 +27,7 @@ jobs:
     # environment: PR_ENV
 
     # most people should use this one
-    # container: datacoves/ci-basic-dbt-snowflake:2
-    container: datacoves/pi7-ci-basic-base:2.2.202402010012-20240202234635
+    container: datacoves/ci-basic-dbt-snowflake:2
 
     defaults:
       run:
