@@ -6,6 +6,7 @@ models:
     meta:
       owner: "@alice"  # Owner of the model
       model_maturity: in dev  # Development status of the model
+      last_edit: Bruno
     columns:
       - name: pipe_id  # Unique identifier for the pipe
         description: A unique identifier assigned to the pipe
