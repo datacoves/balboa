@@ -94,6 +94,10 @@ jobs:
         id: grant-access-to-database
         run: "dbt --no-write-json run-operation grant_access_to_pr_database"
 
+      - name: Get dbt profiles dir
+        #TODO: remove profiles-dir when dbt-coves is fixed
+        run: dbt debug --config-dir
+
       - name: Generate Docs Combining Prod and branch catalog.json
         #TODO: remove profiles-dir when dbt-coves is fixed
         run: "dbt-coves generate docs --merge-deferred --state logs"
