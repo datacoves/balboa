@@ -24,13 +24,16 @@ nodes:
 
 
   extract_and_load_dlt:
-    type: task
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    # activate_venv: true
-    # Virtual Environment is automatically activated
-
+    type: task_group
     tooltip: "dlt Extract and Load"
-    bash_command: "python load/dlt/csv_to_snowflake/load_csv_data.py"
+
+    tasks:
+      run_dlt:
+        operator: operators.datacoves.bash.DatacovesBashOperator
+        # activate_venv: true
+        # Virtual Environment is automatically activated
+
+        bash_command: "python load/dlt/csv_to_snowflake/load_csv_data.py"
 
 
   transform:

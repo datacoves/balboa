@@ -59,11 +59,15 @@ def daily_loan_run():
         )
 
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
-    extract_and_load_dlt = DatacovesBashOperator(
-        task_id="extract_and_load_dlt",
-        tooltip="dlt Extract and Load",
-        bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
-    )
+
+    @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
+    def extract_and_load_dlt():
+        run_dlt = DatacovesBashOperator(
+            task_id="run_dlt",
+            bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
+        )
+
+    tg_extract_and_load_dlt = extract_and_load_dlt()
     transform = DatacovesDbtOperator(
         task_id="transform",
         bash_command="dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
@@ -71,7 +75,7 @@ def daily_loan_run():
     transform.set_upstream(
         [
             tg_extract_and_load_airbyte,
-            extract_and_load_dlt,
+            tg_extract_and_load_dlt,
             tg_extract_and_load_fivetran,
         ]
     )
