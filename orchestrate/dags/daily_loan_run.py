@@ -1,8 +1,7 @@
 import datetime
 
 from airflow.decorators import dag, task_group
-from airflow.providers.airbyte.operators.airbyte import \
-    AirbyteTriggerSyncOperator
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from fivetran_provider.operators.fivetran import FivetranOperator
 from fivetran_provider.sensors.fivetran import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
@@ -56,7 +55,6 @@ def daily_loan_run():
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        activate_venv=True,
         tooltip="dlt Extract and Load",
         bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
     )

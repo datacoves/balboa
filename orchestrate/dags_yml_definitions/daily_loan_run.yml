@@ -26,7 +26,6 @@ nodes:
   extract_and_load_dlt:
     type: task
     operator: operators.datacoves.bash.DatacovesBashOperator
-    activate_venv: true
 
     tooltip: "dlt Extract and Load"
     bash_command: "python load/dlt/csv_to_snowflake/load_csv_data.py"
