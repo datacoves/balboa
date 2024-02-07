@@ -21,3 +21,5 @@ sources:
           - name: _airbyte_meta
             meta:
               masking_policy: masking_policy_pii_variant
+      - name: ZIP_COORDINATES
+        description: ''
