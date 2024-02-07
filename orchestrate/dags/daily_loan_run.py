@@ -61,7 +61,6 @@ def daily_loan_run():
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
     extract_and_load_dlt = DatacovesBashOperator(
         task_id="extract_and_load_dlt",
-        activate_venv=True,
         tooltip="dlt Extract and Load",
         bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
     )
