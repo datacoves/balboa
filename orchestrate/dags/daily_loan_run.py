@@ -24,11 +24,6 @@ def daily_loan_run():
             connection_id="902432a8-cbed-4602-870f-33617fda6859",
             airbyte_conn_id="airbyte_connection",
         )
-        zip_coordinates_datacoves_snowflake = AirbyteTriggerSyncOperator(
-            task_id="zip_coordinates_datacoves_snowflake",
-            connection_id="b09075d9-6b33-4265-8660-4e8cab10bd70",
-            airbyte_conn_id="airbyte_connection",
-        )
         country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
             task_id="country_populations_datacoves_snowflake",
             connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
@@ -62,8 +57,8 @@ def daily_loan_run():
 
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
     def extract_and_load_dlt():
-        run_dlt = DatacovesBashOperator(
-            task_id="run_dlt",
+        load_us_population = DatacovesBashOperator(
+            task_id="load_us_population",
             bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
         )
 

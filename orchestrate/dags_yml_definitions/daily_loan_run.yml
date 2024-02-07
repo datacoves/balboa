@@ -28,7 +28,7 @@ nodes:
     tooltip: "dlt Extract and Load"
 
     tasks:
-      run_dlt:
+      load_us_population:
         operator: operators.datacoves.bash.DatacovesBashOperator
         # activate_venv: true
         # Virtual Environment is automatically activated
