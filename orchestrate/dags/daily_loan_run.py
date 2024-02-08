@@ -62,6 +62,7 @@ def daily_loan_run():
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
+
     transform = DatacovesDbtOperator(
         task_id="transform",
         bash_command="dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
