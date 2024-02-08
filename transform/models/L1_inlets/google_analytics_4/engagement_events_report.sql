@@ -9,7 +9,7 @@ with raw_source as (
 final as (
 
     select
-        "DATE"::date as date,
+        "DATE"::date as event_date,
         "PROPERTY"::varchar as property,
         "_FIVETRAN_ID"::varchar as fivetran_id,
         "EVENT_NAME"::varchar as event_name,

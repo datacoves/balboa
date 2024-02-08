@@ -4,7 +4,7 @@ models:
   - name: engagement_events_report
     description: 'A report of user engagement events, including the event name, count, and revenue'
     columns:
-      - name: date
+      - name: event_date
         description: 'The date on which the event occurred'
       - name: property
         description: 'The property associated with the event'

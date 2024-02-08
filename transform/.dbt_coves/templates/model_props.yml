@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: {{ model }}
+  - name: {{ model | lower }}
     description: ''
     columns:
 {%- for col in columns %}
