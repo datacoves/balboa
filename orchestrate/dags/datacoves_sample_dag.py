@@ -1,14 +1,15 @@
 """## Datacoves Bash Operator DAG
 This DAG is a sample using the Datacoves Airflow Operators"""
 
-from pendulum import datetime
 from airflow import DAG
 from airflow.decorators import dag, task
-from operators.datacoves.dbt import DatacovesDbtOperator
 from operators.datacoves.bash import DatacovesBashOperator
+from operators.datacoves.dbt import DatacovesDbtOperator
+from pendulum import datetime
 
 # Only here for reference, this is automatically activated by Datacoves Operator
-DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
+DATACOVES_VIRTIAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
+
 
 @dag(
     default_args={
@@ -17,15 +18,13 @@ DATACOVES_VIRTIAL_ENV = '/opt/datacoves/virtualenvs/main/bin/activate'
         "email": "gomezn@example.com",
         "email_on_failure": True,
     },
-
     catchup=False,
-    tags = ["version_6"],
-    description = "Datacoves Sample dag",
-
+    tags=["version_6"],
+    description="Datacoves Sample dag",
     # This is a regular CRON schedule. Helpful resources
     # https://cron-ai.vercel.app/
     # https://crontab.guru/
-    schedule_interval = "0 0 1 */12 *"
+    schedule_interval="0 0 1 */12 *",
 )
 def datacoves_sample_dag():
 
@@ -46,6 +45,7 @@ def datacoves_sample_dag():
 
     # Define task dependencies
     python_task.set_upstream([dbt_task])
+
 
 # Invoke Dag
 dag = datacoves_sample_dag()

@@ -1,8 +1,7 @@
 import datetime
 
 from airflow.decorators import dag, task_group
-from airflow.providers.airbyte.operators.airbyte import \
-    AirbyteTriggerSyncOperator
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from fivetran_provider.operators.fivetran import FivetranOperator
 from fivetran_provider.sensors.fivetran import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
