@@ -23,7 +23,7 @@ jobs:
           output: " "
 
       - id: install_dbt
-        run: pip install dbt-core==1.6.3
+        run: pip install dbt-core==1.6.3 dbt-snowflake==1.6.0
         shell: bash
 
       - name: Run dbt checkpoint
