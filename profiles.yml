@@ -1,0 +1,13 @@
+default:
+  outputs:
+    dev:
+      account: toa80779
+      database: BALBOA_DEV
+      password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
+      role: ANALYST
+      schema: BRUNO
+      threads: 1
+      type: snowflake
+      user: bruno
+      warehouse: WH_TRANSFORMING
+  target: dev

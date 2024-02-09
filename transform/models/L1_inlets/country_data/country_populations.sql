@@ -14,7 +14,6 @@ final as (
         "COUNTRY CODE" as country_code
 
     from raw_source
-
 )
 
 select * from final
