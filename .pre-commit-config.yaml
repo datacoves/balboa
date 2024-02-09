@@ -5,6 +5,7 @@ repos:
     rev: v1.2.0
 
     hooks:
+      - id: dbt-deps
       - id: dbt-compile
         args: ["--cmd-flags", "++profiles-dir", ".", "--" ]
       - id: check-source-table-has-description
