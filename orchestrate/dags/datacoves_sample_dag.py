@@ -1,14 +1,13 @@
 """## Datacoves Bash Operator DAG
 This DAG is a sample using the Datacoves Airflow Operators"""
 
-from airflow import DAG
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
 
 # Only here for reference, this is automatically activated by Datacoves Operator
-DATACOVES_VIRTIAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
+DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
 
 
 @dag(
