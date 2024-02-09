@@ -6,7 +6,7 @@ on:
       - dev_bruno
 
 jobs:
-  pre-commit:
+  dbt-checkpoint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -14,12 +14,6 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@v2
-
-      - name: Identify file changes
-        id: file_changes
-        uses: trilom/file-changes-action@v1.2.4
-        with:
-          output: " "
 
       # - name: Run dbt checkpoint
       #   uses: dbt-checkpoint/dbt-checkpoint@v1.2.0
@@ -29,6 +23,6 @@ jobs:
       #     args: "run --files ${{ steps.file_changes.outputs.files }}"
 
       - name: Run dbt checkpoint
-        uses: dbt-checkpoint/dbt-checkpoint
+        uses: dbt-checkpoint/dbt-checkpoint@fix-github-action
         with:
           args: run --all-files
