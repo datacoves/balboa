@@ -7,7 +7,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
 
 # Only here for reference, this is automatically activated by Datacoves Operator
-DATACOVES_VIRTIAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
+DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
 
 
 @dag(
