@@ -5,6 +5,7 @@ repos:
     rev: v1.2.0
 
     hooks:
+      - id: dbt-compile
       - id: check-source-table-has-description
       - id: check-script-semicolon
       - id: check-script-has-no-table-name
