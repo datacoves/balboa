@@ -8,6 +8,8 @@ on:
 jobs:
   dbt-checkpoint:
     runs-on: ubuntu-latest
+    env:
+      DB_PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -15,7 +17,16 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
 
-      - name: Run dbt checkpoint
-        uses: dbt-checkpoint/dbt-checkpoint@fix-github-action
+      - id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.4
         with:
-          args: run --all-files
+          output: " "
+
+      - id: install_dbt
+        run: pip install dbt-core==1.6.3
+        shell: bash
+
+      - name: Run dbt checkpoint
+        uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --files ${{ steps.get_file_changes.outputs.files}}
