@@ -6,6 +6,7 @@ repos:
 
     hooks:
       - id: dbt-compile
+        args: ["--cmd-flags", "++profiles-dir", "."]
       - id: check-source-table-has-description
       - id: check-script-semicolon
       - id: check-script-has-no-table-name
