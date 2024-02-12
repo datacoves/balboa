@@ -4,6 +4,7 @@ with raw_source as (
     from {{ source('RAW', 'COUNTRY_POPULATIONS') }}
 
 ),
+
 final as (
 
     select
