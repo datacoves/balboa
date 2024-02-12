@@ -22,12 +22,8 @@ jobs:
         with:
           output: " "
 
-      - id: install_dbt
-        run: pip install dbt-core==1.6.3 dbt-snowflake==1.6.0
-        shell: bash
-
       - name: Run dbt checkpoint
-        uses: dbt-checkpoint/action@v0.1
+        uses: dbt-checkpoint/action@v0.2
         with:
           dbt_version: 1.6.3
           dbt_adapter: dbt-snowflake
