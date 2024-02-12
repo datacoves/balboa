@@ -27,6 +27,8 @@ jobs:
         shell: bash
 
       - name: Run dbt checkpoint
-        uses: pre-commit/action@v3.0.1
+        uses: dbt-checkpoint/action@v0.1
         with:
+          dbt_version: 1.6.3
+          dbt_adapter: dbt-snowflake
           extra_args: --files ${{ steps.get_file_changes.outputs.files}}
