@@ -23,7 +23,7 @@ jobs:
           output: " "
 
       - name: Run dbt checkpoint
-        uses: dbt-checkpoint/action@v0.4
+        uses: dbt-checkpoint/action@v0.1
         with:
           dbt_version: 1.6.3
           dbt_adapter: dbt-snowflake
