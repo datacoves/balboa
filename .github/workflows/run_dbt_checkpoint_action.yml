@@ -9,7 +9,16 @@ jobs:
   dbt-checkpoint:
     runs-on: ubuntu-latest
     env:
-      DB_PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
+      DATACOVES__MAIN__ACCOUNT: ${{ vars.DATACOVES__MAIN__ACCOUNT }}
+
+      DATACOVES__MAIN__DATABASE: ${{ vars.DATACOVES__MAIN__DATABASE }}
+      DATACOVES__MAIN__SCHEMA: ${{ vars.DATACOVES__MAIN__SCHEMA }}
+
+      DATACOVES__MAIN__ROLE: ${{ vars.DATACOVES__MAIN__ROLE }}
+      DATACOVES__MAIN__WAREHOUSE: ${{ vars.DATACOVES__MAIN__WAREHOUSE }}
+
+      DATACOVES__MAIN__USER: ${{ vars.DATACOVES__MAIN__USER }}
+      DATACOVES__MAIN__PASSWORD: ${{ secrets.DATACOVES__MAIN__PASSWORD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
