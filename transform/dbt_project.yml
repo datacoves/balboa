@@ -82,6 +82,7 @@ models:
                 +schema: l2_snowflake_usage
 
         L3_coves:
+            +access: public
             +docs:
                 node_color: "#366ccf"
             covid_analytics:
