@@ -26,7 +26,7 @@ def yaml_dbt_dag():
         -F "environment_slug=$DATACOVES__ENVIRONMENT_SLUG" \
         -F "run_id=$AIRFLOW_CTX_DAG_RUN_ID" \
         -F "file=@target/manifest.json" \
-        --max-time 10
+        --max-time 120
         """)
     )
 
