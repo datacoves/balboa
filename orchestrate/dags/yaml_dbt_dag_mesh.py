@@ -17,7 +17,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     tags=["version_3"],
     catchup=False,
 )
-def yaml_dbt_dag():
+def yaml_dbt_dag_mesh():
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt", bash_command=inspect.cleandoc("""
         echo ###### &&
@@ -35,4 +35,4 @@ def yaml_dbt_dag():
 
 
 
-dag = yaml_dbt_dag()
+dag = yaml_dbt_dag_mesh()
