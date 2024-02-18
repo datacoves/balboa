@@ -37,7 +37,7 @@ generate:
         airbyte_conn_id: airbyte_connection
 
         dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
-        run_dbt_compile: true
+        run_dbt_compile: false
         run_dbt_deps: false
 
       AirbyteGenerator:
@@ -50,7 +50,7 @@ generate:
         fivetran_conn_id: fivetran_connection
 
         wait_for_completion: true
-        run_dbt_compile: true
+        run_dbt_compile: false
         run_dbt_deps: false
 
       FivetranGenerator:
