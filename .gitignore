@@ -6,6 +6,7 @@ dbt_packages/
 /profiles.yml
 /.user.yml
 
+.cache 
 nohup.out
 
 # Virtual envs
