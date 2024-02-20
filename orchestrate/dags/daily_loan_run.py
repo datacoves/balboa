@@ -16,30 +16,15 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     catchup=False,
 )
 def daily_loan_run():
-    @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")
-    def extract_and_load_airbyte():
-        personal_loans_datacoves_snowflake = AirbyteTriggerSyncOperator(
-            task_id="personal_loans_datacoves_snowflake",
-            connection_id="902432a8-cbed-4602-870f-33617fda6859",
-            airbyte_conn_id="airbyte_connection",
-        )
-        country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
-            task_id="country_populations_datacoves_snowflake",
-            connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
-            airbyte_conn_id="airbyte_connection",
-        )
-
-    tg_extract_and_load_airbyte = extract_and_load_airbyte()
-
     @task_group(
         group_id="extract_and_load_fivetran", tooltip="Fivetran Extract and Load"
     )
     def extract_and_load_fivetran():
         datacoves_snowflake_google_analytics_4_trigger = FivetranOperator(
             task_id="datacoves_snowflake_google_analytics_4_trigger",
-            connector_id="speak_menial",
-            do_xcom_push=True,
             fivetran_conn_id="fivetran_connection",
+            connector_id="speak_menial",
+            wait_for_completion=False,
         )
         datacoves_snowflake_google_analytics_4_sensor = FivetranSensor(
             task_id="datacoves_snowflake_google_analytics_4_sensor",
@@ -54,23 +39,12 @@ def daily_loan_run():
 
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
 
-    @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
-    def extract_and_load_dlt():
-        load_us_population = DatacovesBashOperator(
-            task_id="load_us_population",
-            bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
-        )
-
-    tg_extract_and_load_dlt = extract_and_load_dlt()
-
     transform = DatacovesDbtOperator(
         task_id="transform",
         bash_command="dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
     )
     transform.set_upstream(
         [
-            tg_extract_and_load_airbyte,
-            tg_extract_and_load_dlt,
             tg_extract_and_load_fivetran,
         ]
     )
