@@ -12,7 +12,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_5"],
+    tags=["version_6"],
     catchup=False,
 )
 def daily_loan_run():
