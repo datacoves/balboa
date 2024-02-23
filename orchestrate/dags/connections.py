@@ -13,7 +13,7 @@ airbyte_connection = Connection.get(conn_id="AIRBYTE_CONNECTION")
 )
 def connections_dag():
     echo_airbyte_host = DatacovesBashOperator(
-        task_id="transform",
+        task_id="echo_airbyte_host",
         bash_command=f"echo 'Airbyte hostname is {airbyte_connection.host}'",
     )
 
