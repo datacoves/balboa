@@ -9,13 +9,13 @@ daily_run_tag = Variable.get("DBT_DAILY_RUN_TAG")
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_5"],
+    tags=["version_1"],
     catchup=False,
 )
-def daily_loan_run():
+def variables_dag():
     transform = DatacovesDbtOperator(
         task_id="transform",
         bash_command=f"dbt build -s 'tag:{daily_run_tag}'",
     )
 
-dag = daily_loan_run()
+dag = variables_dag()
