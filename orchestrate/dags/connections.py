@@ -2,7 +2,7 @@ from airflow.decorators import dag
 from operators.datacoves.bash import DatacovesBashOperator
 from airflow.models import Connection
 
-airbyte_connection = Connection.get(conn_id="AIRBYTE_CONNECTION")
+airbyte_connection = Connection.get_connection(conn_id="AIRBYTE_CONNECTION")
 
 @dag(
     default_args={"start_date": "2021-01"},
