@@ -3,10 +3,9 @@ from kubernetes.client import models as k8s
 from operators.datacoves.bash import DatacovesBashOperator
 
 # Replace with your docker image repo path
-IMAGE_REPO = "datacoves/ci-basic-base"
-
+IMAGE_REPO = "python"
 # Replace with your docker image repo tag, or use "latest"
-IMAGE_TAG = "latest"
+IMAGE_TAG = "3.8.18-slim-bullseye"
 
 default_args = {
     "owner": "airflow",
