@@ -3,10 +3,10 @@ from kubernetes.client import models as k8s
 from operators.datacoves.bash import DatacovesBashOperator
 
 # Replace with your docker image repo path
-IMAGE_REPO = "coldborecapital/vetspire-extractor"
+IMAGE_REPO = "datacoves/ci-basic-base"
 
 # Replace with your docker image repo tag, or use "latest"
-IMAGE_TAG = "0.0.5"
+IMAGE_TAG = "latest"
 
 default_args = {
     "owner": "airflow",
@@ -28,14 +28,14 @@ TRANSFORM_CONFIG = {
     default_args={"start_date": "2021-01"},
     description="k8s_executor",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_7"],
+    tags=["version_1"],
     catchup=False,
 )
 def k8s_executor():
     k8s_executor = DatacovesBashOperator(
         task_id="k8s_executor",
         executor_config=TRANSFORM_CONFIG,
-        bash_command=f"sleep 3600 && python /app/vetspire_extractor/launch_points/launch_extractor.py",
+        bash_command=f"echo Hello",
     )
 
 
