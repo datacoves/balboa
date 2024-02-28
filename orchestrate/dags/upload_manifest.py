@@ -26,9 +26,7 @@ def upload_manifest():
 
     # Calling dbt commands
     dbt_debug_upload = DatacovesDbtOperator(
-        task_id = "run_dbt_task",
-        bash_command = "dbt debug",
-        upload_manifest=True
+        task_id="run_dbt_task", bash_command="dbt ls", upload_manifest=True
     )
     dbt_debug_upload
 
