@@ -21,6 +21,7 @@ def yaml_dbt_dag_mesh():
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt", bash_command=inspect.cleandoc("""
         echo ###### &&
+        export DATACOVES__UPLOAD_MANIFEST_URL=http://gay725-airbyte-airbyte-server-svc/api/internal/manifests
         echo $DATACOVES__UPLOAD_MANIFEST_URL &&
         echo ###### &&
         dbt run -s personal_loans && \
@@ -33,6 +34,6 @@ def yaml_dbt_dag_mesh():
         """)
     )
 
-
-
+# http://gay725-airbyte-airbyte-server-svc/api/internal/manifests
+# http://gay725-airbyte-airbyte-server-svc/api/v2/accounts/1
 dag = yaml_dbt_dag_mesh()
