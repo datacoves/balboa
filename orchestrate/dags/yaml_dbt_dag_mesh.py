@@ -34,6 +34,8 @@ def yaml_dbt_dag_mesh():
         """)
     )
 
-# http://gay725-airbyte-airbyte-server-svc/api/internal/manifests
+http://core-dbt-api-svc.core.svc/api/internal/manifests
+http://gay725-airbyte-airbyte-server-svc/api/internal/manifests
+# http://dbt.datacoves.com/api/internal/manifests
 # http://gay725-airbyte-airbyte-server-svc/api/v2/accounts/1
 dag = yaml_dbt_dag_mesh()
