@@ -17,23 +17,23 @@
     can_login: true
     member_of:
       - analyst
-      - securityadmin
+      # - securityadmin
 
 # Daniel Palma
-- daniel:
-    can_login: true
-    member_of:
-      - analyst
+# - daniel:
+#     can_login: true
+#     member_of:
+#       - analyst
 
-- daniela:
-    can_login: true
-    member_of:
-      - analyst
+# - daniela:
+#     can_login: true
+#     member_of:
+#       - analyst
 
-- davidscohen89:
-    can_login: true
-    member_of:
-      - analyst
+# - davidscohen89:
+#     can_login: true
+#     member_of:
+#       - analyst
 
 - gomezn:
     can_login: true
@@ -45,11 +45,11 @@
       - loader
       - transformer_dbt
 
-- joe:
-    can_login: true
-    member_of:
-      - analyst
-      - accountadmin
+# - joe:
+#     can_login: true
+#     member_of:
+#       - analyst
+#       - accountadmin
 
 # snowflake
 - james:
@@ -57,10 +57,10 @@
     member_of:
       - analyst
 
-- mariano:
-    can_login: true
-    member_of:
-      - analyst
+# - mariano:
+#     can_login: true
+#     member_of:
+#       - analyst
 
 - mayra:
     can_login: true
@@ -74,10 +74,10 @@
       - analyst
 
 # Raphael Mansuy
-- raphael:
-    can_login: true
-    member_of:
-      - analyst
+# - raphael:
+#     can_login: true
+#     member_of:
+#       - analyst
 
 - sebastian:
     can_login: true
@@ -132,12 +132,12 @@
     member_of:
       - analyst
 
-- svc_datameer:
-    can_login: true
-    member_of:
-      - analyst
+# - svc_datameer:
+#     can_login: true
+#     member_of:
+#       - analyst
 
-- svc_selectstar:
-    can_login: true
-    member_of:
-      - analyst
+# - svc_selectstar:
+#     can_login: true
+#     member_of:
+#       - analyst
