@@ -77,7 +77,7 @@ jobs:
         run: "../automate/dbt/get_artifacts.sh"
 
       - name: Run dbt build slim mode
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' && ! contains(github.event.pull_request.labels.*.name, 'full-refresh') }}
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' && contains(github.event.pull_request.labels.*.name, 'full-refresh') != true }}
         run: "dbt build --fail-fast --defer --state logs --select state:modified+"
 
       - name: Run dbt build full run
