@@ -49,12 +49,8 @@ generate:
         dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
         fivetran_conn_id: fivetran_connection
 
-        wait_for_completion: true
         run_dbt_compile: false
         run_dbt_deps: false
-
-      FivetranGenerator:
-        wait_for_completion: true
 
 
 extract:
