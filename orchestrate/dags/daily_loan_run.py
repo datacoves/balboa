@@ -1,9 +1,10 @@
 import datetime
 
 from airflow.decorators import dag, task_group
-from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
-from fivetran_provider.operators.fivetran import FivetranOperator
-from fivetran_provider.sensors.fivetran import FivetranSensor
+from airflow.providers.airbyte.operators.airbyte import \
+    AirbyteTriggerSyncOperator
+from fivetran_provider_async.operators import FivetranOperator
+from fivetran_provider_async.sensors import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 
@@ -37,15 +38,15 @@ def daily_loan_run():
     def extract_and_load_fivetran():
         datacoves_snowflake_google_analytics_4_trigger = FivetranOperator(
             task_id="datacoves_snowflake_google_analytics_4_trigger",
-            connector_id="speak_menial",
-            do_xcom_push=True,
             fivetran_conn_id="fivetran_connection",
+            connector_id="speak_menial",
+            wait_for_completion=False,
         )
         datacoves_snowflake_google_analytics_4_sensor = FivetranSensor(
             task_id="datacoves_snowflake_google_analytics_4_sensor",
+            fivetran_conn_id="fivetran_connection",
             connector_id="speak_menial",
             poke_interval=60,
-            fivetran_conn_id="fivetran_connection",
         )
         (
             datacoves_snowflake_google_analytics_4_trigger
@@ -62,7 +63,6 @@ def daily_loan_run():
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
-
     transform = DatacovesDbtOperator(
         task_id="transform",
         bash_command="dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
