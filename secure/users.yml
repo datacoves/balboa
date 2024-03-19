@@ -74,7 +74,6 @@
     member_of:
       - analyst
 
-<<<<<<< HEAD
 # SQLMesh Team
 - toby:
     can_login: true
@@ -91,8 +90,6 @@
     member_of:
       - sqlmesh_analyst
 
-=======
->>>>>>> b64307c (update snowflake users)
 # Raphael Mansuy
 # - raphael:
 #     can_login: true
