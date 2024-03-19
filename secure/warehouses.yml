@@ -11,3 +11,9 @@
     auto_suspend: 600
     auto_resume: true
     initially_suspended: true
+
+- wh_transforming_sqlmesh:
+    size: x-small
+    auto_suspend: 600
+    auto_resume: true
+    initially_suspended: true

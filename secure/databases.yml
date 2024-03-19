@@ -42,3 +42,10 @@
 
 - covid19_epidemiological_data:
     shared: true
+
+
+- sushi_dev:
+    shared: false
+
+- sushi_prd:
+    shared: false
