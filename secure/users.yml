@@ -44,6 +44,7 @@
       - analyst
       - loader
       - transformer_dbt
+      - sqlmesh_analyst
 
 # - joe:
 #     can_login: true
@@ -72,6 +73,22 @@
     can_login: true
     member_of:
       - analyst
+
+# SQLMesh Team
+- toby:
+    can_login: true
+    member_of:
+      - sqlmesh_analyst
+
+- iaroslav:
+    can_login: true
+    member_of:
+      - sqlmesh_analyst
+
+- afzal:
+    can_login: true
+    member_of:
+      - sqlmesh_analyst
 
 # Raphael Mansuy
 # - raphael:

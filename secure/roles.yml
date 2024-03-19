@@ -402,6 +402,22 @@
         read:
           - balboa.l3_loan_analytics
 
+- sqlmesh_analyst:
+    privileges:
+      databases:
+        read:
+          - sushi_dev
+          - sushi_prd
+        write:
+          - sushi_dev
+          - sushi_prd
+      tables:
+        read:
+          - raw.*.*
+    warehouses:
+      - wh_transforming_sqlmesh
+
+
 ##########################
 #  Table & View Roles
 ##########################
