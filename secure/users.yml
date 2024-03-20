@@ -149,6 +149,12 @@
     member_of:
       - analyst
 
+- svc_rupert:
+    can_login: true
+    member_of:
+      - analyst
+
+
 # - svc_datameer:
 #     can_login: true
 #     member_of:
