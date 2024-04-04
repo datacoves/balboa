@@ -23,4 +23,5 @@ def test_grid():
         bash_command=f"echo 'First Task'",
     )
 
-first_task
+test_grid
+
