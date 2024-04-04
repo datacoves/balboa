@@ -118,3 +118,6 @@ models:
         description: Indicates if income was verified by LC, not verified, or if the income source was verified
       - name: zip_code
         description: The first 3 numbers of the zip code provided by the borrower in the loan application
+    versions:
+      - v: v1
+      - v: v2
