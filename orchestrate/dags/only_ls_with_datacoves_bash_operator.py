@@ -6,22 +6,22 @@ default_args = {
     "owner": "airflow",
     "email": "some_user@exanple.com",
     "email_on_failure": True,
-    "description": "Sample python dag",
+    "description": "Sample ls -alh dag",
 }
 
 
 @dag(
     default_args={"start_date": "2021-01"},
-    description="sample_script",
+    description="ls -alh",
     schedule_interval="0 0 1 */12 *",
     tags=["version_2"],
     catchup=False,
 )
-def sample_script():
-    sample_script = DatacovesBashOperator(
-        task_id="sample_script",
+def ls_alh():
+    ls_alh = DatacovesBashOperator(
+        task_id="ls_alh",
         bash_command=f"ls -alh",
     )
 
 
-dag = sample_script()
+dag = ls_alh()
