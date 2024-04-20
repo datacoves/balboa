@@ -44,8 +44,5 @@
     shared: true
 
 
-- sushi_dev:
-    shared: false
-
-- sushi_prd:
+- sushi_db:
     shared: false
