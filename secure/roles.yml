@@ -406,11 +406,9 @@
     privileges:
       databases:
         read:
-          - sushi_dev
-          - sushi_prd
+          - sushi_db
         write:
-          - sushi_dev
-          - sushi_prd
+          - sushi_db
       tables:
         read:
           - raw.*.*
