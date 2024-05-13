@@ -6,7 +6,7 @@ dbt_packages/
 /profiles.yml
 /.user.yml
 
-.cache 
+.cache
 nohup.out
 
 # Virtual envs
@@ -29,3 +29,6 @@ __pycache__
 .gitsecret/keys/random_seed
 load/secrets/**/*.*
 !*.secret
+
+
+test-alejandro
