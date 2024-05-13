@@ -30,5 +30,3 @@ __pycache__
 load/secrets/**/*.*
 !*.secret
 
-
-test-alejandro
