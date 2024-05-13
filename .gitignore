@@ -29,3 +29,6 @@ __pycache__
 .gitsecret/keys/random_seed
 load/secrets/**/*.*
 !*.secret
+
+
+test-alejandro
