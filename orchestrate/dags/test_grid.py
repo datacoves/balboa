@@ -28,7 +28,12 @@ def test_grid():
         bash_command=f"echo 'Second Task'",
     )
 
-    first_task >> second_task
+    third_task = DatacovesBashOperator(
+        task_id="test_grid_third_Task",
+        bash_command=f"echo 'Third Task'",
+    )
+
+    first_task >> second_task >> third_task
 
 dag = test_grid()
 
