@@ -1,9 +1,9 @@
-{{ config(
+{# {{ config(
     materialized = 'dynamic_table',
     snowflake_warehouse = 'wh_transforming',
     target_lag = 'downstream',
     persist_docs={"relation": false},
-) }}
+) }} #}
 
 with raw_source as (
 
