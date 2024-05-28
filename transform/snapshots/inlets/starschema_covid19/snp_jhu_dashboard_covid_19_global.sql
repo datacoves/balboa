@@ -28,5 +28,5 @@
         iso3166_2,
         last_update_date
     from
-        {{ source('covid19_epidemiological_data', 'jhu_dashboard_covid_19_global') }}
+        {{ source('COVID19_EPIDEMIOLOGICAL_DATA', 'JHU_DASHBOARD_COVID_19_GLOBAL') }}
 {% endsnapshot %}

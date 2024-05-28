@@ -1,14 +1,14 @@
 version: 2
 
 sources:
-  - name: covid19_epidemiological_data
-    database: covid19_epidemiological_data
-    schema: public
+  - name: COVID19_EPIDEMIOLOGICAL_DATA
+    database: COVID19_EPIDEMIOLOGICAL_DATA
+    schema: PUBLIC
     tables:
-      - name: jhu_covid_19
+      - name: JHU_COVID_19
         identifier: JHU_COVID_19
         description: 'Starschema John Hopkins COVID19 data'
-      - name: jhu_dashboard_covid_19_global
+      - name: JHU_DASHBOARD_COVID_19_GLOBAL
         description: 'Starschema Global COVID data'
         freshness:
           warn_after:
@@ -18,4 +18,3 @@ sources:
             count: 36
             period: hour
         loaded_at_field: last_update_date
-        identifier: JHU_DASHBOARD_COVID_19_GLOBAL
