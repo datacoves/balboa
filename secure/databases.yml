@@ -43,6 +43,10 @@
 - covid19_epidemiological_data:
     shared: true
 
+- great_bay:
+    shared: false
+    schemas:
+        - COVE_MARKETING
 
 - sushi_db:
     shared: false

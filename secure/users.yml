@@ -154,6 +154,10 @@
     member_of:
       - analyst
 
+- svc_datahub:
+    can_login: true
+    member_of:
+      - catalog
 
 # - svc_datameer:
 #     can_login: true
