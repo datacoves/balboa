@@ -4,14 +4,14 @@ version: 2
 # dbt run-operation stage_external_sources --args "select: lineage.lineage_processing" --vars "ext_full_refresh: true"
 
 sources:
-  - name: lineage
+  - name: LINEAGE
     database: RAW
     schema: RAW
     loader: S3
     # loaded_at_field: load_timestamp
 
     tables:
-      - name: lineage_processing
+      - name: LINEAGE_PROCESSING
         description: "Lineage for Processing step"
 
 

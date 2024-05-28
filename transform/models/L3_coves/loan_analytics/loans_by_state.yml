@@ -22,6 +22,8 @@ models:
     columns:
       - name: state
         description: 'The code for the state.'
+        tests:
+          - not_null
       - name: state_name
         description: 'The name of the state.'
       - name: number_of_loans

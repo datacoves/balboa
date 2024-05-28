@@ -1,5 +1,5 @@
 with raw_source as (
-    select * from {{ source("covid19_epidemiological_data", "jhu_covid_19") }}
+    select * from {{ source("COVID19_EPIDEMIOLOGICAL_DATA", "JHU_COVID_19") }}
 ),
 
 final as (
