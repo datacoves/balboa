@@ -12,7 +12,7 @@ from database_connection import getSession
 def get_loan_data(table_type):
     session = getSession()
 
-    sql= f"select * from balboa_dev.gomezn.loans_by_state__{table_type} order by NUMBER_OF_LOANS desc"
+    sql= f"select * from balboa.l3_loan_analytics.loans_by_state__{table_type} order by NUMBER_OF_LOANS desc"
 
     data = session.sql(sql).toPandas()
 
