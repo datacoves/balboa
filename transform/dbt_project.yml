@@ -45,6 +45,8 @@ seeds:
         columns: true
 
 snapshots:
+    +enabled: "{{ True if target.database == 'balboa' else False }}"
+
     balboa:
         +target_database: raw
         +target_schema: snapshots
