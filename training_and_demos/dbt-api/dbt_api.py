@@ -119,6 +119,6 @@ environment_slug = os.getenv("DATACOVES__ENVIRONMENT_SLUG")
 if __name__ == "__main__":
     print("=== INIT ===")
     # check_health()
-    # upload_manifest()
+    upload_manifest()
     # download_latest_manifest(trimmed=True)
     print("=== END ===")

@@ -36,7 +36,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 # These settings can be overridden in the individual model files
 seeds:
-    +schema: seeds
+    +schema: SEEDS
     +docs:
         node_color: "#379965"
     +quote_columns: false
@@ -49,7 +49,7 @@ snapshots:
 
     balboa:
         +target_database: raw
-        +target_schema: snapshots
+        +target_schema: SNAPSHOTS
     +docs:
         node_color: "#0f703d"
 
@@ -57,39 +57,39 @@ models:
 
     balboa:
         +materialized: view
-        +schema: z_schema_not_configured
+        +schema: Z_SCHEMA_NOT_CONFIGURED
 
         L1_inlets:
             account_usage:
-                +schema: l1_account_usage
+                +schema: L1_ACCOUNT_USAGE
             country_data:
-                +schema: l1_country_data
+                +schema: L1_COUNTRY_DATA
             google_analytics_4:
-                +schema: l1_google_analytics_4
+                +schema: L1_GOOGLE_ANALYTICS_4
             covid19_epidemiological_data:
-                +schema: l1_covid19_epidemiological_data
+                +schema: L1_COVID19_EPIDEMIOLOGICAL_DATA
             loans:
-                +schema: l1_loans
+                +schema: L1_LOANS
             us_population:
-                +schema: l1_country_data
+                +schema: L1_COUNTRY_DATA
 
         L2_bays:
             +docs:
                 node_color: "#000899"
             country_demographics:
-                +schema: l2_country_demographics
+                +schema: L2_COUNTRY_DEMOGRAPHICS
             covid_observations:
-                +schema: l2_covid_observations
+                +schema: L2_COVID_OBSERVATIONS
             snowflake_usage:
-                +schema: l2_snowflake_usage
+                +schema: L2_SNOWFLAKE_USAGE
 
         L3_coves:
             +docs:
                 node_color: "#366ccf"
             covid_analytics:
-                +schema: l3_covid_analytics
+                +schema: L3_COVID_ANALYTICS
             loan_analytics:
-                +schema: l3_loan_analytics
+                +schema: L3_LOAN_ANALYTICS
                 # cannot persist docs on dynamic tables
                 +persist_docs:
                     relation: false
@@ -101,7 +101,7 @@ models:
         #   materialized: table
         #   +database: "{{ 'prd_shared_dw' if target.name == 'prd' else target.database }}"
         #   digital_product_analytics:
-        #     +schema: cove_digital_product_analytics
+        #     +schema: COVE_DIGITAL_PRODUCT_ANALYTICS
         #   +copy_grants: false
         #   +post-hook: "{{ add_grants_to_share('PRD_ANALYTICS_DW_SNOWFLAKE_SECURE_SHARE_167') }}"
         #   +transient: false
@@ -130,12 +130,12 @@ vars:
 
     data_diff:
         prod_database: BALBOA
-        prod_schema: NOT_DEFINED
+        prod_schema: not_defined
         prod_custom_schema: <custom_schema>
         datasource_id: 6003
 
-    create_masking_policy_schema: "False"
-    use_common_masking_policy_db: "True"
+    create_masking_policy_schema: "false"
+    use_common_masking_policy_db: "true"
     common_masking_policy_db: "BALBOA"
     common_masking_policy_schema: "MASKING_POLICIES"
-    use_force_applying_masking_policy: "True"
+    use_force_applying_masking_policy: "true"
