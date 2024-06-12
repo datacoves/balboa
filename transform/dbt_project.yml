@@ -60,7 +60,6 @@ models:
         +schema: Z_SCHEMA_NOT_CONFIGURED
 
         L1_inlets:
-            +group: finance
             account_usage:
                 +schema: L1_ACCOUNT_USAGE
             country_data:
