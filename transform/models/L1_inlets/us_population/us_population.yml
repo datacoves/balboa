@@ -2,7 +2,6 @@ version: 2
 
 models:
   - name: us_population
-    access: private
     description: 'Model representing the population data for each state in the United States.'
     columns:
       - name: state_name
