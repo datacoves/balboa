@@ -74,6 +74,7 @@ models:
                 +schema: L1_COUNTRY_DATA
 
         L2_bays:
+            +group: marketing
             +docs:
                 node_color: "#000899"
             country_demographics:
@@ -84,6 +85,8 @@ models:
                 +schema: L2_SNOWFLAKE_USAGE
 
         L3_coves:
+            +group: marketing
+            +access: public
             +docs:
                 node_color: "#366ccf"
             covid_analytics:
