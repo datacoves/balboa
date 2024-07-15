@@ -81,7 +81,8 @@
       - z_db_snowflake
       - z_db_covid19_epidemiological_data
       - z_tables_views_general
-      - z_wh_transforming
+      - z_wh_integration
+      - z_wh_orchestrating
       - z_stage_dbt_artifacts_write
     owns:
       databases:
@@ -103,9 +104,25 @@
       databases:
         - raw
 
+
+- bot_integration:
+    # grant create database on account to role bot_integration
+    owner: securityadmin
+    member_of:
+      - z_base_analyst
+      - z_tables_views_general
+      - z_wh_integration
+    owns:
+      databases:
+        - balboa
+      schemas:
+        - balboa.*
+        - raw.snapshots
+
+
 - catalog:
     member_of:
-      - z_wh_transforming
+      - z_wh_catalog
     privileges:
       databases:
         read:
@@ -142,12 +159,12 @@
     member_of:
       - sysadmin
       - securityadmin
-      - z_wh_transforming
+      - z_wh_admin
 
 - securityadmin:
     member_of:
       - useradmin
-      - z_wh_transforming
+      - z_wh_admin
 
     privileges:
       databases:
@@ -165,11 +182,11 @@
 
 - useradmin:
     member_of:
-      - z_wh_transforming
+      - z_wh_admin
 
 - sysadmin:
     member_of:
-      - z_wh_transforming
+      - z_wh_admin
 
 ## ======================#
 ##     Policy Roles      #
@@ -217,12 +234,29 @@
 ##########################
 #  Warehouse Roles
 ##########################
+- z_wh_admin:
+    warehouses:
+      - wh_admin
+
+- z_wh_catalog:
+    warehouses:
+      - wh_catalog
+
+- z_wh_integration:
+    warehouses:
+      - wh_integration
+
 - z_wh_loading:
     warehouses:
       - wh_loading
+
 - z_wh_transforming:
     warehouses:
       - wh_transforming
+
+- z_wh_orchestrating:
+    warehouses:
+      - wh_orchestrating
 
 ##########################
 #  Stage Roles

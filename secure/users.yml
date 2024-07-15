@@ -8,32 +8,10 @@
     member_of:
       - analyst
 
-- barry:
-    can_login: true
-    member_of:
-      - analyst
-
 - bruno:
     can_login: true
     member_of:
       - analyst
-      # - securityadmin
-
-# Daniel Palma
-# - daniel:
-#     can_login: true
-#     member_of:
-#       - analyst
-
-# - daniela:
-#     can_login: true
-#     member_of:
-#       - analyst
-
-# - davidscohen89:
-#     can_login: true
-#     member_of:
-#       - analyst
 
 - gomezn:
     can_login: true
@@ -45,58 +23,21 @@
       - loader
       - transformer_dbt
       - sqlmesh_analyst
-
-# - joe:
-#     can_login: true
-#     member_of:
-#       - analyst
-#       - accountadmin
-
-# snowflake
-- james:
-    can_login: true
-    member_of:
-      - analyst
-
-# - mariano:
-#     can_login: true
-#     member_of:
-#       - analyst
+      - bot_integration
 
 - mayra:
     can_login: true
     member_of:
       - analyst
 
-# snowflake
-- natalie:
+- sebastian:
     can_login: true
     member_of:
+      - accountadmin
+      - securityadmin
       - analyst
 
-# SQLMesh Team
-- toby:
-    can_login: true
-    member_of:
-      - sqlmesh_analyst
-
-- iaroslav:
-    can_login: true
-    member_of:
-      - sqlmesh_analyst
-
-- afzal:
-    can_login: true
-    member_of:
-      - sqlmesh_analyst
-
-# Raphael Mansuy
-# - raphael:
-#     can_login: true
-#     member_of:
-#       - analyst
-
-- sebastian:
+- stephen:
     can_login: true
     member_of:
       - accountadmin
@@ -118,12 +59,6 @@
     member_of:
       - securityadmin
 
-# integration testing
-- datacoves_sa:
-    can_login: true
-    member_of:
-      - analyst
-
 - svc_fivetran:
     can_login: true
     member_of:
@@ -134,20 +69,22 @@
     member_of:
       - transformer_dbt
 
-# - svc_convexa:
-#     can_login: false
-#     member_of:
-#       - convexa_analyst
-
-# - svc_willow_bay:
-#     can_login: false
-#     member_of:
-#       - willow_bay_app
-
-- svc_balboa:
-    can_login: false
+# Used by GH Actions on Balboa repo
+- svc_balboa_ci:
+    can_login: true
     member_of:
-      - analyst
+      - bot_integration
+      - transformer_dbt
+
+- svc_dbt_coves_ci:
+    can_login: true
+    member_of:
+      - bot_integration
+
+- svc_datacoves_platform_ci:
+    can_login: true
+    member_of:
+      - bot_integration
 
 - svc_rupert:
     can_login: true
@@ -158,13 +95,3 @@
     can_login: true
     member_of:
       - catalog
-
-# - svc_datameer:
-#     can_login: true
-#     member_of:
-#       - analyst
-
-# - svc_selectstar:
-#     can_login: true
-#     member_of:
-#       - analyst
