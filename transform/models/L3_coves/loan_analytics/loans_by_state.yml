@@ -22,7 +22,7 @@ models:
     columns:
       - name: state
         description: 'The code for the state.'
-        tests:
+        data_tests:
           - not_null
       - name: state_name
         description: 'The name of the state.'

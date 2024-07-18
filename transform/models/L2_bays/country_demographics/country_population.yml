@@ -5,7 +5,7 @@ models:
     columns:
       - name: country_code
         description: "3 Letter Country Code"
-        tests:
+        data_tests:
           - not_null
           - unique
       - name: country_name
