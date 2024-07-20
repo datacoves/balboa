@@ -1,25 +1,15 @@
 import datetime
 
 from airflow.decorators import dag
-from callbacks.slack_messages import inform_failure, inform_success
 from kubernetes.client import models as k8s
 from operators.datacoves.dbt import DatacovesDbtOperator
-
-
-def run_inform_success(context):
-    inform_success(context, connection_id="DATACOVES_SLACK", color="0000FF")
-
-
-def run_inform_failure(context):
-    inform_failure(context, connection_id="DATACOVES_SLACK", color="9900FF")
-
 
 TRANSFORM_CONFIG = {
     "pod_override": k8s.V1Pod(
         spec=k8s.V1PodSpec(
             containers=[
                 k8s.V1Container(
-                    name="transform",
+                    name="base",
                     image="datacoves/airflow-pandas:latest",
                     resources=k8s.V1ResourceRequirements(
                         requests={"memory": "8Gi", "cpu": "1000m"}
@@ -42,8 +32,18 @@ TRANSFORM_CONFIG = {
     schedule_interval="0 0 1 */12 *",
     tags=["version_2", "slack_notification", "blue_green"],
     catchup=False,
-    on_success_callback=run_inform_success,
-    on_failure_callback=run_inform_failure,
+    custom_callbacks={
+        "on_success_callback": {
+            "module": "callbacks.slack_messages",
+            "callable": "inform_success",
+            "args": {"connection_id": "DATACOVES_SLACK", "color": "0000FF"},
+        },
+        "on_failure_callback": {
+            "module": "callbacks.slack_messages",
+            "callable": "inform_failure",
+            "args": {"connection_id": "DATACOVES_SLACK", "color": "9900FF"},
+        },
+    },
 )
 def yaml_slack_dag():
     transform = DatacovesDbtOperator(
