@@ -14,22 +14,19 @@ catchup: false
 
 
 # Optional callbacks used to send MS Teams notifications
-custom_callbacks:
+notifications:
   on_success_callback:
-    module: callbacks.microsoft_teams
-    callable: inform_success
+    notifier: notifiers.datacoves.ms_teams.MSTeamsNotifier
     args:
       connection_id: DATACOVES_MS_TEAMS
       # message: Custom success message
       color: 0000FF
   on_failure_callback:
-    module: callbacks.microsoft_teams
-    callable: inform_failure
+    notifier: notifiers.datacoves.ms_teams.MSTeamsNotifier
     args:
       connection_id: DATACOVES_MS_TEAMS
       # message: Custom error message
       color: 9900FF
-
 
 # DAG Tasks
 nodes:
