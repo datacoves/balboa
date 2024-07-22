@@ -93,6 +93,13 @@
         - balboa.*
         - raw.snapshots
 
+- bot_integration:
+    # grant create database on account to role bot_integration
+    owner: securityadmin
+    member_of:
+      - transformer_dbt
+      - z_wh_integration
+
 - loader:
     # Can read/write raw db; becomes owner of all raw schemas through creation
     member_of:
@@ -103,22 +110,6 @@
     owns:
       databases:
         - raw
-
-
-- bot_integration:
-    # grant create database on account to role bot_integration
-    owner: securityadmin
-    member_of:
-      - z_base_analyst
-      - z_tables_views_general
-      - z_wh_integration
-    owns:
-      databases:
-        - balboa
-      schemas:
-        - balboa.*
-        - raw.snapshots
-
 
 - catalog:
     member_of:
