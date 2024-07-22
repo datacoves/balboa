@@ -12,23 +12,18 @@ default_args:
   email_on_failure: true
 catchup: false
 
-
 # Optional callbacks used to send Slack notifications
-custom_callbacks:
+notifications:
   on_success_callback:
-    module: callbacks.slack_messages
-    callable: inform_success
+    notifier: airflow.providers.slack.notifications.slack.send_slack_notification
     args:
-      connection_id: DATACOVES_SLACK
-      # message: Custom success message
-      color: 0000FF
+      text: "The DAG {{ dag.dag_id }} succeeded"
+      channel: "#general"
   on_failure_callback:
-    module: callbacks.slack_messages
-    callable: inform_failure
+    notifier: airflow.providers.slack.notifications.slack.send_slack_notification
     args:
-      connection_id: DATACOVES_SLACK
-      # message: Custom error message
-      color: 9900FF
+      text: "The DAG {{ dag.dag_id }} failed"
+      channel: "#general"
 
 # DAG Tasks
 nodes:
@@ -42,7 +37,6 @@ nodes:
         cpu: 1000m
 
     bash_command: "dbt run -s personal_loans"
-
 
   # Sample failing task to test that notification is sent
   # failing_task:

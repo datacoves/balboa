@@ -1,6 +1,7 @@
 import datetime
 
 from airflow.decorators import dag
+from airflow.providers.slack.notifications.slack import send_slack_notification
 from kubernetes.client import models as k8s
 from operators.datacoves.dbt import DatacovesDbtOperator
 
@@ -32,18 +33,12 @@ TRANSFORM_CONFIG = {
     schedule_interval="0 0 1 */12 *",
     tags=["version_2", "slack_notification", "blue_green"],
     catchup=False,
-    custom_callbacks={
-        "on_success_callback": {
-            "module": "callbacks.slack_messages",
-            "callable": "inform_success",
-            "args": {"connection_id": "DATACOVES_SLACK", "color": "0000FF"},
-        },
-        "on_failure_callback": {
-            "module": "callbacks.slack_messages",
-            "callable": "inform_failure",
-            "args": {"connection_id": "DATACOVES_SLACK", "color": "9900FF"},
-        },
-    },
+    on_success_callback=send_slack_notification(
+        text="The DAG {{ dag.dag_id }} succeeded", channel="#general"
+    ),
+    on_failure_callback=send_slack_notification(
+        text="The DAG {{ dag.dag_id }} failed", channel="#general"
+    ),
 )
 def yaml_slack_dag():
     transform = DatacovesDbtOperator(

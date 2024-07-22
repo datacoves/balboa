@@ -17,10 +17,10 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     tags=["version_2", "ms_teams_notification", "blue_green"],
     catchup=False,
     on_success_callback=MSTeamsNotifier(
-        connection_id="DATACOVES_MS_TEAMS", color="0000FF"
+        connection_id="DATACOVES_MS_TEAMS", theme_color="0000FF"
     ),
     on_failure_callback=MSTeamsNotifier(
-        connection_id="DATACOVES_MS_TEAMS", color="9900FF"
+        connection_id="DATACOVES_MS_TEAMS", theme_color="9900FF"
     ),
 )
 def yaml_teams_dag():
