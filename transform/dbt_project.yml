@@ -127,6 +127,7 @@ models:
 
 data_tests:
     +store_failures: true
+    +schema: DBT_TEST__AUDIT
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'
