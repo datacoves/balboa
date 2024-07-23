@@ -13,7 +13,7 @@ final as (
         value,
         "COUNTRY CODE" as country_code
 
-    from raw_source
+    FROM raw_source
 
 )
 
