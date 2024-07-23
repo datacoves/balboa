@@ -4,9 +4,10 @@ with query_fail as (
 ),
 
 queries_per_user as (
-    select count(query_id) / nullif(count(distinct user_name),0) as queries
+    select count(query_id) / nullif(count(distinct user_name), 0) as queries
     from {{ ref('int_query_history') }}
 )
+
 select
     query_id,
     database_name,
