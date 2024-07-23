@@ -27,7 +27,7 @@ jobs:
     # environment: PR_ENV
 
     # most people should use this one
-    container: datacoves/ci-basic-dbt-snowflake:2
+    container: datacoves/ci-basic-dbt-snowflake:3
 
     defaults:
       run:
@@ -104,7 +104,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
 
-    container: datacoves/ci-airflow-dbt-snowflake:2
+    container: datacoves/ci-airflow-dbt-snowflake:3
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
