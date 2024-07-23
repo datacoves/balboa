@@ -6,7 +6,7 @@ with raw_cases as (
         new_cases,
         date,
         case_type
-    from balboa.l2_covid_observations.base_cases
+    from BALBOA.L2_COVID_OBSERVATIONS.base_cases
 ),
 
 create_location_id as (

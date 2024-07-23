@@ -1,12 +1,118 @@
 
-        
-    drop dynamic table if exists "BALBOA"."L1_LOANS"."PERSONAL_LOANS"
-;
-    create or replace dynamic table balboa.l1_loans.personal_loans
-        target_lag = 'downstream'
-        warehouse = wh_transforming
-        as (
-            
+  create or replace   view BALBOA_STAGING.L1_LOANS.personal_loans
+  
+    
+    
+(
+  
+    "TOTAL_ACC" COMMENT $$The total number of credit lines currently in the borrower's credit file$$, 
+  
+    "ANNUAL_INC" COMMENT $$The borrower's annual income$$, 
+  
+    "EMP_LENGTH" COMMENT $$Employment length in years$$, 
+  
+    "DESC" COMMENT $$Loan description provided by the borrower$$, 
+  
+    "TOTAL_PYMNT" COMMENT $$Payments received to date for total amount funded$$, 
+  
+    "LAST_PYMNT_D" COMMENT $$Last month payment was received$$, 
+  
+    "ADDR_STATE" COMMENT $$The state in which the borrower resides$$, 
+  
+    "NEXT_PYMNT_D" COMMENT $$Next scheduled payment date$$, 
+  
+    "EMP_TITLE" COMMENT $$The job title supplied by the borrower when applying for the loan$$, 
+  
+    "COLLECTION_RECOVERY_FEE" COMMENT $$Post charge off collection fee$$, 
+  
+    "MTHS_SINCE_LAST_MAJOR_DEROG" COMMENT $$Months since most recent 90-day or worse rating$$, 
+  
+    "INQ_LAST_6MTHS" COMMENT $$The number of inquiries in past 6 months (excluding auto and mortgage inquiries)$$, 
+  
+    "SUB_GRADE" COMMENT $$LC assigned loan subgrade$$, 
+  
+    "FUNDED_AMNT_INV" COMMENT $$The total amount committed by investors for that loan at that point in time$$, 
+  
+    "DELINQ_2YRS" COMMENT $$The number of 30+ days past-due incidences of delinquency in the borrower's credit file for the past 2 years$$, 
+  
+    "LOAN_ID" COMMENT $$A unique identifier for the loan$$, 
+  
+    "FUNDED_AMNT" COMMENT $$The total amount committed to that loan at that point in time$$, 
+  
+    "VERIFICATION_STATUS" COMMENT $$Indicates if income was verified by LC, not verified, or if the income source was verified$$, 
+  
+    "DTI" COMMENT $$The borrower's debt-to-income ratio$$, 
+  
+    "TOTAL_REC_PRNCP" COMMENT $$Principal received to date$$, 
+  
+    "GRADE" COMMENT $$LC assigned loan grade$$, 
+  
+    "HOME_OWNERSHIP" COMMENT $$The home ownership status provided by the borrower during registration$$, 
+  
+    "ISSUE_D" COMMENT $$The month which the loan was funded$$, 
+  
+    "MTHS_SINCE_LAST_DELINQ" COMMENT $$The number of months since the borrower's last delinquency$$, 
+  
+    "OUT_PRNCP" COMMENT $$Remaining outstanding principal for total amount funded$$, 
+  
+    "PUB_REC" COMMENT $$Number of derogatory public records$$, 
+  
+    "INT_RATE" COMMENT $$Interest rate on the loan$$, 
+  
+    "ZIP_CODE" COMMENT $$The first 3 numbers of the zip code provided by the borrower in the loan application$$, 
+  
+    "OPEN_ACC" COMMENT $$The number of open credit lines in the borrower's credit file$$, 
+  
+    "TERM" COMMENT $$The number of payments on the loan. Values are in months and can be either 36 or 60$$, 
+  
+    "PYMNT_PLAN" COMMENT $$Indicates if a payment plan has been put in place for the loan$$, 
+  
+    "URL" COMMENT $$URL for the LC page with listing data$$, 
+  
+    "REVOL_BAL" COMMENT $$Total credit revolving balance$$, 
+  
+    "RECOVERIES" COMMENT $$Post charge off gross recovery$$, 
+  
+    "LAST_PYMNT_AMNT" COMMENT $$Last total payment amount received$$, 
+  
+    "LOAN_AMNT" COMMENT $$The listed amount of the loan applied for by the borrower$$, 
+  
+    "PURPOSE" COMMENT $$A category provided by the borrower for the loan request$$, 
+  
+    "INITIAL_LIST_STATUS" COMMENT $$The initial listing status of the loan$$, 
+  
+    "TOTAL_REC_INT" COMMENT $$Interest received to date$$, 
+  
+    "TOTAL_PYMNT_INV" COMMENT $$Payments received to date for portion of total amount funded by investors$$, 
+  
+    "MTHS_SINCE_LAST_RECORD" COMMENT $$The number of months since the last public record$$, 
+  
+    "LAST_CREDIT_PULL_D" COMMENT $$The most recent month LC pulled credit for this loan$$, 
+  
+    "TOTAL_REC_LATE_FEE" COMMENT $$Late fees received to date$$, 
+  
+    "MEMBER_ID" COMMENT $$A unique identifier for the borrower$$, 
+  
+    "POLICY_CODE" COMMENT $$Publicly available$$, 
+  
+    "TITLE" COMMENT $$The loan title provided by the borrower$$, 
+  
+    "LOAN_STATUS" COMMENT $$Current status of the loan$$, 
+  
+    "INSTALLMENT" COMMENT $$The monthly payment owed by the borrower if the loan originates$$, 
+  
+    "EARLIEST_CR_LINE" COMMENT $$The month the borrower's earliest reported credit line was opened$$, 
+  
+    "REVOL_UTIL" COMMENT $$Revolving line utilization rate, or the amount of credit the borrower is using relative to all available revolving credit$$, 
+  
+    "OUT_PRNCP_INV" COMMENT $$Remaining outstanding principal for portion of total amount funded by investors$$, 
+  
+    "COLLECTIONS_12_MTHS_EX_MED" COMMENT $$Number of collections in the last 12 months excluding medical collections$$
+  
+)
+
+  copy grants as (
+    
 
 with raw_source as (
 
@@ -76,7 +182,5 @@ final as (
 )
 
 select * from final
-        )
-    ;
-    alter dynamic table balboa.l1_loans.personal_loans refresh
-    
+  );
+

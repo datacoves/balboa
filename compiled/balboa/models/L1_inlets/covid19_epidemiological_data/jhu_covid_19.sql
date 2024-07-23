@@ -1,5 +1,5 @@
 with raw_source as (
-    select * from covid19_epidemiological_data.public.JHU_COVID_19
+    select * from COVID19_EPIDEMIOLOGICAL_DATA.PUBLIC.JHU_COVID_19
 ),
 
 final as (

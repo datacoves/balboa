@@ -5,7 +5,7 @@
 
 
 select *
-from balboa.l2_covid_observations.covid_location
+from BALBOA.L2_COVID_OBSERVATIONS.covid_location
 where state is null
 
 
