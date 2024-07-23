@@ -2,7 +2,7 @@
     The primary code source is the dbt_utils equality test.
     Usage:
     model_name:
-        tests:
+        data_tests:
         - check_critical_rows_exist_in_seed:
             compare_seed: ref('other_table_name')
             compare_columns: {# Optional #}

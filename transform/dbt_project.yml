@@ -125,8 +125,9 @@ models:
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
     copy_grants: true
 
-tests:
+data_tests:
     +store_failures: true
+    +schema: DBT_TEST__AUDIT
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'

@@ -2,7 +2,7 @@ files: ^transform/models/
 
 repos:
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-    rev: v2.0.2
+    rev: v2.0.3
 
     hooks:
       - id: check-source-table-has-description
@@ -12,6 +12,8 @@ repos:
       - id: check-model-has-description
       - id: check-model-has-properties-file
       - id: check-model-has-all-columns
+      - id: check-database-casing-consistency
+        always_run: true
 
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)

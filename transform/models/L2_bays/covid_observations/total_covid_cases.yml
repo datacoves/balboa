@@ -2,7 +2,7 @@ version: 2
 models:
   - name: total_covid_cases
     description: Contains cleaned-up COVID-19 cases data from John Hopkins University
-    # tests:
+    # data_tests:
     #   - check_critical_rows_exist_in_seed:
     #       compare_seed: ref('covid_cases_expected_values')
     columns:
