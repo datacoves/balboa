@@ -114,31 +114,7 @@
 - catalog:
     member_of:
       - z_wh_catalog
-    privileges:
-      databases:
-        read:
-          - raw
-          - balboa
-          - balboa_apps
-          - great_bay
-          - snowflake
-          - covid19_epidemiological_data
-      schemas:
-        read:
-          - raw.*
-          - balboa.*
-          - balboa_apps.*
-          - great_bay.*
-          - snowflake.*
-          - covid19_epidemiological_data.*
-      tables:
-        read:
-          - raw.*.*
-          - balboa.*.*
-          - balboa_apps.*.*
-          - great_bay.*.*
-          - snowflake.*.*
-          - covid19_epidemiological_data.*.*
+      - z_base_analyst
 
 ##########################
 #  Global Roles
