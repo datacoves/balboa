@@ -115,7 +115,10 @@
     member_of:
       - z_wh_catalog
       - z_base_analyst
+      - z_tables_views_general
+      - z_policy_row_region_all
 
+      
 ##########################
 #  Global Roles
 ##########################
