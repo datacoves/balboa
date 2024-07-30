@@ -18,14 +18,14 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
     },
     catchup=False,
     tags=["version_1"],
-    description="Datacoves Sample dag",
+    description="Datacoves Failing dag",
     schedule_interval="0 0 1 */12 *",
 )
-def datacoves_sample_dag():
+def datacoves_failing_dag():
 
-    DatacovesBashOperator(task_id="run_python_script", bash_command="fail")
+    DatacovesBashOperator(task_id="run_fail_script", bash_command="fail")
 
 
 # Invoke Dag
-dag = datacoves_sample_dag()
+dag = datacoves_failing_dag()
 dag.doc_md = __doc__
