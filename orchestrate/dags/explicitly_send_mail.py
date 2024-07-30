@@ -14,7 +14,7 @@ from pendulum import datetime
         "email_on_failure": True,
     },
     catchup=False,
-    tags=["version_2"],
+    tags=["version_3"],
     description="Fail and send email",
     # This is a regular CRON schedule. Helpful resources
     # https://cron-ai.vercel.app/
@@ -24,6 +24,9 @@ from pendulum import datetime
 def fail_and_send_email():
     @task(email=["bruno@datacoves.com"], email_on_failure=True, email_on_retry=True)
     def t1():
+        import time
+
+        time.sleep(600)
         raise AirflowException("This is a test exception")
 
     t1()
