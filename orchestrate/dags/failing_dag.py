@@ -23,7 +23,7 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
 )
 def datacoves_failing_dag():
 
-    DatacovesBashOperator(task_id="run_fail_script", bash_command="fail")
+    DatacovesBashOperator(task_id="run_fail_script", bash_command="sleep 1200")
 
 
 # Invoke Dag
