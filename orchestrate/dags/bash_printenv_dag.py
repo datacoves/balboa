@@ -28,7 +28,7 @@ with DAG(
     default_args=default_args,
     start_date = datetime(2024, 7, 10),
     catchup=False,
-    tags=["version_1"],
+    tags=["version_2"],
     description="Sample dag",
     schedule_interval="*/10 * * * *",
     on_success_callback=run_inform_success,
@@ -46,7 +46,7 @@ with DAG(
 
     task_main = BashOperator(
         task_id = "task_main",
-        bash_command = "sleep 60 && echo \"===========| LOG_LEVEL: $LOG_LEVEL |==========\""
+        bash_command = "sleep 60 && curl www.googe.com && echo \"===========| LOG_LEVEL: $LOG_LEVEL |==========\""
     )
 
     task_main  # >> eat_memory()
