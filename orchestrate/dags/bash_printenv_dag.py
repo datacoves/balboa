@@ -46,7 +46,7 @@ with DAG(
 
     task_main = BashOperator(
         task_id = "task_main",
-        bash_command = "sleep 60 && curl www.googe.com && echo \"===========| LOG_LEVEL: $LOG_LEVEL |==========\""
+        bash_command = "sleep 60 && curl www.google.com && echo \"===========| LOG_LEVEL: $LOG_LEVEL |==========\""
     )
 
     task_main  # >> eat_memory()
