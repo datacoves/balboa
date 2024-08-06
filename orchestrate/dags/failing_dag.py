@@ -2,7 +2,7 @@
 This DAG is a sample using the Airflow Operators"""
 
 from airflow.decorators import dag
-from operators.bash import BashOperator
+from airflow.operators.bash import BashOperator
 from pendulum import datetime
 
 @dag(
