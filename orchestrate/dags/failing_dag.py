@@ -1,13 +1,9 @@
 """## Datacoves Bash Operator DAG
-This DAG is a sample using the Datacoves Airflow Operators"""
+This DAG is a sample using the Airflow Operators"""
 
 from airflow.decorators import dag
-from operators.datacoves.bash import DatacovesBashOperator
+from operators.bash import BashOperator
 from pendulum import datetime
-
-# Only here for reference, this is automatically activated by Datacoves Operator
-DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
-
 
 @dag(
     default_args={
@@ -23,7 +19,7 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
 )
 def datacoves_failing_dag():
 
-    DatacovesBashOperator(task_id="run_fail_script", bash_command="sleep 1200")
+    BashOperator(task_id="run_script", bash_command="echo 'success'")
 
 
 # Invoke Dag
