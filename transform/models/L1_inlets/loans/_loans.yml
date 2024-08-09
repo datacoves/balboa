@@ -2,12 +2,13 @@ version: 2
 
 sources:
   - name: LOANS
-    database: RAW
+    database: "{{ env_var('DATACOVES__MAIN__DATABASE','DEFAULT') }}"
+    # database: RAW
     tags:
       - daily_run_airbyte
     tables:
       - name: PERSONAL_LOANS
-        description: 'Personal Loans data'
+        description: "Personal Loans data"
         columns:
           - name: _airbyte_raw_id
             meta:
