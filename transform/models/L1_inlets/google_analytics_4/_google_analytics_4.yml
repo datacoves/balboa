@@ -15,3 +15,4 @@ sources:
           error_after:
             count: 36
             period: day
+        loaded_at_field: "DATE::timestamp"
