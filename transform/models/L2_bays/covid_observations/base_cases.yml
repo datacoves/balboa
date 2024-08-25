@@ -35,3 +35,9 @@ models:
         description: A flag indicating whether the data is the most recently reported for a given location and date
       - name: new_cases
         description: The number of new COVID-19 cases reported for a given location and date
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              # min_value: 0
+              min_value: -10000000
+              # config:
+              #   severity: warn
