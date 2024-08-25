@@ -12,12 +12,10 @@ repos:
       - id: check-model-has-description
       - id: check-model-has-properties-file
       - id: check-model-has-all-columns
-      - id: check-database-casing-consistency
-        always_run: true
 
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
-    rev: 3.1.0
+    rev: 3.0.7
     hooks:
       - id: sqlfluff-lint
         language: python
@@ -25,7 +23,7 @@ repos:
         #   sqlfluff-templater-dbt should match the version of sqlfluff above in rev (pip show sqlfluff-templater-dbt)
         #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
         additional_dependencies:
-          ["sqlfluff-templater-dbt==3.1.0", "dbt-snowflake==1.8.3", "dbt-core==1.8.3"]
+          ["sqlfluff-templater-dbt==3.0.7", "dbt-snowflake==1.8.3", "dbt-core==1.8.3"]
         args: [--config, transform/.sqlfluff]
 
   - repo: https://github.com/adrienverge/yamllint.git

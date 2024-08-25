@@ -36,6 +36,7 @@
       - accountadmin
       - securityadmin
       - analyst
+      - transformer_dbt
 
 - stephen:
     can_login: true

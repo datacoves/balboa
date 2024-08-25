@@ -1,0 +1,5 @@
+term,description
+Email Frequency,The frequency of HCP that RECEIVED at least 1 email in the selected time period
+Clicked emails,Number of HCPs that clicked on at least 1 email in the selected time period
+Opened emails,Number of HCPs that opened at least 1 email in the selected time period
+Received emails,Number of HCPs that received at least 1 email in the selected time period

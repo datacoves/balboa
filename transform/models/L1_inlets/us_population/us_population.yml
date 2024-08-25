@@ -8,7 +8,7 @@ models:
     columns:
       - name: state_name
         description: 'The name of the state.'
-      - name: id
+      - name: state_id
         description: 'The unique identifier for each record in the model.'
       - name: "2010"
         description: 'The population count for the year 2010.'
