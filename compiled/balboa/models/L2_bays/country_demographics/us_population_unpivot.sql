@@ -15,14 +15,14 @@ states as (
 
 population_info as (
     select
-        us_population.id,
+        us_population.state_id,
         us_population.state_name,
         states.state_code,
         us_population.year,
         us_population.population,
         LAG(
             us_population.population, 1, 0) over (
-            partition by us_population.id, us_population.state_name
+            partition by us_population.state_id, us_population.state_name
             order by us_population.year
         ) as previous_population
     from us_population

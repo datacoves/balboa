@@ -5,7 +5,7 @@
     
 (
   
-    "TOTAL_ACC" COMMENT $$The total number of credit lines currently in the borrower's credit file$$, 
+    "TOTAL_ACC" COMMENT $$The total num(#) of credit lines currently in the borrower's credit file$$, 
   
     "ANNUAL_INC" COMMENT $$The borrower's annual income$$, 
   
@@ -182,5 +182,6 @@ final as (
 )
 
 select * from final
+where addr_state = 'CA'
   );
 

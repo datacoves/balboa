@@ -5,7 +5,7 @@ select
     from (
       
         select *
-        from BALBOA_STAGING.DBT_TEST__AUDIT.unique_country_population_country_code
+        from BALBOA_STAGING.DBT_TEST__AUDIT.dbt_expectations_expect_column_f00c2879eb57d994e401fbbca2bc443f
     
       
     ) dbt_internal_test

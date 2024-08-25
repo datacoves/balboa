@@ -5,7 +5,7 @@ select
     from (
       
         select *
-        from BALBOA_STAGING.DBT_TEST__AUDIT.not_null_country_population_country_code
+        from BALBOA_STAGING.DBT_TEST__AUDIT.accepted_values_personal_loans_addr_state__CA
     
       
     ) dbt_internal_test

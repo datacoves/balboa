@@ -68,3 +68,4 @@ final as (
 )
 
 select * from final
+where addr_state = 'CA'

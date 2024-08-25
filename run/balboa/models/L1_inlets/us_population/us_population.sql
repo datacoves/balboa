@@ -5,7 +5,7 @@
     
 (
   
-    "ID" COMMENT $$The unique identifier for each record in the model.$$, 
+    "STATE_ID" COMMENT $$The unique identifier for each record in the model.$$, 
   
     "STATE_NAME" COMMENT $$The name of the state.$$, 
   
@@ -42,7 +42,7 @@
 final as (
 
     select
-        "ID"::number as id,
+        "ID"::number as state_id,
         "STATES"::varchar as state_name,
         replace("_2010", ',', '')::integer as "2010",
         replace("_2011", ',', '')::integer as "2011",
