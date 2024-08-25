@@ -1,13 +1,15 @@
-# Inlined from /metadata-ingestion/examples/library/create_domain.py
+# Inlined from /metadata-ingestion/examples/library/create_term.py
 from dotenv import load_dotenv
 import os
 import csv
 import logging
 
-from datahub.emitter.mce_builder import make_domain_urn
+from datahub.emitter.mce_builder import make_term_urn
 from datahub.emitter.mcp import MetadataChangeProposalWrapper
 from datahub.emitter.rest_emitter import DatahubRestEmitter
-from datahub.metadata.schema_classes import ChangeTypeClass, DomainPropertiesClass
+
+# Imports for metadata model classes
+from datahub.metadata.schema_classes import GlossaryTermInfoClass
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -18,9 +20,8 @@ load_dotenv()
 datahub_host = os.getenv("DATACOVES__DATAHUB_HOST_NAME")
 datahub_api_key = os.getenv("DATAHUB_API_KEY")
 
-
 # Specify the path to your CSV file
-csv_file_path = '/config/workspace/automate/datahub/domains.csv'
+csv_file_path = '/config/workspace/automate/datahub/terms.csv'
 
 # Open the CSV file
 with open(csv_file_path, mode='r') as file:
@@ -28,22 +29,23 @@ with open(csv_file_path, mode='r') as file:
 
     # Iterate through each row
     for row in csv_reader:
-        domain = row['domain']
+        term = row['term']
+        term_urn = make_term_urn(term.strip().lower())
+
         description = row['description']
 
-        domain_urn = make_domain_urn(domain.strip().lower())
-        domain_properties_aspect = DomainPropertiesClass(
-            name = domain,
-            description = description,
+        term_properties_aspect = GlossaryTermInfoClass(
+            definition = description,
+            name = term,
+            termSource = "",
         )
 
         event: MetadataChangeProposalWrapper = MetadataChangeProposalWrapper(
-            entityType = "domain",
-            changeType = ChangeTypeClass.UPSERT,
-            entityUrn = domain_urn,
-            aspect = domain_properties_aspect,
+            entityUrn = term_urn,
+            aspect = term_properties_aspect,
         )
 
+        # Create rest emitter
         rest_emitter = DatahubRestEmitter(gms_server=datahub_host, token=datahub_api_key)
         rest_emitter.emit(event)
-        log.info(f"Created domain {domain_urn}")
+        log.info(f"Created term {term_urn}")
