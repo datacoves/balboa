@@ -14,7 +14,7 @@ from pendulum import datetime
         "email_on_failure": True,
     },
     catchup=False,
-    tags=["version_3"],
+    tags=["version_4"],
     description="Datacoves blue-green run",
     # This is a regular CRON schedule. Helpful resources
     # https://cron-ai.vercel.app/
@@ -26,7 +26,7 @@ def datacoves_bluegreen_dag():
     # Calling dbt commands
     blue_green_run = DatacovesDbtOperator(
         task_id="blue_green_run",
-        bash_command="dbt-coves blue-green --service-connection-name MAIN --drop-staging-db-at-start --keep-staging-db-on-success --dbt-selector '-s personal_loans'",
+        bash_command="dbt-coves blue-green --prod-db-env-var DATACOVES__MAIN__DATABASE --drop-staging-db-at-start --keep-staging-db-on-success --dbt-selector '-s personal_loans'",
     )
     blue_green_run
 
