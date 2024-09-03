@@ -2,8 +2,8 @@ version: 2
 
 sources:
   - name: LOANS
-    database: "{{ env_var('DATACOVES__MAIN__DATABASE','DEFAULT') }}"
-    # database: RAW
+    # database: "{{ env_var('DATACOVES__MAIN__DATABASE','DEFAULT') }}"
+    database: RAW
     tags:
       - daily_run_airbyte
     tables:
