@@ -15,22 +15,14 @@ from pendulum import datetime
         "email_on_failure": True,
     },
     catchup=False,
-    tags=["version_1"],
+    tags=["version_2"],
     description="Datacoves Sample dag",
-    # This is a regular CRON schedule. Helpful resources
-    # https://cron-ai.vercel.app/
-    # https://crontab.guru/
     schedule_interval="0 0 1 */12 *",
 )
 def pip_install_and_run():
-
-    # This is calling an external Python file after activating the venv
-    # use this instead of the Python Operator
     pip_install_dbt_coves_blue_green = DatacovesBashOperator(
         task_id="pip_install_dbt_coves_blue_green",
-        # Virtual Environment is automatically activated
-        # activate_venv=True,
-        bash_command="pip install -U git+https://github.com/datacoves/dbt-coves.git@DCV-2857-dbt-coves-changes-to-blue-green && dbt-coves blue-green -h",
+        bash_command="pip uninstall -y dbt-coves && pip install -U git+https://github.com/datacoves/dbt-coves.git@DCV-2857-dbt-coves-changes-to-blue-green && dbt-coves blue-green -h",
     )
 
     # Define task dependencies
