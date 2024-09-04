@@ -15,18 +15,18 @@ from pendulum import datetime
         "email_on_failure": True,
     },
     catchup=False,
-    tags=["version_2"],
+    tags=["version_3"],
     description="Datacoves Sample dag",
     schedule_interval="0 0 1 */12 *",
 )
 def pip_install_and_run():
-    pip_install_dbt_coves_blue_green = DatacovesBashOperator(
+    tell_me_a_joke = DatacovesBashOperator(
         task_id="pip_install_dbt_coves_blue_green",
-        bash_command="pip uninstall -y dbt-coves && pip install -U git+https://github.com/datacoves/dbt-coves.git@DCV-2857-dbt-coves-changes-to-blue-green && dbt-coves blue-green -h",
+        bash_command="pip install pyjokes && pyjoke",
     )
 
     # Define task dependencies
-    pip_install_dbt_coves_blue_green
+    tell_me_a_joke
 
 
 # Invoke Dag
