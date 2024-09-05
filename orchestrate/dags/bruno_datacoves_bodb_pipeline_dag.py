@@ -18,16 +18,20 @@ from airflow.decorators import dag, task
 from airflow.models import DAG, Variable
 from airflow.models.baseoperator import chain
 from airflow.models.param import Param
-from airflow.operators.bash import BashOperator
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.email_operator import EmailOperator
 from airflow.providers.microsoft.azure.operators.data_factory import (
     AzureDataFactoryRunPipelineOperator,
 )
 from airflow.sensors.external_task_sensor import ExternalTaskSensor
+from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 
-CREATE_NEW_VENV = "python -m venv /tmp/venv && source /tmp/venv/bin/activate &&"
+SWITCH_TO_NEW_VENV = """pip freeze > /tmp/reqs.txt && \
+    deactivate && \
+    python -m venv /tmp/venv && \
+    source /tmp/venv/bin/activate && \
+    pip install -r /tmp/reqs.txt &&"""
 
 # Get the password from an Airflow variable
 password = Variable.get("password")
@@ -62,9 +66,9 @@ def send_email_on_completion(context):
 
 
 def log_dag_run(context):
-    bash = BashOperator(
+    bash = DatacovesBashOperator(
         task_id="log_dag_run_on_completion",
-        bash_command=f""" {CREATE_NEW_VENV} \
+        bash_command=f""" {SWITCH_TO_NEW_VENV} \
             cd $DATACOVES__DBT_HOME && \
             pip install wheel && \
             pip install ../orchestrate/custom_python_libs/snowflake_execution_framework/dist/snowflake_execution_framework-0.1.4-py3-none-any.whl  && \
@@ -92,7 +96,7 @@ with DAG(
     on_failure_callback=on_completion,
     on_success_callback=on_completion,
     params={"notification_emails": Param(["bantone1@kenvue.com"])},
-    tags=["scheduled", "daily"],
+    tags=["scheduled", "daily", "version_3"],
     description="Runs daily BODB data processing end to end",
 ) as dag:
 
@@ -111,9 +115,9 @@ with DAG(
 
     # Revise the execution_key to enable the execution of various schemas.
     def execute_snowflake_framework(execution_key):
-        bash = BashOperator(
+        bash = DatacovesBashOperator(
             task_id=f"execute_snowflake_sql_execution_key_{execution_key}",
-            bash_command=f"{CREATE_NEW_VENV} \
+            bash_command=f"{SWITCH_TO_NEW_VENV} \
                 cd $DATACOVES__DBT_HOME && \
                 pip install wheel && \
                 pip install ../orchestrate/custom_python_libs/snowflake_execution_framework/dist/snowflake_execution_framework-0.1.4-py3-none-any.whl  && \
@@ -147,9 +151,9 @@ with DAG(
 
     # Running the Bash command to trigger the tableau report refresh.
     def run_tableau_report_refresh():
-        run_tableau_refresh = BashOperator(
+        run_tableau_refresh = DatacovesBashOperator(
             task_id="run_tableau_report_refresh",
-            bash_command=f"{CREATE_NEW_VENV} \
+            bash_command=f"{SWITCH_TO_NEW_VENV} \
                 cd $DATACOVES__DBT_HOME && \
                 pip install tableauserverclient && \
                 pip install wheel && \
@@ -169,10 +173,10 @@ with DAG(
 
     # https://docs.astronomer.io/learn/managing-dependencies
     chain(
-        [
-            execute_adf_pipeline("extract_redshift", "JNJ_SNAP"),
-            execute_adf_pipeline("extract_sharepoint_list", "BODB_ONE_MSL"),
-        ],
+        # [
+        #     execute_adf_pipeline("extract_redshift", "JNJ_SNAP"),
+        #     execute_adf_pipeline("extract_sharepoint_list", "BODB_ONE_MSL"),
+        # ],
         [
             execute_snowflake_framework("JNJ_SNAP"),
             execute_snowflake_framework("BODB_ONE_MSL"),
