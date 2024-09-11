@@ -17,4 +17,3 @@ sources:
           error_after:
             count: 36
             period: hour
-        loaded_at_field: last_update_date

@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: stg_country_codes
+    description: 'Staging table for country codes including names and ISO codes.'
+    columns:
+      - name: country_name
+        description: 'Name of the country'
+      - name: iso_2
+        description: 'Two-letter ISO country code'
+      - name: iso_3
+        description: 'Three-letter ISO country code'
+      - name: numeric_code
+        description: 'Numeric country code'

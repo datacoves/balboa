@@ -6,6 +6,10 @@ models:
     columns:
       - name: addr_state
         description: The state in which the borrower resides
+        data_tests:
+          - accepted_values:
+              values:
+                - "CA"
         meta:
           masking_policy: masking_policy_pii_string
       - name: annual_inc
@@ -99,7 +103,7 @@ models:
       - name: title
         description: The loan title provided by the borrower
       - name: total_acc
-        description: The total number of credit lines currently in the borrower's credit file
+        description: The total num(#) of credit lines currently in the borrower's credit file
       - name: total_pymnt
         description: Payments received to date for total amount funded
         meta:

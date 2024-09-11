@@ -4,7 +4,7 @@ models:
   - name: us_population_unpivot
     description: 'This model calculates the population difference year to year for each state in the US.'
     columns:
-      - name: id
+      - name: state_id
         description: 'The unique identifier of the population record.'
       - name: state_name
         description: 'The name of the state where the population record is associated with.'

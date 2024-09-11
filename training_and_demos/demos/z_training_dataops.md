@@ -42,16 +42,16 @@ Add metadata & tests to _airbyte_raw_country_codes:
 - Tests:
 ```yaml
     # Model:
-        tests:
+        data_tests:
             - dbt_expectations.expect_table_row_count_to_be_between:
                 min_value: 200
                 max_value: 400
     # cldr_display_name:
-        tests:
+        data_tests:
             - not_null
             - unique
     # developed___developing_countries
-        gitests:
+        gidata_tests:
             - accepted_values:
                 values:
                 - 'Developed'
@@ -145,7 +145,7 @@ On error:
     - Add description "Cleaned up country codes"
     - Add test `display_name`:
 ```yaml
-        tests:
+        data_tests:
             - not_null
             - unique
 ```

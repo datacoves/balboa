@@ -3,7 +3,7 @@ version: 2
 models:
   - name: country_populations
     description: Contains population information from the Github Datasets repository.
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - country_code

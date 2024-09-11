@@ -8,3 +8,11 @@ sources:
     tables:
       - name: ENGAGEMENT_EVENTS_REPORT
         description: 'Table containing raw data on user engagement events from Google Analytics 4'
+        freshness:
+          warn_after:
+            count: 1
+            period: day
+          error_after:
+            count: 36
+            period: day
+        loaded_at_field: "DATE::timestamp"

@@ -3,7 +3,7 @@
 # name or the intended use of these models
 name: 'balboa'
 # this is the project version, has nothing to do with dbt version
-version: '32.0.0'
+version: '34.0.0'
 config-version: 2
 
 require-dbt-version: ">=1.1.0"
@@ -74,6 +74,7 @@ models:
                 +schema: L1_COUNTRY_DATA
 
         L2_bays:
+            +group: marketing
             +docs:
                 node_color: "#000899"
             country_demographics:
@@ -84,6 +85,8 @@ models:
                 +schema: L2_SNOWFLAKE_USAGE
 
         L3_coves:
+            +group: marketing
+            +access: public
             +docs:
                 node_color: "#366ccf"
             covid_analytics:
@@ -122,8 +125,9 @@ models:
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
     copy_grants: true
 
-tests:
+data_tests:
     +store_failures: true
+    +schema: DBT_TEST__AUDIT
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'
