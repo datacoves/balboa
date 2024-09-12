@@ -1,20 +1,20 @@
 generate:
   sources:
-    database: RAW  # Database where to look for source tables
+    database: RAW # Database where to look for source tables
     # schemas: # List of schema names where to look for source tables
     #   - RAW
-    sources_destination: "models/L1_inlets/{{schema}}/_{{schema}}.yml"  # Where sources yml files will be generated
-    models_destination: "models/L1_inlets/{{schema}}/{{relation}}.sql"  # Where models sql files will be generated
-    model_props_destination: "models/L1_inlets/{{schema}}/{{relation}}.yml"  # Where models yml files will be generated
+    sources_destination: "models/L1_inlets/{{schema}}/_{{schema}}.yml" # Where sources yml files will be generated
+    models_destination: "models/L1_inlets/{{schema}}/{{relation}}.sql" # Where models sql files will be generated
+    model_props_destination: "models/L1_inlets/{{schema}}/{{relation}}.yml" # Where models yml files will be generated
     update_strategy: update # Action to perform when a property file exists. Options: update, recreate, fail, ask
-    templates_folder: ".dbt_coves/templates"  # Folder where source generation jinja templates are located.
+    templates_folder: ".dbt_coves/templates" # Folder where source generation jinja templates are located.
     flatten_json_fields: "no" # Action to perform when VARIANT / JSON field is encounted
 
   properties:
-    destination: "{{model_folder_path}}/{{model_file_name}}.yml"  # Where models yml files will be generated
+    destination: "{{model_folder_path}}/{{model_file_name}}.yml" # Where models yml files will be generated
     # You can specify a different path by declaring it explicitly, i.e.: "models/staging/{{model_file_name}}.yml"
-    update_strategy: ask  # Action to perform when a property file already exists. Options: update, recreate, fail, ask
-    models: "models/"  # Model(s) path where 'generate properties' will look for models for generation
+    update_strategy: ask # Action to perform when a property file already exists. Options: update, recreate, fail, ask
+    models: "models/" # Model(s) path where 'generate properties' will look for models for generation
 
   metadata:
     database: RAW
@@ -31,7 +31,6 @@ generate:
 
     generators_params:
       AirbyteDbtGenerator:
-
         host: "{{ env_var('DATACOVES__AIRBYTE_HOST_NAME') }}"
         port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
         airbyte_conn_id: airbyte_connection
@@ -51,7 +50,6 @@ generate:
 
         run_dbt_compile: false
         run_dbt_deps: false
-
 
 extract:
   airbyte:
@@ -73,3 +71,14 @@ load:
     path: /config/workspace/load/fivetran
     secrets_manager: datacoves
     run_connection_tests: true
+
+blue_green:
+  prod_db_env_var: DATACOVES__MAIN__DATABASE # This holds the name of the production database --- no default
+  # staging_database: STAGING_DB # Optional name you want to give to the staging database --- no default
+  # staging_suffix: STAGING # If not using staging_database above, {prod_db}_{staging_suffix} will be used --- default: STAGING
+  drop_staging_db_at_start: false # Start blue-green by dropping staging db --- default false
+  drop_staging_db_on_failure: false # Drop staging db if blue-green fails --- default false
+  keep_staging_db_on_success: false # Keep staging db if blue-green succeeds --- default false
+  # dbt_selector: "-s personal_loans" # dbt build arguments --- no default
+  # full_refresh: true # Append --full-refresh to dbt command --- default false
+  # defer: true # run in dbt in deferral mode by adding -s --state:modified+ --state logs --defer to the dbt command --- default false
