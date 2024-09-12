@@ -8,6 +8,7 @@ with population_rank as (
             partition by country_code, country_name order by year desc
         ) as rank_years
     from BALBOA.L1_COUNTRY_DATA.country_populations
+
 )
 
 select
