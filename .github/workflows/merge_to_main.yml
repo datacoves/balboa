@@ -82,7 +82,7 @@ jobs:
         id: run-blue-green
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        run: "../automate/blue_green_run.py --ci-cd-run"
+        run: "dbt-coves blue-green --defer"
 
       - name: Run blue / green deployment with full-refresh
         if: contains(github.event.pull_request.labels.*.name, 'full-refresh')
