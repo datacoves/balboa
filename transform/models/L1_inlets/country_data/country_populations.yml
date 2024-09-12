@@ -3,11 +3,6 @@ version: 2
 models:
   - name: country_populations
     access: public
-    latest_version: 2
-    versions:
-      - v: 1
-      - v: 2
-      - v: 3
     description: Contains population information from the Github Datasets repository.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
