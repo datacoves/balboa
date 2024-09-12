@@ -89,7 +89,7 @@ jobs:
         id: run-blue-green-full-refresh
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        run: "../automate/blue_green_run.py --ci-cd-run --full-refresh"
+        run: "dbt-coves blue-green --defer --full-refresh"
 
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
