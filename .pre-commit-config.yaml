@@ -2,7 +2,7 @@ files: ^transform/models/
 
 repos:
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-    rev: 9e4854e08cdcebcbe87db2b66db11011f295d667
+    rev: 668cb7e675a19452bcd03801423968e1269f297d
 
     hooks:
       - id: check-source-table-has-description
