@@ -7,8 +7,7 @@ with population_rank as (
         rank() over (
             partition by country_code, country_name order by year desc
         ) as rank_years
-    from {{ ref('country_populations') }}
-
+    from {{ ref('country_populations', v='1') }}
 )
 
 select
