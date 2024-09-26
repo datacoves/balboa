@@ -1,3 +1,13 @@
+#!/usr/bin/env -S uv run
+# /// script
+# dependencies = [
+#   "dlt[snowflake, parquet]==1.1.0",
+#   "enlighten~=1.12.4",
+#   "psutil~=6.0.0",
+#   "pandas==2.2.2",
+# ]
+# ///
+"""Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
 from datacoves_snowflake import db_config
