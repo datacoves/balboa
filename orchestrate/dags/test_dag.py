@@ -1,7 +1,8 @@
 import os
 from datetime import datetime, timedelta
 from airflow.decorators import dag
-from airflow.operators.bash_operator import BashOperator
+# from airflow.operators.bash_operator import BashOperator
+from operators.datacoves.dbt import DatacovesDbtOperator
 
 
 @dag(
@@ -16,16 +17,22 @@ from airflow.operators.bash_operator import BashOperator
         "retry_delay": timedelta(minutes=2),
     },
     description="DAG for Refreshing CUBE_CM_AGG model.",
-    schedule="10 20 * * 1-5",
+    schedule="18 20 * * 1-5",
     tags=["version_1"],
     catchup=False,
 )
 def dag_cube_cm_agg():
 
+    """
     cube_cm_agg = BashOperator(
         task_id='hello_world_task',
         bash_command='python -c "print(\'Hello, world!\')"',
         dag=dag
+    )
+    """
+    cube_cm_agg = DatacovesDbtOperator(
+        task_id="cube_cm_agg",
+        bash_command="dbt debug"
     )
 
     cube_cm_agg
