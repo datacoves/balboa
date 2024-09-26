@@ -1,6 +1,5 @@
-#!/usr/bin/env -S uv run
+#!/usr/bin/env -S uv run --cache-dir /tmp/.uv_cache
 # /// script
-# cache-dir = "/tmp/.uv_cache"
 # dependencies = [
 #   "dlt[snowflake, parquet]==1.1.0",
 #   "enlighten~=1.12.4",
