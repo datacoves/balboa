@@ -1,8 +1,7 @@
 import os
 from datetime import datetime, timedelta
-from airflow.decorators import dag, task, task_group
+from airflow.decorators import dag
 from airflow.operators.bash_operator import BashOperator
-from airflow.operators.dummy_operator import DummyOperator
 
 
 @dag(
@@ -17,7 +16,7 @@ from airflow.operators.dummy_operator import DummyOperator
         "retry_delay": timedelta(minutes=2),
     },
     description="DAG for Refreshing CUBE_CM_AGG model.",
-    schedule="08 20 * * 1-5",
+    schedule="10 20 * * 1-5",
     tags=["version_1"],
     catchup=False,
 )
