@@ -17,8 +17,8 @@ from operators.datacoves.dbt import DatacovesDbtOperator
         "retry_delay": timedelta(minutes=2),
     },
     description="DAG for Refreshing CUBE_CM_AGG model.",
-    schedule="20 20 * * 1-5",
-    tags=["version_1"],
+    schedule="23 20 * * 1-5",
+    tags=["version_2"],
     catchup=False,
 )
 def dag_cube_cm_agg():
