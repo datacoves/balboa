@@ -9,7 +9,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     default_args={
         "owner": "Kenvue",
         "depends_on_past": False,
-        "start_date": datetime.today(),
+        "start_date": datetime.today() - timedelta(days=1),
         "email": "alejandro@datacoves.com",
         "email_on_failure": False,
         "email_on_retry": False,
@@ -17,7 +17,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
         "retry_delay": timedelta(minutes=2),
     },
     description="DAG for Refreshing CUBE_CM_AGG model.",
-    schedule="18 20 * * 1-5",
+    schedule="20 20 * * 1-5",
     tags=["version_1"],
     catchup=False,
 )
