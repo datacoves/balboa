@@ -59,7 +59,7 @@ def daily_loan_run():
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
             task_id="load_us_population",
-            bash_command="python load/dlt/csv_to_snowflake/load_csv_data.py",
+            bash_command="./load/dlt/csv_to_snowflake/load_csv_data.py",
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
