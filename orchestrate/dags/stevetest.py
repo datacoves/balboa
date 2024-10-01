@@ -2,6 +2,7 @@
 This DAG is a sample using the Datacoves Airflow Operators"""
 
 from airflow.decorators import dag
+from airflow.models import Variable
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
@@ -32,6 +33,7 @@ def stevetest_dag():
         task_id = "run_dbt_task",
         bash_command = "dbt debug",
     )
+    print(Variable.get("myvariable"))
 
     # This is calling an external Python file after activating the venv
     # use this instead of the Python Operator
@@ -47,5 +49,5 @@ def stevetest_dag():
 
 
 # Invoke Dag
-dag = datacoves_sample_dag()
+dag = stevetest_dag()
 dag.doc_md = __doc__
