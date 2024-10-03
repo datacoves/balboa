@@ -1,6 +1,7 @@
 import datetime
 
 from airflow.decorators import dag
+from airflow.models import Variable
 from operators.datacoves.dbt import DatacovesDbtOperator
 
 
