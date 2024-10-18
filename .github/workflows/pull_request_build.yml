@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   dbt:
-    if: contains(github.event.pull_request.head.ref, 'transform/')
+    if: ${{ contains(github.event.pull_request.changed_files, 'transform/') }}
 
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
@@ -116,7 +116,7 @@ jobs:
         run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
 
   airflow:
-    if: contains(github.event.pull_request.head.ref, 'orchestrate/')
+    if: ${{ contains(github.event.pull_request.changed_files, 'orchestrate/') }}
 
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
