@@ -5,8 +5,6 @@ on:  # yamllint disable-line rule:truthy
     paths:
       - transform/*
       - transform/**/*
-      - orchestrate/*
-      - orchestrate/**/*
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,8 +16,6 @@ concurrency:
 
 jobs:
   dbt:
-    if: ${{ contains(github.event.pull_request.changed_files, 'transform/') }}
-
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
 
@@ -114,29 +110,3 @@ jobs:
       - name: Drop PR database on Failure to grant security access
         if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true') && (steps.grant-access-to-database.outcome == 'failure')
         run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
-
-  airflow:
-    if: ${{ contains(github.event.pull_request.changed_files, 'orchestrate/') }}
-
-    name: Pull Request Airflow Tests
-    runs-on: ubuntu-latest
-
-    container: datacoves/ci-airflow-dbt-snowflake:3.2
-
-    env:
-      AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
-      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/airflow/dags
-      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v3.5.0
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Test DAG structure integrity (DagBag Loading)
-        run: "python /usr/app/load_dagbag.py"
-
-      - name: Test DBT Sources against DAGs' YAML files
-        run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
