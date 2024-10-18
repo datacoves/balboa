@@ -122,7 +122,6 @@ jobs:
 
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.head_commit.modified, 'orchestrate/') }}
 
     container: datacoves/ci-airflow-dbt-snowflake:3.2
 
