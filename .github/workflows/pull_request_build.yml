@@ -115,7 +115,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
 
-    container: datacoves/ci-airflow-dbt-snowflake:3
+    container: datacoves/ci-airflow-dbt-snowflake:3.2
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
@@ -133,4 +133,4 @@ jobs:
         run: "python /usr/app/load_dagbag.py"
 
       - name: Test DBT Sources against DAGs' YAML files
-        run: "python /usr/app/test_dags.py"
+        run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
