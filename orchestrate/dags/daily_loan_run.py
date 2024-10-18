@@ -8,6 +8,7 @@ from fivetran_provider_async.sensors import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 
+my_var = Variable.get("ng_test_var")
 
 @dag(
     default_args={"start_date": "2021-01"},
