@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   dbt:
-    if: ${{ github.event_name == 'pull_request' && steps.changed_files.outputs.files_contains_transform == 'true' }}
+    if: contains(github.event.pull_request.head.ref, 'transform/')
 
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
@@ -66,10 +66,6 @@ jobs:
 
       - name: Set Secure Directory
         run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-
-      - name: Check for transform changes
-        id: changed_files_transform
-        run: echo ::set-output name=files_contains_transform::$(if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^transform/'; then echo 'true'; else echo 'false'; fi)
 
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
@@ -120,7 +116,7 @@ jobs:
         run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
 
   airflow:
-    if: ${{ github.event_name == 'pull_request' && steps.changed_files.outputs.files_contains_orchestrate == 'true' }}
+    if: contains(github.event.pull_request.head.ref, 'orchestrate/')
 
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
@@ -138,10 +134,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Check for orchestrate changes
-        id: changed_files_orchestrate
-        run: echo ::set-output name=files_contains_orchestrate::$(if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^orchestrate/'; then echo 'true'; else echo 'false'; fi)
 
       - name: Test DAG structure integrity (DagBag Loading)
         run: "python /usr/app/load_dagbag.py"
