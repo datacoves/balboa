@@ -66,7 +66,7 @@ jobs:
         run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
       - name: Check for transform changes
-        id: changed_files
+        id: changed_files_transform
         run: echo ::set-output name=files_contains_transform::$(if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^transform/'; then echo 'true'; else echo 'false'; fi)
 
       - name: List of files changed
@@ -138,7 +138,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Check for orchestrate changes
-        id: changed_files
+        id: changed_files_orchestrate
         run: echo ::set-output name=files_contains_orchestrate::$(if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^orchestrate/'; then echo 'true'; else echo 'false'; fi)
 
       - name: Test DAG structure integrity (DagBag Loading)
