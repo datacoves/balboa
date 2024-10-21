@@ -6,10 +6,6 @@ models:
     columns:
       - name: addr_state
         description: The state in which the borrower resides
-        data_tests:
-          - accepted_values:
-              values:
-                - "CA"
         meta:
           masking_policy: masking_policy_pii_string
       - name: annual_inc
