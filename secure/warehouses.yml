@@ -36,6 +36,12 @@
     auto_resume: true
     initially_suspended: true
 
+- wh_transforming_dynamic_tables:
+    size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
+
 - wh_transforming_sqlmesh:
     size: x-small
     auto_suspend: 60
