@@ -78,13 +78,16 @@ jobs:
 
       ##### Governance Checks
       # this first runs dbt but creates enpty tables, this is enough to then run the hooks and fail fast
+
+      # There is an issue with --empty and dynamic tables so need to exclude them
       - name: Governance run of dbt with EMPTY models using slim mode
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' && contains(github.event.pull_request.labels.*.name, 'full-refresh') != true }}
-        run: "dbt build --fail-fast --defer --state logs --select state:modified+ --empty"
+        run: "dbt build --fail-fast --defer --state logs --select state:modified+ --empty --exclude config.materialized:dynamic_table"
 
+      # There is an issue with --empty and dynamic tables so need to exclude
       - name: Governance run of dbt with EMPTY models using full run
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' || contains(github.event.pull_request.labels.*.name, 'full-refresh') }}
-        run: "dbt build --fail-fast --empty"
+        run: "dbt build --fail-fast --empty --exclude config.materialized:dynamic_table"
 
       - name: Generate Docs Combining Prod and branch catalog.json
         run: "dbt-coves generate docs --merge-deferred --state logs"
