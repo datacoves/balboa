@@ -17,7 +17,7 @@ models:
           collections
       - name: collection_recovery_fee
         description: Post charge off collection fee
-      - name: delinq_2yrs
+      - name: delinq_2_yrs
         description: The number of 30+ days past-due incidences of delinquency in
           the borrower's credit file for the past 2 years
       - name: desc
@@ -46,7 +46,7 @@ models:
         description: The home ownership status provided by the borrower during registration
       - name: initial_list_status
         description: The initial listing status of the loan
-      - name: inq_last_6mths
+      - name: inq_last_6_mths
         description: The number of inquiries in past 6 months (excluding auto and
           mortgage inquiries)
       - name: installment
