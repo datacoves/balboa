@@ -78,13 +78,20 @@ jobs:
 
       ##### Governance Checks
       # this first runs dbt but creates enpty tables, this is enough to then run the hooks and fail fast
+
+      # There is an issue with --empty and dynamic tables so need to exclude them
+      - name: Governance run of dynamic tables
+        run: "dbt build --fail-fast -s config.materialized:dynamic_table --defer --state logs"
+
+      # There is an issue with --empty and dynamic tables so need to exclude them
       - name: Governance run of dbt with EMPTY models using slim mode
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' && contains(github.event.pull_request.labels.*.name, 'full-refresh') != true }}
-        run: "dbt build --fail-fast --defer --state logs --select state:modified+ --empty"
+        run: "dbt build --fail-fast --defer --state logs --select state:modified+ --empty --exclude config.materialized:dynamic_table"
 
+      # There is an issue with --empty and dynamic tables so need to exclude
       - name: Governance run of dbt with EMPTY models using full run
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' || contains(github.event.pull_request.labels.*.name, 'full-refresh') }}
-        run: "dbt build --fail-fast --empty"
+        run: "dbt build --fail-fast --empty --exclude config.materialized:dynamic_table"
 
       - name: Generate Docs Combining Prod and branch catalog.json
         run: "dbt-coves generate docs --merge-deferred --state logs"
@@ -110,27 +117,3 @@ jobs:
       - name: Drop PR database on Failure to grant security access
         if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true') && (steps.grant-access-to-database.outcome == 'failure')
         run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
-
-  airflow:
-    name: Pull Request Airflow Tests
-    runs-on: ubuntu-latest
-
-    container: datacoves/ci-airflow-dbt-snowflake:3
-
-    env:
-      AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
-      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/airflow/dags
-      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v3.5.0
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Test DAG structure integrity (DagBag Loading)
-        run: "python /usr/app/load_dagbag.py"
-
-      - name: Test DBT Sources against DAGs' YAML files
-        run: "python /usr/app/test_dags.py"

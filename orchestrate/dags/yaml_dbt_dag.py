@@ -1,6 +1,7 @@
 import datetime
 
 from airflow.decorators import dag
+from airflow.models import Variable
 from operators.datacoves.dbt import DatacovesDbtOperator
 
 
@@ -17,6 +18,10 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     catchup=False,
 )
 def yaml_dbt_dag():
+    my_var = Variable.get("ng_test_var")
+
+    if my_var:
+        print(my_var)
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt", bash_command="dbt run -s personal_loans"
     )
