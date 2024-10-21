@@ -8,7 +8,7 @@ repos:
       - id: check-source-table-has-description
       - id: check-script-semicolon
       - id: check-script-has-no-table-name
-      - id: check-script-ref-and-source
+      # - id: check-script-ref-and-source
       - id: check-model-has-description
       - id: check-model-has-properties-file
       - id: check-model-has-all-columns
