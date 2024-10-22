@@ -20,7 +20,7 @@ print("######33333############")
     catchup=False,
 )
 def yaml_dbt_dag():
-    my_var = Variable.get("does_not_matter_name")
+    my_var = Variable.get("airlflow/variables/ngtest")
     if my_var == 'noel':
         other_var = "READIT"
     else:
