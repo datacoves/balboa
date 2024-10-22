@@ -18,6 +18,8 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     catchup=False,
 )
 def yaml_dbt_dag():
+    my_var = Variable.get("mayra_secret")
+    print(my_var)
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt", bash_command="dbt run -s personal_loans"
     )
