@@ -4,6 +4,8 @@ from airflow.decorators import dag
 from airflow.models import Variable
 from operators.datacoves.dbt import DatacovesDbtOperator
 
+print("######33333############")
+
 
 @dag(
     default_args={
@@ -20,8 +22,13 @@ from operators.datacoves.dbt import DatacovesDbtOperator
 def yaml_dbt_dag():
     my_var = Variable.get("mayra_secret")
     print(my_var)
+    print("hello")
+    if my_var:
+        print("world")
+        print(my_var)
+        print("##################")
     run_dbt = DatacovesDbtOperator(
-        task_id="run_dbt", bash_command="dbt run -s personal_loans"
+        task_id="run_dbt", bash_command=f"echo ######### && echo {my_var} && dbt run -s personal_loans"
     )
 
 dag = yaml_dbt_dag()
