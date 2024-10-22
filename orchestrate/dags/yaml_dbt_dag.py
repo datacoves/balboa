@@ -20,12 +20,12 @@ print("######33333############")
     catchup=False,
 )
 def yaml_dbt_dag():
-    my_var = Variable.get("mayra")
+    my_var = Variable.get("ngtest")
     if my_var == 'noel':
         other_var = "READIT"
     else:
         other_var = "NOSECRET"
-        
+
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt", bash_command=f"echo TTTTTTTTTTTTT && dbt run -s personal_loans && echo {other_var} && echo TTTTTTTTTTTTT && echo {my_var}"
     )
