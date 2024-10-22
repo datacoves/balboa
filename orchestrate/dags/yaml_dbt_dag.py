@@ -21,14 +21,9 @@ print("######33333############")
 )
 def yaml_dbt_dag():
     my_var = Variable.get("mayra_secret")
-    print(my_var)
-    print("hello")
-    if my_var:
-        print("world")
-        print(my_var)
-        print("##################")
+    other_var = "TESTING"
     run_dbt = DatacovesDbtOperator(
-        task_id="run_dbt", bash_command=f"echo ######### && echo {my_var} && dbt run -s personal_loans"
+        task_id="run_dbt", bash_command=f"echo ######### && dbt run -s personal_loans && echo {other_var} && echo ###### && echo {my_var}"
     )
 
 dag = yaml_dbt_dag()
