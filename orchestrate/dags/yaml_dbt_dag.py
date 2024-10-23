@@ -26,7 +26,7 @@ def yaml_dbt_dag():
 
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt",
-        bash_command=f"dbt run -s personal_loans",
+        bash_command="dbt run -s personal_loans",
         # bash_command=f"echo TTTTTTTTTTTTT && dbt run -s personal_loans && echo && echo TTTTTTTTTTTTT && echo {my_var}"
     )
 
