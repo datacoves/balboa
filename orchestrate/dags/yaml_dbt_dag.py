@@ -20,14 +20,14 @@ print("######33333############")
     catchup=False,
 )
 def yaml_dbt_dag():
-    my_var = Variable.get("ngtest2")
-    if my_var == 'noel':
-        other_var = "READIT"
-    else:
-        other_var = "NOSECRET"
+    # my_var = Variable.get("ngtest2")
+    # if my_var == 'noel':
+    #     other_var = "READIT"
+    # else:
+    #     other_var = "NOSECRET"
 
     run_dbt = DatacovesDbtOperator(
-        task_id="run_dbt", bash_command=f"echo TTTTTTTTTTTTT && dbt run -s personal_loans && echo {other_var} && echo TTTTTTTTTTTTT && echo {my_var}"
+        task_id="run_dbt", bash_command="echo TTTTTTTTTTTTT && dbt run -s personal_loans && echo && echo TTTTTTTTTTTTT &&"
     )
 
 dag = yaml_dbt_dag()
