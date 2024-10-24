@@ -27,13 +27,13 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
     schedule_interval="0 0 1 */12 *",
 )
 def stevetest_dag():
+    print(Variable.get("ngtest"))
 
     # Calling dbt commands
     dbt_task = DatacovesDbtOperator(
         task_id = "run_dbt_task",
         bash_command = "dbt debug",
     )
-    print(Variable.get("ngtest"))
 
     # This is calling an external Python file after activating the venv
     # use this instead of the Python Operator
