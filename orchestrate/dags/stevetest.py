@@ -33,7 +33,7 @@ def stevetest_dag():
         task_id = "run_dbt_task",
         bash_command = "dbt debug",
     )
-    print(Variable.get("myvariable"))
+    print(Variable.get("ngtest"))
 
     # This is calling an external Python file after activating the venv
     # use this instead of the Python Operator
