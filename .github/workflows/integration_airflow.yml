@@ -19,11 +19,11 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
 
-    container: datacoves/ci-airflow-dbt-snowflake:3.2
+    container: datacoves/ci-airflow-dbt-snowflake:3.2.202410281843-58393783
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
-      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/airflow/dags
+      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
 
     steps:
