@@ -18,16 +18,16 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     catchup=False,
 )
 def yaml_dbt_dag():
-    # my_var = Variable.get("ngtest")
-    # if my_var == 'noel':
-    #     other_var = "READIT"
-    # else:
-    #     other_var = "NOSECRET"
+    my_var = Variable.get("ngtest")
+    if my_var == 'noel':
+        other_var = "READIT"
+    else:
+        other_var = "NOSECRET"
 
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt",
-        bash_command="dbt run -s personal_loans",
-        # bash_command=f"echo TTTTTTTTTTTTT && dbt run -s personal_loans && echo && echo TTTTTTTTTTTTT && echo {my_var}"
+        # bash_command="dbt run -s personal_loans",
+        bash_command=f"echo TTTTTTTTTTTTT && dbt run -s personal_loans && echo && echo TTTTTTTTTTTTT && echo {my_var}"
     )
 
 dag = yaml_dbt_dag()
