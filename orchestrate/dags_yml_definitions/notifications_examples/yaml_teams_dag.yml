@@ -1,0 +1,44 @@
+description: "Sample DAG with MS Teams notification"
+schedule_interval: "0 0 1 */12 *"
+tags:
+  - version_2
+  - ms_teams_notification
+  - blue_green
+default_args:
+  start_date: 2023-01-01
+  owner: Noel Gomez
+  # Replace with the email of the recipient for failures
+  email: gomezn@example.com
+  email_on_failure: true
+catchup: false
+
+# Optional callbacks used to send MS Teams notifications
+notifications:
+  on_success_callback:
+    notifier: notifiers.datacoves.ms_teams.MSTeamsNotifier
+    args:
+      connection_id: DATACOVES_MS_TEAMS
+      # message: Custom success message
+      theme_color: 0000FF
+  on_failure_callback:
+    notifier: notifiers.datacoves.ms_teams.MSTeamsNotifier
+    args:
+      connection_id: DATACOVES_MS_TEAMS
+      # message: Custom error message
+      theme_color: 9900FF
+
+# DAG Tasks
+nodes:
+  transform:
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    type: task
+
+    bash_command: "dbt run -s personal_loans"
+
+  # Sample failing task to test that notification is sent
+  # failing_task:
+  #   operator: operators.datacoves.bash.DatacovesBashOperator
+  #   type: task
+
+  #   bash_command: "some_non_existant_command"
+  #   dependencies: ["transform"]

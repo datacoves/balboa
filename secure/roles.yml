@@ -39,6 +39,7 @@
       - z_stage_resources_read
 
       - z_wh_transforming
+      - z_wh_transforming_dynamic_tables
 
 - analyst:
     member_of:
@@ -83,6 +84,7 @@
       - z_tables_views_general
       - z_wh_integration
       - z_wh_orchestrating
+      - z_wh_transforming_dynamic_tables
       - z_stage_dbt_artifacts_write
     owns:
       databases:
@@ -118,7 +120,7 @@
       - z_tables_views_general
       - z_policy_row_region_all
 
-      
+
 ##########################
 #  Global Roles
 ##########################
@@ -223,6 +225,10 @@
 - z_wh_transforming:
     warehouses:
       - wh_transforming
+
+- z_wh_transforming_dynamic_tables:
+    warehouses:
+      - wh_transforming_dynamic_tables
 
 - z_wh_orchestrating:
     warehouses:
