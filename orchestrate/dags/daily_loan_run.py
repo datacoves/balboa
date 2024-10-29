@@ -1,12 +1,15 @@
 import datetime
 
 from airflow.decorators import dag, task_group
-from airflow.providers.airbyte.operators.airbyte import \
-    AirbyteTriggerSyncOperator
+from airflow.models.variable import Variable
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from fivetran_provider_async.operators import FivetranOperator
 from fivetran_provider_async.sensors import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
+
+my_var = Variable.get("ng_test_var")
+
 
 @dag(
     default_args={"start_date": "2021-01"},
