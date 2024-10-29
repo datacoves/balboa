@@ -19,7 +19,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
 
-    container: datacoves/ci-airflow-dbt-snowflake:3.2.202410281930-21cd0942
+    container: datacoves/ci-airflow-dbt-snowflake:3.2.202410291244-11f1589d
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
