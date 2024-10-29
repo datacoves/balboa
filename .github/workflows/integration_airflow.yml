@@ -35,7 +35,9 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
         
       - name: Set Datacoves Snowflake Environment Variables
-        run: "python /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load/dlt/loans/datacoves_snowflake.py"
+        run: |
+          pip install dlt
+          python /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load/dlt/loans/datacoves_snowflake.py
 
       - name: Test DAG structure integrity (DagBag Loading)
         run: "python /usr/app/load_dagbag.py"
