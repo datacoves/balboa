@@ -27,6 +27,7 @@ jobs:
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
       AIRFLOW__WEBSERVER__BASE_URL: http://airflow-dev123.datacoveslocal.com
       DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+      DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
     steps:
       - name: Checkout branch
