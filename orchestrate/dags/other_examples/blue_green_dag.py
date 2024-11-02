@@ -27,3 +27,4 @@ def datacoves_bluegreen_dag():
 
 # Invoke Dag
 dag = datacoves_bluegreen_dag()
+dag.doc_md = __doc__

@@ -1,3 +1,9 @@
+"""## Datacoves Airflow db Sync Sample DAG
+This DAG is a sample using the DatacovesDataSyncOperatorSnowflake Airflow Operator
+to sync the Airflow Database to a target db
+"""
+
+
 from airflow.decorators import dag
 from operators.datacoves.data_sync import DatacovesDataSyncOperatorSnowflake
 
@@ -18,3 +24,4 @@ def sync_airflow_db():
 
 
 dag = sync_airflow_db()
+dag.doc_md = __doc__
