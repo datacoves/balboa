@@ -2,24 +2,7 @@ import datetime
 
 from airflow.decorators import dag
 from airflow.providers.slack.notifications.slack import send_slack_notification
-from kubernetes.client import models as k8s
 from operators.datacoves.dbt import DatacovesDbtOperator
-
-TRANSFORM_CONFIG = {
-    "pod_override": k8s.V1Pod(
-        spec=k8s.V1PodSpec(
-            containers=[
-                k8s.V1Container(
-                    name="base",
-                    image="datacoves/airflow-pandas:latest",
-                    resources=k8s.V1ResourceRequirements(
-                        requests={"memory": "8Gi", "cpu": "1000m"}
-                    ),
-                )
-            ]
-        )
-    ),
-}
 
 
 @dag(
@@ -31,7 +14,7 @@ TRANSFORM_CONFIG = {
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_2", "slack_notification", "blue_green"],
+    tags=["version_3", "slack_notification"],
     catchup=False,
     on_success_callback=send_slack_notification(
         text="The DAG {{ dag.dag_id }} succeeded", channel="#general"
@@ -42,9 +25,7 @@ TRANSFORM_CONFIG = {
 )
 def yaml_slack_dag():
     transform = DatacovesDbtOperator(
-        task_id="transform",
-        bash_command="dbt run -s personal_loans",
-        executor_config=TRANSFORM_CONFIG,
+        task_id="transform", bash_command="dbt run -s personal_loans"
     )
 
 

@@ -1,9 +1,8 @@
 description: "Sample DAG with Slack notification, custom image, and resource requests"
 schedule_interval: "0 0 1 */12 *"
 tags:
-  - version_2
+  - version_3
   - slack_notification
-  - blue_green
 default_args:
   start_date: 2023-01-01
   owner: Noel Gomez
@@ -30,11 +29,6 @@ nodes:
   transform:
     operator: operators.datacoves.dbt.DatacovesDbtOperator
     type: task
-    config:
-      image: datacoves/airflow-pandas:latest
-      resources:
-        memory: 8Gi
-        cpu: 1000m
 
     bash_command: "dbt run -s personal_loans"
 
@@ -43,5 +37,5 @@ nodes:
   #   operator: operators.datacoves.bash.DatacovesBashOperator
   #   type: task
 
-  #   bash_command: "some_non_existant_command"
+  #   bash_command: "some_non_existent_command"
   #   dependencies: ["transform"]

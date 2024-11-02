@@ -1,4 +1,4 @@
-"""## Datacoves Bash Operator DAG
+"""## Datacoves Operators Sample DAG
 This DAG is a sample using the Datacoves Airflow Operators"""
 
 from airflow.decorators import dag
