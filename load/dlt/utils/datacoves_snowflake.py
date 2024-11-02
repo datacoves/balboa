@@ -15,7 +15,7 @@ config_keys = ["account", "database", "warehouse", "role", "user", "password"]
 
 db_config = {}
 for key in config_keys:
-    config_key = "destination.snowflake.credentials." + key
+    config_key = "destination.datacoves_snowflake.credentials." + key
 
     try:
         dlt.config[config_key]

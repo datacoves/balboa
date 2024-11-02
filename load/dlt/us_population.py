@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --cache-dir /tmp/.uv_cache
 # /// script
 # dependencies = [
-#   "dlt[snowflake, parquet]==1.1.0",
+#   "dlt[snowflake, parquet]==1.3.0",
 #   "enlighten~=1.12.4",
 #   "psutil~=6.0.0",
 #   "pandas==2.2.2",
@@ -10,17 +10,15 @@
 """Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
-from datacoves_snowflake import db_config
+from utils.datacoves_snowflake import db_config
+from utils.datacoves import pipelines_dir
 
-# a resource is the individual endpoints or tables
 @dlt.resource(write_disposition="replace")
-# method name = table name
 def us_population():
-    us_population_csv = "https://raw.githubusercontent.com/dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv"
-    df = pd.read_csv(us_population_csv)
+    us_population = "https://raw.githubusercontent.com/dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv"
+    df = pd.read_csv(us_population)
     yield df
 
-# Source (corresponds to API or database)
 @dlt.source
 def us_population_source():
     return [us_population]
@@ -33,14 +31,16 @@ if __name__ == "__main__":
 
     pipeline = dlt.pipeline(
         progress = "enlighten",
-        pipeline_name = "csv_to_snowflake",
+        pipeline_name = "loans",
         destination = datacoves_snowflake,
-        pipelines_dir = "/tmp/",
+        pipelines_dir = pipelines_dir,
 
         # dataset_name is the target schema name
         dataset_name="us_population"
     )
 
-    load_info = pipeline.run(us_population())
+    load_info = pipeline.run([
+            us_population()
+        ])
 
     print(load_info)
