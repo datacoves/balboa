@@ -27,7 +27,7 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
     schedule_interval="0 0 1 */12 *",
 )
 def stevetest_dag():
-    raise Exception(Variable.get("ngtest"))
+    print(Variable.get("aws_ngtest"))
 
 # Invoke Dag
 dag = stevetest_dag()
