@@ -29,7 +29,7 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
 def stevetest_dag():
     DatacovesBashOperator(
         task_id="vartest",
-        bash_command='echo "{{ var.value.aws_ngest }}"'
+        bash_command='echo "{{ var.value.aws_ngtest }}"'
     )
 
 # Invoke Dag
