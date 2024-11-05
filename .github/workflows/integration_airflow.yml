@@ -46,3 +46,7 @@ jobs:
 
       - name: Test DBT Sources against DAGs' YAML files
         run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
+      - name: Test Warning Message
+        run: echo "::warning file=app.py,line=10,col=5::Code formatting issues detected"
+
+
