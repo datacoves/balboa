@@ -47,7 +47,7 @@ jobs:
       - name: Test DBT Sources against DAGs' YAML files
         id: test_airflow_dags
         run: |
-          output=$(python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage)
+          output=$(python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage | tee /dev/tty)
           echo "$output"
           echo "::set-output name=result::$output"
       - name: Test Warning Message
