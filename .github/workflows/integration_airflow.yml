@@ -51,7 +51,7 @@ jobs:
         continue-on-error: true
       - name: Test Warning Message
         run: |
-          if [ ${{ steps.test_airflow_dags.outcome }} == 'failure' ]; then
+          if [ ${{ steps.test_airflow_dags.outcome }} = 'failure' ]; then
             echo "::warning file=app.py,line=10,col=5::DAGs have warnings. See test_dags results for more details."
           else
             echo "No warnings detected."
