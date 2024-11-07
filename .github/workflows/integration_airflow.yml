@@ -19,7 +19,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
 
-    container: datacoves/ci-airflow-dbt-snowflake:3.2.202411051259-afa8a4e3
+    container: datacoves/ci-airflow-dbt-snowflake:3.2.202411071210-20e3cf4a
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
@@ -47,12 +47,11 @@ jobs:
       - name: Test DBT Sources against DAGs' YAML files
         id: test_airflow_dags
         run: |
-          output=$(python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage | tee /tmp/output.txt)
-          echo "$output"
-          echo "::set-output name=result::$(cat /tmp/output.txt)"
+          python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage
+        continue-on-error: true
       - name: Test Warning Message
         run: |
-          if echo "${{ steps.test_airflow_dags.outputs.result }}" | grep -i 'warning'; then
+          if [ ${{ steps.test_airflow_dags.outcome }} == 'failure' ]; then
             echo "::warning file=app.py,line=10,col=5::DAGs have warnings. See test_dags results for more details."
           else
             echo "No warnings detected."
