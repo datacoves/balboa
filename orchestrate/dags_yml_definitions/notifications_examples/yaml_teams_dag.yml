@@ -1,5 +1,5 @@
 description: "Sample DAG with MS Teams notification"
-schedule_interval: "0 0 1 */12 *"
+schedule: "0 0 1 */12 *"
 tags:
   - version_3
   - ms_teams_notification

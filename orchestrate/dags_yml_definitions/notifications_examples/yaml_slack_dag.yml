@@ -1,5 +1,5 @@
 description: "Sample DAG with Slack notification, custom image, and resource requests"
-schedule_interval: "0 0 1 */12 *"
+schedule: "0 0 1 */12 *"
 tags:
   - version_3
   - slack_notification

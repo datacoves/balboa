@@ -25,6 +25,7 @@ jobs:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/airflow/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
+      AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
 
     steps:
       - name: Checkout branch
@@ -38,3 +39,6 @@ jobs:
 
       - name: Test DBT Sources against DAGs' YAML files
         run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
+
+      - name: Custom Airflow Testss
+        run: "python $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
