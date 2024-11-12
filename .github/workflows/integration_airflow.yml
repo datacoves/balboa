@@ -42,4 +42,4 @@ jobs:
         run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
 
       - name: Custom Airflow Testss
-        run: "python $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
+        run: "pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
