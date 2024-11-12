@@ -15,6 +15,7 @@ final as (
 
     from raw_source
 
+
 )
 
 select * from final
