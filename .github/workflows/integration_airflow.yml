@@ -47,11 +47,13 @@ jobs:
       - name: Test DBT Sources against DAGs' YAML files
         id: test_airflow_dags
         run: |
-          python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage
-        continue-on-error: true
+          output=$(python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage)
+          echo "$output"
+          echo "::set-output name=result::$output"
+
       - name: Test Warning Message
         run: |
-          if [ ${{ steps.test_airflow_dags.outcome }} = 'failure' ]; then
+          if echo "${{ steps.test_airflow_dags.outputs.result }}" | grep -q 'Warnings found:'; then
             echo "::warning file=app.py,line=10,col=5::DAGs have warnings. See test_dags results for more details."
           else
             echo "No warnings detected."
