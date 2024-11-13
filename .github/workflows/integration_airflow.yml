@@ -20,14 +20,17 @@ jobs:
     runs-on: ubuntu-latest
 
     # container: datacoves/ci-airflow-dbt-snowflake:3.2
-    container: datacoves/ci-airflow-dbt-snowflake:3.3.202411131217-60b5f361
-
+    container: datacoves/ci-airflow-dbt-snowflake:3.3.202411131714-984b44d3
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
-      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/airflow/dags
+      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
       AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
+      DBT_PROFILES_DIR: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/dbt
+      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+      DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+      PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
     steps:
       - name: Checkout branch
