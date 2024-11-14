@@ -9,6 +9,7 @@ default_args:
   email: gomezn@example.com
   email_on_failure: true
 catchup: false
+retries: 3
 
 nodes:
   run_dbt:

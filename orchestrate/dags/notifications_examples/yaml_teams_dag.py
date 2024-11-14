@@ -13,9 +13,10 @@ from operators.datacoves.dbt import DatacovesDbtOperator
         "email_on_failure": True,
     },
     description="Sample DAG with MS Teams notification",
-    schedule_interval="0 0 1 */12 *",
+    schedule="0 0 1 */12 *",
     tags=["version_3", "ms_teams_notification"],
     catchup=False,
+    retries=3,
     on_success_callback=MSTeamsNotifier(
         connection_id="DATACOVES_MS_TEAMS", theme_color="0000FF"
     ),

@@ -10,6 +10,7 @@ default_args:
   email: gomezn@example.com
   email_on_failure: true
 catchup: false
+retries: 3
 
 # Optional callbacks used to send MS Teams notifications
 notifications:

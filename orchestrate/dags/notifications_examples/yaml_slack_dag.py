@@ -13,9 +13,10 @@ from operators.datacoves.dbt import DatacovesDbtOperator
         "email_on_failure": True,
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
-    schedule_interval="0 0 1 */12 *",
+    schedule="0 0 1 */12 *",
     tags=["version_3", "slack_notification"],
     catchup=False,
+    retries=3,
     on_success_callback=send_slack_notification(
         text="The DAG {{ dag.dag_id }} succeeded", channel="#general"
     ),
