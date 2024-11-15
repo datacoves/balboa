@@ -57,8 +57,14 @@ def test_file_imports(rel_path, rv):
         raise Exception(f"{rel_path} failed to import with message \n {rv}")
 
 
-APPROVED_TAGS = {"EL"}
-
+APPROVED_TAGS = {'extract_and_load',
+                'transform',
+                'python_script',
+                'ms_teams_notification',
+                'slack_notification',
+                'marketing_automation',
+                'update_catalog',
+                'sample'}
 
 @pytest.mark.parametrize(
     "dag_id,dag,fileloc", get_dags(), ids=[x[2] for x in get_dags()]
@@ -89,6 +95,9 @@ ALLOWED_OPERATORS = [
     "DatacovesBashOperator",
     "DatacovesDbtOperator",
     "DatacovesDataSyncOperatorSnowflake",
+    "AirbyteTriggerSyncOperator",
+    'FivetranOperator',
+    'FivetranSensor',
 ]
 
 

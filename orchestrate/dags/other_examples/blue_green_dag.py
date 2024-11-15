@@ -11,9 +11,10 @@ from pendulum import datetime
         "owner": "Datacoves",
         "email": "bruno@example.com",
         "email_on_failure": True,
+        "retries": 3,
     },
     catchup = False,
-    tags = ["version_1"],
+    tags = ["transform"],
     description = "Datacoves blue-green run",
     schedule = "@daily",
 )

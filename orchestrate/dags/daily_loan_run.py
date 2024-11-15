@@ -10,12 +10,11 @@ from operators.datacoves.dbt import DatacovesDbtOperator
 
 
 @dag(
-    default_args={"start_date": "2021-01"},
+    default_args={"start_date": datetime.datetime(2024, 1, 1, 0, 0), "retries": 3},
     description="Loan Run",
     schedule="0 0 1 */12 *",
-    tags=["version_5"],
+    tags=["extract_and_load", "transform", "marketing_automation", "update_catalog"],
     catchup=False,
-    retries=3,
 )
 def daily_loan_run():
     @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")

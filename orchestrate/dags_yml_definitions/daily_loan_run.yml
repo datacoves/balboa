@@ -1,11 +1,14 @@
 description: "Loan Run"
 schedule: "0 0 1 */12 *"
 tags:
-  - version_5
+  - extract_and_load
+  - transform
+  - marketing_automation
+  - update_catalog
 default_args:
-  start_date: 2021-01
+  start_date: 2024-01-01
+  retries: 3
 catchup: false
-retries: 3
 
 nodes:
   extract_and_load_airbyte:
