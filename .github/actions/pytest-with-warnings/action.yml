@@ -1,0 +1,26 @@
+name: 'Run pytest with warning detection'
+description: 'Runs pytest and reports warnings in the step summary'
+
+inputs:
+  pytest_args:
+    description: 'Arguments to pass to pytest'
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run pytest
+      shell: bash
+      run: |
+        # Capture output and still show it in logs
+        OUTPUT=$(pytest ${{ inputs.pytest_args }} 2>&1)
+        echo "$OUTPUT"
+
+        # If output contains warnings, add to step summary
+        if echo "$OUTPUT" | grep -i "warning"; then
+          echo "## ⚠️ Test Warnings Detected" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "$OUTPUT" | grep -i "warning" -A 1 >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        fi

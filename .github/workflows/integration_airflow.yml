@@ -47,5 +47,10 @@ jobs:
       - name: Test DBT Sources against DAGs' YAML files
         run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
 
-      - name: Custom Airflow Testss
-        run: "pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
+      # - name: Custom Airflow Testss
+      #   run: "pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
+
+      - name: Custom Airflow Tests
+        uses: ./.github/actions/pytest-with-warnings
+        with:
+          pytest_args: "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
