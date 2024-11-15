@@ -11,14 +11,45 @@ runs:
   using: "composite"
   steps:
     - name: Run pytest
-      shell: bash
-      run: |
-        # Run pytest and tee output to a file so we can process it
-        pytest ${{ inputs.pytest_args }} 2>&1 | tee test_output.txt
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { execSync } = require('child_process');
+          try {
+            const output = execSync('pytest ${{ inputs.pytest_args }}', { encoding: 'utf-8' });
+            console.log(output);
 
-        # Create GitHub warnings for any warning lines
-        if grep -i "warning" test_output.txt; then
-          grep -i "warning" test_output.txt | while read -r line; do
-            echo "::warning::$line"
-          done
-        fi
+            if (output.toLowerCase().includes('warning')) {
+              // Create both a PR comment and a check run
+              await github.rest.checks.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'Test Warnings',
+                head_sha: context.sha,
+                status: 'completed',
+                conclusion: 'neutral',
+                output: {
+                  title: '⚠️ Test Warnings Detected',
+                  summary: output.split('\n')
+                    .filter(line => line.toLowerCase().includes('warning'))
+                    .join('\n')
+                }
+              });
+
+              // Also add a PR comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '⚠️ **Test Warnings Detected:**\n```\n' +
+                  output.split('\n')
+                    .filter(line => line.toLowerCase().includes('warning'))
+                    .join('\n') +
+                  '\n```'
+              });
+            }
+          } catch (error) {
+            console.error(error);
+            process.exit(error.status)
+          }
+      shell: bash
