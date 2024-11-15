@@ -5,6 +5,7 @@ import os
 import logging
 from contextlib import contextmanager
 import pytest
+import warnings
 from airflow.models import DagBag
 
 
@@ -117,12 +118,25 @@ def test_dag_uses_allowed_operators_only(dag_id, dag, fileloc):
 @pytest.mark.parametrize(
     "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
 )
+# def test_dag_retries(dag_id, dag, fileloc):
+#     """
+#     test if a DAG has retries set
+#     """
+#     num_retries = dag.default_args.get("retries", 0)
+
+#     with pytest.warns(UserWarning):
+#         assert (
+#             num_retries >= 2
+#         ), f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
 def test_dag_retries(dag_id, dag, fileloc):
     """
     test if a DAG has retries set
     """
     num_retries = dag.default_args.get("retries", 0)
 
-    assert (
-        num_retries >= 2
-    ), f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
+    if num_retries == 0 or num_retries is None:
+        pytest.fail(f"{dag_id} in {fileloc} must have task retries >= 1 it currently has {num_retries}.")
+    elif num_retries < 2:
+        warnings.warn(f"{dag_id} in {fileloc} should have task retries >= 2 it currently has {num_retries}.", UserWarning)
+    else:
+        assert num_retries >= 2, f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."

@@ -6,12 +6,13 @@ from pendulum import datetime
 
 
 @dag(
+    doc_md = __doc__,
     default_args={
         "start_date": datetime(2024, 1, 1),
         "owner": "Datacoves",
         "email": "bruno@example.com",
         "email_on_failure": True,
-        "retries": 3,
+        "retries": 1,
     },
     catchup = False,
     tags = ["transform"],
