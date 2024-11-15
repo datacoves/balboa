@@ -52,14 +52,5 @@ jobs:
 
       - name: Custom Airflow Tests
         uses: ./.github/actions/pytest-with-warnings
-        id: airflow_tests  # Add this id to reference the output
         with:
           pytest_args: "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
-
-      # Optional: Add this step if you want warnings to make the check show as neutral (yellow) instead of success
-      - name: Check for warnings
-        if: steps.airflow_tests.outputs.warning == 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setNeutral('Warnings detected in tests')

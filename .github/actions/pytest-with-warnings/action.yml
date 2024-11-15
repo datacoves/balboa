@@ -1,5 +1,5 @@
 name: 'Run pytest with warning detection'
-description: 'Runs pytest and reports warnings in the step summary and PR'
+description: 'Runs pytest and reports warnings in the PR'
 
 inputs:
   pytest_args:
@@ -13,26 +13,12 @@ runs:
     - name: Run pytest
       shell: bash
       run: |
-        # Capture output and still show it in logs
-        OUTPUT=$(pytest ${{ inputs.pytest_args }} 2>&1)
-        echo "$OUTPUT"
+        # Run pytest and tee output to a file so we can process it
+        pytest ${{ inputs.pytest_args }} 2>&1 | tee test_output.txt
 
-        # Create both step summary and GitHub annotations for warnings
-        if echo "$OUTPUT" | grep -i "warning"; then
-          # Add to step summary
-          echo "## ⚠️ Test Warnings Detected" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "$OUTPUT" | grep -i "warning" -A 1 >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-
-          # Create GitHub annotation
-          echo "::warning::Test warnings detected"
-          while IFS= read -r line; do
-            if [[ $line == *"warning"* ]]; then
-              echo "::warning::${line}"
-            fi
-          done <<< "$OUTPUT"
-
-          # Make the check show neutral instead of success
-          echo "warning=true" >> $GITHUB_OUTPUT
+        # Create GitHub warnings for any warning lines
+        if grep -i "warning" test_output.txt; then
+          grep -i "warning" test_output.txt | while read -r line; do
+            echo "::warning::$line"
+          done
         fi
