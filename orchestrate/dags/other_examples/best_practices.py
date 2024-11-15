@@ -15,7 +15,7 @@ import os
 # Airflow will parse Dags every 30 second and slow code can introduce problems
 # Don't do this with your code
 # This will return True running in My Airflow since that uses sqlite
-is_development = os.environ.get('AIRFLOW__DATABASE__SQL_ALCHEMY_CONN', None).startswith('sqlite')
+is_development = os.environ.get('AIRFLOW__DATABASE__SQL_ALCHEMY_CONN', '').startswith('sqlite')
 
 # email is only enabled if not in My Airflow
 enable_emailing = not is_development
@@ -108,7 +108,7 @@ def handle_error(context):
     # max_consecutive_failed_dag_runs = 3,
 
     # Used to group and filter for dags in the UI
-    tags = ["Extract & Load"],
+    tags = ["extract_and_load"],
 
     # This will make the owner element in the UI open a link
     # vs just filtering all the dags with the specific owner

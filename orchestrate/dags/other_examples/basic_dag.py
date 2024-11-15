@@ -17,7 +17,7 @@ import time
     ),
     **get_default_dag_config(
         max_active_runs = 2,  # Override default max_active_runs
-        tags = ["Custom", "Extract & Load"]  # Override default tags
+        tags = ["sample"]  # Override default tags
     ),
     description = "Custom DAG using Datacoves utilities",
     dag_id = "basic_dag",
