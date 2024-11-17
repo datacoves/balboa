@@ -8,6 +8,25 @@ import pytest
 import warnings
 from airflow.models import DagBag
 
+APPROVED_TAGS = {'extract_and_load',
+                'transform',
+                'python_script',
+                'ms_teams_notification',
+                'slack_notification',
+                'marketing_automation',
+                'update_catalog',
+                'parameters',
+                'sample'}
+
+ALLOWED_OPERATORS = [
+    "_PythonDecoratedOperator",  # this allows the @task decorator
+    "DatacovesBashOperator",
+    "DatacovesDbtOperator",
+    "DatacovesDataSyncOperatorSnowflake",
+    "AirbyteTriggerSyncOperator",
+    'FivetranOperator',
+    'FivetranSensor',
+]
 
 @contextmanager
 def suppress_logging(namespace):
@@ -58,14 +77,6 @@ def test_file_imports(rel_path, rv):
         raise Exception(f"{rel_path} failed to import with message \n {rv}")
 
 
-APPROVED_TAGS = {'extract_and_load',
-                'transform',
-                'python_script',
-                'ms_teams_notification',
-                'slack_notification',
-                'marketing_automation',
-                'update_catalog',
-                'sample'}
 
 @pytest.mark.parametrize(
     "dag_id,dag,fileloc", get_dags(), ids=[x[2] for x in get_dags()]
@@ -90,16 +101,6 @@ def test_dag_has_catchup_false(dag_id, dag, fileloc):
         dag.catchup == False
     ), f"{dag_id} in {fileloc} must have catchup set to False."
 
-
-ALLOWED_OPERATORS = [
-    "_PythonDecoratedOperator",  # this allows the @task decorator
-    "DatacovesBashOperator",
-    "DatacovesDbtOperator",
-    "DatacovesDataSyncOperatorSnowflake",
-    "AirbyteTriggerSyncOperator",
-    'FivetranOperator',
-    'FivetranSensor',
-]
 
 
 @pytest.mark.parametrize(
