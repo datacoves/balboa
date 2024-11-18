@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # Activate the virtual environment
-source ./.venv/bin/activate
+source /config/workspace/orchestrate/local/my_airflow/.venv/bin/activate
 
 # Load environment variables
-export $(cat .env | xargs)
+export $(cat /config/workspace/orchestrate/local/my_airflow/.env | xargs)
+
+# change location of __pycache__
+export PYTHONPYCACHEPREFIX=/tmp
 
 # Check if --airflow flag is present
 if [[ "$*" == *"--airflow"* ]]; then

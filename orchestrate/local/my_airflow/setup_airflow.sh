@@ -2,7 +2,7 @@
 
 virtualenv .venv
 source ./.venv/bin/activate
-pip install -r ./requirements.txt
-pip install ./providers/datacoves
-cp -r ./plugins /config/airflow
-cp -r ./airflow.cfg /config/airflow/
+pip install -r /config/workspace/orchestrate/local/my_airflow/requirements.txt
+pip install /config/workspace/orchestrate/local/my_airflow/providers/datacoves
+cp -r /config/workspace/orchestrate/local/my_airflow/plugins /config/airflow
+cp -r /config/workspace/orchestrate/local/my_airflow//airflow.cfg /config/airflow/
