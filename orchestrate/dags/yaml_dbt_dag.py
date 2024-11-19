@@ -14,13 +14,13 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     },
     description="Sample DAG for dbt build",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_2"],
+    tags=["version_3"],
     catchup=False,
 )
 def yaml_dbt_dag():
-    my_var = Variable.get("ngtest")
-    my_aws_var = Variable.get("aws_ngtest")
-    my_aws_secret = Variable.get('aws_ngtest_password')
+    # my_var = Variable.get("ngtest")
+    # my_aws_var = Variable.get("aws_ngtest")
+    # my_aws_secret = Variable.get('aws_ngtest_password')
     datacoves_secret = Variable.get('mayras_secret')
     if my_var == 'noel':
         other_var = "READIT"
