@@ -3,7 +3,7 @@ def get_provider_info():
         "package-name": "datacoves-airflow-provider",
         "name": "Datacoves Airflow Provider",
         "description": "An Airflow provider for Datacoves",
-        "versions": ["0.0.1"],
+        "versions": ["0.0.2"],
         "hook-class-names": [],
         "extra-links": [],
         "operators": [],
@@ -20,6 +20,14 @@ def get_provider_info():
             {
                 "name": "datacoves_dbt",
                 "class-name": "datacoves_airflow_provider.decorators.dbt.datacoves_dbt_task",
+            },
+            {
+                "name": "datacoves_data_sync_snowflake",
+                "class-name": "datacoves_airflow_provider.decorators.data_sync.datacoves_data_sync_snowflake_task",
+            },
+            {
+                "name": "datacoves_data_sync_redshift",
+                "class-name": "datacoves_airflow_provider.decorators.data_sync.datacoves_data_sync_redshift_task",
             },
         ],
     }
