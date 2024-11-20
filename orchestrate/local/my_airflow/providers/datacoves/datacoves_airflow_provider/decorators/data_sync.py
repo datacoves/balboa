@@ -89,7 +89,7 @@ def datacoves_data_sync_task(
             python_callable=python_callable,
             decorated_operator_class=(
                 _DatacovesDataSyncSnowflakeDecoratedOperator
-                if db_type == "snowflake"
+                if db_type.lower() == "snowflake"
                 else _DatacovesDataSyncRedshiftDecoratedOperator
             ),
             **kwargs,
