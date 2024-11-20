@@ -65,7 +65,7 @@ class _DatacovesDataSyncRedshiftDecoratedOperator(
 
 def datacoves_data_sync_task(
     destination_schema: str,
-    db_type: str,
+    db_type: str = "",
     additional_tables: list[str] = [],
     python_callable: Callable | None = None,
     **kwargs,
@@ -81,7 +81,9 @@ def datacoves_data_sync_task(
     :meta private:
     """
     if db_type.lower() not in ["snowflake", "redshift"]:
-        raise ValueError(f"Must provide either 'snowflake' or 'redshift' db_type")
+        raise ValueError(
+            "db_type is required and must be either 'snowflake' or 'redshift'"
+        )
     else:
         return task_decorator_factory(
             destination_schema=destination_schema,
