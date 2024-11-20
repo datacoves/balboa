@@ -16,7 +16,8 @@ from airflow.decorators import dag, task
     catchup=False,
 )
 def decorated_snowflake_data_sync():
-    @task.datacoves_data_sync_snowflake(
+    @task.datacoves_airflow_db_sync(
+        db_type="snowflake",
         destination_schema="test_schema_nov_19",
         service_connection_name="snowflake_main",
         # additional_tables=["additional_table_1", "additional_table_2"],

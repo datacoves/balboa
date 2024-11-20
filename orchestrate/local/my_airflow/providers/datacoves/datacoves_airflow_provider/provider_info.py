@@ -22,12 +22,8 @@ def get_provider_info():
                 "class-name": "datacoves_airflow_provider.decorators.dbt.datacoves_dbt_task",
             },
             {
-                "name": "datacoves_data_sync_snowflake",
-                "class-name": "datacoves_airflow_provider.decorators.data_sync.datacoves_data_sync_snowflake_task",
-            },
-            {
-                "name": "datacoves_data_sync_redshift",
-                "class-name": "datacoves_airflow_provider.decorators.data_sync.datacoves_data_sync_redshift_task",
+                "name": "datacoves_airflow_db_sync",
+                "class-name": "datacoves_airflow_provider.decorators.data_sync.datacoves_data_sync_task",
             },
         ],
     }

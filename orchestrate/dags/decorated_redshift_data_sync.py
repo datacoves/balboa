@@ -16,7 +16,8 @@ from airflow.decorators import dag, task
     catchup=False,
 )
 def decorated_redshift_data_sync():
-    @task.datacoves_data_sync_redshift(
+    @task.datacoves_airflow_db_sync(
+        db_type="redshift",
         destination_schema="test_schema_nov_19",
         service_connection_name="redshift_main",
         # additional_tables=["additional_table_1", "additional_table_2"],

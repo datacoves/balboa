@@ -2,15 +2,14 @@ from __future__ import annotations
 
 from typing import Callable, Sequence
 
-from operators.datacoves.data_sync import (
-    DatacovesDataSyncOperatorRedshift,
-    DatacovesDataSyncOperatorSnowflake,
-)
-
 from airflow.decorators.base import (
     DecoratedOperator,
     TaskDecorator,
     task_decorator_factory,
+)
+from operators.datacoves.data_sync import (
+    DatacovesDataSyncOperatorRedshift,
+    DatacovesDataSyncOperatorSnowflake,
 )
 
 
@@ -36,7 +35,7 @@ class _DatacovesDataSyncSnowflakeDecoratedOperator(
         **DatacovesDataSyncOperatorSnowflake.template_fields_renderers,
     }
 
-    custom_operator_name: str = "@task.datacoves_data_sync_snowflake"
+    custom_operator_name: str = "@task.datacoves_airflow_db_sync"
 
 
 class _DatacovesDataSyncRedshiftDecoratedOperator(
@@ -61,11 +60,12 @@ class _DatacovesDataSyncRedshiftDecoratedOperator(
         **DatacovesDataSyncOperatorRedshift.template_fields_renderers,
     }
 
-    custom_operator_name: str = "@task.datacoves_data_sync_redshift"
+    custom_operator_name: str = "@task.datacoves_airflow_db_sync"
 
 
-def datacoves_data_sync_snowflake_task(
+def datacoves_data_sync_task(
     destination_schema: str,
+    db_type: str,
     additional_tables: list[str] = [],
     python_callable: Callable | None = None,
     **kwargs,
@@ -80,35 +80,17 @@ def datacoves_data_sync_snowflake_task(
 
     :meta private:
     """
-    return task_decorator_factory(
-        destination_schema=destination_schema,
-        additional_tables=additional_tables,
-        python_callable=python_callable,
-        decorated_operator_class=_DatacovesDataSyncSnowflakeDecoratedOperator,
-        **kwargs,
-    )
-
-
-def datacoves_data_sync_redshift_task(
-    destination_schema: str,
-    additional_tables: list[str] = [],
-    python_callable: Callable | None = None,
-    **kwargs,
-) -> TaskDecorator:
-    """
-    Wrap a function into a BashOperator.
-
-    Accepts kwargs for operator kwargs. Can be reused in a single DAG. This function is only used only used
-    during type checking or auto-completion.
-
-    :param python_callable: Function to decorate.
-
-    :meta private:
-    """
-    return task_decorator_factory(
-        destination_schema=destination_schema,
-        additional_tables=additional_tables,
-        python_callable=python_callable,
-        decorated_operator_class=_DatacovesDataSyncRedshiftDecoratedOperator,
-        **kwargs,
-    )
+    if db_type.lower() not in ["snowflake", "redshift"]:
+        raise ValueError(f"Must provide either 'snowflake' or 'redshift' db_type")
+    else:
+        return task_decorator_factory(
+            destination_schema=destination_schema,
+            additional_tables=additional_tables,
+            python_callable=python_callable,
+            decorated_operator_class=(
+                _DatacovesDataSyncSnowflakeDecoratedOperator
+                if db_type == "snowflake"
+                else _DatacovesDataSyncRedshiftDecoratedOperator
+            ),
+            **kwargs,
+        )
