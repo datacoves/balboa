@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# To reset psw use
+# airflow users reset-password -u admin
+
 # Activate the virtual environment
 source /config/workspace/orchestrate/local/my_airflow/.venv/bin/activate
 
