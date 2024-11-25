@@ -1,17 +1,48 @@
 #!/bin/bash
 
-# Check if a filename was provided
-if [ $# -eq 0 ]; then
-    echo "Error: Please provide a Dagster Python file name"
-    echo "Usage: $0 <python_file>"
+# Set error handling
+set -e
+
+# Configuration
+VENV_PATH="/config/workspace/orchestrate/local/dagster/.venv"
+DAGSTER_HOME="/tmp/dagster"
+PROJECT_DIR="balboa"
+PORT=8501
+
+export DBT_PROFILES_DIR=/config/.dbt
+
+# Check if virtual environment exists
+if [ ! -d "$VENV_PATH" ]; then
+    echo "Error: Virtual environment not found at $VENV_PATH"
     exit 1
 fi
 
-PYTHON_FILE="$1"
+# Create Dagster home directory
+mkdir -p "$DAGSTER_HOME"
+export DAGSTER_HOME
 
-source ./.venv/bin/activate
+# Activate virtual environment
+source "$VENV_PATH/bin/activate"
 
-mkdir -p /tmp/dagster
-export DAGSTER_HOME=/tmp/dagster
+# Check if activation was successful
+if [ -z "$VIRTUAL_ENV" ]; then
+    echo "Error: Failed to activate virtual environment"
+    exit 1
+fi
 
-hostname -I | awk '{print $1}' | xargs dagster dev -f "$PYTHON_FILE" -p 8501 --host
+# Change to project directory
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "Error: Project directory '$PROJECT_DIR' not found"
+    exit 1
+fi
+cd "$PROJECT_DIR"
+
+# Get IP address and start Dagster
+IP_ADDRESS=$(hostname -I | awk '{print $1}')
+if [ -z "$IP_ADDRESS" ]; then
+    echo "Error: Failed to get IP address"
+    exit 1
+fi
+
+echo "Starting Dagster on http://$IP_ADDRESS:$PORT"
+dagster dev -p $PORT --host "$IP_ADDRESS"

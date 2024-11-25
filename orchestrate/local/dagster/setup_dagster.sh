@@ -1,5 +1,5 @@
-#bin/bash
+#!/bin/bash
 
 virtualenv .venv
-source ./.venv/bin/activate
-pip install -r ./requirements.txt
+source /config/workspace/orchestrate/local/dagster/.venv/bin/activate
+pip install -r /config/workspace/orchestrate/local/dagster/requirements.txt
