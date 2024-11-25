@@ -1,1 +1,0 @@
-datacoves_airflow_provider
