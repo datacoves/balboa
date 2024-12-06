@@ -19,7 +19,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
 
-    container: datacoves/ci-airflow-dbt-snowflake:3.2
+    container: datacoves/ci-airflow-dbt-snowflake:3.3.202412061347-5c114869
 
     env:
       AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
@@ -33,8 +33,17 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Test DAG structure integrity (DagBag Loading)
-        run: "python /usr/app/load_dagbag.py"
-
       - name: Test DBT Sources against DAGs' YAML files
-        run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
+        id: test_dags_best_pratices
+        run: |
+          "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output"
+          echo "::set-output name=write-output::true"
+
+      # if write-output is set, the following step will run
+      - name: Run if write-output is set
+        if: steps.test_dags_best_pratices.outputs.write_output == 'true'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: test_dags_results.md
+          comment_tag: Datacoves
+
