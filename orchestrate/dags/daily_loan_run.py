@@ -1,12 +1,12 @@
 import datetime
 
 from airflow.decorators import dag, task_group
-from airflow.providers.airbyte.operators.airbyte import \
-    AirbyteTriggerSyncOperator
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from fivetran_provider_async.operators import FivetranOperator
 from fivetran_provider_async.sensors import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
+
 
 @dag(
     default_args={"start_date": "2021-01"},
@@ -85,3 +85,4 @@ def daily_loan_run():
 
 
 dag = daily_loan_run()
+# Comment to trigger PR
