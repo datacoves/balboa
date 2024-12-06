@@ -41,6 +41,6 @@ jobs:
       - name: Run if write-output is set
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: test_dags_results.md
+          filePath: /usr/app/test_dags_results.md
           comment_tag: Datacoves
 
