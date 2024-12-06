@@ -35,13 +35,10 @@ jobs:
 
       - name: Test DBT Sources against DAGs' YAML files
         id: test_dags_best_pratices
-        run: |
-          "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output"
-          echo "::set-output name=write-output::true"
+        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output"
 
       # if write-output is set, the following step will run
       - name: Run if write-output is set
-        if: steps.test_dags_best_pratices.outputs.write_output == 'true'
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: test_dags_results.md
