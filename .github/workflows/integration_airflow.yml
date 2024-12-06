@@ -35,7 +35,7 @@ jobs:
 
       - name: Test DBT Sources against DAGs' YAML files
         id: test_dags_best_pratices
-        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output
+        run: python /usr/app/test_dags.py --dag-loadtime-threshold 0 --check-variable-usage --write-output
 
       # if write-output is set, the following step will run
       - name: Run if write-output is set
