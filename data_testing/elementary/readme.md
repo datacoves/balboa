@@ -34,4 +34,29 @@ dbt run --select elementary
 `edr report`
 
 # View Elemenrary Report
-`./e`
+`./elementary_web.py`
+
+# Send notifications to Slack
+
+Set up Slack, by going to https://api.slack.com/apps and creating an app.
+In the app -> OAuth & Permissions -> Scopes, select
+* channels:read
+* chat:write
+* files:write
+
+In the In the app -> OAuth & Permissions -> OAuth Tokens section, click Install / Reinstall
+Copy the `Bot User OAuth Token` and secure it.
+
+In Slack, go to the channel and click the channel name, then Integrations, in the App section click Add apps
+Find the app and click `Add`
+
+Rename the `.env.sample` file to `.env` and set the channel name and slack token
+
+Load the environment variables to the shell
+`source .env`
+
+Run the elementary notifier as follows:
+`edr monitor --slack-channel-name $SLACK_CHANNEL  --slack-token $SLACK_TOKEN`
+
+Send the full report to Slack
+`edr send-report --slack-channel-name $SLACK_CHANNEL  --slack-token $SLACK_TOKEN`
