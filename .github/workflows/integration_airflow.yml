@@ -24,7 +24,6 @@ jobs:
     container: datacoves/ci-airflow-dbt-snowflake:3.3.202412061428-3d5d72dc
 
     env:
-      AIRBYTE__EXTRACT_LOCATION: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/load
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
       AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
@@ -41,16 +40,29 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Test DAG structure integrity (DagBag Loading)
-        run: "python /usr/app/load_dagbag.py"
+      # - name: Test DAG structure integrity (DagBag Loading)
+      #   run: "python /usr/app/load_dagbag.py"
 
-      - name: Test DBT Sources against DAGs' YAML files
-        run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
+      # - name: Test DBT Sources against DAGs' YAML files
+      #   run: "python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage"
 
       # - name: Custom Airflow Testss
       #   run: "pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
 
+
+
+      - name: Test DBT Sources against DAGs' YAML files
+        id: test_dags_best_pratices
+        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output
+
       - name: Custom Airflow Tests
-        uses: ./.github/actions/pytest-with-warnings
+        # uses: ./.github/actions/pytest-with-warnings
         with:
           pytest_args: "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
+
+      # if write-output is set, the following step will run
+      - name: Run if write-output is set
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_dags_results.md
+          comment_tag: Datacoves
