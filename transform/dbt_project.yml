@@ -54,6 +54,8 @@ snapshots:
         node_color: "#0f703d"
 
 models:
+    # elementary:
+    #     +schema: "elementary"
 
     balboa:
         +materialized: view
@@ -144,3 +146,9 @@ vars:
     common_masking_policy_db: "BALBOA"
     common_masking_policy_schema: "MASKING_POLICIES"
     use_force_applying_masking_policy: "true"
+
+
+# Added for Elementary support
+# flags:
+#   require_explicit_package_overrides_for_builtin_materializations: False
+#   source_freshness_run_project_hooks: True

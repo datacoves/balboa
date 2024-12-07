@@ -7,5 +7,11 @@ packages:
     version: 0.2.6
     # <see https://github.com/entechlog/dbt-snow-mask/releases/latest> for the latest version tag
   - package: dbt-labs/dbt_external_tables
-    version: 0.9.0
+    version: 0.10.0
     # <see https://github.com/dbt-labs/dbt-external-tables/releases/tag/0.7.1> for the latest version tag
+  # - package: data-mie/dbt_profiler
+  #   version: 0.8.4
+  # - package: dbt-labs/audit_helper
+  #   version: 0.12.1
+  # - package: elementary-data/elementary
+  #   version: 0.16.2
