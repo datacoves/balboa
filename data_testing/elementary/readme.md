@@ -60,3 +60,16 @@ Run the elementary notifier as follows:
 
 Send the full report to Slack
 `edr send-report --slack-channel-name $SLACK_CHANNEL  --slack-token $SLACK_TOKEN`
+
+# Send notifications to Teams
+
+Set up teams webhook
+https://docs.elementary-data.com/oss/guides/alerts/send-teams-alerts#teams-config-as-in-config-yml
+
+Rename the `.env.sample` file to `.env` and set the teams webhook url
+
+Load the environment variables to the shell
+`source .env`
+
+Run the elementary notifier as follows:
+`edr monitor --teams-webhook $TEAMS_WEBHOOK`
