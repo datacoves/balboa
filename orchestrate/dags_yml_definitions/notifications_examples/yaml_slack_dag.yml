@@ -1,14 +1,15 @@
 description: "Sample DAG with Slack notification, custom image, and resource requests"
-schedule_interval: "0 0 1 */12 *"
+schedule: "0 0 1 */12 *"
 tags:
-  - version_3
+  - transform
   - slack_notification
 default_args:
-  start_date: 2023-01-01
+  start_date: 2024-01-01
   owner: Noel Gomez
   # Replace with the email of the recipient for failures
   email: gomezn@example.com
   email_on_failure: true
+  retries: 3
 catchup: false
 
 # Optional callbacks used to send Slack notifications
