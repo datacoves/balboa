@@ -8,10 +8,10 @@ from airflow.decorators import dag, task
         "owner": "Bruno",
         "email": "bruno@example.com",
         "email_on_failure": False,
+        "retries": 3
     },
     description="Sample DAG for dbt build",
     schedule="0 0 1 */12 *",
-    retries=2,
     tags=["extract_and_load"],
     catchup=False,
 )
