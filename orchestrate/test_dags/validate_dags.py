@@ -23,6 +23,8 @@ ALLOWED_OPERATORS = [
     "DatacovesBashOperator",
     "DatacovesDbtOperator",
     "DatacovesDataSyncOperatorSnowflake",
+    "DatacovesDataSyncSnowflakeDecoratedOperator",
+    "DatacovesDataSyncRedshiftDecoratedOperator",
     "AirbyteTriggerSyncOperator",
     'FivetranOperator',
     'FivetranSensor',
