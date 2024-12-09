@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
 
     # container: datacoves/ci-airflow-dbt-snowflake:3.2
-    container: datacoves/ci-airflow-dbt-snowflake:3.3.202412091341-cf2fd628
-    
+    container: datacoves/ci-airflow-dbt-snowflake:3.3.202412091406-70f11a67
+
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
