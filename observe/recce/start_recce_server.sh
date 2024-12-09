@@ -6,7 +6,7 @@ set -e
 # Configuration
 PORT=8501
 DBT_PROJECT_PATH=/config/workspace/transform
-RECCE_CONFIG_PATH=/config/workspace/data_testing/recce/recce.yml
+RECCE_CONFIG_PATH=/config/workspace/observe/recce/recce.yml
 
 # Get IP address
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
