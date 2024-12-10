@@ -9,17 +9,18 @@ from pendulum import datetime
 # Only here for reference, this is automatically activated by Datacoves Operator
 DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
 
-
 @dag(
-    default_args={
+    doc_md = __doc__,
+    default_args = {
         "start_date": datetime(2022, 10, 10),
         "owner": "Noel Gomez",
         "email": "gomezn@example.com",
         "email_on_failure": True,
+        "retries": 3,
     },
-    catchup=False,
-    tags=["version_6"],
-    description="Datacoves Sample dag",
+    catchup = False,
+    tags = ["python_script"],
+    description = "Datacoves Sample dag",
     # This is a regular CRON schedule. Helpful resources
     # https://cron-ai.vercel.app/
     # https://crontab.guru/
@@ -45,7 +46,5 @@ def datacoves_sample_dag():
     # Define task dependencies
     python_task.set_upstream([dbt_task])
 
-
 # Invoke Dag
 dag = datacoves_sample_dag()
-dag.doc_md = __doc__
