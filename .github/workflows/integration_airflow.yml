@@ -67,11 +67,16 @@ jobs:
       #   with:
       #     pytest_args: "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py"
 
+      # - name: Custom Airflow Tests
+      #   run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > airflow_output_custom_tests.txt
       - name: Custom Airflow Tests
-        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > airflow_output_custom_tests.txt
+        uses: dariocurr/pytest-summary@main
+        with:
+          paths: $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py
+          output: airflow_output_custom_tests.md
 
       - name: Comment PR with Custom Tests Results
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_output_custom_tests.txt
+          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_output_custom_tests.md
           comment_tag: Custom Tests
