@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # container: datacoves/ci-airflow-dbt-snowflake:3.2
-    container: datacoves/ci-airflow-dbt-snowflake:3.3.202412091406-70f11a67
+    container: datacoves/ci-airflow-dbt-snowflake:3.3.202412101420-bf2da3dd
 
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
@@ -51,15 +51,15 @@ jobs:
 
 
 
-      - name: Test DBT Sources against DAGs' YAML files
+      - name: Test DAGs Best Practices
         id: test_dags_best_pratices
-        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output
+        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename results.md
 
       # if write-output is set, the following step will run
-      - name: Run if write-output is set
+      - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_dags_results.md
+          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/results.md
           comment_tag: Datacoves
 
       # - name: Custom Airflow Tests
