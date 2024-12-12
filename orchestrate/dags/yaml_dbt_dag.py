@@ -22,10 +22,10 @@ def yaml_dbt_dag():
     # my_aws_var = Variable.get("aws_ngtest")
     # my_aws_secret = Variable.get('aws_ngtest_password')
     # datacoves_secret = Variable.get('mayras_secret')
-    if my_var == 'noel':
-        other_var = "READIT"
-    else:
-        other_var = "NOSECRET"
+    # if my_var == 'noel':
+    #     other_var = "READIT"
+    # else:
+    #     other_var = "NOSECRET"
 
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt",
