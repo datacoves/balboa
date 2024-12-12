@@ -23,6 +23,7 @@
       - z_schema_l1_dbt_artifacts
       - z_schema_l1_covid19_epidemiological_data
       - z_schema_l1_loans
+      - z_schema_l1_observe
 
       - z_schema_dbt_test__audit
 
@@ -390,6 +391,12 @@
       schemas:
         read:
           - balboa.l1_loans
+
+- z_schema_l1_observe:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_observe
 
 - z_schema_resources:
     privileges:

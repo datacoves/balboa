@@ -72,6 +72,8 @@ models:
                 +schema: L1_COVID19_EPIDEMIOLOGICAL_DATA
             loans:
                 +schema: L1_LOANS
+            observe:
+                +schema: L1_OBSERVE
             us_population:
                 +schema: L1_COUNTRY_DATA
 
@@ -127,18 +129,15 @@ models:
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
     copy_grants: true
 
+on-run-end:
+  - "{{ create_test_failure_view(results) }}"
+
 data_tests:
     +store_failures: true
     +schema: DBT_TEST__AUDIT
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'
-
-    data_diff:
-        prod_database: BALBOA
-        prod_schema: not_defined
-        prod_custom_schema: <custom_schema>
-        datasource_id: 6003
 
     create_masking_policy_schema: "false"
     use_common_masking_policy_db: "true"
