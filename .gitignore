@@ -8,6 +8,7 @@ dbt_packages/
 
 .cache
 nohup.out
+.pytest_cache
 
 # Virtual envs
 venv/
@@ -29,4 +30,3 @@ __pycache__
 .gitsecret/keys/random_seed
 load/secrets/**/*.*
 !*.secret
-
