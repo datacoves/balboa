@@ -120,7 +120,6 @@ models:
             columns: true
 
     post-hook:
-        - "{{ create_latest_version_view() }}"
         - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
         - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
 
