@@ -13,7 +13,6 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
         "owner": "Noel Gomez",
         "email": "gomezn@example.com",
         "email_on_failure": True,
-        "retries": 3,
     },
     description="Sample DAG for dbt build",
     schedule="0 0 1 */12 *",
