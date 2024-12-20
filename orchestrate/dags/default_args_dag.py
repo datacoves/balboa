@@ -11,10 +11,10 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     catchup=False,
 
 )
-def sample_dag():
+def default_args_dag():
     run_dbt = DatacovesDbtOperator(
         task_id="run_dbt", bash_command="dbt run -s country_codes"
     )
 
 
-dag = sample_dag()
+dag = default_args_dag()
