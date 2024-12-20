@@ -6,14 +6,15 @@ from operators.datacoves.dbt import DatacovesDbtOperator
 
 @dag(
     default_args={
-        "start_date": datetime.datetime(2023, 1, 1, 0, 0),
+        "start_date": datetime.datetime(2024, 1, 1, 0, 0),
         "owner": "Noel Gomez",
         "email": "gomezn@example.com",
         "email_on_failure": True,
+        "retries": 3,
     },
     description="Sample DAG for dbt build",
-    schedule_interval="0 0 1 */12 *",
-    tags=["version_2"],
+    schedule="0 0 1 */12 *",
+    tags=["transform"],
     catchup=False,
 )
 def yaml_dbt_dag():
