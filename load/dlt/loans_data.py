@@ -57,10 +57,12 @@ if __name__ == "__main__":
         dataset_name="loans"
     )
 
-    print("run pipeline")
+    print("run pipeline personal_only")
     load_info = pipeline.run([
-            personal_loans(),
-            zip_coordinates()
+            personal_loans()
         ])
-
+    # load_info = pipeline.run([
+    #         personal_loans(),
+    #         zip_coordinates()
+    #     ])
     print(load_info)
