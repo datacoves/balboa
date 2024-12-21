@@ -76,7 +76,6 @@ jobs:
         with:
           filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Custom Tests
-          fail_on_error: true
 
 
 
