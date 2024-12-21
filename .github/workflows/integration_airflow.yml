@@ -60,22 +60,33 @@ jobs:
       #     cat "$OUTPUT_FILE"
       #     exit $(cat /tmp/exit_code)
 
+      # - name: Custom Airflow Validation Tests
+      #   env:
+      #     NO_COLOR: 1
+      #   run: |
+      #     # Run pytest and save to a temporary file
+      #     pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" > temp_output.txt 2>&1
+      #     echo $? > /tmp/exit_code
+
+      #     # Create the final output file with the header and code formatting
+      #     echo "⚠️ **Test Warnings Detected:**" > "$OUTPUT_FILE"
+      #     echo "" >> "$OUTPUT_FILE"
+      #     echo '```' >> "$OUTPUT_FILE"
+      #     cat temp_output.txt >> "$OUTPUT_FILE"
+      #     echo '```' >> "$OUTPUT_FILE"
+
+      #     # Display the output
+      #     cat "$OUTPUT_FILE"
+      #     exit $(cat /tmp/exit_code)
+
       - name: Custom Airflow Validation Tests
         env:
           NO_COLOR: 1
         run: |
-          # Run pytest and save to a temporary file
-          pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" > temp_output.txt 2>&1
+          pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" \
+            -p "$AIRFLOW__ARTIFACTS_PATH/test_dags/custom_reporter" \
+            --output-file "$OUTPUT_FILE"
           echo $? > /tmp/exit_code
-
-          # Create the final output file with the header and code formatting
-          echo "⚠️ **Test Warnings Detected:**" > "$OUTPUT_FILE"
-          echo "" >> "$OUTPUT_FILE"
-          echo '```' >> "$OUTPUT_FILE"
-          cat temp_output.txt >> "$OUTPUT_FILE"
-          echo '```' >> "$OUTPUT_FILE"
-
-          # Display the output
           cat "$OUTPUT_FILE"
           exit $(cat /tmp/exit_code)
 
