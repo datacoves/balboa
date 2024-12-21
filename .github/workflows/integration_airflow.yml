@@ -56,15 +56,9 @@ jobs:
         env:
           NO_COLOR: 1
         run: |
-
-          bash -c "pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py | tee /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md;
-          test_exit_code=${PIPESTATUS[0]};
-          exit $test_exit_code"
-
-          # pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py | tee /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
-          # test_exit_code=${PIPESTATUS[0]}
-          # exit $test_exit_code
-
+          pytest "${AIRFLOW__ARTIFACTS_PATH}/test_dags/validate_dags.py" | tee "/__w/${GITHUB_REPOSITORY#*/}/${GITHUB_REPOSITORY#*/}/airflow_validation_tests.md"
+          test_exit_code=${PIPESTATUS[0]}
+          exit $test_exit_code
 
       - name: Add PR comment of results of custom Airflow validation tests
         uses: thollander/actions-comment-pull-request@v2
