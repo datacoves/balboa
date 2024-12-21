@@ -57,10 +57,8 @@ jobs:
           NO_COLOR: 1
           OUTPUT_FILE: /__w/balboa/balboa/airflow_validation_tests.md
         run: |
+          set -o pipefail
           pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" | tee "$OUTPUT_FILE"
-          status=`echo ${PIPESTATUS[*]}`
-          exit $(echo $status | cut -d' ' -f1)
-
 
       - name: Add PR comment of results of custom Airflow validation tests
         uses: thollander/actions-comment-pull-request@v2
