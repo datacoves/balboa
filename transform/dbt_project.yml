@@ -124,6 +124,10 @@ models:
     post-hook:
         - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
         - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
+        # This macro creates a non_versioned view of a versioned dbt model
+        # Useful if you want to have a versioned mart but dont want BI tool to break if version
+        # is updated. 
+        # - "{{ create_latest_version_view() }}"
 
     # Snowflake Defaults
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
@@ -131,6 +135,7 @@ models:
 
 on-run-end:
   - "{{ create_test_failure_view(results) }}"
+
 
 data_tests:
     +store_failures: true
