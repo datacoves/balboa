@@ -51,14 +51,14 @@ jobs:
           filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_test_load_time_variables.md
           comment_tag: Test DAGs Load time and variable usage at top level
 
-      - name: Custom Airflow Validation Tests
         # run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+      - name: Custom Airflow Validation Tests
         env:
           NO_COLOR: 1
+          OUTPUT_FILE: /__w/balboa/balboa/airflow_validation_tests.md
         run: |
-          pytest "${AIRFLOW__ARTIFACTS_PATH}/test_dags/validate_dags.py" | tee "/__w/${GITHUB_REPOSITORY#*/}/${GITHUB_REPOSITORY#*/}/airflow_validation_tests.md"
-          test_exit_code=${PIPESTATUS[0]}
-          exit $test_exit_code
+          pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" | tee "$OUTPUT_FILE"
+          exit ${PIPESTATUS[0]}
 
       - name: Add PR comment of results of custom Airflow validation tests
         uses: thollander/actions-comment-pull-request@v2
