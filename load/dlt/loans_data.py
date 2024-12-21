@@ -7,11 +7,21 @@
 # ]
 # ///
 """Loads a CSV file to Snowflake"""
+print("Starting imports...")
+
+print("Importing dlt...")
 import dlt
+
+print("Importing pandas...")
 import pandas as pd
+
+print("Importing utils.datacoves_snowflake...")
 from utils.datacoves_snowflake import db_config
+
+print("Importing utils.datacoves...")
 from utils.datacoves import pipelines_dir
 
+print("All imports completed")
 print("set resource 1")
 
 @dlt.resource(write_disposition="replace")
