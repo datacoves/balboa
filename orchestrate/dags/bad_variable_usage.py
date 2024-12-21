@@ -20,7 +20,7 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
     catchup=False,
 )
 def bad_variable_usage():
-    # comment
+    # comment 2
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
