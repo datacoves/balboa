@@ -52,7 +52,8 @@ jobs:
           comment_tag: Test DAGs Load time and variable usage at top level
 
       - name: Custom Airflow Validation Tests
-        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py | tee /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+        # run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
         env:
           NO_COLOR: 1
 
