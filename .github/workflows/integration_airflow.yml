@@ -62,15 +62,29 @@ jobs:
           cat "$OUTPUT_FILE"
           exit $(cat /tmp/exit_code)
 
-
-
-
+      - name: Verify output file
+        if: always()
+        run: |
+          echo "Checking if file exists:"
+          ls -l "$OUTPUT_FILE"
+          echo "File contents:"
+          cat "$OUTPUT_FILE"
 
       - name: Add PR comment of results of custom Airflow validation tests
+        if: always()  # Run even if previous step fails
         uses: thollander/actions-comment-pull-request@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+          filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Custom Tests
+          fail_on_error: true  # Make the step fail if commenting fails
+
+      # - name: Add PR comment of results of custom Airflow validation tests
+      #   uses: thollander/actions-comment-pull-request@v2
+      #   with:
+      #     filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+      #     comment_tag: Custom Tests
 
       # Do we need this?
       - name: Upload test summary
