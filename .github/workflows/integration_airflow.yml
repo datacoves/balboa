@@ -60,26 +60,19 @@ jobs:
           cat "$OUTPUT_FILE"
           exit $(cat /tmp/exit_code)
 
-      - name: Verify output file
-        if: always()
-        run: |
-          echo "Checking if file exists:"
-          ls -l "$OUTPUT_FILE"
-          echo "File contents:"
-          cat "$OUTPUT_FILE"
-
-      - name: Format test output
-        if: always()
-        run: |
-          echo '```' > formatted_output.md
-          cat "$OUTPUT_FILE" >> formatted_output.md
-          echo '```' >> formatted_output.md
+      # - name: Format test output
+      #   if: always()
+      #   run: |
+      #     echo '```' > formatted_output.md
+      #     cat "$OUTPUT_FILE" >> formatted_output.md
+      #     echo '```' >> formatted_output.md
 
       - name: Add PR comment of results of custom Airflow validation tests
         if: always()
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: formatted_output.md
+          # filePath: formatted_output.md
+          filePath: $OUTPUT_FILE
           comment_tag: Custom Tests
           GITHUB_TOKEN: ${{ github.token }}
 
