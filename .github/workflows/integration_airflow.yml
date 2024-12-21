@@ -68,5 +68,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-summary
-          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_output_custom_tests.md
+          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
         if: always()
