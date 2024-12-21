@@ -16,7 +16,7 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
     },
     description="Sample DAG for dbt build",
     schedule="0 0 1 */12 *",
-    tags=["transform"],
+    tags=["extract_and_load"],
     catchup=False,
 )
 def bad_variable_usage():

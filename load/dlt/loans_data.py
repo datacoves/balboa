@@ -13,11 +13,15 @@ import pandas as pd
 from utils.datacoves_snowflake import db_config
 from utils.datacoves import pipelines_dir
 
+print("set resource 1")
+
 @dlt.resource(write_disposition="replace")
 def personal_loans():
     personal_loans = "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/PERSONAL_LOANS.csv"
     df = pd.read_csv(personal_loans)
     yield df
+
+print("set resource 2")
 
 @dlt.resource(write_disposition="replace")
 def zip_coordinates():
@@ -25,10 +29,12 @@ def zip_coordinates():
     df = pd.read_csv(zip_coordinates)
     yield df
 
+print("set source 1")
 @dlt.source
 def personal_loans_source():
     return [personal_loans]
 
+print("set source 2")
 @dlt.source
 def zip_coordinates_source():
     return [zip_coordinates]
@@ -38,6 +44,8 @@ if __name__ == "__main__":
         db_config,
         destination_name="datacoves_snowflake"
     )
+
+    print("define pipeline")
 
     pipeline = dlt.pipeline(
         progress = "enlighten",
@@ -49,6 +57,7 @@ if __name__ == "__main__":
         dataset_name="loans"
     )
 
+    print("run pipeline")
     load_info = pipeline.run([
             personal_loans(),
             zip_coordinates()
