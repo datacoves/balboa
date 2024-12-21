@@ -8,7 +8,6 @@ from fivetran_provider_async.sensors import FivetranSensor
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 
-
 @dag(
     default_args={"start_date": datetime.datetime(2024, 1, 1, 0, 0), "retries": 3},
     description="Loan Run",
@@ -53,7 +52,8 @@ def daily_loan_run():
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
-            task_id="load_us_population", bash_command="./load/dlt/load_data.py"
+            task_id="load_us_population",
+            bash_command="cd load/dlt && ./loans_data.py",
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
