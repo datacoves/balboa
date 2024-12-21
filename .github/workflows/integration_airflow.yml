@@ -63,9 +63,9 @@ jobs:
           comment_tag: Custom Tests
 
       # Do we need this?
-      # - name: Upload test summary
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: test-summary
-      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_output_custom_tests.md
-      #   if: always()
+      - name: Upload test summary
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-summary
+          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_output_custom_tests.md
+        if: always()

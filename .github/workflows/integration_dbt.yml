@@ -3,8 +3,8 @@ name: 🔄 dbt Transform & Governance Checks"
 on:  # yamllint disable-line rule:truthy
   pull_request:
     paths:
-      - transform/*
-      - transform/**/*
+      - zzz_transform/*
+      - zzz_transform/**/*
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
