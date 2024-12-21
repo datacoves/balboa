@@ -72,7 +72,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           # filePath: formatted_output.md
-          filePath: $OUTPUT_FILE
+          filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Custom Tests
           GITHUB_TOKEN: ${{ github.token }}
 
