@@ -71,11 +71,10 @@ jobs:
       - name: Add PR comment of results of custom Airflow validation tests
         if: always()
         uses: thollander/actions-comment-pull-request@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Custom Tests
+          GITHUB_TOKEN: ${{ github.token }}
 
 
 
