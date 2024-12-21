@@ -21,7 +21,7 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
 def bad_variable_usage():
     @task
     def extract_and_load_dlt():
-        from operators.datacoves.dbt import DatacovesDbtOperator
+        from operators.datacoves.bash import DatacovesBashOperator
 
         load_us_population = DatacovesBashOperator(
             task_id="load_us_population", bash_command="./load/dlt/load_data.py"
