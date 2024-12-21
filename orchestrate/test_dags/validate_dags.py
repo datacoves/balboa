@@ -139,7 +139,7 @@ def test_dag_retries(dag_id, dag, fileloc):
 
     if num_retries == 0 or num_retries is None:
         pytest.fail(f"{dag_id} in {fileloc} must have task retries >= 1 it currently has {num_retries}.")
-    elif num_retries < 2:
-        warnings.warn(f"{dag_id} in {fileloc} should have task retries >= 2 it currently has {num_retries}.", UserWarning)
+    elif num_retries < 3:
+        warnings.warn(f"{dag_id} in {fileloc} should have task retries >= 3 it currently has {num_retries}.", UserWarning)
     else:
-        assert num_retries >= 2, f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
+        assert num_retries >= 3, f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
