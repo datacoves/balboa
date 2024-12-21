@@ -68,15 +68,20 @@ jobs:
           echo "File contents:"
           cat "$OUTPUT_FILE"
 
+      - name: Format test output
+        if: always()
+        run: |
+          echo '```' > formatted_output.md
+          cat "$OUTPUT_FILE" >> formatted_output.md
+          echo '```' >> formatted_output.md
+
       - name: Add PR comment of results of custom Airflow validation tests
         if: always()
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: ${{ env.OUTPUT_FILE }}
+          filePath: formatted_output.md
           comment_tag: Custom Tests
           GITHUB_TOKEN: ${{ github.token }}
-
-
 
 
       # - name: Add PR comment of results of custom Airflow validation tests
