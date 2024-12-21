@@ -51,21 +51,33 @@ jobs:
           comment_tag: Test DAGs Load time and variable usage at top level
 
         # run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+      # - name: Custom Airflow Validation Tests
+      #   env:
+      #     NO_COLOR: 1
+      #   run: |
+      #     pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" > "$OUTPUT_FILE" 2>&1
+      #     echo $? > /tmp/exit_code
+      #     cat "$OUTPUT_FILE"
+      #     exit $(cat /tmp/exit_code)
+
       - name: Custom Airflow Validation Tests
         env:
           NO_COLOR: 1
         run: |
-          pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" > "$OUTPUT_FILE" 2>&1
+          # Run pytest and save to a temporary file
+          pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" > temp_output.txt 2>&1
           echo $? > /tmp/exit_code
+
+          # Create the final output file with the header and code formatting
+          echo "⚠️ **Test Warnings Detected:**" > "$OUTPUT_FILE"
+          echo "" >> "$OUTPUT_FILE"
+          echo '```' >> "$OUTPUT_FILE"
+          cat temp_output.txt >> "$OUTPUT_FILE"
+          echo '```' >> "$OUTPUT_FILE"
+
+          # Display the output
           cat "$OUTPUT_FILE"
           exit $(cat /tmp/exit_code)
-
-      # - name: Format test output
-      #   if: always()
-      #   run: |
-      #     echo '```' > formatted_output.md
-      #     cat "$OUTPUT_FILE" >> formatted_output.md
-      #     echo '```' >> formatted_output.md
 
       - name: Add PR comment of results of custom Airflow validation tests
         if: always()
@@ -84,9 +96,9 @@ jobs:
       #     comment_tag: Custom Tests
 
       # Do we need this?
-      - name: Upload test summary
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-summary
-          path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
-        if: always()
+      # - name: Upload test summary
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: test-summary
+      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+      #   if: always()
