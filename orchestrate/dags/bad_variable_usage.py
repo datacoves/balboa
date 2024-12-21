@@ -25,7 +25,7 @@ def bad_variable_usage():
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
             task_id="load_us_population",
-            bash_command="pip install uv && cd load/dlt && ./loans_data.py",
+            bash_command="cd load/dlt && ./loans_data.py",
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()

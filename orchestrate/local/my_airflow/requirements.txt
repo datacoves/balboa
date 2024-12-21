@@ -36,3 +36,4 @@ python-jose==3.3.0
 pyyaml>=6.0
 pytest==8.3.3
 python-dotenv
+uv
