@@ -1,8 +1,7 @@
 import datetime
 
-from airflow.decorators import dag
+from airflow.decorators import dag, task
 from airflow.models import Variable
-from operators.datacoves.dbt import DatacovesDbtOperator
 
 bad_used_variable = Variable.get("bad_used_variable", "default_value")
 
@@ -20,9 +19,14 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
     catchup=False,
 )
 def bad_variable_usage():
-    run_dbt = DatacovesDbtOperator(
-        task_id="run_dbt", bash_command="dbt run -s personal_loans"
-    )
+    @task
+    def extract_and_load_dlt():
+        from operators.datacoves.dbt import DatacovesDbtOperator
 
+        load_us_population = DatacovesBashOperator(
+            task_id="load_us_population", bash_command="./load/dlt/load_data.py"
+        )
+
+    extract_and_load_dlt()
 
 dag = bad_variable_usage()
