@@ -85,7 +85,6 @@ jobs:
         run: |
           cd "$AIRFLOW__ARTIFACTS_PATH/test_dags" && \
           pytest validate_dags.py \
-            -p custom_reporter \
             --output-file "$OUTPUT_FILE"
           echo $? > /tmp/exit_code
           cat "$OUTPUT_FILE"

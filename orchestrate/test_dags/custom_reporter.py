@@ -8,20 +8,23 @@ class CustomReporter:
         self.config = config
         self.stats = {}
         self.warnings = []
-        self._tw = config.get_terminal_writer()
 
     def pytest_runtest_logreport(self, report: TestReport):
         if report.when == 'call':
             self.stats.setdefault(report.outcome, []).append(report)
 
-        # Capture warnings
-        if hasattr(report, 'warnings'):
-            self.warnings.extend(report.warnings)
+    def pytest_warning_recorded(self, warning_message):
+        self.warnings.append(warning_message)
 
     def pytest_sessionfinish(self):
-        # Create the markdown output
-        with open(self.config.option.output_file, 'w') as f:
-            f.write("⚠️ **Test Warnings Detected:**\n\n")
+        output_file = self.config.getoption('output_file')
+        if not output_file:
+            return
+
+        with open(output_file, 'w') as f:
+            if self.warnings:
+                f.write("⚠️ **Test Warnings Detected:**\n\n")
+
             f.write("```\n")
 
             # Write test summary
@@ -42,13 +45,12 @@ class CustomReporter:
             if self.warnings:
                 f.write("\nWarnings:\n")
                 for warning in self.warnings:
-                    f.write(f"- {str(warning.message)}\n")
+                    f.write(f"- {str(warning.message)} \n  at {warning.filename}:{warning.lineno}\n")
 
             f.write("```\n")
 
 def pytest_configure(config):
-    # Get output file from command line option
-    output_file = getattr(config.option, 'output_file', None)
+    output_file = config.getoption('output_file', None)
     if output_file:
         reporter = CustomReporter(config)
         config.pluginmanager.register(reporter)
