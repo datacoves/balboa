@@ -1,7 +1,7 @@
 """## Datacoves Bash Operator DAG
 This DAG is a sample using the Datacoves Airflow Operators"""
 
-from airflow.decorators import dag
+from airflow.decorators import dag, task
 from airflow.models import Variable
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
@@ -30,7 +30,7 @@ def stevetest_dag():
     @task.datacoves_dbt(
         connection_id="main"
     )
-    def dbt_test -> str:
+    def dbt_test() -> str:
         return "dbt debug"
 
     print(dbt_test())
