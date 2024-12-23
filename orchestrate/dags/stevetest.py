@@ -27,11 +27,14 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
     schedule_interval="0 0 1 */12 *",
 )
 def stevetest_dag():
-    DatacovesDbtOperator(
-        task_id="vartest",
-        bash_command='export'
+    @task.datacoves_dbt(
+        connection_id="main"
     )
+    def dbt_test -> str:
+        return "dbt debug"
 
+    print(dbt_test())
+    
 # Invoke Dag
 dag = stevetest_dag()
 dag.doc_md = __doc__
