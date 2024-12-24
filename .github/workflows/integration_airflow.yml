@@ -20,7 +20,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
     # container: datacoves/ci-airflow-dbt-snowflake:3.3
-    container: datacoves/ci-airflow-dbt-snowflake:3.3.202412231511-95326445
+    container: datacoves/ci-airflow-dbt-snowflake:3.3.202412241140-6b72f32e
 
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
