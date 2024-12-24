@@ -27,7 +27,7 @@ DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
     schedule_interval="0 0 1 */12 *",
 )
 def datacoves_sample_dag():
-
+    var1= "YEEHAW"
     # Calling dbt commands
     dbt_task = DatacovesDbtOperator(
         task_id = "run_dbt_task",
@@ -40,7 +40,8 @@ def datacoves_sample_dag():
         task_id = "run_python_script",
         # Virtual Environment is automatically activated
         # activate_venv=True,
-        bash_command = "python orchestrate/python_scripts/sample_script.py"
+        bash_command = "python orchestrate/python_scripts/sample_script.py",
+        env={'VAR1': var1}
     )
 
     # Define task dependencies
