@@ -5,9 +5,7 @@ from airflow.decorators import dag, task_group
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
-
-# Only here for reference, this is automatically activated by Datacoves Operator
-DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
+from airflow.models import Variable
 
 @dag(
     doc_md = __doc__,
@@ -34,9 +32,21 @@ def datacoves_sample_dag():
             bash_command = "dbt debug",
         )
 
+        var1= Variable.get("my_var")
+
+        # This is calling an external Python file after activating the venv
+        # use this instead of the Python Operator
+        python_task = DatacovesBashOperator(
+            task_id = "run_python_script",
+            # Virtual Environment is automatically activated
+            # activate_venv=True,
+            bash_command = "python orchestrate/python_scripts/sample_script.py",
+            env={'VAR1': var1}
+        )
+
     run_it()
 
-    # var1= "YEEHAW"
+
     # # Calling dbt commands
     # dbt_task = DatacovesDbtOperator(
     #     task_id = "run_dbt_task",
@@ -53,7 +63,7 @@ def datacoves_sample_dag():
     #     env={'VAR1': var1}
     # )
 
-    # # Define task dependencies
+    # Define task dependencies
     # python_task.set_upstream([dbt_task])
 
 # Invoke Dag
