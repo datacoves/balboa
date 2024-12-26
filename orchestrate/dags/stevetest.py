@@ -45,9 +45,16 @@ def stevetest_dag():
     def dbt_test_redshift() -> str:
         return "dbt debug"
 
+    @task.datacoves_dbt(
+        connection_id="databricks"
+    )
+    def dbt_test_databricks() -> str:
+        return "dbt debug"
+
     print(dbt_test())
     print(dbt_test_bigquery())
     print(dbt_test_redshift())
+    print(dbt_test_databricks())
 
 # Invoke Dag
 dag = stevetest_dag()
