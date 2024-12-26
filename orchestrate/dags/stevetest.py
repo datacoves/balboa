@@ -33,8 +33,22 @@ def stevetest_dag():
     def dbt_test() -> str:
         return "dbt debug"
 
+    @task.datacoves_dbt(
+        connection_id="bigquery"
+    )
+    def dbt_test_bigquery() -> str:
+        return "dbt debug"
+
+    @task.datacoves_dbt(
+        connection_id="redshift"
+    )
+    def dbt_test_redshift() -> str:
+        return "dbt debug"
+
     print(dbt_test())
-    
+    print(dbt_test_bigquery())
+    print(dbt_test_redshift())
+
 # Invoke Dag
 dag = stevetest_dag()
 dag.doc_md = __doc__
