@@ -33,9 +33,9 @@ def datacoves_sample_dag():
             bash_command = "dbt debug",
         )
 
-        var1= Variable.get("my_var1")
-        var2= Variable.get("my_var2")
-        var3= Variable.get("my_var3")
+        var1 = Variable.get("my_var1")
+        var2 = Variable.get("my_var2")
+        var3 = Variable.get("my_var3")
 
         # This is calling an external Python file after activating the venv
         # use this instead of the Python Operator as it will activate the pre-configured
@@ -55,6 +55,17 @@ def datacoves_sample_dag():
         python_task.set_upstream([dbt_task])
 
     dbt_and_python()
+
+    DatacovesBashOperator(
+        task_id = "run_python_script",
+        # Virtual Environment is automatically activated
+        # activate_venv=True,
+        bash_command = "python orchestrate/python_scripts/sample_script.py",
+        env = {'VAR1': var1,
+                'VAR2': var2,
+                'VAR3': var3,
+        }
+    )
 
 # Invoke Dag
 dag = datacoves_sample_dag()

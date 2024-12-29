@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 def print_sample_dataframe():
 
@@ -13,4 +14,13 @@ def print_sample_dataframe():
     print("DataFrame created using Pandas:")
     print(df)
 
+def print_vars():
+    print("#########")
+    print(f"var1 is {os.getenv('VAR1')}")
+    print(f"var2 is {os.getenv('VAR2')}")
+    print(f"var3 is {os.getenv('VAR3')}")
+    print("#########")
+
 print_sample_dataframe()
+
+print_vars()
