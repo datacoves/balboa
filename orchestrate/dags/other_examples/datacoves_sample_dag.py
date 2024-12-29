@@ -7,6 +7,10 @@ from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
 
+var1 = Variable.get("my_var1")
+var2 = Variable.get("my_var2")
+var3 = Variable.get("my_var3")
+
 @dag(
     doc_md = __doc__,
     default_args = {
@@ -33,10 +37,6 @@ def datacoves_sample_dag():
             bash_command = "dbt debug",
         )
 
-        var1 = Variable.get("my_var1")
-        var2 = Variable.get("my_var2")
-        var3 = Variable.get("my_var3")
-
         # This is calling an external Python file after activating the venv
         # use this instead of the Python Operator as it will activate the pre-configured
         # Datacoves venv
@@ -61,7 +61,7 @@ def datacoves_sample_dag():
         # Virtual Environment is automatically activated
         # activate_venv=True,
         bash_command = "python orchestrate/python_scripts/sample_script.py",
-        env = {'VAR1': var1,
+        env = { 'VAR1': var1,
                 'VAR2': var2,
                 'VAR3': var3,
         }
