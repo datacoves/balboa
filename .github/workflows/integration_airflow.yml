@@ -19,8 +19,6 @@ jobs:
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-
-    # container: datacoves/ci-airflow-dbt-snowflake:3.2
     container: datacoves/ci-airflow-dbt-snowflake:3.3
 
     env:
@@ -32,6 +30,7 @@ jobs:
       DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       FORCE_COLOR: 1
+      OUTPUT_FILE: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
 
     steps:
       - name: Checkout branch
@@ -51,21 +50,66 @@ jobs:
           filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_test_load_time_variables.md
           comment_tag: Test DAGs Load time and variable usage at top level
 
+        # run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+      # - name: Custom Airflow Validation Tests
+      #   env:
+      #     NO_COLOR: 1
+      #   run: |
+      #     pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" > "$OUTPUT_FILE" 2>&1
+      #     echo $? > /tmp/exit_code
+      #     cat "$OUTPUT_FILE"
+      #     exit $(cat /tmp/exit_code)
+
+      # - name: Custom Airflow Validation Tests
+      #   env:
+      #     NO_COLOR: 1
+      #   run: |
+      #     # Run pytest and save to a temporary file
+      #     pytest "$AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py" > temp_output.txt 2>&1
+      #     echo $? > /tmp/exit_code
+
+      #     # Create the final output file with the header and code formatting
+      #     echo "⚠️ **Test Warnings Detected:**" > "$OUTPUT_FILE"
+      #     echo "" >> "$OUTPUT_FILE"
+      #     echo '```' >> "$OUTPUT_FILE"
+      #     cat temp_output.txt >> "$OUTPUT_FILE"
+      #     echo '```' >> "$OUTPUT_FILE"
+
+      #     # Display the output
+      #     cat "$OUTPUT_FILE"
+      #     exit $(cat /tmp/exit_code)
+
       - name: Custom Airflow Validation Tests
-        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py > /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
         env:
           NO_COLOR: 1
+        run: |
+          cd "$AIRFLOW__ARTIFACTS_PATH/test_dags" && \
+          pytest validate_dags.py \
+            --output-file "$OUTPUT_FILE"
+          echo $? > /tmp/exit_code
+          cat "$OUTPUT_FILE"
+          exit $(cat /tmp/exit_code)
 
       - name: Add PR comment of results of custom Airflow validation tests
+        if: always()
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+          # filePath: formatted_output.md
+          filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Custom Tests
+          GITHUB_TOKEN: ${{ github.token }}
+
+
+      # - name: Add PR comment of results of custom Airflow validation tests
+      #   uses: thollander/actions-comment-pull-request@v2
+      #   with:
+      #     filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+      #     comment_tag: Custom Tests
 
       # Do we need this?
       # - name: Upload test summary
       #   uses: actions/upload-artifact@v3
       #   with:
       #     name: test-summary
-      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_output_custom_tests.md
+      #     path: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
       #   if: always()

@@ -2,10 +2,10 @@
 This DAG is a sample using the Datacoves Airflow Operators"""
 
 from airflow.decorators import dag, task_group
+from airflow.models import Variable
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
-from airflow.models import Variable
 
 @dag(
     doc_md = __doc__,
@@ -19,54 +19,42 @@ from airflow.models import Variable
     catchup = False,
     tags = ["python_script"],
     description = "Datacoves Sample dag",
+
     # This is a regular CRON schedule. Helpful resources
     # https://cron-ai.vercel.app/
     # https://crontab.guru/
-    schedule_interval="0 0 1 */12 *",
+    schedule = "0 0 1 */12 *",
 )
 def datacoves_sample_dag():
-    @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
-    def run_it():
+    @task_group(group_id="dbt_and_python", tooltip="This is a group that runs dbt then a custom python file")
+    def dbt_and_python():
         dbt_task = DatacovesDbtOperator(
             task_id = "run_dbt_task",
             bash_command = "dbt debug",
         )
 
-        var1= Variable.get("my_var")
+        var1= Variable.get("my_var1")
+        var2= Variable.get("my_var2")
+        var3= Variable.get("my_var3")
 
         # This is calling an external Python file after activating the venv
-        # use this instead of the Python Operator
+        # use this instead of the Python Operator as it will activate the pre-configured
+        # Datacoves venv
         python_task = DatacovesBashOperator(
             task_id = "run_python_script",
             # Virtual Environment is automatically activated
             # activate_venv=True,
             bash_command = "python orchestrate/python_scripts/sample_script.py",
-            env={'VAR1': var1}
+            env = {'VAR1': var1,
+                   'VAR2': var2,
+                   'VAR3': var3,
+            }
         )
 
-        # UPDATED
+        # Define task dependencies
+        python_task.set_upstream([dbt_task])
 
-    run_it()
-
-
-    # # Calling dbt commands
-    # dbt_task = DatacovesDbtOperator(
-    #     task_id = "run_dbt_task",
-    #     bash_command = "dbt debug",
-    # )
-
-    # # This is calling an external Python file after activating the venv
-    # # use this instead of the Python Operator
-    # python_task = DatacovesBashOperator(
-    #     task_id = "run_python_script",
-    #     # Virtual Environment is automatically activated
-    #     # activate_venv=True,
-    #     bash_command = "python orchestrate/python_scripts/sample_script.py",
-    #     env={'VAR1': var1}
-    # )
-
-    # Define task dependencies
-    # python_task.set_upstream([dbt_task])
+    dbt_and_python()
 
 # Invoke Dag
 dag = datacoves_sample_dag()
