@@ -56,16 +56,5 @@ def datacoves_sample_dag():
 
     dbt_and_python()
 
-    DatacovesBashOperator(
-        task_id = "run_python_script",
-        # Virtual Environment is automatically activated
-        # activate_venv=True,
-        bash_command = "python orchestrate/python_scripts/sample_script.py",
-        env = { 'VAR1': var1,
-                'VAR2': var2,
-                'VAR3': var3,
-        }
-    )
-
 # Invoke Dag
 dag = datacoves_sample_dag()
