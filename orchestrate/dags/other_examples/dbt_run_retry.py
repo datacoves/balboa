@@ -2,8 +2,8 @@
 This DAG is a sample using the Datacoves Airflow Operators"""
 
 from airflow.decorators import dag, task, task_group
-from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
+from airflow.operators.dummy import DummyOperator
 from pendulum import datetime
 import os
 
