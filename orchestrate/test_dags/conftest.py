@@ -1,2 +1,3 @@
 # conftest.py
-from custom_reporter import *
+from datacoves_airflow_provider.testing.custom_reporter import *
+from 
