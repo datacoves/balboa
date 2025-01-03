@@ -7,9 +7,9 @@ from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
 
-var1 = Variable.get("my_var1", "defaul_my_var1")
-var2 = Variable.get("my_var2", "default_my_var2")
-var3 = Variable.get("my_var3", "default_my_var3")
+var1 = Variable.get("my_var1")
+var2 = Variable.get("my_var2")
+var3 = Variable.get("my_var3")
 
 
 @dag(
