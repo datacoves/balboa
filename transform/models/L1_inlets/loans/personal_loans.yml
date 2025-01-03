@@ -5,6 +5,12 @@ models:
     description: Contains data on personal loans
     columns:
       - name: addr_state
+        # data_tests:
+        #   - accepted_values:
+        #       values:
+        #         - "CA"
+        #       config:
+        #         store_failures_as: view
         description: The state in which the borrower resides
         meta:
           masking_policy: masking_policy_pii_string

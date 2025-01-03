@@ -1,9 +1,13 @@
 description: "Loan Run"
-schedule_interval: "0 0 1 */12 *"
+schedule: "0 0 1 */12 *"
 tags:
-  - version_5
+  - extract_and_load
+  - transform
+  - marketing_automation
+  - update_catalog
 default_args:
-  start_date: 2021-01
+  start_date: 2024-01-01
+  retries: 3
 catchup: false
 
 nodes:
@@ -22,7 +26,6 @@ nodes:
     tooltip: "Fivetran Extract and Load"
     dbt_list_args: "--select tag:daily_run_fivetran"
 
-
   extract_and_load_dlt:
     type: task_group
     tooltip: "dlt Extract and Load"
@@ -30,11 +33,7 @@ nodes:
     tasks:
       load_us_population:
         operator: operators.datacoves.bash.DatacovesBashOperator
-        # activate_venv: true
-        # Virtual Environment is automatically activated
-
-        bash_command: "./load/dlt/csv_to_snowflake/load_csv_data.py"
-
+        bash_command: "./load/dlt/load_data.py"
 
   transform:
     operator: operators.datacoves.dbt.DatacovesDbtOperator
@@ -43,14 +42,12 @@ nodes:
     bash_command: "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
     dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
 
-
   marketing_automation:
     operator: operators.datacoves.bash.DatacovesBashOperator
     type: task
 
     bash_command: "echo 'send data to marketing tool'"
     dependencies: ["transform"]
-
 
   update_catalog:
     operator: operators.datacoves.bash.DatacovesBashOperator

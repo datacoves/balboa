@@ -24,7 +24,6 @@ generate:
 
   airflow_dags:
     secrets_manager: datacoves
-    secrets_tags: "extract_and_load_fivetran"
 
     yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
     dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
@@ -47,6 +46,9 @@ generate:
       FivetranDbtGenerator:
         dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
         fivetran_conn_id: fivetran_connection
+
+        api_key: "{{ secret('fivetran_api_key') }}"
+        api_secret: "{{ secret('fivetran_api_secret') }}"
 
         run_dbt_compile: false
         run_dbt_deps: false

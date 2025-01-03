@@ -6,7 +6,7 @@ packages:
   - package: entechlog/dbt_snow_mask
     version: 0.2.6
   - package: dbt-labs/dbt_external_tables
-    version: 0.10.0
+    version: 0.11.1
   - package: calogica/dbt_date
     version: 0.10.1
-sha1_hash: a8e914449aff73788a429341f48f0f7a47970525
+sha1_hash: 4f96ca8b1f90a1d3e30a6e3176ccc5abecda678e

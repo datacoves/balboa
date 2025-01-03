@@ -9,20 +9,15 @@ from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 
 @dag(
-    default_args={"start_date": "2021-01"},
+    default_args={"start_date": datetime.datetime(2024, 1, 1, 0, 0), "retries": 3},
     description="Loan Run",
-    schedule_interval="0 0 1 */12 *",
-    tags=["version_7"],
+    schedule="0 0 1 */12 *",
+    tags=["extract_and_load", "transform", "marketing_automation", "update_catalog"],
     catchup=False,
 )
 def daily_loan_run():
     @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")
     def extract_and_load_airbyte():
-        personal_loans_datacoves_snowflake = AirbyteTriggerSyncOperator(
-            task_id="personal_loans_datacoves_snowflake",
-            connection_id="902432a8-cbed-4602-870f-33617fda6859",
-            airbyte_conn_id="airbyte_connection",
-        )
         country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
             task_id="country_populations_datacoves_snowflake",
             connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
@@ -58,7 +53,7 @@ def daily_loan_run():
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
             task_id="load_us_population",
-            bash_command="./load/dlt/csv_to_snowflake/load_csv_data.py",
+            bash_command="cd load/dlt && ./loans_data.py",
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()

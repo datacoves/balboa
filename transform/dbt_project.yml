@@ -72,6 +72,8 @@ models:
                 +schema: L1_COVID19_EPIDEMIOLOGICAL_DATA
             loans:
                 +schema: L1_LOANS
+            observe:
+                +schema: L1_OBSERVE
             us_population:
                 +schema: L1_COUNTRY_DATA
 
@@ -120,13 +122,20 @@ models:
             columns: true
 
     post-hook:
-        - "{{ create_latest_version_view() }}"
         - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
         - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
+        # This macro creates a non_versioned view of a versioned dbt model
+        # Useful if you want to have a versioned mart but dont want BI tool to break if version
+        # is updated. 
+        # - "{{ create_latest_version_view() }}"
 
     # Snowflake Defaults
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
     copy_grants: true
+
+on-run-end:
+  - "{{ create_test_failure_view(results) }}"
+
 
 data_tests:
     +store_failures: true
@@ -134,12 +143,6 @@ data_tests:
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'
-
-    data_diff:
-        prod_database: BALBOA
-        prod_schema: not_defined
-        prod_custom_schema: <custom_schema>
-        datasource_id: 6003
 
     create_masking_policy_schema: "false"
     use_common_masking_policy_db: "true"

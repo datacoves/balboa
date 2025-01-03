@@ -76,10 +76,9 @@ def download_latest_manifest(keys_only = True, trimmed = True):
         headers=get_headers(token=sa_user),
     )
 
-    print_format_json(r,  keys_only)
+    print_format_json(r.json()['nodes'],  keys_only=True)
 
-def print_format_json(r, keys_only = True):
-    json_data = r.json()
+def print_format_json(json_data, keys_only = True):
 
     if not isinstance(json_data, dict):
         raise ValueError("JSON data is not a dictionary")
@@ -102,13 +101,13 @@ def reload_lib():
 
 
 load_dotenv()
-base_url_internal = os.getenv("DATACOVES__UPLOAD_MANIFEST_URL")
-sa_user = os.getenv("DATACOVES__SECRETS_TOKEN")
+base_url_internal = os.getenv("DATACOVES__API_ENDPOINT")
+sa_user = os.getenv("DATACOVES__API_TOKEN")
 
 # Airflow SA token
 sa_airflow = os.getenv("DATACOVES__UPLOAD_MANIFEST_TOKEN")
 
-internal_bearer_token = os.getenv("DATACOVES__INTERNAL_BEARER_TOKEN")
+internal_bearer_token = os.getenv("DATACOVES__API_TOKEN")
 
 # Generated public token
 sa_public = regen_public_token()

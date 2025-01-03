@@ -3,7 +3,7 @@ with raw_cases as (
         country_region,
         province_state,
         county,
-        new_cases,
+        new_cases2,
         date,
         case_type
     from {{ ref('base_cases') }}

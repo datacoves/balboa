@@ -4,7 +4,7 @@ sources:
   - name: LOANS
     database: RAW
     tags:
-      - daily_run_airbyte
+      - daily_run_dlt
     tables:
       - name: PERSONAL_LOANS
         description: 'Personal Loans data'
