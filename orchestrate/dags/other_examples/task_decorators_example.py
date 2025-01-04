@@ -32,7 +32,7 @@ def task_decorators_example():
         connection_id="main"
     )
     def dbt_run() -> str:
-        return "dbt run"
+        return "dbt run -s personal_loans"
 
     # Define task dependencies
     dbt_test() >> dbt_run()
