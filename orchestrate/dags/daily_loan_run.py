@@ -12,7 +12,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     default_args={"start_date": "2021-01"},
     description="Loan Run",
     schedule_interval="0 0 1 */12 *",
-    tags=["version_6"],
+    tags=["version_7"],
     catchup=False,
 )
 def daily_loan_run():
@@ -21,12 +21,12 @@ def daily_loan_run():
         personal_loans_datacoves_snowflake = AirbyteTriggerSyncOperator(
             task_id="personal_loans_datacoves_snowflake",
             connection_id="902432a8-cbed-4602-870f-33617fda6859",
-            airbyte_conn_id="airbyte_connection_test",
+            airbyte_conn_id="airbyte_connection",
         )
         country_populations_datacoves_snowflake = AirbyteTriggerSyncOperator(
             task_id="country_populations_datacoves_snowflake",
             connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
-            airbyte_conn_id="airbyte_connection_test",
+            airbyte_conn_id="airbyte_connection",
         )
 
     tg_extract_and_load_airbyte = extract_and_load_airbyte()
