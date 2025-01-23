@@ -31,7 +31,7 @@ jobs:
       DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       FORCE_COLOR: 1
-      OUTPUT_FILE: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_validation_tests.md
+      OUTPUT_FILE: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_output.md
 
     steps:
       - name: Checkout branch
@@ -42,13 +42,13 @@ jobs:
 
       - name: Test DAGs Load time and variable usage at top level
         id: test_load_time_variables
-        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename airflow_test_load_time_variables.md
+        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
 
       # if write-output is set in the prior step, the following step will run
       - name: Add PR comment of results of test_load_time_variables tests
         uses: thollander/actions-comment-pull-request@v2
         with:
-          filePath: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/airflow_test_load_time_variables.md
+          filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Test DAGs Load time and variable usage at top level
 
       - name: Custom Airflow Validation Tests
