@@ -20,6 +20,10 @@ def get_internal_endpoint(endpoint: str) -> str:
     print("URL:", url, "\n")
     return url
 
+def get_external_endpoint(endpoint: str) -> str:
+    url = f"{base_url_external}/{endpoint}"
+    print("URL:", url, "\n")
+    return url
 
 def check_health():
     r = requests.get(url=get_internal_endpoint(endpoint="api/internal/healthcheck"))
@@ -72,7 +76,8 @@ def download_latest_manifest(keys_only = True, trimmed = True):
     projects_slug = "balboa-analytics-datacoves"
     query_str = f"trimmed={str(trimmed).lower()}"
     r = requests.get(
-        url=get_internal_endpoint(endpoint=f"api/internal/projects/{projects_slug}/latest-manifest?{query_str}"),
+        # Here we can use get_internal_endpoint
+        url=get_external_endpoint(endpoint=f"api/internal/projects/{projects_slug}/latest-manifest?{query_str}"),
         headers=get_headers(token=sa_user),
     )
 
@@ -102,6 +107,7 @@ def reload_lib():
 
 
 load_dotenv()
+base_url_external = os.getenv("DATACOVES__EXTERNAL_URL")
 base_url_internal = os.getenv("DATACOVES__UPLOAD_MANIFEST_URL")
 sa_user = os.getenv("DATACOVES__SECRETS_TOKEN")
 
