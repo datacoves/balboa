@@ -3,13 +3,18 @@ import os
 from dotenv import load_dotenv
 
 
+def str_to_bool(s):
+    return s.lower() in ('true', '1', 'yes', 'y')
+
 load_dotenv()
+use_external_url = str_to_bool(os.getenv("DATACOVES__USE_EXTERNAL_URL", "false"))
 base_url_internal = os.getenv("DATACOVES__UPLOAD_MANIFEST_URL")
 base_url_external = os.getenv("DATACOVES__EXTERNAL_URL")
 sa_user = os.getenv("DATACOVES__SECRETS_TOKEN")
 sa_airflow = os.getenv("DATACOVES__UPLOAD_MANIFEST_TOKEN")
 internal_bearer_token =  os.getenv("DATACOVES__INTERNAL_BEARER_TOKEN")
 environment_slug = os.getenv("DATACOVES__ENVIRONMENT_SLUG")
+base_url = base_url_external if use_external_url else base_url_internal
 
 
 def print_format(r):
@@ -18,9 +23,8 @@ def print_format(r):
         print("RESPONSE:", r.text)
     print("-----------------------")
 
-
-def get_internal_endpoint(endpoint: str) -> str:
-    return f"{base_url_internal}/{endpoint}"
+def get_endpoint(endpoint: str) -> str:
+    return f"{base_url}/{endpoint}"
 
 
 def get_headers(token: str) -> dict:
@@ -32,7 +36,7 @@ def get_headers(token: str) -> dict:
 def delete_file(tag: str):
     print(f"Deleting file by tag: {tag}...")
     r = requests.delete(
-        url=get_internal_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
+        url=get_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
         headers=get_headers(token=sa_airflow),
         data={ "tag": tag}
     )
@@ -43,7 +47,7 @@ def upload_single_file():
     print("Uploading a single file...")
     files = {"file": open("file1.txt","rb")}
     r = requests.post(
-        url=get_internal_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
+        url=get_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
         headers=get_headers(token=sa_airflow),
         files=files,
         data={"tag": "some-tag"}
@@ -65,7 +69,7 @@ def upload_multiple_files():
     }
 
     r = requests.post(
-        url=get_internal_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
+        url=get_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
         headers=get_headers(token=sa_airflow),
         files=files,
     )
@@ -78,7 +82,7 @@ def update_file_by_tag(tag: str):
     files = {"file": open("file2.txt", "rb")}
 
     r = requests.put(
-        url=get_internal_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
+        url=get_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
         headers=get_headers(token=sa_airflow),
         files=files,
         data={ "tag": "some-tag"}
@@ -92,7 +96,7 @@ def get_file_by_tag(tag: str):
     params = f"tag={tag}"
 
     r = requests.get(
-        url=get_internal_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files?{params}"),
+        url=get_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files?{params}"),
         headers=get_headers(token=sa_airflow),
     )
 
