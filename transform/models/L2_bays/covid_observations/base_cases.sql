@@ -4,7 +4,6 @@ with final as (
         *,
         difference as new_cases
     from {{ ref('jhu_covid_19') }}
-
 )
 
 select * from final

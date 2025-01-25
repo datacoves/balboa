@@ -3,25 +3,31 @@ This DAG is a sample using the DatacovesDataSyncOperatorSnowflake Airflow Operat
 to sync the Airflow Database to a target db
 """
 
-
-from airflow.decorators import dag
-from operators.datacoves.data_sync import DatacovesDataSyncOperatorSnowflake
-
+from airflow.decorators import dag, task
+from pendulum import datetime
 
 @dag(
-    default_args={"start_date": "2021-01"},
-    description="sync_data_script",
-    schedule_interval="0 0 1 */12 *",
-    tags=["version_3"],
-    catchup=False,
+    doc_md = __doc__,
+    default_args = {
+        "start_date": datetime(2024, 1, 1),
+        "retries": 3
+    },
+    description = "sync_data_script",
+    schedule = "0 0 1 */12 *",
+    tags = ["extract_and_load"],
+    catchup = False,
 )
 def sync_airflow_db():
     # service connection name default is 'airflow_db_load'.
     # Destination type default is 'snowflake' (and the only one supported for now)
-    sync_data_script = DatacovesDataSyncOperatorSnowflake(
-        service_connection_name="airflow_db_load",  # this can be omitted or changed to another service connection name.
-    )
+    @task
+    def sync_airflow():
+        from operators.datacoves.data_sync import DatacovesDataSyncOperatorSnowflake
 
+        sync_data_script = DatacovesDataSyncOperatorSnowflake(
+            service_connection_name="airflow_db_load",  # this can be omitted or changed to another service connection name.
+        )
+
+    sync_airflow()
 
 dag = sync_airflow_db()
-dag.doc_md = __doc__

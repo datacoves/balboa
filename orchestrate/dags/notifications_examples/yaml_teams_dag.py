@@ -7,14 +7,15 @@ from operators.datacoves.dbt import DatacovesDbtOperator
 
 @dag(
     default_args={
-        "start_date": datetime.datetime(2023, 1, 1, 0, 0),
+        "start_date": datetime.datetime(2024, 1, 1, 0, 0),
         "owner": "Noel Gomez",
         "email": "gomezn@example.com",
         "email_on_failure": True,
+        "retries": 3,
     },
     description="Sample DAG with MS Teams notification",
-    schedule_interval="0 0 1 */12 *",
-    tags=["version_3", "ms_teams_notification"],
+    schedule="0 0 1 */12 *",
+    tags=["transform", "ms_teams_notification"],
     catchup=False,
     on_success_callback=MSTeamsNotifier(
         connection_id="DATACOVES_MS_TEAMS", theme_color="0000FF"
