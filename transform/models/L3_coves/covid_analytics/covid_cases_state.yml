@@ -1,8 +1,6 @@
 version: 2
 models:
   - name: covid_cases_state
-    config:
-      alias: noel_covid
     description: Contains COVID-19 cases by state
     columns:
       - name: location_id
