@@ -30,7 +30,7 @@ if __name__ == "__main__":
     )
 
     pipeline = dlt.pipeline(
-        progress = "enlighten",
+        progress = "log",
         pipeline_name = "loans",
         destination = datacoves_snowflake,
         pipelines_dir = pipelines_dir,
