@@ -27,12 +27,8 @@ def zip_coordinates():
     yield df
 
 @dlt.source
-def personal_loans_source():
-    return [personal_loans]
-
-@dlt.source
-def zip_coordinates_source():
-    return [zip_coordinates]
+def loans_data():
+    return personal_loans, zip_coordinates
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
@@ -51,8 +47,7 @@ if __name__ == "__main__":
     )
 
     load_info = pipeline.run([
-            personal_loans(),
-            zip_coordinates()
+            loans_data()
         ])
 
     print(load_info)
