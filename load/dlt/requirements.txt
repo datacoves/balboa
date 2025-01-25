@@ -1,6 +1,0 @@
-# pip install -r requirements.txt
-
-sqlalchemy>=1.4.9
-dlt[snowflake]>=0.3.19
-enlighten==1.12.0
-pymysql=>1.1.0

@@ -1,20 +1,20 @@
 import datetime
 
 from airflow.decorators import dag
-from airflow.models import Variable
 from operators.datacoves.dbt import DatacovesDbtOperator
 
 
 @dag(
     default_args={
-        "start_date": datetime.datetime(2023, 1, 1, 0, 0),
-        "owner": "Mayra Pena",
-        "email": "mayra@datacoves.com",
+        "start_date": datetime.datetime(2024, 1, 1, 0, 0),
+        "owner": "Noel Gomez",
+        "email": "gomezn@example.com",
         "email_on_failure": True,
+        "retries": 3,
     },
     description="Sample DAG for dbt build",
-    schedule_interval="0 0 1 */12 *",
-    tags=["version_3"],
+    schedule="0 0 1 */12 *",
+    tags=["transform"],
     catchup=False,
 )
 def yaml_dbt_dag():
@@ -35,5 +35,7 @@ def yaml_dbt_dag():
         # bash_command=f"echo TTTTTTTTTTTTT && dbt run -s personal_loans && echo && echo TTTTTTTTTTTTT && echo {my_var} && echo {my_aws_var} && echo {my_aws_secret} && echo {mayras_secret}"
 
     )
+
+
 
 dag = yaml_dbt_dag()

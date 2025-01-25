@@ -3,7 +3,7 @@ version: 2
 models:
   - name: country_populations
     access: public
-    latest_version: 3
+    latest_version: 2
     columns:
       - name: year
         description: The year for which the population value is recorded
