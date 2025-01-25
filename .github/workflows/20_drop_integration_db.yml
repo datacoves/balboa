@@ -1,4 +1,4 @@
-name: Perform deployment to production
+name: 🗑️ Drop test databases
 
 on:  # yamllint disable-line rule:truthy
   pull_request:

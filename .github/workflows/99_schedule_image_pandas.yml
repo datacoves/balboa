@@ -1,7 +1,7 @@
 # Detect changes on /orchestrate/images/*
 # when changed, docker build orchestrate/images/pandas, docker push datacoves/airflow-pandas..
 
-name: Build and push orchestrate images
+name: 🐳 Docker Image Build & Deployment
 
 on:  # yamllint disable-line rule:truthy
   push:

@@ -1,4 +1,4 @@
-name: Perform deployment to production
+name: 🚀 Deploy to Production
 
 on:  # yamllint disable-line rule:truthy
   push:
