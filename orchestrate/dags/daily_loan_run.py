@@ -55,6 +55,9 @@ def daily_loan_run():
         load_us_population = DatacovesBashOperator(
             task_id="load_us_population",
             bash_command="cd load/dlt && ./loans_data.py",
+            env={
+                "UV_CACHE_DIR": "/tmp/uv_cache",
+            },
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
