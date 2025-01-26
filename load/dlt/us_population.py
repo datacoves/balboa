@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run
+#!/usr/bin/env -S uv run --verbose --cache-dir /tmp/uv_cache
 # /// script
 # dependencies = [
 #   "dlt[snowflake, parquet]==1.5.0",
