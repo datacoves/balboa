@@ -24,7 +24,6 @@ def us_population_source():
     return [us_population]
 
 if __name__ == "__main__":
-    print("Starting Run!!!")
     datacoves_snowflake = dlt.destinations.snowflake(
         db_config,
         destination_name="datacoves_snowflake"
@@ -40,7 +39,6 @@ if __name__ == "__main__":
         dataset_name="us_population"
     )
 
-    print("Loading Data!!!")
     load_info = pipeline.run([
             us_population()
         ])

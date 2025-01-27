@@ -64,7 +64,7 @@ def daily_loan_run():
             # """,
             bash_command="""
                 cd load/dlt \
-                && ./us_population.py
+                && ./loans_data.py
             """,
             env={
                 "UV_CACHE_DIR": "/tmp/new_uv_cache",
