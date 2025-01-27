@@ -62,10 +62,11 @@ def daily_loan_run():
                 && ./loans_data.py
             """,
             env={
-                "UV_CACHE_DIR": "/tmp/uv_cache",
+                "UV_CACHE_DIR": "/tmp/new_uv_cache",
             },
             append_env=True,
         )
+        # export $(grep -v '^#' /config/workspace/.env | xargs)
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
     transform = DatacovesDbtOperator(
