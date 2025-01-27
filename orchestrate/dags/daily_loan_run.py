@@ -59,7 +59,8 @@ def daily_loan_run():
                 && env | sort | grep -E 'DATACOVE|UV' | grep -v PASSWORD \
                 && echo --- \
                 && echo $DATACOVES__MAIN_LOAD__ACCOUNT \
-                && ./loans_data.py
+                && export $(grep -v '^#' /config/workspace/.env | xargs) \
+                && ./us_population.py
             """,
             env={
                 "UV_CACHE_DIR": "/tmp/new_uv_cache",
