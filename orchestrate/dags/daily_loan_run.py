@@ -53,13 +53,17 @@ def daily_loan_run():
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
             task_id="load_us_population",
+            # bash_command="""
+            #     cd load/dlt \
+            #     && pip install uv \
+            #     && env | sort | grep -E 'DATACOVE|UV' | grep -v PASSWORD \
+            #     && echo --- \
+            #     && echo $DATACOVES__MAIN_LOAD__ACCOUNT \
+            #     && export $(grep -v '^#' /config/workspace/.env | xargs) \
+            #     && ./us_population.py
+            # """,
             bash_command="""
                 cd load/dlt \
-                && pip install uv \
-                && env | sort | grep -E 'DATACOVE|UV' | grep -v PASSWORD \
-                && echo --- \
-                && echo $DATACOVES__MAIN_LOAD__ACCOUNT \
-                && export $(grep -v '^#' /config/workspace/.env | xargs) \
                 && ./us_population.py
             """,
             env={
