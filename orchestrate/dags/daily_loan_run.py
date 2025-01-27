@@ -58,7 +58,7 @@ def daily_loan_run():
                 && pip install uv \
                 && env | sort | grep -E 'DATACOVE|UV' | grep -v PASSWORD \
                 && echo --- \
-                && echo $DATACOVES__MAIN_LOAD2__ACCOUNT \
+                && echo $DATACOVES__MAIN_LOAD__ACCOUNT \
                 && ./loans_data.py
             """,
             env={
