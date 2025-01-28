@@ -1,6 +1,8 @@
 ## Datacoves Bash Operator DAG
 from airflow.decorators import dag, task
 from pendulum import datetime
+from airflow.models import Variable
+
 
 # Only here for reference, this is automatically activated by Datacoves Operator
 DATACOVES_VIRTUAL_ENV = "/opt/datacoves/virtualenvs/main/bin/activate"
@@ -12,7 +14,7 @@ This DAG is a sample using the Datacoves Airflow Operators with Tasks"""
     default_args={
         "start_date": datetime(2022, 10, 10),
         "owner": "Mayra Pena",
-        "email": "mayran@example.com",
+        "email": "Mayra @example.com",
         "email_on_failure": True,
     },
     catchup=False,
@@ -32,7 +34,8 @@ def task_decorators_example():
         connection_id="main"
     )
     def dbt_run() -> str:
-        return "dbt run -s personal_loans"
+        my_var = Variable.get("ngtest")
+        return f"dbt run -s personal_loans {my_var}"
 
     # Define task dependencies
     dbt_test() >> dbt_run()
