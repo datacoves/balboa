@@ -59,6 +59,7 @@ def daily_loan_run():
             """,
             env={
                 "UV_CACHE_DIR": "/tmp/new_uv_cache",
+                "RUNTIME__LOG_LEVEL": "DEBUG",
             },
             append_env=True,
         )
