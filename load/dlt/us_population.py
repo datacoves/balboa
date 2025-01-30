@@ -40,7 +40,7 @@ if __name__ == "__main__":
     )
 
     load_info = pipeline.run([
-            us_population()
+            us_population_source()
         ])
 
     print(load_info)
