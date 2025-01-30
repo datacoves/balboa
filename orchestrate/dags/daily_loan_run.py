@@ -63,6 +63,7 @@ def daily_loan_run():
             },
             append_env=True,
         )
+        # Test
         # export $(grep -v '^#' /config/workspace/.env | xargs)
             # bash_command="""
             #     cd load/dlt \

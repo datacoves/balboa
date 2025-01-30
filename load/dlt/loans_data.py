@@ -16,8 +16,11 @@ from utils.datacoves import pipelines_dir
 
 @dlt.resource(write_disposition="replace")
 def personal_loans():
+    print("test")
     personal_loans = "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/PERSONAL_LOANS.csv"
+    print("test2")
     df = pd.read_csv(personal_loans)
+    print("test2")
     yield df
 
 @dlt.resource(write_disposition="replace")
@@ -28,6 +31,7 @@ def zip_coordinates():
 
 @dlt.source
 def loans_data():
+    print("in source")
     return [personal_loans]
     # return [personal_loans, zip_coordinates]
 
