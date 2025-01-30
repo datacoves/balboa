@@ -51,8 +51,6 @@ if __name__ == "__main__":
         dataset_name="loans"
     )
 
-    load_info = pipeline.run([
-            loans_data()
-        ])
+    load_info = pipeline.run(loans_data())
 
     print(load_info)

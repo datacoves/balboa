@@ -60,6 +60,11 @@ def daily_loan_run():
             env={
                 "UV_CACHE_DIR": "/tmp/new_uv_cache",
                 "RUNTIME__LOG_LEVEL": "DEBUG",
+                "EXTRACT__NEXT_ITEM_MODE":"fifo",
+                "EXTRACT__MAX_PARALLEL_ITEMS":"1",
+                "EXTRACT__WORKERS":"1",
+                "NORMALIZE__WORKERS":"1",
+                "LOAD__WORKERS":"1",
             },
             append_env=True,
         )
