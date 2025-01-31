@@ -19,6 +19,9 @@ use warehouse wh_loading;
 -- source table needs to have change tracking enabled
 alter table RAW.LOANS.PERSONAL_LOANS set CHANGE_TRACKING = true;
 
+SHOW TABLES LIKE 'PERSONAL_LOANS' IN SCHEMA RAW.LOANS;
+
+
 -- delete records from a table
 delete
 from RAW.LOANS.PERSONAL_LOANS

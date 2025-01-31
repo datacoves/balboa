@@ -7,7 +7,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     default_args=default_args,
     description="Daily dbt run",
     schedule="0 12 * * *",
-    tags=["version_1"],
+    tags=["transform"],
     catchup=False,
 
 )
