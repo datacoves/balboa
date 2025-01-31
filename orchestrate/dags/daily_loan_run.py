@@ -59,7 +59,6 @@ def daily_loan_run():
             """,
             env={
                 "UV_CACHE_DIR": "/tmp/new_uv_cache",
-                "RUNTIME__LOG_LEVEL": "DEBUG",
                 "EXTRACT__NEXT_ITEM_MODE":"fifo",
                 "EXTRACT__MAX_PARALLEL_ITEMS":"1",
                 "EXTRACT__WORKERS":"1",
@@ -68,18 +67,6 @@ def daily_loan_run():
             },
             append_env=True,
         )
-        # Test
-        # export $(grep -v '^#' /config/workspace/.env | xargs)
-            # bash_command="""
-            #     cd load/dlt \
-            #     && pip install uv \
-            #     && env | sort | grep -E 'DATACOVE|UV' | grep -v PASSWORD \
-            #     && echo --- \
-            #     && echo $DATACOVES__MAIN_LOAD__ACCOUNT \
-            #     && export $(grep -v '^#' /config/workspace/.env | xargs) \
-            #     && ./us_population.py
-            # """,
-
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
     transform = DatacovesDbtOperator(

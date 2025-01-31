@@ -32,8 +32,7 @@ def zip_coordinates():
 @dlt.source
 def loans_data():
     print("in source")
-    return [personal_loans]
-    # return [personal_loans, zip_coordinates]
+    return [personal_loans, zip_coordinates]
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
