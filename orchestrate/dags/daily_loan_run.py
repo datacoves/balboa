@@ -52,7 +52,7 @@ def daily_loan_run():
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
-            task_id="load_us_population",
+            task_id="load_loads_data",
             bash_command="""
                 cd load/dlt \
                 && ./loans_data.py
