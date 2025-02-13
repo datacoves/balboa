@@ -1,9 +1,6 @@
 import datetime
-
-from airflow.decorators import dag
+from airflow.decorators import dag, task
 from notifiers.datacoves.ms_teams import MSTeamsNotifier
-from operators.datacoves.dbt import DatacovesDbtOperator
-
 
 @dag(
     default_args={
@@ -25,9 +22,12 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     ),
 )
 def yaml_teams_dag():
-    transform = DatacovesDbtOperator(
-        task_id="transform", bash_command="dbt run -s personal_loans"
-    )
 
+    @task.datacoves_dbt(connection_id="main")  
+    def transform():
+        return "dbt run -s personal_loans"
 
+    transform() 
+
+# Invoke DAG
 dag = yaml_teams_dag()

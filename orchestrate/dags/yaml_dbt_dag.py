@@ -1,8 +1,5 @@
 import datetime
-
-from airflow.decorators import dag
-from operators.datacoves.dbt import DatacovesDbtOperator
-
+from airflow.decorators import dag, task
 
 @dag(
     default_args={
@@ -18,9 +15,12 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     catchup=False,
 )
 def yaml_dbt_dag():
-    run_dbt = DatacovesDbtOperator(
-        task_id="run_dbt", bash_command="dbt run -s personal_loans"
-    )
 
+    @task.datacoves_dbt(connection_id="main")  
+    def run_dbt():
+        return "dbt run -s personal_loans"
 
+    run_dbt()  
+
+# Invoke DAG
 dag = yaml_dbt_dag()
