@@ -77,7 +77,7 @@ models:
             observe:
                 +schema: L1_OBSERVE
             us_population:
-                +schema: L1_COUNTRY_DATA
+                +schema: L1_US_POPULATION
 
         L2_bays:
             +group: marketing
