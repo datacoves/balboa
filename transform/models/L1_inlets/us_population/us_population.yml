@@ -2,31 +2,31 @@ version: 2
 
 models:
   - name: us_population
-    description: 'Model representing the population data for each state in the United States.'
+    description: Model representing the population data for each state in the United States.
     access: private
     group: marketing
     columns:
       - name: state_name
-        description: 'The name of the state.'
+        description: The name of the state.
       - name: state_id
-        description: 'The unique identifier for each record in the model.'
-      - name: "2010"
-        description: 'The population count for the year 2010.'
-      - name: "2011"
-        description: 'The population count for the year 2011.'
-      - name: "2012"
-        description: 'The population count for the year 2012.'
-      - name: "2013"
-        description: 'The population count for the year 2013.'
-      - name: "2014"
-        description: 'The population count for the year 2014.'
-      - name: "2015"
-        description: 'The population count for the year 2015.'
-      - name: "2016"
-        description: 'The population count for the year 2016.'
-      - name: "2017"
-        description: 'The population count for the year 2017.'
-      - name: "2018"
-        description: 'The population count for the year 2018.'
-      - name: "2019"
-        description: 'The population count for the year 2019.'
+        description: The unique identifier for each record in the model.
+      - name: '2010'
+        description: The population count for the year 2010.
+      - name: '2011'
+        description: The population count for the year 2011.
+      - name: '2012'
+        description: The population count for the year 2012.
+      - name: '2013'
+        description: The population count for the year 2013.
+      - name: '2014'
+        description: The population count for the year 2014.
+      - name: '2015'
+        description: The population count for the year 2015.
+      - name: '2016'
+        description: The population count for the year 2016.
+      - name: '2017'
+        description: The population count for the year 2017.
+      - name: '2018'
+        description: The population count for the year 2018.
+      - name: '2019'
+        description: The population count for the year 2019.
