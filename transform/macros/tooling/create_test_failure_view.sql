@@ -16,7 +16,7 @@
 
 {% macro create_test_failure_view(results) -%}
 {%- if execute -%}
-    {% set test_failures_unique_id = "model." ~ project_name ~ ".test_failures" %}
+    {% set test_failures_unique_id = "model." ~ project_name ~ ".stg_test_failures" %}
     {% set test_selects = [] %}
     {% set test_failures_node = graph.nodes[test_failures_unique_id] %}
     {% set all_test_failures_location = (

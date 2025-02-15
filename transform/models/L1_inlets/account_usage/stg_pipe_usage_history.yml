@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: pipe_usage_history
+  - name: stg_pipe_usage_history
     description: Contains raw data on the usage history of pipes.
     meta:
       owner: '@alice'  # Owner of the model

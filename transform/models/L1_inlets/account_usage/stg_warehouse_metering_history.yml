@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: warehouse_metering_history
+  - name: stg_warehouse_metering_history
     description: Contains raw data on the metering history of warehouses.
     columns:
       - name: start_time

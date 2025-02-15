@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: test_failures
+  - name: stg_test_failures
     description: >-
       This model is used to store test results. In a dynamic way, this can be used with Snowflake Dynamic
       tables
