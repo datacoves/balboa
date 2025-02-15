@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: stg_zip_coordinates
-    description: ''
-    columns:
-      - name: zip
-      - name: lat
-      - name: lon
