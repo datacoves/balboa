@@ -19,7 +19,6 @@ jobs:
         working-directory: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
 
     env:
-      DBT_PROFILES_DIR: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/dbt
       # AWS_ACCESS_KEY_ID:      ${{ secrets.AWS_ACCESS_KEY_ID }}
       # AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       DBT_ARTIFACTS_BUCKET: "convexa-local"
@@ -47,7 +46,7 @@ jobs:
       # Upload to S3
       - name: Upload to S3
         run: |
-          aws s3 cp .yamllint s3://$DBT_ARTIFACTS_BUCKET/dbt_artifacts/ --recursive
+          aws s3 cp .sqlfluff s3://$DBT_ARTIFACTS_BUCKET/dbt_artifacts/ --recursive
           # Or for a single file:
           # aws s3 cp path/to/your/file.txt s3://your-bucket-name/destination/
 
