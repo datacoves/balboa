@@ -34,14 +34,26 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
+      # - name: Upload artifacts to S3
+      #   run: |
+      #     # Create an array of files to check and upload
+      #     # files=("target/sources.json" "target/manifest.json" "target/catalog.json" "target/run_results.json")
+      #     files=("dbt_project.yml" ".sqlfluff" "target/catalog.json" "target/run_results.json")
+
+      #     # Loop through each file and upload if it exists
+      #     for file in "${files[@]}"; do
+      #       if [ -f "$file" ]; then
+      #         echo "Uploading $file to S3..."
+      #         aws s3 cp "$file" "s3://${DBT_ARTIFACTS_BUCKET}/dbt_artifacts/$(basename $file)"
+      #       else
+      #         echo "File $file does not exist, skipping..."
+      #       fi
+      #     done
+
       - name: Upload artifacts to S3
         run: |
-          # Create an array of files to check and upload
-          # files=("target/sources.json" "target/manifest.json" "target/catalog.json" "target/run_results.json")
-          files=("dbt_project.yml" ".sqlfluff" "target/catalog.json" "target/run_results.json")
-
-          # Loop through each file and upload if it exists
-          for file in "${files[@]}"; do
+          # Check and upload each file individually
+          for file in .sqlfluff dbt_project.yml target/sources.json target/manifest.json target/catalog.json target/run_results.json; do
             if [ -f "$file" ]; then
               echo "Uploading $file to S3..."
               aws s3 cp "$file" "s3://${DBT_ARTIFACTS_BUCKET}/dbt_artifacts/$(basename $file)"
