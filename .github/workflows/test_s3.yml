@@ -1,0 +1,55 @@
+name: test s3 upload
+
+on:  # yamllint disable-line rule:truthy
+  push:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  upload_file:
+    name: Upload_s3_file
+
+    runs-on: ubuntu-latest
+
+    container: datacoves/ci-basic-dbt-snowflake:3.2
+
+    defaults:
+      run:
+        working-directory: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+
+    env:
+      DBT_PROFILES_DIR: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/dbt
+      # AWS_ACCESS_KEY_ID:      ${{ secrets.AWS_ACCESS_KEY_ID }}
+      # AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      DBT_ARTIFACTS_BUCKET: "convexa-local"
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3.5.0
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set Secure Directory
+        run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+
+
+      # Configure AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2  # Replace with your desired region
+
+      # Upload to S3
+      - name: Upload to S3
+        run: |
+          aws s3 cp .yamllint s3://$DBT_ARTIFACTS_BUCKET/dbt_artifacts/ --recursive
+          # Or for a single file:
+          # aws s3 cp path/to/your/file.txt s3://your-bucket-name/destination/
+
+          # You can also sync a directory:
+          # aws s3 sync path/to/your/files/ s3://your-bucket-name/destination/
