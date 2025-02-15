@@ -6,9 +6,314 @@ sources:
     tables:
       - name: PIPE_USAGE_HISTORY
         description: Pipe usage history raw data
+        columns:
+          - name: PIPE_ID
+            data_type: NUMBER
+            description: Unique identifier for the pipe.
+          - name: PIPE_NAME
+            data_type: VARCHAR
+            description: Name of the pipe used in the data loading process.
+          - name: START_TIME
+            data_type: TIMESTAMP_LTZ
+            description: The timestamp indicating when the pipe usage interval starts.
+          - name: END_TIME
+            data_type: TIMESTAMP_LTZ
+            description: The timestamp indicating when the pipe usage record ended.
+          - name: CREDITS_USED
+            data_type: NUMBER
+            description: Amount of credits used by the pipe.
+          - name: BYTES_INSERTED
+            data_type: FLOAT
+            description: The number of bytes inserted by the pipe.
+          - name: FILES_INSERTED
+            data_type: VARIANT
+            description: Number of files inserted into the pipe during the specified period.
       - name: QUERY_HISTORY
-        description: "Query history source model"
+        description: Query history source model
+        columns:
+          - name: QUERY_ID
+            data_type: VARCHAR
+            description: Unique identifier for each query
+          - name: QUERY_TEXT
+            data_type: VARCHAR
+            description: Text of the executed query
+          - name: DATABASE_ID
+            data_type: NUMBER
+            description: Identifier for the database
+          - name: DATABASE_NAME
+            data_type: VARCHAR
+            description: Name of the database
+          - name: SCHEMA_ID
+            data_type: NUMBER
+            description: Identifier for the schema
+          - name: SCHEMA_NAME
+            data_type: VARCHAR
+            description: Name of the schema
+          - name: QUERY_TYPE
+            data_type: VARCHAR
+            description: Type of the query executed
+          - name: SESSION_ID
+            data_type: NUMBER
+            description: Identifier for the session
+          - name: USER_NAME
+            data_type: VARCHAR
+            description: Name of the user who executed the query
+          - name: ROLE_NAME
+            data_type: VARCHAR
+            description: Name of the role used during query execution
+          - name: WAREHOUSE_ID
+            data_type: NUMBER
+            description: Identifier for the warehouse
+          - name: WAREHOUSE_NAME
+            data_type: VARCHAR
+            description: Name of the warehouse
+          - name: WAREHOUSE_SIZE
+            data_type: VARCHAR
+            description: Size of the warehouse
+          - name: WAREHOUSE_TYPE
+            data_type: VARCHAR
+            description: Type of the warehouse
+          - name: CLUSTER_NUMBER
+            data_type: NUMBER
+            description: Cluster number used during execution
+          - name: QUERY_TAG
+            data_type: VARCHAR
+            description: Tag associated with the query
+          - name: EXECUTION_STATUS
+            data_type: VARCHAR
+            description: Status of the query execution
+          - name: ERROR_CODE
+            data_type: VARCHAR
+            description: Code of the error if occurred
+          - name: ERROR_MESSAGE
+            data_type: VARCHAR
+            description: Message of the error if occurred
+          - name: START_TIME
+            data_type: TIMESTAMP_LTZ
+            description: Start time of the query execution
+          - name: END_TIME
+            data_type: TIMESTAMP_LTZ
+            description: End time of the query execution
+          - name: TOTAL_ELAPSED_TIME
+            data_type: NUMBER
+            description: Total time taken for the query execution
+          - name: BYTES_SCANNED
+            data_type: NUMBER
+            description: Total bytes scanned during the query
+          - name: PERCENTAGE_SCANNED_FROM_CACHE
+            data_type: FLOAT
+            description: Percentage of data scanned from cache
+          - name: BYTES_WRITTEN
+            data_type: NUMBER
+            description: Total bytes written during the query
+          - name: BYTES_WRITTEN_TO_RESULT
+            data_type: NUMBER
+            description: Bytes written to result
+          - name: BYTES_READ_FROM_RESULT
+            data_type: NUMBER
+            description: Bytes read from result
+          - name: ROWS_PRODUCED
+            data_type: NUMBER
+            description: Number of rows produced by the query
+          - name: ROWS_INSERTED
+            data_type: NUMBER
+            description: Number of rows inserted by the query
+          - name: ROWS_UPDATED
+            data_type: NUMBER
+            description: Number of rows updated by the query
+          - name: ROWS_DELETED
+            data_type: NUMBER
+            description: Number of rows deleted by the query
+          - name: ROWS_UNLOADED
+            data_type: NUMBER
+            description: Number of rows unloaded by the query
+          - name: BYTES_DELETED
+            data_type: NUMBER
+            description: Total bytes deleted during the query
+          - name: PARTITIONS_SCANNED
+            data_type: NUMBER
+            description: Number of partitions scanned
+          - name: PARTITIONS_TOTAL
+            data_type: NUMBER
+            description: Total number of partitions
+          - name: BYTES_SPILLED_TO_LOCAL_STORAGE
+            data_type: NUMBER
+            description: Bytes spilled to local storage
+          - name: BYTES_SPILLED_TO_REMOTE_STORAGE
+            data_type: NUMBER
+            description: Bytes spilled to remote storage
+          - name: BYTES_SENT_OVER_THE_NETWORK
+            data_type: NUMBER
+            description: Bytes sent over the network
+          - name: COMPILATION_TIME
+            data_type: NUMBER
+            description: Time taken for query compilation
+          - name: EXECUTION_TIME
+            data_type: NUMBER
+            description: Time taken for query execution
+          - name: QUEUED_PROVISIONING_TIME
+            data_type: NUMBER
+            description: Time spent in queue for provisioning
+          - name: QUEUED_REPAIR_TIME
+            data_type: NUMBER
+            description: Time spent in queue for repair
+          - name: QUEUED_OVERLOAD_TIME
+            data_type: NUMBER
+            description: Time spent in queue due to overload
+          - name: TRANSACTION_BLOCKED_TIME
+            data_type: NUMBER
+            description: Time blocked by transaction
+          - name: OUTBOUND_DATA_TRANSFER_CLOUD
+            data_type: VARCHAR
+            description: Cloud for outbound data transfer
+          - name: OUTBOUND_DATA_TRANSFER_REGION
+            data_type: VARCHAR
+            description: Region for outbound data transfer
+          - name: OUTBOUND_DATA_TRANSFER_BYTES
+            data_type: NUMBER
+            description: Bytes transferred outbound
+          - name: INBOUND_DATA_TRANSFER_CLOUD
+            data_type: VARCHAR
+            description: Cloud for inbound data transfer
+          - name: INBOUND_DATA_TRANSFER_REGION
+            data_type: VARCHAR
+            description: Region for inbound data transfer
+          - name: INBOUND_DATA_TRANSFER_BYTES
+            data_type: NUMBER
+            description: Bytes transferred inbound
+          - name: LIST_EXTERNAL_FILES_TIME
+            data_type: NUMBER
+            description: Time taken to list external files
+          - name: CREDITS_USED_CLOUD_SERVICES
+            data_type: FLOAT
+            description: Credits used for cloud services
+          - name: RELEASE_VERSION
+            data_type: VARCHAR
+            description: Release version of the query engine
+          - name: EXTERNAL_FUNCTION_TOTAL_INVOCATIONS
+            data_type: NUMBER
+            description: Total invocations of external functions
+          - name: EXTERNAL_FUNCTION_TOTAL_SENT_ROWS
+            data_type: NUMBER
+            description: Total rows sent by external functions
+          - name: EXTERNAL_FUNCTION_TOTAL_RECEIVED_ROWS
+            data_type: NUMBER
+            description: Total rows received by external functions
+          - name: EXTERNAL_FUNCTION_TOTAL_SENT_BYTES
+            data_type: NUMBER
+            description: Total bytes sent by external functions
+          - name: EXTERNAL_FUNCTION_TOTAL_RECEIVED_BYTES
+            data_type: NUMBER
+            description: Total bytes received by external functions
+          - name: QUERY_LOAD_PERCENT
+            data_type: NUMBER
+            description: Percentage of query load
+          - name: IS_CLIENT_GENERATED_STATEMENT
+            data_type: BOOLEAN
+            description: Indicates if the statement is client-generated
+          - name: QUERY_ACCELERATION_BYTES_SCANNED
+            data_type: NUMBER
+            description: Bytes scanned for query acceleration
+          - name: QUERY_ACCELERATION_PARTITIONS_SCANNED
+            data_type: NUMBER
+            description: Partitions scanned for query acceleration
+          - name: QUERY_ACCELERATION_UPPER_LIMIT_SCALE_FACTOR
+            data_type: NUMBER
+            description: Upper limit scale factor for query acceleration
+          - name: TRANSACTION_ID
+            data_type: NUMBER
+            description: Identifier for the transaction
+          - name: CHILD_QUERIES_WAIT_TIME
+            data_type: NUMBER
+            description: Wait time for child queries
+          - name: ROLE_TYPE
+            data_type: VARCHAR
+            description: Type of the role used
+          - name: QUERY_HASH
+            data_type: VARCHAR
+            description: Hash of the query
+          - name: QUERY_HASH_VERSION
+            data_type: NUMBER
+            description: Version of the query hash
+          - name: QUERY_PARAMETERIZED_HASH
+            data_type: VARCHAR
+            description: Parameterized hash of the query
+          - name: QUERY_PARAMETERIZED_HASH_VERSION
+            data_type: NUMBER
+            description: Version of the parameterized query hash
+          - name: SECONDARY_ROLE_STATS
+            data_type: VARCHAR
+            description: Statistics for secondary roles
+          - name: ROWS_WRITTEN_TO_RESULT
+            data_type: NUMBER
+            description: Rows written to the result set
+          - name: QUERY_RETRY_TIME
+            data_type: NUMBER
+            description: Time taken for query retry
+          - name: QUERY_RETRY_CAUSE
+            data_type: VARCHAR
+            description: Cause of the query retry
+          - name: FAULT_HANDLING_TIME
+            data_type: NUMBER
+            description: Time taken for fault handling
+          - name: USER_TYPE
+            description: >-
+              Categorizes the type of user who executed the query (e.g., standard user, system user).
+            data_type: VARCHAR
+          - name: USER_DATABASE_NAME
+            description: Name of the database the user was connected to when the query was executed.
+            data_type: VARCHAR
+          - name: USER_DATABASE_ID
+            description: Unique identifier for the database associated with the user executing the query.
+            data_type: NUMBER
+          - name: USER_SCHEMA_NAME
+            description: The name of the schema associated with the user executing the query.
+            data_type: VARCHAR
+          - name: USER_SCHEMA_ID
+            description: Identifier for the schema associated with the user who executed the query.
+            data_type: NUMBER
       - name: STORAGE_USAGE
         description: Storage usage raw data
+        columns:
+          - name: USAGE_DATE
+            data_type: DATE
+            description: The date for which storage usage data is recorded.
+          - name: STORAGE_BYTES
+            data_type: NUMBER
+            description: The amount of storage used, in bytes.
+          - name: STAGE_BYTES
+            data_type: NUMBER
+            description: The number of bytes used by stage storage.
+          - name: FAILSAFE_BYTES
+            data_type: NUMBER
+            description: The amount of storage in bytes used for the failsafe feature.
+          - name: HYBRID_TABLE_STORAGE_BYTES
+            data_type: NUMBER
+            description: Represents the storage usage in bytes for hybrid tables.
       - name: WAREHOUSE_METERING_HISTORY
         description: Warehouse metering history raw data
+        columns:
+          - name: START_TIME
+            data_type: TIMESTAMP_LTZ
+            description: The start time of the warehouse metering period.
+          - name: END_TIME
+            data_type: TIMESTAMP_LTZ
+            description: The timestamp marking the end of the metering period.
+          - name: WAREHOUSE_ID
+            data_type: NUMBER
+            description: Unique identifier for the warehouse.
+          - name: WAREHOUSE_NAME
+            data_type: VARCHAR
+            description: The name of the warehouse whose metering history is recorded.
+          - name: CREDITS_USED
+            data_type: NUMBER
+            description: The number of credits used by the warehouse during the specified time period.
+          - name: CREDITS_USED_COMPUTE
+            data_type: NUMBER
+            description: The number of compute credits used by the warehouse.
+          - name: CREDITS_USED_CLOUD_SERVICES
+            data_type: NUMBER
+            description: Amount of credits used for cloud services.
+          - name: CREDITS_ATTRIBUTED_COMPUTE_QUERIES
+            description: Represents the number of credits attributed to compute queries for the warehouse.
+            data_type: NUMBER

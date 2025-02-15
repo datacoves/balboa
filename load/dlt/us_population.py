@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --cache-dir /tmp/.uv_cache
+#!/usr/bin/env -S uv run
 # /// script
 # dependencies = [
 #   "dlt[snowflake, parquet]==1.5.0",
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     )
 
     pipeline = dlt.pipeline(
-        progress = "enlighten",
+        progress = "log",
         pipeline_name = "loans",
         destination = datacoves_snowflake,
         pipelines_dir = pipelines_dir,
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     )
 
     load_info = pipeline.run([
-            us_population()
+            us_population_source()
         ])
 
     print(load_info)

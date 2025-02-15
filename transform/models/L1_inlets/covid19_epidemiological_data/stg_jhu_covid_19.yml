@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: jhu_covid_19
+  - name: stg_jhu_covid_19
     description: Contains raw John Hopkins COVID19 data
     config:
       meta:

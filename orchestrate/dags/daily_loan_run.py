@@ -52,14 +52,26 @@ def daily_loan_run():
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
     def extract_and_load_dlt():
         load_us_population = DatacovesBashOperator(
-            task_id="load_us_population",
-            bash_command="cd load/dlt && ./loans_data.py",
+            task_id="load_loads_data",
+            bash_command="""
+                cd load/dlt \
+                && ./loans_data.py
+            """,
+            env={
+                "UV_CACHE_DIR": "/tmp/uv_cache",
+                "EXTRACT__NEXT_ITEM_MODE":"fifo",
+                "EXTRACT__MAX_PARALLEL_ITEMS":"1",
+                "EXTRACT__WORKERS":"1",
+                "NORMALIZE__WORKERS":"1",
+                "LOAD__WORKERS":"1",
+            },
+            append_env=True,
         )
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
     transform = DatacovesDbtOperator(
         task_id="transform",
-        bash_command="dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'",
+        bash_command="dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'",
     )
     transform.set_upstream(
         [

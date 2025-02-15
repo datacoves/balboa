@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --verbose --cache-dir /tmp/.uv_cache
+#!/usr/bin/env -S uv run
 # /// script
 # dependencies = [
 #   "dlt[snowflake, parquet]==1.5.0",
@@ -28,7 +28,7 @@ def zip_coordinates():
 
 @dlt.source
 def loans_data():
-    return personal_loans, zip_coordinates
+    return [personal_loans, zip_coordinates]
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
@@ -46,8 +46,6 @@ if __name__ == "__main__":
         dataset_name="loans"
     )
 
-    load_info = pipeline.run([
-            loans_data()
-        ])
+    load_info = pipeline.run(loans_data())
 
     print(load_info)

@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: personal_loans
+  - name: stg_personal_loans
     description: Contains data on personal loans
     columns:
       - name: addr_state
