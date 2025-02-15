@@ -18,14 +18,13 @@
 
       - z_schema_dbt_test__audit
 
-      - z_schema_l1_dbt_artifacts
       - z_schema_l1_account_usage
       - z_schema_l1_country_data
       - z_schema_l1_covid19_epidemiological_data
       - z_schema_l1_google_analytics_4
       - z_schema_l1_loans
       - z_schema_l1_observe
-      - z_schema_l1_us_populations
+      - z_schema_l1_us_population
 
       - z_schema_l2_country_demographics
       - z_schema_l2_covid_observations
@@ -410,11 +409,11 @@
         read:
           - balboa.l1_observe
 
-- z_schema_l1_us_populations:
+- z_schema_l1_us_population:
     privileges:
       schemas:
         read:
-          - balboa.l1_us_populations
+          - balboa.l1_us_population
 
 # BAYS
 - z_schema_l2_country_demographics:
