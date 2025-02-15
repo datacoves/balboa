@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.L1_COVID19_EPIDEMIOLOGICAL_DATA.jhu_covid_19
+  create or replace   view BALBOA_STAGING.L1_COVID19_EPIDEMIOLOGICAL_DATA.stg_jhu_covid_19
   
     
     

@@ -1,11 +1,13 @@
 
-  create or replace   view BALBOA_STAGING.L1_COUNTRY_DATA.country_populations_v1
+  create or replace   view BALBOA_STAGING.L1_COUNTRY_DATA.stg_country_populations_v2
   
     
     
 (
   
     "YEAR" COMMENT $$The year for which the population value is recorded$$, 
+  
+    "LAST_YEAR" COMMENT $$The prior year for which the population value is recorded$$, 
   
     "COUNTRY_NAME" COMMENT $$The name of the country$$, 
   
@@ -27,6 +29,7 @@ final as (
 
     select
         year,
+        year - 1 as last_year,
         "COUNTRY NAME" as country_name,
         value,
         "COUNTRY CODE" as country_code

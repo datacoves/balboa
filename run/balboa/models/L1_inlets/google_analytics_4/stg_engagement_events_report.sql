@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.L1_GOOGLE_ANALYTICS_4.engagement_events_report
+  create or replace   view BALBOA_STAGING.L1_GOOGLE_ANALYTICS_4.stg_engagement_events_report
   
     
     

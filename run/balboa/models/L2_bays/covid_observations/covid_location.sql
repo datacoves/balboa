@@ -36,7 +36,7 @@ with jhu_covid_19 as (
         iso3166_1,
         iso3166_2,
         date
-    from L1_COVID19_EPIDEMIOLOGICAL_DATA.jhu_covid_19
+    from L1_COVID19_EPIDEMIOLOGICAL_DATA.stg_jhu_covid_19
 ),
 
 rank_locations as (

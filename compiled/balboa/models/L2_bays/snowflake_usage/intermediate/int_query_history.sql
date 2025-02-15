@@ -8,4 +8,4 @@ select
     user_name,
     execution_status as query_status,
     start_time
-from BALBOA.L1_ACCOUNT_USAGE.query_history
+from BALBOA.L1_ACCOUNT_USAGE.stg_query_history

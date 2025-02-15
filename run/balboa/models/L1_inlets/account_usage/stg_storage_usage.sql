@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.L1_ACCOUNT_USAGE.storage_usage
+  create or replace   view BALBOA_STAGING.L1_ACCOUNT_USAGE.stg_storage_usage
   
     
     

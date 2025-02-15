@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.L1_ACCOUNT_USAGE.query_history
+  create or replace   view BALBOA_STAGING.L1_ACCOUNT_USAGE.stg_query_history
   
     
     

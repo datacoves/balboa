@@ -7,4 +7,4 @@ select
     month(start_time) as start_date,
     datediff(hour, start_time, end_time) as warehouse_operation_hours,
     hour(start_time) as time_of_day
-from BALBOA.L1_ACCOUNT_USAGE.warehouse_metering_history
+from BALBOA.L1_ACCOUNT_USAGE.stg_warehouse_metering_history

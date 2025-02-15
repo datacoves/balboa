@@ -5,15 +5,15 @@
     
 (
   
-    "USAGE_MONTH" COMMENT $$$$, 
+    "USAGE_MONTH" COMMENT $$The month when storage usage was recorded.$$, 
   
-    "TOTAL_BILLABLE_STORAGE_TB" COMMENT $$$$, 
+    "TOTAL_BILLABLE_STORAGE_TB" COMMENT $$The total amount of billable storage used, measured in terabytes.$$, 
   
-    "STORAGE_BILLABLE_STORAGE_TB" COMMENT $$$$, 
+    "STORAGE_BILLABLE_STORAGE_TB" COMMENT $$The amount of billable storage in terabytes.$$, 
   
-    "STAGE_BILLABLE_STORAGE_TB" COMMENT $$$$, 
+    "STAGE_BILLABLE_STORAGE_TB" COMMENT $$Amount of billable data in terabytes stored in the staging area.$$, 
   
-    "FAILSAFE_BILLABLE_STORAGE_TB" COMMENT $$$$
+    "FAILSAFE_BILLABLE_STORAGE_TB" COMMENT $$The amount of billable storage in terabytes stored in the failsafe area.$$
   
 )
 
@@ -24,7 +24,7 @@
     avg(storage_bytes) / power(1024, 4) as storage_billable_storage_tb,
     avg(stage_bytes) / power(1024, 4) as stage_billable_storage_tb,
     avg(failsafe_bytes) / power(1024, 4) as failsafe_billable_storage_tb
-from L1_ACCOUNT_USAGE.storage_usage
+from L1_ACCOUNT_USAGE.stg_storage_usage
 group by date_trunc(month, usage_date)
 order by date_trunc(month, usage_date)
   );

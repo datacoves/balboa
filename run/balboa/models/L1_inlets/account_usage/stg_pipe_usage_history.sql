@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.L1_ACCOUNT_USAGE.pipe_usage_history
+  create or replace   view BALBOA_STAGING.L1_ACCOUNT_USAGE.stg_pipe_usage_history
   
     
     

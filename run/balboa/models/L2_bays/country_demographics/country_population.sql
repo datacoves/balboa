@@ -25,7 +25,7 @@
         rank() over (
             partition by country_code, country_name order by year desc
         ) as rank_years
-    from L1_COUNTRY_DATA.country_populations_v1
+    from L1_COUNTRY_DATA.stg_country_populations_v2
 )
 
 select

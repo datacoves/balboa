@@ -43,7 +43,7 @@
     select
         *,
         difference as new_cases
-    from L1_COVID19_EPIDEMIOLOGICAL_DATA.jhu_covid_19
+    from L1_COVID19_EPIDEMIOLOGICAL_DATA.stg_jhu_covid_19
 )
 
 select * from final

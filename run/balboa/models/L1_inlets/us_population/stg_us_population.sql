@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.L1_COUNTRY_DATA.us_population
+  create or replace   view BALBOA_STAGING.L1_COUNTRY_DATA.stg_us_population
   
     
     

@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA_STAGING.L1_OBSERVE.test_failures
+  create or replace   view BALBOA_STAGING.L1_OBSERVE.stg_test_failures
   
     
     
