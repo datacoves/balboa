@@ -58,7 +58,7 @@ def daily_loan_run():
                 && ./loans_data.py
             """,
             env={
-                "UV_CACHE_DIR": "/tmp/new_uv_cache",
+                "UV_CACHE_DIR": "/tmp/uv_cache",
                 "EXTRACT__NEXT_ITEM_MODE":"fifo",
                 "EXTRACT__MAX_PARALLEL_ITEMS":"1",
                 "EXTRACT__WORKERS":"1",
