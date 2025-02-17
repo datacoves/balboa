@@ -23,7 +23,7 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
 )
 def ng_test():
 
-    @task.datacoves_dbt(connection_id="main")
+    @task.datacoves_dbt(airflow_connection_name="main")
     def show_env_value():
         return "echo dbt_home: && echo $DATACOVES__DBT_HOME"
 
