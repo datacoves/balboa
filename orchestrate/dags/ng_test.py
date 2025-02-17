@@ -25,7 +25,11 @@ def ng_test():
 
     @task.datacoves_dbt(airflow_connection_name="main")
     def show_env_value():
-        return "echo dbt_home: && echo $DATACOVES__DBT_HOME"
+        return """
+            echo dbt_home: && echo $DATACOVES__DBT_HOME
+            echo repo_path: && echo $DATACOVES__REPO_PATH
+            echo cwd: && pwd
+        """
 
     show_env_value()
 
