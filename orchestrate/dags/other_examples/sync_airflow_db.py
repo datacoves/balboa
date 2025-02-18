@@ -24,7 +24,7 @@ def sync_airflow_db():
 
     sync_data_script = DatacovesDataSyncOperatorSnowflake(
         service_connection_name="airflow_db_load",  # this can be omitted or changed to another service connection name.
-        destination_schema="airflow_dev"
+
     )
 
     sync_data_script
