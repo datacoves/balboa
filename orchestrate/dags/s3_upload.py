@@ -5,7 +5,7 @@ bucket = ObjectStoragePath("s3://datacoves-vs-code-images", conn_id="datacoves_s
 local_storage = ObjectStoragePath("/opt/airflow/dags/repo")
 
 
-@dag(schedule=None, catchup=False, tags=["s3", "version_4"])
+@dag(schedule=None, catchup=False, tags=["s3", "version_1"])
 def s3_upload_copy():
     @task
     def copy_files():
