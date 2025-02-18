@@ -6,11 +6,9 @@ from operators.datacoves.data_sync import (
 )
 
 
-@dag(schedule=None, catchup=False, tags=["s3", "version_1"])
+@dag(schedule=None, catchup=False, tags=["s3", "version_2"])
 def data_sync_dag():
-    @task.datacoves_airflow_db_sync(
-        db_type="snowflake", connection_id="main", destination_schema="public"
-    )
+    @task.datacoves_airflow_db_sync(db_type="snowflake", connection_id="main")
     def data_sync_snowflake():
         pass
 
