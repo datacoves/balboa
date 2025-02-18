@@ -8,7 +8,7 @@ from operators.datacoves.data_sync import (
 
 @dag(schedule=None, catchup=False, tags=["version_3"])
 def data_sync_dag():
-    @task.datacoves_airflow_db_sync(db_type="snowflake", service_connection_name="main")
+    @task.datacoves_airflow_db_sync(db_type="snowflake", connection_id="main")
     def data_sync_snowflake():
         pass
 
