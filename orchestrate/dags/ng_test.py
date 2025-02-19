@@ -1,5 +1,5 @@
 import datetime
-from airflow.decorators import dag, task, task_group
+from airflow.decorators import dag, task
 from airflow.models import Variable
 
 
