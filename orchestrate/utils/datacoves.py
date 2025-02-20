@@ -2,9 +2,11 @@ from airflow.utils.log.logging_mixin import LoggingMixin
 from pendulum import datetime, duration
 import os
 
+
 def is_development_environment():
-    """Determine if we are running in My Airflow or in Team Airflow"""
-    return os.environ.get('AIRFLOW__DATABASE__SQL_ALCHEMY_CONN', '').startswith('sqlite')
+    """Will return True if runming DAG in My Airflow"""
+    return os.getenv("DATACOVES__AIRFLOW_TYPE") == "my_airflow"
+
 
 def get_error_handler():
     """Returns the standard error handling callback function"""
@@ -26,13 +28,6 @@ def get_error_handler():
     return handle_error
 
 
-def instance_aware_email():
-    """Checks if DAG is running on Teams or My Airflow to determine if emails on failure should be True or False.
-    Returns False if DATACOVES__AIRFLOW_TYPE == my_airflow
-    """
-    return os.getenv("DATACOVES__AIRFLOW_TYPE") != "my_airflow"
-
-
 def get_default_args(
     start_date = datetime(2024, 1, 1),
     retries = 0,  #CHANGE ME TO 3
@@ -41,7 +36,7 @@ def get_default_args(
     execution_timeout_seconds = None,
     owner = None,
     email = None,
-    email_on_failure = instance_aware_email(),
+    email_on_failure = None,
     email_on_retry = False,
     on_failure_callback = get_error_handler(),
     **kwargs
@@ -70,7 +65,7 @@ def get_default_args(
     if email is None:
         raise ValueError("Email address must be specified")
 
-    enable_emailing = not is_development_environment()
+    enable_emailing = is_development_environment()
 
     default_args = {
         "owner": owner,
@@ -78,7 +73,7 @@ def get_default_args(
         "start_date": start_date,
         "retries": retries,
         "retry_exponential_backoff": retry_exponential_backoff,
-        "email_on_failure": email_on_failure or enable_emailing,
+        "email_on_failure": enable_emailing,
         "email_on_retry": email_on_retry or enable_emailing,
         "on_failure_callback": on_failure_callback,
     }
