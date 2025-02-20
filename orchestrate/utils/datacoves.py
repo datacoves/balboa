@@ -25,15 +25,23 @@ def get_error_handler():
 
     return handle_error
 
+
+def instance_aware_email():
+    """Checks if DAG is running on Teams or My Airflow to determine if emails on failure should be True or False.
+    Returns False if DATACOVES__AIRFLOW_TYPE == my_airflow
+    """
+    return os.getenv("DATACOVES__AIRFLOW_TYPE") != "my_airflow"
+
+
 def get_default_args(
     start_date = datetime(2024, 1, 1),
-    retries = 3,
+    retries = 0,  #CHANGE ME TO 3
     retry_delay_seconds = None,
     retry_exponential_backoff = False,
     execution_timeout_seconds = None,
     owner = None,
     email = None,
-    email_on_failure = True,
+    email_on_failure = instance_aware_email(),
     email_on_retry = False,
     on_failure_callback = get_error_handler(),
     **kwargs
