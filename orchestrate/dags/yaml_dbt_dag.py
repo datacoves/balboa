@@ -16,11 +16,11 @@ from airflow.decorators import dag, task
 )
 def yaml_dbt_dag():
 
-    @task.datacoves_dbt(connection_id="main")  
+    @task.datacoves_dbt(connection_id="keypair_test")
     def run_dbt():
-        return "dbt run -s personal_loans"
+        return "dbt debug"
 
-    run_dbt()  
+    run_dbt()
 
 # Invoke DAG
 dag = yaml_dbt_dag()
