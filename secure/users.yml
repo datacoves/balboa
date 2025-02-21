@@ -29,6 +29,8 @@
     can_login: true
     member_of:
       - analyst
+      - accountadmin
+      - securityadmin
 
 - sebastian:
     can_login: true
