@@ -48,7 +48,18 @@ def ng_test():
     def load_us_population():
         return "cd load/dlt/ && ./us_population.py"
 
-    load_us_population()
+
+    @task.datacoves_dbt(
+        connection_id="main",
+        inlets=[
+            Dataset("snowflake",  "raw.us_population.us_population"),
+            Dataset("snowflake",  "raw.google_analytics_4.engagement_events_report")
+            ]
+    )
+    def run_dbt():
+        return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+
+    load_us_population() >> run_dbt()
 
 # Invoke DAG
 dag = ng_test()
