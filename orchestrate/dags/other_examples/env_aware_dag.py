@@ -18,9 +18,12 @@ from orchestrate.utils.datacoves import is_not_my_airflow # Import from utils.py
 )
 def env_aware_dag():
 
-    @task.datacoves_dbt(connection_id="main")
+    @task.datacoves_dbt(
+        connection_id="main",
+        overrides={"warehouse": "my_custom_wh",}
+        )
     def build_dbt():
-        return "dbt run -s personal_loans"
+        return "dbt debug"
     build_dbt()
 
 dag = env_aware_dag()
