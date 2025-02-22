@@ -2,15 +2,25 @@ version: 2
 
 models:
   - name: int_pipe_usage_history
-    description: "pipe usage history staging model"
+    description: pipe usage history staging model
     columns:
       - name: pipe_id
+        description: A unique identifier assigned to the pipe
       - name: pipe_name
+        description: The name of the pipe used for identification purposes
       - name: start_time
+        description: The start time when the pipe was used
       - name: end_time
+        description: The end time when the pipe was used
       - name: credits_used
+        description: The amount of credits used by the pipe during usage
       - name: bytes_inserted
+        description: The amount of data in bytes inserted into the pipe during usage
       - name: files_inserted
+        description: The number of files inserted into the pipe during usage
       - name: start_date
+        description: The date when the pipe usage started.
       - name: pipeline_operation_hours
+        description: Duration in hours that the pipeline was operational.
       - name: time_of_day
+        description: Indicates the specific time or period of the day when the pipe was used.

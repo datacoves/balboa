@@ -47,6 +47,8 @@ jobs:
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
       DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
 
+      DBT_ARTIFACTS_BUCKET: "convexa-local"
+
       # This is used by datacoves to drop the staging database for blue/green
       # deployments, most likely you don't want to set this, we use it for demos
       DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
@@ -103,6 +105,25 @@ jobs:
 
       - name: Upload dbt artifacts
         run: "dbt run-operation upload_artifacts"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Upload artifacts to S3 for Datahub
+        run: |
+          # Check and upload each file individually
+          for file in target/sources.json target/manifest.json target/catalog.json target/run_results.json; do
+            if [ -f "$file" ]; then
+              echo "Uploading $file to S3..."
+              aws s3 cp "$file" "s3://${DBT_ARTIFACTS_BUCKET}/dbt_artifacts/$(basename $file)"
+            else
+              echo "File $file does not exist, skipping..."
+            fi
+          done
 
       - uses: fregante/setup-git-user@v2
       - name: Bump dbt project and git project version

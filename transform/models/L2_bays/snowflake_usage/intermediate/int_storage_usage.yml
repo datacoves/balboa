@@ -2,10 +2,15 @@ version: 2
 
 models:
   - name: int_storage_usage
-    description: "storage usage staging model"
+    description: storage usage staging model
     columns:
       - name: usage_month
+        description: The month when storage usage was recorded.
       - name: total_billable_storage_tb
+        description: The total amount of billable storage used, measured in terabytes.
       - name: storage_billable_storage_tb
+        description: The amount of billable storage in terabytes.
       - name: stage_billable_storage_tb
+        description: Amount of billable data in terabytes stored in the staging area.
       - name: failsafe_billable_storage_tb
+        description: The amount of billable storage in terabytes stored in the failsafe area.

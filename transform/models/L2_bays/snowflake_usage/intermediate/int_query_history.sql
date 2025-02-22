@@ -8,4 +8,4 @@ select
     user_name,
     execution_status as query_status,
     start_time
-from {{ ref('query_history') }}
+from {{ ref('stg_query_history') }}

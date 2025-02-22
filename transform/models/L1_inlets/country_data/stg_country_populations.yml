@@ -1,9 +1,15 @@
 version: 2
 
 models:
-  - name: country_populations
+  - name: stg_country_populations
     access: public
-    latest_version: 2
+    description: Contains population information from the Github Datasets repository.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - country_code
+            - year
+
     columns:
       - name: year
         description: The year for which the population value is recorded
@@ -13,6 +19,8 @@ models:
         description: The population value for a particular year and country
       - name: country_code
         description: The ISO 3166-1 alpha-2 code for the country
+
+    latest_version: 2
 
     # Declare the versions, and highlight the diffs
     versions:
@@ -29,10 +37,3 @@ models:
             exclude: [last_year]
           - name: prior_year
             description: The prior year for which the population value is recorded
-
-    description: Contains population information from the Github Datasets repository.
-    data_tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - country_code
-            - year

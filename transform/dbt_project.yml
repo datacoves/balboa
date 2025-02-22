@@ -3,7 +3,7 @@
 # name or the intended use of these models
 name: 'balboa'
 # this is the project version, has nothing to do with dbt version
-version: '42.0.0'
+version: '44.0.0'
 config-version: 2
 
 require-dbt-version: ">=1.1.0"
@@ -43,6 +43,7 @@ seeds:
     +persist_docs:
         relation: true
         columns: true
+    +dbt-osmosis: "{model}.yml"
 
 snapshots:
     +enabled: "{{ True if target.database == 'balboa' else False }}"
@@ -56,6 +57,7 @@ snapshots:
 models:
     # elementary:
     #     +schema: "elementary"
+    +dbt-osmosis: "{model}.yml"
 
     balboa:
         +materialized: view
@@ -75,7 +77,7 @@ models:
             observe:
                 +schema: L1_OBSERVE
             us_population:
-                +schema: L1_COUNTRY_DATA
+                +schema: L1_US_POPULATION
 
         L2_bays:
             +group: marketing
@@ -126,7 +128,7 @@ models:
         - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
         # This macro creates a non_versioned view of a versioned dbt model
         # Useful if you want to have a versioned mart but dont want BI tool to break if version
-        # is updated. 
+        # is updated.
         # - "{{ create_latest_version_view() }}"
 
     # Snowflake Defaults

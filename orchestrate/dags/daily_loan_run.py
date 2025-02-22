@@ -12,7 +12,7 @@ def daily_loan_run():
 
     @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")
     def extract_and_load_airbyte():
-        
+
         @task
         def sync_airbyte():
             from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
@@ -21,14 +21,14 @@ def daily_loan_run():
                 connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
                 airbyte_conn_id="airbyte_connection",
             ).execute({})
-        
+
         sync_airbyte()
 
     tg_extract_and_load_airbyte = extract_and_load_airbyte()
 
     @task_group(group_id="extract_and_load_fivetran", tooltip="Fivetran Extract and Load")
     def extract_and_load_fivetran():
-        
+
         @task
         def trigger_fivetran():
             from fivetran_provider_async.operators import FivetranOperator
@@ -52,7 +52,7 @@ def daily_loan_run():
         trigger = trigger_fivetran()
         sensor = sensor_fivetran()
         trigger >> sensor  # Set dependency
-        
+
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
 
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
@@ -66,7 +66,7 @@ def daily_loan_run():
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
 
-    @task.datacoves_dbt(connection_id="main")  
+    @task.datacoves_dbt(connection_id="main")
     def transform():
         return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 

@@ -2,13 +2,21 @@ version: 2
 
 models:
   - name: int_warehouse_metering_history
-    description: "warehouse metering history staging model"
+    description: warehouse metering history staging model
     columns:
       - name: start_time
+        description: The start time of the warehouse metering period
       - name: end_time
+        description: The end time of the warehouse metering period
       - name: warehouse_id
+        description: The unique identifier of the warehouse
       - name: warehouse_name
+        description: The name of the warehouse
       - name: credits_used
+        description: The total number of credits used by the warehouse
       - name: start_date
+        description: The start date of the warehouse metering period.
       - name: warehouse_operation_hours
+        description: The number of hours the warehouse was operational during the metering period.
       - name: time_of_day
+        description: Indicates the time of day associated with the metering data entry.

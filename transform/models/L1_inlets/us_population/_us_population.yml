@@ -5,4 +5,43 @@ sources:
     database: RAW
     tables:
       - name: US_POPULATION
-        description: 'This source represents the raw data table containing information about the population of the United States.'
+        description: >-
+          This source represents the raw data table containing information about the population of the
+          United States.
+        columns:
+          - name: STATES
+            data_type: VARCHAR
+            description: Name of the state
+          - name: ID
+            data_type: NUMBER
+            description: Unique identifier for each state
+          - name: _2010
+            data_type: VARCHAR
+            description: Population data for the year 2010
+          - name: _2011
+            data_type: VARCHAR
+            description: Population data for the year 2011
+          - name: _2012
+            data_type: VARCHAR
+            description: Population data for the year 2012
+          - name: _2013
+            data_type: VARCHAR
+            description: Population data for the year 2013
+          - name: _2014
+            data_type: VARCHAR
+            description: Population data for the year 2014
+          - name: _2015
+            data_type: VARCHAR
+            description: Population data for the year 2015
+          - name: _2016
+            data_type: VARCHAR
+            description: Population data for the year 2016
+          - name: _2017
+            data_type: VARCHAR
+            description: Population data for the year 2017
+          - name: _2018
+            data_type: VARCHAR
+            description: Population data for the year 2018
+          - name: _2019
+            data_type: VARCHAR
+            description: Population data for the year 2019

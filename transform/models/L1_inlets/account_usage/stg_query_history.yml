@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: query_history
+  - name: stg_query_history
     description: Contains raw data on the history of executed queries.
     columns:
       - name: query_id
