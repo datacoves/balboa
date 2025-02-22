@@ -1,6 +1,7 @@
 import datetime
 from airflow.decorators import dag, task
 from airflow.models import Variable
+from datahub_airflow_plugin.entities import Dataset
 
 
 # ❌ BAD PRACTICE: Fetching a variable at the top level
@@ -33,7 +34,7 @@ def ng_test():
     # show_env_value()
 
     @task.datacoves_bash(
-        outlets=['Dataset(DatahubPlatform.SNOWFLAKE,  RAW.US_POPULATION.US_POPULATION)'],
+        outlets=[Dataset("SNOWFLAKE",  "RAW.US_POPULATION.US_POPULATION")],
         env={
             "UV_CACHE_DIR": "/tmp/uv_cache",
             "EXTRACT__NEXT_ITEM_MODE":"fifo",
