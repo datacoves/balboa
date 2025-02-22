@@ -1,5 +1,4 @@
 import datetime
-import os
 from airflow.decorators import dag, task
 from orchestrate.utils.datacoves import is_not_my_airflow # Import from utils.py
 
