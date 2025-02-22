@@ -18,7 +18,7 @@ def daily_loan_run():
             from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
             AirbyteTriggerSyncOperator(
                 task_id="country_populations_datacoves_snowflake",
-                connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
+                connection_id="b293aaea-6557-4506-8cfb-6b621ec4c6ef",
                 airbyte_conn_id="airbyte_connection",
             ).execute({})
 
@@ -57,7 +57,7 @@ def daily_loan_run():
 
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
     def extract_and_load_dlt():
-        
+
         @task.datacoves_bash
         def load_us_population():
             return "cd load/dlt && ./loans_data.py"
