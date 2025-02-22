@@ -1,16 +1,9 @@
 """## Datacoves Operators Sample DAG
 This DAG is a sample using the Datacoves Airflow Operators"""
 
-from airflow.decorators import dag, task_group
+from airflow.decorators import dag, task, task_group
 from airflow.models import Variable
-from operators.datacoves.bash import DatacovesBashOperator
-from operators.datacoves.dbt import DatacovesDbtOperator
 from pendulum import datetime
-
-var1 = Variable.get("my_var1", "default_value")
-var2 = Variable.get("my_var2")
-var3 = Variable.get("my_var3")
-
 
 @dag(
     doc_md=__doc__,
@@ -23,43 +16,37 @@ var3 = Variable.get("my_var3")
     },
     catchup=False,
     tags=["python_script"],
-    description="Datacoves Sample dag",
-    # This is a regular CRON schedule. Helpful resources
-    # https://cron-ai.vercel.app/
-    # https://crontab.guru/
+    description="Datacoves Sample DAG",
     schedule="0 0 1 */12 *",
 )
 def datacoves_sample_dag():
+
     @task_group(
         group_id="dbt_and_python",
         tooltip="This is a group that runs dbt then a custom python file",
     )
     def dbt_and_python():
-        dbt_task = DatacovesDbtOperator(
-            task_id="run_dbt_task",
-            bash_command="dbt debug",
-        )
+        """Task group containing dbt and Python script execution"""
 
-        # This is calling an external Python file after activating the venv
-        # use this instead of the Python Operator as it will activate the pre-configured
-        # Datacoves venv
-        python_task = DatacovesBashOperator(
-            task_id="run_python_script",
-            # Virtual Environment is automatically activated
-            # activate_venv=True,
-            bash_command="python orchestrate/python_scripts/sample_script.py",
-            env={
-                "VAR1": var1,
-                "VAR2": var2,
-                "VAR3": var3,
-            },
-        )
+        @task.datacoves_dbt(connection_id="main")  
+        def run_dbt_task():
+            return "dbt debug"
 
-        # Define task dependencies
-        python_task.set_upstream([dbt_task])
+        @task.datacoves_bash(env = {
+                "VAR1": Variable.get("my_var1", "default_value"),
+                "VAR2": Variable.get("my_var2"),
+                "VAR3": Variable.get("my_var3"),
+            }
+            )  # ✅ Fetching variables inside the task
+        def run_python_script():
+            return "python orchestrate/python_scripts/sample_script.py"
 
-    dbt_and_python()
+        dbt_task = run_dbt_task()
+        python_task = run_python_script()
 
+        dbt_task >> python_task 
 
-# Invoke Dag
+    dbt_and_python()  
+
+# Invoke DAG
 dag = datacoves_sample_dag()
