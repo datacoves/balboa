@@ -18,20 +18,25 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
     },
     description="Sample DAG demonstrating bad variable usage",
     schedule="0 0 1 */12 *",
-    tags=["extract_and_load"],
+    tags=["extract_and_load","transform"],
     catchup=False,
 )
 def ng_test():
 
-    @task.datacoves_dbt(connection_id="main")
-    def show_env_value():
-        return """
-            echo dbt_home: && echo $DATACOVES__DBT_HOME &&
-            echo repo_path: && echo $DATACOVES__REPO_PATH &&
-            echo cwd: && pwd
-        """
+    # @task.datacoves_dbt(connection_id="main")
+    # def show_env_value():
+    #     return """
+    #         echo dbt_home: && echo $DATACOVES__DBT_HOME &&
+    #         echo repo_path: && echo $DATACOVES__REPO_PATH &&
+    #         echo cwd: && pwd
+    #     """
+    # show_env_value()
 
-    show_env_value()
+    @task.datacoves_bash(outlets=['Dataset(DatahubPlatform.SNOWFLAKE,  RAW.US_POPULATION.US_POPULATION)'])
+    def load_us_population():
+        return "cd load/dlt/ && ./us_population.py"
+
+    load_us_population()
 
 # Invoke DAG
 dag = ng_test()
