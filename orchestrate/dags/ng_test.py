@@ -32,7 +32,18 @@ def ng_test():
     #     """
     # show_env_value()
 
-    @task.datacoves_bash(outlets=['Dataset(DatahubPlatform.SNOWFLAKE,  RAW.US_POPULATION.US_POPULATION)'])
+    @task.datacoves_bash(
+        outlets=['Dataset(DatahubPlatform.SNOWFLAKE,  RAW.US_POPULATION.US_POPULATION)'],
+        env={
+            "UV_CACHE_DIR": "/tmp/uv_cache",
+            "EXTRACT__NEXT_ITEM_MODE":"fifo",
+            "EXTRACT__MAX_PARALLEL_ITEMS":"1",
+            "EXTRACT__WORKERS":"1",
+            "NORMALIZE__WORKERS":"1",
+            "LOAD__WORKERS":"1",
+        },
+        append_env=True
+    )
     def load_us_population():
         return "cd load/dlt/ && ./us_population.py"
 
