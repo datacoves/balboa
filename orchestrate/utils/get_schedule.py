@@ -1,7 +1,7 @@
 import os
 from typing import Union
 
-DEV_ENVIRONMENT_SLUG = "dev123" # Replace with your environment slug
+DEV_ENVIRONMENT_SLUG = "dev123" # Replace with your environment slug (eventually create a constants file in utils)
 
 def get_schedule(default_input: Union[str, None]) -> Union[str, None]:
     """
