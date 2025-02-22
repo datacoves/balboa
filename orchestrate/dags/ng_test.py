@@ -34,7 +34,7 @@ def ng_test():
     # show_env_value()
 
     @task.datacoves_bash(
-        outlets=[Dataset("SNOWFLAKE",  "RAW.US_POPULATION.US_POPULATION")],
+        outlets=[Dataset("snowflake",  "raw.us_population.us_population")],
         env={
             "UV_CACHE_DIR": "/tmp/uv_cache",
             "EXTRACT__NEXT_ITEM_MODE":"fifo",
