@@ -12,11 +12,10 @@ def daily_loan_run():
 
     @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")
     def extract_and_load_airbyte():
-
         @task
         def sync_airbyte():
             from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
-            AirbyteTriggerSyncOperator(
+            return AirbyteTriggerSyncOperator(
                 task_id="country_populations_datacoves_snowflake",
                 connection_id="b293aaea-6557-4506-8cfb-6b621ec4c6ef",
                 airbyte_conn_id="airbyte_connection",
@@ -51,7 +50,9 @@ def daily_loan_run():
 
         trigger = trigger_fivetran()
         sensor = sensor_fivetran()
-        trigger >> sensor  # Set dependency
+
+        trigger >> sensor
+        return sensor  # Return last task in the group
 
     tg_extract_and_load_fivetran = extract_and_load_fivetran()
 
@@ -78,13 +79,12 @@ def daily_loan_run():
     def update_catalog():
         return "echo 'refresh data catalog'"
 
-    # Task dependencies
-    transform_task = transform()
-    transform_task.set_upstream([tg_extract_and_load_airbyte, tg_extract_and_load_dlt, tg_extract_and_load_fivetran])
 
+    transform_task = transform()
     marketing_automation_task = marketing_automation()
     update_catalog_task = update_catalog()
 
+    [tg_extract_and_load_airbyte, tg_extract_and_load_dlt, tg_extract_and_load_fivetran] >> transform_task
     transform_task >> [marketing_automation_task, update_catalog_task]
 
 # Invoke DAG
