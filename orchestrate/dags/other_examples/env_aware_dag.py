@@ -8,11 +8,11 @@ from orchestrate.utils.datacoves import is_not_my_airflow # Import from utils.py
         "owner": "Noel Gomez",
         "email": "gomezn@example.com",
         "email_on_failure": is_not_my_airflow(),
-        "retries": 0
+        "retries": 1
     },
     description="Sample DAG for dbt build",
     schedule="0 0 1 */12 *",
-    tags=["version_1"],
+    tags=["transform"],
     catchup=False,
 )
 def env_aware_dag():
