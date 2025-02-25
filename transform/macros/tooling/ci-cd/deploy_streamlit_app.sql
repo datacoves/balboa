@@ -1,11 +1,11 @@
 {# This macro creates a streamlit app. #}
 {#
     To run:
-    dbt run-operation deploy_streamlit_app --args "{app_path: '/config/workspace/observe/streamlit/loans-example', app_file: loans.py}" -t prd
+    dbt run-operation deploy_streamlit_app --args "{app_path: '/config/workspace/visualize/streamlit/loans-example', app_file: loans.py}" -t prd
 #}
 
 {%- macro deploy_streamlit_app(
-                app_path="/config/workspace/observe/streamlit/loans-example",
+                app_path="/config/workspace/visualize/streamlit/loans-example",
                 app_file="loans.py",
                 app_stage="balboa_apps.resources.streamlit") -%}
 

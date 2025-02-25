@@ -2,7 +2,7 @@ import datetime
 
 from airflow.decorators import dag, task
 from airflow.datasets import Dataset
-from operators.datacoves.bash import DatacovesBashOperator
+
 
 # A dataset can be anything, it will be a poiner in the Airflow db.
 # If you need to access url like s3://my_bucket/my_file.txt then you can set

@@ -20,6 +20,8 @@ APPROVED_TAGS = {'extract_and_load',
 
 ALLOWED_OPERATORS = [
     "_PythonDecoratedOperator",  # this allows the @task decorator
+    "_DatacovesBashDecoratedOperator",
+    "_DatacovesDbtDecoratedOperator",
     "DatacovesBashOperator",
     "DatacovesDbtOperator",
     "DatacovesDataSyncOperatorSnowflake",
