@@ -1,5 +1,7 @@
 import datetime
 from airflow.decorators import dag, task, task_group
+from airflow.models import Variable
+from datahub_airflow_plugin.entities import Dataset
 
 @dag(
     default_args={"start_date": datetime.datetime(2024, 1, 1, 0, 0), "retries": 3},
@@ -58,16 +60,31 @@ def daily_loan_run():
 
     @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
     def extract_and_load_dlt():
-
-        @task.datacoves_bash
-        def load_us_population():
+        @task.datacoves_bash(
+            outlets=[Dataset("snowflake", "raw.loans_data.loans_data")],
+            env={
+                "UV_CACHE_DIR": "/tmp/uv_cache",
+                "EXTRACT__NEXT_ITEM_MODE": "fifo",
+                "EXTRACT__MAX_PARALLEL_ITEMS": "1",
+                "EXTRACT__WORKERS": "1",
+                "NORMALIZE__WORKERS": "1",
+                "LOAD__WORKERS": "1",
+            },
+            append_env=True
+        )
+        def load_loans_data():
             return "cd load/dlt && ./loans_data.py"
-
-        load_us_population()
+        load_loans_data()
 
     tg_extract_and_load_dlt = extract_and_load_dlt()
 
-    @task.datacoves_dbt(connection_id="main")
+    @task.datacoves_dbt(
+        connection_id="main",
+        inlets=[
+            Dataset("snowflake", "raw.loans_data.loans_data"),
+            Dataset("snowflake", "raw.google_analytics_4.engagement_events_report")
+        ]
+    )
     def transform():
         return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 
