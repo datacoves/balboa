@@ -1,6 +1,5 @@
 import datetime
 from airflow.decorators import dag, task, task_group
-from airflow.models import Variable
 from datahub_airflow_plugin.entities import Dataset
 
 @dag(
