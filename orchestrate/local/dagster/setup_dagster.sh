@@ -1,5 +1,6 @@
 #!/bin/bash
 
-virtualenv .venv
+pip install uv
+uv venv
 source /config/workspace/orchestrate/local/dagster/.venv/bin/activate
-pip install -r /config/workspace/orchestrate/local/dagster/requirements.txt
+uv pip install -r /config/workspace/orchestrate/local/dagster/requirements.txt
