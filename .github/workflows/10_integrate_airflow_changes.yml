@@ -26,6 +26,7 @@ jobs:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
       AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
       AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
+      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
       DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       FORCE_COLOR: 1
