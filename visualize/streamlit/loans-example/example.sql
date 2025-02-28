@@ -80,3 +80,17 @@ select * from balboa.l3_loan_analytics.loans_by_state order by NUMBER_OF_LOANS d
 
 select * from balboa_dev.gomezn.loans_by_state__standard;
 select * from balboa_dev.gomezn.loans_by_state__dynamic;
+
+
+SELECT table_catalog,
+       table_schema,
+       table_name,
+       is_dynamic
+FROM BALBOA.INFORMATION_SCHEMA.TABLES
+WHERE is_dynamic = 'YES';
+
+-- Grant access to all existing dynamic tables in a schema
+GRANT SELECT ON ALL DYNAMIC TABLES IN DATABASE BALBOA TO ROLE CATALOG;
+
+-- For future dynamic tables, you'll want to grant future privileges
+GRANT SELECT ON FUTURE DYNAMIC TABLES IN DATABASE BALBOA TO ROLE CATALOG;

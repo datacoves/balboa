@@ -45,4 +45,4 @@ if [ -z "$IP_ADDRESS" ]; then
 fi
 
 echo "Starting Dagster on http://$IP_ADDRESS:$PORT"
-dagster dev -p $PORT --host "$IP_ADDRESS"
+uv run --no-project dagster dev -p $PORT --host "$IP_ADDRESS"
