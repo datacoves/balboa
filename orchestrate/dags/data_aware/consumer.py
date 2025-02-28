@@ -2,7 +2,7 @@ import datetime
 
 from airflow.decorators import dag, task
 from airflow.datasets import Dataset
-from operators.datacoves.bash import DatacovesBashOperator
+
 
 MY_SOURCE = Dataset("upstream_data")
 
@@ -20,10 +20,10 @@ MY_SOURCE = Dataset("upstream_data")
 )
 def data_aware_consumer_dag():
     @task
-    def run_dbt():
+    def run_consumer():
         print("I'm the consumer")
 
-    run_dbt()
+    run_consumer()
 
 
 dag = data_aware_consumer_dag()
