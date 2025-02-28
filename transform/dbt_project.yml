@@ -135,13 +135,16 @@ models:
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
     copy_grants: true
 
+# This creates a view in snowflake that will track failures. Usefull for dynamic tables dbt isnt refreshing
+# Run dbt with:  --vars '{"persist_tests": "true", "tests_model": "test_failures"}'
 on-run-end:
   - "{{ create_test_failure_view(results) }}"
 
-
+# In development, this will be created in your user schema
 data_tests:
     +store_failures: true
     +schema: DBT_TEST__AUDIT
+    +store_failures_as: view
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'

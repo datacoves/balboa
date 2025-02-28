@@ -14,8 +14,10 @@
     where 1 = 0
 #}
 
+{# dbt must be wirh with --vars '{"persist_tests": "true", "tests_model": "test_failures"}' #}
+
 {% macro create_test_failure_view(results) -%}
-{%- if execute -%}
+{% if execute and var('persist_tests', 'false') == 'true' %}
     {% set test_failures_unique_id = "model." ~ project_name ~ ".stg_test_failures" %}
     {% set test_selects = [] %}
     {% set test_failures_node = graph.nodes[test_failures_unique_id] %}
