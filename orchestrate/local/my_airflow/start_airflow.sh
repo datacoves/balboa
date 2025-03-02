@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # To reset psw use
-# airflow users reset-password -u admin
+airflow users reset-password -u admin
 
 # Load environment variables
 export $(cat /config/workspace/orchestrate/local/my_airflow/.env | xargs)

@@ -20,11 +20,11 @@ class DatacovesDbtAPI:
 
         self.user_headers = {
             "Authorization": f"Bearer {self.user_token}",
-            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
         self.airflow_headers = {
             "Authorization": f"Bearer {self.airflow_token}",
-            "Content-Type": "application/json",
+            "Accept": "application/json",
         }
 
     def _str_to_bool(self, s: str) -> bool:
@@ -38,15 +38,39 @@ class DatacovesDbtAPI:
         method: str,
         endpoint: str,
         headers: dict,
-        data: dict = None,
+        data: dict = {},
         files: dict = None,
     ):
-        url = self.get_endpoint(endpoint)
-        response = requests.request(
-            method, url, headers=headers, json=data, files=files
+        try:
+            breakpoint()
+            url = self.get_endpoint(endpoint)
+            response = requests.request(method, url, headers=headers, data=data, files=files)
+            response.raise_for_status()
+            return response
+        except Exception:
+            response_errors = response.json().get("errors")
+            raise Exception(response_errors)
+
+    def upload_latest_manifest(
+        self,
+        env_slug: str,
+        run_id: str,
+        files_payload,
+    ):
+        res = self.api_call(
+            "POST",
+            "api/internal/manifests",
+            headers=self.airflow_headers,
+            files=files_payload,
+            data={
+                "environment_slug": env_slug,
+                "run_id": run_id
+            }
         )
-        response.raise_for_status()
-        return response
+        if res.ok:
+            print("Manifest uploaded successfully")
+        else:
+            print("Error uploading manifest")
 
     def download_latest_manifest(
         self,
@@ -57,7 +81,7 @@ class DatacovesDbtAPI:
         res = self.api_call(
             "GET",
             f"api/internal/projects/{self.project_slug}/latest-manifest?{query_str}",
-            headers=self.user_headers,
+            headers=self.airflow_headers,
         )
         if res.ok:
             manifest = res.json()
@@ -65,14 +89,14 @@ class DatacovesDbtAPI:
                 json.dump(manifest, f, indent=4)
             print(f"Downloaded manifest to {destination}")
         else:
-            print(f"Error downloading manifest")
+            print("Error downloading manifest")
 
     def download_file_by_tag(self, tag: str, destination: str):
         params = f"tag={tag}"
         res = self.api_call(
             "GET",
             f"api/internal/environments/{self.environment_slug}/files?{params}",
-            headers=self.user_headers,
+            headers=self.airflow_headers,
         )
         if res.ok:
             content = res.json().get("data", {}).get("contents", "")
@@ -88,7 +112,7 @@ class DatacovesDbtAPI:
         self.api_call(
             "POST",
             f"api/internal/environments/{self.environment_slug}/files",
-            headers=self.user_headers,
+            headers=self.airflow_headers,
             files=files,
         )
         print("Files uploaded successfully")

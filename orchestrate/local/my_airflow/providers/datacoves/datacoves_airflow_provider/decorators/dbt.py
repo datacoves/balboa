@@ -335,8 +335,14 @@ class _DatacovesDbtDecoratedOperator(DecoratedOperator, DatacovesDbtOperator):
         self.dbt_api.upload_files(files_payload)
         # self._upload_files(files_payload)
 
-    def _download_latest_manifest(self):
-        pass
+    def _upload_latest_manifest(self):
+        with open(f"{self.cwd}/target/manifest.json", "rb") as f:
+            files_payload = {"file": f}
+            return self.dbt_api.upload_latest_manifest(
+                env_slug=self.environment_slug,
+                run_id=self.upload_tag,
+                files_payload=files_payload,
+            )
 
     def execute(self, context: Context) -> Any:
         # Create our profiles.yml if we need to
@@ -372,7 +378,8 @@ class _DatacovesDbtDecoratedOperator(DecoratedOperator, DatacovesDbtOperator):
             self._download_dbt_files()
 
         kwargs = determine_kwargs(self.python_callable, self.op_args, context)
-        kwargs["download_successful"] = self.dbt_api.download_successful
+        if self.download_files:
+            kwargs["download_successful"] = self.dbt_api.download_successful
         bash_command = self.python_callable(*self.op_args, **kwargs)
 
         # For some reason, if I don't specify both these parameters, python
@@ -390,6 +397,7 @@ class _DatacovesDbtDecoratedOperator(DecoratedOperator, DatacovesDbtOperator):
         )
 
         if self.upload_results:
+            # self._upload_latest_manifest()
             self._upload_results()
         return run_results
 

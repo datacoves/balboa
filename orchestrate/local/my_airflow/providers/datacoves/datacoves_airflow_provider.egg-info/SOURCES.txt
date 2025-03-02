@@ -1,0 +1,17 @@
+setup.py
+datacoves_airflow_provider/__init__.py
+datacoves_airflow_provider/provider_info.py
+datacoves_airflow_provider.egg-info/PKG-INFO
+datacoves_airflow_provider.egg-info/SOURCES.txt
+datacoves_airflow_provider.egg-info/dependency_links.txt
+datacoves_airflow_provider.egg-info/entry_points.txt
+datacoves_airflow_provider.egg-info/requires.txt
+datacoves_airflow_provider.egg-info/top_level.txt
+datacoves_airflow_provider/decorators/__init__.py
+datacoves_airflow_provider/decorators/bash.py
+datacoves_airflow_provider/decorators/data_sync.py
+datacoves_airflow_provider/decorators/dbt.py
+datacoves_airflow_provider/testing/__init__.py
+datacoves_airflow_provider/testing/custom_reporter.py
+datacoves_airflow_provider/utils/__init__.py
+datacoves_airflow_provider/utils/dbt_api.py

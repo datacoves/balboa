@@ -58,15 +58,19 @@ def regen_public_token():
 
 def upload_manifest():
     files = {'file': open('/config/workspace/transform/target/manifest.json','rb')}
-
-    r = requests.post(
-        url=get_internal_endpoint(endpoint="api/internal/manifests"),
-        headers=get_headers(token=sa_airflow),
-        files=files,
-        data={
+    url =get_internal_endpoint(endpoint="api/internal/manifests")
+    headers = get_headers(token=sa_airflow)
+    data={
             "environment_slug": environment_slug,
-            "run_id": "manual__2024-03-19T18:57:12.005857+00:00"
+            "run_id": "manual__2024-03-19T18:57:12.005857+00:00" # TODO tiene que ser un run_id valido
+            # tal vez hay que pasar "dag_id"
         }
+    breakpoint()
+    r = requests.post(
+        url=url,
+        headers=headers,
+        files=files,
+        data=data
     )
 
     print_format(r)

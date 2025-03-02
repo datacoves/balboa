@@ -76,6 +76,22 @@ def upload_multiple_files():
 
     print_format(r)
 
+def upload_dbt_artifacts():
+    filepath = "/tmp/airflow_repo/transform/target/partial_parse.msgpack"
+
+    files = {
+        "files[0][tag]": (None, "partial_parse_3"),
+        "files[0][file]": ("partial_parse.msgpack", open(filepath, "rb")),
+    }
+    import ipdb
+    ipdb.set_trace()
+    res = requests.post(
+        url=get_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files"),
+        headers=get_headers(token=sa_airflow),
+        files=files,
+    )
+    print_format(res)
+
 
 def update_file_by_tag(tag: str):
     print("Updating file by tag: {tag}...")
@@ -100,7 +116,7 @@ def get_file_by_tag(tag: str):
         headers=get_headers(token=sa_airflow),
     )
 
-    print_format(r)
+    print_format(re)
 
 if __name__ == "__main__":
     # Upload single file
@@ -111,7 +127,7 @@ if __name__ == "__main__":
     # delete_file(tag="tag-1")
     # delete_file(tag="tag-2")
     # upload_multiple_files()
-
+    upload_dbt_artifacts()
     # Update file
     # delete_file(tag="some-tag")
     # upload_single_file()
