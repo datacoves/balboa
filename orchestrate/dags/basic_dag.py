@@ -7,15 +7,16 @@ with DAG(
     schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["basic", "version_1"],
+    tags=["basic", "version_2"],
 ) as dag:
 
     @task.datacoves_dbt(
         connection_id="main",
-        upload_results=False,
-        download_files=False,
+        # upload_results=False,
+        # download_files=False,
     )
-    def dbt_ls(download_successful: bool = True):
+    # def dbt_ls(download_successful: bool = True):
+    def dbt_ls():
         return "dbt ls"
 
     dbt_ls()
