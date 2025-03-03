@@ -7,7 +7,7 @@ with DAG(
     schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["dbt_decorator_rework", "version_1"],
+    tags=["dbt_decorator_rework", "version_2"],
 ) as dag:
 
     @task.datacoves_dbt(
@@ -16,7 +16,7 @@ with DAG(
         upload_results=True,
         # upload_tag="" TODO change to basic_dag id
     )
-    def upload_artifacts():
+    def upload_artifacts(download_successful: bool = False):
         return "dbt ls"
 
     @task.datacoves_dbt(
