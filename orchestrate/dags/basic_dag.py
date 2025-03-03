@@ -14,6 +14,7 @@ with DAG(
         connection_id="main",
         download_files=False,
         upload_results=False,
+        upload_manifest=False,
     )
     def dbt_ls():
         return "dbt ls"
