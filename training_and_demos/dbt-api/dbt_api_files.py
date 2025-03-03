@@ -116,7 +116,7 @@ def get_file_by_tag(tag: str):
         headers=get_headers(token=sa_airflow),
     )
 
-    print_format(re)
+    print_format(r)
 
 if __name__ == "__main__":
     # Upload single file
@@ -124,14 +124,14 @@ if __name__ == "__main__":
     # upload_single_file()
 
     # Upload multiple files
-    # delete_file(tag="tag-1")
+    delete_file(tag="latest-partial-parse")
     # delete_file(tag="tag-2")
     # upload_multiple_files()
-    upload_dbt_artifacts()
+    # upload_dbt_artifacts()
     # Update file
     # delete_file(tag="some-tag")
     # upload_single_file()
     # update_file_by_tag("some-tag")
 
     # Get file
-    get_file_by_tag("some-tag")
+    # get_file_by_tag("some-tag")

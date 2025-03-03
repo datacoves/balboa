@@ -62,10 +62,12 @@ def upload_manifest():
     headers = get_headers(token=sa_airflow)
     data={
             "environment_slug": environment_slug,
-            "run_id": "manual__2024-03-19T18:57:12.005857+00:00" # TODO tiene que ser un run_id valido
+            "run_id": "manual__2025-03-03T13:24:16.578406+00:00", # TODO tiene que ser un run_id valido
+            #"run_id":"manual__2025-03-02T23:23:59.985491+00:00"
             # tal vez hay que pasar "dag_id"
         }
-    breakpoint()
+    import ipdb
+    ipdb.set_trace()
     r = requests.post(
         url=url,
         headers=headers,
@@ -77,12 +79,13 @@ def upload_manifest():
 
 def download_latest_manifest(keys_only = True, trimmed = True):
     """Internal Manifest GET"""
-    projects_slug = "balboa-analytics-datacoves"
+    # projects_slug = "balboa-analytics-datacoves"
+    projects_slug="analytics-local"
     query_str = f"trimmed={str(trimmed).lower()}"
     r = requests.get(
         # Here we can use get_internal_endpoint
         url=get_external_endpoint(endpoint=f"api/internal/projects/{projects_slug}/latest-manifest?{query_str}"),
-        headers=get_headers(token=sa_user),
+        headers=get_headers(token=sa_airflow),
     )
 
     print_format_json(r,  keys_only)
@@ -129,6 +132,6 @@ environment_slug = os.getenv("DATACOVES__ENVIRONMENT_SLUG")
 if __name__ == "__main__":
     print("=== INIT ===")
     # check_health()
-    upload_manifest()
-    # download_latest_manifest(trimmed=True)
+    # upload_manifest()
+    download_latest_manifest(trimmed=True)
     print("=== END ===")
