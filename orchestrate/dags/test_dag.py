@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from airflow.decorators import dag
 # from airflow.operators.bash_operator import BashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
+from utils.test import test
 
 
 @dag(
@@ -30,6 +31,7 @@ def dag_cube_cm_agg():
         dag=dag
     )
     """
+    test()
     cube_cm_agg = DatacovesDbtOperator(
         task_id="cube_cm_agg",
         bash_command="dbt debug"
