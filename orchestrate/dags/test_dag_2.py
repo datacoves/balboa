@@ -30,4 +30,4 @@ def test_dag_import_utils():
 
     cube_cm_agg
 
-dag = dag_cube_cm_agg()
+dag = test_dag_import_utils()
