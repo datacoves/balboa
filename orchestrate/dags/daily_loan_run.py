@@ -18,7 +18,7 @@ def daily_loan_run():
             from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
             return AirbyteTriggerSyncOperator(
                 task_id="country_populations_datacoves_snowflake",
-                connection_id="b293aaea-6557-4506-8cfb-6b621ec4c6ef",
+                connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
                 airbyte_conn_id="airbyte_connection",
             ).execute({})
 
