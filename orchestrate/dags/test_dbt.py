@@ -1,14 +1,11 @@
-import os
 from datetime import datetime, timedelta
 from airflow.decorators import dag
-# from airflow.operators.bash_operator import BashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
-from utils.test import test
 
 
 @dag(
     default_args={
-        "owner": "Kenvue",
+        "owner": "Datacoves",
         "depends_on_past": False,
         "start_date": datetime.today() - timedelta(days=1),
         "email": "alejandro@datacoves.com",
@@ -17,7 +14,7 @@ from utils.test import test
         "retries": 3,
         "retry_delay": timedelta(minutes=2),
     },
-    description="DAG for Refreshing CUBE_CM_AGG model.",
+    description="DAG for testing dbt debug.",
     schedule="23 20 * * 1-5",
     tags=["version_2"],
     catchup=False,
@@ -31,12 +28,11 @@ def dag_cube_cm_agg():
         dag=dag
     )
     """
-    test()
-    cube_cm_agg = DatacovesDbtOperator(
-        task_id="cube_cm_agg",
+    test_dbt = DatacovesDbtOperator(
+        task_id="test_dbt",
         bash_command="dbt debug"
     )
 
-    cube_cm_agg
+    test_dbt
 
 dag = dag_cube_cm_agg()

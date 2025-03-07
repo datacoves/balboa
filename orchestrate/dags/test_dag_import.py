@@ -1,9 +1,16 @@
 import os
+import sys
 from datetime import datetime, timedelta
 from airflow.decorators import dag
 from operators.datacoves.dbt import DatacovesDbtOperator
+from airflow.operators.python import PythonOperator
 from utils.test import test
 
+
+def print_pythonpath():
+    pythonpath = os.environ.get("PYTHONPATH", "No PYTHONPATH set")
+    print(f"PYTHONPATH: {pythonpath}")
+    print(f"sys.path: {sys.path}")
 
 @dag(
     default_args={
@@ -16,18 +23,23 @@ from utils.test import test
         "retries": 3,
         "retry_delay": timedelta(minutes=2),
     },
-    description="DAG for Refreshing CUBE_CM_AGG model.",
+    description="DAG for testing Python imports.",
     schedule="23 20 * * 1-5",
     tags=["version_1"],
     catchup=False,
 )
 def test_dag_import_utils():
     test()
-    cube_cm_agg = DatacovesDbtOperator(
-        task_id="cube_cm_agg",
+    datacoves_dbt = DatacovesDbtOperator(
+        task_id="test_dag_import",
         bash_command="dbt debug"
     )
 
-    cube_cm_agg
+    print_env_python_python = PythonOperator(
+        task_id="print_pythonpath_python",
+        python_callable=print_pythonpath
+    )
+
+    print_env_python_python >> datacoves_dbt
 
 dag = test_dag_import_utils()
