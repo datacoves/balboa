@@ -12,7 +12,7 @@ from airflow.providers.slack.notifications.slack import send_slack_notification
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
     schedule="0 0 1 */12 *",
-    tags=["version_1", "slack_notification"],
+    tags=["version_2", "slack_notification"],
     catchup=False,
     on_success_callback=send_slack_notification(
         text="The DAG {{ dag.dag_id }} succeeded", slack_conn_id="AlejandroSlack"
