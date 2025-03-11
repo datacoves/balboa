@@ -17,7 +17,11 @@ def update_dataset(name):
         },
         json={"dataset_uri": "upstream_data",}
     )
-    return response.json()
+
+    try:
+        return response.json()
+    except ValueError:
+        return response.text
 
 
 def trigger_dag(dag_id):
@@ -62,9 +66,9 @@ def print_response(response):
 if __name__ == "__main__":
 
     # Update an Airflow Dataset
-    # dataset_name = "upstream_data"
-    # response = update_dataset(dataset_name)
-    # print_response(response)
+    dataset_name = "upstream_data"
+    response = update_dataset(dataset_name)
+    print_response(response)
 
     # Trigger a DAG
     # dag_id = "bad_variable_usage"
@@ -72,5 +76,5 @@ if __name__ == "__main__":
     # print_response(response)
 
     # List DAGs
-    response = list_dags()
-    print_response(response)
+    # response = list_dags()
+    # print_response(response)

@@ -7,7 +7,7 @@ from airflow.datasets import Dataset
 # A dataset can be anything, it will be a poiner in the Airflow db.
 # If you need to access url like s3://my_bucket/my_file.txt then you can set
 # it with the proper path for reuse.
-MY_SOURCE = Dataset("upstream_data")
+DAG_UPDATED_DATASET = Dataset("upstream_data")
 
 @dag(
     default_args={
@@ -22,7 +22,7 @@ MY_SOURCE = Dataset("upstream_data")
     catchup=False,
 )
 def data_aware_producer_dag():
-    @task(outlets=[MY_SOURCE])
+    @task(outlets=[DAG_UPDATED_DATASET])
     def extract_and_load_dlt():
         print("I'm the producer")
 
