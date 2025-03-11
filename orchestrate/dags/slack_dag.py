@@ -26,25 +26,26 @@ def my_python_task():
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
     schedule="0 0 1 */12 *",
-    tags=["version_5", "slack_notification"],
+    tags=["version_6", "slack_notification"],
     catchup=False,
-    on_success_callback=[run_inform_success],
     on_failure_callback=[run_inform_failure],
 )
 def slack_notification_dag():
 
-    @task.datacoves_dbt(connection_id="main")
+    @task.datacoves_dbt(connection_id="main", on_success_callback=[run_inform_success],)
     def transform():
         return "dbt debug"
 
     bash_task = BashOperator(
         task_id="bash_task",
-        bash_command="echo 'Hola desde Bash'"
+        bash_command="echo 'Hola desde Bash'",
+        on_success_callback=[run_inform_success],
     )
 
     python_task = PythonOperator(
         task_id="python_task",
-        python_callable=my_python_task
+        python_callable=my_python_task,
+        on_success_callback=[run_inform_success],
     )
 
     transform() >> bash_task >> python_task
