@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from airflow.decorators import dag, task
+from airflow.operators.bash import BashOperator
+from airflow.operators.python import PythonOperator
 from airflow.providers.slack.notifications.slack_webhook import send_slack_webhook_notification
 
 run_inform_success = send_slack_webhook_notification(
@@ -10,6 +12,9 @@ run_inform_failure = send_slack_webhook_notification(
     text="The DAG {{ dag.dag_id }} failed", slack_webhook_conn_id="AlejandroSlack"
 )
 
+def my_python_task():
+    print("Hey from Python task")
+    raise Exception("My Error")
 
 @dag(
     default_args={
@@ -21,7 +26,7 @@ run_inform_failure = send_slack_webhook_notification(
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
     schedule="0 0 1 */12 *",
-    tags=["version_4", "slack_notification"],
+    tags=["version_5", "slack_notification"],
     catchup=False,
     on_success_callback=[run_inform_success],
     on_failure_callback=[run_inform_failure],
@@ -32,7 +37,17 @@ def slack_notification_dag():
     def transform():
         return "dbt debug"
 
-    transform()
+    bash_task = BashOperator(
+        task_id="bash_task",
+        bash_command="echo 'Hola desde Bash'"
+    )
+
+    python_task = PythonOperator(
+        task_id="python_task",
+        python_callable=my_python_task
+    )
+
+    transform() >> bash_task >> python_task
 
 # Invoke DAG
 dag = slack_notification_dag()
