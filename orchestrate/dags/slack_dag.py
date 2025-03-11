@@ -28,7 +28,6 @@ def my_python_task():
     schedule="0 0 1 */12 *",
     tags=["version_6", "slack_notification"],
     catchup=False,
-    on_failure_callback=[run_inform_failure],
 )
 def slack_notification_dag():
 
@@ -40,12 +39,14 @@ def slack_notification_dag():
         task_id="bash_task",
         bash_command="echo 'Hola desde Bash'",
         on_success_callback=[run_inform_success],
+        on_failure_callback=[run_inform_failure],
     )
 
     python_task = PythonOperator(
         task_id="python_task",
         python_callable=my_python_task,
         on_success_callback=[run_inform_success],
+        on_failure_callback=[run_inform_failure],
     )
 
     transform() >> bash_task >> python_task
