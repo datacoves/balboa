@@ -4,7 +4,7 @@ from airflow.decorators import dag, task
 from airflow.datasets import Dataset
 
 
-MY_SOURCE = Dataset("upstream_data")
+MY_SOURCE = Dataset("s3://my_bucket/my_folder/my_file.csv")
 
 @dag(
     default_args={
