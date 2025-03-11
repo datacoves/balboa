@@ -2,6 +2,15 @@ from datetime import datetime, timedelta
 from airflow.decorators import dag, task
 from airflow.providers.slack.notifications.slack_webhook import send_slack_webhook_notification
 
+run_inform_success = send_slack_webhook_notification(
+    text="The DAG {{ dag.dag_id }} succeeded", slack_webhook_conn_id="AlejandroSlack"
+)
+
+run_inform_failure = send_slack_webhook_notification(
+    text="The DAG {{ dag.dag_id }} failed", slack_webhook_conn_id="AlejandroSlack"
+)
+
+
 @dag(
     default_args={
         "start_date": datetime.today() - timedelta(days=1),
@@ -12,14 +21,10 @@ from airflow.providers.slack.notifications.slack_webhook import send_slack_webho
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
     schedule="0 0 1 */12 *",
-    tags=["version_3", "slack_notification"],
+    tags=["version_4", "slack_notification"],
     catchup=False,
-    on_success_callback=send_slack_webhook_notification(
-        text="The DAG {{ dag.dag_id }} succeeded", slack_webhook_conn_id="AlejandroSlack"
-    ),
-    on_failure_callback=send_slack_webhook_notification(
-        text="The DAG {{ dag.dag_id }} failed", slack_webhook_conn_id="AlejandroSlack"
-    ),
+    on_success_callback=[run_inform_success],
+    on_failure_callback=[run_inform_failure],
 )
 def slack_notification_dag():
 
