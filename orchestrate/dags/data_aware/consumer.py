@@ -3,8 +3,8 @@ import datetime
 from airflow.decorators import dag, task
 from airflow.datasets import Dataset
 
-
-MY_SOURCE = Dataset("upstream_data")
+LAMBDA_UPDATED_DATASET = Dataset("s3://my_bucket/my_folder/my_file.csv")
+DAG_UPDATED_DATASET = Dataset("upstream_data")
 
 @dag(
     default_args={
@@ -14,7 +14,7 @@ MY_SOURCE = Dataset("upstream_data")
         "retries": 1
     },
     description="Sample Producer DAG",
-    schedule=[MY_SOURCE],
+    schedule=(LAMBDA_UPDATED_DATASET | DAG_UPDATED_DATASET),
     tags=["transform"],
     catchup=False,
 )
