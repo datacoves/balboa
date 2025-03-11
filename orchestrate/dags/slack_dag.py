@@ -26,7 +26,7 @@ def my_python_task():
     },
     description="Sample DAG with Slack notification, custom image, and resource requests",
     schedule="0 0 1 */12 *",
-    tags=["version_6", "slack_notification"],
+    tags=["version_7", "slack_notification"],
     catchup=False,
 )
 def slack_notification_dag():
