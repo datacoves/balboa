@@ -7,7 +7,7 @@ load_dotenv()
 API_URL =  os.getenv("AIRFLOW_API_URL")
 API_KEY =  os.getenv("DATACOVES_API_KEY")
 
-def update_dataset(name):
+def update_dataset(dataset_name):
     url=f"{API_URL}/datasets/events"
 
     response = requests.post(
@@ -15,7 +15,7 @@ def update_dataset(name):
         headers = {
             "Authorization": f"Token {API_KEY}",
         },
-        json={"dataset_uri": "upstream_data",}
+        json={"dataset_uri": dataset_name,}
     )
 
     try:
