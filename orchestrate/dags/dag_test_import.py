@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from datetime import datetime, timedelta
 from airflow.decorators import dag
 from operators.datacoves.dbt import DatacovesDbtOperator
@@ -12,6 +13,9 @@ def print_pythonpath():
     print(f"PYTHONPATH: {pythonpath}")
     print(f"sys.path: {sys.path}")
     test()
+    for i in range(50):
+        print(f"Testing sleep {i}")
+        time.sleep(5)
 
 @dag(
     default_args={
