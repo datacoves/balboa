@@ -1,162 +1,45 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'balboa'
-# this is the project version, has nothing to do with dbt version
-version: '46.0.0'
+name: balboa # Change this to your project name
+version: "1.0.0"
 config-version: 2
 
-require-dbt-version: ">=1.1.0"
-
 # This setting configures which "profile" dbt uses for this project.
-profile: 'default'
+profile: "default"
 
 # These configurations specify where dbt should look for different types of files.
-# The `source-paths` config, for example, states that models in this project can be
+# The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
-
-# Snowflake version
 model-paths: ["models"]
-snapshot-paths: ["snapshots"]
-
-packages-install-path: dbt_packages
-
-analysis-paths: ["analysis"]
+analysis-paths: ["analyses"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
 
-target-path: "target"  # directory which will store compiled SQL files
-clean-targets:         # directories to be removed by `dbt clean`
-    - "target"
-    - "dbt_packages"
-
+target-path: "target" # directory which will store compiled SQL files
+clean-targets: # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
-# These settings can be overridden in the individual model files
-seeds:
-    +schema: SEEDS
-    +docs:
-        node_color: "#379965"
-    +quote_columns: false
-    +persist_docs:
-        relation: true
-        columns: true
-    +dbt-osmosis: "{model}.yml"
 
-snapshots:
-    +enabled: "{{ True if target.database == 'balboa' else False }}"
-
-    balboa:
-        +target_database: raw
-        +target_schema: SNAPSHOTS
-    +docs:
-        node_color: "#0f703d"
+# In dbt, the default materialization for a model is a view. This means, when you run
+# dbt run or dbt build, all of your models will be built as a view in your data platform.
+# The configuration below will override this setting for models in the example folder to
+# instead be materialized as tables. Any models you add to the root of the models folder will
+# continue to be built as views. These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
 
 models:
-    # elementary:
-    #     +schema: "elementary"
-    +dbt-osmosis: "{model}.yml"
-
-    balboa:
-        +materialized: view
-        +schema: Z_SCHEMA_NOT_CONFIGURED
-
-        L1_inlets:
-            account_usage:
-                +schema: L1_ACCOUNT_USAGE
-            country_data:
-                +schema: L1_COUNTRY_DATA
-            google_analytics_4:
-                +schema: L1_GOOGLE_ANALYTICS_4
-            covid19_epidemiological_data:
-                +schema: L1_COVID19_EPIDEMIOLOGICAL_DATA
-            loans:
-                +schema: L1_LOANS
-            observe:
-                +schema: L1_OBSERVE
-            us_population:
-                +schema: L1_US_POPULATION
-
-        L2_bays:
-            +group: marketing
-            +docs:
-                node_color: "#000899"
-            country_demographics:
-                +schema: L2_COUNTRY_DEMOGRAPHICS
-            covid_observations:
-                +schema: L2_COVID_OBSERVATIONS
-            snowflake_usage:
-                +schema: L2_SNOWFLAKE_USAGE
-
-        L3_coves:
-            +group: marketing
-            +access: public
-            +docs:
-                node_color: "#366ccf"
-            covid_analytics:
-                +schema: L3_COVID_ANALYTICS
-            loan_analytics:
-                +schema: L3_LOAN_ANALYTICS
-                # cannot persist docs on dynamic tables
-                +persist_docs:
-                    relation: false
-            +materialized: table
-
-        # L4_shares:
-        #   +docs:
-        #     node_color: "#FCA868"
-        #   materialized: table
-        #   +database: "{{ 'prd_shared_dw' if target.name == 'prd' else target.database }}"
-        #   digital_product_analytics:
-        #     +schema: COVE_DIGITAL_PRODUCT_ANALYTICS
-        #   +copy_grants: false
-        #   +post-hook: "{{ add_grants_to_share('PRD_ANALYTICS_DW_SNOWFLAKE_SECURE_SHARE_167') }}"
-        #   +transient: false
-        #   +persist_docs:
-        #       relation: false
-        #       columns: false
-
-
-        +persist_docs:
-            relation: true
-            columns: true
-
-    post-hook:
-        - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
-        - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
-        # This macro creates a non_versioned view of a versioned dbt model
-        # Useful if you want to have a versioned mart but dont want BI tool to break if version
-        # is updated.
-        # - "{{ create_latest_version_view() }}"
-
-    # Snowflake Defaults
-    +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
-    copy_grants: true
-
-# This creates a view in snowflake that will track failures. Usefull for dynamic tables dbt isnt refreshing
-# Run dbt with:  --vars '{"persist_tests": "true", "tests_model": "test_failures"}'
-on-run-end:
-  - "{{ create_test_failure_view(results) }}"
-
-# In development, this will be created in your user schema
-data_tests:
-    +store_failures: true
-    +schema: DBT_TEST__AUDIT
-    +store_failures_as: view
-
-vars:
-    'dbt_date:time_zone': 'America/Los_Angeles'
-
-    create_masking_policy_schema: "false"
-    use_common_masking_policy_db: "true"
-    common_masking_policy_db: "BALBOA"
-    common_masking_policy_schema: "MASKING_POLICIES"
-    use_force_applying_masking_policy: "true"
-
-
-# Added for Elementary support
-# flags:
-#   require_explicit_package_overrides_for_builtin_materializations: False
-#   source_freshness_run_project_hooks: True
+  datacoves_starter_project:
+    L1_staging:
+      +materialized: view
+    L2_core:
+      +materialized: view
+    L3_marts:
+      +materialized: table
+    L4_test:
+      +materialized: table

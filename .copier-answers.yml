@@ -1,0 +1,26 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v0.7
+_src_path: /Users/bruno/dev/datacoves/setup_template
+airflow_artifacts_path: orchestrate
+ci_provider: github
+dags_path: orchestrate/dags
+dbt_adapter: snowflake
+dbt_checkpoint_version: v2.0.6
+dbt_profiles_path: automate/dbt
+dbt_project_dir: transform
+dbt_project_name: balboa
+services:
+- setup_dbt_project
+- setup_dbt_profile
+- setup_ci_cd
+- setup_precommit
+- setup_airflow_dags
+- setup_dbtcoves
+setup_dbtcoves_config: true
+setup_dbtcoves_templates: true
+sqlfluff_version: 3.1.1
+use_dbt_checkpoint: true
+use_sqlfluff: true
+use_yamllint: true
+yamllint_version: v1.36.2
+

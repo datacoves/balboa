@@ -1,9 +1,0 @@
-version: 2
-models:
-  - name: credits_mtd
-    description: Contains credits used month to date
-    columns:
-      - name: mtd_credits_used
-        description: The number of credits used so far in the current month
-      - name: previous_mtd_credits_used
-        description: The number of credits used in the previous month up to the same date

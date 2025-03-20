@@ -1,3 +1,6 @@
+# manifest found file
+temp_MANIFEST_FOUND.txt
+
 # dbt
 target/
 dbt_modules/
@@ -5,10 +8,9 @@ dbt_packages/
 .config/.user.yml
 /profiles.yml
 /.user.yml
+__pycache__
 
-.cache
 nohup.out
-.pytest_cache
 
 # Virtual envs
 venv/
@@ -17,9 +19,6 @@ venv/
 env/
 
 scripts/
-
-# VS Code
-.vscode/
 
 # logs
 *.log

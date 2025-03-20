@@ -1,2 +1,0 @@
-snowflake-ml-python
-snowflake-snowpark-python

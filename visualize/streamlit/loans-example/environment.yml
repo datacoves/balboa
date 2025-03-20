@@ -1,5 +1,0 @@
-name: loans
-channels:
-- snowflake
-dependencies:
-- schedule

@@ -1,9 +1,0 @@
-version: 2
-models:
-  - name: storage_usage_m
-    description: Contains data on storage usage by month for the last 12 months
-    columns:
-      - name: usage_month
-        description: The month (1-12) for which storage usage is being reported
-      - name: storage
-        description: The total amount of storage used in the given month, in bytes
