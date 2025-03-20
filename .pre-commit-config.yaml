@@ -40,3 +40,11 @@ repos:
         args: [-c=.yamllint]
         exclude: ^transform/.dbt_coves/templates
 
+
+
+  - repo: https://github.com/datacoves/some_new_library.git
+    rev: 0.0.1
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint]
+        exclude: ^transform/.dbt_coves/templates
