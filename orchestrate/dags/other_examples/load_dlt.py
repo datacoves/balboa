@@ -15,16 +15,16 @@ from orchestrate.utils.datacoves import connection_to_env_vars, uv_env_vars
     tags=["extract_and_load"],
     catchup=False,
 )
-def run_dlt():
+def load_with_dlt():
 
     # here we use a datacoves service connection called main_load
     @task.datacoves_bash(
         env = {**connection_to_env_vars("main_load"), **uv_env_vars()}
     )
     def load_us_population():
-        return "cd load/dlt && ./loans_data.py"
+        return "cd load/dlt && ./us_population.py"
 
     load_us_population()
 
 # Invoke DAG
-run_dlt()
+load_with_dlt()
