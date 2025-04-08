@@ -2,6 +2,7 @@
 # /// script
 # dependencies = [
 #   "dlt[snowflake, parquet]==1.9.0",
+#   "psutil~=6.0.0",
 #   "pandas==2.2.2",
 # ]
 # ///

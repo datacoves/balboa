@@ -3,6 +3,7 @@
 # dependencies = [
 #   "dlt[snowflake, parquet]==1.9.0",
 #   "pandas==2.2.2",
+#   "psutil~=6.0.0",
 #   "requests",
 # ]
 # ///
@@ -24,8 +25,9 @@ args = parser.parse_args()
 start_date = args.start_date
 
 # start_date = date.today() - timedelta(7)
-end_date = date.today() - timedelta(10)
+end_date = date.today()
 url = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={start_date}&endtime={end_date}"
+print(f"Fetching data from: {url}")
 
 @dlt.resource(
     table_name='earthquakes',
@@ -46,7 +48,8 @@ def earthquake_data():
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
         db_config,
-        destination_name="datacoves_snowflake"
+        destination_name="datacoves_snowflake",
+        enable_dataset_name_normalization=False
     )
 
     pipeline = dlt.pipeline(

@@ -8,8 +8,8 @@ def last_dag_successful_run(dag_id):
     from airflow.utils.state import DagRunState
 
     last_successful_run = DagRun.find(
-        dag_id=dag_id,
-        state=DagRunState.SUCCESS,
+        dag_id = dag_id,
+        state = DagRunState.SUCCESS,
     )
     if last_successful_run:
         last_successful_run.sort(key=lambda x: x.execution_date, reverse=True)
