@@ -1,0 +1,49 @@
+# AUTO_SUSPEND: Setting 0 or NULL value means the warehouse never suspends
+warehouses:
+  - name: wh_admin
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
+
+  - name: wh_catalog
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
+
+  - name: wh_integration
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
+
+  - name: wh_loading
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
+
+  - name: wh_orchestrating
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
+
+  - name: wh_transforming
+    warehouse_size: x-small
+    auto_suspend: 120
+    auto_resume: true
+    initially_suspended: true
+
+  - name: wh_transforming_dynamic_tables
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
+
+  - name: wh_transforming_sqlmesh
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true

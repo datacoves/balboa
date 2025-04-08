@@ -1,0 +1,45 @@
+databases:
+  - name: raw
+    schemas:
+      - name: SNAPSHOTS
+      - name: DBT_ARTIFACTS
+
+  - name: balboa
+    schemas:
+      - name: L1_ACCOUNT_USAGE
+      - name: L1_COUNTRY_DATA
+      - name: L1_COVID19_EPIDEMIOLOGICAL_DATA
+      - name: L1_GOOGLE_ANALYTICS_4
+      - name: L1_LOANS
+      - name: L1_OBSERVE
+      - name: L1_US_POPULATION
+
+      - name: L2_COUNTRY_DEMOGRAPHICS
+      - name: L2_COVID_OBSERVATIONS
+      - name: L2_SNOWFLAKE_USAGE
+
+      - name: L3_COVID_ANALYTICS
+      - name: L3_LOAN_ANALYTICS
+
+      - name: DBT_TEST__AUDIT
+
+      - name: SEEDS
+
+      - name: MASKING_POLICIES
+
+  - name: balboa_apps
+    schemas:
+      - name: RESOURCES
+
+  - name: balboa_dev
+
+  # Snowflake database contains metadata describing usage
+#   - name: snowflake
+
+  - name: covid19_epidemiological_data
+
+  - name: great_bay
+    schemas:
+      - name: COVE_MARKETING
+
+  - name: sushi_db

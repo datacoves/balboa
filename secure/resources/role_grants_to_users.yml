@@ -1,0 +1,84 @@
+role_grants:
+  - role: analyst
+    to_user: alex
+
+  - role: analyst
+    to_user: alejandro
+
+  - role: analyst
+    to_user: bruno
+
+  - role: analyst
+    to_user: gomezn
+  - role: orgadmin
+    to_user: gomezn
+  - role: accountadmin
+    to_user: gomezn
+  - role: securityadmin
+    to_user: gomezn
+  - role: loader
+    to_user: gomezn
+  - role: transformer_dbt
+    to_user: gomezn
+  - role: sqlmesh_analyst
+    to_user: gomezn
+  - role: bot_integration
+    to_user: gomezn
+  # Commented out for demo purposes
+  # - role: analyst_pii
+  #   to_user: gomezn
+
+  - role: analyst
+    to_user: mayra
+  - role: accountadmin
+    to_user: mayra
+  - role: securityadmin
+    to_user: mayra
+
+  - role: accountadmin
+    to_user: sebastian
+  - role: securityadmin
+    to_user: sebastian
+  - role: analyst
+    to_user: sebastian
+  - role: transformer_dbt
+    to_user: sebastian
+
+  - role: accountadmin
+    to_user: stephen
+  - role: securityadmin
+    to_user: stephen
+  - role: analyst
+    to_user: stephen
+
+  - role: loader
+    to_user: svc_airbyte
+
+  - role: transformer_dbt
+    to_user: svc_airflow
+
+  - role: securityadmin
+    to_user: svc_datacoves
+
+  - role: loader
+    to_user: svc_fivetran
+
+  - role: transformer_dbt
+    to_user: svc_github_actions
+
+  - role: bot_integration
+    to_user: svc_balboa_ci
+  - role: transformer_dbt
+    to_user: svc_balboa_ci
+
+  - role: bot_integration
+    to_user: svc_dbt_coves_ci
+
+  - role: bot_integration
+    to_user: svc_datacoves_platform_ci
+
+  - role: analyst
+    to_user: svc_rupert
+
+  - role: catalog
+    to_user: svc_datahub

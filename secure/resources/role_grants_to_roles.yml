@@ -1,0 +1,131 @@
+role_grants:
+  - role: z_base_analyst
+    to_role: z_schema_l1_observe
+  - role: analyst
+    to_role: z_tables_views_general
+  - role: de_analyst
+    to_role: z_base_analyst
+  - role: z_base_analyst
+    to_role: z_schema_l1_google_analytics_4
+  - role: z_base_analyst
+    to_role: z_schema_l1_account_usage
+  - role: z_base_analyst
+    to_role: z_stage_dbt_artifacts_read
+  - role: de_business_analyst_pii
+    to_role: de_analyst
+  - role: z_base_analyst
+    to_role: z_schema_dbt_test__audit
+  - role: transformer_dbt
+    to_role: z_tables_views_general
+  - role: transformer_dbt
+    to_role: z_stage_dbt_artifacts_write
+  - role: z_base_analyst
+    to_role: z_schema_l3_covid_analytics
+  - role: z_base_analyst
+    to_role: z_schema_l1_country_data
+  - role: z_base_analyst
+    to_role: z_schema_l1_covid19_epidemiological_data
+  - role: accountadmin
+    to_role: sysadmin
+  - role: analyst_pii
+    to_role: z_policy_unmask_pii
+  - role: useradmin
+    to_role: z_wh_admin
+  - role: transformer_dbt
+    to_role: z_db_balboa_apps_write
+  - role: de_analyst
+    to_role: z_policy_row_region_de
+  - role: z_base_analyst
+    to_role: z_schema_l2_snowflake_usage
+  - role: z_base_analyst
+    to_role: z_db_covid19_epidemiological_data
+  - role: z_base_analyst
+    to_role: z_schema_l3_loan_analytics
+  - role: loader
+    to_role: z_db_raw_write
+  - role: analyst
+    to_role: z_policy_row_region_all
+  - role: transformer_dbt
+    to_role: z_db_covid19_epidemiological_data
+  - role: z_base_analyst
+    to_role: z_schema_l1_loans
+  - role: transformer_dbt
+    to_role: z_db_raw_write
+  - role: z_base_analyst
+    to_role: z_schema_l2_covid_observations
+  - role: transformer_dbt
+    to_role: z_wh_transforming_dynamic_tables
+  - role: z_base_analyst
+    to_role: z_db_balboa_apps
+  - role: analyst_pii
+    to_role: analyst
+  - role: z_base_analyst
+    to_role: z_schema_seeds
+  - role: transformer_dbt
+    to_role: z_db_snowflake
+  - role: z_base_analyst
+    to_role: z_schema_snapshots
+  - role: catalog
+    to_role: z_wh_catalog
+  - role: catalog
+    to_role: z_base_analyst
+  - role: loader
+    to_role: z_wh_loading
+  - role: z_base_analyst
+    to_role: z_db_raw
+  - role: z_base_analyst
+    to_role: z_db_snowflake
+  - role: loader
+    to_role: z_db_covid19_epidemiological_data
+  - role: securityadmin
+    to_role: z_wh_admin
+  - role: z_base_analyst
+    to_role: z_stage_resources_read
+  - role: catalog
+    to_role: z_policy_row_region_all
+  - role: z_base_analyst
+    to_role: z_db_balboa_tst
+  - role: catalog
+    to_role: z_tables_views_general
+  - role: z_base_analyst
+    to_role: z_wh_transforming
+  - role: sysadmin
+    to_role: z_wh_admin
+  - role: z_base_analyst
+    to_role: z_db_balboa_dev
+  - role: analyst
+    to_role: z_base_analyst
+  - role: z_base_analyst
+    to_role: z_wh_transforming_dynamic_tables
+  - role: de_business_analyst_pii
+    to_role: z_policy_unmask_pii
+  - role: z_base_analyst
+    to_role: z_schema_resources
+  - role: z_base_analyst
+    to_role: z_db_balboa
+  - role: transformer_dbt
+    to_role: z_wh_integration
+  - role: accountadmin
+    to_role: z_wh_admin
+  - role: de_analyst
+    to_role: z_tables_views_general
+  - role: z_base_analyst
+    to_role: z_schema_l1_us_population
+  - role: transformer_dbt
+    to_role: z_db_balboa_write
+  - role: securityadmin
+    to_role: useradmin
+  - role: bot_integration
+    to_role: transformer_dbt
+  - role: accountadmin
+    to_role: securityadmin
+  - role: z_base_analyst
+    to_role: z_schema_raw
+  - role: bot_integration
+    to_role: z_wh_integration
+  - role: z_policy_unmask_pii
+    to_role: z_db_raw
+  - role: transformer_dbt
+    to_role: z_wh_orchestrating
+  - role: z_base_analyst
+    to_role: z_schema_l2_country_demographics
