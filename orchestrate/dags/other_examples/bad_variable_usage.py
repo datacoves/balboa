@@ -22,18 +22,12 @@ bad_used_variable = Variable.get("bad_used_variable", "default_value")
     catchup=False,
 )
 def bad_variable_usage():
-    
-    @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
-    def extract_and_load_dlt():
-        """Task group for DLT extract and load process"""
 
-        @task.datacoves_bash(env={"BAD_VAR": bad_used_variable})  # ✅ Passing the bad variable to the task
-        def load_us_population():
-            return "cd load/dlt && ./loans_data.py"
+    @task.datacoves_bash(env={"BAD_VAR": bad_used_variable})  # ✅ Passing the bad variable to the task
+    def print_var():
+        return "echo $BAD_VAR"
 
-        load_us_population()
-
-    extract_and_load_dlt()
+    print_var()
 
 # Invoke DAG
-dag = bad_variable_usage()
+bad_variable_usage()
