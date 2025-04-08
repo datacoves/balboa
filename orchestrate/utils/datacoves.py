@@ -1,6 +1,55 @@
 from airflow.utils.log.logging_mixin import LoggingMixin
+from airflow.hooks.base import BaseHook
 from pendulum import datetime, duration
 import os
+
+def last_dag_successful_run(dag_id):
+    from airflow.models.dagrun import DagRun
+    from airflow.utils.state import DagRunState
+
+    last_successful_run = DagRun.find(
+        dag_id=dag_id,
+        state=DagRunState.SUCCESS,
+    )
+    if last_successful_run:
+        last_successful_run.sort(key=lambda x: x.execution_date, reverse=True)
+        last_run = last_successful_run[0]
+        print(f"Last successful run of DAG {dag_id}: {last_run.execution_date}")
+        return last_run.execution_date
+    else:
+        print(f"No previous successful runs found for DAG {dag_id}")
+        return None
+
+
+def connection_to_env_vars(connection_id):
+    # Get the connection object
+    conn = BaseHook.get_connection(connection_id)
+
+    vars = {}
+    prefix = f"DATACOVES__{connection_id.upper()}__"
+
+    # Access specific connection parameters
+    vars[f"{prefix}ACCOUNT"] = conn.extra_dejson.get('account')
+    vars[f"{prefix}DATABASE"] = conn.extra_dejson.get('database')
+    vars[f"{prefix}WAREHOUSE"] = conn.extra_dejson.get('warehouse')
+    vars[f"{prefix}ROLE"] = conn.extra_dejson.get('role')
+    vars[f"{prefix}USER"] = conn.login
+    vars[f"{prefix}PASSWORD"] = conn.password
+
+    return vars
+
+
+def uv_env_vars():
+    uv_vars = {
+        "UV_CACHE_DIR": "/tmp/uv_cache",
+        "EXTRACT__NEXT_ITEM_MODE": "fifo",
+        "EXTRACT__MAX_PARALLEL_ITEMS": "1",
+        "EXTRACT__WORKERS": "1",
+        "NORMALIZE__WORKERS": "1",
+        "LOAD__WORKERS": "1",
+    }
+
+    return uv_vars
 
 
 def is_not_my_airflow():
