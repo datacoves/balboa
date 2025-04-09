@@ -1,7 +1,7 @@
 import datetime
 
 from airflow.decorators import dag, task
-from orchestrate.include.datasets import LAMBDA_UPDATED_DATASET, DAG_UPDATED_DATASET
+from orchestrate.utils.datasets import LAMBDA_UPDATED_DATASET, DAG_UPDATED_DATASET
 
 
 @dag(

@@ -1,7 +1,7 @@
 import datetime
 
 from airflow.decorators import dag, task
-from orchestrate.include.datasets import DAG_UPDATED_DATASET
+from orchestrate.utils.datasets import DAG_UPDATED_DATASET
 
 # A dataset can be anything, it will be a poiner in the Airflow db.
 # If you need to access url like s3://my_bucket/my_file.txt then you can set
