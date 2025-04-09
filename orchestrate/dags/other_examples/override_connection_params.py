@@ -1,21 +1,27 @@
-import datetime
-from airflow.decorators import dag, task
+"""
+## Sample DAG showing how to override connection info
+This DAG shows how to override connection info in a decorator
+"""
+
 import os
+
+from airflow.decorators import dag, task
+from orchestrate.utils import datacoves_utils
 
 AIRFLOW_TARGET = "prod" if os.environ.get("DATACOVES__AIRFLOW_TYPE",'') == "team_airflow" else "local_dev"
 
 @dag(
-    default_args={
-        "start_date": datetime.datetime(2024, 1, 1, 0, 0),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "email_on_failure": True,
-        "retries": 3,
-    },
+    doc_md = __doc__,
+    catchup = False,
+
+    default_args = datacoves_utils.set_default_args(
+        owner = "Noel Gomez",
+        owner_email = "noel@example.com"
+    ),
+
     description="Sample DAG showing how to override airflow connection info",
-    schedule="0 0 1 */12 *",
-    tags=["transform"],
-    catchup=False,
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    tags = ["transform"],
 )
 def override_connection_params():
     @task.datacoves_dbt(
@@ -28,5 +34,4 @@ def override_connection_params():
 
     run_dbt()
 
-# Invoke DAG
 override_connection_params()

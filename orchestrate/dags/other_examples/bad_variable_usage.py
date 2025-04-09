@@ -1,6 +1,11 @@
-import datetime
-from airflow.decorators import dag, task, task_group
+"""
+## Top Level Code Example
+This DAG illustrates a DAG that has top level code which is bad
+"""
+
+from airflow.decorators import dag, task
 from airflow.models import Variable
+from orchestrate.utils import datacoves_utils
 
 
 # ❌ BAD PRACTICE: Fetching a variable at the top level
@@ -9,18 +14,19 @@ from airflow.models import Variable
 bad_used_variable = Variable.get("bad_used_variable", "default_value")
 
 @dag(
-    default_args={
-        "start_date": datetime.datetime(2024, 1, 1, 0, 0),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "email_on_failure": True,
-        "retries": 3
-    },
-    description="Sample DAG demonstrating bad variable usage",
-    schedule="0 0 1 */12 *",
-    tags=["extract_and_load"],
-    catchup=False,
+    doc_md = __doc__,
+    catchup = False,
+
+    default_args = datacoves_utils.set_default_args(
+        owner = "Noel Gomez",
+        owner_email = "noel@example.com"
+    ),
+
+    description="Sample DAG demonstrating bad variable usage (top level code)",
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    tags = ["sample"],
 )
+
 def bad_variable_usage():
 
     @task.datacoves_bash(env={"BAD_VAR": bad_used_variable})  # ✅ Passing the bad variable to the task
@@ -29,5 +35,4 @@ def bad_variable_usage():
 
     print_var()
 
-# Invoke DAG
 bad_variable_usage()
