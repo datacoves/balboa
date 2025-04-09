@@ -7,7 +7,7 @@ with DAG(
     schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["dbt_decorator_rework", "version_11"],
+    tags=["dbt_decorator_rework", "version_12"],
 ) as dag:
 
     @task.datacoves_dbt(
@@ -31,6 +31,8 @@ with DAG(
         # upload_manifest=False,
         # upload_run_results=True,
         # upload_sources_json=True,
+        download_run_results=True,
+        download_sources_json=True,
     )
     def download_artifacts(expected_files: list = ['run_results.json', 'sources.json']):
         if expected_files:
