@@ -102,7 +102,7 @@ def daily_loan_run():
     def update_catalog():
         return "echo 'refresh data catalog'"
 
-    [extract_and_load_airbyte(), extract_and_load_fivetran(), extract_and_load_dlt()] >> transform()
-    transform() >> [marketing_automation(), update_catalog()]
+    extract_and_load = [extract_and_load_airbyte(), extract_and_load_fivetran(), extract_and_load_dlt()]
+    extract_and_load >> transform() >> [marketing_automation(), update_catalog()]
 
 daily_loan_run()
