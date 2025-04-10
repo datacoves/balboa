@@ -7,7 +7,7 @@ with DAG(
     schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["dbt_decorator_rework", "version_12"],
+    tags=["dbt_decorator_rework", "version_14"],
 ) as dag:
 
     @task.datacoves_dbt(
@@ -19,9 +19,13 @@ with DAG(
         # upload_run_results=True,
         # upload_sources_json=True,
     )
-    def upload_artifacts():
+    def dbt_source_freshness():
         return "dbt source freshness" # This should generate run_results and sources_json
         # return "dbt ls"
+
+    @task.datacoves_dbt(connection_id="main", upload_static_artifacts=False)
+    def dbt_build():
+        return "dbt build"
 
     @task.datacoves_dbt(
         connection_id="main",
@@ -48,4 +52,4 @@ with DAG(
 
         
 
-    upload_artifacts() >> download_artifacts(expected_files=["run_results.json", "sources.json"])
+    dbt_source_freshness() >> dbt_build() >> download_artifacts(expected_files=["run_results.json", "sources.json"])
