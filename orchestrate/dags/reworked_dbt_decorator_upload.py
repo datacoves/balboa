@@ -34,7 +34,7 @@ with DAG(
         download_run_results=True,
         download_sources_json=True,
     )
-    def download_artifacts(expected_files: list = ['run_results.json', 'sources.json']):
+    def download_artifacts(expected_files: list = []):
         if expected_files:
             return "dbt build -s result:error+ --state logs"
         else:
@@ -48,4 +48,4 @@ with DAG(
 
         
 
-    upload_artifacts() >> download_artifacts()
+    upload_artifacts() >> download_artifacts(expected_files=["run_results.json", "sources.json"])
