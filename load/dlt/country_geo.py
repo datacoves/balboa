@@ -2,10 +2,8 @@
 # /// script
 # dependencies = [
 #   "dlt[snowflake, parquet]==1.9.0",
-#   "enlighten~=1.12.4",
 #   "psutil~=6.0.0",
 #   "pandas==2.2.2",
-#   "tqdm"
 # ]
 # ///
 """Loads a CSV file to Snowflake"""
@@ -14,21 +12,17 @@ import pandas as pd
 from utils.datacoves_snowflake import db_config
 from utils.datacoves import pipelines_dir
 
-@dlt.resource(write_disposition="replace")
-def personal_loans():
-    personal_loans = "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/PERSONAL_LOANS.csv"
-    df = pd.read_csv(personal_loans)
-    yield df
-
-@dlt.resource(write_disposition="replace")
-def zip_coordinates():
-    zip_coordinates = "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com/ZIP_COORDINATES.csv"
-    df = pd.read_csv(zip_coordinates)
+@dlt.resource(
+    write_disposition="replace"
+)
+def country_polygons():
+    country_polygons_geojson = "https://datahub.io/core/geo-countries/_r/-/data/countries.geojson"
+    df = pd.read_json(country_polygons_geojson)
     yield df
 
 @dlt.source
-def loans_data():
-    return [personal_loans, zip_coordinates]
+def country_polygons_source():
+    return [country_polygons]
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
@@ -38,14 +32,16 @@ if __name__ == "__main__":
 
     pipeline = dlt.pipeline(
         progress = "log",
-        pipeline_name = "loans",
+        pipeline_name = "polygons",
         destination = datacoves_snowflake,
         pipelines_dir = pipelines_dir,
 
         # dataset_name is the target schema name
-        dataset_name="loans"
+        dataset_name="country_geo"
     )
 
-    load_info = pipeline.run(loans_data())
+    load_info = pipeline.run([
+            country_polygons_source()
+        ])
 
     print(load_info)

@@ -1,32 +1,51 @@
-import datetime
+"""
+## Sample DAG showing end-to-end ELT
+This DAG shows how to load data with 3 tools, then run dbt, then other tasks
+"""
+
 from airflow.decorators import dag, task, task_group
+from orchestrate.utils import datacoves_utils
+
 from datahub_airflow_plugin.entities import Dataset
 
 @dag(
-    default_args={"start_date": datetime.datetime(2024, 1, 1, 0, 0), "retries": 3},
-    description="Loan Run",
-    schedule="0 0 1 */12 *",
+    doc_md = __doc__,
+    catchup = False,
+
+    default_args = datacoves_utils.set_default_args(
+        owner = "Noel Gomez",
+        owner_email = "noel@example.com"
+    ),
+
+    description = "Sample DAG to synchronize the Airflow database",
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
     tags=["extract_and_load", "transform", "marketing_automation", "update_catalog"],
-    catchup=False,
 )
 def daily_loan_run():
 
-    @task_group(group_id="extract_and_load_airbyte", tooltip="Airbyte Extract and Load")
+    @task_group(
+        group_id="extract_and_load_airbyte",
+        tooltip="Airbyte Extract and Load"
+    )
     def extract_and_load_airbyte():
+
+        # Extact and load
         @task
         def sync_airbyte():
             from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
             return AirbyteTriggerSyncOperator(
                 task_id="country_populations_datacoves_snowflake",
-                connection_id="b293aaea-6557-4506-8cfb-6b621ec4c6ef",
+                connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
                 airbyte_conn_id="airbyte_connection",
             ).execute({})
 
         sync_airbyte()
 
-    tg_extract_and_load_airbyte = extract_and_load_airbyte()
 
-    @task_group(group_id="extract_and_load_fivetran", tooltip="Fivetran Extract and Load")
+    @task_group(
+        group_id="extract_and_load_fivetran",
+        tooltip="Fivetran Extract and Load"
+    )
     def extract_and_load_fivetran():
 
         @task
@@ -49,44 +68,32 @@ def daily_loan_run():
                 poke_interval=60,
             ).poke({})
 
-        trigger = trigger_fivetran()
-        sensor = sensor_fivetran()
+        trigger_fivetran() >> sensor_fivetran()
 
-        trigger >> sensor
-        return sensor  # Return last task in the group
 
-    tg_extract_and_load_fivetran = extract_and_load_fivetran()
-
-    @task_group(group_id="extract_and_load_dlt", tooltip="dlt Extract and Load")
+    @task_group(
+        group_id="extract_and_load_dlt",
+        tooltip="dlt Extract and Load"
+    )
     def extract_and_load_dlt():
         @task.datacoves_bash(
-            outlets=[Dataset("snowflake", "raw.loans_data.loans_data")],
-            env={
-                "UV_CACHE_DIR": "/tmp/uv_cache",
-                "EXTRACT__NEXT_ITEM_MODE": "fifo",
-                "EXTRACT__MAX_PARALLEL_ITEMS": "1",
-                "EXTRACT__WORKERS": "1",
-                "NORMALIZE__WORKERS": "1",
-                "LOAD__WORKERS": "1",
-            },
+            env = {**datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()},
             append_env=True
         )
         def load_loans_data():
             return "cd load/dlt && ./loans_data.py"
         load_loans_data()
 
-    tg_extract_and_load_dlt = extract_and_load_dlt()
 
+    # Transfor Data
     @task.datacoves_dbt(
-        connection_id="main",
-        inlets=[
-            Dataset("snowflake", "raw.loans_data.loans_data"),
-            Dataset("snowflake", "raw.google_analytics_4.engagement_events_report")
-        ]
+        connection_id="main"
     )
     def transform():
         return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
 
+
+    # Post transformation tasks
     @task.datacoves_bash
     def marketing_automation():
         return "echo 'send data to marketing tool'"
@@ -95,13 +102,7 @@ def daily_loan_run():
     def update_catalog():
         return "echo 'refresh data catalog'"
 
+    [extract_and_load_airbyte(), extract_and_load_fivetran(), extract_and_load_dlt()] >> transform()
+    transform() >> [marketing_automation(), update_catalog()]
 
-    transform_task = transform()
-    marketing_automation_task = marketing_automation()
-    update_catalog_task = update_catalog()
-
-    [tg_extract_and_load_airbyte, tg_extract_and_load_dlt, tg_extract_and_load_fivetran] >> transform_task
-    transform_task >> [marketing_automation_task, update_catalog_task]
-
-# Invoke DAG
-dag = daily_loan_run()
+daily_loan_run()

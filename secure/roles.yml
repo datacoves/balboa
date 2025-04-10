@@ -20,17 +20,20 @@
 
       - z_schema_l1_account_usage
       - z_schema_l1_country_data
+      - z_schema_l1_country_geo
       - z_schema_l1_covid19_epidemiological_data
       - z_schema_l1_google_analytics_4
       - z_schema_l1_loans
       - z_schema_l1_observe
       - z_schema_l1_us_population
+      - z_schema_l1_usgs__earthquake_data
 
       - z_schema_l2_country_demographics
       - z_schema_l2_covid_observations
       - z_schema_l2_snowflake_usage
 
       - z_schema_l3_covid_analytics
+      - z_schema_l3_earthquake_analytics
       - z_schema_l3_loan_analytics
 
       - z_schema_resources
@@ -385,6 +388,12 @@
         read:
           - balboa.l1_country_data
 
+- z_schema_l1_country_geo:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_country_geo
+
 - z_schema_l1_covid19_epidemiological_data:
     privileges:
       schemas:
@@ -415,6 +424,12 @@
         read:
           - balboa.l1_us_population
 
+- z_schema_l1_usgs__earthquake_data:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_usgs__earthquake_data
+
 # BAYS
 - z_schema_l2_country_demographics:
     privileges:
@@ -440,6 +455,12 @@
       schemas:
         read:
           - balboa.l3_covid_analytics
+
+- z_schema_l3_earthquake_analytics:
+    privileges:
+      schemas:
+        read:
+          - balboa.l3_earthquake_analytics
 
 - z_schema_l3_loan_analytics:
     privileges:

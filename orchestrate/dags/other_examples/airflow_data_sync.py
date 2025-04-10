@@ -1,19 +1,23 @@
-import datetime
+"""
+## Airflow dbt Sync Example
+This DAG shows how to copy the Airflow Database to Snowflake
+"""
 
 from airflow.decorators import dag, task
+from orchestrate.utils import datacoves_utils
 
 @dag(
-    default_args={
-        "start_date": datetime.datetime(2023, 1, 1, 0, 0),
-        "owner": "Bruno",
-        "email": "bruno@example.com",
-        "email_on_failure": False,
-        "retries": 3
-    },
-    description="Sample DAG for dbt build",
-    schedule="0 0 1 */12 *",
-    tags=["extract_and_load"],
-    catchup=False,
+    doc_md = __doc__,
+    catchup = False,
+
+    default_args = datacoves_utils.set_default_args(
+        owner = "Bruno",
+        owner_email = "bruno@example.com"
+    ),
+
+    description = "Sample DAG to synchronize the Airflow database",
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    tags = ["extract_and_load"],
 )
 def airflow_data_sync():
     @task.datacoves_airflow_db_sync(
@@ -27,4 +31,4 @@ def airflow_data_sync():
 
     sync_airflow_db()
 
-dag = airflow_data_sync()
+airflow_data_sync()
