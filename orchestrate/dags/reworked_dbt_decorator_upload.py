@@ -7,7 +7,7 @@ with DAG(
     schedule=None,
     start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
     catchup=False,
-    tags=["dbt_decorator_rework", "version_14"],
+    tags=["dbt_decorator_rework", "version_15"],
 ) as dag:
 
     @task.datacoves_dbt(
@@ -25,16 +25,10 @@ with DAG(
 
     @task.datacoves_dbt(connection_id="main", upload_static_artifacts=False)
     def dbt_build():
-        return "dbt build"
+        return "dbt seed && dbt build -s stg_personal_loans+"
 
     @task.datacoves_dbt(
         connection_id="main",
-        # download_static_artifacts=True, #semantic_manifest, partial_parse
-        # upload_static_artifacts=False,
-        # upload_tag="manual__2025-03-27T12:20:20.024277+00:00",  # TODO change to basic_dag id
-        # upload_manifest=False,
-        # upload_run_results=True,
-        # upload_sources_json=True,
         download_run_results=True,
         download_sources_json=True,
     )
