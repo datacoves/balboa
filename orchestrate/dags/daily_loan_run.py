@@ -70,28 +70,12 @@ def daily_loan_run():
 
         trigger_fivetran() >> sensor_fivetran()
 
-        # trigger >> sensor
-        # return sensor  # Return last task in the group
-
 
     @task_group(
         group_id="extract_and_load_dlt",
         tooltip="dlt Extract and Load"
     )
     def extract_and_load_dlt():
-        # @task.datacoves_bash(
-        #     outlets=[Dataset("snowflake", "raw.loans_data.loans_data")],
-        #     env={
-        #         "UV_CACHE_DIR": "/tmp/uv_cache",
-        #         "EXTRACT__NEXT_ITEM_MODE": "fifo",
-        #         "EXTRACT__MAX_PARALLEL_ITEMS": "1",
-        #         "EXTRACT__WORKERS": "1",
-        #         "NORMALIZE__WORKERS": "1",
-        #         "LOAD__WORKERS": "1",
-        #     },
-
-        #     append_env=True
-        # )
         @task.datacoves_bash(
             env = {**datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()},
             append_env=True
@@ -118,18 +102,7 @@ def daily_loan_run():
     def update_catalog():
         return "echo 'refresh data catalog'"
 
-    transform_task = transform()
-
-    [extract_and_load_airbyte(), extract_and_load_fivetran(), extract_and_load_dlt()] >> transform_task
-    transform_task >> [marketing_automation(), update_catalog()]
-
-#     tg_extract_and_load_dlt = extract_and_load_dlt()
-
-    # transform_task =
-    # marketing_automation_task = marketing_automation()
-    # update_catalog_task = update_catalog()
-
-    # [tg_extract_and_load_airbyte, tg_extract_and_load_dlt, tg_extract_and_load_fivetran] >> transform_task
-    # transform_task >> [marketing_automation_task, update_catalog_task]
+    [extract_and_load_airbyte(), extract_and_load_fivetran(), extract_and_load_dlt()] >> transform()
+    transform() >> [marketing_automation(), update_catalog()]
 
 daily_loan_run()
