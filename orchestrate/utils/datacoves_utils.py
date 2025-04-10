@@ -1,6 +1,7 @@
 import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Union
+import pendulum
 
 from airflow.utils.log.logging_mixin import LoggingMixin
 from airflow.hooks.base import BaseHook
@@ -134,7 +135,7 @@ def set_default_args(owner = None, owner_email = None):
     default_args = {
         # You should ALWAYS define a start time, but this is not when the dag
         # will run, it is a time after which the DAG will run
-        "start_date": datetime(2025, 1, 1),
+        "start_date": pendulum.datetime(2025, 1, 1, tz="UTC"),
 
         # This ensures that if a task fails, it is retried
         "retries": 3,
