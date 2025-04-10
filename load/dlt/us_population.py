@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run
 # /// script
 # dependencies = [
-#   "dlt[snowflake, parquet]==1.5.0",
+#   "dlt[snowflake, parquet]==1.9.0",
 #   "enlighten~=1.12.4",
 #   "psutil~=6.0.0",
 #   "pandas==2.2.2",
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     pipeline = dlt.pipeline(
         progress = "log",
-        pipeline_name = "loans",
+        pipeline_name = "us_population_data",
         destination = datacoves_snowflake,
         pipelines_dir = pipelines_dir,
 
