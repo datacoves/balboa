@@ -68,6 +68,8 @@ models:
                 +schema: L1_ACCOUNT_USAGE
             country_data:
                 +schema: L1_COUNTRY_DATA
+            country_geo:
+                +schema: L1_COUNTRY_GEO
             google_analytics_4:
                 +schema: L1_GOOGLE_ANALYTICS_4
             covid19_epidemiological_data:
@@ -78,6 +80,8 @@ models:
                 +schema: L1_OBSERVE
             us_population:
                 +schema: L1_US_POPULATION
+            usgs__earthquake_data:
+                +schema: L1_USGS__EARTHQUAKE_DATA
 
         L2_bays:
             +group: marketing
@@ -97,6 +101,8 @@ models:
                 node_color: "#366ccf"
             covid_analytics:
                 +schema: L3_COVID_ANALYTICS
+            earthquake_analytics:
+                +schema: L3_EARTHQUAKE_ANALYTICS
             loan_analytics:
                 +schema: L3_LOAN_ANALYTICS
                 # cannot persist docs on dynamic tables

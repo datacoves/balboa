@@ -4,6 +4,7 @@ from typing import Union
 
 from airflow.utils.log.logging_mixin import LoggingMixin
 from airflow.hooks.base import BaseHook
+from airflow.exceptions import AirflowNotFoundException
 
 ############################################
 # Constants
@@ -17,19 +18,24 @@ DEV_ENVIRONMENT_SLUG = "dev123"
 ############################################
 
 def connection_to_env_vars(connection_id):
-    # Get the connection object
-    conn = BaseHook.get_connection(connection_id)
-
     vars = {}
-    prefix = f"DATACOVES__{connection_id.upper()}__"
 
-    # Access specific connection parameters
-    vars[f"{prefix}ACCOUNT"] = conn.extra_dejson.get('account')
-    vars[f"{prefix}DATABASE"] = conn.extra_dejson.get('database')
-    vars[f"{prefix}WAREHOUSE"] = conn.extra_dejson.get('warehouse')
-    vars[f"{prefix}ROLE"] = conn.extra_dejson.get('role')
-    vars[f"{prefix}USER"] = conn.login
-    vars[f"{prefix}PASSWORD"] = conn.password
+    try:
+        # Get the connection object
+        conn = BaseHook.get_connection(connection_id)
+
+        prefix = f"DATACOVES__{connection_id.upper()}__"
+
+        # Access specific connection parameters
+        vars[f"{prefix}ACCOUNT"] = conn.extra_dejson.get('account')
+        vars[f"{prefix}DATABASE"] = conn.extra_dejson.get('database')
+        vars[f"{prefix}WAREHOUSE"] = conn.extra_dejson.get('warehouse')
+        vars[f"{prefix}ROLE"] = conn.extra_dejson.get('role')
+        vars[f"{prefix}USER"] = conn.login
+        vars[f"{prefix}PASSWORD"] = conn.password
+
+    except AirflowNotFoundException:
+        pass
 
     return vars
 
