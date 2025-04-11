@@ -1,0 +1,14 @@
+version: 2
+models:
+  - name: loans_by_state__dynamic
+    description: This model shows the top 10 states with loans.
+    config:
+      grants:
+        select: [analyst]
+    columns:
+      - name: state
+        description: The code for the state.
+      - name: state_name
+        description: The name of the state.
+      - name: number_of_loans
+        description: The number of loans in the state.
