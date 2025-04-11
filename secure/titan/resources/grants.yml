@@ -132,9 +132,6 @@ future_grants:
   - priv: USAGE
     on_future_schemas_in_database: raw
     to: securityadmin
-  - priv: USAGE
-    on_future_schemas_in_database: raw
-    to: z_schema_raw
   - priv: CREATE STAGE
     on_future_schemas_in_database: raw
     to: z_db_raw_write

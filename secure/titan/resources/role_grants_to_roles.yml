@@ -119,8 +119,6 @@ role_grants:
     to_role: transformer_dbt
   - role: accountadmin
     to_role: securityadmin
-  - role: z_base_analyst
-    to_role: z_schema_raw
   - role: bot_integration
     to_role: z_wh_integration
   - role: z_policy_unmask_pii

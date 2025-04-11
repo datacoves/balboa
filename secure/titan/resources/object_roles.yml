@@ -7,6 +7,18 @@ roles:
   - for_each: var.balboa_schemas
     name: "z_schema_{{ each.value }}"
 
+# Raw schema roles
+  - for_each: var.raw_schemas
+    name: "z_schema_{{ each.value }}"
+
+# Balboa apps roles
+  - for_each: var.balboa_apps_schemas
+    name: "z_schema_{{ each.value }}"
+
+# Great bay roles
+  - for_each: var.great_bay_schemas
+    name: "z_schema_{{ each.value }}"
+
 # Warehouse roles
   - for_each: var.warehouses
     name: "z_{{ each.value }}"
@@ -22,6 +34,24 @@ grants:
   - for_each: var.balboa_schemas
     priv: USAGE
     on_schema: "balboa.{{ each.value }}"
+    to: "z_schema_{{ each.value }}"
+
+# Raw Schemas
+  - for_each: var.raw_schemas
+    priv: USAGE
+    on_schema: "raw.{{ each.value }}"
+    to: "z_schema_{{ each.value }}"
+
+# Balboa Apps Schemas
+  - for_each: var.balboa_apps_schemas
+    priv: USAGE
+    on_schema: "balboa_apps.{{ each.value }}"
+    to: "z_schema_{{ each.value }}"
+
+# Great Bay Schemas
+  - for_each: var.great_bay_schemas
+    priv: USAGE
+    on_schema: "great_bay.{{ each.value }}"
     to: "z_schema_{{ each.value }}"
 
 # Warehouses

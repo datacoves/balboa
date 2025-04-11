@@ -6,12 +6,19 @@ vars:
       - balboa
       - balboa_apps
       - balboa_dev
-      # Snowflake database contains metadata describing usage
-      #- snowflake
+      - snowflake
       - covid19_epidemiological_data
       - great_bay
       - sushi_db
 
 databases:
-  - for_each: var.databases
-    name: "{{ each.value }}"
+  # Titan does not support the for_each syntax on databases yet
+  # - for_each: var.databases
+  #   name: "{{ each.value }}"
+  - name: raw
+  - name: balboa
+  - name: balboa_apps
+  - name: balboa_dev
+  - name: covid19_epidemiological_data
+  - name: great_bay
+  - name: sushi_db

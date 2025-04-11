@@ -23,18 +23,44 @@ vars:
       - SEEDS
 
       - MASKING_POLICIES
+  
+  # Schemas for RAW
+  - name: raw_schemas
+    type: list
+    default:
+      - SNAPSHOTS
+      - DBT_ARTIFACTS
+
+  # Schemas for balboa_apps
+  - name: balboa_apps_schemas
+    type: list
+    default:
+      - RESOURCES
+
+  # Schemas for great_bay
+  - name: great_bay_schemas
+    type: list
+    default:
+      - COVE_MARKETING
+
 
 schemas:
+  # Schemas for database balboa
   - for_each: var.balboa_schemas
     name: "{{ each.value }}"
     database: balboa
+  
+  # schemas for database RAW
+  - for_each: var.raw_schemas
+    name: "{{ each.value }}"
+    database: raw
 
-  # Additional schemas
-  - name: SNAPSHOTS
-    database: raw
-  - name: DBT_ARTIFACTS
-    database: raw
-  - name: RESOURCES
+  # schemas for database balboa_apps
+  - for_each: var.balboa_apps_schemas
+    name: "{{ each.value }}"
     database: balboa_apps
-  - name: COVE_MARKETING
+
+  # schemas for database great_bay
+  - for_each: var.great_bay_schemas
+    name: "{{ each.value }}"
     database: great_bay
