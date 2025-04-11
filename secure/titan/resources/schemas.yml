@@ -1,0 +1,66 @@
+# Schemas for Database BALBOA
+vars:
+  - name: balboa_schemas
+    type: list
+    default:
+      - L1_ACCOUNT_USAGE
+      - L1_COUNTRY_DATA
+      - L1_COVID19_EPIDEMIOLOGICAL_DATA
+      - L1_GOOGLE_ANALYTICS_4
+      - L1_LOANS
+      - L1_OBSERVE
+      - L1_US_POPULATION
+
+      - L2_COUNTRY_DEMOGRAPHICS
+      - L2_COVID_OBSERVATIONS
+      - L2_SNOWFLAKE_USAGE
+
+      - L3_COVID_ANALYTICS
+      - L3_LOAN_ANALYTICS
+
+      - DBT_TEST__AUDIT
+
+      - SEEDS
+
+      - MASKING_POLICIES
+  
+  # Schemas for RAW
+  - name: raw_schemas
+    type: list
+    default:
+      - SNAPSHOTS
+      - DBT_ARTIFACTS
+
+  # Schemas for balboa_apps
+  - name: balboa_apps_schemas
+    type: list
+    default:
+      - RESOURCES
+
+  # Schemas for great_bay
+  - name: great_bay_schemas
+    type: list
+    default:
+      - COVE_MARKETING
+
+
+schemas:
+  # Schemas for database balboa
+  - for_each: var.balboa_schemas
+    name: "{{ each.value }}"
+    database: balboa
+  
+  # schemas for database RAW
+  - for_each: var.raw_schemas
+    name: "{{ each.value }}"
+    database: raw
+
+  # schemas for database balboa_apps
+  - for_each: var.balboa_apps_schemas
+    name: "{{ each.value }}"
+    database: balboa_apps
+
+  # schemas for database great_bay
+  - for_each: var.great_bay_schemas
+    name: "{{ each.value }}"
+    database: great_bay

@@ -1,0 +1,20 @@
+users:
+  - name: alex
+  - name: alejandro
+  - name: bruno
+  - name: gomezn
+  - name: mayra
+  - name: sebastian
+  - name: stephen
+  - name: svc_airbyte
+  - name: svc_airflow
+  - name: svc_datacoves
+  - name: svc_fivetran
+  - name: svc_github_actions
+
+  # Used by GH Actions on Balboa repo
+  - name: svc_balboa_ci
+  - name: svc_dbt_coves_ci
+  - name: svc_datacoves_platform_ci
+  - name: svc_rupert
+  - name: svc_datahub
