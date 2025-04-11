@@ -1,13 +1,17 @@
 role_grants:
+  # Alex
   - role: analyst
     to_user: alex
 
+  # Alejandro
   - role: analyst
     to_user: alejandro
 
+  # Bruno
   - role: analyst
     to_user: bruno
 
+  # Noel
   - role: analyst
     to_user: gomezn
   - role: orgadmin
@@ -28,6 +32,7 @@ role_grants:
   # - role: analyst_pii
   #   to_user: gomezn
 
+  # Mayra
   - role: analyst
     to_user: mayra
   - role: accountadmin
@@ -35,6 +40,7 @@ role_grants:
   - role: securityadmin
     to_user: mayra
 
+  # Sebastian
   - role: accountadmin
     to_user: sebastian
   - role: securityadmin
@@ -44,6 +50,7 @@ role_grants:
   - role: transformer_dbt
     to_user: sebastian
 
+  # Stephen
   - role: accountadmin
     to_user: stephen
   - role: securityadmin
@@ -51,34 +58,44 @@ role_grants:
   - role: analyst
     to_user: stephen
 
+  # Airbyte
   - role: loader
     to_user: svc_airbyte
 
+  # Airflow
   - role: transformer_dbt
     to_user: svc_airflow
 
+  # Datacoves
   - role: securityadmin
     to_user: svc_datacoves
 
+  # Fivetran
   - role: loader
     to_user: svc_fivetran
 
+  # Github
   - role: transformer_dbt
     to_user: svc_github_actions
 
+  # CI
   - role: bot_integration
     to_user: svc_balboa_ci
   - role: transformer_dbt
     to_user: svc_balboa_ci
 
+  # Dbt coves
   - role: bot_integration
     to_user: svc_dbt_coves_ci
 
+  # CI
   - role: bot_integration
     to_user: svc_datacoves_platform_ci
 
+  # Rupert
   - role: analyst
     to_user: svc_rupert
 
+  # Datahub
   - role: catalog
     to_user: svc_datahub

@@ -1,0 +1,35 @@
+roles:
+# Databases
+  - for_each: var.databases
+    name: "z_db_{{ each.value }}"
+
+# Balboa schema roles
+  - for_each: var.balboa_schemas
+    name: "z_schema_{{ each.value }}"
+
+# Warehouse roles
+  - for_each: var.warehouses
+    name: "z_{{ each.value }}"
+
+grants:
+# Databases
+  - for_each: var.databases
+    priv: USAGE
+    on_database: "{{ each.value }}"
+    to: "z_db_{{ each.value }}"
+
+# Balboa Schemas
+  - for_each: var.balboa_schemas
+    priv: USAGE
+    on_schema: "balboa.{{ each.value }}"
+    to: "z_schema_{{ each.value }}"
+
+# Warehouses
+  - for_each: var.warehouses
+    priv: USAGE
+    on_warehouse: "{{ each.value }}"
+    to: "z_{{ each.value }}"
+  - for_each: var.warehouses
+    priv: MONITOR
+    on_warehouse: "{{ each.value }}"
+    to: "z_{{ each.value }}"

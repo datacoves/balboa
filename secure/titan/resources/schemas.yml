@@ -1,0 +1,40 @@
+# Schemas for Database BALBOA
+vars:
+  - name: balboa_schemas
+    type: list
+    default:
+      - L1_ACCOUNT_USAGE
+      - L1_COUNTRY_DATA
+      - L1_COVID19_EPIDEMIOLOGICAL_DATA
+      - L1_GOOGLE_ANALYTICS_4
+      - L1_LOANS
+      - L1_OBSERVE
+      - L1_US_POPULATION
+
+      - L2_COUNTRY_DEMOGRAPHICS
+      - L2_COVID_OBSERVATIONS
+      - L2_SNOWFLAKE_USAGE
+
+      - L3_COVID_ANALYTICS
+      - L3_LOAN_ANALYTICS
+
+      - DBT_TEST__AUDIT
+
+      - SEEDS
+
+      - MASKING_POLICIES
+
+schemas:
+  - for_each: var.balboa_schemas
+    name: "{{ each.value }}"
+    database: balboa
+
+  # Additional schemas
+  - name: SNAPSHOTS
+    database: raw
+  - name: DBT_ARTIFACTS
+    database: raw
+  - name: RESOURCES
+    database: balboa_apps
+  - name: COVE_MARKETING
+    database: great_bay

@@ -129,3 +129,5 @@ role_grants:
     to_role: z_wh_orchestrating
   - role: z_base_analyst
     to_role: z_schema_l2_country_demographics
+  - role: z_wh_transforming_sqlmesh
+    to_role: sqlmesh_analyst
