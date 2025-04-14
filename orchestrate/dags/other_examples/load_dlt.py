@@ -6,6 +6,7 @@ This DAG shows how to load data with dlt
 from airflow.decorators import dag, task
 from orchestrate.utils import datacoves_utils
 
+
 @dag(
     doc_md = __doc__,
     catchup = False,
@@ -23,7 +24,12 @@ def load_with_dlt():
 
     # here we use a datacoves service connection called main_load
     @task.datacoves_bash(
-        env = {**datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()}
+        env = {
+            **datacoves_utils.set_dlt_env_vars({
+                'destinations': ['main_load_keypair']
+            })
+        },
+        append_env = True
     )
     def load_us_population():
         return "cd load/dlt && ./us_population.py"

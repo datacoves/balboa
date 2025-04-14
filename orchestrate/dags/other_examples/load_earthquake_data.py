@@ -40,7 +40,13 @@ def load_earthquake_data():
 
     # Load earthquake data from USGS
     @task.datacoves_bash(
-        env = {**start_date, **datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()}
+        env = {
+            **start_date,
+            **datacoves_utils.set_dlt_env_vars({
+                'destinations': ['main_load_keypair']
+            })
+        },
+        append_env = True
     )
     def load_usgs_data(**context):
         # return "env| sort |grep DATAC"
@@ -49,7 +55,12 @@ def load_earthquake_data():
 
     # Load Country Polygon Data
     @task.datacoves_bash(
-        env = {**datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()}
+        env = {
+            **datacoves_utils.set_dlt_env_vars({
+                'destinations': ['main_load_keypair']
+            })
+        },
+        append_env = True
     )
     def load_country_geography():
         return "cd load/dlt && ./country_geo.py"

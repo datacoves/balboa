@@ -77,8 +77,12 @@ def daily_loan_run():
     )
     def extract_and_load_dlt():
         @task.datacoves_bash(
-            env = {**datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()},
-            append_env=True
+        env = {
+            **datacoves_utils.set_dlt_env_vars({
+                'destinations': ['main_load_keypair']
+            })
+        },
+        append_env = True
         )
         def load_loans_data():
             return "cd load/dlt && ./loans_data.py"

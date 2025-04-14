@@ -7,35 +7,84 @@ from airflow.utils.log.logging_mixin import LoggingMixin
 from airflow.hooks.base import BaseHook
 from airflow.exceptions import AirflowNotFoundException
 
+logger = LoggingMixin().log
+
+
 ############################################
 # Constants
 ############################################
 
-DEV_ENVIRONMENT_SLUG = "dev123"
+DEV_ENVIRONMENT_SLUG = ""
 
 
 ############################################
 # Environment Variables
 ############################################
 
-def connection_to_env_vars(connection_id):
+def set_dlt_env_vars(dlt_connections):# = {"sources": {}, "destinations": {}}):
+    all_vars = {}
+    vars = {}
+
+    if 'sources' in dlt_connections.keys():
+        sources = dlt_connections['sources']
+
+        for src in sources:
+            prefix = "SOURCE__DATACOVES_SNOWFLAKE__CREDENTIALS__"
+            vars.update(connection_to_env_vars(src, prefix, True))
+
+    if 'destinations' in dlt_connections.keys():
+        destinations = dlt_connections['destinations']
+
+        for dest in destinations:
+            prefix = "DESTINATION__DATACOVES_SNOWFLAKE__CREDENTIALS__"
+            vars.update(connection_to_env_vars(dest, prefix, True))
+
+    all_vars = {**vars, **uv_env_vars()}
+
+    return all_vars
+
+
+def format_private_key(key):
+    key_to_lines = key.split('\n')
+
+    # Exclude the first and last lines since these have --START and END
+    middle_lines = key_to_lines[1:-2]
+
+    # Join the remaining lines into a single line
+    return ''.join(middle_lines)
+
+
+def connection_to_env_vars(connection_id, prefix = None, is_for_dlt = False):
     vars = {}
 
     try:
         # Get the connection object
         conn = BaseHook.get_connection(connection_id)
 
-        prefix = f"DATACOVES__{connection_id.upper()}__"
+        if not prefix:
+            prefix = f"DATACOVES__{connection_id.upper()}__"
 
         # Access specific connection parameters
-        vars[f"{prefix}ACCOUNT"] = conn.extra_dejson.get('account')
+        if is_for_dlt:
+            vars[f"{prefix}HOST"] = conn.extra_dejson.get('account')
+            vars[f"{prefix}USERNAME"] = conn.login
+        else:
+            vars[f"{prefix}ACCOUNT"] = conn.extra_dejson.get('account')
+            vars[f"{prefix}USER"] = conn.login
+
+        if conn.extra_dejson.get('private_key_content'):
+            vars[f"{prefix}PRIVATE_KEY"] = format_private_key(conn.extra_dejson.get('private_key_content'))
+        elif conn.password:
+            vars[f"{prefix}PASSWORD"] = conn.password
+        else:
+            logger.error("Neither Password nor Private Key Found")
+
         vars[f"{prefix}DATABASE"] = conn.extra_dejson.get('database')
         vars[f"{prefix}WAREHOUSE"] = conn.extra_dejson.get('warehouse')
         vars[f"{prefix}ROLE"] = conn.extra_dejson.get('role')
-        vars[f"{prefix}USER"] = conn.login
-        vars[f"{prefix}PASSWORD"] = conn.password
 
     except AirflowNotFoundException:
+        logger.error(f"Connection not found: {connection_id}")
         pass
 
     return vars
