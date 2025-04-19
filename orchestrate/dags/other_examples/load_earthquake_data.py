@@ -27,7 +27,7 @@ def load_earthquake_data():
     def get_last_success_date(**context):
         dag_id = context['dag'].dag_id
         print(f"DAG: {dag_id}")
-        success_date = datacoves_utils.last_dag_successful_run(dag_id)
+        success_date = datacoves_utils.get_last_dag_successful_run_date(dag_id)
         if success_date == None:
             success_date = datetime.date.today()
             print(f"##### NOTE: Last DAG run date set to: {success_date}")
@@ -35,25 +35,33 @@ def load_earthquake_data():
             success_date = success_date.date()
         return str(success_date - datetime.timedelta(days=3))
 
-    start_date = {"DATACOVES__START_DATE": get_last_success_date()}
-
-
     # Load earthquake data from USGS
-    @task.datacoves_bash(
-        env = {**start_date, **datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()}
-    )
+    @task.datacoves_bash
     def load_usgs_data(**context):
-        # return "env| sort |grep DATAC"
-        return "cd load/dlt && ./usgs_earthquake.py --start-date $DATACOVES__START_DATE"
+        from orchestrate.utils import datacoves_utils
 
+        # Get the start date directly from the upstream task
+        task_instance = context['task_instance']
+        start_date = task_instance.xcom_pull(task_ids = 'get_last_success_date')
+
+        # Set up environment variables
+        env_vars = datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']})
+        env_vars['DATACOVES__START_DATE'] = start_date
+
+        env_exports = datacoves_utils.generate_env_exports(env_vars)
+
+        return f"{env_exports}; cd load/dlt && ./usgs_earthquake.py --start-date $DATACOVES__START_DATE"
 
     # Load Country Polygon Data
-    @task.datacoves_bash(
-        env = {**datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()}
-    )
+    @task.datacoves_bash
     def load_country_geography():
-        return "cd load/dlt && ./country_geo.py"
+        from orchestrate.utils import datacoves_utils
 
+        env_vars = datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']})
+
+        env_exports = datacoves_utils.generate_env_exports(env_vars)
+
+        return f"{env_exports}; cd load/dlt && ./country_geo.py"
 
     # Run the dbt transformations
     @task.datacoves_dbt(
@@ -62,9 +70,14 @@ def load_earthquake_data():
     def transform():
         return "dbt build -s tag:earthquake_analysis+"
 
+    # First, save the task instance of get_last_success_date
+    get_start_date = get_last_success_date()
+    get_usgs_data = load_usgs_data()
+    get_geography_data = load_country_geography()
+    trasnform_data =  transform()
 
-    # Define Dependencies
-    [load_usgs_data(), load_country_geography()] >> transform()
+    # Set dependencies
+    get_start_date >> get_usgs_data
+    [get_usgs_data, get_geography_data] >> trasnform_data
 
-# Invoke DAG
 load_earthquake_data()
