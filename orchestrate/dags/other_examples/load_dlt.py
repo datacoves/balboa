@@ -22,17 +22,14 @@ from orchestrate.utils import datacoves_utils
 )
 def load_with_dlt():
 
-    # here we use a datacoves service connection called main_load
-    @task.datacoves_bash(
-        env = {
-            **datacoves_utils.set_dlt_env_vars({
-                'destinations': ['main_load_keypair']
-            })
-        },
-        append_env = True
-    )
+    @task.datacoves_bash
     def load_us_population():
-        return "cd load/dlt && ./us_population.py"
+        from orchestrate.utils import datacoves_utils
+
+        env_vars = datacoves_utils.set_dlt_env_vars({"destinations": ["main_load_keypair"]})
+        env_exports = datacoves_utils.generate_env_exports(env_vars)
+
+        return f"{env_exports}; cd load/dlt && ./us_population.py"
 
     load_us_population()
 

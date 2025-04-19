@@ -11,13 +11,31 @@ import dlt
 import pandas as pd
 from utils.datacoves_utils import pipelines_dir
 
-@dlt.resource(
-    write_disposition="replace"
-)
+@dlt.resource(write_disposition="replace")
 def country_polygons():
+    import requests
+    import json
+
     country_polygons_geojson = "https://datahub.io/core/geo-countries/_r/-/data/countries.geojson"
-    df = pd.read_json(country_polygons_geojson)
-    yield df
+    response = requests.get(country_polygons_geojson)
+    geo_data = response.json()
+
+    # Extract features from GeoJSON
+    features = geo_data.get("features", [])
+
+    # Create rows for each country
+    for feature in features:
+        properties = feature.get("properties", {})
+        geometry = feature.get("geometry", {})
+
+        # Create a row with flattened properties and geometry as JSON
+        row = {
+            **properties,
+            "geometry_type": geometry.get("type"),
+            "geometry": json.dumps(geometry)  # Store geometry as JSON string
+        }
+
+        yield row
 
 @dlt.source
 def country_polygons_source():
