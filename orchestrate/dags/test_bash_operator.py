@@ -14,18 +14,19 @@ from operators.datacoves.dbt import DatacovesDbtOperator
         "retries": 3,
         "retry_delay": timedelta(minutes=2),
     },
-    description="DAG for testing dbt debug.",
+    description="DAG for testing bash operator.",
     schedule="23 20 * * 1-5",
-    tags=["version_3"],
+    tags=["version_1"],
     catchup=False,
 )
-def dag_dbt_debug():
+def dag_test_bash_operator():
 
-    test_dbt = DatacovesDbtOperator(
-        task_id="test_dbt",
-        bash_command="dbt debug"
+    test_bash_operator = BashOperator(
+        task_id='hello_world_task',
+        bash_command='python -c "print(\'Hello, world!\')"',
+        dag=dag
     )
 
-    test_dbt
+    test_bash_operator
 
-dag = dag_dbt_debug()
+dag = dag_test_bash_operator()
