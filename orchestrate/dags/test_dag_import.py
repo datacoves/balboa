@@ -14,7 +14,7 @@ def print_pythonpath():
 
 @dag(
     default_args={
-        "owner": "Datacoves",
+        "owner": "Alejandro",
         "depends_on_past": False,
         "start_date": datetime.today() - timedelta(days=1),
         "email": "alejandro@datacoves.com",
