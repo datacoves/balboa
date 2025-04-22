@@ -16,7 +16,7 @@ def consume_memory(initial_size_mb, increment_mb, delay_seg, iterations):
         current_size_bytes = (initial_size_mb + i * increment_mb) * 1024 * 1024
         bloque = bytearray(current_size_bytes)
         memory_consumed.append(bloque)
-        print(f"Iteración {i+1}: Consumiendo {len(bloque) / (1024 * 1024):.2f} MB")
+        print(f"Iteration {i+1}: Consuming {len(bloque) / (1024 * 1024):.2f} MB")
         time.sleep(delay_seg)
 
 
@@ -25,15 +25,15 @@ with DAG(
     default_args=default_args,
     schedule_interval=None,
     catchup=False,
-    tags=["version_2"],
+    tags=["version_3"],
 ) as dag:
     task_consume = PythonOperator(
         task_id='consume_memory_incremental',
         python_callable=consume_memory,
         op_kwargs={
             'initial_size_mb': 100,
-            'increment_mb': 100,
-            'delay_seg': 20,
+            'increment_mb': 50,
+            'delay_seg': 60,
             'iterations': 20
         },
     )
