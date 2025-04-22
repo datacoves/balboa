@@ -14,11 +14,11 @@ def consume_memory(initial_size_mb, increment_mb, delay_seg, iterations):
 
 
 with DAG(
-    owner="Alejandro",
     dag_id="consume_memory_pod",
     start_date=datetime(2023, 1, 1),
     schedule_interval=None,
     catchup=False,
+    owner="Alejandro",
     tags=["version_1"],
 ) as dag:
     task_consume = PythonOperator(

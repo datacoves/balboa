@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from airflow.decorators import dag
 from operators.datacoves.dbt import DatacovesDbtOperator
 from airflow.operators.python import PythonOperator
-from utils.test import test, test1
+from utils.test import test
 
 
 def print_pythonpath():

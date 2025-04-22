@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from airflow.decorators import dag
-from operators.datacoves.dbt import DatacovesDbtOperator
+from airflow.operators.bash import BashOperator
 
 
 @dag(
