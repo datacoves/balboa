@@ -11,7 +11,7 @@ from airflow.operators.bash import BashOperator
         "email": "alejandro@datacoves.com",
         "email_on_failure": False,
         "email_on_retry": False,
-        "retries": 3,
+        "retries": 1,
         "retry_delay": timedelta(minutes=2),
     },
     description="DAG for testing bash operator.",
@@ -23,10 +23,10 @@ def dag_test_bash_operator():
 
     test_bash_operator = BashOperator(
         task_id='hello_world_task',
-        bash_command='python -c "print(\'Hello, world!\')"',
-        dag=dag
+        bash_command='python -c "print(\'Hello, world!\')"'
     )
 
-    test_bash_operator
+    return test_bash_operator
 
-dag = dag_test_bash_operator()
+
+dag_test_bash_operator()
