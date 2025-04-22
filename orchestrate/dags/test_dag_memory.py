@@ -3,6 +3,13 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import time
 
+
+default_args = {
+    "owner": "Alejandro",
+    "start_date": datetime(2025, 1, 1),
+    "retries": 0
+}
+
 def consume_memory(initial_size_mb, increment_mb, delay_seg, iterations):
     memory_consumed = []
     for i in range(iterations):
@@ -15,18 +22,18 @@ def consume_memory(initial_size_mb, increment_mb, delay_seg, iterations):
 
 with DAG(
     dag_id="consume_memory_pod",
-    start_date=datetime(2025, 1, 1),
+    default_args=default_args,
     schedule_interval=None,
     catchup=False,
-    tags=["version_1"],
+    tags=["version_2"],
 ) as dag:
     task_consume = PythonOperator(
         task_id='consume_memory_incremental',
         python_callable=consume_memory,
         op_kwargs={
             'initial_size_mb': 100,
-            'increment_mb': 200,
-            'delay_seg': 5,
+            'increment_mb': 100,
+            'delay_seg': 20,
             'iterations': 20
         },
     )
