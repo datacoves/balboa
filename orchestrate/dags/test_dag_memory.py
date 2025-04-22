@@ -21,8 +21,8 @@ with DAG(
     tags=["version_1"],
 ) as dag:
     task_consume = PythonOperator(
-        task_id='consumir_memoria_gradual',
-        python_callable=consumir_memoria,
+        task_id='consume_memory_incremental',
+        python_callable=consume_memory,
         op_kwargs={
             'initial_size_mb': 100,
             'increment_mb': 200,
