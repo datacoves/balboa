@@ -16,7 +16,7 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     },
     description="DAG for testing dbt debug.",
     schedule="23 20 * * 1-5",
-    tags=["version_3"],
+    tags=["version_4"],
     catchup=False,
 )
 def dag_dbt_debug():
