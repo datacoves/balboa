@@ -23,10 +23,8 @@ generate:
     # destination: "metadata.csv"
 
   airflow_dags:
-    secrets_manager: datacoves
-
-    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
-    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
+    yml_path: "{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
+    dags_path: "{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
 
     generators_params:
       AirbyteDbtGenerator:

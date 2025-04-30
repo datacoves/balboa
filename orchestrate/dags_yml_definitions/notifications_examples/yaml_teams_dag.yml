@@ -30,9 +30,9 @@ notifications:
 # DAG Tasks
 nodes:
   transform:
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    task_decorator: datacoves_dbt
+    connection_id: main
     type: task
-
     bash_command: "dbt run -s personal_loans"
 
   # Sample failing task to test that notification is sent

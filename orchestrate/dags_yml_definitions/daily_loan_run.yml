@@ -11,20 +11,19 @@ default_args:
 catchup: false
 
 nodes:
-  extract_and_load_airbyte:
-    generator: AirbyteDbtGenerator
-    type: task_group
+  # extract_and_load_airbyte:
+  #   generator: AirbyteDbtGenerator
+  #   type: task_group
 
-    tooltip: "Airbyte Extract and Load"
-    dbt_list_args: "--select tag:daily_run_airbyte"
+  #   tooltip: "Airbyte Extract and Load"
+  #   dbt_list_args: "--select tag:daily_run_airbyte"
 
+  # extract_and_load_fivetran:
+  #   generator: FivetranDbtGenerator
+  #   type: task_group
 
-  extract_and_load_fivetran:
-    generator: FivetranDbtGenerator
-    type: task_group
-
-    tooltip: "Fivetran Extract and Load"
-    dbt_list_args: "--select tag:daily_run_fivetran"
+  #   tooltip: "Fivetran Extract and Load"
+  #   dbt_list_args: "--select tag:daily_run_fivetran"
 
   extract_and_load_dlt:
     type: task_group
@@ -32,25 +31,29 @@ nodes:
 
     tasks:
       load_us_population:
-        operator: operators.datacoves.bash.DatacovesBashOperator
+        task_decorator: datacoves_bash
         bash_command: "./load/dlt/load_data.py"
 
   transform:
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
     type: task
-
+    task_decorator: datacoves_dbt
+    connection_id: main
     bash_command: "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
-    dependencies: ["extract_and_load_airbyte", "extract_and_load_dlt", "extract_and_load_fivetran"]
+    dependencies:
+      [
+        "extract_and_load_airbyte",
+        "extract_and_load_dlt",
+        "extract_and_load_fivetran",
+      ]
 
   marketing_automation:
-    operator: operators.datacoves.bash.DatacovesBashOperator
+    task_decorator: datacoves_bash
     type: task
-
     bash_command: "echo 'send data to marketing tool'"
     dependencies: ["transform"]
 
   update_catalog:
-    operator: operators.datacoves.bash.DatacovesBashOperator
+    task_decorator: datacoves_bash
     type: task
 
     bash_command: "echo 'refresh data catalog'"
