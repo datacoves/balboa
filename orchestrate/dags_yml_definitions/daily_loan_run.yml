@@ -11,19 +11,19 @@ default_args:
 catchup: false
 
 nodes:
-  # extract_and_load_airbyte:
-  #   generator: AirbyteDbtGenerator
-  #   type: task_group
+  extract_and_load_airbyte:
+    generator: AirbyteDbtGenerator
+    type: task_group
 
-  #   tooltip: "Airbyte Extract and Load"
-  #   dbt_list_args: "--select tag:daily_run_airbyte"
+    tooltip: "Airbyte Extract and Load"
+    dbt_list_args: "--select tag:daily_run_airbyte"
 
-  # extract_and_load_fivetran:
-  #   generator: FivetranDbtGenerator
-  #   type: task_group
+  extract_and_load_fivetran:
+    generator: FivetranDbtGenerator
+    type: task_group
 
-  #   tooltip: "Fivetran Extract and Load"
-  #   dbt_list_args: "--select tag:daily_run_fivetran"
+    tooltip: "Fivetran Extract and Load"
+    dbt_list_args: "--select tag:daily_run_fivetran"
 
   extract_and_load_dlt:
     type: task_group
