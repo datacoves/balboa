@@ -37,11 +37,11 @@ def variables_python_script():
         # Second Task
         @task.datacoves_bash(
             env = {
-                "VAR1": Variable.get("my_var1", "default_value"),
-                "VAR2": Variable.get("my_var2"),
-                "VAR3": Variable.get("my_var3"),
+                "VAR1": "{{ var.value.my_var1 or 'default_value' }}",
+                "VAR2": "{{ var.value.my_var2 }}",
+                "VAR3": "{{ var.value.my_var3 }}",
             }
-        )  # ✅ Fetching variables inside the task
+        )
         def run_python_script():
             return "python orchestrate/python_scripts/sample_script.py"
 

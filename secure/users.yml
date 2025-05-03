@@ -91,3 +91,8 @@
     can_login: true
     member_of:
       - catalog
+
+- svc_superset:
+    can_login: true
+    member_of:
+      - analyst

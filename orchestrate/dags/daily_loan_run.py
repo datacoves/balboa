@@ -76,12 +76,15 @@ def daily_loan_run():
         tooltip="dlt Extract and Load"
     )
     def extract_and_load_dlt():
-        @task.datacoves_bash(
-            env = {**datacoves_utils.connection_to_env_vars("main_load"), **datacoves_utils.uv_env_vars()},
-            append_env=True
-        )
+        @task.datacoves_bash
         def load_loans_data():
-            return "cd load/dlt && ./loans_data.py"
+            from orchestrate.utils import datacoves_utils
+
+            env_vars = datacoves_utils.set_dlt_env_vars({"destinations": ["main_load_keypair"]})
+            env_exports = datacoves_utils.generate_env_exports(env_vars)
+
+            return f"{env_exports}; cd load/dlt && ./loans_data.py"
+
         load_loans_data()
 
 
