@@ -37,7 +37,7 @@ def bad_variable_usage():
 
     @task.datacoves_bash
     def aws_var():
-        var = Variable.get("aws_ngtest", "default_value")
+        var = Variable.get("aws_ngtest", "some_default_value_for_AWS")
         return f"export MY_VAR={var} && echo $MY_VAR"
 
     aws_var()
