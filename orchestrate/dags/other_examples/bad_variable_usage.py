@@ -40,5 +40,6 @@ def bad_variable_usage():
         var = bad_used_variable
         return f"export MY_VAR={var} && echo MY_VAR"
 
+    aws_var()
 
 bad_variable_usage()
