@@ -38,7 +38,7 @@ def bad_variable_usage():
     @task.datacoves_bash
     def aws_var():
         var = bad_used_variable
-        return f"export MY_VAR={var} && echo MY_VAR"
+        return f"export MY_VAR={var} && echo $MY_VAR"
 
     aws_var()
 
