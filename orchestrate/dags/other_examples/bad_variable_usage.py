@@ -38,8 +38,9 @@ def bad_variable_usage():
 
     @task.datacoves_bash
     def aws_var():
-        secrets_manager_hook = SecretsManagerHook(aws_conn_id='aws_secrets_manager')
-        var = secrets_manager_hook.get_secret("airflow/variables/aws_ngtest")
+        # secrets_manager_hook = SecretsManagerHook(aws_conn_id='aws_secrets_manager')
+        # var = secrets_manager_hook.get_secret("airflow/variables/aws_ngtest")
+        var = Variable.get("datacoves-var", "aws_default_value")
         return f"export MY_VAR={var} && echo $MY_VAR"
 
     aws_var()
