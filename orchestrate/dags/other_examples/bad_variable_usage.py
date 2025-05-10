@@ -5,7 +5,6 @@ This DAG illustrates a DAG that has top level code which is bad
 
 from airflow.decorators import dag, task
 from airflow.models import Variable
-from airflow.providers.amazon.aws.hooks.secrets_manager import SecretsManagerHook
 from orchestrate.utils import datacoves_utils
 
 
@@ -35,14 +34,5 @@ def bad_variable_usage():
         return "echo $BAD_VAR"
 
     print_var()
-
-    @task.datacoves_bash
-    def aws_var():
-        # secrets_manager_hook = SecretsManagerHook(aws_conn_id='aws_secrets_manager')
-        # var = secrets_manager_hook.get_secret("airflow/variables/aws_ngtest")
-        var = Variable.get("datacoves-var", "aws_default_value")
-        return f"export MY_VAR={var} && echo $MY_VAR"
-
-    aws_var()
 
 bad_variable_usage()
