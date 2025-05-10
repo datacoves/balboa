@@ -21,6 +21,19 @@ DEV_ENVIRONMENT_SLUG = ""
 # Environment Variables
 ############################################
 
+def generate_env_exports(env_vars):
+    """
+    Generates bash export statements for environment variables.
+
+    Args:
+        env_vars (dict): Dictionary of environment variables
+
+    Returns:
+        str: Bash commands to export all environment variables
+    """
+    return "; ".join([f'export {k}="{v}"' for k, v in env_vars.items()])
+
+
 def set_dlt_env_vars(dlt_connections):# = {"sources": {}, "destinations": {}}):
     all_vars = {}
     vars = {}

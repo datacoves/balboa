@@ -6,7 +6,9 @@ This DAG shows how to load data with 3 tools, then run dbt, then other tasks
 from airflow.decorators import dag, task, task_group
 from orchestrate.utils import datacoves_utils
 
-from datahub_airflow_plugin.entities import Dataset
+from fivetran_provider_async.operators import FivetranOperator
+from fivetran_provider_async.sensors import FivetranSensor
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 
 @dag(
     doc_md = __doc__,
@@ -28,18 +30,12 @@ def daily_loan_run():
         tooltip="Airbyte Extract and Load"
     )
     def extract_and_load_airbyte():
-
         # Extact and load
-        @task
-        def sync_airbyte():
-            from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
-            return AirbyteTriggerSyncOperator(
-                task_id="country_populations_datacoves_snowflake",
-                connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
-                airbyte_conn_id="airbyte_connection",
-            ).execute({})
-
-        sync_airbyte()
+        sync_airbyte = AirbyteTriggerSyncOperator(
+            task_id="country_populations_datacoves_snowflake",
+            connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
+            airbyte_conn_id="airbyte_connection",
+        )
 
 
     @task_group(
@@ -47,28 +43,19 @@ def daily_loan_run():
         tooltip="Fivetran Extract and Load"
     )
     def extract_and_load_fivetran():
-
-        @task
-        def trigger_fivetran():
-            from fivetran_provider_async.operators import FivetranOperator
-            return FivetranOperator(
-                task_id="datacoves_snowflake_google_analytics_4_trigger",
-                fivetran_conn_id="fivetran_connection",
-                connector_id="speak_menial",
-                wait_for_completion=False,
-            ).execute({})
-
-        @task
-        def sensor_fivetran():
-            from fivetran_provider_async.sensors import FivetranSensor
-            return FivetranSensor(
-                task_id="datacoves_snowflake_google_analytics_4_sensor",
-                fivetran_conn_id="fivetran_connection",
-                connector_id="speak_menial",
-                poke_interval=60,
-            ).poke({})
-
-        trigger_fivetran() >> sensor_fivetran()
+        trigger_fivetran =  FivetranOperator(
+            task_id="datacoves_snowflake_google_analytics_4_trigger",
+            fivetran_conn_id="fivetran_connection",
+            connector_id="speak_menial",
+            wait_for_completion=False,
+        )
+        sensor_fivetran = FivetranSensor(
+            task_id="datacoves_snowflake_google_analytics_4_sensor",
+            fivetran_conn_id="fivetran_connection",
+            connector_id="speak_menial",
+            poke_interval=60,
+        )
+        trigger_fivetran >> sensor_fivetran
 
 
     @task_group(
@@ -93,7 +80,7 @@ def daily_loan_run():
         connection_id="main"
     )
     def transform():
-        return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+        return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'"
 
 
     # Post transformation tasks
