@@ -7,7 +7,7 @@ def set_config_value(key, config_key, env_var_prefix = 'DATACOVES__MAIN_LOAD__')
 
     value = os.getenv(env_var, dlt.config[config_key])
 
-    if key != 'password':
+    if key not in ['password','private_key']:
         print(key + ": " +value)
     return value
 
