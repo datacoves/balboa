@@ -1,7 +1,7 @@
-#!/usr/bin/env -S uv run --cache-dir /tmp/.uv_cache
+#!/usr/bin/env -S uv run
 # /// script
 # dependencies = [
-#   "dlt[snowflake, parquet]==1.3.0",
+#   "dlt[snowflake, parquet]==1.9.0",
 #   "enlighten~=1.12.4",
 #   "psutil~=6.0.0",
 #   "pandas==2.2.2",
@@ -10,8 +10,7 @@
 """Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
-from utils.datacoves_snowflake import db_config
-from utils.datacoves import pipelines_dir
+from utils.datacoves_utils import pipelines_dir
 
 @dlt.resource(write_disposition="replace")
 def us_population():
@@ -25,13 +24,12 @@ def us_population_source():
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
-        db_config,
         destination_name="datacoves_snowflake"
     )
 
     pipeline = dlt.pipeline(
-        progress = "enlighten",
-        pipeline_name = "loans",
+        progress = "log",
+        pipeline_name = "us_population_data",
         destination = datacoves_snowflake,
         pipelines_dir = pipelines_dir,
 
@@ -40,7 +38,7 @@ if __name__ == "__main__":
     )
 
     load_info = pipeline.run([
-            us_population()
+            us_population_source()
         ])
 
     print(load_info)

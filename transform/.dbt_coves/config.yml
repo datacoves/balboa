@@ -4,8 +4,8 @@ generate:
     # schemas: # List of schema names where to look for source tables
     #   - RAW
     sources_destination: "models/L1_inlets/{{schema}}/_{{schema}}.yml" # Where sources yml files will be generated
-    models_destination: "models/L1_inlets/{{schema}}/{{relation}}.sql" # Where models sql files will be generated
-    model_props_destination: "models/L1_inlets/{{schema}}/{{relation}}.yml" # Where models yml files will be generated
+    models_destination: "models/L1_inlets/{{schema}}/stg_{{relation}}.sql" # Where models sql files will be generated
+    model_props_destination: "models/L1_inlets/{{schema}}/stg_{{relation}}.yml" # Where models yml files will be generated
     update_strategy: update # Action to perform when a property file exists. Options: update, recreate, fail, ask
     templates_folder: ".dbt_coves/templates" # Folder where source generation jinja templates are located.
     flatten_json_fields: "no" # Action to perform when VARIANT / JSON field is encounted
@@ -24,7 +24,6 @@ generate:
 
   airflow_dags:
     secrets_manager: datacoves
-    secrets_tags: "extract_and_load_fivetran"
 
     yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
     dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
@@ -47,6 +46,9 @@ generate:
       FivetranDbtGenerator:
         dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
         fivetran_conn_id: fivetran_connection
+
+        api_key: "{{ secret('fivetran_api_key') }}"
+        api_secret: "{{ secret('fivetran_api_secret') }}"
 
         run_dbt_compile: false
         run_dbt_deps: false

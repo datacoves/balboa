@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_country_polygons
+    description: >
+      This model processes and stores geographical polygon data representing countries.
+      It includes various spatial details such as area and perimeter data, and is used for geographic
+      analysis and visualization.
+
+    columns:
+      - name: country_name
+        description: 'The name of the country represented by the polygon.'
+      - name: country_code_2
+        description: 'The two-letter ISO 3166-1 alpha-2 code of the country.'
+      - name: country_code_3
+        description: 'The three-letter ISO 3166-1 alpha-3 code of the country.'
+      - name: feature_type
+        description: 'The type of geographical feature the polygon represents, such as a country or territory.'
+      - name: geometry_type
+        description: 'The geometric shape type used for the polygon, such as Polygon or Multipolygon.'
+      - name: geography
+        description: 'The spatial representation of the country’s polygon in a format suitable for geographic information systems (GIS).'
+      - name: area_m2
+        description: 'The area of the polygon in square meters, representing the geographical size of the country.'
+      - name: perimeter_m
+        description: 'The perimeter of the polygon in meters, indicating the boundary length of the country’s representation.'
+      - name: centroid
+        description: 'The centroid point of the polygon, typically used to determine the geographic center or balancing point of the shape.'
+      - name: raw_geojson
+        description: 'The raw GeoJSON data used to create and describe the country’s polygon features, suitable for mapping applications.'

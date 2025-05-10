@@ -10,9 +10,9 @@ exposures:
       Loan Performance
 
     depends_on:
-      - ref('personal_loans')
+      - ref('stg_personal_loans')
       - ref('country_population')
 
     owner:
       name: Steve Egan
-      email: segan@datameer.com
+      email: steve@example.com

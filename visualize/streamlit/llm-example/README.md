@@ -36,17 +36,19 @@ To set the OpenAI API key as an environment variable in Streamlit apps, do the f
 1. At the lower right corner, click on `< Manage app` then click on the vertical "..." followed by clicking on `Settings`.
 2. This brings the **App settings**, next click on the `Secrets` tab and paste the API key into the text box as follows:
 
-```sh
-OPENAI_API_KEY='xxxxxxxxxx'
-streamlit run Chatbot.py
 
+```sh
+mkdir ~/.streamlit/
+cp secrets.toml.sample ~/.streamlit/secrets.toml
 ```
 
-## Run it locally
+Edit the secrets.toml file and add the `openai_api_key`
+
+## Run app locally
 
 ```sh
-virtualenv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+pip install uv
+uv venv
+uv pip install -r requirements.txt
 streamlit run Chatbot.py
 ```

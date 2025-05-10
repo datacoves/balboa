@@ -1,30 +1,30 @@
-"""## Datacoves Blue-Green DAG"""
+"""
+## Datacoves Blue-Green DAG
+This DAG demonstrates how to do a blue-green run
+"""
 
-from airflow.decorators import dag
-from operators.datacoves.dbt import DatacovesDbtOperator
-from pendulum import datetime
-
+from airflow.decorators import dag, task
+from orchestrate.utils import datacoves_utils
 
 @dag(
-    default_args={
-        "start_date": datetime(2024, 8, 26),
-        "owner": "Datacoves",
-        "email": "bruno@datacoves.com",
-        "email_on_failure": True,
-    },
-    catchup=False,
-    tags=["version_1"],
+    doc_md = __doc__,
+    catchup = False,
+
+    default_args = datacoves_utils.set_default_args(
+        owner = "Bruno",
+        owner_email = "bruno@example.com"
+    ),
+
     description="Datacoves blue-green run",
-    schedule_interval="0 0 1 */12 *",
+    schedule = datacoves_utils.set_schedule("@daily"),
+    tags=["transform"],
 )
-def datacoves_bluegreen_dag():
-    blue_green_run = DatacovesDbtOperator(
-        task_id="blue_green_run",
-        bash_command="dbt-coves blue-green --service-connection-name MAIN --drop-staging-db-at-start --keep-staging-db-on-success --dbt-selector '-s personal_loans'",
-    )
-    blue_green_run
+def blue_green_dbt_run():
 
+    @task.datacoves_dbt(connection_id="main")
+    def blue_green_run():
+        return "dbt-coves blue-green --dbt-selector '-s personal_loans'"
 
-# Invoke Dag
-dag = datacoves_bluegreen_dag()
-dag.doc_md = __doc__
+    blue_green_run()
+
+blue_green_dbt_run()

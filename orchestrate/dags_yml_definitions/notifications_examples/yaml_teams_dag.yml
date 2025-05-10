@@ -1,14 +1,15 @@
 description: "Sample DAG with MS Teams notification"
-schedule_interval: "0 0 1 */12 *"
+schedule: "0 0 1 */12 *"
 tags:
-  - version_3
+  - transform
   - ms_teams_notification
 default_args:
-  start_date: 2023-01-01
-  owner: Noel Gomez
+  start_date: 2024-01-01
   # Replace with the email of the recipient for failures
+  owner: Noel Gomez
   email: gomezn@example.com
   email_on_failure: true
+  retries: 3
 catchup: false
 
 # Optional callbacks used to send MS Teams notifications
@@ -29,9 +30,9 @@ notifications:
 # DAG Tasks
 nodes:
   transform:
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    task_decorator: datacoves_dbt
+    connection_id: main
     type: task
-
     bash_command: "dbt run -s personal_loans"
 
   # Sample failing task to test that notification is sent

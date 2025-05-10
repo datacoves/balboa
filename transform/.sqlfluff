@@ -18,11 +18,6 @@ exclude_rules = AM05, RF05, ST06
 # layout.indent (LT02), layout.cte_bracket (LT07), layout.select_targets (LT09)
 #exclude_rules = AM05, LT02, LT07, LT09, RF05, ST06, ST07
 
-# Ignore linting errors found within sections of code coming directly from
-# templated code (e.g. from within Jinja curly braces. Note that it does not
-# ignore errors from literal code found within template loops.
-ignore_templated_areas = true
-
 # CPU processes to use while linting.
 # The default is "single threaded" to allow easy debugging, but this
 # is often undesirable at scale.
@@ -40,6 +35,12 @@ max_line_length = 120
 
 [sqlfluff:templater:dbt]
 project_dir = ./
+
+# Ignore linting errors found within sections of code coming directly from
+# templated code (e.g. from within Jinja curly braces. Note that it does not
+# ignore errors from literal code found within template loops.
+ignore_templated_areas = true
+
 
 [sqlfluff:indentation]
 # While implicit indents are not enabled by default. Many of the

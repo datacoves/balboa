@@ -1,0 +1,26 @@
+version: 2
+seeds:
+  - name: country_codes
+    description: >-
+      This table contains information about country codes, likely including standard identifiers such
+      as ISO codes and possibly other related attributes.
+    columns:
+      - name: COUNTRY_NAME
+        data_type: VARCHAR
+        description: The name of the country associated with the country code.
+      - name: ALPHA_2_CODE
+        data_type: VARCHAR
+        description: Two-letter ISO 3166-1 alpha-2 country code.
+      - name: ALPHA_3_CODE
+        data_type: VARCHAR
+        description: Three-letter ISO 3166-1 alpha-3 country code.
+      - name: NUMERIC_CODE
+        data_type: NUMBER
+        description: >-
+          A numeric code representing a country, potentially aligned with international standards like
+          ISO.
+      - name: ISO_3166_2
+        data_type: VARCHAR
+        description: >-
+          Represents the ISO 3166-2 code, which is used to define the principal subdivisions (e.g., provinces
+          or states) of a country.

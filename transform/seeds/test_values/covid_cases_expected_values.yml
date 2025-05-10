@@ -1,0 +1,29 @@
+version: 2
+seeds:
+  - name: covid_cases_expected_values
+    description: >-
+      A table containing expected values for COVID-19 cases, likely used for comparison against actual
+      reported cases to assess deviations or trends.
+    columns:
+      - name: LOCATION_ID
+        data_type: VARCHAR
+        description: >-
+          Identifier for the geographical location associated with the expected COVID-19 case values.
+      - name: DATE
+        data_type: DATE
+        description: The date on which the expected COVID-19 case values are recorded.
+      - name: CONFIRMED
+        data_type: NUMBER
+        description: >-
+          The number of confirmed COVID-19 cases, used for comparison with expected values to analyze
+          deviations or trends.
+      - name: DEATHS
+        data_type: NUMBER
+        description: >-
+          The expected number of COVID-19 related deaths for comparison against actual reported deaths.
+      - name: ACTIVE
+        data_type: NUMBER
+        description: The number of currently active COVID-19 cases based on expected calculations.
+      - name: RECOVERED
+        data_type: NUMBER
+        description: The expected number of recovered COVID-19 cases.
