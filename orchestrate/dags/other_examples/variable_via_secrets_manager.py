@@ -16,6 +16,7 @@ from airflow.providers.amazon.aws.hooks.secrets_manager import SecretsManagerHoo
         "owner": "Noel Gomez",
         "email": "noel@example.com",
         "email_on_failure": True,
+        "retries": 3,
     },
     tags=["sample"],
     description="Testing task decorators",
