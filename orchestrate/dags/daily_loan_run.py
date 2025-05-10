@@ -22,7 +22,7 @@ from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperat
 
     description = "Sample DAG to synchronize the Airflow database",
     schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
-    tags=["extract_and_load", "transform", "marketing_automation", "update_catalog", "taskflow_mixed"],
+    tags=["extract_and_load", "transform", "marketing_automation", "update_catalog"],
 )
 def daily_loan_run():
 
@@ -81,7 +81,7 @@ def daily_loan_run():
         connection_id="main"
     )
     def transform():
-        return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+ -t prd'"
+        return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'"
 
 
     # Post transformation tasks
