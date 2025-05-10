@@ -11,8 +11,7 @@
 """Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
-from utils.datacoves_snowflake import db_config
-from utils.datacoves import pipelines_dir
+from utils.datacoves_utils import pipelines_dir
 
 @dlt.resource(write_disposition="replace")
 def personal_loans():
@@ -32,7 +31,6 @@ def loans_data():
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
-        db_config,
         destination_name="datacoves_snowflake"
     )
 
