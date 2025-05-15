@@ -10,10 +10,9 @@
 # """Loads earthquake data into Snowflake"""
 import dlt
 import requests
-from datetime import date, timedelta
-from utils.datacoves_snowflake import db_config
-from utils.datacoves import pipelines_dir
+from datetime import date
 import argparse
+from utils.datacoves_utils import pipelines_dir
 
 parser = argparse.ArgumentParser(description='Process start date.')
 
@@ -47,7 +46,6 @@ def earthquake_data():
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
-        db_config,
         destination_name="datacoves_snowflake",
         enable_dataset_name_normalization=False
     )

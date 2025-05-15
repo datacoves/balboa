@@ -85,8 +85,7 @@ is_development = (not datacoves_utils.is_team_airflow())
     # Pauses the DAG after x consecutive failed runs
     # This is good to set for a DAG that runs frequently e.g. hourly
     # As you may not want to keep incurring costs unnecesarily
-    # 2.9+ feature
-    # max_consecutive_failed_dag_runs = 3,
+    max_consecutive_failed_dag_runs = 3,
 
     # Used to group and filter for dags in the UI
     tags = ["sample"],

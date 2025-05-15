@@ -14,5 +14,17 @@ catchup: false
 nodes:
   run_dbt:
     type: task
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    task_decorator: datacoves_dbt
+    connection_id: main
+    target: dev
     bash_command: "dbt run -s personal_loans"
+  transform:
+    type: task
+    task_decorator: datacoves_dbt # @airflow.decorators.task.{task_decorator}
+    connection_id: main
+    target: prd
+    overrides:
+      threads: 8
+      warehouse: tst_warehouse
+    bash_command: "dbt run -s personal_loans"
+    dependencies: ["run_dbt"]

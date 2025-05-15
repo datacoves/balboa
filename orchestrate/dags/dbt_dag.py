@@ -16,7 +16,7 @@ from orchestrate.utils import datacoves_utils
     ),
 
     schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
-    description="Sample DAG demonstrating how to run dlt in airflow",
+    description="Sample DAG demonstrating how to run dbt in airflow",
     tags=["transform"],
 )
 def dbt_dag():

@@ -19,7 +19,6 @@ jobs:
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    # container: datacoves/ci-airflow-dbt-snowflake:3.3
     container: datacoves/ci-airflow-dbt-snowflake:3.3
 
     env:
