@@ -1,0 +1,12 @@
+vars:
+  - name: warehouses
+    type: list
+    default:
+      - wh_admin
+      - wh_catalog
+      - wh_integration
+      - wh_loading
+      - wh_orchestrating
+      - wh_transforming
+      - wh_transforming_dynamic_tables
+      - wh_transforming_sqlmesh

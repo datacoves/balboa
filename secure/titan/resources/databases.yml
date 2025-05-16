@@ -1,0 +1,11 @@
+vars:
+  - name: databases
+    type: list
+    default:
+      - raw
+      - balboa
+      - balboa_apps
+      - balboa_dev
+      - covid19_epidemiological_data
+      - great_bay
+      - sushi_db

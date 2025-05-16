@@ -1,0 +1,84 @@
+role_grants:
+  # Alex
+  - to_user: alex
+    role: analyst
+
+  # Alejandro
+  - to_user: alejandro
+    role: analyst
+
+  # Bruno
+  - to_user: bruno
+    role: analyst
+
+  # Noel
+  - to_user: gomezn
+    roles:
+      - analyst
+      - accountadmin
+      - securityadmin
+      - orgadmin
+      - loader
+      - transformer_dbt
+      - sqlmesh_analyst
+      - bot_integration
+      # Commented out for demo purposes
+      # - analyst_pii
+
+  # Sebastian
+  - to_user: sebastian
+    roles:
+      - accountadmin
+      - securityadmin
+      - transformer_dbt
+      - analyst
+
+  # Stephen
+  - to_user: stephen
+    roles:
+      - accountadmin
+      - securityadmin
+      - transformer_dbt
+      - analyst
+
+  # Airbyte
+  - to_user: svc_airbyte
+    role: loader
+
+  # Airflow
+  - to_user: svc_airflow
+    role: transformer_dbt
+
+  # Datacoves
+  - to_user: svc_datacoves
+    role: securityadmin
+
+  # Fivetran
+  - to_user: svc_fivetran
+    role: loader
+
+  # Github
+  - to_user: svc_github_actions
+    role: transformer_dbt
+
+  # CI
+  - to_user: svc_balboa_ci
+    roles:
+      - bot_integration
+      - transformer_dbt
+
+  # Dbt coves
+  - to_user: svc_dbt_coves_ci
+    role: bot_integration
+
+  # CI
+  - to_user: svc_datacoves_platform_ci
+    role: bot_integration
+
+  # Rupert
+  - to_user: svc_rupert
+    role: analyst
+
+  # Datahub
+  - to_user: svc_datahub
+    role: catalog
