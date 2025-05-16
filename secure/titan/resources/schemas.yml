@@ -42,25 +42,3 @@ vars:
     type: list
     default:
       - COVE_MARKETING
-
-
-schemas:
-  # Schemas for database balboa
-  - for_each: var.balboa_schemas
-    name: "{{ each.value }}"
-    database: balboa
-  
-  # schemas for database RAW
-  - for_each: var.raw_schemas
-    name: "{{ each.value }}"
-    database: raw
-
-  # schemas for database balboa_apps
-  - for_each: var.balboa_apps_schemas
-    name: "{{ each.value }}"
-    database: balboa_apps
-
-  # schemas for database great_bay
-  - for_each: var.great_bay_schemas
-    name: "{{ each.value }}"
-    database: great_bay

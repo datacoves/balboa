@@ -1,72 +1,78 @@
 grants:
+  # sqlmesh_analyst
   - priv: MONITOR
     on_database: SUSHI_DB
     to: sqlmesh_analyst
+  - priv: USAGE
+    on_database: SUSHI_DB
+    to: sqlmesh_analyst
+  - priv: CREATE SCHEMA
+    on_database: SUSHI_DB
+    to: sqlmesh_analyst
+
+  # z_db_balboa_write
   - priv: CREATE SCHEMA
     on_database: BALBOA
     to: z_db_balboa_write
   - priv: MONITOR
-    on_database: RAW
-    to: z_db_raw_write
-  - priv: MONITOR
     on_database: BALBOA
     to: z_db_balboa_write
+  - priv: USAGE
+    on_database: BALBOA
+    to: z_db_balboa_write
+
+  # z_db_raw_write
+  - priv: MONITOR
+    on_database: RAW
+    to: z_db_raw_write
+  - priv: CREATE SCHEMA
+    on_database: RAW
+    to: z_db_raw_write
+  - priv: USAGE
+    on_database: RAW
+    to: z_db_raw_write
+
+  # z_db_balboa_apps_write
   - priv: CREATE SCHEMA
     on_database: BALBOA_APPS
     to: z_db_balboa_apps_write
   - priv: USAGE
-    on_database: BALBOA
-    to: z_db_balboa_write
-  - priv: CREATE SCHEMA
-    on_database: RAW
-    to: z_db_raw_write
-  - priv: USAGE
-    on_database: RAW
-    to: z_db_raw_write
-  - priv: USAGE
-    on_database: BALBOA_DEV
-    to: securityadmin
-  - priv: USAGE
-    on_database: RAW
-    to: securityadmin
-  - priv: USAGE
     on_database: BALBOA_APPS
     to: z_db_balboa_apps_write
-  - priv: USAGE
-    on_database: BALBOA_APPS
-    to: securityadmin
-  - priv: USAGE
-    on_database: SUSHI_DB
-    to: sqlmesh_analyst
-  - priv: CREATE SCHEMA
-    on_database: BALBOA_DEV
-    to: z_db_balboa_dev
-  - priv: CREATE SCHEMA
-    on_database: SUSHI_DB
-    to: sqlmesh_analyst
-  - priv: MONITOR
-    on_database: BALBOA_DEV
-    to: z_db_balboa_dev
-  - priv: USAGE
-    on_database: BALBOA
-    to: securityadmin
   - priv: MONITOR
     on_database: BALBOA_APPS
     to: z_db_balboa_apps_write
 
+  # z_db_balboa_dev
+  - priv: CREATE SCHEMA
+    on_database: BALBOA_DEV
+    to: z_db_balboa_dev
+  - priv: MONITOR
+    on_database: BALBOA_DEV
+    to: z_db_balboa_dev
+
+  # securityadmin
+  - priv: USAGE
+    on_database: BALBOA_DEV
+    to: securityadmin
+  - priv: USAGE
+    on_database: RAW
+    to: securityadmin
+  - priv: USAGE
+    on_database: BALBOA_APPS
+    to: securityadmin
+  - priv: USAGE
+    on_database: BALBOA
+    to: securityadmin
+
 grants_on_all:
+  # z_tables_views_general
   - priv: SELECT
     on_all_tables_in_database: balboa
     to: z_tables_views_general
   - priv: SELECT
     on_all_tables_in_database: raw
-    to: sqlmesh_analyst
-  - priv: SELECT
-    on_all_tables_in_database: raw
     to: z_tables_views_general
-  - priv: SELECT
-    on_all_views_in_database: raw
-    to: sqlmesh_analyst
   - priv: SELECT
     on_all_views_in_database: balboa
     to: z_tables_views_general
@@ -74,16 +80,19 @@ grants_on_all:
     on_all_views_in_database: raw
     to: z_tables_views_general
 
+  # sqlmesh_analyst
+  - priv: SELECT
+    on_all_tables_in_database: raw
+    to: sqlmesh_analyst
+  - priv: SELECT
+    on_all_views_in_database: raw
+    to: sqlmesh_analyst
+
 future_grants:
+  # z_db_raw_write
   - priv: CREATE FUNCTION
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: USAGE
-    on_future_schemas_in_database: balboa
-    to: securityadmin
-  - priv: SELECT
-    on_future_views_in_database: raw
-    to: z_tables_views_general
   - priv: CREATE SECRET
     on_future_schemas_in_database: raw
     to: z_db_raw_write
@@ -93,21 +102,12 @@ future_grants:
   - priv: USAGE
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: USAGE
-    on_future_schemas_in_database: balboa_apps
-    to: securityadmin
   - priv: CREATE PIPE
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: SELECT
-    on_future_views_in_database: balboa
-    to: z_tables_views_general
   - priv: MONITOR
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: SELECT
-    on_future_tables_in_database: balboa
-    to: z_tables_views_general
   - priv: CREATE PROCEDURE
     on_future_schemas_in_database: raw
     to: z_db_raw_write
@@ -117,27 +117,15 @@ future_grants:
   - priv: CREATE ALERT
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: SELECT
-    on_future_tables_in_database: raw
-    to: z_tables_views_general
   - priv: CREATE VIEW
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: SELECT
-    on_future_views_in_database: raw
-    to: sqlmesh_analyst
   - priv: CREATE FILE FORMAT
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: USAGE
-    on_future_schemas_in_database: raw
-    to: securityadmin
   - priv: CREATE STAGE
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: SELECT
-    on_future_tables_in_database: raw
-    to: sqlmesh_analyst
   - priv: CREATE TASK
     on_future_schemas_in_database: raw
     to: z_db_raw_write
@@ -147,9 +135,42 @@ future_grants:
   - priv: CREATE STREAM
     on_future_schemas_in_database: raw
     to: z_db_raw_write
-  - priv: USAGE
-    on_future_schemas_in_database: balboa_dev
-    to: securityadmin
   - priv: CREATE DYNAMIC TABLE
     on_future_schemas_in_database: raw
     to: z_db_raw_write
+
+  # z_tables_views_general
+  - priv: SELECT
+    on_future_views_in_database: raw
+    to: z_tables_views_general
+  - priv: SELECT
+    on_future_views_in_database: balboa
+    to: z_tables_views_general
+  - priv: SELECT
+    on_future_tables_in_database: balboa
+    to: z_tables_views_general
+  - priv: SELECT
+    on_future_tables_in_database: raw
+    to: z_tables_views_general
+
+  # sqlmesh_analyst
+  - priv: SELECT
+    on_future_views_in_database: raw
+    to: sqlmesh_analyst
+  - priv: SELECT
+    on_future_tables_in_database: raw
+    to: sqlmesh_analyst
+
+  # securityadmin
+  - priv: USAGE
+    on_future_schemas_in_database: balboa
+    to: securityadmin
+  - priv: USAGE
+    on_future_schemas_in_database: balboa_apps
+    to: securityadmin
+  - priv: USAGE
+    on_future_schemas_in_database: raw
+    to: securityadmin
+  - priv: USAGE
+    on_future_schemas_in_database: balboa_dev
+    to: securityadmin

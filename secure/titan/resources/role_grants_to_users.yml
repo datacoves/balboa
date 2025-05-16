@@ -1,101 +1,84 @@
 role_grants:
   # Alex
-  - role: analyst
-    to_user: alex
+  - to_user: alex
+    role: analyst
 
   # Alejandro
-  - role: analyst
-    to_user: alejandro
+  - to_user: alejandro
+    role: analyst
 
   # Bruno
-  - role: analyst
-    to_user: bruno
+  - to_user: bruno
+    role: analyst
 
   # Noel
-  - role: analyst
-    to_user: gomezn
-  - role: orgadmin
-    to_user: gomezn
-  - role: accountadmin
-    to_user: gomezn
-  - role: securityadmin
-    to_user: gomezn
-  - role: loader
-    to_user: gomezn
-  - role: transformer_dbt
-    to_user: gomezn
-  - role: sqlmesh_analyst
-    to_user: gomezn
-  - role: bot_integration
-    to_user: gomezn
-  # Commented out for demo purposes
-  # - role: analyst_pii
-  #   to_user: gomezn
-
-  # Mayra
-  - role: analyst
-    to_user: mayra
-  - role: accountadmin
-    to_user: mayra
-  - role: securityadmin
-    to_user: mayra
+  - to_user: gomezn
+    roles:
+      - analyst
+      - accountadmin
+      - securityadmin
+      - orgadmin
+      - loader
+      - transformer_dbt
+      - sqlmesh_analyst
+      - bot_integration
+      # Commented out for demo purposes
+      # - analyst_pii
 
   # Sebastian
-  - role: accountadmin
-    to_user: sebastian
-  - role: securityadmin
-    to_user: sebastian
-  - role: analyst
-    to_user: sebastian
-  - role: transformer_dbt
-    to_user: sebastian
+  - to_user: sebastian
+    roles:
+      - accountadmin
+      - securityadmin
+      - transformer_dbt
+      - analyst
 
   # Stephen
-  - role: accountadmin
-    to_user: stephen
-  - role: securityadmin
-    to_user: stephen
-  - role: analyst
-    to_user: stephen
+  - to_user: stephen
+    roles:
+      - accountadmin
+      - securityadmin
+      - transformer_dbt
+      - analyst
 
   # Airbyte
-  - role: loader
-    to_user: svc_airbyte
+  - to_user: svc_airbyte
+    role: loader
 
   # Airflow
-  - role: transformer_dbt
-    to_user: svc_airflow
+  - to_user: svc_airflow
+    role: transformer_dbt
 
   # Datacoves
-  - role: securityadmin
-    to_user: svc_datacoves
+  - to_user: svc_datacoves
+    role: securityadmin
 
   # Fivetran
-  - role: loader
-    to_user: svc_fivetran
+  - to_user: svc_fivetran
+    role: loader
 
   # Github
-  - role: transformer_dbt
-    to_user: svc_github_actions
+  - to_user: svc_github_actions
+    role: transformer_dbt
 
   # CI
-  - role: bot_integration
-    to_user: svc_balboa_ci
-  - role: transformer_dbt
-    to_user: svc_balboa_ci
+  - to_user: svc_balboa_ci
+    roles:
+      - bot_integration
+      - transformer_dbt
 
   # Dbt coves
-  - role: bot_integration
-    to_user: svc_dbt_coves_ci
+  - to_user: svc_dbt_coves_ci
+    role: bot_integration
 
   # CI
-  - role: bot_integration
-    to_user: svc_datacoves_platform_ci
+  - to_user: svc_datacoves_platform_ci
+    role: bot_integration
 
   # Rupert
-  - role: analyst
-    to_user: svc_rupert
+  - to_user: svc_rupert
+    role: analyst
 
   # Datahub
-  - role: catalog
-    to_user: svc_datahub
+  - to_user: svc_datahub
+    role: catalog
