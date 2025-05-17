@@ -25,9 +25,6 @@ scripts/
 *.log
 logs/
 
-# Duckdb files
-*.duckdb
-
 # Python cache
 __pycache__
 .gitsecret/keys/random_seed
