@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run
 # /// script
 # dependencies = [
-#   "dlt[snowflake, parquet]==1.5.0",
+#   "dlt[snowflake, parquet]==1.9.0",
 #   "enlighten~=1.12.4",
 #   "psutil~=6.0.0",
 #   "pandas==2.2.2",
@@ -11,8 +11,7 @@
 """Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
-from utils.datacoves_snowflake import db_config
-from utils.datacoves import pipelines_dir
+from utils.datacoves_utils import pipelines_dir
 
 @dlt.resource(write_disposition="replace")
 def personal_loans():
@@ -32,7 +31,6 @@ def loans_data():
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
-        db_config,
         destination_name="datacoves_snowflake"
     )
 
