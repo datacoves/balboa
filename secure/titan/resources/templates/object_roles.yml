@@ -1,0 +1,35 @@
+roles:
+# Databases
+  - for_each: var.databases
+    name: "z_db_{{ each.value }}"
+
+# Schema roles
+  - for_each: var.schemas
+    name: "z_schema_{{ each.value.split('.')[1] }}"
+
+# Warehouse roles
+  - for_each: var.warehouses
+    name: "z_{{ each.value }}"
+
+grants:
+# Databases
+  - for_each: var.databases
+    priv: USAGE
+    on_database: "{{ each.value }}"
+    to: "z_db_{{ each.value }}"
+
+# Schemas
+  - for_each: var.schemas
+    priv: USAGE
+    on_schema: "{{ each.value.split('.')[0] }}.{{ each.value.split('.')[1] }}"
+    to: "z_schema_{{ each.value.split('.')[1] }}"
+
+# Warehouses
+  - for_each: var.warehouses
+    priv: USAGE
+    on_warehouse: "{{ each.value }}"
+    to: "z_{{ each.value }}"
+  - for_each: var.warehouses
+    priv: MONITOR
+    on_warehouse: "{{ each.value }}"
+    to: "z_{{ each.value }}"

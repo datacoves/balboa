@@ -1,0 +1,35 @@
+roles:
+  - name: catalog
+  - name: sqlmesh_analyst
+  - name: bot_integration
+  - name: loader
+  - name: de_analyst
+  - name: orgadmin
+  - name: transformer_dbt
+  - name: analyst
+  - name: analyst_pii
+  - name: de_business_analyst_pii
+
+# Custom object roles
+  - name: z_base_analyst
+  - name: z_create_database
+  - name: z_tables_views_general
+
+  - name: z_stage_dbt_artifacts_write
+  - name: z_stage_resources_read
+  - name: z_stage_dbt_artifacts_read
+  - name: z_stage_resources_write
+
+  - name: z_policy_row_region_all
+  - name: z_policy_row_region_de
+  - name: z_policy_create_database
+  - name: z_policy_unmask_pii
+  - name: z_policy_apply_row_access
+  - name: z_policy_create_integration
+  - name: z_policy_apply_masking
+  - name: z_policy_monitor_usage
+
+  - name: z_db_raw_write
+  - name: z_db_balboa_tst
+  - name: z_db_balboa_apps_write
+  - name: z_db_balboa_write

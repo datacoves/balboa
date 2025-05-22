@@ -1,0 +1,17 @@
+databases:
+  - for_each: var.databases
+    name: "{{ each.value }}"
+
+schemas:
+  # Schemas
+  - for_each: var.schemas
+    name: "{{ each.value.split('.')[1] }}"
+    database: "{{ each.value.split('.')[0] }}"
+  
+warehouses:
+  - for_each: var.warehouses
+    name: "{{ each.value }}"
+    warehouse_size: x-small
+    auto_suspend: 60
+    auto_resume: true
+    initially_suspended: true
