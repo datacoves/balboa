@@ -7,6 +7,8 @@ packages:
     version: 0.2.6
   - package: dbt-labs/dbt_external_tables
     version: 0.11.1
+  - package: brooklyn-data/dbt_artifacts
+    version: 2.9.3
   - package: calogica/dbt_date
     version: 0.10.1
-sha1_hash: 4f96ca8b1f90a1d3e30a6e3176ccc5abecda678e
+sha1_hash: 9c35e32ac2e57a3312006836e5ec8c50e9ea9567

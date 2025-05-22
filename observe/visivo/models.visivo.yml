@@ -1,0 +1,183 @@
+models: 
+  - name: fct_dbt__invocations
+    sql: | 
+      select * from fct_dbt__invocations
+
+  - name: build_invocation_summary
+    sql: | 
+      with 
+      model_nodes as (
+      SELECT 
+          me.command_invocation_id, 
+          max(QUERY_COMPLETED_AT) as last_model_completed,
+          COUNT(distinct case when status = 'success' THEN model_execution_id else null end) as model_successes,
+          COUNT(distinct case when status = 'error' THEN model_execution_id else null end) as model_errors,
+          COUNT(distinct case when status = 'skipped' THEN model_execution_id else null end) as model_skips,
+          COUNT(distinct model_execution_id) as model_run_attempts
+      from fct_dbt__model_executions me 
+      GROUP BY 1
+      ),
+      test_nodes as (
+      SELECT 
+          me.command_invocation_id,
+          max(QUERY_COMPLETED_AT) as last_test_completed,
+          COUNT(distinct case when status in ('error', 'fail') THEN test_execution_id else null end) as test_failures,
+          COUNT(distinct case when status = 'pass' THEN test_execution_id else null end) as test_passes,
+          COUNT(distinct case when status = 'warn' THEN test_execution_id else null end) as test_warnings,
+          COUNT(distinct case when status = 'skipped' THEN test_execution_id else null end) as test_skips,
+          COUNT(distinct test_execution_id) as test_run_attempts
+      from fct_dbt__test_executions me 
+      GROUP BY 1
+      )
+
+      SELECT 
+          i.command_invocation_id, 
+          i.run_started_at,
+          row_number() OVER(ORDER BY i.run_started_at desc) as runs_ago,
+          td.test_failures,
+          td.test_passes,
+          td.test_warnings,
+          td.test_skips,
+          td.test_run_attempts, 
+          td.last_test_completed,
+
+          md.model_successes,
+          md.model_errors,
+          md.model_skips,
+          md.model_run_attempts,  
+          md.last_model_completed,
+
+          (td.test_passes + td.test_warnings = td.test_run_attempts) as no_test_failures,
+          (md.model_successes = md.model_run_attempts) as no_model_failures, 
+          (no_test_failures and no_model_failures) as build_succeeded,
+          greatest(
+            COALESCE(
+              td.last_test_completed, cast('1999-01-01 12:00:00' as timestamp)   
+            ), 
+            COALESCE(
+              md.last_model_completed, 
+              cast('1999-01-01 12:00:00' as timestamp)
+            )
+          ) as  run_finished_at,
+          datediff('ms', run_started_at, run_finished_at) as ms_run_time
+          
+      FROM fct_dbt__invocations i 
+      JOIN test_nodes td 
+          on td.command_invocation_id = i.command_invocation_id
+      JOIN model_nodes md 
+          on md.command_invocation_id = i.command_invocation_id
+      WHERE i.dbt_command = 'build'    
+ 
+
+  - name: model_executions
+    sql: |
+      SELECT 
+        m.name,
+        m.materialization,
+        m.schema,
+        e.status,
+        e.total_node_runtime,
+        e.rows_affected,
+        e.run_started_at,
+        e.was_full_refresh, 
+        rank() OVER( order by i.run_started_at desc) as invocations_ago
+      FROM fct_dbt__model_executions e
+      JOIN dim_dbt__models m ON e.model_execution_id = m.model_execution_id
+      JOIN fct_dbt__invocations i ON i.command_invocation_id = e.command_invocation_id
+
+  - name: test_executions
+    sql: |
+      SELECT 
+        t.name,
+        e.status,
+        e.total_node_runtime,
+        e.failures,
+        e.run_started_at, 
+        rank() OVER( order by i.run_started_at desc) as invocations_ago
+      FROM fct_dbt__test_executions e
+      JOIN dim_dbt__tests t ON e.test_execution_id = t.test_execution_id
+      JOIN fct_dbt__invocations i ON i.command_invocation_id = e.command_invocation_id
+
+  - name: model_materializations
+    sql: |
+      SELECT 
+        materialization,
+        COUNT(*) as count
+      FROM dim_dbt__current_models
+      GROUP BY materialization
+
+  - name: slowest_model_runtimes_this_week
+    sql: |
+      SELECT 
+        m.name,
+        m.materialization,
+        AVG(e.total_node_runtime) as avg_runtime,
+        MAX(e.total_node_runtime) as max_runtime,
+        COUNT(*) as execution_count
+      FROM fct_dbt__model_executions e
+      JOIN dim_dbt__models m ON e.model_execution_id = m.model_execution_id
+      WHERE e.run_started_at > (CURRENT_DATE - INTERVAL '1 week')
+      GROUP BY m.name, m.materialization
+      ORDER BY avg_runtime DESC
+      LIMIT 10
+  - name: flakiest_models_past_three_months
+    sql: |
+      SELECT 
+        m.name,
+        m.materialization,
+        COUNT(distinct case when e.status = 'success' THEN e.model_execution_id else null end) as model_successes,
+        COUNT(distinct case when e.status = 'error' THEN e.model_execution_id else null end) as model_errors,
+        COALESCE(model_successes,0) + COALESCE(model_errors, 0)  as execution_count, 
+        1 - (model_successes / execution_count) as error_rate
+
+      FROM fct_dbt__model_executions e
+      JOIN dim_dbt__models m ON e.model_execution_id = m.model_execution_id
+      WHERE e.run_started_at > (CURRENT_DATE - INTERVAL '3 months')
+      GROUP BY m.name, m.materialization
+      ORDER BY error_rate desc
+      LIMIT 10
+
+  # Adding new base table models
+  - name: fct_dbt__model_executions
+    sql: |
+      select * from fct_dbt__model_executions
+
+  - name: fct_dbt__test_executions
+    sql: |
+      select * from fct_dbt__test_executions
+
+  - name: fct_dbt__seed_executions
+    sql: |
+      select * from fct_dbt__seed_executions
+
+  - name: fct_dbt__snapshot_executions
+    sql: |
+      select * from fct_dbt__snapshot_executions
+
+  - name: dim_dbt__models
+    sql: |
+      select * from dim_dbt__models
+
+  - name: dim_dbt__tests
+    sql: |
+      select * from dim_dbt__tests
+
+  - name: dim_dbt__sources
+    sql: |
+      select * from dim_dbt__sources
+
+  - name: dim_dbt__seeds
+    sql: |
+      select * from dim_dbt__seeds
+
+  - name: dim_dbt__snapshots
+    sql: |
+      select * from dim_dbt__snapshots
+
+  - name: dim_dbt__exposures
+    sql: |
+      select * from dim_dbt__exposures
+
+  - name: dim_dbt__current_models
+    sql: |
+      select * from dim_dbt__current_models

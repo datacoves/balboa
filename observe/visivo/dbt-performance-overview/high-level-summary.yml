@@ -1,0 +1,159 @@
+charts:
+  - name: Number of Models in Last Run
+    traces:
+      - name: breakout-of-model-results-last-run
+        model: ${ref(model_executions)}
+        props:
+          type: pie
+          values: ?{count(*)}
+          labels: ?{status} 
+          textposition: inside
+          hovertemplate: "%{label}: %{value}<extra></extra>"
+          hole: .8
+          automargin: false
+        filters:
+          - ?{invocations_ago = 1}
+      - name: models-in-last-run
+        model: ${ref(build_invocation_summary)}
+        columns:
+          models: model_run_attempts
+          periods: run_started_at
+        props:
+          type: indicator
+          value: column(models)[0]
+          mode: number
+          domain: 
+            x: [.2, .80]
+            y: [.25, .75]
+        order_by:
+          - ?{run_started_at desc}
+        filters:
+          - ?{runs_ago < 10}
+    layout:
+      title:
+        text: Number of Models<br><sub>In Last Run</sub>
+      margin:
+        b: 10
+        r: 30
+        l: 30
+        t: 70
+      showlegend: false
+  
+  - name: Number of Tests in Last Run
+    traces:
+      - name: breakout-of-test-results-last-run
+        model: ${ref(test_executions)}
+        props:
+          type: pie
+          values: ?{count(*)}
+          labels: ?{status} 
+          textposition: inside
+          hovertemplate: "%{label}: %{value}<extra></extra>"
+          hole: .8
+          # domain: 
+          #   x: [.25, .75]
+          #   y: [.15, .75]
+          automargin: false
+        filters:
+          - ?{invocations_ago = 1}
+      - name: tests-in-last-run
+        model: ${ref(build_invocation_summary)}
+        columns:
+          tests: test_run_attempts
+          periods: run_started_at
+        props:
+          type: indicator
+          value: column(tests)[0]
+          mode: number
+          domain: 
+            x: [.2, .80]
+            y: [.25, .75]
+        order_by:
+          - ?{run_started_at desc}
+        filters:
+          - ?{runs_ago < 10}  
+    layout:
+      title:
+        text: Number of Tests<br><sub>In Last Run</sub>
+      margin:
+        b: 10
+        r: 30
+        l: 30
+        t: 70
+      showlegend: false
+
+  - name: Succesful Invocation Duration Chart
+    traces:
+      - name: duration-of-sucessful-invocations
+        model: ${ref(build_invocation_summary)}
+        columns:
+          minutes: round(ms_run_time/ (60*1000), 1)
+          periods: run_started_at
+        props:
+          type: indicator
+          value: column(minutes)[0]
+          mode: number
+        order_by:
+          - ?{run_started_at desc}
+        filters:
+          - ?{build_succeeded = true}
+          - ?{runs_ago < 10}
+    layout:
+      title:
+        text: Build Run Time<br><sub>Minutes - Last Successful Run</sub>
+      margin:
+        b: 50
+        r: 30
+        l: 30
+        t: 70
+
+  - name: Invocation Success Rate This Week Chart
+    traces:
+      - name: invocation-success-rate-past-week
+        model: ${ref(build_invocation_summary)}
+        columns:
+          success_rate: avg(cast(build_succeeded as numeric))
+          periods: date_trunc('week', run_started_at)
+        props:
+          type: indicator
+          value: column(success_rate)[0]
+          mode: delta+number
+          delta:
+            reference: column(success_rate)[1]
+            relative: false
+            valueformat: '.1%'
+          number:
+            valueformat: '.1%'
+        order_by:
+          - ?{date_trunc('week', run_started_at) desc}
+    layout:
+      title:
+        text: Build Success Rate<br><sub>This Week</sub>
+      margin:
+        b: 50
+        r: 30
+        l: 30
+        t: 70
+  - name: total_dbt_build_invocations_this_week_chart
+    layout:
+      margin:
+        l: 30
+        r: 30
+        b: 50
+        t: 70
+      title:
+        text: Dbt Build Invocations<br><sub>This Week</sub>
+    traces:
+      - name: total_dbt_build_invocations_this_week
+        columns:
+          invocations: count(distinct command_invocation_id)
+          period: date_trunc('week', run_started_at)
+        model: ${ref(fct_dbt__invocations)}
+        order_by:
+          - ?{date_trunc('week', run_started_at::date) desc}
+        props:
+          delta:
+            reference: column(invocations)[1]
+          type: indicator
+          value: column(invocations)[0]
+  

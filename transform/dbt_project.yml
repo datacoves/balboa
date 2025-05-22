@@ -145,6 +145,7 @@ models:
 # Run dbt with:  --vars '{"persist_tests": "true", "tests_model": "test_failures"}'
 on-run-end:
   - "{{ create_test_failure_view(results) }}"
+  - "{{ dbt_artifacts.upload_results(results) }}"
 
 # In development, this will be created in your user schema
 data_tests:

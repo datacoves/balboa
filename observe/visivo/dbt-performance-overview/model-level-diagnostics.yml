@@ -1,0 +1,98 @@
+traces:
+  - name: model_materialization_distribution
+    model: ${ref(model_materializations)}
+    props:
+      type: pie
+      labels: ?{materialization}
+      values: ?{count}
+      textinfo: label+percent
+      hole: .5
+      domain:
+        column: 0
+        row: 0
+
+  - name: top_slow_models
+    model: ${ref(slowest_model_runtimes_this_week)}
+    props:
+      type: bar
+      orientation: h
+      y: ?{name}
+      marker:
+        color: ?{CASE WHEN materialization = 'incremental' then '#FFB400' WHEN materialization = 'view' THEN '#003F91'  else '#713B57' end}
+      hovertext: ?{materialization}
+      hoverinfo: text
+      hoverlabel:
+        align: right
+      text: ?{round(avg_runtime)}
+      x: ?{avg_runtime}
+    filters:
+      - ?{ avg_runtime > 20}
+    order_by:
+      - ?{ avg_runtime asc }
+  
+  - name: top_flakiest_models
+    model: ${ref(flakiest_models_past_three_months)}
+    props:
+      type: bar
+      orientation: h
+      y: ?{name}
+      marker:
+        color: ?{CASE WHEN materialization = 'incremental' then '#FFB400' WHEN materialization = 'view' THEN '#003F91'  else '#713B57' end}
+      hovertext: ?{materialization}
+      hoverinfo: text
+      hoverlabel:
+        align: left
+      text: ?{round(error_rate*1000, 2)}
+      x: ?{round(error_rate*1000, 3)}
+    order_by:
+      - ?{ error_rate asc }
+
+
+
+charts:
+  - name: Model Materialization Distribution
+    layout:
+      title:
+        text: Distribution of Model Materializations
+      margin:
+        b: 10
+        t: 60
+        r: 60
+        l: 60
+      showlegend: false
+
+    traces:
+      - ${ref(model_materialization_distribution)}
+
+  - name: Top 10 Slowest Models
+    layout:
+      title:
+        text: Top 10 Slowest Models<br><sub>In the last week</sub>
+      xaxis:
+        title:
+          text: Average Runtime (seconds)
+      margin:
+        l: 200
+        b: 80
+        t: 80
+        r: 20
+    traces:
+      - ${ref(top_slow_models)}
+  
+  - name: Top 10 Flakiest Models
+    layout: 
+      title: 
+        text: Top 10 Flakiest Models<br><sub>past 3 months</sub>
+      yaxis:
+        side: right
+      xaxis:
+        title: 
+          text: Failures Per 1000 Runs
+        autorange: reversed
+      margin: 
+        l: 20
+        r: 250
+        t: 80
+        b: 80
+    traces: 
+      - ${ref(top_flakiest_models)}

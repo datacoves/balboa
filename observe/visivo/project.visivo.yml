@@ -1,0 +1,96 @@
+path: project
+name: dbt_artifacts_visuals
+
+defaults:
+  source_name: dbtdefault_dev
+  threads: 8
+  thumbnail_mode: none
+  levels: []
+
+dbt:
+  enabled: true
+  prefix: dbt
+  dbt_project_yml_location: ../../transform
+  profiles_yml_location: ../../../.dbt
+
+cli_version: 1.0.58
+includes:
+  - path: "models.visivo.yml"
+  - path: "./dbt-performance-overview/high-level-summary.yml"
+  - path: "./dbt-performance-overview/run-level-trends.yml"
+  - path: "./dbt-performance-overview/model-level-diagnostics.yml"
+destinations: []
+alerts: []
+
+models: []
+traces: []
+
+charts: []
+
+
+dashboards:
+  - name: DBT Performance Overview
+    tags: []
+    level: 0
+    type: internal
+    rows:
+      - height: compact
+        items:
+          - markdown: |
+              ## High-Level Summary
+            align: center
+      - height: small
+        name: "High-Level Summary"
+        items:
+          - chart: ${ref(Number of Models in Last Run)}
+          - chart: ${ref(total_dbt_build_invocations_this_week_chart)}
+          - chart: ${ref(Succesful Invocation Duration Chart)}
+          - chart: ${ref(Invocation Success Rate This Week Chart)}
+          - chart: ${ref(Number of Tests in Last Run)}
+      - height: compact
+        items:
+          - markdown: |
+              ## Run-Level Trends
+            align: center
+      - height: medium
+        name: "Run-Level Trends"
+        items:
+          - chart: ${ref(Models Over Time)}
+          - chart: ${ref(Daily Average Invocation Time)}
+          - chart: ${ref(Tests Over Time)}
+      - height: compact
+        items:
+          - markdown: |
+              ## Model-Level Diagnostics
+            align: center
+      - height: large
+        name: "Model-Level Diagnostics"
+        items:
+          - chart: ${ref(Top 10 Slowest Models)}
+          - chart: ${ref(Model Materialization Distribution)}
+          - chart: ${ref(Top 10 Flakiest Models)}
+      - height: compact
+        items:
+          - markdown: |
+              ## Test & Quality Checks
+            align: center
+      - height: large
+        name: "Test & Quality Checks"
+        items:
+          - table:
+              name: Test Results This Year
+              traces:
+                - name: tests-that-have-failed-in-production
+                  model: ${ref(fct_dbt__test_executions)}
+                  columns:
+                    "Truncated Id": left(node_id, 40)
+                    last_failure_at: max(case when status in ('error', 'fail') THEN QUERY_COMPLETED_AT else null end)::date::varchar
+                    test_failures : COUNT(distinct case when status in ('error', 'fail') THEN test_execution_id else null end)
+                    test_passes : COUNT(distinct case when status = 'pass' THEN test_execution_id else null end)
+                    test_warnings : COUNT(distinct case when status = 'warn' THEN test_execution_id else null end)
+                    test_skips: COUNT(distinct case when status = 'skipped' THEN test_execution_id else null end)
+                    "Full ID": node_id
+                  filters:
+                    - ?{year(compile_started_at) = year(current_date)}
+                  order_by:
+                    - ?{COUNT(distinct case when status in ('error', 'fail') THEN test_execution_id else null end) desc}
