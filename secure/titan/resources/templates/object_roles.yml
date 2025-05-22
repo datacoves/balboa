@@ -3,21 +3,9 @@ roles:
   - for_each: var.databases
     name: "z_db_{{ each.value }}"
 
-# Balboa schema roles
-  - for_each: var.balboa_schemas
-    name: "z_schema_{{ each.value }}"
-
-# Raw schema roles
-  - for_each: var.raw_schemas
-    name: "z_schema_{{ each.value }}"
-
-# Balboa apps roles
-  - for_each: var.balboa_apps_schemas
-    name: "z_schema_{{ each.value }}"
-
-# Great bay roles
-  - for_each: var.great_bay_schemas
-    name: "z_schema_{{ each.value }}"
+# Schema roles
+  - for_each: var.schemas
+    name: "z_schema_{{ each.value.split('.')[1] }}"
 
 # Warehouse roles
   - for_each: var.warehouses
@@ -30,29 +18,11 @@ grants:
     on_database: "{{ each.value }}"
     to: "z_db_{{ each.value }}"
 
-# Balboa Schemas
-  - for_each: var.balboa_schemas
+# Schemas
+  - for_each: var.schemas
     priv: USAGE
-    on_schema: "balboa.{{ each.value }}"
-    to: "z_schema_{{ each.value }}"
-
-# Raw Schemas
-  - for_each: var.raw_schemas
-    priv: USAGE
-    on_schema: "raw.{{ each.value }}"
-    to: "z_schema_{{ each.value }}"
-
-# Balboa Apps Schemas
-  - for_each: var.balboa_apps_schemas
-    priv: USAGE
-    on_schema: "balboa_apps.{{ each.value }}"
-    to: "z_schema_{{ each.value }}"
-
-# Great Bay Schemas
-  - for_each: var.great_bay_schemas
-    priv: USAGE
-    on_schema: "great_bay.{{ each.value }}"
-    to: "z_schema_{{ each.value }}"
+    on_schema: "{{ each.value.split('.')[0] }}.{{ each.value.split('.')[1] }}"
+    to: "z_schema_{{ each.value.split('.')[1] }}"
 
 # Warehouses
   - for_each: var.warehouses

@@ -3,26 +3,11 @@ databases:
     name: "{{ each.value }}"
 
 schemas:
-  # Schemas for database balboa
-  - for_each: var.balboa_schemas
-    name: "{{ each.value }}"
-    database: balboa
+  # Schemas
+  - for_each: var.schemas
+    name: "{{ each.value.split('.')[1] }}"
+    database: "{{ each.value.split('.')[0] }}"
   
-  # schemas for database RAW
-  - for_each: var.raw_schemas
-    name: "{{ each.value }}"
-    database: raw
-
-  # schemas for database balboa_apps
-  - for_each: var.balboa_apps_schemas
-    name: "{{ each.value }}"
-    database: balboa_apps
-
-  # schemas for database great_bay
-  - for_each: var.great_bay_schemas
-    name: "{{ each.value }}"
-    database: great_bay
-
 warehouses:
   - for_each: var.warehouses
     name: "{{ each.value }}"

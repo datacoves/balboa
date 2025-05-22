@@ -1,44 +1,35 @@
 # Schemas for Database BALBOA
 vars:
-  - name: balboa_schemas
+  - name: schemas
     type: list
     default:
-      - L1_ACCOUNT_USAGE
-      - L1_COUNTRY_DATA
-      - L1_COVID19_EPIDEMIOLOGICAL_DATA
-      - L1_GOOGLE_ANALYTICS_4
-      - L1_LOANS
-      - L1_OBSERVE
-      - L1_US_POPULATION
+      - balboa.L1_ACCOUNT_USAGE
+      - balboa.L1_COUNTRY_DATA
+      - balboa.L1_COVID19_EPIDEMIOLOGICAL_DATA
+      - balboa.L1_GOOGLE_ANALYTICS_4
+      - balboa.L1_LOANS
+      - balboa.L1_OBSERVE
+      - balboa.L1_US_POPULATION
 
-      - L2_COUNTRY_DEMOGRAPHICS
-      - L2_COVID_OBSERVATIONS
-      - L2_SNOWFLAKE_USAGE
+      - balboa.L2_COUNTRY_DEMOGRAPHICS
+      - balboa.L2_COVID_OBSERVATIONS
+      - balboa.L2_SNOWFLAKE_USAGE
 
-      - L3_COVID_ANALYTICS
-      - L3_LOAN_ANALYTICS
+      - balboa.L3_COVID_ANALYTICS
+      - balboa.L3_LOAN_ANALYTICS
 
-      - DBT_TEST__AUDIT
+      - balboa.DBT_TEST__AUDIT
 
-      - SEEDS
+      - balboa.SEEDS
 
-      - MASKING_POLICIES
+      - balboa.MASKING_POLICIES
   
-  # Schemas for RAW
-  - name: raw_schemas
-    type: list
-    default:
-      - SNAPSHOTS
-      - DBT_ARTIFACTS
+      # Schemas for RAW
+      - raw.SNAPSHOTS
+      - raw.DBT_ARTIFACTS
 
-  # Schemas for balboa_apps
-  - name: balboa_apps_schemas
-    type: list
-    default:
-      - RESOURCES
+      # Schemas for balboa_apps
+      - balboa_apps.RESOURCES
 
-  # Schemas for great_bay
-  - name: great_bay_schemas
-    type: list
-    default:
-      - COVE_MARKETING
+      # Schemas for great_bay
+      - great_bay.COVE_MARKETING
