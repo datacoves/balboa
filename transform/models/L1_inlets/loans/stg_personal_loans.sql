@@ -1,8 +1,8 @@
-{{ config(
+{# {{ config(
     materialized = 'dynamic_table',
     snowflake_warehouse = 'wh_transforming_dynamic_tables',
     target_lag = 'downstream',
-) }}
+) }} #}
 
 with raw_source as (
 

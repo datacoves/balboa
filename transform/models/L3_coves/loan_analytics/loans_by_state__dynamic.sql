@@ -1,8 +1,8 @@
-{{ config(
+{# {{ config(
     materialized = 'dynamic_table',
     snowflake_warehouse = 'wh_transforming_dynamic_tables',
     target_lag = '30 days',
-) }}
+) }} #}
 
 select
     personal_loans.addr_state as state,
