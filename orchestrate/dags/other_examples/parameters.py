@@ -1,10 +1,16 @@
-"""## Datacoves Operators Sample DAG
-This DAG is a sample using the Parameters when the DAG is run manually"""
+"""
+## Sample DAG with parameters
+This DAG is a sample demonstrating parameter usage with including date picker.
+"""
 
 from datetime import datetime, timedelta
+from typing import Dict
+
 from airflow.decorators import dag, task
 from airflow.models.param import Param
-from typing import Dict
+
+from orchestrate.utils import datacoves_utils
+
 
 def get_default_dates() -> Dict[str, str]:
     today = datetime.now()
@@ -15,17 +21,18 @@ def get_default_dates() -> Dict[str, str]:
 defaults = get_default_dates()
 
 @dag(
-    doc_md=__doc__,
-    default_args={
-        "start_date": datetime(2022, 10, 10),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "email_on_failure": True,
-        "retries": 3,
-    },
-    catchup=False,
-    schedule_interval="0 0 1 */12 *",
+    doc_md = __doc__,
+    catchup = False,
+
+    default_args = datacoves_utils.set_default_args(
+        owner = "Noel Gomez",
+        owner_email = "noel@example.com"
+    ),
+
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+
     description="Dag with parameters",
+
     params={
         'process_start_date': Param(
             default=defaults['start_date'],
@@ -53,12 +60,10 @@ defaults = get_default_dates()
             description='Number of records to process in each batch'
         )
     },
+
     tags=['sample', 'parameters']
 )
 def parameterized_example():
-    """
-    DAG demonstrating parameter usage with TaskFlow API including date picker.
-    """
 
     @task()
     def validate_dates(process_start: str, process_end: str) -> dict:  # Changed parameter names here
@@ -92,11 +97,11 @@ def parameterized_example():
 
     # Execute tasks
     dates = validate_dates(
-        process_start="{{ params.process_start_date }}",  # Updated parameter names
-        process_end="{{ params.process_end_date }}"      # Updated parameter names
+        process_start="{{ params.process_start_date }}",
+        process_end="{{ params.process_end_date }}"
     )
+
     process_result = process_data(dates)
     final_report(process_result)
 
-# Generate the DAG
-dag = parameterized_example()
+parameterized_example()

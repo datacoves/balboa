@@ -1,9 +1,9 @@
-- alex:
+- alejandro:
     can_login: true
     member_of:
       - analyst
 
-- alejandro:
+- alex:
     can_login: true
     member_of:
       - analyst
@@ -25,13 +25,6 @@
       - sqlmesh_analyst
       - bot_integration
 
-- mayra:
-    can_login: true
-    member_of:
-      - analyst
-      - accountadmin
-      - securityadmin
-
 - sebastian:
     can_login: true
     member_of:
@@ -45,6 +38,11 @@
     member_of:
       - accountadmin
       - securityadmin
+      - analyst
+
+- thach:
+    can_login: true
+    member_of:
       - analyst
 
 - svc_airbyte:
@@ -89,12 +87,12 @@
     member_of:
       - bot_integration
 
-- svc_rupert:
-    can_login: true
-    member_of:
-      - analyst
-
 - svc_datahub:
     can_login: true
     member_of:
       - catalog
+
+- svc_superset:
+    can_login: true
+    member_of:
+      - analyst

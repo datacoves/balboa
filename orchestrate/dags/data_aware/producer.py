@@ -1,32 +1,31 @@
-import datetime
+"""
+## Airflow Data Aware Producer
+This DAG shows how to create a DAG that updates a dataset
+"""
 
 from airflow.decorators import dag, task
-from airflow.datasets import Dataset
 
-
-# A dataset can be anything, it will be a poiner in the Airflow db.
-# If you need to access url like s3://my_bucket/my_file.txt then you can set
-# it with the proper path for reuse.
-DAG_UPDATED_DATASET = Dataset("upstream_data")
+from orchestrate.utils import datacoves_utils
+from orchestrate.utils.datasets import DAG_UPDATED_DATASET
 
 @dag(
-    default_args={
-        "start_date": datetime.datetime(2024, 1, 1, 0, 0),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "retries": 3
-    },
-    description="Sample Producer DAG",
-    schedule="0 0 1 */12 *",
-    tags=["extract_and_load"],
-    catchup=False,
+    doc_md = __doc__,
+    catchup = False,
+
+    default_args = datacoves_utils.set_default_args(
+        owner = "Noel Gomez",
+        owner_email = "noel@example.com"
+    ),
+
+    description = "Sample Consumer DAG",
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    tags = ["sample"],
 )
 def data_aware_producer_dag():
     @task(outlets=[DAG_UPDATED_DATASET])
-    def extract_and_load_dlt():
+    def produce_a_dataset():
         print("I'm the producer")
 
-    extract_and_load_dlt()
+    produce_a_dataset()
 
-
-dag = data_aware_producer_dag()
+data_aware_producer_dag()

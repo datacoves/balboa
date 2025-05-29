@@ -1,47 +1,28 @@
-"""## Best Practices Example
+"""
+## Best Practices Example
 This DAG capture several best practices when building DAGs
 """
 
-from airflow.decorators import dag, task
-from airflow.operators.python import get_current_context
-from airflow.utils.log.logging_mixin import LoggingMixin
-
 from pendulum import datetime, duration
 import time
-import os
+
+from airflow.decorators import dag, task
+from orchestrate.utils import datacoves_utils
+
+# More info on configuration options can be found at
+# https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html
+
+# Best Practices Reference
+# https://medium.com/indiciumtech/apache-airflow-best-practices-bc0dd0f65e3f
+# https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html
+
 
 # Determine if we are runnig in My Airflow or in Team Airflow
 # Normally it is not adviced to have code outside @tasks because
 # Airflow will parse Dags every 30 second and slow code can introduce problems
 # Don't do this with your code
 # This will return True running in My Airflow since that uses sqlite
-is_development = os.environ.get('AIRFLOW__DATABASE__SQL_ALCHEMY_CONN', '').startswith('sqlite')
-
-# email is only enabled if not in My Airflow
-enable_emailing = not is_development
-
-
-def handle_error(context):
-    """Callback function to handle task failures"""
-    logger = LoggingMixin().log
-
-    # Add this distinctive message
-    logger.error("### ENTERING HANDLE_ERROR CALLBACK ###")
-
-    task_instance = context['task_instance']
-    task = context['task']
-    exception = context.get('exception')
-
-    logger.error(f"""Task Failed!
-    Task: {task.task_id}
-    Error: {str(exception)}
-    Execution Date: {context['execution_date']}
-    Try Number: {task_instance.try_number}
-    """)
-
-
-# More info on configuration options can be found at
-# https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html
+is_development = (not datacoves_utils.is_team_airflow())
 
 @dag(
     # This is used to display the markdown docs at the top of this file in the Airflow UI when viewing a DAG
@@ -78,9 +59,9 @@ def handle_error(context):
         # It is a good practice to define the owner of the DAG and enable notifications
         "owner": "Datacoves",
         "email": "noel@example.com",
-        "email_on_failure": enable_emailing,
-        "email_on_retry": enable_emailing,
-        "on_failure_callback": handle_error,
+        "email_on_failure": datacoves_utils.is_team_airflow(),
+        "email_on_retry": None,
+        "on_failure_callback": datacoves_utils.handle_error,
     },
 
     # maximum number of concurrent DAG runs
@@ -104,11 +85,10 @@ def handle_error(context):
     # Pauses the DAG after x consecutive failed runs
     # This is good to set for a DAG that runs frequently e.g. hourly
     # As you may not want to keep incurring costs unnecesarily
-    # 2.9+ feature
-    # max_consecutive_failed_dag_runs = 3,
+    max_consecutive_failed_dag_runs = 3,
 
     # Used to group and filter for dags in the UI
-    tags = ["extract_and_load"],
+    tags = ["sample"],
 
     # This will make the owner element in the UI open a link
     # vs just filtering all the dags with the specific owner
@@ -118,8 +98,7 @@ def handle_error(context):
     },
 
     # Name shown in the UI, can include special characters and emojis
-    # 2.9+ feature
-    # dag_display_name = "Datacoves Best Practices 🚀",
+    dag_display_name = "Datacoves Best Practices 🚀",
 
     # Shown when you hover over the DAG name in the UI
     description = "Datacoves DAG to demonstrate best practices",
@@ -145,7 +124,8 @@ def dag_definition():
         time.sleep(task_duration)
         print("All Done. Task Complete!")
 
+    # Calling Tasks like this sets the dependency implicitly
     my_task(task_duration = sleep_time)
 
-# Invoke Dag
-dag = dag_definition()
+# This invokes the DAG and is always needed
+dag_definition()
