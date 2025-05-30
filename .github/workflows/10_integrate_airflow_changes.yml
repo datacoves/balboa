@@ -4,8 +4,8 @@ name: 🎯 Airflow Validations
 on:  # yamllint disable-line rule:truthy
   pull_request:
     paths:
-      - orchestrate/*
-      - orchestrate/**/*
+      - zz_orchestrate/*
+      - zz_orchestrate/**/*
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
