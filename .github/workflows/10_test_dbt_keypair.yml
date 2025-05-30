@@ -69,5 +69,8 @@ jobs:
       - name: Install dbt packages
         run: "dbt deps"
 
-      - name: Create PR database
+      - name: Test debug
+        run: "dbt debug"
+
+      - name: Test Compile
         run: "dbt compile"
