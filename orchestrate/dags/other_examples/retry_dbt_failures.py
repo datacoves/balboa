@@ -28,7 +28,7 @@ def retry_dbt_failures():
 
     @task.datacoves_dbt(
         connection_id="main",
-        dbt_api_enabled=False,
+        dbt_api_enabled=True,
         download_run_results=True,
     )
     def dbt_build(expected_files: list = []):
