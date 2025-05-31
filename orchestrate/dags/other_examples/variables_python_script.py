@@ -30,7 +30,7 @@ def variables_python_script():
     )
     def dbt_and_python():
         # First Task
-        @task.datacoves_dbt(connection_id="main")
+        @task.datacoves_dbt(connection_id="main_key_pair")
         def run_dbt_task():
             return "dbt debug"
 

@@ -27,7 +27,7 @@ def retry_dbt_failures():
         return "rm -rf /tmp/airflow_repo"
 
     @task.datacoves_dbt(
-        connection_id="main",
+        connection_id="main_key_pair",
         dbt_api_enabled=True,
         download_run_results=True,
     )
