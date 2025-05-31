@@ -23,7 +23,7 @@ def airflow_data_sync():
     @task.datacoves_airflow_db_sync(
         db_type="snowflake",
         destination_schema="airflow_dev",
-        connection_id="main",
+        connection_id="main_key_pair",
         # additional_tables=["additional_table_1", "additional_table_2"],
     )
     def sync_airflow_db():

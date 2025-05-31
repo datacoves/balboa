@@ -65,7 +65,7 @@ def load_earthquake_data():
 
     # Run the dbt transformations
     @task.datacoves_dbt(
-        connection_id="main",
+        connection_id="main_key_pair",
     )
     def transform():
         return "dbt build -s tag:earthquake_analysis+"
