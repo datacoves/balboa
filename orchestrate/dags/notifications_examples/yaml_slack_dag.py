@@ -23,11 +23,11 @@ from airflow.providers.slack.notifications.slack import send_slack_notification
 )
 def yaml_slack_dag():
 
-    @task.datacoves_dbt(connection_id="main")
+    @task.datacoves_dbt(connection_id="main_key_pair")
     def transform():
         return "dbt run -s personal_loans"
 
-    transform() 
+    transform()
 
 # Invoke DAG
 dag = yaml_slack_dag()
