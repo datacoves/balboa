@@ -22,30 +22,23 @@ from orchestrate.utils import datacoves_utils
 )
 def retry_dbt_failures():
 
-    @task.datacoves_dbt(
-        connection_id="main",
-        dbt_api_enabled=True,
-        upload_static_artifacts=True,
-    )
-    def dbt_compile():
-        return "dbt compile"
-        # This should generate manifest and other static assets
-        # This should be done in the CI/CD after merging to main
-        # because static dbt assets dont change
+    @task.bash()
+    def clear_tmp():
+        return "rm -rf /tmp/airflow_repo"
 
     @task.datacoves_dbt(
         connection_id="main",
-        dbt_api_enabled=True,
+        dbt_api_enabled=False,
         download_run_results=True,
-        download_sources_json=True,
     )
     def dbt_build(expected_files: list = []):
+        print(f"Expecting Files: =====> {expected_files}")
         if expected_files:
-            return "dbt build -s result:error+ --state logs"
+            return "dbt build -s 1+result:error+ --state logs"
         else:
             return "dbt build -s stg_personal_loans+"
 
 
-    dbt_compile() >> dbt_build(expected_files=["run_results.json", "sources.json"])
+    clear_tmp() >> dbt_build(expected_files=["run_results.json"])
 
 retry_dbt_failures()
