@@ -75,7 +75,7 @@ def daily_loan_run():
         load_loans_data()
 
 
-    # Transfor Data
+    # Transform Data
     @task.datacoves_dbt(
         connection_id="main_key_pair"
     )
