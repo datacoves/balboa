@@ -30,7 +30,7 @@ def print_pythonpath():
     },
     description="DAG for testing Python imports.",
     schedule="23 20 * * 1-5",
-    tags=["version_4"],
+    tags=["version_5"],
     catchup=False,
 )
 def test_dag_import_utils():
