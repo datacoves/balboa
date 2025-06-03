@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from datetime import datetime, timedelta
 from airflow.decorators import dag
 from operators.datacoves.dbt import DatacovesDbtOperator
@@ -11,6 +12,9 @@ def print_pythonpath():
     pythonpath = os.environ.get("PYTHONPATH", "No PYTHONPATH set")
     print(f"PYTHONPATH: {pythonpath}")
     print(f"sys.path: {sys.path}")
+    for i in range(100):
+        print(f"var {i}")
+        time.sleep(1)
 
 @dag(
     default_args={
@@ -25,7 +29,7 @@ def print_pythonpath():
     },
     description="DAG for testing Python imports.",
     schedule="23 20 * * 1-5",
-    tags=["version_1"],
+    tags=["version_2"],
     catchup=False,
 )
 def test_dag_import_utils():
