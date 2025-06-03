@@ -45,6 +45,6 @@ def test_dag_import_utils():
         python_callable=print_pythonpath
     )
 
-    print_env_python_python # >> datacoves_dbt
+    print_env_python_python >> datacoves_dbt
 
 dag = test_dag_import_utils()
