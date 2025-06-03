@@ -13,7 +13,7 @@ def print_pythonpath():
     print(f"PYTHONPATH: {pythonpath}")
     print(f"sys.path: {sys.path}")
     print("testing logs")
-    for i in range(100):
+    for i in range(5):
         print(f"var {i}")
         time.sleep(1)
 
@@ -30,15 +30,17 @@ def print_pythonpath():
     },
     description="DAG for testing Python imports.",
     schedule="23 20 * * 1-5",
-    tags=["version_3"],
+    tags=["version_4"],
     catchup=False,
 )
 def test_dag_import_utils():
     test()
+    """
     datacoves_dbt = DatacovesDbtOperator(
         task_id="test_dag_import",
         bash_command="dbt debug"
     )
+    """
 
     print_env_python_python = PythonOperator(
         task_id="print_pythonpath_python",
