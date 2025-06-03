@@ -3,9 +3,8 @@ import sys
 import time
 from datetime import datetime, timedelta
 from airflow.decorators import dag
-from operators.datacoves.dbt import DatacovesDbtOperator
 from airflow.operators.python import PythonOperator
-from utils.test import test
+from airflow.operators.bash import BashOperator
 
 
 def print_pythonpath():
@@ -28,16 +27,15 @@ def print_pythonpath():
         "retries": 3,
         "retry_delay": timedelta(minutes=2),
     },
-    description="DAG for testing Python imports.",
+    description="DAG for testing logs.",
     schedule="23 20 * * 1-5",
-    tags=["version_4"],
+    tags=["version_1"],
     catchup=False,
 )
-def test_dag_import_utils():
-    test()
-    datacoves_dbt = DatacovesDbtOperator(
-        task_id="test_dag_import",
-        bash_command="dbt debug"
+def test_dag_logs():
+    test_bash_operator = BashOperator(
+        task_id='hello_world_task',
+        bash_command='python -c "print(\'Hello, world!\')"'
     )
 
     print_env_python_python = PythonOperator(
@@ -45,6 +43,6 @@ def test_dag_import_utils():
         python_callable=print_pythonpath
     )
 
-    print_env_python_python # >> datacoves_dbt
+    print_env_python_python >> test_bash_operator
 
-dag = test_dag_import_utils()
+dag = test_dag_logs()
