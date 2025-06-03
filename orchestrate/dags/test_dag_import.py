@@ -12,6 +12,7 @@ def print_pythonpath():
     pythonpath = os.environ.get("PYTHONPATH", "No PYTHONPATH set")
     print(f"PYTHONPATH: {pythonpath}")
     print(f"sys.path: {sys.path}")
+    print("testing logs")
     for i in range(100):
         print(f"var {i}")
         time.sleep(1)
@@ -29,7 +30,7 @@ def print_pythonpath():
     },
     description="DAG for testing Python imports.",
     schedule="23 20 * * 1-5",
-    tags=["version_2"],
+    tags=["version_3"],
     catchup=False,
 )
 def test_dag_import_utils():
@@ -44,6 +45,6 @@ def test_dag_import_utils():
         python_callable=print_pythonpath
     )
 
-    print_env_python_python >> datacoves_dbt
+    print_env_python_python # >> datacoves_dbt
 
 dag = test_dag_import_utils()
