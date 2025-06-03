@@ -33,14 +33,14 @@ def print_pythonpath():
     catchup=False,
 )
 def test_dag_logs():
-    test_bash_operator = BashOperator(
-        task_id='hello_world_task',
-        bash_command='python -c "print(\'Hello, world!\')"'
-    )
-
     print_env_python_python = PythonOperator(
         task_id="print_pythonpath_python",
         python_callable=print_pythonpath
+    )
+
+    test_bash_operator = BashOperator(
+        task_id='hello_world_task',
+        bash_command='python -c "print(\'Hello, world!\')"'
     )
 
     print_env_python_python >> test_bash_operator
