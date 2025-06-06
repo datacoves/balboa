@@ -31,7 +31,7 @@ def retry_dbt_failures():
     def dbt_build(expected_files: list = []):
         print(f"Expecting Files Found?: =====> {expected_files}")
         if expected_files:
-            return "dbt build -s 1+result:error+ --state logs"
+            return "dbt build -s result:error+ --state logs"
         else:
             return "dbt build -s stg_us_population+ stg_personal_loans+"
 
