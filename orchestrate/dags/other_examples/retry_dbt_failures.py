@@ -22,9 +22,6 @@ from orchestrate.utils import datacoves_utils
 )
 def retry_dbt_failures():
 
-    @task.bash()
-    def clear_tmp():
-        return "rm -rf /tmp/airflow_repo"
 
     @task.datacoves_dbt(
         connection_id="main_key_pair",
@@ -32,13 +29,13 @@ def retry_dbt_failures():
         download_run_results=True,
     )
     def dbt_build(expected_files: list = []):
-        print(f"Expecting Files: =====> {expected_files}")
+        print(f"Expecting Files Found?: =====> {expected_files}")
         if expected_files:
             return "dbt build -s 1+result:error+ --state logs"
         else:
             return "dbt build -s stg_us_population+"
 
 
-    clear_tmp() >> dbt_build(expected_files=["run_results.json"])
+    dbt_build(expected_files=["run_results.json"])
 
 retry_dbt_failures()
