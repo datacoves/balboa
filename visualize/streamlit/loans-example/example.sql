@@ -91,6 +91,7 @@ WHERE is_dynamic = 'YES';
 
 -- Grant access to all existing dynamic tables in a schema
 GRANT SELECT ON ALL DYNAMIC TABLES IN DATABASE BALBOA TO ROLE CATALOG;
+GRANT SELECT ON ALL DYNAMIC TABLES IN DATABASE BALBOA TO ROLE ANALYST;
 
 -- For future dynamic tables, you'll want to grant future privileges
 GRANT SELECT ON FUTURE DYNAMIC TABLES IN DATABASE BALBOA TO ROLE CATALOG;

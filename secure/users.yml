@@ -12,6 +12,7 @@
     can_login: true
     member_of:
       - analyst
+      - securityadmin
 
 - gomezn:
     can_login: true
