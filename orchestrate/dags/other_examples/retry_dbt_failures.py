@@ -33,7 +33,7 @@ def retry_dbt_failures():
         if expected_files:
             return "dbt build -s 1+result:error+ --state logs"
         else:
-            return "dbt build -s stg_us_population+"
+            return "dbt build -s stg_us_population+ stg_personal_loans+"
 
 
     dbt_build(expected_files=["run_results.json"])
