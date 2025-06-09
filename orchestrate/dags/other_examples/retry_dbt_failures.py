@@ -29,7 +29,7 @@ def retry_dbt_failures():
         download_run_results=True,
     )
     def dbt_build(expected_files: list = []):
-        print(f"Expecting Files Found?: =====> {expected_files}")
+        print(f"Expected Files Found?: =====> {expected_files}")
         if expected_files:
             return "dbt build -s result:error+ --state logs"
         else:
