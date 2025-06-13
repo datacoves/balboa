@@ -1,19 +1,14 @@
-{{ config(
-    materialized='incremental',
-    incremental_strategy='merge'
-) }}
-
 with country_polygons as (
 
-    select
+    Select
         country_name,
         country_code_2,
         geography
-    from {{ ref("stg_country_polygons") }}
+    FROM {{ ref("stg_country_polygons") }}
 
 ),
 
-earthquakes as (
+earthquakes As (
     select
         location_geo_point,
         sig,
@@ -30,7 +25,7 @@ earthquakes as (
 
 ),
 
-final as (
+final AS (
 
     select
         earthquakes.*,
