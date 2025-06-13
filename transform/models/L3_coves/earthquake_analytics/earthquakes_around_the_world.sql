@@ -1,15 +1,20 @@
+{{ config(
+    materialized='incremental',
+    incremental_strategy='merge'
+) }}
+
 with country_polygons as (
 
-    Select
+    select
         country_name,
         country_code_2,
         geography
-    FROM {{ ref("stg_country_polygons") }}
+    from {{ ref("stg_country_polygons") }}
 
 ),
 
-earthquakes As (
-    selecT
+earthquakes as (
+    select
         location_geo_point,
         sig,
         case
@@ -25,13 +30,13 @@ earthquakes As (
 
 ),
 
-final AS (
+final as (
 
     select
         earthquakes.*,
         country_polygons.country_code_2 as country_code
     from earthquakes, country_polygons
-    where country_polygons.geography is not NULL
+    where country_polygons.geography is not null
         and st_contains(
             country_polygons.geography,
             earthquakes.location_geo_point

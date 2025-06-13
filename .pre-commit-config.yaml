@@ -15,27 +15,6 @@ repos:
       - id: check-database-casing-consistency
         always_run: true
 
-
-  - repo: https://github.com/sqlfluff/sqlfluff
-    # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
-    rev: 3.1.1
-    hooks:
-      - id: sqlfluff-fix
-        language: python
-        stages: [pre-push]
-        # Need these two dependencies.
-        #   sqlfluff-templater-dbt should match the version of sqlfluff above in rev (pip show sqlfluff-templater-dbt)
-        #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
-        additional_dependencies:
-          [
-            "sqlfluff-templater-dbt==3.1.1",
-            "dbt-core==1.8.8",
-            "dbt-snowflake==1.8.4",
-          ]
-        args: [--config, transform/.sqlfluff]
-
-
-
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
     rev: 3.1.1
