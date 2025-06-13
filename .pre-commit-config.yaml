@@ -20,7 +20,7 @@ repos:
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
     rev: 3.1.1
     hooks:
-      - id: sqlfluff-format
+      - id: sqlfluff-fix
         language: python
         stages: [pre-push]
         # Need these two dependencies.
