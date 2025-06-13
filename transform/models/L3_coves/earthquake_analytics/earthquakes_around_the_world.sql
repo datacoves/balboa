@@ -9,7 +9,7 @@ with country_polygons as (
 ),
 
 earthquakes As (
-    select
+    selecT
         location_geo_point,
         sig,
         case
