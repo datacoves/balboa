@@ -75,9 +75,9 @@ def daily_loan_run():
         load_loans_data()
 
 
-    # Transfor Data
+    # Transform Data
     @task.datacoves_dbt(
-        connection_id="main"
+        connection_id="main_key_pair"
     )
     def transform():
         return "dbt build -s 'tag:daily_run_airbyte+ tag:daily_run_fivetran+'"

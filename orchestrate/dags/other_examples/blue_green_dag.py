@@ -21,7 +21,7 @@ from orchestrate.utils import datacoves_utils
 )
 def blue_green_dbt_run():
 
-    @task.datacoves_dbt(connection_id="main")
+    @task.datacoves_dbt(connection_id="main_key_pair")
     def blue_green_run():
         return "dbt-coves blue-green --dbt-selector '-s personal_loans'"
 
