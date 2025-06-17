@@ -3,21 +3,31 @@ version: 2
 models:
   - name: stg_personal_loans
     description: Contains data on personal loans
+    data_tests:
+      # Row count monitoring
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 40000
+          max_value: 50000
+          config:
+            severity: warn
     columns:
       - name: addr_state
-        # data_tests:
-        #   - accepted_values:
-        #       values:
-        #         - "CA"
-        #       config:
-        #         store_failures_as: view
         description: The state in which the borrower resides
         meta:
           masking_policy: masking_policy_pii_string
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_distinct_count_to_equal:
+              value: 50
       - name: annual_inc
         description: The borrower's annual income
         meta:
           masking_policy: masking_policy_pii_float
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1000
+              max_value: 10000000
+              where: "annual_inc IS NOT NULL"
       - name: collections_12_mths_ex_med
         description: Number of collections in the last 12 months excluding medical
           collections
@@ -32,6 +42,10 @@ models:
           masking_policy: masking_policy_pii_string
       - name: dti
         description: The borrower's debt-to-income ratio
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 50
       - name: earliest_cr_line
         description: The month the borrower's earliest reported credit line was opened
       - name: emp_length
@@ -43,11 +57,22 @@ models:
           loan
       - name: funded_amnt
         description: The total amount committed to that loan at that point in time
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 35000
       - name: funded_amnt_inv
         description: The total amount committed by investors for that loan at that
           point in time
       - name: grade
         description: LC assigned loan grade
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+          - dbt_expectations.expect_column_values_to_match_regex:
+              regex: "^[A-G]$"
       - name: home_ownership
         description: The home ownership status provided by the borrower during registration
       - name: initial_list_status
@@ -59,6 +84,14 @@ models:
         description: The monthly payment owed by the borrower if the loan originates
       - name: int_rate
         description: Interest rate on the loan
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 5.0
+              max_value: 25.0
+          - dbt_expectations.expect_column_mean_to_be_between:
+              min_value: 11.0
+              max_value: 13.0
       - name: issue_d
         description: The month which the loan was funded
       - name: last_credit_pull_d
@@ -69,12 +102,36 @@ models:
         description: Last month payment was received
       - name: loan_amnt
         description: The listed amount of the loan applied for by the borrower
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 500
+              max_value: 35000
+          - dbt_expectations.expect_column_mean_to_be_between:
+              min_value: 10000
+              max_value: 12000
       - name: loan_id
         description: A unique identifier for the loan
+        data_tests:
+          - not_null
+          - unique
       - name: loan_status
         description: Current status of the loan
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: ['Fully Paid', 'Charged Off', 'Current',
+                         'Does not meet the credit policy.  Status:Fully Paid',
+                         'Does not meet the credit policy.  Status:Charged Off',
+                         'Late (31-120 days)', 'In Grace Period',
+                         'Does not meet the credit policy.  Status:Current',
+                         'Late (16-30 days)', 'Default',
+                         'Does not meet the credit policy.  Status:In Grace Period']
       - name: member_id
         description: A unique identifier for the borrower
+        data_tests:
+          - not_null
+          - unique
       - name: mths_since_last_delinq
         description: The number of months since the borrower's last delinquency
       - name: mths_since_last_major_derog
@@ -110,6 +167,12 @@ models:
       - name: term
         description: The number of payments on the loan. Values are in months and
           can be either 36 or 60
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [' 36 months', ' 60 months']
+          - dbt_expectations.expect_column_values_to_match_regex:
+              regex: "^ (36|60) months$"
       - name: title
         description: The loan title provided by the borrower
       - name: total_acc
@@ -119,6 +182,10 @@ models:
         description: Payments received to date for total amount funded
         meta:
           masking_policy: masking_policy_pii_float
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100000
       - name: total_pymnt_inv
         description: Payments received to date for portion of total amount funded
           by investors
@@ -136,3 +203,7 @@ models:
       - name: zip_code
         description: The first 3 numbers of the zip code provided by the borrower
           in the loan application
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_match_regex:
+              regex: "^[0-9]{3}xx$"
