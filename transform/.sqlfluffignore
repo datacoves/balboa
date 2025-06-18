@@ -1,5 +1,0 @@
-target/
-dbt_packages/
-templates/
-macros/
-visualize/

@@ -1,9 +1,0 @@
-version: 2
-models:
-  - name: credits_by_month
-    description: Contains credit usage by month for the last 12 months
-    columns:
-      - name: month_n
-        description: The month (1-12) for which credit usage is being reported
-      - name: cumulative_sum
-        description: The cumulative sum of credit usage up to and including the specified month

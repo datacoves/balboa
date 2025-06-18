@@ -1,2 +1,0 @@
-simple_http_server
-elementary-data

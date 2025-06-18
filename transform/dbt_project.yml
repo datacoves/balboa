@@ -43,7 +43,6 @@ seeds:
     +persist_docs:
         relation: true
         columns: true
-    +dbt-osmosis: "{model}.yml"
 
 snapshots:
     +enabled: "{{ True if target.database == 'balboa' else False }}"
@@ -55,54 +54,21 @@ snapshots:
         node_color: "#0f703d"
 
 models:
-    # elementary:
-    #     +schema: "elementary"
-    +dbt-osmosis: "{model}.yml"
-
     balboa:
         +materialized: view
         +schema: Z_SCHEMA_NOT_CONFIGURED
 
         L1_inlets:
-            account_usage:
-                +schema: L1_ACCOUNT_USAGE
-            country_data:
-                +schema: L1_COUNTRY_DATA
-            country_geo:
-                +schema: L1_COUNTRY_GEO
-            google_analytics_4:
-                +schema: L1_GOOGLE_ANALYTICS_4
-            covid19_epidemiological_data:
-                +schema: L1_COVID19_EPIDEMIOLOGICAL_DATA
             loans:
                 +schema: L1_LOANS
-            observe:
-                +schema: L1_OBSERVE
-            us_population:
-                +schema: L1_US_POPULATION
-            usgs__earthquake_data:
-                +schema: L1_USGS__EARTHQUAKE_DATA
 
-        L2_bays:
-            +group: marketing
-            +docs:
-                node_color: "#000899"
-            country_demographics:
-                +schema: L2_COUNTRY_DEMOGRAPHICS
-            covid_observations:
-                +schema: L2_COVID_OBSERVATIONS
-            snowflake_usage:
-                +schema: L2_SNOWFLAKE_USAGE
+        # L2_bays:
+        #     +docs:
+        #         node_color: "#000899"
 
         L3_coves:
-            +group: marketing
-            +access: public
             +docs:
                 node_color: "#366ccf"
-            covid_analytics:
-                +schema: L3_COVID_ANALYTICS
-            earthquake_analytics:
-                +schema: L3_EARTHQUAKE_ANALYTICS
             loan_analytics:
                 +schema: L3_LOAN_ANALYTICS
                 # cannot persist docs on dynamic tables
@@ -110,32 +76,9 @@ models:
                     relation: false
             +materialized: table
 
-        # L4_shares:
-        #   +docs:
-        #     node_color: "#FCA868"
-        #   materialized: table
-        #   +database: "{{ 'prd_shared_dw' if target.name == 'prd' else target.database }}"
-        #   digital_product_analytics:
-        #     +schema: COVE_DIGITAL_PRODUCT_ANALYTICS
-        #   +copy_grants: false
-        #   +post-hook: "{{ add_grants_to_share('PRD_ANALYTICS_DW_SNOWFLAKE_SECURE_SHARE_167') }}"
-        #   +transient: false
-        #   +persist_docs:
-        #       relation: false
-        #       columns: false
-
-
         +persist_docs:
             relation: true
             columns: true
-
-    post-hook:
-        - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
-        - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
-        # This macro creates a non_versioned view of a versioned dbt model
-        # Useful if you want to have a versioned mart but dont want BI tool to break if version
-        # is updated.
-        # - "{{ create_latest_version_view() }}"
 
     # Snowflake Defaults
     +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
@@ -154,15 +97,3 @@ data_tests:
 
 vars:
     'dbt_date:time_zone': 'America/Los_Angeles'
-
-    create_masking_policy_schema: "false"
-    use_common_masking_policy_db: "true"
-    common_masking_policy_db: "BALBOA"
-    common_masking_policy_schema: "MASKING_POLICIES"
-    use_force_applying_masking_policy: "true"
-
-
-# Added for Elementary support
-# flags:
-#   require_explicit_package_overrides_for_builtin_materializations: False
-#   source_freshness_run_project_hooks: True
