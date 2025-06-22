@@ -36,7 +36,7 @@ show tables in schema balboa_dev.gomezn
     ->> select "name" from $1;
 
 show dynamic tables in schema balboa_dev.gomezn
-    ->> select "name" from $1;
+    ->> select "name", "rows", "target_lag","refresh_mode","refresh_mode_reason","warehouse" from $1;
 
 -- =================================================================================
 -- Show that we only have California in the raw and in the dynamic staging table
