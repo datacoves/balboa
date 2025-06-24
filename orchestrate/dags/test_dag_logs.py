@@ -29,7 +29,7 @@ def print_pythonpath():
     },
     description="DAG for testing logs.",
     schedule="23 20 * * 1-5",
-    tags=["version_11"],
+    tags=["version_12"],
     catchup=False,
 )
 def test_dag_logs():
