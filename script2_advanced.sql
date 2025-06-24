@@ -112,7 +112,7 @@ create or replace alert balboa_dev.gomezn.error_alert
             'alert: errors detected on dynamic table refresh',
 
             --- emails which must be verified snowflake emails
-            array_construct('gomezn@datacoves.com'),
+            array_construct('gomezn@datacoves.com','gomezn@datacov.es'),
             --- cc emails
             null,
             --- bcc emails
