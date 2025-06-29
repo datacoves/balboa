@@ -13,7 +13,7 @@ if [ -z "$IP_ADDRESS" ]; then
     exit 1
 fi
 
-visivo serve -p $PORT
+uvx visivo serve -p $PORT
 # -h "$IP_ADDRESS"
 # echo "Starting Dagster on http://$IP_ADDRESS:$PORT"
 # uv run --no-project dagster dev -p $PORT --host "$IP_ADDRESS"
