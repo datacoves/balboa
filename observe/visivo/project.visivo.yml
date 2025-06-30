@@ -2,9 +2,8 @@ path: project
 name: dbt_artifacts_visuals
 
 defaults:
-  source_name: dbtdefault_dev
+  source_name: dbt_default_dev
   threads: 8
-  thumbnail_mode: none
   levels: []
 
 dbt:
@@ -13,7 +12,7 @@ dbt:
   dbt_project_yml_location: ../../transform
   profiles_yml_location: ../../../.dbt
 
-cli_version: 1.0.60
+cli_version: 1.0.62
 includes:
   - path: "models.visivo.yml"
   - path: "./dbt-performance-overview/high-level-summary.yml"
