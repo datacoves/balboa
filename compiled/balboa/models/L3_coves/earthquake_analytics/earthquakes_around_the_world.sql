@@ -33,7 +33,7 @@ final as (
         earthquakes.*,
         country_polygons.country_code_2 as country_code
     from earthquakes, country_polygons
-    where country_polygons.geography is not NULL
+    where country_polygons.geography is not null
         and st_contains(
             country_polygons.geography,
             earthquakes.location_geo_point

@@ -2,13 +2,15 @@
         
 
     
-        
+        create or replace dynamic table BALBOA.L1_LOANS.stg_personal_loans
+    target_lag = 'downstream'
+    warehouse = wh_transforming_dynamic_tables
+    refresh_mode = AUTO
 
-    create or replace dynamic table BALBOA.L1_LOANS.stg_personal_loans
-        target_lag = 'downstream'
-        warehouse = wh_transforming_dynamic_tables
-        as (
-            
+    initialize = ON_CREATE
+
+    as (
+        
 
 with raw_source as (
 
@@ -78,11 +80,7 @@ final as (
 )
 
 select * from final
-        )
-    ;
-    alter dynamic table BALBOA.L1_LOANS.stg_personal_loans refresh
-
-
+    )
 
     
 

@@ -2,13 +2,15 @@
         
 
     
-        
+        create or replace dynamic table BALBOA.L3_LOAN_ANALYTICS.loans_by_state__dynamic
+    target_lag = '30 days'
+    warehouse = wh_transforming_dynamic_tables
+    refresh_mode = AUTO
 
-    create or replace dynamic table BALBOA.L3_LOAN_ANALYTICS.loans_by_state__dynamic
-        target_lag = '30 days'
-        warehouse = wh_transforming_dynamic_tables
-        as (
-            
+    initialize = ON_CREATE
+
+    as (
+        
 
 select
     personal_loans.addr_state as state,
@@ -21,11 +23,7 @@ join BALBOA.SEEDS.state_codes as state_codes
 group by 1, 2
 order by 2 desc
 limit 10
-        )
-    ;
-    alter dynamic table BALBOA.L3_LOAN_ANALYTICS.loans_by_state__dynamic refresh
-
-
+    )
 
     
 
