@@ -1,3 +1,3 @@
 #! /bin/bash
 
-streamlit run ~/workspace/visualize/streamlit/loans-example/loans.py
+uvx --with "schedule,snowflake-connector-python,snowflake-snowpark-python" streamlit run /config/workspace/visualize/streamlit/loans-example/loans.py

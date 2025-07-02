@@ -1,10 +1,11 @@
 #!/usr/bin/env -S uv run
 # /// script
 # dependencies = [
-#   "dlt[snowflake, parquet]==1.9.0",
+#   "dlt[snowflake, parquet]==1.12.1",
 #   "enlighten~=1.12.4",
 #   "psutil~=6.0.0",
 #   "pandas==2.2.2",
+#   "pyarrow<19.0.0",
 #   "tqdm"
 # ]
 # ///

@@ -21,7 +21,7 @@ jobs:
     # Alternatively, You can define multiple ENV for different workflows.
     # https://github.com/<org>/<repo>/settings/environments
     # environment: PR_ENV
-    container: datacoves/ci-basic-dbt-snowflake:3.3
+    container: datacoves/ci-basic-dbt-snowflake:3.4
 
     defaults:
       run:
@@ -41,7 +41,7 @@ jobs:
       DATACOVES__MAIN__WAREHOUSE: ${{ vars.DATACOVES__MAIN__WAREHOUSE }}
 
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
-      DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
+      DATACOVES__MAIN__PRIVATE_KEY:  ${{ secrets.DATACOVES__MAIN__PRIVATE_KEY }}
 
     steps:
       - name: Checkout branch

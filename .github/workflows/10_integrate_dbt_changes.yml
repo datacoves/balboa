@@ -27,7 +27,7 @@ jobs:
     # environment: PR_ENV
 
     # most people should use this one
-    container: datacoves/ci-basic-dbt-snowflake:3.3
+    container: datacoves/ci-basic-dbt-snowflake:3.4
 
     defaults:
       run:
@@ -47,7 +47,7 @@ jobs:
       DATACOVES__MAIN__WAREHOUSE: ${{ vars.DATACOVES__MAIN__WAREHOUSE }}
 
       DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
-      DATACOVES__MAIN__PASSWORD:  ${{ secrets.DATACOVES__MAIN__PASSWORD }}
+      DATACOVES__MAIN__PRIVATE_KEY:  ${{ secrets.DATACOVES__MAIN__PRIVATE_KEY }}
 
       # This is used by datacoves to drop the test database if permissions
       # cannot be applied when using the Datacoves permifrost security model.
