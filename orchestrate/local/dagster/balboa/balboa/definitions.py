@@ -8,6 +8,6 @@ defs = Definitions(
     assets=[balboa_dbt_assets],
     schedules=schedules,
     resources={
-        "dbt": DbtCliResource(project_dir=balboa_project),
+        "dbt": DbtCliResource(project_dir=balboa_project, profiles_dir="/config/.dbt"),
     },
 )

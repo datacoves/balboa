@@ -25,7 +25,7 @@ AIRFLOW_TARGET = "prod" if os.environ.get("DATACOVES__AIRFLOW_TYPE",'') == "team
 )
 def override_connection_params():
     @task.datacoves_dbt(
-        connection_id="main",
+        connection_id="main_key_pair",
         target=AIRFLOW_TARGET,
         overrides = {"threads": 3}
         )

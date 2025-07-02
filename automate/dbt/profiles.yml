@@ -10,6 +10,6 @@ default:
       database: "{{ env_var('DATACOVES__MAIN__DATABASE') }}"
       schema: "{{ env_var('DATACOVES__MAIN__SCHEMA') }}"
       user: "{{ env_var('DATACOVES__MAIN__USER') }}"
-      password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
+      private_key: "{{ env_var('DATACOVES__MAIN__PRIVATE_KEY') }}"
       role: "{{ env_var('DATACOVES__MAIN__ROLE') }}"
       warehouse: "{{ env_var('DATACOVES__MAIN__WAREHOUSE') }}"

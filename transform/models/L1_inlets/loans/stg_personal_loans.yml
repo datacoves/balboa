@@ -12,12 +12,8 @@ models:
         #       config:
         #         store_failures_as: view
         description: The state in which the borrower resides
-        meta:
-          masking_policy: masking_policy_pii_string
       - name: annual_inc
         description: The borrower's annual income
-        meta:
-          masking_policy: masking_policy_pii_float
       - name: collections_12_mths_ex_med
         description: Number of collections in the last 12 months excluding medical
           collections
@@ -28,16 +24,12 @@ models:
           the borrower's credit file for the past 2 years
       - name: desc
         description: Loan description provided by the borrower
-        meta:
-          masking_policy: masking_policy_pii_string
       - name: dti
         description: The borrower's debt-to-income ratio
       - name: earliest_cr_line
         description: The month the borrower's earliest reported credit line was opened
       - name: emp_length
         description: Employment length in years
-        meta:
-          masking_policy: masking_policy_pii_string
       - name: emp_title
         description: The job title supplied by the borrower when applying for the
           loan
@@ -117,8 +109,6 @@ models:
           credit file
       - name: total_pymnt
         description: Payments received to date for total amount funded
-        meta:
-          masking_policy: masking_policy_pii_float
       - name: total_pymnt_inv
         description: Payments received to date for portion of total amount funded
           by investors

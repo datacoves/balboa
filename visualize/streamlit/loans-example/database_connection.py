@@ -28,7 +28,7 @@ def getSession():
         return get_active_session()
     except:
         parser = configparser.ConfigParser()
-        filename = os.path.join(os.path.expanduser('~'), ".snowsql/config")
+        filename = os.path.join(os.path.expanduser('~'), ".streamlit/config")
         parser.read(filename)
         section = "connections.dev"
         auth = dict()
