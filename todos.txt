@@ -1,0 +1,5 @@
+TODOs:
+
+1. Fix Full refresh and clone in CI/CD
+2. Add static file upload to dbt-api
+3. Use Titan for roles

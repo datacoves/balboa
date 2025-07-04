@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
     # update_dbt_static_files()
 
-    # get_static_files("manifest.json")
+    get_static_files("manifest.json")
     # get_static_files("partial_parse.msgpack")
     # get_static_files("graph_summary.json")
     # get_static_files("graph.gpickle")
