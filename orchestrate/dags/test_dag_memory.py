@@ -25,7 +25,7 @@ with DAG(
     default_args=default_args,
     schedule_interval=None,
     catchup=False,
-    tags=["version_3"],
+    tags=["version_5"],
 ) as dag:
     task_consume = PythonOperator(
         task_id='consume_memory_incremental',
