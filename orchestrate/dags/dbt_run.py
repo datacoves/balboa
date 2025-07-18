@@ -4,20 +4,14 @@ This DAG shows how to run a dbt task
 """
 
 from airflow.decorators import dag, task
-from orchestrate.utils import datacoves_utils
-
+import datetime
 @dag(
     doc_md = __doc__,
     catchup = False,
-
-    default_args=datacoves_utils.set_default_args(
-        owner = "Noel Gomez",
-        owner_email = "noel@example.com"
-    ),
-
-    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    default_args={"start_date": datetime.datetime(2024, 1, 1, 0, 0), "retries": 3},
+    schedule = None,
     description="Sample DAG demonstrating how to run dbt in airflow",
-    tags=["transform"],
+    tags=["transform_2"],
 )
 def dbt_dag():
 
