@@ -1,0 +1,46 @@
+name: Branch Validation
+
+on:
+  pull_request:
+    branches: [ '*' ]  # Run on PRs to any branch
+
+jobs:
+  validate-branch:
+    runs-on: ubuntu-latest
+    name: Validate Branch Names and Merge Rules
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Validate current branch name
+      run: |
+        python3 automate/git/branch_validator.py --validate-branch --verbose
+
+    - name: Validate merge operation (PR only)
+      if: github.event_name == 'pull_request'
+      run: |
+        SOURCE_BRANCH="${{ github.head_ref }}"
+        TARGET_BRANCH="${{ github.base_ref }}"
+        echo "Validating merge: $SOURCE_BRANCH -> $TARGET_BRANCH"
+        python3 automate/git/branch_validator.py --validate-merge "$SOURCE_BRANCH" "$TARGET_BRANCH" --verbose
+
+    - name: Show validation summary
+      if: always()
+      run: |
+        echo "## Branch Validation Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Valid Branch Patterns:" >> $GITHUB_STEP_SUMMARY
+        echo "- \`feature/*\` - Feature branches" >> $GITHUB_STEP_SUMMARY
+        echo "- \`release/*\` - Release branches" >> $GITHUB_STEP_SUMMARY
+        echo "- \`main\` - Main branch" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Valid Merge Operations:" >> $GITHUB_STEP_SUMMARY
+        echo "- \`feature\` → \`feature\`" >> $GITHUB_STEP_SUMMARY
+        echo "- \`feature\` → \`release\`" >> $GITHUB_STEP_SUMMARY
+        echo "- \`release\` → \`main\`" >> $GITHUB_STEP_SUMMARY
