@@ -10,8 +10,8 @@ jobs:
     name: Validate Branch Names and Merge Rules and assure branch has changes from main
 
     env:
-      SOURCE_BRANCH: github.head_ref
-      TARGET_BRANCH: github.base_ref
+      SOURCE_BRANCH: ${{ github.head_ref }}
+      TARGET_BRANCH: ${{ github.base_ref }}
 
     steps:
     - name: Checkout code
