@@ -3,7 +3,7 @@ name: "05_Branch_Validations"
 on:
   pull_request:
     branches:
-      - '**/*'
+      - 'asb/**/*'
 
 jobs:
   validate-branch:

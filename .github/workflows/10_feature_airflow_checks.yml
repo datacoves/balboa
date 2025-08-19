@@ -1,10 +1,10 @@
 name: "10: 🎯 Airflow Validations"
 
 on:  # yamllint disable-line rule:truthy
-  workflow_run:
-    workflows: ["05_Branch_Validations"]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["05_Branch_Validations"]
+  #   types:
+  #     - completed
 
   pull_request:
     branches:
@@ -21,12 +21,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate-branch:
+    runs-on: ubuntu-latest
+    name: Validate Branch Names and Merge Rules and assure branch has changes from main
+
+    env:
+      SOURCE_BRANCH: ${{ github.head_ref }}
+      TARGET_BRANCH: ${{ github.base_ref }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate current branch
+      run: automate/git/branch_validator.py
+
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
     container: datacoves/ci-airflow-dbt-snowflake:3.4
-    # Only run if the branch validation workflow completed successfully
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
