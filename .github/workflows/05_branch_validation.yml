@@ -9,10 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Validate Branch Names and Merge Rules and assure branch has changes from main
 
-    permissions:
-      contents: read
-      pull-requests: read
-
     env:
       SOURCE_BRANCH: ${{ github.head_ref }}
       TARGET_BRANCH: ${{ github.base_ref }}
@@ -22,7 +18,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      # No need for deep history when using GitHub API
 
     - name: Validate current branch
       run: automate/git/branch_validator.py
