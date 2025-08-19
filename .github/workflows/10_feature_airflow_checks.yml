@@ -1,6 +1,13 @@
 name: "10: 🎯 Airflow Validations"
 
 on:  # yamllint disable-line rule:truthy
+  workflow_run:
+    workflows: ["05: 🪾 Branch Validations"]
+    types:
+      - completed
+    branches:
+      - 'release/**/*'
+
   pull_request:
     branches:
       - 'release/**/*'
@@ -20,6 +27,8 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
     container: datacoves/ci-airflow-dbt-snowflake:3.4
+    # Only run if the branch validation workflow completed successfully
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
 
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags

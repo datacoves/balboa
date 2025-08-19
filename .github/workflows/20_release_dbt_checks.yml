@@ -1,12 +1,18 @@
 name: "20: ✅ dbt Release Branch Validations"
 
 on:  # yamllint disable-line rule:truthy
+  workflow_run:
+    workflows: ["05: 🪾 Branch Validations"]
+    types:
+      - completed
+    branches:
+      - main
+
   pull_request:
     branches:
       - main
     paths:
       - transform/**/*
-
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,6 +26,8 @@ jobs:
   dbt:
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
+    # Only run if the branch validation workflow completed successfully
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
 
     # Set environment variables in
     # https://github.com//<your org>/<your repo>/settings/variables/actions
