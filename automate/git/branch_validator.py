@@ -2,7 +2,7 @@
 
 import os
 import sys
-import subprocess
+import requests
 
 class ValidationError(Exception):
     pass
@@ -10,22 +10,37 @@ class ValidationError(Exception):
 class GitCommandError(Exception):
     pass
 
-def get_commit_count(branch):
+def get_commit_count_via_api(source_branch, target_branch, github_token, repository):
     """
-    Get the count of commits that are in the current branch (HEAD) but not in the main branch origin/main.
+    Use GitHub API to compare branches and get commit count difference.
+    This tells us how many commits behind target the source branch is.
     """
     try:
-        result = subprocess.run([
-                "git",
-                "rev-list",
-                "--count",
-                "HEAD..origin/main"],
-            capture_output=True,
-            text=True,
-            check=True)
-        return int(result.stdout.strip())
-    except subprocess.CalledProcessError as e:
-        raise GitCommandError(f"Failed to get commit count between {branch} and main: {e}")
+        # GitHub API endpoint for comparing branches
+        url = f"https://api.github.com/repos/{repository}/compare/{source_branch}...{target_branch}"
+
+        headers = {
+            "Authorization": f"token {github_token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+
+        data = response.json()
+
+        # ahead_by tells us how many commits target is ahead of source
+        # (i.e., how many commits source is behind target)
+        commits_behind = data.get("ahead_by", 0)
+
+        print(f"API Response: {data.get('status', 'unknown')} - Target is {commits_behind} commits ahead")
+
+        return commits_behind
+
+    except requests.exceptions.RequestException as e:
+        raise GitCommandError(f"Failed to compare branches via GitHub API: {e}")
+    except (KeyError, ValueError) as e:
+        raise GitCommandError(f"Failed to parse GitHub API response: {e}")
 
 def main():
     """
@@ -46,15 +61,23 @@ def main():
         print("ERROR: SOURCE_BRANCH and TARGET_BRANCH environment variables must be set.")
         sys.exit(1)
 
-    # Get the commit count for changes in main that are not in source_branch
+    # Get GitHub API credentials
+    github_token = os.environ.get("GITHUB_TOKEN")
+    repository = os.environ.get("GITHUB_REPOSITORY")
+
+    if not github_token or not repository:
+        print("ERROR: GITHUB_TOKEN and GITHUB_REPOSITORY environment variables must be set.")
+        sys.exit(1)
+
+    # Get the commit count for changes in target that are not in source_branch
     try:
-        commits_behind = get_commit_count(source_branch)
+        commits_behind = get_commit_count_via_api(source_branch, target_branch, github_token, repository)
     except GitCommandError as e:
         print(e)
         sys.exit(1)
 
     if commits_behind > 0:
-        raise ValidationError(f"There are commits in main that are not in Source branch: {source_branch}. Pull main branch into {source_branch}.")
+        raise ValidationError(f"There are commits in {target_branch} that are not in Source branch: {source_branch}. Pull {target_branch} branch into {source_branch}.")
 
     if source_branch != target_branch:
         print(
