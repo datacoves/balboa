@@ -17,7 +17,7 @@ def get_commit_count(source_branch, github_token, repository):
     """
     try:
         # GitHub API endpoint for comparing branches
-        url = f"https://api.github.com/repos/{repository}/compare/{source_branch}...origin/main"
+        url = f"https://api.github.com/repos/{repository}/compare/{source_branch}...main"
 
         headers = {
             "Authorization": f"token {github_token}",
