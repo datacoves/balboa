@@ -1,4 +1,4 @@
-name: "20: ✅ dbt Release Branch Validations"
+name: "20: 🏎️ dbt Release Branch Validations"
 
 on:  # yamllint disable-line rule:truthy
   workflow_run:
