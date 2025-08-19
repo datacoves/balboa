@@ -1,4 +1,4 @@
-name: 🗑️ Drop test databases
+name: "20: 🗑️ Drop test databases"
 
 on:  # yamllint disable-line rule:truthy
   pull_request:
