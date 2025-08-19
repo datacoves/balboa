@@ -2,7 +2,7 @@ name: "10: 🎯 Airflow Validations"
 
 on:  # yamllint disable-line rule:truthy
   workflow_run:
-    workflows: ["05_branch_validation.yml"]
+    workflows: ["05: 🪾 Branch Validations"]
     types:
       - completed
 
