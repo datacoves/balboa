@@ -1,11 +1,6 @@
 name: "10: 🧪 dbt Validations & Governance Checks"
 
 on:  # yamllint disable-line rule:truthy
-  # workflow_run:
-  #   workflows: ["05_Branch_Validations"]
-  #   types:
-  #     - completed
-
   pull_request:
     branches:
       - 'release/**/*'
