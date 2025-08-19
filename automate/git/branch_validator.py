@@ -29,8 +29,8 @@ def get_commit_count(source_branch, github_token, repository):
 
         data = response.json()
 
-        # ahead_by tells us how many commits target is ahead of source
-        # (i.e., how many commits source is behind target)
+        # ahead_by tells us how many commits main is ahead of source
+        # (i.e., how many commits source is behind main)
         commits_behind = data.get("ahead_by", 0)
 
         if commits_behind == 0:
