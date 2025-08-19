@@ -2,7 +2,7 @@ name: "10: 🧪 dbt Validations & Governance Checks"
 
 on:  # yamllint disable-line rule:truthy
   workflow_run:
-    workflows: ["05: 🪾 Branch Validations"]
+    workflows: ["05_Branch_Validations"]
     types:
       - completed
 

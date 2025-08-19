@@ -1,4 +1,4 @@
-name: "05: 🪾 Branch Validations"
+name: "05_Branch_Validations"
 
 on:
   pull_request:
