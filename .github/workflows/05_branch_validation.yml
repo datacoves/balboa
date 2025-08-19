@@ -1,6 +1,5 @@
 name: "05: 🪾 Branch Validations"
 
-# Force workflow refresh
 on:
   pull_request:
     branches:
