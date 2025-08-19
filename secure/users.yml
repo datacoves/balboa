@@ -8,6 +8,11 @@
     member_of:
       - analyst
 
+- amy:
+    can_login: true
+    member_of:
+      - analyst
+
 - bruno:
     can_login: true
     member_of:
@@ -39,11 +44,6 @@
     member_of:
       - accountadmin
       - securityadmin
-      - analyst
-
-- thach:
-    can_login: true
-    member_of:
       - analyst
 
 - svc_airbyte:
