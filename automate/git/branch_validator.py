@@ -34,14 +34,14 @@ def get_commit_count(source_branch, github_token, repository):
         commits_behind = data.get("ahead_by", 0)
 
         if commits_behind == 0:
-            print(f"The {source_branch} is up to date with the main branch.")
+            print(f"✅ The {source_branch} is up to date with the main branch.")
         else:
-            print(f"There are {commits_behind} commit(s) in the main branch that are not in Source branch: {source_branch}. Pull main into the {source_branch}")
+            print(f"❌ There are {commits_behind} commit(s) in the main branch that are not in Source branch: {source_branch}. Pull main into the {source_branch}")
 
     except requests.exceptions.RequestException as e:
-        raise GitCommandError(f"Failed to compare branches via GitHub API: {e}")
+        raise GitCommandError(f"❌ Failed to compare branches via GitHub API: {e}")
     except (KeyError, ValueError) as e:
-        raise GitCommandError(f"Failed to parse GitHub API response: {e}")
+        raise GitCommandError(f"❌ Failed to parse GitHub API response: {e}")
 
 def main():
     """
@@ -62,11 +62,11 @@ def main():
     print(f"Target Branch: {target_branch}")
 
     if not source_branch or not target_branch:
-        print("ERROR: SOURCE_BRANCH and TARGET_BRANCH environment variables must be set.")
+        print("❌ ERROR: SOURCE_BRANCH and TARGET_BRANCH environment variables must be set.")
         sys.exit(1)
 
     if not github_token or not repository:
-        print("ERROR: GITHUB_TOKEN and GITHUB_REPOSITORY environment variables must be set.")
+        print("❌ ERROR: GITHUB_TOKEN and GITHUB_REPOSITORY environment variables must be set.")
         sys.exit(1)
 
     # Get the commit count for changes in target that are not in source_branch
@@ -85,28 +85,28 @@ def main():
         )
         if not source_branch.lower().startswith(("feature", "release")):
             raise ValidationError(
-                "Source branch must start with 'feature' or 'release'"
+                "❌ Source branch must start with 'feature' or 'release'"
             )
 
         if not target_branch.lower().startswith(("feature", "release", "main")):
             raise ValidationError(
-                "Target branch must start with 'feature', 'release' or 'main'"
+                "❌ Target branch must start with 'feature', 'release' or 'main'"
             )
 
         # check the correct order
         if source_branch.lower().startswith(("feature")):
             if not target_branch.lower().startswith(("feature", "release")):
                 raise ValidationError(
-                    "Feature branch can only be merged to another feature branch or a release branch"
+                    "❌ Feature branch can only be merged to another feature branch or a release branch"
                 )
 
         if source_branch.lower().startswith(("release")):
             if not target_branch.lower().startswith(("main")):
                 raise ValidationError(
-                    "Release branch can only be merged to the main branch"
+                    "❌ Release branch can only be merged to the main branch"
                 )
 
-    print("Branch names validated!")
+    print("✅ Branch validated!")
 
 if __name__ == "__main__":
     try:
