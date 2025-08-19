@@ -2,7 +2,7 @@ name: "05: 🪾 Branch Validations"
 
 on:
   pull_request:
-    branches: [ '*' ]
+    branches: [ '**/*' ]
 
 jobs:
   validate-branch:
