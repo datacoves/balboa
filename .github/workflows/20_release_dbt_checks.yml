@@ -108,12 +108,12 @@ jobs:
 
       - name: Grant access to QA_TEMP database
         id: grant-access-to-database
-        run: "dbt run-operation grant_prd_usage --args '{db_name: ${{ vars.DATACOVES__MAIN__DATABASE }}}'"
+        run: "dbt run-operation grant_prd_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
 
       - name: Swap QA with QA_TEMP database and drop old QA db
         run: |
-          dbt --no-write-json run-operation swap_database --args '{db1: ${{ vars.DATACOVES__MAIN__DATABASE }}, db2: ${{ vars.DATACOVES__MAIN__DATABASE_QA }}}'
-          dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{ vars.DATACOVES__MAIN__DATABASE }}, recreate: False}'
+          dbt --no-write-json run-operation swap_database --args '{db1: ${{ env.DATACOVES__MAIN__DATABASE }}, db2: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}'
+          dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}, recreate: False}'
 
       # # We drop the database when there is a failure to grant access to the db because
       # # most likely the schema was not set properly in dbt_project.yml so models built to default schema
