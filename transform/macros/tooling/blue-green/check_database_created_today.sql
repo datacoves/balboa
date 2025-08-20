@@ -9,28 +9,24 @@
 {%- macro check_database_created_today(db_name) -%}
     {% set ns = namespace(result="false") %}
 
-    {# Try to check if database exists and get its creation date #}
-    {% set check_db_sql %}
-        select
-            count(*) as db_count,
-            max(created) as creation_date
-        from information_schema.databases
-        where database_name = upper('{{ db_name }}')
-    {% endset %}
-
-    {# Wrap in try-catch to handle permission errors gracefully #}
-    {% set db_result = none %}
     {% if execute %}
-        {% set db_result = run_query(check_db_sql) %}
-    {% endif %}
+        {# Try to check if database exists and get its creation date #}
+        {% set check_db_sql %}
+            select
+                count(*) as db_count,
+                max(created) as creation_date
+            from information_schema.databases
+            where database_name = upper('{{ db_name }}')
+        {% endset %}
 
-    {% if db_result is not none %}
+        {# Execute the query to check database existence and creation date #}
+        {% set db_result = run_query(check_db_sql) %}
         {% set db_exists = db_result.columns[0].values()[0] > 0 %}
 
         {% if db_exists %}
             {% set creation_date = db_result.columns[1].values()[0] %}
 
-            {# Get today's date in UTC #}
+            {# Get today's date #}
             {% set today_sql %}
                 select current_date() as today
             {% endset %}
