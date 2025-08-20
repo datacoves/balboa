@@ -108,7 +108,7 @@ jobs:
 
       - name: Grant access to QA_TEMP database
         id: grant-access-to-database
-        run: "dbt --no-write-json run-operation grant_access_to_pr_database"
+        run: "dbt run-operation grant_prd_usage --args '{db_name: ${{ vars.DATACOVES__MAIN__DATABASE }}'"
 
       - name: Swap QA with QA_TEMP database and drop old QA db
         run: |
