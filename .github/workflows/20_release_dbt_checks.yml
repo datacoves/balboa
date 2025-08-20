@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
- validate-branch:
+  validate-branch:
     runs-on: ubuntu-latest
     name: Validate Branch Names and Merge Rules and assure branch has changes from main
 
