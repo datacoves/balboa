@@ -62,12 +62,12 @@ jobs:
       - name: Set Secure Directory
         run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
 
-      - name: Install dbt packages
-        run: "dbt deps"
-
       - name: Get prod manifest
         id: prod-manifest
         run: "../automate/dbt/get_artifacts.sh"
+
+      - name: Install dbt packages
+        run: "dbt deps"
 
       # this is needed bec our sample dynamic table is not getting refreshed
       - name: Refresh dynamic tables before blue-green
