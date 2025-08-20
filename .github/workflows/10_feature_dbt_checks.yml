@@ -84,15 +84,15 @@ jobs:
       - name: List of files changed
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
-      - name: Get prod manifest
-        id: prod_manifest
-        run: "../automate/dbt/get_artifacts.sh"
-
       - name: Install dbt packages
         run: "dbt deps"
 
       - name: Create PR database
         run: "dbt --no-write-json run-operation create_database"
+
+      - name: Get prod manifest
+        id: prod_manifest
+        run: "../automate/dbt/get_artifacts.sh"
 
       ##### Governance Checks
       # this first runs dbt but creates enpty tables, this is enough to then run the hooks and fail fast
