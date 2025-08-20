@@ -112,7 +112,7 @@ jobs:
 
       - name: Swap QA with QA_TEMP database and drop old QA db
         run: |
-          dbt --no-write-json run-operation swap_database --args '{db1: ${{ env.DATACOVES__MAIN__DATABASE }}, db2: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}, create_missing_db: true'
+          dbt --no-write-json run-operation swap_database --args '{db1: ${{ env.DATACOVES__MAIN__DATABASE }}, db2: ${{ env.DATACOVES__MAIN__DATABASE_QA }}, create_missing_db: true}'
           dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}, recreate: False}'
 
       # # We drop the database when there is a failure to grant access to the db because
