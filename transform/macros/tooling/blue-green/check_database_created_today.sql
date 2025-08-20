@@ -10,7 +10,8 @@
     {% set ns = namespace(result="false") %}
 
     {% if execute %}
-        {# Try to check if database exists and get its creation date #}
+
+        {# Check if database exists and get creation date #}
         {% set check_db_sql %}
             select
                 count(*) as db_count,
@@ -19,7 +20,6 @@
             where database_name = upper('{{ db_name }}')
         {% endset %}
 
-        {# Execute the query to check database existence and creation date #}
         {% set db_result = run_query(check_db_sql) %}
         {% set db_exists = db_result.columns[0].values()[0] > 0 %}
 
@@ -46,6 +46,6 @@
         {% endif %}
     {% endif %}
 
-    {{ print("RESULT:" ~ ns.result) }}
+    {{ print(ns.result) }}
 
 {%- endmacro -%}

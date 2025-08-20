@@ -93,14 +93,7 @@ jobs:
       - name: Check if QA database was created today
         id: check_qa_created_today
         run: |
-          dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}'
-          
-          echo "☑️ Checking if QA database was created today..."
-          output=$(dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}' 2>&1)
-          echo "Raw output: $output"
-
-          # Extract the result from the RESULT: prefix
-          result=$(echo "$output" | grep "RESULT:" | sed 's/.*RESULT://' | tr -d ' ')
+          result=$(dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}' | tail -1)
 
           # Default to false if no result found or if there was an error
           if [ -z "$result" ] || [ "$result" != "true" ]; then
