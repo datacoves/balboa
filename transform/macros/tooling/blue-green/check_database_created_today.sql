@@ -15,15 +15,13 @@
             select
                 count(*) as db_count,
                 max(created) as creation_date
-            from information_schema.databases
+            from snowflake.information_schema.databases
             where database_name = upper('{{ db_name }}')
         {% endset %}
 
         {# Execute the query to check database existence and creation date #}
         {% set db_result = run_query(check_db_sql) %}
-        {{ print("got db result") }}
         {% set db_exists = db_result.columns[0].values()[0] > 0 %}
-        {{ print("got db exists") }}
 
         {% if db_exists %}
             {% set creation_date = db_result.columns[1].values()[0] %}
@@ -34,20 +32,12 @@
             {% endset %}
 
             {% set today_result = run_query(today_sql) %}
-            {{ print("got today result") }}
             {% set today = today_result.columns[0].values()[0] %}
-            {{ print("got today value") }}
 
             {# Compare creation date with today #}
             {% if creation_date %}
                 {% set creation_date_only = creation_date.date() %}
-                {{ print("="*20 )}}
-                {{ print(creation_date_only) }}
-                {{ print("="*20 )}}
                 {% set created_today = creation_date_only == today %}
-                {{ print("="*20 )}}
-                {{ print(created_today) }}
-                {{ print("="*20 )}}
 
                 {% if created_today %}
                     {% set ns.result = "true" %}
