@@ -80,3 +80,20 @@ jobs:
           filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Custom Tests
           GITHUB_TOKEN: ${{ github.token }}
+
+  airflow-job-status:
+    runs-on: ubuntu-latest
+    needs: [airflow]
+    if: always()
+    steps:
+      - name: Comment PR with Airflow status
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ## 🎯 Airflow Workflow Status
+            - **Job**: Pull Request Airflow Tests → **${{ needs.airflow.result }}**
+
+            ${{ needs.airflow.result == 'skipped' && '⏭️ _Skipped because no orchestrate/ files were changed_' || '' }}
+            ${{ needs.airflow.result == 'success' && '✅ _All orchestrate validations passed_' || '' }}
+            ${{ needs.airflow.result == 'failure' && '❌ _Orchestrate validations failed_' || '' }}
+          comment_tag: airflow-workflow-status
