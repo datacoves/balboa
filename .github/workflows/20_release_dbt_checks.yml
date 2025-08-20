@@ -93,6 +93,8 @@ jobs:
       - name: Check if QA database was created today
         id: check_qa_created_today
         run: |
+          dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}'
+          
           echo "☑️ Checking if QA database was created today..."
           output=$(dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}' 2>&1)
           echo "Raw output: $output"
