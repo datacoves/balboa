@@ -3,9 +3,8 @@ name: "10: 🧪 dbt Validations & Governance Checks"
 on:  # yamllint disable-line rule:truthy
   pull_request:
     branches:
-      - 'feature/**'
+      - 'release/**/*'
     paths:
-      - transform/*
       - transform/**/*
 
   # Allows you to run this workflow manually from the Actions tab
@@ -17,6 +16,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate-branch:
+    runs-on: ubuntu-latest
+    name: Validate Branch Names and Merge Rules and assure branch has changes from main
+
+    env:
+      SOURCE_BRANCH: ${{ github.head_ref }}
+      TARGET_BRANCH: ${{ github.base_ref }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate current branch
+      run: automate/git/branch_validator.py
+
   dbt:
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
@@ -123,3 +139,20 @@ jobs:
       - name: Drop PR database on Failure to grant security access
         if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true') && (steps.grant-access-to-database.outcome == 'failure')
         run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
+
+  dbt-job-status:
+    runs-on: ubuntu-latest
+    needs: [dbt]
+    if: always()
+    steps:
+      - name: Comment PR with dbt status
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ## 🧪 dbt Workflow Status
+            - **Job**: Pull Request dbt Tests → **${{ needs.dbt.result }}**
+
+            ${{ needs.dbt.result == 'skipped' && '⏭️ _Skipped because no transform/ files were changed_' || '' }}
+            ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
+            ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
+          comment_tag: dbt-workflow-status

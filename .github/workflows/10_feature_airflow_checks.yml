@@ -3,9 +3,8 @@ name: "10: 🎯 Airflow Validations"
 on:  # yamllint disable-line rule:truthy
   pull_request:
     branches:
-      - 'feature/**'
+      - 'release/**/*'
     paths:
-      - orchestrate/*
       - orchestrate/**/*
 
   # Allows you to run this workflow manually from the Actions tab
@@ -17,6 +16,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate-branch:
+    runs-on: ubuntu-latest
+    name: Validate Branch Names and Merge Rules and assure branch has changes from main
+
+    env:
+      SOURCE_BRANCH: ${{ github.head_ref }}
+      TARGET_BRANCH: ${{ github.base_ref }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate current branch
+      run: automate/git/branch_validator.py
+
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
@@ -64,3 +80,20 @@ jobs:
           filePath: ${{ env.OUTPUT_FILE }}
           comment_tag: Custom Tests
           GITHUB_TOKEN: ${{ github.token }}
+
+  airflow-job-status:
+    runs-on: ubuntu-latest
+    needs: [airflow]
+    if: always()
+    steps:
+      - name: Comment PR with Airflow status
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ## 🎯 Airflow Workflow Status
+            - **Job**: Pull Request Airflow Tests → **${{ needs.airflow.result }}**
+
+            ${{ needs.airflow.result == 'skipped' && '⏭️ _Skipped because no orchestrate/ files were changed_' || '' }}
+            ${{ needs.airflow.result == 'success' && '✅ _All Airflow validations passed_' || '' }}
+            ${{ needs.airflow.result == 'failure' && '❌ _Airflow validations failed_' || '' }}
+          comment_tag: airflow-workflow-status

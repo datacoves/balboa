@@ -92,16 +92,6 @@ def get_files():
     #     headers=get_headers(),
     # )
 
-    # r = requests.get(
-    #     url=get_endpoint(endpoint=f"/api/v2/datacoves/manifests"),
-    #     headers=get_headers(),
-    # )
-
-    # r = requests.get(
-    #     url=get_endpoint(endpoint=f"/api/internal/environments/{environment_slug}/files?environment_slug={environment_slug}"),
-    #     headers=get_headers(),
-    # )
-
     print_format(r)
 
 
@@ -109,16 +99,15 @@ def get_files():
 # Working with files
 #######################################
 
-def delete_file(tag: str = '', file_slug: str = ''):
+def delete_file(tag: str = ''):
 
-    print(f"Deleting file by tag: {tag} and/or file slug {file_slug}")
+    print(f"Deleting file by tag: {tag}")
 
     r = requests.delete(
         url=get_endpoint(endpoint=f"/api/v2/datacoves/environments/{environment_slug}/files"),
         headers=get_headers(),
         data={
-            "tag": tag,
-            "slug": file_slug
+            "tag": tag
             }
     )
 
@@ -204,9 +193,6 @@ def get_file_by_tag(tag: str):
         print(r.text)
 
 
-    # print_format(r)
-
-
 def upload_manifest():
     print("Uploading manifest")
     files = {"file": open("/config/workspace/transform/target/manifest.json", "rb")}
@@ -261,10 +247,10 @@ if __name__ == "__main__":
     # upload_single_file(tag="my-file")
     # delete_file(tag="my-file")
 
-    # file_names = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
-    # upload_multiple_files(file_names)
+    file_names = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
+    upload_multiple_files(file_names)
     # for file in file_names:
-    #     delete_file(tag="latest")
+        # delete_file(tag="latest")
 
     # file_names = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
     # for file in file_names:
@@ -273,5 +259,5 @@ if __name__ == "__main__":
     # Will only get one file even if multiple have the same tag
     # get_file_by_tag("latest")
 
-    # upload_manifest()
-    get_latest_manifest(project_slug)
+    upload_manifest()
+    # get_latest_manifest(project_slug)
