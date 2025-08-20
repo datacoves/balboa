@@ -94,6 +94,6 @@ jobs:
             - **Job**: Pull Request Airflow Tests → **${{ needs.airflow.result }}**
 
             ${{ needs.airflow.result == 'skipped' && '⏭️ _Skipped because no orchestrate/ files were changed_' || '' }}
-            ${{ needs.airflow.result == 'success' && '✅ _All orchestrate validations passed_' || '' }}
-            ${{ needs.airflow.result == 'failure' && '❌ _Orchestrate validations failed_' || '' }}
+            ${{ needs.airflow.result == 'success' && '✅ _All Airflow validations passed_' || '' }}
+            ${{ needs.airflow.result == 'failure' && '❌ _Airflow validations failed_' || '' }}
           comment_tag: airflow-workflow-status
