@@ -93,7 +93,18 @@ jobs:
       - name: Check if QA database was created today
         id: check_qa_created_today
         run: |
-          result=$(dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}' | tail -1)
+          echo "☑️ Checking if QA database was created today..."
+          output=$(dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}' 2>&1)
+          echo "Raw output: $output"
+
+          # Extract the result from the RESULT: prefix
+          result=$(echo "$output" | grep "RESULT:" | sed 's/.*RESULT://' | tr -d ' ')
+
+          # Default to false if no result found or if there was an error
+          if [ -z "$result" ] || [ "$result" != "true" ]; then
+            result="false"
+          fi
+
           echo "qa_created_today=$result" >> $GITHUB_OUTPUT
           echo "☑️ Was QA database created today?: $result"
 
@@ -101,8 +112,9 @@ jobs:
         run: |
           if [ "${{ steps.check_qa_created_today.outputs.qa_created_today }}" = "true" ]; then
             echo "DATACOVES__MAIN__DATABASE=${{ env.DATACOVES__MAIN__DATABASE_QA }}" >> $GITHUB_ENV
-            echo "📢 dbt will run against ${{ env.DATACOVES__MAIN__DATABASE }} directly since it was cloned today"
+            echo "📢 dbt will run against ${{ env.DATACOVES__MAIN__DATABASE_QA }} directly (created today)"
           else
+            echo "DATACOVES__MAIN__DATABASE=${{ env.DATACOVES__MAIN__DATABASE }}" >> $GITHUB_ENV
             echo "📢 dbt will run against ${{ env.DATACOVES__MAIN__DATABASE }} after cloning ${{ env.DATACOVES__MAIN__DATABASE_PROD }}"
           fi
 

@@ -7,7 +7,9 @@
 #}
 
 {%- macro check_database_created_today(db_name) -%}
-    {# Check if database exists and get its creation date #}
+    {% set ns = namespace(result="false") %}
+
+    {# Try to check if database exists and get its creation date #}
     {% set check_db_sql %}
         select
             count(*) as db_count,
@@ -16,36 +18,38 @@
         where database_name = upper('{{ db_name }}')
     {% endset %}
 
-    {% set db_result = run_query(check_db_sql) %}
-    {% set db_exists = db_result.columns[0].values()[0] > 0 %}
-
-    {% if not db_exists %}
-        {{ print("false") }}
-        {{ return("false") }}
+    {# Wrap in try-catch to handle permission errors gracefully #}
+    {% set db_result = none %}
+    {% if execute %}
+        {% set db_result = run_query(check_db_sql) %}
     {% endif %}
 
-    {% set creation_date = db_result.columns[1].values()[0] %}
+    {% if db_result is not none %}
+        {% set db_exists = db_result.columns[0].values()[0] > 0 %}
 
-    {# Get today's date in UTC #}
-    {% set today_sql %}
-        select current_date() as today
-    {% endset %}
+        {% if db_exists %}
+            {% set creation_date = db_result.columns[1].values()[0] %}
 
-    {% set today_result = run_query(today_sql) %}
-    {% set today = today_result.columns[0].values()[0] %}
+            {# Get today's date in UTC #}
+            {% set today_sql %}
+                select current_date() as today
+            {% endset %}
 
-    {# Compare creation date with today #}
-    {% if creation_date %}
-        {% set creation_date_only = creation_date.date() %}
-        {% set created_today = creation_date_only == today %}
+            {% set today_result = run_query(today_sql) %}
+            {% set today = today_result.columns[0].values()[0] %}
 
-        {% if created_today %}
-            {{ print("true") }}
-        {% else %}
-            {{ print("false") }}
+            {# Compare creation date with today #}
+            {% if creation_date %}
+                {% set creation_date_only = creation_date.date() %}
+                {% set created_today = creation_date_only == today %}
+
+                {% if created_today %}
+                    {% set ns.result = "true" %}
+                {% endif %}
+            {% endif %}
         {% endif %}
-    {% else %}
-        {{ print("false") }}
     {% endif %}
+
+    {{ print("RESULT:" ~ ns.result) }}
 
 {%- endmacro -%}
