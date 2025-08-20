@@ -91,7 +91,7 @@ jobs:
         run: "dbt deps"
 
       - name: Clone Prod database
-        run: "dbt --no-write-json run-operation clone_database --args '{source_db: ${{ vars.DATACOVES__MAIN__DATABASE_PROD }}, target_db: ${{ vars.DATACOVES__MAIN__DATABASE }}}'"
+        run: "dbt --no-write-json run-operation clone_database --args '{source_db: ${{ env.DATACOVES__MAIN__DATABASE_PROD }}, target_db: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
 
       - name: Get prod manifest
         id: prod_manifest
