@@ -1,13 +1,12 @@
-name: 🚀 Deploy to Production
+name: "30: 🚀 Deploy to Production"
 
 on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - main
     paths:
-      - .github/workflows/*
-      - automate/*
-      - transform/*
+      - .github/workflows/**/*
+      - automate/**/*
       - transform/**/*
 
   # Allows you to run this workflow manually from the Actions tab
