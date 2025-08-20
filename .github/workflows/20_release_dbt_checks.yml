@@ -90,7 +90,24 @@ jobs:
       - name: Install dbt packages
         run: "dbt deps"
 
+      - name: Check if QA database was created today
+        id: check_qa_created_today
+        run: |
+          result=$(dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}' | tail -1)
+          echo "qa_created_today=$result" >> $GITHUB_OUTPUT
+          echo "☑️ Was QA database created today?: $result"
+
+      - name: Update DATACOVES__MAIN__DATABASE environment variable
+        run: |
+          if [ "${{ steps.check_qa_created_today.outputs.qa_created_today }}" = "true" ]; then
+            echo "DATACOVES__MAIN__DATABASE=${{ env.DATACOVES__MAIN__DATABASE_QA }}" >> $GITHUB_ENV
+            echo "📢 dbt will run against ${{ env.DATACOVES__MAIN__DATABASE }} directly since it was cloned today"
+          else
+            echo "📢 dbt will run against ${{ env.DATACOVES__MAIN__DATABASE }} after cloning ${{ env.DATACOVES__MAIN__DATABASE_PROD }}"
+          fi
+
       - name: Clone Prod database
+        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
         run: "dbt --no-write-json run-operation clone_database --args '{source_db: ${{ env.DATACOVES__MAIN__DATABASE_PROD }}, target_db: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
 
       - name: Get prod manifest
@@ -107,10 +124,12 @@ jobs:
         run: "dbt build --fail-fast"
 
       - name: Grant access to QA_TEMP database
+        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
         id: grant-access-to-database
         run: "dbt run-operation grant_prd_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
 
       - name: Swap QA with QA_TEMP database and drop old QA db
+        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
         run: |
           dbt --no-write-json run-operation swap_database --args '{db1: ${{ env.DATACOVES__MAIN__DATABASE }}, db2: ${{ env.DATACOVES__MAIN__DATABASE_QA }}, create_missing_db: true}'
           dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}, recreate: False}'
