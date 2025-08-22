@@ -100,7 +100,7 @@ jobs:
         run: "../automate/dbt/get_artifacts.sh"
 
       - name: Clone incremental models that are directly or indirectly affected by the change
-        run:
+        run: |
           dbt clone -s state:modified+,config.materialized:incremental,state:old --state logs
           dbt clone -s state:modified+,config.materialized:snapshot,state:old --state logs
 
