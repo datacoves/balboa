@@ -36,6 +36,7 @@ jobs:
   dbt:
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
+    needs: [validate-branch]
 
     # Set environment variables in
     # https://github.com//<your org>/<your repo>/settings/variables/actions

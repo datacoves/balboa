@@ -8,12 +8,12 @@ with raw_source as (
 final as (
 
     select
-        features:properties:ADMIN::STRING as country_name,
-        features:properties:ISO_A2::STRING as country_code_2,
-        features:properties:ISO_A3::STRING as country_code_3,
-        features:type::STRING as feature_type,
-        features:geometry:type::STRING as geometry_type,
-        TRY_TO_GEOGRAPHY(features:geometry) as geography,
+        name as country_name,
+        iso3166_1_alpha_2 as country_code_2,
+        iso3166_1_alpha_3 as country_code_3,
+        type as feature_type,
+        geometry_type,
+        try_to_geography(geometry) as geography,
         features as raw_geojson
     from raw_source
 
@@ -26,8 +26,8 @@ select
     feature_type,
     geometry_type,
     geography,
-    case when geography is not NULL then ST_AREA(geography) end as area_m2,
-    case when geography is not NULL then ST_PERIMETER(geography) end as perimeter_m,
-    case when geography is not NULL then ST_CENTROID(geography) end as centroid,
+    case when geography is not null then st_area(geography) end as area_m2,
+    case when geography is not null then st_perimeter(geography) end as perimeter_m,
+    case when geography is not null then st_centroid(geography) end as centroid,
     raw_geojson
 from final
