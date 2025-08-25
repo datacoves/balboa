@@ -14,3 +14,5 @@ models:
         description: 'The date when the earthquake occurred.'
       - name: country_code
         description: 'ISO country code representing the location where the earthquake took place.'
+      - name: ct
+        description: temp col to test full refresh
