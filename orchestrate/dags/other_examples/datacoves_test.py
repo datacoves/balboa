@@ -7,12 +7,12 @@ from orchestrate.utils import datacoves_utils
 from operators.datacoves.bash import DatacovesBashOperator
 from operators.datacoves.dbt import DatacovesDbtOperator
 
-
 @dag(
     doc_md=__doc__,
     catchup=False,
     default_args=datacoves_utils.set_default_args(
-        owner="Bruno Antonellini", owner_email="bruno@datacoves.com"
+        owner="Bruno",
+        owner_email="bruno@example.com"
     ),
     schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
     description="Datacoves test DAG to ensure our decorators/operators work",
@@ -48,6 +48,5 @@ def datacoves_test():
         >> test_dbt_decorator()
         >> test_bash_decorator()
     )
-
 
 datacoves_test()
