@@ -1,10 +1,5 @@
 TODOs:
 
 1. Fix Full refresh and clone in CI/CD
-    state:old will find nodes that exist in both the old and new manifest
-
-    dbt ls -s state:modified+,config.materialized:incremental,state:old --state logs
-    dbt ls -s state:modified+,config.materialized:snapshot,state:old --state logs
-
 2. Add static file upload to dbt-api
 3. Use Titan for roles
