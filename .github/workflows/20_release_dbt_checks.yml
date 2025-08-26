@@ -2,6 +2,7 @@ name: "20: 🏎️ dbt Release Branch Validations"
 
 on:  # yamllint disable-line rule:truthy
   pull_request:
+    types: [opened, synchronize, labeled, unlabeled]
     branches:
       - main
     paths:
@@ -16,6 +17,83 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  add-deploy-marker:
+    if: github.event.action == 'labeled' && github.event.label.name == 'full-refresh'
+    runs-on: ubuntu-latest
+    name: Add Deploy Marker to PR Description
+
+    steps:
+      - name: Add deploy marker to PR description
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            let body = pullRequest.body || '';
+
+            // Check if marker already exists
+            if (!body.includes('[deploy:full-refresh]')) {
+              // Add marker to the end of the description
+              const newBody = body + '\n\n[deploy:full-refresh]';
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                body: newBody
+              });
+
+              // Also add a comment explaining what happened
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '🚀 **Full-refresh deployment marker added to PR description**\n\nThe `[deploy:full-refresh]` marker has been automatically added to this PR description. When merged, this will trigger a full-refresh deployment.'
+              });
+            }
+
+  remove-deploy-marker:
+    if: github.event.action == 'unlabeled' && github.event.label.name == 'full-refresh'
+    runs-on: ubuntu-latest
+    name: Remove Deploy Marker from PR Description
+
+    steps:
+      - name: Remove deploy marker from PR description
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            let body = pullRequest.body || '';
+
+            // Remove the marker if it exists
+            if (body.includes('[deploy:full-refresh]')) {
+              const newBody = body.replace(/\n*\[deploy:full-refresh\]\n*/g, '').trim();
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                body: newBody
+              });
+
+              // Add a comment explaining what happened
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '✅ **Full-refresh deployment marker removed**\n\nThe `[deploy:full-refresh]` marker has been removed from this PR description. Normal deployment will occur on merge.'
+              });
+            }
+
   validate-branch:
     runs-on: ubuntu-latest
     name: Validate Branch Names and Merge Rules and assure branch has changes from main
@@ -34,6 +112,7 @@ jobs:
       run: automate/git/branch_validator.py
 
   dbt:
+    if: github.event.action != 'unlabeled' && (github.event.action != 'labeled' || github.event.label.name == 'full-refresh')
     name: Pull Request dbt Tests
     runs-on: ubuntu-latest
     needs: [validate-branch]
@@ -142,6 +221,7 @@ jobs:
           dbt --no-write-json run-operation swap_database --args '{db1: ${{ env.DATACOVES__MAIN__DATABASE }}, db2: ${{ env.DATACOVES__MAIN__DATABASE_QA }}, create_missing_db: true}'
           dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}, recreate: False}'
 
+
       # # We drop the database when there is a failure to grant access to the db because
       # # most likely the schema was not set properly in dbt_project.yml so models built to default schema
       # - name: Drop PR database on Failure to grant security access
@@ -150,17 +230,21 @@ jobs:
 
   dbt-job-status:
     runs-on: ubuntu-latest
-    needs: [dbt]
+    needs: [add-deploy-marker, remove-deploy-marker, validate-branch, dbt]
     if: always()
     steps:
-      - name: Comment PR with dbt status
+      - name: Comment PR with workflow status
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             ## 🧪 dbt Workflow Status
-            - **Job**: Pull Request dbt Tests → **${{ needs.dbt.result }}**
+            - **Branch Validation**: ${{ needs.validate-branch.result }}
+            - **Deploy Marker Management**: ${{ (needs.add-deploy-marker.result != 'skipped' && needs.add-deploy-marker.result) || (needs.remove-deploy-marker.result != 'skipped' && needs.remove-deploy-marker.result) || 'skipped' }}
+            - **dbt Validations**: ${{ needs.dbt.result }}
 
-            ${{ needs.dbt.result == 'skipped' && '⏭️ _Skipped because no transform/ files were changed_' || '' }}
+            ${{ needs.validate-branch.result == 'failure' && '❌ _Branch validation failed_' || '' }}
+            ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt tests skipped (label-only change or no transform/ files changed)_' || '' }}
             ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
             ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
+            ${{ (needs.add-deploy-marker.result == 'success' || needs.remove-deploy-marker.result == 'success') && '📝 _Deploy marker updated in PR description_' || '' }}
           comment_tag: dbt-workflow-status
