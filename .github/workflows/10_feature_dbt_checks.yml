@@ -163,7 +163,7 @@ jobs:
             - **dbt Validations**: ${{ needs.dbt.result }}
 
             ${{ needs.validate-branch.result == 'failure' && '❌ _Branch validation failed_' || '' }}
-            ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt tests skipped_' || '' }}
+            ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt validations skipped_' || '' }}
             ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
             ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
           comment_tag: dbt-workflow-status

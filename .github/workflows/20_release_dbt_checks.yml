@@ -243,7 +243,7 @@ jobs:
             - **dbt Validations**: ${{ needs.dbt.result }}
 
             ${{ needs.validate-branch.result == 'failure' && '❌ _Branch validation failed_' || '' }}
-            ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt tests skipped (label-only change or no transform/ files changed)_' || '' }}
+            ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt validations skipped_' || '' }}
             ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
             ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
             ${{ (needs.add-deploy-marker.result == 'success' || needs.remove-deploy-marker.result == 'success') && '📝 _Deploy marker updated in PR description_' || '' }}

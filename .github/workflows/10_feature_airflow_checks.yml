@@ -96,7 +96,7 @@ jobs:
             - **Airflow Validations**: ${{ needs.airflow.result }}
 
             ${{ needs.validate-branch.result == 'failure' && '❌ _Branch validation failed_' || '' }}
-            ${{ needs.airflow.result == 'skipped' && '⏭️ _Airflow tests skipped_' || '' }}
+            ${{ needs.airflow.result == 'skipped' && '⏭️ _Airflow validations skipped_' || '' }}
             ${{ needs.airflow.result == 'success' && '✅ _All Airflow validations passed_' || '' }}
             ${{ needs.airflow.result == 'failure' && '❌ _Airflow validations failed_' || '' }}
           comment_tag: airflow-workflow-status
