@@ -1,5 +1,5 @@
 apache-airflow==2.10.3
-apache-airflow-providers-snowflake==5.3.1
+apache-airflow-providers-snowflake==6.4.0
 acryl-datahub-airflow-plugin[plugin-v2]==0.14.1.9
 airflow-provider-fivetran-async==2.0.2
 apache-airflow-providers-airbyte==3.6.0
