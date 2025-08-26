@@ -1,32 +1,36 @@
-"""
-## Sample DAG showing how to run dbt
-This DAG shows how to run a dbt task
-"""
-
+from datetime import datetime, timedelta
 from airflow.decorators import dag, task
-from orchestrate.utils import datacoves_utils
+from airflow.operators.dummy_operator import DummyOperator
+
+
+default_args = {
+    "owner": "airflow",
+    "depends_on_past": False,
+    "start_date": datetime(2025, 7, 15),
+    "retries": 3,
+    "retry_delay": timedelta(minutes=5),
+    "tags": ["version_1"],
+}
+
 
 @dag(
-    doc_md = __doc__,
-    catchup = False,
-
-    default_args=datacoves_utils.set_default_args(
-        owner = "Noel Gomez",
-        owner_email = "noel@example.com"
-    ),
-
-    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
-    description="Sample DAG demonstrating how to run dbt in airflow",
-    tags=["transform"],
+    default_args=default_args,
+    description="DAG globaldevelopment dbt__l1__test",
+    schedule=None,
+    catchup=False,
 )
-def dbt_dag():
+def dbt__l1__test():
+    start_task = DummyOperator(task_id="start")
 
-    @task.datacoves_dbt(
-        connection_id="main_key_pair"
-    )
-    def run_dbt():
-        return "dbt debug"
+    @task.datacoves_dbt(connection_id="main_key_pair", run_dbt_deps=True)
+    def dbt_test() -> str:
+        return "dbt compile"
 
-    run_dbt()
+    dbt_test = dbt_test()
 
-dbt_dag()
+    end_task = DummyOperator(task_id="end")
+
+    start_task >> dbt_test >> end_task
+
+
+dag_instance = dbt__l1__test()
