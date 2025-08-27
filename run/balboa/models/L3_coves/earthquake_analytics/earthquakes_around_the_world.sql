@@ -1,4 +1,12 @@
 
+  
+    
+
+create or replace transient table BALBOA_STAGING.L3_EARTHQUAKE_ANALYTICS.earthquakes_around_the_world
+    
+
+    copy grants
+    as (
 
 with country_polygons as (
 
@@ -6,7 +14,7 @@ with country_polygons as (
         country_name,
         country_code_2,
         geography
-    from BALBOA.L1_COUNTRY_GEO.stg_country_polygons
+    from L1_COUNTRY_GEO.stg_country_polygons
 
 ),
 
@@ -20,9 +28,7 @@ earthquakes as (
             else 'High'
         end as sig_class,
         earthquake_date
-    from BALBOA.L1_USGS__EARTHQUAKE_DATA.stg_earthquakes
-    
-        where earthquake_date > (select max(earthquake_date) from BALBOA.L3_EARTHQUAKE_ANALYTICS.earthquakes_around_the_world)
+    from L1_USGS__EARTHQUAKE_DATA.stg_earthquakes
     
 
 ),
@@ -43,3 +49,8 @@ final as (
 
 
 select * from final
+    )
+;
+
+
+  
