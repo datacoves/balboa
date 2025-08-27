@@ -20,10 +20,10 @@ jobs:
   add-deploy-marker:
     if: github.event.action == 'labeled' && github.event.label.name == 'full-refresh'
     runs-on: ubuntu-latest
-    name: Add Deploy Marker to PR Description
+    name: Add Deploy Marker to PR Title
 
     steps:
-      - name: Add deploy marker to PR description
+      - name: Add deploy marker to PR title
         uses: actions/github-script@v6
         with:
           script: |
@@ -33,18 +33,18 @@ jobs:
               pull_number: context.issue.number
             });
 
-            let body = pullRequest.body || '';
+            let title = pullRequest.title || '';
 
             // Check if marker already exists
-            if (!body.includes('[deploy:full-refresh]')) {
-              // Add marker to the end of the description
-              const newBody = body + '\n\n[deploy:full-refresh]';
+            if (!title.includes('[deploy:full-refresh]')) {
+              // Add marker to the end of the title
+              const newTitle = title + ' [deploy:full-refresh]';
 
               await github.rest.pulls.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.issue.number,
-                body: newBody
+                title: newTitle
               });
 
               // Also add a comment explaining what happened
@@ -52,17 +52,17 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: '🚀 **Full-refresh deployment marker added to PR description**\n\nThe `[deploy:full-refresh]` marker has been automatically added to this PR description. When merged, this will trigger a full-refresh deployment.'
+                body: '🚀 **Full-refresh deployment marker added to PR title**\n\nThe `[deploy:full-refresh]` marker has been automatically added to this PR title. When merged, this will trigger a full-refresh deployment.'
               });
             }
 
   remove-deploy-marker:
     if: github.event.action == 'unlabeled' && github.event.label.name == 'full-refresh'
     runs-on: ubuntu-latest
-    name: Remove Deploy Marker from PR Description
+    name: Remove Deploy Marker from PR Title
 
     steps:
-      - name: Remove deploy marker from PR description
+      - name: Remove deploy marker from PR title
         uses: actions/github-script@v6
         with:
           script: |
@@ -72,17 +72,17 @@ jobs:
               pull_number: context.issue.number
             });
 
-            let body = pullRequest.body || '';
+            let title = pullRequest.title || '';
 
             // Remove the marker if it exists
-            if (body.includes('[deploy:full-refresh]')) {
-              const newBody = body.replace(/\n*\[deploy:full-refresh\]\n*/g, '').trim();
+            if (title.includes('[deploy:full-refresh]')) {
+              const newTitle = title.replace(/\s*\[deploy:full-refresh\]\s*/g, '').trim();
 
               await github.rest.pulls.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.issue.number,
-                body: newBody
+                title: newTitle
               });
 
               // Add a comment explaining what happened
@@ -90,7 +90,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: '✅ **Full-refresh deployment marker removed**\n\nThe `[deploy:full-refresh]` marker has been removed from this PR description. Normal deployment will occur on merge.'
+                body: '✅ **Full-refresh deployment marker removed**\n\nThe `[deploy:full-refresh]` marker has been removed from this PR title. Normal deployment will occur on merge.'
               });
             }
 
@@ -249,5 +249,5 @@ jobs:
             ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt validations skipped_' || '' }}
             ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
             ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
-            ${{ (needs.add-deploy-marker.result == 'success' || needs.remove-deploy-marker.result == 'success') && '📝 _Deploy marker updated in PR description_' || '' }}
+            ${{ (needs.add-deploy-marker.result == 'success' || needs.remove-deploy-marker.result == 'success') && '📝 _Deploy marker updated in PR title_' || '' }}
           comment_tag: dbt-workflow-status
