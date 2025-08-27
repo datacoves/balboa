@@ -37,6 +37,7 @@ jobs:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
     container: datacoves/ci-airflow-dbt-snowflake:3.4
+    needs: [validate-branch]
 
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
@@ -83,7 +84,7 @@ jobs:
 
   airflow-job-status:
     runs-on: ubuntu-latest
-    needs: [airflow]
+    needs: [validate-branch, airflow]
     if: always()
     steps:
       - name: Comment PR with Airflow status
@@ -91,9 +92,11 @@ jobs:
         with:
           message: |
             ## 🎯 Airflow Workflow Status
-            - **Job**: Pull Request Airflow Tests → **${{ needs.airflow.result }}**
+            - **Branch Validation**: ${{ needs.validate-branch.result }}
+            - **Airflow Validations**: ${{ needs.airflow.result }}
 
-            ${{ needs.airflow.result == 'skipped' && '⏭️ _Skipped because no orchestrate/ files were changed_' || '' }}
+            ${{ needs.validate-branch.result == 'failure' && '❌ _Branch validation failed_' || '' }}
+            ${{ needs.airflow.result == 'skipped' && '⏭️ _Airflow validations skipped_' || '' }}
             ${{ needs.airflow.result == 'success' && '✅ _All Airflow validations passed_' || '' }}
             ${{ needs.airflow.result == 'failure' && '❌ _Airflow validations failed_' || '' }}
           comment_tag: airflow-workflow-status

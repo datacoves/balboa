@@ -37,6 +37,7 @@ def get_commit_count(source_branch, github_token, repository):
             print(f"✅ The {source_branch} is up to date with the main branch.")
         else:
             print(f"❌ There are {commits_behind} commit(s) in the main branch that are not in Source branch: {source_branch}. Pull main into the {source_branch}")
+            sys.exit(1)
 
     except requests.exceptions.RequestException as e:
         raise GitCommandError(f"❌ Failed to compare branches via GitHub API: {e}")

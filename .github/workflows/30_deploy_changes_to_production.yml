@@ -73,15 +73,27 @@ jobs:
       - name: Refresh dynamic tables before blue-green
         run: "dbt run -s materialization config.materialized:dynamic_table --full-refresh"
 
+      - name: Check for full-refresh marker in merge commit message
+        id: check-full-refresh
+        run: |
+          # Check the latest commit message for the deployment marker
+          if git log -1 --pretty=%B | grep -q "\[deploy:full-refresh\]"; then
+            echo "full_refresh=true" >> $GITHUB_OUTPUT
+            echo "Found '[deploy:full-refresh]' marker in merge commit message, will run with --full-refresh"
+          else
+            echo "full_refresh=false" >> $GITHUB_OUTPUT
+            echo "No full-refresh deployment marker found in merge commit message, running normal deployment"
+          fi
+
       - name: Run blue / green deployment
-        if: contains(github.event.pull_request.labels.*.name, 'full-refresh') != true
+        if: steps.check-full-refresh.outputs.full_refresh != 'true'
         id: run-blue-green
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
         run: "dbt-coves blue-green --defer"
 
       - name: Run blue / green deployment with full-refresh
-        if: contains(github.event.pull_request.labels.*.name, 'full-refresh')
+        if: steps.check-full-refresh.outputs.full_refresh == 'true'
         id: run-blue-green-full-refresh
         env:
           MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
