@@ -1,6 +1,9 @@
 version: 2
 models:
   - name: base_cases
+    config:
+      owner: bruno
+      last_updated: 2025-08-27
     description: Contains reported COVID-19 cases
     columns:
       - name: cases
