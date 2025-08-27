@@ -124,7 +124,7 @@ jobs:
     # https://github.com/<org>/<repo>/settings/environments
     # environment: PR_ENV
 
-    # most people should use this one
+    # Most people should use this docker image
     container: datacoves/ci-basic-dbt-snowflake:3.4
 
     defaults:
@@ -153,6 +153,9 @@ jobs:
       # This is used by datacoves to drop the test database if permissions
       # cannot be applied when using the Datacoves permifrost security model.
       DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
+
+      # Full refresh control variables
+      FULL_REFRESH_FLAG: ${{ contains(github.event.pull_request.labels.*.name, 'full-refresh') && '--full-refresh' || '' }}
 
     steps:
       - name: Checkout branch
@@ -203,12 +206,12 @@ jobs:
 
       ##### Real dbt run given that we passed governance checks
       - name: Run dbt build slim mode
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' && contains(github.event.pull_request.labels.*.name, 'full-refresh') != true }}
-        run: "dbt build --fail-fast --defer --state logs --select state:modified+"
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+        run: "dbt build --fail-fast --defer --state logs --select state:modified+ ${{ env.FULL_REFRESH_FLAG }}"
 
       - name: Run dbt build full run
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' || contains(github.event.pull_request.labels.*.name, 'full-refresh') }}
-        run: "dbt build --fail-fast"
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+        run: "dbt build --fail-fast ${{ env.FULL_REFRESH_FLAG }}"
 
       - name: Grant access to QA_TEMP database
         if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
