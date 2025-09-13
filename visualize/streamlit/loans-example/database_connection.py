@@ -1,5 +1,6 @@
 
-import configparser, os #re, json
+import configparser
+import os
 from snowflake.snowpark import Session
 from snowflake.snowpark.context import get_active_session
 
@@ -29,22 +30,34 @@ def getSession():
     except:
         parser = configparser.ConfigParser()
         filename = os.path.join(os.path.expanduser('~'), ".streamlit/config")
+
+        # Debug: Check if file exists and can be read
+        if not os.path.exists(filename):
+            print(f"Config file not found at: {filename}")
+            raise FileNotFoundError(f"Config file not found at: {filename}")
+
         parser.read(filename)
-        section = "connections.dev"
+        section = "connections"
+
+        # Debug: Check if section exists
+        if section not in parser:
+            print(f"Available sections: {parser.sections()}")
+            raise KeyError(f"Section '{section}' not found in config file")
+
         auth = dict()
 
         if 'password' in parser[section]:
             auth =  {"password": parser.get(section, "password")}
-        elif 'private_key_path' in parser[section]:
-            key_path = parser.get(section, "private_key_path")
+        elif 'private_key_file' in parser[section]:
+            key_path = parser.get(section, "private_key_file")
             key = get_rsa_key(key_path)
             auth =  {"private_key": key}
         else:
-            st.write('Did not find password or key')
+            print('Did not find password or private_key_file')
 
         pars = {
-            "account": parser.get(section, "accountname"),
-            "user": parser.get(section, "username"),
+            "account": parser.get(section, "account"),
+            "user": parser.get(section, "user"),
             **auth
         }
 
