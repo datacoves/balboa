@@ -21,7 +21,11 @@ from orchestrate.utils import datacoves_utils
 )
 def blue_green_dbt_run():
 
-    @task.datacoves_dbt(connection_id="main_key_pair")
+    @task.datacoves_dbt(
+        connection_id="main_key_pair",
+        overrides = {"database": "{{ env_var('DATACOVES__MAIN__DATABASE') }}"},
+        env = {"DATACOVES__MAIN__DATABASE": "BALBOA"}
+    )
     def blue_green_run():
         return "dbt-coves blue-green --dbt-selector '-s personal_loans'"
 
