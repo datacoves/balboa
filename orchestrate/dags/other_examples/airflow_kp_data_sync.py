@@ -32,9 +32,9 @@ def get_dbtcoves_env_vars(connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE
         return {}
 
     env_vars = {
-        f"{prefix}ACCOUNT": conn.host,
         f"{prefix}USER": conn.login,
         f"{prefix}WAREHOUSE": conn.schema,
+        f"{prefix}ACCOUNT": conn.extra_dejson.get("account", ""),
         f"{prefix}ROLE": conn.extra_dejson.get("role", ""),
         f"{prefix}DATABASE": conn.extra_dejson.get("database", ""),
         "DATA_SYNC_SOURCE_CONNECTION_STRING": os.environ.get(
