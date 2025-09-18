@@ -18,7 +18,7 @@ kp_conn = BaseHook.get_connection("main_key_pair")
     ),
     description="Sample DAG to synchronize the Airflow database",
     schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
-    tags=["extract_and_load", "version_1"],
+    tags=["extract_and_load", "version_2"],
 )
 def airflow_data_sync():
     @task.datacoves_airflow_db_sync(
@@ -27,6 +27,7 @@ def airflow_data_sync():
         connection_id="main_key_pair",
         env={
             "DATA_SYNC_SNOWFLAKE_PRIVATE_KEY": kp_conn.extra_dejson.get("private_key"),
+            "DATA_SYNC_SNOWFLAKE_PASSWORD": "",
         },
         # additional_tables=["additional_table_1", "additional_table_2"]
     )
