@@ -62,7 +62,7 @@ def get_dbtcoves_env_vars(connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE
 def airflow_keypair_data_sync():
     @task.datacoves_bash(env=get_dbtcoves_env_vars("main_key_pair"))
     def sync_airflow_db_v2():
-        return f"dbt-coves data-sync snowflake --source airflow_dev"
+        return f"dbt-coves data-sync snowflake --source airflow_dev --tables 'ab_permission,ab_role,ab_user,dag,dag_run,dag_tag,import_error,job,task_fail,task_instance'"
 
     sync_airflow_db_v2()
 
