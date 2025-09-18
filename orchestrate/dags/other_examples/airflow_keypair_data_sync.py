@@ -61,7 +61,9 @@ def get_dbtcoves_datasync_env_vars(
     tags=["extract_and_load", "version_7"],
 )
 def airflow_keypair_data_sync():
-    @task.datacoves_bash(env=get_dbtcoves_datasync_env_vars("main_key_pair"))
+    @task.datacoves_bash(
+        env=get_dbtcoves_datasync_env_vars("main_key_pair"), append_env=True
+    )
     def sync_airflow_db_v2():
         return f"dbt-coves data-sync snowflake --source airflow_dev --tables '{','.join(DEFAULT_AIRFLOW_TABLES)}'"
 
