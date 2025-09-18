@@ -33,7 +33,7 @@ def get_dbtcoves_env_vars(connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE
 
     env_vars = {
         f"{prefix}USER": conn.login,
-        f"{prefix}WAREHOUSE": conn.schema,
+        f"{prefix}WAREHOUSE": conn.extra_dejson.get("warehouse", ""),
         f"{prefix}ACCOUNT": conn.extra_dejson.get("account", ""),
         f"{prefix}ROLE": conn.extra_dejson.get("role", ""),
         f"{prefix}DATABASE": conn.extra_dejson.get("database", ""),
@@ -57,7 +57,7 @@ def get_dbtcoves_env_vars(connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE
     ),
     description="Sample DAG to synchronize the Airflow database",
     schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
-    tags=["extract_and_load", "version_4"],
+    tags=["extract_and_load", "version_6"],
 )
 def airflow_keypair_data_sync():
     @task.datacoves_bash(env=get_dbtcoves_env_vars("main_key_pair"))
