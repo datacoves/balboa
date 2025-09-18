@@ -57,7 +57,7 @@ def get_dbtcoves_env_vars(connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE
     ),
     description="Sample DAG to synchronize the Airflow database",
     schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
-    tags=["extract_and_load", "version_1"],
+    tags=["extract_and_load", "version_2"],
 )
 def airflow_keypair_data_sync():
     @task.datacoves_bash(env=get_dbtcoves_env_vars("main_key_pair"))
