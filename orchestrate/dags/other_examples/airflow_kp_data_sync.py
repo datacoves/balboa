@@ -41,8 +41,8 @@ def get_dbtcoves_env_vars(connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE
             "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN"
         ),
     }
-    if conn.extra_dejson.get("private_key"):
-        env_vars[f"{prefix}PRIVATE_KEY"] = conn.extra_dejson.get("private_key")
+    if conn.extra_dejson.get("private_key_content"):
+        env_vars[f"{prefix}PRIVATE_KEY"] = conn.extra_dejson.get("private_key_content")
     elif conn.password:
         env_vars[f"{prefix}PASSWORD"] = conn.password
 
@@ -57,7 +57,7 @@ def get_dbtcoves_env_vars(connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE
     ),
     description="Sample DAG to synchronize the Airflow database",
     schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
-    tags=["extract_and_load", "version_2"],
+    tags=["extract_and_load", "version_3"],
 )
 def airflow_keypair_data_sync():
     @task.datacoves_bash(env=get_dbtcoves_env_vars("main_key_pair"))
