@@ -1,0 +1,46 @@
+# Users should not be created on titan since passwords / keypairs can be lost on every run
+# users:
+#   - name: svc_orchestrate
+#     owner: SECURITYADMIN
+#     type: SERVICE
+#   - name: svc_ci
+#     owner: SECURITYADMIN
+#     type: SERVICE
+#   - name: svc_looker
+#     owner: SECURITYADMIN
+#     type: SERVICE
+
+role_grants:
+  - to_user: gomezn
+    roles:
+      - analyst
+      - loader
+      - transformer_dbt
+      - accountadmin
+      - securityadmin
+
+  # - to_user: alejandro
+  #   roles:
+  #     - analyst
+  #     - loader
+  #     - transformer_dbt
+  #     - accountadmin
+  #     - securityadmin
+
+  # - to_user: sebastian
+  #   roles:
+  #     - analyst
+  #     - loader
+  #     - transformer_dbt
+  #     - accountadmin
+  #     - securityadmin
+
+  # - to_user: svc_ci
+  #   roles:
+  #     - analyst
+  #     - loader
+  #     - transformer_dbt
+
+  # - to_user: svc_looker
+  #   roles:
+  #     - analyst

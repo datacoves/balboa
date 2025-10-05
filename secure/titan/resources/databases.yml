@@ -1,0 +1,74 @@
+vars:
+  - name: databases
+    type: list
+    default:
+      - name: raw
+        owner: loader
+        max_data_extension_time_in_days: 10
+      - name: balboa
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 30
+      - name: balboa_apps
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 10
+      - name: balboa_dev
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 5
+      - name: great_bay
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 10
+      - name: sushi_db
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 10
+
+
+# - balboa:
+#     shared: false
+#     schemas:
+#       - L1_ACCOUNT_USAGE
+#       - L1_COUNTRY_DATA
+#       - L1_COUNTRY_GEO
+#       - L1_COVID19_EPIDEMIOLOGICAL_DATA
+#       - L1_GOOGLE_ANALYTICS_4
+#       - L1_LOANS
+#       - L1_OBSERVE
+#       - L1_US_POPULATION
+#       - L1_USGS__EARTHQUAKE_DATA
+
+#       - L2_COUNTRY_DEMOGRAPHICS
+#       - L2_COVID_OBSERVATIONS
+#       - L2_SNOWFLAKE_USAGE
+
+#       - L3_COVID_ANALYTICS
+#       - L3_EARTHQUAKE_ANALYTICS
+#       - L3_LOAN_ANALYTICS
+
+#       - DBT_TEST__AUDIT
+
+#       - SEEDS
+
+#       - MASKING_POLICIES
+
+# - balboa_apps:
+#     shared: false
+#     schemas:
+#       - RESOURCES
+
+# - balboa_dev:
+#     shared: false
+# # - convexa_dev:
+# #     shared: false
+# # Snowflake database contains metadata describing usage
+# - snowflake:
+#     shared: true
+
+# - covid19_epidemiological_data:
+#     shared: true
+
+# - great_bay:
+#     shared: false
+#     schemas:
+#         - COVE_MARKETING
+
+# - sushi_db:
+#     shared: false

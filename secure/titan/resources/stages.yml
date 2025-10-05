@@ -1,0 +1,7 @@
+stages:
+  - name: raw.dbt_artifacts.artifacts
+    type: internal
+    owner: transformer_dbt
+    directory:
+      enable: true
+    comment: Used to store dbt artifacts

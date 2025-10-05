@@ -1,0 +1,24 @@
+# Warehouses
+warehouses:
+  - for_each: var.warehouses
+    name: "{{ each.value.name }}"
+    warehouse_size: "{{ each.value.size }}"
+    auto_suspend: "{{ each.value.auto_suspend }}"
+    auto_resume: true
+    initially_suspended: true
+    statement_timeout_in_seconds: "{{ each.value.statement_timeout_in_seconds | default(3600) }}"
+
+# Warehouse roles
+roles:
+  - for_each: var.warehouses
+    name: "z_wh__{{ each.value.name }}"
+
+
+# Warehouse grants
+grants:
+  - for_each: var.warehouses
+    priv:
+      - USAGE
+      - MONITOR
+    on: warehouse {{ each.value.name }}
+    to: z_wh__{{ each.value.name }}

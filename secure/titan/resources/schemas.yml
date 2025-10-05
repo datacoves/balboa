@@ -1,0 +1,19 @@
+# Schemas
+vars:
+  - name: schemas
+    type: list
+    default:
+      - name: RAW.SNAPSHOTS
+        owner: transformer_dbt
+      - name: RAW.DBT_ARTIFACTS
+        owner: transformer_dbt
+
+
+      # - name: PRD_CHIQUITA.L1_STAGING
+      # - name: PRD_CHIQUITA.L1_STAGING__SEEDS
+      # - name: PRD_CHIQUITA.L2_CORE
+      # - name: PRD_CHIQUITA.L3_MARTS
+      # - name: PRD_CHIQUITA.DBT_TEST__AUDIT
+      # - name: PRD_CHIQUITA.SEEDS
+
+      # - name: PRD_DBT_GENERATED.DBT_ARTIFACTS

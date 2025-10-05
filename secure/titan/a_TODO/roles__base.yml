@@ -1,0 +1,24 @@
+roles:
+  - name: z_create__schema__db__raw
+  - name: z_create__account__database
+  - name: z_tables_views__r
+  - name: z_db__tst_chiquita__r  # Used to grant access to TST databases
+
+grants:
+  # System role grants (this will be recreated on every run)
+  - priv: "CREATE SCHEMA"
+    on: "database RAW"
+    to: z_create__schema__db__raw
+
+  - priv: "CREATE DATABASE"
+    on: "ACCOUNT"
+    to: z_create__account__database
+
+  - for_each: var.schemas
+    priv: "SELECT"
+    on:
+      - all tables in schema {{ each.value.name }}
+      - all views in schema {{ each.value.name }}
+      - "future tables in schema {{ each.value.name }}"
+      - "future views in schema {{ each.value.name }}"
+    to: z_tables_views__r
