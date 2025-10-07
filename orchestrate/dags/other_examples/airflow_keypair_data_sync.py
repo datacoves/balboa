@@ -23,7 +23,7 @@ def airflow_keypair_data_sync():
     @task.datacoves_airflow_db_sync(
         db_type="snowflake",
         destination_schema="ng_airflow_dev",
-        connection_id="main_load",
+        connection_id="main_load_keypair",
         # additional_tables=["additional_table_1", "additional_table_2"],
     )
     def sync_airflow_db():
