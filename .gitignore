@@ -21,6 +21,9 @@ scripts/
 # VS Code
 .vscode/
 
+# Duckdb files
+*.duckdb
+
 # logs
 *.log
 logs/

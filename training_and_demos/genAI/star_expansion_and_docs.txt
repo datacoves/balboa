@@ -1,0 +1,26 @@
+Open the current dbt model SQL file.
+
+Run the dbt model from the directory containing dbt_project.yml using:
+dbt run --select <model_name>
+
+In your data Snowflake warehouse locate the relation created by the model in the correct schema and retrieve the list of columns.
+Also get a count of the number of columns.
+You should be using the _DEV database
+
+Replace any * in the SQL with the explicit list of columns from the relation.
+Count the number of columns and compare to the number of columns in Snowflake.
+
+Follow the sqlfluff linting rules as defined
+
+Ask me if I want to change the column order to alphabetical. If I say yes, do this:
+Order the columns as follows:
+First: all columns ending with _id (alphabetically)
+Middle: all other columns (alphabetically)
+Last: Date/Timestamp columns like create_date, create_time, update_date, update_time, etc. (alphabetically)
+If I say no, keep the columns in the order as defined in the database.
+
+Create or update the corresponding YAML file for the model, including:
+A one-line description for the model
+A one-line description for each column
+
+Run the dbt model again to make sure it runs properly.

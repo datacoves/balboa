@@ -25,10 +25,6 @@ def airflow_data_sync():
         db_type="snowflake",
         destination_schema="airflow_dev",
         connection_id="main_key_pair",
-        env={
-            "DATA_SYNC_SNOWFLAKE_PRIVATE_KEY": kp_conn.extra_dejson.get("private_key"),
-            "DATA_SYNC_SNOWFLAKE_PASSWORD": "",
-        },
         # additional_tables=["additional_table_1", "additional_table_2"]
     )
     def sync_airflow_db():

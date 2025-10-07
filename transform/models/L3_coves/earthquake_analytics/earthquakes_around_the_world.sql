@@ -1,6 +1,7 @@
 {{ config(
     materialized='incremental',
-    incremental_strategy='merge'
+    incremental_strategy='merge',
+    on_schema_change='fail'
 ) }}
 
 with country_polygons as (
@@ -33,6 +34,7 @@ earthquakes as (
 final as (
 
     select
+        1 as ct,
         earthquakes.*,
         country_polygons.country_code_2 as country_code
     from earthquakes, country_polygons
@@ -42,5 +44,6 @@ final as (
             earthquakes.location_geo_point
         )
 )
+
 
 select * from final

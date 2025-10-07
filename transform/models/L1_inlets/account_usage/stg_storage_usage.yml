@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_storage_usage
-    description: Contains raw data on storage usage.
+    description: Contains raw data on storage usage
     columns:
       - name: usage_date
         description: The date when storage usage was recorded
