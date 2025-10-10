@@ -13,7 +13,11 @@ role_grants:
       - z_db__balboa_dev
       - z_db__great_bay
       - z_db__sushi_db
-
+  - priv: "USAGE"
+    on:
+      - "all schema in database RAW"
+      - "future schemas in database RAW"
+    to: z_schemas__raw
 #       - z_schema__AKS_DATACOVES
 #       - z_schema__AKS_DATACOVES_CDC
 #       - z_schema__AKS_DATACOVES_CDC_STAGING
