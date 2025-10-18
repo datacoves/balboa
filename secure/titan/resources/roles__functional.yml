@@ -1,48 +1,48 @@
 roles:
+  - name: z_base__analyst
+
+  - name: analyst
   - name: loader
   - name: transformer_dbt
-  - name: analyst
-  - name: z_base__analyst
 
 role_grants:
   - to_role: z_base__analyst
     roles:
       - z_db__raw
+      - z_schemas__db__raw
+
       - z_db__balboa
       - z_db__balboa_apps
+
       - z_db__balboa_dev
+      - z_db__balboa_dev__create_schema
+
       - z_db__great_bay
       - z_db__sushi_db
 
-#       - z_schema__AKS_DATACOVES
-#       - z_schema__AKS_DATACOVES_CDC
-#       - z_schema__AKS_DATACOVES_CDC_STAGING
-#       - z_schema__AKS_GRAFANA
-#       - z_schema__AKS_GRAFANA_STAGING
-#       - z_schema__DATACOVES
-#       - z_schema__L1__GRAFANA
-#       - z_schema__DBT_TEST__AUDIT
-#       - z_schema__SEEDS
-#       - z_schema__L3_MARTS
+      # - z_db__covid19_epidemiological_data
+      # - z_schemas__db__covid19_epidemiological_data
 
-#       - z_tables_views__r
+      - z_db__snowflake
+      # - z_schemas__db__snowflake
 
-#       - z_wh__wh_transforming
-
-#   - to_role: SYSADMIN
-#     roles:
-#       - z_create__schema__db__raw
+      - z_wh__wh_transforming
+      - z_wh__wh_transforming_dynamic_tables
 
   - to_role: analyst
     roles:
       - z_base__analyst
+      - z_tables_views__select
 
-#   - to_role: loader
-#     roles:
-#       - z_wh__wh_transforming
+  - to_role: loader
+    roles:
+      - z_wh__wh_loading
 
-#   - to_role: transformer_dbt
-#     roles:
-#       - z_create__account__database
-#       - z_tables_views__r
-#       - z_wh__wh_transforming
+  - to_role: transformer_dbt
+    roles:
+      - z_account__create_database
+      # - z_db__covid19_epidemiological_data
+
+      - z_wh__wh_transforming
+      - z_wh__wh_transforming_dynamic_tables
+      - z_tables_views__select

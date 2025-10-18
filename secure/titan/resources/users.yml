@@ -1,14 +1,23 @@
-# Users should not be created on titan since passwords / keypairs can be lost on every run
+# Users should not be created on titan since keypairs can be lost on every run
 # users:
-#   - name: svc_orchestrate
+#   - name: svc_airbyte
 #     owner: SECURITYADMIN
 #     type: SERVICE
-#   - name: svc_ci
+#   - name: svc_airflow
 #     owner: SECURITYADMIN
 #     type: SERVICE
-#   - name: svc_looker
+#   - name: svc_balboa_ci
 #     owner: SECURITYADMIN
 #     type: SERVICE
+#   - name: svc_fivetran
+#     owner: SECURITYADMIN
+#     type: SERVICE
+
+# create or replace user svc_fivetran
+#     type = 'service'
+#     default_warehouse = 'wh_loading'
+#     rsa_public_key = ''
+
 
 role_grants:
   - to_user: gomezn
@@ -19,28 +28,29 @@ role_grants:
       - accountadmin
       - securityadmin
 
-  # - to_user: alejandro
-  #   roles:
-  #     - analyst
-  #     - loader
-  #     - transformer_dbt
-  #     - accountadmin
-  #     - securityadmin
+  - to_user: sebastian
+    roles:
+      - analyst
+      - loader
+      - transformer_dbt
+      - accountadmin
+      - securityadmin
 
-  # - to_user: sebastian
-  #   roles:
-  #     - analyst
-  #     - loader
-  #     - transformer_dbt
-  #     - accountadmin
-  #     - securityadmin
 
-  # - to_user: svc_ci
-  #   roles:
-  #     - analyst
-  #     - loader
-  #     - transformer_dbt
 
-  # - to_user: svc_looker
-  #   roles:
-  #     - analyst
+  - to_user: svc_airbyte
+    roles:
+      - loader
+
+  - to_user: svc_airflow
+    roles:
+      - loader
+      - transformer_dbt
+
+  - to_user: svc_balboa_ci
+    roles:
+      - transformer_dbt
+
+  - to_user: svc_fivetran
+    roles:
+      - loader

@@ -21,6 +21,33 @@ vars:
         owner: transformer_dbt
         max_data_extension_time_in_days: 10
 
+roles:
+  # - name: z_db__covid19_epidemiological_data
+  # - name: z_schemas__db__covid19_epidemiological_data
+  - name: z_db__snowflake
+  # - name: z_schemas__db__snowflake
+
+grants:
+  # - priv: "USAGE"
+  #   on: "database covid19_epidemiological_data"
+  #   to: z_db__covid19_epidemiological_data
+
+  # - priv: "USAGE"
+  #   on:
+  #     - "all schemas in database covid19_epidemiological_data"
+  #     - "future schemas in database covid19_epidemiological_data"
+  #   to: z_schemas__db__covid19_epidemiological_data
+
+  # - priv: "IMPORTED PRIVILEGES"
+  #   on: "database snowflake"
+  #   to: z_db__snowflake
+
+  # - priv: "USAGE"
+  #   on:
+  #     - "all schemas in database snowflake"
+  #     - "future schemas in database snowflake"
+  #   to: z_schemas__db__snowflake
+
 
 # - balboa:
 #     shared: false
