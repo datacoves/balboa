@@ -12,7 +12,7 @@ final as (
         iso3166_1_alpha_2 as country_code_2,
         iso3166_1_alpha_3 as country_code_3,
         geometry_type,
-        try_to_geography(geometry) as geography,
+        try_to_geography(geometry) as geography
     from raw_source
 
 )
