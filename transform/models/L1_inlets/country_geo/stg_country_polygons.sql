@@ -25,5 +25,5 @@ select
     geography,
     case when geography is not null then st_area(geography) end as area_m2,
     case when geography is not null then st_perimeter(geography) end as perimeter_m,
-    case when geography is not null then st_centroid(geography) end as centroid,
+    case when geography is not null then st_centroid(geography) end as centroid
 from final
