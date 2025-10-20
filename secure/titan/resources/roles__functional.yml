@@ -20,7 +20,7 @@ role_grants:
       - z_db__great_bay
       - z_db__sushi_db
 
-      # - z_db__covid19_epidemiological_data
+      - z_db__covid19_epidemiological_data
       # - z_schemas__db__covid19_epidemiological_data
 
       - z_db__snowflake

@@ -22,15 +22,15 @@ vars:
         max_data_extension_time_in_days: 10
 
 roles:
-  # - name: z_db__covid19_epidemiological_data
+  - name: z_db__covid19_epidemiological_data
   # - name: z_schemas__db__covid19_epidemiological_data
   - name: z_db__snowflake
   # - name: z_schemas__db__snowflake
 
 grants:
-  # - priv: "USAGE"
-  #   on: "database covid19_epidemiological_data"
-  #   to: z_db__covid19_epidemiological_data
+  - priv: "USAGE"
+    on: "database covid19_epidemiological_data"
+    to: z_db__covid19_epidemiological_data
 
   # - priv: "USAGE"
   #   on:
@@ -38,9 +38,9 @@ grants:
   #     - "future schemas in database covid19_epidemiological_data"
   #   to: z_schemas__db__covid19_epidemiological_data
 
-  # - priv: "IMPORTED PRIVILEGES"
-  #   on: "database snowflake"
-  #   to: z_db__snowflake
+  - priv: "IMPORTED PRIVILEGES"
+    on: "database snowflake"
+    to: z_db__snowflake
 
   # - priv: "USAGE"
   #   on:
