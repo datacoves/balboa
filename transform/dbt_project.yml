@@ -106,8 +106,8 @@ models:
             loan_analytics:
                 +schema: L3_LOAN_ANALYTICS
                 # cannot persist docs on dynamic tables
-                +persist_docs:
-                    relation: false
+                # +persist_docs:
+                #     relation: false
             +materialized: table
 
         # L4_shares:
