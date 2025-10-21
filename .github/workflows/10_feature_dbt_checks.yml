@@ -132,7 +132,12 @@ jobs:
         run: "dbt build --fail-fast --empty --exclude config.materialized:dynamic_table ${{ env.FULL_REFRESH_FLAG }}"
 
       - name: Generate Docs Combining Prod and branch catalog.json
+        if: ${{ steps.prod_manifest.outputs.catalog_found == 'true' }}
         run: "dbt-coves generate docs --merge-deferred --state logs"
+
+      - name: Generate Docs Combining Prod and branch catalog.json
+        if: ${{ steps.prod_manifest.outputs.catalog_found == 'false' }}
+        run: "dbt docs generate"
 
       - name: Run governance checks
         run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
