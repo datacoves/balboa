@@ -76,6 +76,12 @@ role_grants:
       - z_db__raw
       - z_schemas__db__raw
 
+      # Shared DBs
+      - z_db__covid19_epidemiological_data
+      - z_db__snowflake
+
+      - z_wh__wh_orchestrating
+      - z_wh__wh_integration
       - z_wh__wh_transforming
       - z_wh__wh_transforming_dynamic_tables
 

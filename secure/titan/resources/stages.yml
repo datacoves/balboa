@@ -15,10 +15,8 @@ grants:
     on: "stage raw.dbt_artifacts.artifacts"
     to: z_stage__raw__dbt_artifacts__artifacts__read
 
-  - priv: "READ"
-    on: "stage raw.dbt_artifacts.artifacts"
-    to: z_stage__raw__dbt_artifacts__artifacts__write
-
-  - priv: "WRITE"
+  - priv:
+      - READ
+      - WRITE
     on: "stage raw.dbt_artifacts.artifacts"
     to: z_stage__raw__dbt_artifacts__artifacts__write
