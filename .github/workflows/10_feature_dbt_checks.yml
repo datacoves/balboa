@@ -99,6 +99,7 @@ jobs:
         run: "../automate/dbt/get_artifacts.sh"
 
       - name: Clone incremental models that are directly or indirectly affected by the change
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
         run: |
           dbt clone -s state:modified+,config.materialized:incremental,state:old --state logs
           dbt clone -s state:modified+,config.materialized:snapshot,state:old --state logs
@@ -110,8 +111,14 @@ jobs:
       - name: Run Observe Model
         run: "dbt build --fail-fast -s L1_inlets.observe"
 
-      # There is an issue with --empty and dynamic tables so need to exclude them
+      # There is an issue with --empty and dynamic tables so need to run them by themselves
       - name: Governance run of dynamic tables
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+        run: "dbt build --fail-fast -s config.materialized:dynamic_table -s test_failures"
+
+      # There is an issue with --empty and dynamic tables so need to run them by themselves
+      - name: Governance run of dynamic tables
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
         run: "dbt build --fail-fast -s config.materialized:dynamic_table -s test_failures --defer --state logs"
 
       # There is an issue with --empty and dynamic tables so need to exclude them
