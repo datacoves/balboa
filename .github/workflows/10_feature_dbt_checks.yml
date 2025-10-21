@@ -114,12 +114,12 @@ jobs:
       # There is an issue with --empty and dynamic tables so need to run them by themselves
       - name: Governance run of dynamic tables
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
-        run: "dbt build --fail-fast -s config.materialized:dynamic_table -s stg_test_failures"
+        run: "dbt build --fail-fast -s config.materialized:dynamic_table, stg_test_failures, resource_type:seed"
 
       # There is an issue with --empty and dynamic tables so need to run them by themselves
       - name: Governance run of dynamic tables
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
-        run: "dbt build --fail-fast -s config.materialized:dynamic_table -s stg_test_failures --defer --state logs"
+        run: "dbt build --fail-fast -s config.materialized:dynamic_table, stg_test_failures --defer --state logs"
 
       # There is an issue with --empty and dynamic tables so need to exclude them
       - name: Governance run of dbt with EMPTY models using slim mode
