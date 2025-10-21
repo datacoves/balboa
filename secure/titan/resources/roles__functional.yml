@@ -50,8 +50,10 @@ role_grants:
 
       # Shared DBs
       - z_db__covid19_epidemiological_data
-
       - z_db__snowflake
+
+      # STAGES
+      - z_stage__raw__dbt_artifacts__artifacts__read
 
       # WAREHOUSES
       - z_wh__wh_transforming
@@ -70,6 +72,13 @@ role_grants:
     roles:
       - z_account__create_database
 
+      # RAW
+      - z_db__raw
+      - z_schemas__db__raw
+
       - z_wh__wh_transforming
       - z_wh__wh_transforming_dynamic_tables
+
+      - z_stage__raw__dbt_artifacts__artifacts__write
+
       - z_tables_views__select
