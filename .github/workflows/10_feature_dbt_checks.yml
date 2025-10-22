@@ -135,7 +135,7 @@ jobs:
         if: ${{ steps.prod_manifest.outputs.catalog_found == 'true' }}
         run: "dbt-coves generate docs --merge-deferred --state logs"
 
-      - name: Generate Docs Combining Prod and branch catalog.json
+      - name: Generate dbt Docs
         if: ${{ steps.prod_manifest.outputs.catalog_found == 'false' }}
         run: "dbt docs generate"
 
