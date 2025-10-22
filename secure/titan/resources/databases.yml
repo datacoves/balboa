@@ -23,7 +23,7 @@ vars:
 
 roles:
   # Used to grant access to test db
-  - name: z_db_balboa_tst
+  - name: z_db__balboa_tst
   - name: z_db__covid19_epidemiological_data
   - name: z_db__snowflake
 
