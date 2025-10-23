@@ -1,0 +1,22 @@
+stages:
+  - name: raw.dbt_artifacts.artifacts
+    type: internal
+    owner: transformer_dbt
+    directory:
+      enable: true
+    comment: Used to store dbt artifacts
+
+roles:
+  - name: z_stage__raw__dbt_artifacts__artifacts__read
+  - name: z_stage__raw__dbt_artifacts__artifacts__write
+
+grants:
+  - priv: "READ"
+    on: "stage raw.dbt_artifacts.artifacts"
+    to: z_stage__raw__dbt_artifacts__artifacts__read
+
+  - priv:
+      - READ
+      - WRITE
+    on: "stage raw.dbt_artifacts.artifacts"
+    to: z_stage__raw__dbt_artifacts__artifacts__write

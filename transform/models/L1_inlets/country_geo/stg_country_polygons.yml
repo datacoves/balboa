@@ -14,8 +14,6 @@ models:
         description: 'The two-letter ISO 3166-1 alpha-2 code of the country.'
       - name: country_code_3
         description: 'The three-letter ISO 3166-1 alpha-3 code of the country.'
-      - name: feature_type
-        description: 'The type of geographical feature the polygon represents, such as a country or territory.'
       - name: geometry_type
         description: 'The geometric shape type used for the polygon, such as Polygon or Multipolygon.'
       - name: geography
@@ -26,5 +24,3 @@ models:
         description: 'The perimeter of the polygon in meters, indicating the boundary length of the country’s representation.'
       - name: centroid
         description: 'The centroid point of the polygon, typically used to determine the geographic center or balancing point of the shape.'
-      - name: raw_geojson
-        description: 'The raw GeoJSON data used to create and describe the country’s polygon features, suitable for mapping applications.'

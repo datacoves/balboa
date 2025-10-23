@@ -1,0 +1,90 @@
+roles:
+  - name: z_base__analyst
+
+  - name: analyst
+  - name: loader
+  - name: transformer_dbt
+
+role_grants:
+  - to_role: z_base__analyst
+    roles:
+      # RAW
+      - z_db__raw
+      - z_schemas__db__raw
+
+      # BALBOA
+      - z_db__balboa
+      - z_schema__dbt_test__audit
+      - z_schema__l1_account_usage
+      - z_schema__l1_country_data
+      - z_schema__l1_country_geo
+      - z_schema__l1_covid19_epidemiological_data
+      - z_schema__l1_google_analytics_4
+      - z_schema__l1_loans
+      - z_schema__l1_observe
+      - z_schema__l1_usgs__earthquake_data
+      - z_schema__l1_us_population
+
+      - z_schema__l2_country_demographics
+      - z_schema__l2_covid_observations
+      - z_schema__l2_snowflake_usage
+
+      - z_schema__l3_covid_analytics
+      - z_schema__l3_earthquake_analytics
+      - z_schema__l3_loan_analytics
+
+      - z_schema__masking_policies
+      - z_schema__seeds
+
+      # BALBOA_APPS
+      - z_db__balboa_apps
+      - z_schema__resources
+
+      # BALBOA_DEV
+      - z_db__balboa_dev
+      - z_db__balboa_dev__create_schema
+
+      # GREAT_BAY
+      - z_db__great_bay
+      - z_db__sushi_db
+
+      # Shared DBs
+      - z_db__covid19_epidemiological_data
+      - z_db__snowflake
+
+      # STAGES
+      - z_stage__raw__dbt_artifacts__artifacts__read
+
+      # WAREHOUSES
+      - z_wh__wh_transforming
+      - z_wh__wh_transforming_dynamic_tables
+
+  - to_role: analyst
+    roles:
+      - z_base__analyst
+      - z_tables_views__select
+
+  - to_role: loader
+    roles:
+      - z_wh__wh_loading
+
+  - to_role: transformer_dbt
+    roles:
+      - z_account__create_database
+
+      # RAW
+      - z_db__raw
+      - z_schemas__db__raw
+
+      # Shared DBs
+      - z_db__covid19_epidemiological_data
+      - z_db__snowflake
+
+      - z_wh__wh_orchestrating
+      - z_wh__wh_integration
+      - z_wh__wh_transforming
+      - z_wh__wh_transforming_dynamic_tables
+
+      - z_stage__raw__dbt_artifacts__artifacts__write
+
+      - z_tables_views__select

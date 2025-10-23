@@ -1,0 +1,29 @@
+vars:
+  - name: warehouses
+    type: list
+    default:
+      - name: wh_admin
+        size: x-small
+        auto_suspend: 60  # seconds 0 means it never suspends
+        statement_timeout_in_seconds: 7200  # seconds, defaults to 3600 if not defined
+      - name: wh_catalog
+        size: x-small
+        auto_suspend: 60
+      - name: wh_integration
+        size: x-small
+        auto_suspend: 60
+      - name: wh_loading
+        size: x-small
+        auto_suspend: 60
+      - name: wh_orchestrating
+        size: x-small
+        auto_suspend: 60
+      - name: wh_transforming
+        size: x-small
+        auto_suspend: 60
+      - name: wh_transforming_dynamic_tables
+        size: x-small
+        auto_suspend: 60
+      - name: wh_transforming_sqlmesh
+        size: x-small
+        auto_suspend: 60
