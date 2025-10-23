@@ -14,5 +14,5 @@ roles:
 grants:
   - for_each: var.databases
     priv: USAGE
-    on: database "{{ each.value.name }}"
+    on: database {{ each.value.name }}
     to: "z_db__{{ each.value.name }}"
