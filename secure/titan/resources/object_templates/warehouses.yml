@@ -20,5 +20,5 @@ grants:
     priv:
       - USAGE
       - MONITOR
-    on: warehouse {{ each.value.name }}
-    to: z_wh__{{ each.value.name }}
+    on: "warehouse {{ each.value.name }}"
+    to: "z_wh__{{ each.value.name }}"

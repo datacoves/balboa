@@ -23,8 +23,8 @@ grants:
   - for_each: var.schemas
     priv: "SELECT"
     on:
-      - all tables in schema {{ each.value.name }}
-      - all views in schema {{ each.value.name }}
+      - "all tables in schema {{ each.value.name }}"
+      - "all views in schema {{ each.value.name }}"
       - "future tables in schema {{ each.value.name }}"
       - "future views in schema {{ each.value.name }}"
     to: z_tables_views__select
