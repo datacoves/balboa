@@ -84,11 +84,11 @@ jobs:
       # this is needed bec our sample dynamic table is not getting refreshed
       - name: Refresh dynamic tables before blue-green
         if: steps.check-full-refresh.outputs.full_refresh != 'true'
-        run: "dbt build -s config.materialized:dynamic_table stg_test_failures"
+        run: "dbt build -s config.materialized:dynamic_table stg_test_failures resource_type:seed"
 
       - name: Refresh dynamic tables before blue-green
         if: steps.check-full-refresh.outputs.full_refresh == 'true'
-        run: "dbt build -s config.materialized:dynamic_table stg_test_failures --full-refresh"
+        run: "dbt build -s config.materialized:dynamic_table stg_test_failures resource_type:seed --full-refresh"
 
       # Do Blue-Green run
       - name: Run blue / green deployment
