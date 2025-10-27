@@ -69,10 +69,6 @@ jobs:
         id: prod-manifest
         run: "../automate/dbt/get_artifacts.sh"
 
-      # this is needed bec our sample dynamic table is not getting refreshed
-      - name: Refresh dynamic tables before blue-green
-        run: "dbt run -s materialization config.materialized:dynamic_table --full-refresh"
-
       - name: Check for full-refresh marker in merge commit message
         id: check-full-refresh
         run: |
@@ -85,6 +81,16 @@ jobs:
             echo "No full-refresh deployment marker found in merge commit message, running normal deployment"
           fi
 
+      # this is needed bec our sample dynamic table is not getting refreshed
+      - name: Refresh dynamic tables before blue-green
+        if: steps.check-full-refresh.outputs.full_refresh != 'true'
+        run: "dbt run -s config.materialized:dynamic_table stg_test_failures resource_type:seed"
+
+      - name: Refresh dynamic tables before blue-green
+        if: steps.check-full-refresh.outputs.full_refresh == 'true'
+        run: "dbt run -s config.materialized:dynamic_table stg_test_failures resource_type:seed --full-refresh"
+
+      # Do Blue-Green run
       - name: Run blue / green deployment
         if: steps.check-full-refresh.outputs.full_refresh != 'true'
         id: run-blue-green
