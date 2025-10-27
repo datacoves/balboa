@@ -7,7 +7,7 @@
 {%- macro grant_prd_usage(db_name) -%}
 
     {% set apply_db_grants_sql %}
-        grant usage on database {{ db_name }} to role z_db_balboa;
+        grant usage on database {{ db_name }} to role z_db__balboa;
         grant usage on database {{ db_name }} to role useradmin;
     {% endset %}
     {% do run_query(apply_db_grants_sql) %}
