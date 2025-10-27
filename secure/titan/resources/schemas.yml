@@ -1,0 +1,47 @@
+# Schemas
+vars:
+  - name: schemas
+    type: list
+    default:
+      # RAW DB
+      - name: RAW.AB_LOANS
+      - name: RAW.AIRBYTE_INTERNAL
+      - name: RAW.COUNTRY_GEO
+      - name: RAW.DBT_ARTIFACTS
+        owner: transformer_dbt
+      - name: RAW.GOOGLE_ANALYTICS_4
+      - name: RAW.LOANS
+      - name: RAW.RAW
+      - name: RAW.SNAPSHOTS
+        owner: transformer_dbt
+      - name: RAW.USGS__EARTHQUAKE_DATA
+      - name: RAW.US_POPULATION
+
+      # BALBOA DB
+      - name: BALBOA.DBT_TEST__AUDIT
+
+      - name: BALBOA.L1_ACCOUNT_USAGE
+      - name: BALBOA.L1_COUNTRY_DATA
+      - name: BALBOA.L1_COUNTRY_GEO
+      - name: BALBOA.L1_COVID19_EPIDEMIOLOGICAL_DATA
+      - name: BALBOA.L1_GOOGLE_ANALYTICS_4
+      - name: BALBOA.L1_LOANS
+      - name: BALBOA.L1_OBSERVE
+      - name: BALBOA.L1_USGS__EARTHQUAKE_DATA
+      - name: BALBOA.L1_US_POPULATION
+
+      - name: BALBOA.L2_COUNTRY_DEMOGRAPHICS
+      - name: BALBOA.L2_COVID_OBSERVATIONS
+      - name: BALBOA.L2_SNOWFLAKE_USAGE
+
+      - name: BALBOA.L3_COVID_ANALYTICS
+      - name: BALBOA.L3_EARTHQUAKE_ANALYTICS
+      - name: BALBOA.L3_LOAN_ANALYTICS
+      - name: BALBOA.MASKING_POLICIES
+      - name: BALBOA.SEEDS
+
+      # BALBOA_APPS DB
+      - name: BALBOA_APPS.RESOURCES
+
+      # GREAT_BAY DB
+      - name: GREAT_BAY.COVE_MARKETING
