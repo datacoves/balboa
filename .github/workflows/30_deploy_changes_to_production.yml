@@ -66,7 +66,7 @@ jobs:
         run: "dbt deps"
 
       - name: Get prod manifest
-        id: prod-manifest
+        id: prod_manifest
         run: "../automate/dbt/get_artifacts.sh"
 
       - name: Check for full-refresh marker in merge commit message
@@ -76,27 +76,23 @@ jobs:
           if git log -1 --pretty=%B | grep -q "\[deploy:full-refresh\]"; then
             echo "FULL_REFRESH_FLAG='--full-refresh'" >> $GITHUB_OUTPUT
             echo "Found '[deploy:full-refresh]' marker in merge commit message, will run with --full-refresh"
-            echo $FULL_REFRESH_FLAG
           else
             echo "FULL_REFRESH_FLAG=''" >> $GITHUB_OUTPUT
             echo "No full-refresh deployment marker found in merge commit message, running normal deployment"
-            echo $FULL_REFRESH_FLAG
           fi
 
       # this is needed bec our sample dynamic table is not getting refreshed
       - name: Refresh dynamic tables before blue-green
-        run: "dbt build -s config.materialized:dynamic_table stg_test_failures resource_type:seed ${{ env.FULL_REFRESH_FLAG }}"
+        run: "dbt build -s config.materialized:dynamic_table stg_test_failures resource_type:seed ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
 
       # Do Blue-Green run
       - name: Run blue / green deployment
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
-        id: run-blue-green
-        run: "dbt-coves blue-green ${{ env.FULL_REFRESH_FLAG }}"
+        run: "dbt-coves blue-green ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
 
-      - name: Run blue / green deployment with full-refresh
+      - name: Run blue / green deployment with defer
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
-        id: run-blue-green-full-refresh
-        run: "dbt-coves blue-green --defer ${{ env.FULL_REFRESH_FLAG }}"
+        run: "dbt-coves blue-green --defer ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
 
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
