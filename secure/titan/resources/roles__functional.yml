@@ -86,5 +86,6 @@ role_grants:
       - z_wh__wh_transforming_dynamic_tables
 
       - z_stage__raw__dbt_artifacts__artifacts__write
+      - z_stage__balboa_apps__resources__streamlit__write
 
       - z_tables_views__select

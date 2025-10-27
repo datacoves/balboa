@@ -23,7 +23,6 @@ then
     if [ -n "$GITHUB_OUTPUT" ]; then
         echo "manifest_found=false" >> $GITHUB_OUTPUT
     fi
-    echo $manifest_found
     # This is used by Jenkins
     # echo "false" > temp_MANIFEST_FOUND.txt
 else
