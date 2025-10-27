@@ -77,7 +77,7 @@ jobs:
             echo "FULL_REFRESH_FLAG='--full-refresh'" >> $GITHUB_OUTPUT
             echo "Found '[deploy:full-refresh]' marker in merge commit message, will run with --full-refresh"
           else
-            echo "FULL_REFRESH_FLAG=''" >> $GITHUB_OUTPUT
+            # Don't set FULL_REFRESH_FLAG
             echo "No full-refresh deployment marker found in merge commit message, running normal deployment"
           fi
 
