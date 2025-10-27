@@ -22,8 +22,6 @@ earthquakes as (
         earthquake_date
     from BALBOA.L1_USGS__EARTHQUAKE_DATA.stg_earthquakes
     
-        where earthquake_date > (select max(earthquake_date) from BALBOA.L3_EARTHQUAKE_ANALYTICS.earthquakes_around_the_world)
-    
 
 ),
 
