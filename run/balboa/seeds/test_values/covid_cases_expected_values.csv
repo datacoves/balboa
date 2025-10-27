@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "BALBOA"."SEEDS"."COVID_CASES_EXPECTED_VALUES";
+    -- dbt seed --
+    
+            insert into BALBOA.SEEDS.covid_cases_expected_values (LOCATION_ID, DATE, CONFIRMED, DEATHS, ACTIVE, RECOVERED) values
+            (%s,%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s,%s)
+        
+
+;
+  
