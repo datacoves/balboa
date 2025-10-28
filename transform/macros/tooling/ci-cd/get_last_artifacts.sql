@@ -12,7 +12,8 @@
     {% set list_stage_query %}
         LIST @{{ stage }} PATTERN = '^((?!(archive/)).)*.json$';
     {% endset %}
-
+    {{ print("QUERY: ") }}
+    {{ print(list_stage_query) }}
     {{ print("\nCurrent items in stage " ~ stage) }}
     {% set results = run_query(list_stage_query) %}
     {{ results.exclude('md5').print_table(max_column_width=40) }}
@@ -21,26 +22,33 @@
     {% set artifacts_destination =  "file://" + logs_dir %}
 
     {# Check if files exist by looking at the LIST results #}
-    {% set manifest_found = false %}
-    {% set catalog_found = false %}
+    {% set manifest_files = [] %}
+    {% set catalog_files = [] %}
 
     {% for row in results.rows %}
         {% if 'manifest.json' in row[0] %}
-            {% set manifest_found = true %}
+            {% set _ = manifest_files.append("manifest.json") %}
         {% endif %}
         {% if 'catalog.json' in row[0] %}
-            {% set catalog_found = true %}
+            {% set _ = catalog_files.append("catalog.json") %}
         {% endif %}
     {% endfor %}
+
+    {% set manifest_found = manifest_files | length > 0 %}
+    {% set catalog_found = catalog_files | length > 0 %}
 
     {# Only attempt to get files that exist #}
     {% if manifest_found or catalog_found %}
         {% set get_commands = [] %}
         {% if manifest_found %}
-            {% set _ = get_commands.append("get @" ~ stage ~ "/manifest.json " ~ artifacts_destination ~ ";") %}
+            {% for manifest_file in manifest_files %}
+                {% set _ = get_commands.append("get @" ~ stage ~ "/" ~ manifest_file ~ " " ~ artifacts_destination ~ ";") %}
+            {% endfor %}
         {% endif %}
         {% if catalog_found %}
-            {% set _ = get_commands.append("get @" ~ stage ~ "/catalog.json " ~ artifacts_destination ~ ";") %}
+            {% for catalog_file in catalog_files %}
+                {% set _ = get_commands.append("get @" ~ stage ~ "/" ~ catalog_file ~ " " ~ artifacts_destination ~ ";") %}
+            {% endfor %}
         {% endif %}
 
         {% set get_query = get_commands | join('\n        ') %}
