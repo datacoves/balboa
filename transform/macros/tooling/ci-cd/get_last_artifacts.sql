@@ -12,7 +12,8 @@
     {% set list_stage_query %}
         LIST @{{ stage }} PATTERN = '^((?!(archive/)).)*.json$';
     {% endset %}
-
+    {{ print("QUERY: ") }}
+    {{ print(list_stage_query) }}
     {{ print("\nCurrent items in stage " ~ stage) }}
     {% set results = run_query(list_stage_query) %}
     {{ results.exclude('md5').print_table(max_column_width=40) }}
