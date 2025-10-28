@@ -12,6 +12,7 @@
     {% set apply_db_grants_sql %}
         grant usage on database {{ db_name }} to role {{ pr_db_usage_role }};
         grant select on all tables in database {{ db_name }} to role z_tables_views__select;
+        grant select on all dynamic tables in database {{ db_name }} to role z_tables_views__select;
         grant select on all views in database {{ db_name }} to role z_tables_views__select;
     {% endset %}
 
