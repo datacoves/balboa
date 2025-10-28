@@ -3,7 +3,7 @@
 # name or the intended use of these models
 name: 'balboa'
 # this is the project version, has nothing to do with dbt version
-version: '52.0.0'
+version: '53.0.0'
 config-version: 2
 
 require-dbt-version: ">=1.8.0"
@@ -106,8 +106,8 @@ models:
             loan_analytics:
                 +schema: L3_LOAN_ANALYTICS
                 # cannot persist docs on dynamic tables
-                +persist_docs:
-                    relation: false
+                # +persist_docs:
+                #     relation: false
             +materialized: table
 
         # L4_shares:
