@@ -216,7 +216,7 @@ jobs:
       - name: Grant access to QA_TEMP database
         if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
         id: grant-access-to-database
-        run: "dbt run-operation grant_prd_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
+        run: "dbt run-operation grant_db_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
 
       - name: Swap QA with QA_TEMP database and drop old QA db
         if: steps.check_qa_created_today.outputs.qa_created_today != 'true'

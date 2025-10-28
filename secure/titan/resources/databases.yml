@@ -14,6 +14,9 @@ vars:
       - name: balboa_dev
         owner: transformer_dbt
         max_data_extension_time_in_days: 5
+      - name: balboa_qa
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 5
       - name: great_bay
         owner: transformer_dbt
         max_data_extension_time_in_days: 10

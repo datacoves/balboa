@@ -161,6 +161,11 @@ vars:
     common_masking_policy_schema: "MASKING_POLICIES"
     use_force_applying_masking_policy: "true"
 
+    # These are used in CI/CD to grant access to
+    db_usage_role_prefix: "z_db__"
+    pr_db_usage_role: "z_db__balboa_tst"
+
+
 
 # Added for Elementary support
 # flags:
