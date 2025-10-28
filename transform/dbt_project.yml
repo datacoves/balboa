@@ -163,6 +163,7 @@ vars:
 
     # These are used in CI/CD to grant access to
     db_usage_role_prefix: "z_db__"
+    schema_usage_role_prefix: "z_schema__"
     pr_db_usage_role: "z_db__balboa_tst"
 
 
