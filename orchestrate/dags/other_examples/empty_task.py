@@ -37,10 +37,10 @@ def general_job():
     # No pod created - runs in scheduler
     end = EmptyOperator(task_id='end')
 
+    # Specify task_id when calling the function
+    task_a = run_dbt.override(task_id='task_a')("dbt debug")
+    task_b = run_dbt.override(task_id='task_b')("dbt debug")
 
-    task_b = run_dbt("dbt debug")
-    task_c = run_dbt("dbt debug")
-
-    start >> [task_b, task_c] >> end
+    start >> [task_a, task_b] >> end
 
 general_job()
