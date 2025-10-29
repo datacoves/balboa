@@ -24,9 +24,9 @@ grants:
     priv: "SELECT"
     on:
       - "all tables in database {{ each.value.name }}"
-      # - "all dynamic tables in database {{ each.value.name }}"
+      - "all dynamic tables in database {{ each.value.name }}"
       - "all views in database {{ each.value.name }}"
       - "future tables in database {{ each.value.name }}"
-      # - "future dynamic tables in database {{ each.value.name }}"
+      - "future dynamic tables in database {{ each.value.name }}"
       - "future views in database {{ each.value.name }}"
     to: z_tables_views__select
