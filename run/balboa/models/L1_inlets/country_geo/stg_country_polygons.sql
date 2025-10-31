@@ -43,6 +43,7 @@ final as (
 
 )
 
+
 select
     country_name,
     country_code_2,
