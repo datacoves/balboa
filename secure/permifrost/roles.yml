@@ -7,6 +7,7 @@
       - z_db__balboa
       - z_db__balboa_apps
       - z_db__balboa_tst
+      - z_db__balboa_qa
       - z_db__balboa_dev
       - z_db__snowflake
       - z_db__covid19_epidemiological_data
@@ -278,6 +279,9 @@
 # This role is created but has no grants
 # The grants will be added by the CI script
 - z_db__balboa_tst:
+    owner: securityadmin
+
+- z_db__balboa_qa:
     owner: securityadmin
 
 - z_db__balboa_write:
