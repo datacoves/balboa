@@ -125,7 +125,7 @@ jobs:
     # environment: PR_ENV
 
     # Most people should use this docker image
-    container: datacoves/ci-basic-dbt-snowflake:3.4
+    container: datacoves/ci-basic-dbt-snowflake:4.0
 
     defaults:
       run:
@@ -213,16 +213,16 @@ jobs:
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
         run: "dbt build --fail-fast ${{ env.FULL_REFRESH_FLAG }}"
 
-      - name: Grant access to QA_TEMP database
-        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
-        id: grant-access-to-database
-        run: "dbt run-operation grant_prd_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
-
       - name: Swap QA with QA_TEMP database and drop old QA db
         if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
         run: |
           dbt --no-write-json run-operation swap_database --args '{db1: ${{ env.DATACOVES__MAIN__DATABASE }}, db2: ${{ env.DATACOVES__MAIN__DATABASE_QA }}, create_missing_db: true}'
           dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}, recreate: False}'
+
+      - name: Grant access to QA_TEMP database
+        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
+        id: grant-access-to-database
+        run: "dbt run-operation grant_db_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}'"
 
 
       # # We drop the database when there is a failure to grant access to the db because

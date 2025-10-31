@@ -44,6 +44,12 @@ role_grants:
       - z_db__balboa_dev
       - z_db__balboa_dev__create_schema
 
+      # BALBOA_TST used to grant usage to PR databases
+      - z_db__balboa_tst
+
+      # BALBOA_QA used to grant usage to QA database
+      - z_db__balboa_qa
+
       # GREAT_BAY
       - z_db__great_bay
       - z_db__sushi_db
@@ -86,5 +92,6 @@ role_grants:
       - z_wh__wh_transforming_dynamic_tables
 
       - z_stage__raw__dbt_artifacts__artifacts__write
+      - z_stage__balboa_apps__resources__streamlit__write
 
       - z_tables_views__select

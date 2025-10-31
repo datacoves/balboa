@@ -36,7 +36,7 @@ jobs:
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-airflow-dbt-snowflake:3.4
+    container: datacoves/ci-airflow-dbt-snowflake:4.0
     needs: [validate-branch]
 
     env:
