@@ -20,11 +20,13 @@ grants:
       - "future schemas in database raw"
     to: z_schemas__db__raw
 
-  - for_each: var.schemas
+  - for_each: var.databases
     priv: "SELECT"
     on:
-      - "all tables in schema {{ each.value.name }}"
-      - "all views in schema {{ each.value.name }}"
-      - "future tables in schema {{ each.value.name }}"
-      - "future views in schema {{ each.value.name }}"
+      - "all tables in database {{ each.value.name }}"
+      - "all dynamic tables in database {{ each.value.name }}"
+      - "all views in database {{ each.value.name }}"
+      - "future tables in database {{ each.value.name }}"
+      - "future dynamic tables in database {{ each.value.name }}"
+      - "future views in database {{ each.value.name }}"
     to: z_tables_views__select

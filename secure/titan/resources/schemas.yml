@@ -4,18 +4,10 @@ vars:
     type: list
     default:
       # RAW DB
-      - name: RAW.AB_LOANS
-      - name: RAW.AIRBYTE_INTERNAL
-      - name: RAW.COUNTRY_GEO
       - name: RAW.DBT_ARTIFACTS
         owner: transformer_dbt
-      - name: RAW.GOOGLE_ANALYTICS_4
-      - name: RAW.LOANS
-      - name: RAW.RAW
       - name: RAW.SNAPSHOTS
         owner: transformer_dbt
-      - name: RAW.USGS__EARTHQUAKE_DATA
-      - name: RAW.US_POPULATION
 
       # BALBOA DB
       - name: BALBOA.DBT_TEST__AUDIT
