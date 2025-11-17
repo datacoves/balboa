@@ -236,7 +236,6 @@ def download_env_file(account_id: int, project_slug: str, env_slug: str,
         print(f"Error: {r.status_code}")
         print(r.text)
 
-##### BUG Need to request content
 def download_env_manifest(account_id: int, project_slug: str, env_slug: str, trimmed: bool = False):
 
     print(f"Downloading manifest from project: {project_slug} and environment: {env_slug}, with trimmed = {trimmed}")
@@ -245,7 +244,6 @@ def download_env_manifest(account_id: int, project_slug: str, env_slug: str, tri
 
     params = {
         'trim': str(trimmed).lower(),  # Convert to 'true'/'false' string
-        "include_content": "true"
     }
 
     r = requests.get(
@@ -277,7 +275,6 @@ def download_env_manifest(account_id: int, project_slug: str, env_slug: str, tri
         print(f"Error: {r.status_code}")
         print(r.text)
 
-##### BUG Need to request content
 def download_project_manifest(account_id: int, project_slug: str, trimmed: bool = False):
 
     print(f"Downloading manifest from project: {project_slug} with trimmed = {trimmed}")
@@ -286,7 +283,6 @@ def download_project_manifest(account_id: int, project_slug: str, trimmed: bool 
 
     params = {
         'trim': str(trimmed).lower(),  # Convert to 'true'/'false' string
-        "include_content": "true"
     }
 
     r = requests.get(
@@ -407,7 +403,7 @@ if __name__ == "__main__":
     # for filename in filenames:
     #     download_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
 
-    # download_env_manifest(1, "balboa-analytics-datacoves", "zpg497", trimmed = True)
+    download_env_manifest(1, "balboa-analytics-datacoves", "zpg497", trimmed = True)
 
     # download_project_manifest(1, "balboa-analytics-datacoves", trimmed = True)
 
@@ -426,4 +422,3 @@ if __name__ == "__main__":
 
     files = list_project_files(1, "balboa-analytics-datacoves")
     print_table(files, cols)
-
