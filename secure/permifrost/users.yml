@@ -3,17 +3,6 @@
     member_of:
       - analyst
 
-- alex:
-    can_login: true
-    member_of:
-      - analyst
-
-- bruno:
-    can_login: true
-    member_of:
-      - analyst
-      - securityadmin
-
 - gomezn:
     can_login: true
     member_of:
