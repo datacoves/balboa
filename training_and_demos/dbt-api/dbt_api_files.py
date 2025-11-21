@@ -1,23 +1,32 @@
+#!/usr/bin/env -S uv run
+# /// script
+# dependencies = [
+#   "python-dotenv",
+#   "requests",
+#   "rich",
+# ]
+# ///
 import requests
 import os
 from dotenv import load_dotenv
 import json
 from rich import print_json
-
-def str_to_bool(s):
-    return s.lower() in ('true', '1', 'yes', 'y')
+from rich.console import Console
+from rich.table import Table
+from pathlib import Path
 
 load_dotenv()
 base_url = os.getenv("DATACOVES__API_ENDPOINT")
 token = os.getenv("DATACOVES__API_TOKEN")
 project_slug = os.getenv("DATACOVES__PROJECT_SLUG")
 environment_slug = os.getenv("DATACOVES__ENVIRONMENT_SLUG")
+dbt_home = os.getenv("DATACOVES__DBT_HOME")
 
 #######################################
 # Utility for api interactions
 #######################################
 
-def print_format(r):
+def print_responce(r):
     print("STATUS:", r.status_code)
 
     response_text = r.text
@@ -29,6 +38,29 @@ def print_format(r):
         print("RESPONSE:", response_text)
 
     print("-----------------------")
+
+def print_table(items, keys_to_show, title="Items"):
+    """Print a table showing only specified keys from a list of dictionaries"""
+    console = Console()
+    table = Table(title=title)
+
+    # Define different colors for each column
+    colors = ["blue", "bright_green", "yellow", "green", "cyan", "magenta", "red", "bright_cyan", "bright_magenta", "bright_yellow"]
+
+    # Add columns for each key we want to show with different colors
+    for index, key in enumerate(keys_to_show):
+        color = colors[index % len(colors)]  # Cycle through colors if more columns than colors
+        table.add_column(key.replace('_', ' ').title(), style=color)
+
+    # Add rows for each item in the list
+    for item in items:
+        row_values = []
+        for key in keys_to_show:
+            value = item.get(key, "N/A")
+            row_values.append(str(value))
+        table.add_row(*row_values)
+
+    console.print(table)
 
 def get_endpoint(endpoint: str) -> str:
     return f"{base_url}/{endpoint}"
@@ -43,221 +75,350 @@ def get_headers() -> dict:
 # Get information
 #######################################
 
-def get_account(id: int):
-    print(f"Getting info for account: {id}")
-
-    r = requests.get(
-        url=get_endpoint(endpoint=f"api/v2/accounts/{id}"),
-        headers=get_headers(),
-    )
-
-    print_format(r)
-
-def get_environments(id: int):
-    print(f"Getting environments for account: {id}")
-
-    r = requests.get(
-        url=get_endpoint(endpoint=f"api/v2/accounts/{id}/environments"),
-        headers=get_headers(),
-    )
-
-    print_format(r)
-
-def get_projects(id: int):
-    print(f"Getting projects for account: {id}")
-
-    r = requests.get(
-        url=get_endpoint(endpoint=f"api/v2/accounts/{id}/projects"),
-        headers=get_headers(),
-    )
-
-    print_format(r)
-
 def health_check():
     print("Checking Health of api")
 
     r = requests.get(
-        url=get_endpoint(endpoint="/api/v2/healthcheck"),
+        url=get_endpoint(endpoint="/api/v3/healthcheck"),
         headers=get_headers(),
     )
 
-    print_format(r)
+    print_responce(r)
 
-# FIXME
-def get_files():
-    print(f"Getting files for environment: {environment_slug}")
+def get_account(id: int):
+    print(f"Getting info for account: {id}")
 
-    # r = requests.get(
-    #     url=get_endpoint(endpoint=f"/api/v2/datacoves/environments/{environment_slug}/files"),
-    #     headers=get_headers(),
-    # )
+    r = requests.get(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{id}"),
+        headers=get_headers(),
+    )
 
-    print_format(r)
+    print_responce(r)
+
+def get_projects(account_id: int, project_slug: str = ''):
+    print(f"Getting projects for account: {account_id}")
+
+    r = requests.get(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}"),
+        headers=get_headers(),
+    )
+
+    print_responce(r)
+
+def get_environments(account_id: int, project_slug: str, env_slug: str = ''):
+    print(f"Getting environments for account: {account_id} and project: {project_slug}")
+
+    print(f"api/v3/accounts/{account_id}projects/{project_slug}/environments")
+
+    r = requests.get(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}"),
+        headers=get_headers(),
+    )
+
+    print_responce(r)
 
 
 #######################################
 # Working with files
 #######################################
 
-def delete_file(tag: str = ''):
+def list_project_files(account_id: int, project_slug: str):
+    print(f"Listing files for project: {project_slug}")
 
-    print(f"Deleting file by tag: {tag}")
+    r = requests.get(
+        # url=get_endpoint(endpoint=f"/api/v3/datacoves/account/{account_id}/projects/{project_slug}/files"),
+
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/files"),
+
+        headers=get_headers(),
+    )
+
+    return r.json().get("data", {})
+
+def list_environment_files(account_id: int, project_slug: str, env_slug: str):
+    print(f"Listing files for project: {project_slug} and environment: {env_slug}")
+
+    r = requests.get(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}/files"),
+        headers=get_headers(),
+    )
+
+    return r.json().get("data", {})
+
+def upload_env_file(account_id: int, project_slug: str, env_slug: str,
+                    filename: str, is_manifest: bool = False,
+                    dag_id: str = None, run_id: str = None, use_multipart: bool = False):
+
+    print(f"Uploading file {filename} to project: {project_slug} in environment: {env_slug}")
+
+    file = {"file": (filename, open(f"{dbt_home}/target/{filename}", "rb"))}
+
+    data = {
+        'filename': filename,
+        'is_manifest': str(is_manifest).lower()
+    }
+
+    r = requests.post(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}/files"),
+        headers=get_headers(),
+        files=file,
+        data=data
+    )
+
+    print_responce(r)
+
+def delete_env_file(account_id: int, project_slug: str, env_slug: str,
+                    filename: str):
+
+    print(f"Deleting file {filename} from project: {project_slug} in environment: {env_slug}")
 
     r = requests.delete(
-        url=get_endpoint(endpoint=f"/api/v2/datacoves/environments/{environment_slug}/files"),
-        headers=get_headers(),
-        data={
-            "tag": tag
-            }
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}/files/{filename}"),
+        headers=get_headers()
     )
 
-    print_format(r)
+    print_responce(r)
 
+def show_env_file_details(account_id: int, project_slug: str, env_slug: str,
+                    filename: str):
 
-def upload_single_file(tag: str):
-
-    print(f"Uploading a single file with tag {tag}")
-    files = {"file": open("file1.txt","rb")}
-    r = requests.post(
-        url=get_endpoint(endpoint=f"/api/v2/datacoves/environments/{environment_slug}/files"),
-        headers=get_headers(),
-        files=files,
-        data={"tag": tag}
-    )
-
-    print_format(r)
-
-
-def upload_multiple_files(file_names: list, tag: str = 'latest'):
-    print(f"Uploading files: {file_names}")
-
-    file_root_path = "/config/workspace/transform/target/"
-    files = {}
-    for index, file in enumerate(file_names):
-        files[f"files[{index}][tag]"] = (None, tag)
-        files[f"files[{index}][file]"] = (file, open(f"{file_root_path}{file}", "rb"))
-
-    r = requests.post(
-        url=get_endpoint(endpoint=f"/api/v2/datacoves/environments/{environment_slug}/files"),
-        headers=get_headers(),
-        files=files,
-    )
-
-    print_format(r)
-
-
-def get_file_by_name(file_name: str):
-    print(f"Getting file {file_name}")
-    params = f"filename={file_name}"
+    print(f"Showing details for file {filename} in project: {project_slug} in environment: {env_slug}")
 
     r = requests.get(
-        url=get_endpoint(endpoint=f"/api/v2/datacoves/environments/{environment_slug}/files?{params}"),
-        headers=get_headers(),
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}/files/{filename}"),
+        headers=get_headers()
+    )
+
+    print_responce(r)
+
+def promote_env_file(account_id: int, project_slug: str, env_slug: str,
+                    filename: str):
+
+    print(f"Promoting file {filename} in environment: {env_slug} to project level ({project_slug})")
+
+    r = requests.post(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}/files/{filename}/promote"),
+        headers=get_headers()
+    )
+
+    print_responce(r)
+
+def download_env_file(account_id: int, project_slug: str, env_slug: str,
+                    filename: str):
+
+    print(f"Downloading file {filename} from project: {project_slug} and environment: {env_slug}")
+
+    r = requests.get(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}/files/{filename}/download"),
+        headers=get_headers()
     )
 
     if r.ok:
         try:
-            content = r.json().get("data", {}).get("contents", "")
-            if type(content) is dict:
+            # First we check if we get JSON back
+            content = r.json()
+
+            if isinstance(content, dict):
                 content = json.dumps(content, indent=4)
+
+            with open(filename, "w") as f:
+                f.write(content)
+            print(f"Downloaded {filename} successfully")
+
         except requests.exceptions.JSONDecodeError:
-            content = r.text
-        with open(file_name, "w") as f:
-            f.write(content)
-        print(f"Downloaded {file_name}")
+            # Handle binary/non-JSON responses
+            content = r.content
+
+            with open(filename, "wb") as f:
+                f.write(content)
+            print(f"Downloaded {filename} successfully")
     else:
+        print(f"Error: {r.status_code}")
         print(r.text)
 
+def download_env_manifest(account_id: int, project_slug: str, env_slug: str, trimmed: bool = False):
 
-def get_file_by_tag(tag: str):
-    print("Getting file by tag: {tag}...")
-    params = f"tag={tag}"
+    print(f"Downloading manifest from project: {project_slug} and environment: {env_slug}, with trimmed = {trimmed}")
+
+    filename = "manifest.json"
+
+    params = {
+        'trim': str(trimmed).lower(),  # Convert to 'true'/'false' string
+    }
 
     r = requests.get(
-        url=get_endpoint(endpoint=f"api/internal/environments/{environment_slug}/files?{params}"),
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/environments/{env_slug}/manifest"),
         headers=get_headers(),
+        params=params
     )
 
     if r.ok:
         try:
-            file_name = r.json().get("data", {}).get("filename", "")
-            content = r.json().get("data", {}).get("contents", "")
-            if type(content) is dict:
+            # First we check if we get JSON back
+            response_data = r.json()
+            content = response_data.get("data", {}).get("contents", {})
+
+            if isinstance(content, dict):
                 content = json.dumps(content, indent=4)
+
+            with open(filename, "w") as f:
+                f.write(content)
+            print(f"Downloaded {filename} successfully")
+
         except requests.exceptions.JSONDecodeError:
-            content = r.text
-        with open(file_name, "w") as f:
-            f.write(content)
-        print(f"Downloaded {file_name}")
+            # Handle binary/non-JSON responses
+            content = r.content
+
+            print("File does not appear to be a manifest as it was not JSON format")
+            print(content)
     else:
+        print(f"Error: {r.status_code}")
         print(r.text)
 
+def download_project_manifest(account_id: int, project_slug: str, trimmed: bool = False):
 
-def upload_manifest():
-    print("Uploading manifest")
-    files = {"file": open("/config/workspace/transform/target/manifest.json", "rb")}
+    print(f"Downloading manifest from project: {project_slug} with trimmed = {trimmed}")
 
-    r = requests.post(
-        url=get_endpoint(endpoint="/api/v2/datacoves/manifests"),
-        headers=get_headers(),
-        files=files,
-        data={
-            "environment_slug": environment_slug
-            }
-    )
+    filename = "manifest.json"
 
-    print_format(r)
-
-
-def get_latest_manifest(project_slug: str):
-    print("Getting manifest for project: {project_slug}...")
+    params = {
+        'trim': str(trimmed).lower(),  # Convert to 'true'/'false' string
+    }
 
     r = requests.get(
-        url=get_endpoint(endpoint=f"/api/v2/datacoves/projects/{project_slug}/latest-manifest"),
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/manifest"),
         headers=get_headers(),
+        params=params
     )
-
-    file_name = "manifest.json"
 
     if r.ok:
         try:
-            content = r.json().get("data", {}).get("contents", "")
-            if type(content) is dict:
+            # First we check if we get JSON back
+            response_data = r.json()
+            content = response_data.get("data", {}).get("contents", {})
+
+            if isinstance(content, dict):
                 content = json.dumps(content, indent=4)
+
+            with open(filename, "w") as f:
+                f.write(content)
+            print(f"Downloaded {filename} successfully")
+
         except requests.exceptions.JSONDecodeError:
-            content = r.text
-        with open(file_name, "w") as f:
-            f.write(content)
-        print(f"Downloaded {file_name}")
+            # Handle binary/non-JSON responses
+            content = r.content
+
+            print("File does not appear to be a manifest as it was not JSON format")
+            print(content)
     else:
+        print(f"Error: {r.status_code}")
         print(r.text)
+
+def download_project_file(account_id: int, project_slug: str, filename: str):
+
+    print(f"Downloading file {filename} from project: {project_slug}")
+
+    r = requests.get(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/files/{filename}/download"),
+        headers=get_headers()
+    )
+
+    if r.ok:
+        try:
+            # First we check if we get JSON back
+            content = r.json()
+
+            if isinstance(content, dict):
+                content = json.dumps(content, indent=4)
+
+            with open(filename, "w") as f:
+                f.write(content)
+            print(f"Downloaded {filename} successfully")
+
+        except requests.exceptions.JSONDecodeError:
+            # Handle binary/non-JSON responses
+            content = r.content
+
+            with open(filename, "wb") as f:
+                f.write(content)
+            print(f"Downloaded {filename} successfully")
+    else:
+        print(f"Error: {r.status_code}")
+        print(r.text)
+
+def delete_project_file(account_id: int, project_slug: str, filename: str):
+
+    print(f"Deleting file {filename} from project: {project_slug}")
+
+    r = requests.delete(
+        url=get_endpoint(endpoint=f"api/v3/accounts/{account_id}/projects/{project_slug}/files/{filename}"),
+        headers=get_headers()
+    )
+
+    print_responce(r)
+
 
 if __name__ == "__main__":
     # Get infomration
 
-    # get_account(1)
-    # get_environments(1)
-    # get_projects(1)
     # health_check()
 
-    # FIXME
-    # get_files()
+    # get_account(1)
 
-    # Working with files
-    # upload_single_file(tag="my-file")
-    # delete_file(tag="my-file")
+    # get_projects(1)
+    # get_projects(1,"balboa-analytics-datacoves")
 
-    file_names = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
-    upload_multiple_files(file_names)
-    # for file in file_names:
-        # delete_file(tag="latest")
+    # get_environments(1, "balboa-analytics-datacoves")
+    # get_environments(1, "balboa-analytics-datacoves", "zpg497")
 
-    # file_names = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
-    # for file in file_names:
-    #     get_file_by_name(file)
+    # Work with files
+    cols = ["environment_slug",'filename', 'metadata', 'inserted_at']
 
-    # Will only get one file even if multiple have the same tag
-    # get_file_by_tag("latest")
+    # files = list_project_files(1, "balboa-analytics-datacoves")
+    # print_table(files, cols)
 
-    upload_manifest()
-    # get_latest_manifest(project_slug)
+    # files = list_environment_files(1, "balboa-analytics-datacoves", "zpg497")
+    # print_table(files, cols)
+    # print(files)
+
+    filenames = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
+
+    # UPLOAD FILES
+    # for filename in filenames:
+    #     upload_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
+
+    # upload_env_file(1, "balboa-analytics-datacoves", "zpg497", "manifest.json", is_manifest=True )
+
+    # DELETE FILES
+    # for filename in filenames:
+    #     delete_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
+
+    # delete_env_file(1, "balboa-analytics-datacoves", "zpg497", "manifest.json")
+
+    # SHOW FILE DETAILS
+    # for filename in filenames:
+    #     show_env_file_details(1, "balboa-analytics-datacoves", "zpg497", filename)
+
+    # DOWNLOAD Files
+    # for filename in filenames:
+    #     download_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
+
+    download_env_manifest(1, "balboa-analytics-datacoves", "zpg497", trimmed = True)
+
+    # download_project_manifest(1, "balboa-analytics-datacoves", trimmed = True)
+
+    # for filename in filenames:
+    #     promote_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
+    #     download_project_file(1, "balboa-analytics-datacoves", filename)
+
+    # DELETE FILES
+    # for filename in filenames:
+    #     delete_project_file(1, "balboa-analytics-datacoves", filename)
+
+
+    # files = list_project_files(1, "balboa-analytics-datacoves")
+    # print_table(files, cols)
+    # promote_env_file(1, "balboa-analytics-datacoves", "zpg497", "manifest.json")
+
+    files = list_project_files(1, "balboa-analytics-datacoves")
+    print_table(files, cols)
