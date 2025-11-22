@@ -6,20 +6,10 @@ from datetime import datetime
 from pathlib import Path
 import os
 
-# from airflow.decorators import dag, task
 from orchestrate.utils import datacoves_utils
 
 from cosmos import DbtDag, ProjectConfig, ProfileConfig, ExecutionConfig, ExecutionMode, RenderConfig
 from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping
-
-# Debug: Print both environment variables
-print("=" * 80)
-print("DEBUG: Environment Variables")
-print(f"DATACOVES__DBT_HOME: {os.getenv('DATACOVES__DBT_HOME')}")
-print(f"DATACOVES__DBT_HOME_RO: {os.getenv('DATACOVES__DBT_HOME_RO')}")
-print(f"DATACOVES__REPO_PATH: {os.getenv('DATACOVES__REPO_PATH')}")
-print(f"DATACOVES__REPO_PATH_RO: {os.getenv('DATACOVES__REPO_PATH_RO')}")
-print("=" * 80)
 
 DBT_ROOT_PATH = Path(os.getenv("DATACOVES__DBT_HOME"))
 
@@ -31,15 +21,12 @@ profile_config = ProfileConfig(
 ),
 )
 
-VIRTUALENV = "/opt/datacoves/virtualenvs/main"
-
 retry_dbt_failure_cosmos = DbtDag(
     project_config=ProjectConfig(
         DBT_ROOT_PATH / '',
     ),
     execution_config=ExecutionConfig(
-        execution_mode=ExecutionMode.VIRTUALENV,
-        virtualenv_dir=VIRTUALENV,
+        execution_mode=ExecutionMode.LOCAL,
         dbt_executable_path=f"{VIRTUALENV}/bin/dbt",
     ),
     render_config=RenderConfig(
