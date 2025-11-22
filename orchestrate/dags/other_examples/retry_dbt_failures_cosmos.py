@@ -3,27 +3,15 @@
 This DAG is an example of using Cosmos to run a dbt DAG
 """
 from datetime import datetime
-# from pathlib import Path
 import os
 
-# from airflow import DAG  # Added this import
 from orchestrate.utils import datacoves_utils
 
 from cosmos import DbtDag, ProjectConfig, ProfileConfig, ExecutionConfig, ExecutionMode, RenderConfig
 from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping
+from cosmos.constants import TestBehavior
 
 DBT_HOME = os.getenv("DATACOVES__DBT_HOME")
-
-# if not DBT_HOME:
-#     # If DBT_HOME is not set, try REPO_PATH + transform
-#     REPO_PATH = os.getenv("DATACOVES__REPO_PATH")
-#     if REPO_PATH:
-#         DBT_ROOT_PATH = Path(REPO_PATH) / "transform"
-#     else:
-#         # Fallback path
-#         DBT_ROOT_PATH = Path("/tmp/dbt")
-# else:
-#     DBT_ROOT_PATH = Path(DBT_HOME)
 
 profile_config = ProfileConfig(
     profile_name="default",
@@ -45,6 +33,7 @@ retry_dbt_failure_cosmos = DbtDag(
     ),
     render_config=RenderConfig(
         select=["stg_us_population+", "stg_personal_loans+"],
+        test_behavior=TestBehavior.BUILD,  # This makes it use dbt build
     ),
     profile_config=profile_config,
     operator_args={
