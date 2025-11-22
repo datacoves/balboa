@@ -21,6 +21,8 @@ profile_config = ProfileConfig(
 ),
 )
 
+VIRTUALENV = "/opt/datacoves/virtualenvs/main"  # Added this back
+
 retry_dbt_failure_cosmos = DbtDag(
     project_config=ProjectConfig(
         DBT_ROOT_PATH / '',
