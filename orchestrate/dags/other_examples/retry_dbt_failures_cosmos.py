@@ -5,49 +5,49 @@ This DAG is an example of using Cosmos to run a dbt DAG
 from datetime import datetime
 from pathlib import Path
 import os
+from airflow.decorators import dag
 
-# from airflow.decorators import dag, task
+from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig
+from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping
 from orchestrate.utils import datacoves_utils
 
-from cosmos import DbtDag, ProjectConfig, ProfileConfig, ExecutionConfig, ExecutionMode, RenderConfig
-from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping
-
-DBT_ROOT_PATH = Path(os.getenv("DATACOVES__DBT_HOME"))
+DBT_HOME = os.getenv("DATACOVES__DBT_HOME")
+VIRTUALENV = "/opt/datacoves/virtualenvs/main"
 
 profile_config = ProfileConfig(
     profile_name="default",
-    target_name="dev",
+    target_name="prd",
     profile_mapping=SnowflakePrivateKeyPemProfileMapping(
     conn_id = 'main_key_pair',
 ),
 )
 
-VIRTUALENV = "/opt/datacoves/virtualenvs/main"
-
-retry_dbt_failure_cosmos = DbtDag(
-    project_config=ProjectConfig(
-        DBT_ROOT_PATH / '',
-    ),
-    execution_config=ExecutionConfig(
-        execution_mode=ExecutionMode.VIRTUALENV,
-        virtualenv_dir=VIRTUALENV,
-        dbt_executable_path=f"{VIRTUALENV}/bin/dbt",
-    ),
-    render_config=RenderConfig(
-        select=["stg_us_population+", "stg_personal_loans+"],
-    ),
-    profile_config=profile_config,
-    operator_args={
-        "install_deps": True,  # install any necessary dependencies before running any dbt command
-        "full_refresh": True,  # used only in dbt commands that support this flag
-    },
-
-    # normal dag parameters
-    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
-    start_date=datetime(2023, 1, 1),
+@dag(
+    start_date=datetime(2025, 1, 1),
     catchup=False,
-    dag_id="retry_dbt_failure_cosmos",
-    default_args={"retries": 2},
-    description="Sample DAG demonstrating how to run the dbt models that fail",
-    tags=["transform","retry"],
- )
+
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    default_args={
+        "retries": 2
+    },
+    tags=["transform", "retry"],
+)
+def retry_dbt_failures_cosmos():
+
+    dbt_transformations = DbtTaskGroup(
+        project_config=ProjectConfig(DBT_HOME),
+        profile_config=profile_config,
+        execution_config=ExecutionConfig(
+            dbt_executable_path=f"{VIRTUALENV}/bin/dbt",
+        ),
+        render_config=RenderConfig(
+            select=["+stg_us_population+", "+stg_personal_loans+"],
+        ),
+        operator_args={
+            "full_refresh": False,
+        },
+    )
+
+    dbt_transformations
+
+retry_dbt_failures_cosmos()
