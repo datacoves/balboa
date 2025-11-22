@@ -12,7 +12,14 @@ from orchestrate.utils import datacoves_utils
 from cosmos import DbtDag, ProjectConfig, ProfileConfig, ExecutionConfig, ExecutionMode, RenderConfig
 from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping
 
-# Changed: Use DATACOVES__REPO_PATH instead of DATACOVES__DBT_HOME
+# Debug: Print both environment variables
+print("=" * 80)
+print("DEBUG: Environment Variables")
+print(f"DATACOVES__DBT_HOME: {os.getenv('DATACOVES__DBT_HOME')}")
+print(f"DATACOVES__REPO_PATH: {os.getenv('DATACOVES__REPO_PATH')}")
+print(f"DATACOVES__REPO_PATH_RO: {os.getenv('DATACOVES__REPO_PATH_RO')}")
+print("=" * 80)
+
 DBT_ROOT_PATH = Path(os.getenv("DATACOVES__REPO_PATH"))
 
 profile_config = ProfileConfig(
