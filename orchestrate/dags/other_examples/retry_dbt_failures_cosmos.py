@@ -31,7 +31,7 @@ profile_config = ProfileConfig(
     },
     tags=["transform", "retry"],
 )
-def retry_dbt_failures_cosmos22():
+def retry_dbt_failures_cosmos():
 
     dbt_transformations = DbtTaskGroup(
         project_config=ProjectConfig(DBT_HOME),
@@ -49,4 +49,4 @@ def retry_dbt_failures_cosmos22():
 
     dbt_transformations
 
-retry_dbt_failures_cosmos22()
+retry_dbt_failures_cosmos()
