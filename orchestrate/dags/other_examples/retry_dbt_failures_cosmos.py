@@ -3,29 +3,41 @@
 This DAG is an example of using Cosmos to run a dbt DAG
 """
 from datetime import datetime
-from pathlib import Path
+# from pathlib import Path
 import os
 
+# from airflow import DAG  # Added this import
 from orchestrate.utils import datacoves_utils
 
 from cosmos import DbtDag, ProjectConfig, ProfileConfig, ExecutionConfig, ExecutionMode, RenderConfig
 from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping
 
-DBT_ROOT_PATH = Path(os.getenv("DATACOVES__DBT_HOME"))
+DBT_HOME = os.getenv("DATACOVES__DBT_HOME")
+
+# if not DBT_HOME:
+#     # If DBT_HOME is not set, try REPO_PATH + transform
+#     REPO_PATH = os.getenv("DATACOVES__REPO_PATH")
+#     if REPO_PATH:
+#         DBT_ROOT_PATH = Path(REPO_PATH) / "transform"
+#     else:
+#         # Fallback path
+#         DBT_ROOT_PATH = Path("/tmp/dbt")
+# else:
+#     DBT_ROOT_PATH = Path(DBT_HOME)
 
 profile_config = ProfileConfig(
     profile_name="default",
     target_name="dev",
     profile_mapping=SnowflakePrivateKeyPemProfileMapping(
-    conn_id = 'main_key_pair',
-),
+        conn_id='main_key_pair',
+    ),
 )
 
-VIRTUALENV = "/opt/datacoves/virtualenvs/main"  # Added this back
+VIRTUALENV = "/opt/datacoves/virtualenvs/main"
 
 retry_dbt_failure_cosmos = DbtDag(
     project_config=ProjectConfig(
-        DBT_ROOT_PATH / '',
+        dbt_project_path=DBT_HOME,
     ),
     execution_config=ExecutionConfig(
         execution_mode=ExecutionMode.LOCAL,
@@ -36,16 +48,14 @@ retry_dbt_failure_cosmos = DbtDag(
     ),
     profile_config=profile_config,
     operator_args={
-        "install_deps": True,  # install any necessary dependencies before running any dbt command
-        "full_refresh": True,  # used only in dbt commands that support this flag
+        "install_deps": True,
+        "full_refresh": True,
     },
-
-    # normal dag parameters
-    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
     start_date=datetime(2023, 1, 1),
     catchup=False,
     dag_id="retry_dbt_failure_cosmos",
     default_args={"retries": 2},
     description="Sample DAG demonstrating how to run the dbt models that fail",
-    tags=["transform","retry"],
- )
+    tags=["transform", "retry"],
+)
