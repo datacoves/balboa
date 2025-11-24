@@ -3,7 +3,6 @@
 This DAG is an example of using Cosmos to run a dbt DAG
 """
 from datetime import datetime
-from pathlib import Path
 import os
 from airflow.decorators import dag
 
@@ -18,8 +17,8 @@ profile_config = ProfileConfig(
     profile_name="default",
     target_name="prd",
     profile_mapping=SnowflakePrivateKeyPemProfileMapping(
-    conn_id = 'main_key_pair',
-),
+        conn_id='main_key_pair',
+    ),
 )
 
 @dag(
