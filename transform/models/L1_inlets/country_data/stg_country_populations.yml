@@ -2,13 +2,13 @@ version: 2
 
 models:
   - name: stg_country_populations
-    access: public
     description: Contains population information from the Github Datasets repository.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - country_code
-            - year
+          arguments:
+            combination_of_columns:
+              - country_code
+              - year
 
     columns:
       - name: year
@@ -37,3 +37,5 @@ models:
             exclude: [last_year]
           - name: prior_year
             description: The prior year for which the population value is recorded
+    config:
+      access: public

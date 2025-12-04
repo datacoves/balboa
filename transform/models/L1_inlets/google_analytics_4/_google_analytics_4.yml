@@ -3,19 +3,9 @@ version: 2
 sources:
   - name: GOOGLE_ANALYTICS_4
     database: RAW
-    tags:
-      - daily_run_fivetran
     tables:
       - name: ENGAGEMENT_EVENTS_REPORT
         description: Table containing raw data on user engagement events from Google Analytics 4
-        freshness:
-          warn_after:
-            count: 1
-            period: day
-          error_after:
-            count: 36
-            period: day
-        loaded_at_field: DATE::timestamp
         columns:
           - name: DATE
             data_type: DATE
@@ -48,3 +38,15 @@ sources:
           - name: _FIVETRAN_SYNCED
             data_type: TIMESTAMP_TZ
             description: Timestamp of when the data was last synced by Fivetran.
+        config:
+          freshness:
+            warn_after:
+              count: 1
+              period: day
+            error_after:
+              count: 36
+              period: day
+          loaded_at_field: DATE::timestamp
+    config:
+      tags:
+        - daily_run_fivetran
