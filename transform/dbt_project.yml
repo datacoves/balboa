@@ -41,7 +41,7 @@ seeds:
   +persist_docs:
     relation: true
     columns: true
-  +dbt-osmosis: "{model}.yml"
+  # +dbt-osmosis: "{model}.yml"
 
 snapshots:
   +enabled: "{{ True if target.database == 'balboa' else False }}"
@@ -55,7 +55,7 @@ snapshots:
 models:
     # elementary:
     #     +schema: "elementary"
-  +dbt-osmosis: "{model}.yml"
+  # +dbt-osmosis: "{model}.yml"
 
   balboa:
     +materialized: view

@@ -11,12 +11,6 @@ rm package-lock.yml
 dbt deps
 ```
 
-# Remove unsupported Features
-
-As of 7/5/2025, Dynamic tables in Snowflake are not supported
-
-
-
 # Fix configs
 
 Use [dbt tool](https://github.com/dbt-labs/dbt-autofix) to fix deprecations
