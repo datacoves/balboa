@@ -53,13 +53,6 @@ sources:
             description: Flag indicating if this is the last reported data
       - name: JHU_DASHBOARD_COVID_19_GLOBAL
         description: Starschema Global COVID data
-        freshness:
-          warn_after:
-            count: 1
-            period: minute
-          error_after:
-            count: 36
-            period: hour
         columns:
           - name: COUNTRY_REGION
             data_type: VARCHAR
@@ -124,3 +117,11 @@ sources:
           - name: LAST_REPORTED_FLAG
             data_type: BOOLEAN
             description: Flag indicating the last reported data
+        config:
+          freshness:
+            warn_after:
+              count: 1
+              period: minute
+            error_after:
+              count: 36
+              period: hour
