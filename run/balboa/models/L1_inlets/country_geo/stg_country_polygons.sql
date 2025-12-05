@@ -23,7 +23,10 @@
   
 )
 
-  copy grants as (
+  copy grants
+  
+  
+  as (
     with raw_source as (
 
     select *

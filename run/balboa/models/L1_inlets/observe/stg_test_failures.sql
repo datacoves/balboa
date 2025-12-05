@@ -1,5 +1,5 @@
 
-  create or replace   view BALBOA.L1_OBSERVE.stg_test_failures
+  create or replace   view BALBOA_STAGING.L1_OBSERVE.stg_test_failures
   
     
     
@@ -17,7 +17,10 @@
   
 )
 
-  copy grants as (
+  copy grants
+  
+  
+  as (
     
 select
     'no_tests' as test_name,

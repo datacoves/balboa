@@ -3,9 +3,9 @@
     
 
 create or replace transient table BALBOA_STAGING.L3_LOAN_ANALYTICS.loans_by_state__standard
-    
-
     copy grants
+    
+    
     as (
 
 select
