@@ -3,8 +3,9 @@ version: 2
 sources:
   - name: COUNTRY_GEO
     database: RAW
-    tags:
-      - earthquake_analysis
     tables:
       - name: COUNTRY_POLYGONS
         description: 'Country geographic boundaries'
+    config:
+      tags:
+        - earthquake_analysis

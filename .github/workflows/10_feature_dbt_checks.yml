@@ -46,7 +46,7 @@ jobs:
     # environment: PR_ENV
 
     # most people should use this one
-    container: datacoves/ci-basic-dbt-snowflake:4.0
+    container: datacoves/ci-basic-dbt-snowflake:4.1
 
     defaults:
       run:

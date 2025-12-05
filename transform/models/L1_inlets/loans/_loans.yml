@@ -3,21 +3,26 @@ version: 2
 sources:
   - name: LOANS
     database: RAW
-    tags:
-      - daily_run_dlt
     tables:
       - name: PERSONAL_LOANS
         description: 'Personal Loans data'
         columns:
           - name: _airbyte_raw_id
-            meta:
-              masking_policy: masking_policy_pii_string
+            config:
+              meta:
+                masking_policy: masking_policy_pii_string
           - name: _airbyte_extracted_at
-            meta:
-              masking_policy: masking_policy_pii_timestamp_tz
+            config:
+              meta:
+                masking_policy: masking_policy_pii_timestamp_tz
           - name: total_acc
-            meta:
-              masking_policy: masking_policy_pii_float
+            config:
+              meta:
+                masking_policy: masking_policy_pii_float
           - name: _airbyte_meta
-            meta:
-              masking_policy: masking_policy_pii_variant
+            config:
+              meta:
+                masking_policy: masking_policy_pii_variant
+    config:
+      tags:
+        - daily_run_dlt
