@@ -3,9 +3,6 @@ version: 2
 models:
   - name: stg_pipe_usage_history
     description: Contains raw data on the usage history of pipes.
-    meta:
-      owner: '@alice'  # Owner of the model
-      model_maturity: in dev  # Development status of the model
     columns:
       - name: pipe_id
         description: A unique identifier assigned to the pipe
@@ -21,3 +18,7 @@ models:
         description: The amount of data in bytes inserted into the pipe during usage
       - name: files_inserted
         description: The number of files inserted into the pipe during usage
+    config:
+      meta:
+        owner: '@alice'
+        model_maturity: in dev

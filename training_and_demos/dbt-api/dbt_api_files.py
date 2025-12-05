@@ -18,6 +18,7 @@ from pathlib import Path
 load_dotenv()
 base_url = os.getenv("DATACOVES__API_ENDPOINT")
 token = os.getenv("DATACOVES__API_TOKEN")
+account_id = os.getenv("DATACOVES__ACCOUNT_ID")
 project_slug = os.getenv("DATACOVES__PROJECT_SLUG")
 environment_slug = os.getenv("DATACOVES__ENVIRONMENT_SLUG")
 dbt_home = os.getenv("DATACOVES__DBT_HOME")
@@ -363,62 +364,57 @@ if __name__ == "__main__":
 
     # health_check()
 
-    # get_account(1)
+    # get_account(account_id)
 
-    # get_projects(1)
-    # get_projects(1,"balboa-analytics-datacoves")
+    # get_projects(account_id)
+    # get_projects(account_id, project_slug)
 
-    # get_environments(1, "balboa-analytics-datacoves")
-    # get_environments(1, "balboa-analytics-datacoves", "zpg497")
+    # get_environments(account_id, project_slug)
+    # get_environments(account_id, project_slug, environment_slug)
 
     # Work with files
     cols = ["environment_slug",'filename', 'metadata', 'inserted_at']
 
-    # files = list_project_files(1, "balboa-analytics-datacoves")
-    # print_table(files, cols)
+    # project_files = list_project_files(account_id, project_slug)
+    # print_table(project_files, cols)
 
-    # files = list_environment_files(1, "balboa-analytics-datacoves", "zpg497")
-    # print_table(files, cols)
-    # print(files)
+    # environment_files = list_environment_files(account_id, project_slug, environment_slug)
+    # print_table(environment_files, cols)
 
     filenames = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
 
     # UPLOAD FILES
     # for filename in filenames:
-    #     upload_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
+    #     upload_env_file(account_id, project_slug, environment_slug, filename)
 
-    # upload_env_file(1, "balboa-analytics-datacoves", "zpg497", "manifest.json", is_manifest=True )
+    # upload_env_file(account_id, project_slug, environment_slug, "manifest.json", is_manifest=True )
 
     # DELETE FILES
     # for filename in filenames:
-    #     delete_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
+    #     delete_env_file(account_id, project_slug, environment_slug, filename)
 
-    # delete_env_file(1, "balboa-analytics-datacoves", "zpg497", "manifest.json")
+    # delete_env_file(account_id, project_slug, environment_slug, "manifest.json")
 
     # SHOW FILE DETAILS
     # for filename in filenames:
-    #     show_env_file_details(1, "balboa-analytics-datacoves", "zpg497", filename)
+    #     show_env_file_details(account_id, project_slug, environment_slug, filename)
 
     # DOWNLOAD Files
     # for filename in filenames:
-    #     download_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
+    #     download_env_file(account_id, project_slug, environment_slug, filename)
 
-    download_env_manifest(1, "balboa-analytics-datacoves", "zpg497", trimmed = True)
-
-    # download_project_manifest(1, "balboa-analytics-datacoves", trimmed = True)
+    # download_env_manifest(account_id, project_slug, environment_slug, trimmed = True)
 
     # for filename in filenames:
-    #     promote_env_file(1, "balboa-analytics-datacoves", "zpg497", filename)
-    #     download_project_file(1, "balboa-analytics-datacoves", filename)
+    #     promote_env_file(account_id, project_slug, environment_slug, filename)
+    #     download_project_file(account_id, project_slug, filename)
 
     # DELETE FILES
     # for filename in filenames:
-    #     delete_project_file(1, "balboa-analytics-datacoves", filename)
+    #     delete_project_file(account_id, project_slug, filename)
 
+    # promote_env_file(account_id, project_slug, environment_slug, "manifest.json" )
+    # download_project_manifest(account_id, project_slug, trimmed = True)
 
-    # files = list_project_files(1, "balboa-analytics-datacoves")
-    # print_table(files, cols)
-    # promote_env_file(1, "balboa-analytics-datacoves", "zpg497", "manifest.json")
-
-    files = list_project_files(1, "balboa-analytics-datacoves")
+    files = list_project_files(account_id, project_slug)
     print_table(files, cols)
