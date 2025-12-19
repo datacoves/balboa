@@ -35,33 +35,42 @@ def load_earthquake_data():
             success_date = success_date.date()
         return str(success_date - datetime.timedelta(days=3))
 
-    # Load earthquake data from USGS
-    @task.datacoves_bash
-    def load_usgs_data(**context):
+    # Function to get environment variables dynamically
+    def get_env_vars_for_usgs(**context):
         from orchestrate.utils import datacoves_utils
 
-        # Get the start date directly from the upstream task
+        # Get the start date from the upstream task
         task_instance = context['task_instance']
-        start_date = task_instance.xcom_pull(task_ids = 'get_last_success_date')
+        start_date = task_instance.xcom_pull(task_ids='get_last_success_date')
 
-        # Set up environment variables
+        # Set up environment variables including DATACOVES__START_DATE
         env_vars = datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']})
         env_vars['DATACOVES__START_DATE'] = start_date
 
-        env_exports = datacoves_utils.generate_env_exports(env_vars)
+        return env_vars
 
-        return f"{env_exports}; cd load/dlt && ./usgs_earthquake.py --start-date $DATACOVES__START_DATE"
+    # Load earthquake data from USGS
+    @task.datacoves_bash(
+        env=get_env_vars_for_usgs,
+        append_env=True
+    )
+    def load_usgs_data(**context):
+        return "cd load/dlt && ./usgs_earthquake.py --start-date $DATACOVES__START_DATE"
+
 
     # Load Country Polygon Data
-    @task.datacoves_bash
+    @task.datacoves_bash(
+        env=datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']}),
+        append_env=True
+    )
     def load_country_geography():
-        from orchestrate.utils import datacoves_utils
+        # from orchestrate.utils import datacoves_utils
 
-        env_vars = datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']})
+        # env_vars = datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']})
 
-        env_exports = datacoves_utils.generate_env_exports(env_vars)
+        # env_exports = datacoves_utils.generate_env_exports(env_vars)
 
-        return f"{env_exports}; cd load/dlt && ./country_geo.py"
+        return "cd load/dlt && ./country_geo.py"
 
     # Run the dbt transformations
     @task.datacoves_dbt(
