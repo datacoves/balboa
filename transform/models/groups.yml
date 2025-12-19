@@ -3,12 +3,15 @@ groups:
     owner:
       # 'name' or 'email' is required; additional properties allowed
       email: finance@example.com
-      slack: finance-data
-      github: finance-data-team
-
+    config:
+      meta:
+        slack: finance-data
+        github: finance-data-team
   - name: marketing
     owner:
       # 'name' or 'email' is required; additional properties allowed
       email: markeeting@example.com
-      slack: markeeting-data
-      github: markeeting-data-team
+    config:
+      meta:
+        slack: markeeting-data
+        github: markeeting-data-team

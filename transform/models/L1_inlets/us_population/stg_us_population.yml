@@ -3,8 +3,6 @@ version: 2
 models:
   - name: stg_us_population
     description: Model representing the population data for each state in the United States.
-    access: private
-    group: marketing
     columns:
       - name: state_name
         description: The name of the state.
@@ -30,3 +28,6 @@ models:
         description: The population count for the year 2018.
       - name: '2019'
         description: The population count for the year 2019.
+    config:
+      access: private
+      group: marketing

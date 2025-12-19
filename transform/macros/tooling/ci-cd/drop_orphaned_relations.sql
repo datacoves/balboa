@@ -19,6 +19,12 @@
             {%- set database_name = node.database.upper() -%}
             {%- set schema_name = node.schema.upper() -%}
             {%- set table_name = node.alias if node.alias else node.name -%}
+            {%- set materialized = node.config.materialized | default(node.materialized) -%}
+
+            -- Skip ephemeral models so old physical relations get cleaned up
+            {%- if materialized == 'ephemeral' -%}
+                {%- continue -%}
+            {%- endif -%}
 
             -- Add db name if it does not exist in the dict
             {%- if not database_name in current_model_locations -%}
