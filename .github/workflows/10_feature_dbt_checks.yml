@@ -75,6 +75,13 @@ jobs:
       # Full refresh control variables
       FULL_REFRESH_FLAG: ${{ contains(github.event.pull_request.labels.*.name, 'full-refresh') && '--full-refresh' || '' }}
 
+      # Needed for dbt-api
+      DATACOVES__API_ENDPOINT: ${{ vars.DATACOVES__API_ENDPOINT }}
+      DATACOVES__API_TOKEN: ${{ secrets.DATACOVES__API_TOKEN }}
+      DATACOVES__ACCOUNT_ID: ${{ vars.DATACOVES__ACCOUNT_ID }}
+      DATACOVES__PROJECT_SLUG: ${{ vars.DATACOVES__PROJECT_SLUG }}
+      DATACOVES__ENVIRONMENT_SLUG: ${{ vars.DATACOVES__ENVIRONMENT_SLUG }}
+
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3.5.0
