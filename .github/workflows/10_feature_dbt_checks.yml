@@ -101,7 +101,6 @@ jobs:
           dbt compile
           ../automate/dbt/push_dbt_artifacts.py
 
-
       # - name: Install dbt packages
       #   run: "dbt deps"
 

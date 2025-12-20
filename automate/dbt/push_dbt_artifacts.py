@@ -159,16 +159,16 @@ if __name__ == "__main__":
     # UPLOAD FILES
 
     filenames = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
-    # for filename in filenames:
-    #     upload_env_file(account_id, project_slug, environment_slug, filename)
+    for filename in filenames:
+        upload_env_file(account_id, project_slug, environment_slug, filename)
 
-    # for filename in filenames:
-    #     promote_env_file(account_id, project_slug, environment_slug, filename)
+    for filename in filenames:
+        promote_env_file(account_id, project_slug, environment_slug, filename)
 
-    # upload_env_file(account_id, project_slug, environment_slug, "manifest.json", is_manifest=True )
-    # promote_env_file(account_id, project_slug, environment_slug, "manifest.json" )
+    upload_env_file(account_id, project_slug, environment_slug, "manifest.json", is_manifest=True )
+    promote_env_file(account_id, project_slug, environment_slug, "manifest.json" )
 
-    delete_project_file(account_id, project_slug, "manifest.json")
+    # delete_project_file(account_id, project_slug, "manifest.json")
 
     # SHOW FILE DETAILS
     files = list_project_files(account_id, project_slug)
