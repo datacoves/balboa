@@ -13,7 +13,6 @@ import json
 from rich import print_json
 from rich.console import Console
 from rich.table import Table
-from pathlib import Path
 
 load_dotenv()
 base_url = os.getenv("DATACOVES__API_ENDPOINT")

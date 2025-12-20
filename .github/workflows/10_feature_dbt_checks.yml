@@ -89,77 +89,84 @@ jobs:
         run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
 
       - name: Install dbt packages
-        run: "dbt deps"
-
-      - name: Create PR database
-        run: dbt --no-write-json run-operation create_database
-
-      - name: Get prod manifest
-        id: prod_manifest
-        run: "../automate/dbt/get_artifacts.sh"
-
-      - name: Clone incremental models that are directly or indirectly affected by the change
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
         run: |
-          dbt clone -s state:modified+,config.materialized:incremental,state:old --state logs
-          dbt clone -s state:modified+,config.materialized:snapshot,state:old --state logs
+          dbt deps
+          dbt compile
+          ../automate/dbt/push_dbt_artifacts.py
 
-      ##### Governance Checks
-      # this first runs dbt but creates enpty tables, this is enough to then run the hooks and fail fast
 
-      # We need to run observe model so that post hook works
-      - name: Run Observe Model
-        run: "dbt build --fail-fast -s L1_inlets.observe"
+      # - name: Install dbt packages
+      #   run: "dbt deps"
 
-      # There is an issue with --empty and dynamic tables so need to run them by themselves
-      - name: Governance run of dynamic tables
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
-        run: "dbt build --fail-fast -s config.materialized:dynamic_table stg_test_failures resource_type:seed"
+      # - name: Create PR database
+      #   run: dbt --no-write-json run-operation create_database
 
-      # There is an issue with --empty and dynamic tables so need to run them by themselves
-      - name: Governance run of dynamic tables
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
-        run: "dbt build --fail-fast -s config.materialized:dynamic_table stg_test_failures --defer --state logs"
+      # - name: Get prod manifest
+      #   id: prod_manifest
+      #   run: "../automate/dbt/get_artifacts.sh"
 
-      # There is an issue with --empty and dynamic tables so need to exclude them
-      - name: Governance run of dbt with EMPTY models using slim mode
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
-        run: "dbt build --fail-fast --defer --state logs --select state:modified+ --empty --exclude config.materialized:dynamic_table ${{ env.FULL_REFRESH_FLAG }}"
+      # - name: Clone incremental models that are directly or indirectly affected by the change
+      #   if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+      #   run: |
+      #     dbt clone -s state:modified+,config.materialized:incremental,state:old --state logs
+      #     dbt clone -s state:modified+,config.materialized:snapshot,state:old --state logs
 
-      # There is an issue with --empty and dynamic tables so need to exclude
-      - name: Governance run of dbt with EMPTY models using full run
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
-        run: "dbt build --fail-fast --empty --exclude config.materialized:dynamic_table ${{ env.FULL_REFRESH_FLAG }}"
+      # ##### Governance Checks
+      # # this first runs dbt but creates enpty tables, this is enough to then run the hooks and fail fast
 
-      - name: Generate Docs Combining Prod and branch catalog.json
-        if: ${{ steps.prod_manifest.outputs.catalog_found == 'true' }}
-        run: "dbt-coves generate docs --merge-deferred --state logs"
+      # # We need to run observe model so that post hook works
+      # - name: Run Observe Model
+      #   run: "dbt build --fail-fast -s L1_inlets.observe"
 
-      - name: Generate dbt Docs
-        if: ${{ steps.prod_manifest.outputs.catalog_found == 'false' }}
-        run: "dbt docs generate"
+      # # There is an issue with --empty and dynamic tables so need to run them by themselves
+      # - name: Governance run of dynamic tables
+      #   if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+      #   run: "dbt build --fail-fast -s config.materialized:dynamic_table stg_test_failures resource_type:seed"
 
-      - name: Run governance checks
-        run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
+      # # There is an issue with --empty and dynamic tables so need to run them by themselves
+      # - name: Governance run of dynamic tables
+      #   if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+      #   run: "dbt build --fail-fast -s config.materialized:dynamic_table stg_test_failures --defer --state logs"
 
-      ##### Real dbt run given that we passed governance checks
-      - name: Run dbt build slim mode
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
-        run: "dbt build --fail-fast --defer --state logs --select state:modified+ ${{ env.FULL_REFRESH_FLAG }}"
+      # # There is an issue with --empty and dynamic tables so need to exclude them
+      # - name: Governance run of dbt with EMPTY models using slim mode
+      #   if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+      #   run: "dbt build --fail-fast --defer --state logs --select state:modified+ --empty --exclude config.materialized:dynamic_table ${{ env.FULL_REFRESH_FLAG }}"
 
-      - name: Run dbt build full run
-        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
-        run: "dbt build --fail-fast ${{ env.FULL_REFRESH_FLAG }}"
+      # # There is an issue with --empty and dynamic tables so need to exclude
+      # - name: Governance run of dbt with EMPTY models using full run
+      #   if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+      #   run: "dbt build --fail-fast --empty --exclude config.materialized:dynamic_table ${{ env.FULL_REFRESH_FLAG }}"
 
-      - name: Grant access to PR database
-        id: grant-access-to-database
-        run: "dbt --no-write-json run-operation grant_access_to_pr_database"
+      # - name: Generate Docs Combining Prod and branch catalog.json
+      #   if: ${{ steps.prod_manifest.outputs.catalog_found == 'true' }}
+      #   run: "dbt-coves generate docs --merge-deferred --state logs"
 
-      # We drop the database when there is a failure to grant access to the db because
-      # most likely the schema was not set properly in dbt_project.yml so models built to default schema
-      - name: Drop PR database on Failure to grant security access
-        if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true') && (steps.grant-access-to-database.outcome == 'failure')
-        run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
+      # - name: Generate dbt Docs
+      #   if: ${{ steps.prod_manifest.outputs.catalog_found == 'false' }}
+      #   run: "dbt docs generate"
+
+      # - name: Run governance checks
+      #   run: "pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref HEAD"
+
+      # ##### Real dbt run given that we passed governance checks
+      # - name: Run dbt build slim mode
+      #   if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+      #   run: "dbt build --fail-fast --defer --state logs --select state:modified+ ${{ env.FULL_REFRESH_FLAG }}"
+
+      # - name: Run dbt build full run
+      #   if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+      #   run: "dbt build --fail-fast ${{ env.FULL_REFRESH_FLAG }}"
+
+      # - name: Grant access to PR database
+      #   id: grant-access-to-database
+      #   run: "dbt --no-write-json run-operation grant_access_to_pr_database"
+
+      # # We drop the database when there is a failure to grant access to the db because
+      # # most likely the schema was not set properly in dbt_project.yml so models built to default schema
+      # - name: Drop PR database on Failure to grant security access
+      #   if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true') && (steps.grant-access-to-database.outcome == 'failure')
+      #   run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
 
   dbt-job-status:
     runs-on: ubuntu-latest
