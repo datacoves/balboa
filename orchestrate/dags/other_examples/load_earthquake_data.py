@@ -48,19 +48,12 @@ def load_earthquake_data():
         # Pass the start date directly to the command
         return f"cd load/dlt && ./usgs_earthquake.py --start-date {start_date}"
 
-
     # Load Country Polygon Data
     @task.datacoves_bash(
         env=datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']}),
         append_env=True
     )
     def load_country_geography():
-        # from orchestrate.utils import datacoves_utils
-
-        # env_vars = datacoves_utils.set_dlt_env_vars({'destinations': ['main_load_keypair']})
-
-        # env_exports = datacoves_utils.generate_env_exports(env_vars)
-
         return "cd load/dlt && ./country_geo.py"
 
     # Run the dbt transformations
