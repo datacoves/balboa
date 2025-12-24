@@ -68,6 +68,24 @@ def get_default_clean_before_date() -> str:
     schedule=None,
     description="Clean up Airflow metadata database to improve performance",
     tags=["maintenance", "cleanup", "database"],
+    params={
+        "clean_before_timestamp": Param(
+            default=get_default_clean_before_date(),
+            type="string",
+            format="date",
+            description="Delete records older than this date (YYYY-MM-DD)",
+        ),
+        "tables": Param(
+            default=CLEANABLE_TABLES,
+            type="array",
+            description="Metadata tables to clean (leave default for all eligible tables)",
+        ),
+        "dry_run": Param(
+            default=True,
+            type="boolean",
+            description="Preview SQL commands without executing (recommended for first run)",
+        ),
+    },
 )
 def airflow_db_cleanup():
 
@@ -179,24 +197,5 @@ def airflow_db_cleanup():
 
     drop_archive_tables(cleanup_result)
 
-
-airflow_db_cleanup.params = {
-    "clean_before_timestamp": Param(
-        default=get_default_clean_before_date(),
-        type="string",
-        format="date",
-        description="Delete records older than this date (YYYY-MM-DD)",
-    ),
-    "tables": Param(
-        default=CLEANABLE_TABLES,
-        type="array",
-        description="Metadata tables to clean (leave default for all eligible tables)",
-    ),
-    "dry_run": Param(
-        default=True,
-        type="boolean",
-        description="Preview SQL commands without executing (recommended for first run)",
-    ),
-}
 
 airflow_db_cleanup()
