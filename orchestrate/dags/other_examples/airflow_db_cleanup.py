@@ -68,6 +68,7 @@ def get_default_clean_before_date() -> str:
     schedule=None,
     description="Clean up Airflow metadata database to improve performance",
     tags=["maintenance", "cleanup", "database"],
+    render_template_as_native_obj=True,
     params={
         "clean_before_timestamp": Param(
             default=get_default_clean_before_date(),
