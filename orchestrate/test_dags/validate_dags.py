@@ -9,14 +9,15 @@ import warnings
 from airflow.models import DagBag
 
 APPROVED_TAGS = {'extract_and_load',
-                'transform',
-                'python_script',
-                'ms_teams_notification',
-                'slack_notification',
-                'marketing_automation',
-                'update_catalog',
-                'parameters',
-                'sample'}
+                 'maintenance',
+                 'marketing_automation',
+                 'ms_teams_notification',
+                 'parameters',
+                 'python_script',
+                 'sample',
+                 'slack_notification',
+                 'transform',
+                 'update_catalog'}
 
 ALLOWED_OPERATORS = [
     "_PythonDecoratedOperator",  # this allows the @task decorator

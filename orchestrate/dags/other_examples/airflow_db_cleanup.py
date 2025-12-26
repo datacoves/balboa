@@ -2,6 +2,7 @@
 ## Airflow Database Cleanup DAG
 
 This DAG automates the cleanup of Airflow's metadata database using the `airflow db clean` command.
+To learn more check out https://www.astronomer.io/docs/learn/2.x/cleanup-dag-tutorial
 
 ### Why is this needed?
 Airflow retains all historical task data indefinitely. Over time, tables like `dag_run`, `job`,
@@ -33,29 +34,28 @@ from airflow.models.param import Param
 
 from orchestrate.utils import datacoves_utils
 
-
 # Tables eligible for cleanup via `airflow db clean`
 CLEANABLE_TABLES = [
     "callback_request",
+    "dag",
     "dag_run",
     "dataset_event",
     "import_error",
     "job",
     "log",
-    "rendered_task_instance_fields",
+    "session",
     "sla_miss",
     "task_fail",
     "task_instance",
+    "task_instance_history",
     "task_reschedule",
     "trigger",
-    "xcom",
+    "xcom"
 ]
-
 
 def get_default_clean_before_date() -> str:
     """Returns date 180 days ago as default cleanup cutoff."""
     return (datetime.now() - timedelta(days=180)).strftime("%Y-%m-%d")
-
 
 @dag(
     doc_md=__doc__,
@@ -87,6 +87,9 @@ def get_default_clean_before_date() -> str:
             description="Preview SQL commands without executing (recommended for first run)",
         ),
     },
+    
+    description="Clean up Airflow metadata database to improve performance",
+    tags=["maintenance"],
 )
 def airflow_db_cleanup():
 
