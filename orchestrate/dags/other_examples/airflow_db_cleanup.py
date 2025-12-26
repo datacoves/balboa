@@ -66,8 +66,6 @@ def get_default_clean_before_date() -> str:
     ),
     # Manual trigger only - no schedule
     schedule=None,
-    description="Clean up Airflow metadata database to improve performance",
-    tags=["maintenance", "cleanup", "database"],
     render_template_as_native_obj=True,
     params={
         "clean_before_timestamp": Param(
@@ -87,7 +85,6 @@ def get_default_clean_before_date() -> str:
             description="Preview SQL commands without executing (recommended for first run)",
         ),
     },
-    
     description="Clean up Airflow metadata database to improve performance",
     tags=["maintenance"],
 )
