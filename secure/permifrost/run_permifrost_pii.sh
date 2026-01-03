@@ -14,5 +14,5 @@ export PATH=$PATH:/config/.local/bin
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 echo "Current Branch is:" $BRANCH
 
-cd /config/workspace/secure/ && permifrost run permifrost_pii.yml
+cd /config/workspace/secure/permifrost && permifrost run permifrost_pii.yml
 cd -

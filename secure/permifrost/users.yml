@@ -3,22 +3,6 @@
     member_of:
       - analyst
 
-- alex:
-    can_login: true
-    member_of:
-      - analyst
-
-- amy:
-    can_login: true
-    member_of:
-      - analyst
-
-- bruno:
-    can_login: true
-    member_of:
-      - analyst
-      - securityadmin
-
 - gomezn:
     can_login: true
     member_of:
@@ -30,6 +14,11 @@
       - transformer_dbt
       - sqlmesh_analyst
       - bot_integration
+
+- ian:
+    can_login: true
+    member_of:
+      - analyst
 
 - sebastian:
     can_login: true

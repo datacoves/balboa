@@ -20,7 +20,7 @@ sources:
             data_type: TIMESTAMP_LTZ
             description: The timestamp indicating when the pipe usage record ended.
           - name: CREDITS_USED
-            data_type: NUMBER
+            data_type: NUMBER(38,9)
             description: Amount of credits used by the pipe.
           - name: BYTES_INSERTED
             data_type: FLOAT
@@ -279,16 +279,16 @@ sources:
             data_type: DATE
             description: The date for which storage usage data is recorded.
           - name: STORAGE_BYTES
-            data_type: NUMBER
+            data_type: NUMBER(38,6)
             description: The amount of storage used, in bytes.
           - name: STAGE_BYTES
-            data_type: NUMBER
+            data_type: NUMBER(38,6)
             description: The number of bytes used by stage storage.
           - name: FAILSAFE_BYTES
-            data_type: NUMBER
+            data_type: NUMBER(38,6)
             description: The amount of storage in bytes used for the failsafe feature.
           - name: HYBRID_TABLE_STORAGE_BYTES
-            data_type: NUMBER
+            data_type: NUMBER(38,6)
             description: Represents the storage usage in bytes for hybrid tables.
       - name: WAREHOUSE_METERING_HISTORY
         description: Warehouse metering history raw data
@@ -306,14 +306,14 @@ sources:
             data_type: VARCHAR
             description: The name of the warehouse whose metering history is recorded.
           - name: CREDITS_USED
-            data_type: NUMBER
+            data_type: NUMBER(38,9)
             description: The number of credits used by the warehouse during the specified time period.
           - name: CREDITS_USED_COMPUTE
-            data_type: NUMBER
+            data_type: NUMBER(38,9)
             description: The number of compute credits used by the warehouse.
           - name: CREDITS_USED_CLOUD_SERVICES
-            data_type: NUMBER
+            data_type: NUMBER(38,9)
             description: Amount of credits used for cloud services.
           - name: CREDITS_ATTRIBUTED_COMPUTE_QUERIES
             description: Represents the number of credits attributed to compute queries for the warehouse.
-            data_type: NUMBER
+            data_type: NUMBER(38,9)
