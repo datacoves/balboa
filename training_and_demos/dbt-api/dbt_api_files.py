@@ -380,15 +380,15 @@ if __name__ == "__main__":
     # environment_files = list_environment_files(account_id, project_slug, environment_slug)
     # print_table(environment_files, cols)
 
-    filenames = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack"]
+    filenames = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack", "semantic_manifest.json"]
 
-    # UPLOAD FILES
-    # for filename in filenames:
-    #     upload_env_file(account_id, project_slug, environment_slug, filename)
+    # UPLOAD ENV FILES
+    for filename in filenames:
+        upload_env_file(account_id, project_slug, environment_slug, filename)
 
-    # upload_env_file(account_id, project_slug, environment_slug, "manifest.json", is_manifest=True )
+    upload_env_file(account_id, project_slug, environment_slug, "manifest.json", is_manifest=True )
 
-    # DELETE FILES
+    # DELETE ENV FILES
     # for filename in filenames:
     #     delete_env_file(account_id, project_slug, environment_slug, filename)
 
@@ -398,22 +398,30 @@ if __name__ == "__main__":
     # for filename in filenames:
     #     show_env_file_details(account_id, project_slug, environment_slug, filename)
 
-    # DOWNLOAD Files
+    # DOWNLOAD ENV Files
     # for filename in filenames:
     #     download_env_file(account_id, project_slug, environment_slug, filename)
 
     # download_env_manifest(account_id, project_slug, environment_slug, trimmed = True)
 
+    # PROMOTE ENV FILES
+    for filename in filenames:
+        promote_env_file(account_id, project_slug, environment_slug, filename)
+
+    promote_env_file(account_id, project_slug, environment_slug, "manifest.json" )
+
+    # DOWNLOAD PROJECT FILES
     # for filename in filenames:
-    #     promote_env_file(account_id, project_slug, environment_slug, filename)
     #     download_project_file(account_id, project_slug, filename)
+
+    # download_project_manifest(account_id, project_slug, trimmed = True)
 
     # DELETE FILES
     # for filename in filenames:
     #     delete_project_file(account_id, project_slug, filename)
 
-    # promote_env_file(account_id, project_slug, environment_slug, "manifest.json" )
-    # download_project_manifest(account_id, project_slug, trimmed = True)
+    # delete_project_file(account_id, project_slug, "manifest.json" )
+
 
     files = list_project_files(account_id, project_slug)
     print_table(files, cols)
