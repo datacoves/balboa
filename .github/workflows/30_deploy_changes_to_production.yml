@@ -48,6 +48,13 @@ jobs:
 
       DBT_ARTIFACTS_BUCKET: "convexa-local"
 
+      # Needed for dbt-api
+      DATACOVES__API_ENDPOINT: ${{ vars.DATACOVES__API_ENDPOINT }}
+      DATACOVES__API_TOKEN: ${{ secrets.DATACOVES__API_TOKEN }}
+      DATACOVES__ACCOUNT_ID: ${{ vars.DATACOVES__ACCOUNT_ID }}
+      DATACOVES__PROJECT_SLUG: ${{ vars.DATACOVES__PROJECT_SLUG }}
+      DATACOVES__ENVIRONMENT_SLUG: ${{ vars.DATACOVES__ENVIRONMENT_SLUG }}
+
       # This is used by datacoves to drop the staging database for blue/green
       # deployments, most likely you don't want to set this, we use it for demos
       DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
@@ -111,6 +118,9 @@ jobs:
 
       - name: Upload dbt artifacts
         run: "dbt run-operation upload_artifacts"
+
+      - name: Push dbt artifacts to dbt-api on Datacoves
+        run: "../automate/dbt/push_dbt_artifacts.py"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
