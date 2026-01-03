@@ -4,4 +4,3 @@ select
     alpha_3_code as iso_3,
     numeric_code
 from {{ ref("country_codes") }}
-
