@@ -25,7 +25,7 @@ jobs:
     # Alternatively, You can define multiple ENV for different workflows.
     # https://github.com/<org>/<repo>/settings/environments
     # environment: PR_ENV
-    container: datacoves/ci-basic-dbt-snowflake:3.4
+    container: datacoves/ci-basic-dbt-snowflake:4.1
 
     defaults:
       run:
@@ -48,6 +48,13 @@ jobs:
 
       DBT_ARTIFACTS_BUCKET: "convexa-local"
 
+      # Needed for dbt-api
+      DATACOVES__API_ENDPOINT: ${{ vars.DATACOVES__API_ENDPOINT }}
+      DATACOVES__API_TOKEN: ${{ secrets.DATACOVES__API_TOKEN }}
+      DATACOVES__ACCOUNT_ID: ${{ vars.DATACOVES__ACCOUNT_ID }}
+      DATACOVES__PROJECT_SLUG: ${{ vars.DATACOVES__PROJECT_SLUG }}
+      DATACOVES__ENVIRONMENT_SLUG: ${{ vars.DATACOVES__ENVIRONMENT_SLUG }}
+
       # This is used by datacoves to drop the staging database for blue/green
       # deployments, most likely you don't want to set this, we use it for demos
       DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
@@ -66,38 +73,33 @@ jobs:
         run: "dbt deps"
 
       - name: Get prod manifest
-        id: prod-manifest
+        id: prod_manifest
         run: "../automate/dbt/get_artifacts.sh"
-
-      # this is needed bec our sample dynamic table is not getting refreshed
-      - name: Refresh dynamic tables before blue-green
-        run: "dbt run -s materialization config.materialized:dynamic_table --full-refresh"
 
       - name: Check for full-refresh marker in merge commit message
         id: check-full-refresh
         run: |
           # Check the latest commit message for the deployment marker
           if git log -1 --pretty=%B | grep -q "\[deploy:full-refresh\]"; then
-            echo "full_refresh=true" >> $GITHUB_OUTPUT
+            echo "FULL_REFRESH_FLAG='--full-refresh'" >> $GITHUB_OUTPUT
             echo "Found '[deploy:full-refresh]' marker in merge commit message, will run with --full-refresh"
           else
-            echo "full_refresh=false" >> $GITHUB_OUTPUT
+            # Don't set FULL_REFRESH_FLAG
             echo "No full-refresh deployment marker found in merge commit message, running normal deployment"
           fi
 
-      - name: Run blue / green deployment
-        if: steps.check-full-refresh.outputs.full_refresh != 'true'
-        id: run-blue-green
-        env:
-          MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        run: "dbt-coves blue-green --defer"
+      # this is needed bec our sample dynamic table is not getting refreshed
+      - name: Refresh dynamic tables before blue-green
+        run: "dbt build -s config.materialized:dynamic_table stg_test_failures resource_type:seed ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
 
-      - name: Run blue / green deployment with full-refresh
-        if: steps.check-full-refresh.outputs.full_refresh == 'true'
-        id: run-blue-green-full-refresh
-        env:
-          MANIFEST_FOUND: ${{ steps.prod-manifest.outputs.manifest_found }}
-        run: "dbt-coves blue-green --defer --full-refresh"
+      # Do Blue-Green run
+      - name: Run blue / green deployment
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+        run: "dbt-coves blue-green ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
+
+      - name: Run blue / green deployment with defer
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+        run: "dbt-coves blue-green --defer ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
 
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
@@ -116,6 +118,9 @@ jobs:
 
       - name: Upload dbt artifacts
         run: "dbt run-operation upload_artifacts"
+
+      - name: Push dbt artifacts to dbt-api on Datacoves
+        run: "../automate/dbt/push_dbt_artifacts.py"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

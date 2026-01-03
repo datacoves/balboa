@@ -12,7 +12,8 @@
     {% set list_stage_query %}
         LIST @{{ stage }} PATTERN = '^((?!(archive/)).)*.json$';
     {% endset %}
-
+    {{ print("QUERY: ") }}
+    {{ print(list_stage_query) }}
     {{ print("\nCurrent items in stage " ~ stage) }}
     {% set results = run_query(list_stage_query) %}
     {{ results.exclude('md5').print_table(max_column_width=40) }}
@@ -20,11 +21,48 @@
 
     {% set artifacts_destination =  "file://" + logs_dir %}
 
-    {% set get_query %}
-        get @{{ stage }}/manifest.json {{ artifacts_destination }};
-        get @{{ stage }}/catalog.json {{ artifacts_destination }};
-    {% endset %}
+    {# Check if files exist by looking at the LIST results #}
+    {% set manifest_files = [] %}
+    {% set catalog_files = [] %}
 
-    {% set results = run_query(get_query) %}
+    {% for row in results.rows %}
+        {% if 'manifest.json' in row[0] %}
+            {% set _ = manifest_files.append("manifest.json") %}
+        {% endif %}
+        {% if 'catalog.json' in row[0] %}
+            {% set _ = catalog_files.append("catalog.json") %}
+        {% endif %}
+    {% endfor %}
+
+    {% set manifest_found = manifest_files | length > 0 %}
+    {% set catalog_found = catalog_files | length > 0 %}
+
+    {# Only attempt to get files that exist #}
+    {% if manifest_found or catalog_found %}
+        {% set get_commands = [] %}
+        {% if manifest_found %}
+            {% for manifest_file in manifest_files %}
+                {% set _ = get_commands.append("get @" ~ stage ~ "/" ~ manifest_file ~ " " ~ artifacts_destination ~ ";") %}
+            {% endfor %}
+        {% endif %}
+        {% if catalog_found %}
+            {% for catalog_file in catalog_files %}
+                {% set _ = get_commands.append("get @" ~ stage ~ "/" ~ catalog_file ~ " " ~ artifacts_destination ~ ";") %}
+            {% endfor %}
+        {% endif %}
+
+        {% set get_query = get_commands | join('\n        ') %}
+        {% set results = run_query(get_query) %}
+
+        {{ print("✓ Successfully retrieved available artifact files") }}
+        {% if not manifest_found %}
+            {{ print("manifest.json not found in stage") }}
+        {% endif %}
+        {% if not catalog_found %}
+            {{ print("catalog.json not found in stage") }}
+        {% endif %}
+    {% else %}
+        {{ print("File not found - no artifact files (manifest.json or catalog.json) found in stage " ~ stage) }}
+    {% endif %}
 
 {% endmacro %}

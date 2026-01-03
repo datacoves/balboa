@@ -36,8 +36,9 @@ jobs:
   airflow:
     name: Pull Request Airflow Tests
     runs-on: ubuntu-latest
-    container: datacoves/ci-airflow-dbt-snowflake:3.4
     needs: [validate-branch]
+
+    container: datacoves/ci-airflow-dbt-snowflake:4.1
 
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags

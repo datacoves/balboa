@@ -3,7 +3,6 @@
 import glob
 import json
 import subprocess
-import os
 import yaml
 import argparse
 import logging
@@ -108,7 +107,7 @@ def run_macro(macro_name, args, target):
 def main(is_dry_run, snowflake_objects, target):
 
     if (snowflake_objects == 'all') or (snowflake_objects == 'roles'):
-        roles_file = find_file("roles.yml", sub_path='secure')
+        roles_file = find_file("roles.yml", sub_path='secure/permifrost')
 
         permifrost_roles = get_role_names(roles_file)
 
@@ -124,8 +123,7 @@ def main(is_dry_run, snowflake_objects, target):
         )
 
     if (snowflake_objects == 'all') or (snowflake_objects == 'schemas'):
-        schemas_file = find_file("databases.yml", sub_path='secure')
-        permifrost_schemas = get_schemas_names(schemas_file)
+        permifrost_schemas = get_schemas_names(find_file("databases.yml", sub_path='secure/permifrost'))
 
         permifrost_schemas_args = {
             "permifrost_schema_list": ",".join(permifrost_schemas),
@@ -139,8 +137,7 @@ def main(is_dry_run, snowflake_objects, target):
         )
 
     if (snowflake_objects == 'all') or (snowflake_objects == 'warehouses'):
-        warehouses_file = find_file("warehouses.yml", sub_path='secure')
-        permifrost_warehouses = get_warehouses(find_file("warehouses.yml"))
+        permifrost_warehouses = get_warehouses(find_file("warehouses.yml", sub_path='secure/permifrost'))
 
         permifrost_warehouses_args = {
             "permifrost_warehouse_list": permifrost_warehouses,

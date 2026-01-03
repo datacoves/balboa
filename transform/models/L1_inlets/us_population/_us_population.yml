@@ -13,7 +13,7 @@ sources:
             data_type: VARCHAR
             description: Name of the state
           - name: ID
-            data_type: NUMBER
+            data_type: NUMBER(19,0)
             description: Unique identifier for each state
           - name: _2010
             data_type: VARCHAR

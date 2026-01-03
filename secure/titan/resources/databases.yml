@@ -1,0 +1,40 @@
+vars:
+  - name: databases
+    type: list
+    default:
+      - name: raw
+        owner: loader
+        max_data_extension_time_in_days: 10
+      - name: balboa
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 30
+      - name: balboa_apps
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 10
+      - name: balboa_dev
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 5
+      - name: balboa_qa
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 5
+      - name: great_bay
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 10
+      - name: sushi_db
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 10
+
+roles:
+  # Used to grant access to test db
+  - name: z_db__balboa_tst
+  - name: z_db__covid19_epidemiological_data
+  - name: z_db__snowflake
+
+grants:
+  - priv: "IMPORTED PRIVILEGES"
+    on: "database covid19_epidemiological_data"
+    to: z_db__covid19_epidemiological_data
+
+  - priv: "IMPORTED PRIVILEGES"
+    on: "database snowflake"
+    to: z_db__snowflake

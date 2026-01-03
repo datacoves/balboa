@@ -6,7 +6,6 @@ This DAG how to retry a DAG that fails during a run
 from airflow.decorators import dag, task
 from orchestrate.utils import datacoves_utils
 
-
 @dag(
     doc_md = __doc__,
     catchup = False,
@@ -18,7 +17,7 @@ from orchestrate.utils import datacoves_utils
 
     schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
     description="Sample DAG demonstrating how to run the dbt models that fail",
-    tags=["transform"],
+    tags=["transform","retry"],
 )
 def retry_dbt_failures():
 
