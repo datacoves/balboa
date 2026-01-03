@@ -112,6 +112,9 @@ jobs:
       - name: Upload dbt artifacts
         run: "dbt run-operation upload_artifacts"
 
+      - name: Push dbt artifacts to dbt-api on Datacoves
+        run: "../automate/dbt/push_dbt_artifacts.py"
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
