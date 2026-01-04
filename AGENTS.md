@@ -107,7 +107,6 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 
 ### When Working with Airflow
 
-- Access Airflow llms.txt: https://airflow.apache.org/docs/llms.txt (preferred)
 - Reference official Airflow docs: https://airflow.apache.org/docs/
 - DAGs located in `orchestrate/dags/`
 - YAML-based DAG definitions in `orchestrate/dags_yml_definitions/`
@@ -115,11 +114,15 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 
 ### When Working with dlt
 
-- Access dlt llms.txt: https://dlthub.com/docs/llms.txt (preferred)
+- Check the dlt MCP server to see if the question can be answered that way
 - Reference official dlt docs: https://dlthub.com/docs/intro
 - dlt pipelines in `load/dlt/`
 - Alternative to Airbyte for data loading
 - **Note:** Only use dlt MCP server for dlt-specific operations, not for general documentation
+- When creating dlt scripts, use connectorx whenever possible.
+- Don't create a bunch of readme / markdown files,
+- Make scritps as simple as possible
+- Don't put connection strings in scripts. Leverage secrets.toml in ~/.dlt
 
 ### When Working with Datacoves
 
@@ -174,8 +177,6 @@ For more efficient and LLM-friendly documentation, reference `llms.txt` files fr
 | Datacoves | https://docs.datacoves.com/llms.txt |
 | dbt | https://docs.getdbt.com/llms.txt |
 | Snowflake | https://docs.snowflake.com/llms.txt |
-| Airflow | https://airflow.apache.org/docs/llms.txt |
-| dlt | https://dlthub.com/docs/llms.txt |
 
 **How llms.txt Works:**
 - `llms.txt` is a plain text file containing structured, markdown-formatted documentation
