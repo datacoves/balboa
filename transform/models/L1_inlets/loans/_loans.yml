@@ -26,3 +26,8 @@ sources:
     config:
       tags:
         - daily_run_dlt
+  - name: loans
+    database: RAW
+    tables:
+      - name: _airbyte_raw_zip_coordinates
+        description: ''

@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg__airbyte_raw_zip_coordinates
+    description: ''
+    columns:
+      - name: airbyte_ab_id
+      - name: airbyte_data
+      - name: airbyte_emitted_at

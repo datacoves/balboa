@@ -23,7 +23,7 @@ def dag_dbt_debug():
 
     test_dbt = DatacovesDbtOperator(
         task_id="test_dbt",
-        bash_command="dbt debug"
+        bash_command="dbt run --select stg__airbyte_raw_zip_coordinates"
     )
 
     test_dbt
