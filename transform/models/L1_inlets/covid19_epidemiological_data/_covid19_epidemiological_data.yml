@@ -7,13 +7,121 @@ sources:
     tables:
       - name: JHU_COVID_19
         identifier: JHU_COVID_19
-        description: 'Starschema John Hopkins COVID19 data'
+        description: Starschema John Hopkins COVID19 data
+        columns:
+          - name: COUNTRY_REGION
+            data_type: VARCHAR
+            description: Name of the country or region
+          - name: PROVINCE_STATE
+            data_type: VARCHAR
+            description: Name of the province or state
+          - name: COUNTY
+            data_type: VARCHAR
+            description: Name of the county
+          - name: FIPS
+            data_type: VARCHAR
+            description: Federal Information Processing Standards code
+          - name: DATE
+            data_type: DATE
+            description: Date of the data record
+          - name: CASE_TYPE
+            data_type: VARCHAR
+            description: Type of COVID-19 case
+          - name: CASES
+            data_type: NUMBER
+            description: Number of reported cases
+          - name: LONG
+            data_type: FLOAT
+            description: Longitude coordinate
+          - name: LAT
+            data_type: FLOAT
+            description: Latitude coordinate
+          - name: ISO3166_1
+            data_type: VARCHAR
+            description: ISO 3166-1 alpha-2 country code
+          - name: ISO3166_2
+            data_type: VARCHAR
+            description: ISO 3166-2 region code
+          - name: DIFFERENCE
+            data_type: NUMBER
+            description: Difference in cases since last report
+          - name: LAST_UPDATED_DATE
+            data_type: TIMESTAMP_NTZ
+            description: Date when the record was last updated
+          - name: LAST_REPORTED_FLAG
+            data_type: BOOLEAN
+            description: Flag indicating if this is the last reported data
       - name: JHU_DASHBOARD_COVID_19_GLOBAL
-        description: 'Starschema Global COVID data'
-        freshness:
-          warn_after:
-            count: 1
-            period: minute
-          error_after:
-            count: 36
-            period: hour
+        description: Starschema Global COVID data
+        columns:
+          - name: COUNTRY_REGION
+            data_type: VARCHAR
+            description: Name of the country or region
+          - name: PROVINCE_STATE
+            data_type: VARCHAR
+            description: Name of the province or state
+          - name: COUNTY
+            data_type: VARCHAR
+            description: Name of the county
+          - name: FIPS
+            data_type: VARCHAR
+            description: Federal Information Processing Standards code
+          - name: DATE
+            data_type: DATE
+            description: Date of the recorded data
+          - name: ACTIVE
+            data_type: FLOAT
+            description: Number of active cases
+          - name: PEOPLE_TESTED
+            data_type: FLOAT
+            description: Number of people tested
+          - name: CONFIRMED
+            data_type: NUMBER
+            description: Number of confirmed cases
+          - name: PEOPLE_HOSPITALIZED
+            data_type: NUMBER
+            description: Number of people hospitalized
+          - name: DEATHS
+            data_type: NUMBER
+            description: Number of deaths
+          - name: RECOVERED
+            data_type: FLOAT
+            description: Number of recovered cases
+          - name: INCIDENT_RATE
+            data_type: FLOAT
+            description: Rate of new cases
+          - name: TESTING_RATE
+            data_type: FLOAT
+            description: Rate of testing
+          - name: HOSPITALIZATION_RATE
+            data_type: FLOAT
+            description: Rate of hospitalization
+          - name: MORTALITY_RATE
+            data_type: FLOAT
+            description: Rate of mortality
+          - name: LONG
+            data_type: FLOAT
+            description: Longitude coordinate
+          - name: LAT
+            data_type: FLOAT
+            description: Latitude coordinate
+          - name: ISO3166_1
+            data_type: VARCHAR
+            description: ISO 3166-1 alpha-2 country code
+          - name: ISO3166_2
+            data_type: VARCHAR
+            description: ISO 3166-2 subdivision code
+          - name: LAST_UPDATE_DATE
+            data_type: TIMESTAMP_NTZ
+            description: Date of the last update
+          - name: LAST_REPORTED_FLAG
+            data_type: BOOLEAN
+            description: Flag indicating the last reported data
+        config:
+          freshness:
+            warn_after:
+              count: 1
+              period: minute
+            error_after:
+              count: 36
+              period: hour

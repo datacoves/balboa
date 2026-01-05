@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: stg_test_failures
+    description: >-
+      This model is used to store test results. In a dynamic way, this can be used with Snowflake Dynamic
+      tables
+    columns:
+      - name: test_name
+        description: The name or label of the test. Defaults to 'no_tests' as a placeholder.
+      - name: count_failed
+        description: The count of failed tests, initialized to zero as no tests are expected initially.
+      - name: error_state
+        description: The error state of the test, set as null because this is a placeholder model.
+      - name: warning_state
+        description: >-
+          The warning state of the test, set as null due to the placeholder nature of this data.
+      - name: tested_models
+        description: >-
+          A JSON array of models that were tested, initially empty to reflect the lack of any actual test
+          data yet.

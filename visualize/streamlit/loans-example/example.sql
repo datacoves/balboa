@@ -1,3 +1,16 @@
+/*
+/config/workspace/visualize/streamlit/start_app.sh
+
+cd $DATACOVES__REPO_PATH/load/dlt
+./loans/loans_data.py
+
+https://app.snowflake.com/datacoves/main/#/data/databases/BALBOA/schemas/L3_LOAN_ANALYTICS/dynamic-table/LOANS_BY_STATE__DYNAMIC
+
+dlt pipeline loans_data show
+
+cd $DATACOVES__REPO_PATH/transform
+*/
+
 -- These are useful queries to run for demo purposes
 
 use role loader;
@@ -6,19 +19,19 @@ use warehouse wh_loading;
 -- source table needs to have change tracking enabled
 alter table RAW.LOANS.PERSONAL_LOANS set CHANGE_TRACKING = true;
 
--- see the rows in a table
-select count(*)
-from RAW.LOANS.PERSONAL_LOANS;
+SHOW TABLES LIKE 'PERSONAL_LOANS' IN SCHEMA RAW.LOANS;
+
 
 -- delete records from a table
 delete
 from RAW.LOANS.PERSONAL_LOANS
 where left(addr_state, 1)> 'A';
 
+-- see the rows in a table
 select count(*)
 from RAW.LOANS.PERSONAL_LOANS;
 
-
+select distinct addr_state from raw.loans.personal_loans limit 10;
 
 -- dropping dymanic table
 use role analyst;
@@ -29,6 +42,11 @@ drop dynamic table balboa_dev.gomezn.loans_by_state__standard;
 
 drop schema balboa_dev.fivetran_centre_straighten_staging;
 ------
+use warehouse wh_orchestrating;
+select distinct addr_state from balboa.l1_loans.personal_loans;
+drop table balboa.l1_loans.personal_loans;
+drop table balboa.l3_loan_analytics.loans_by_state__dynamic;
+
 
 -- Creating Streamlit App
 use role transformer_dbt;
@@ -62,3 +80,20 @@ select * from balboa.l3_loan_analytics.loans_by_state order by NUMBER_OF_LOANS d
 
 select * from balboa_dev.gomezn.loans_by_state__standard;
 select * from balboa_dev.gomezn.loans_by_state__dynamic;
+
+
+SELECT table_catalog,
+       table_schema,
+       table_name,
+       is_dynamic
+FROM BALBOA.INFORMATION_SCHEMA.TABLES
+WHERE is_dynamic = 'YES';
+
+-- Grant access to all existing dynamic tables in a schema
+GRANT SELECT ON ALL DYNAMIC TABLES IN DATABASE BALBOA TO ROLE CATALOG;
+GRANT SELECT ON ALL DYNAMIC TABLES IN DATABASE BALBOA TO ROLE ANALYST;
+
+-- For future dynamic tables, you'll want to grant future privileges
+GRANT SELECT ON FUTURE DYNAMIC TABLES IN DATABASE BALBOA TO ROLE CATALOG;
+
+SHOW DYNAMIC TABLES IN SCHEMA BALBOA.L3_LOAN_ANALYTICS;

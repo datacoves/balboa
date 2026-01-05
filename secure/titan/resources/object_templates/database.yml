@@ -1,0 +1,18 @@
+# Databases
+databases:
+  - for_each: var.databases
+    name: "{{ each.value.name }}"
+    owner: "{{ each.value.owner }}"
+    max_data_extension_time_in_days: "{{ each.value.max_data_extension_time_in_days }}"
+
+# Database roles
+roles:
+  - for_each: var.databases
+    name: "z_db__{{ each.value.name }}"
+
+# Database grants
+grants:
+  - for_each: var.databases
+    priv: USAGE
+    on: "database {{ each.value.name }}"
+    to: "z_db__{{ each.value.name }}"

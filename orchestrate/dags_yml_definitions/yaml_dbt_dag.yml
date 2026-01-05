@@ -1,17 +1,30 @@
 description: "Sample DAG for dbt build"
-schedule_interval: "0 0 1 */12 *"
+schedule: "0 0 1 */12 *"
 tags:
-  - version_2
+  - transform
 default_args:
-  start_date: 2023-01-01
+  start_date: 2024-01-01
   owner: Noel Gomez
   # Replace with the email of the recipient for failures
   email: gomezn@example.com
   email_on_failure: true
+  retries: 3
 catchup: false
 
 nodes:
   run_dbt:
     type: task
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    task_decorator: datacoves_dbt
+    connection_id: main
+    target: dev
     bash_command: "dbt run -s personal_loans"
+  transform:
+    type: task
+    task_decorator: datacoves_dbt # @airflow.decorators.task.{task_decorator}
+    connection_id: main
+    target: prd
+    overrides:
+      threads: 8
+      warehouse: tst_warehouse
+    bash_command: "dbt run -s personal_loans"
+    dependencies: ["run_dbt"]

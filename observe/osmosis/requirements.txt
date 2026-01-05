@@ -1,0 +1,2 @@
+ydata_profiling==4.12.2
+dbt-osmosis==1.1.13

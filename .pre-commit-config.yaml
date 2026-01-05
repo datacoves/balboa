@@ -2,7 +2,7 @@ files: ^transform/models/
 
 repos:
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-    rev: v2.0.4
+    rev: v2.0.6
 
     hooks:
       - id: check-source-table-has-description
@@ -12,12 +12,10 @@ repos:
       - id: check-model-has-description
       - id: check-model-has-properties-file
       - id: check-model-has-all-columns
-      - id: check-database-casing-consistency
-        always_run: true
 
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
-    rev: 3.0.7
+    rev: 3.1.1
     hooks:
       - id: sqlfluff-lint
         language: python
@@ -26,9 +24,9 @@ repos:
         #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
         additional_dependencies:
           [
-            "sqlfluff-templater-dbt==3.0.7",
-            "dbt-snowflake==1.8.3",
-            "dbt-core==1.8.3",
+            "sqlfluff-templater-dbt==3.1.1",
+            "dbt-core==1.10.15",
+            "dbt-snowflake==1.10.3",
           ]
         args: [--config, transform/.sqlfluff]
 

@@ -1,0 +1,18 @@
+# Schemas
+schemas:
+  - for_each: var.schemas
+    name: "{{ each.value.name.split('.')[1] }}"
+    database: "{{ each.value.name.split('.')[0] }}"
+    owner: "{{ each.value.get('owner', parent.owner) }}"
+
+# Schema roles
+roles:
+  - for_each: var.schemas
+    name: "z_schema__{{ each.value.name.split('.')[1] }}"
+
+# Schemas grants
+grants:
+  - for_each: var.schemas
+    priv: USAGE
+    on: "schema {{ each.value.name }}"
+    to: "z_schema__{{ each.value.name.split('.')[1] }}"

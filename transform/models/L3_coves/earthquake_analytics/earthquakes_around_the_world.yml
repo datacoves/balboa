@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: earthquakes_around_the_world
+    description: 'This model provides analytics related to earthquakes that occur around the world.'
+    columns:
+      - name: location_geo_point
+        description: 'Geographical point representing the location of the earthquake.'
+      - name: sig
+        description: 'Significance, a metric quantifying the impact or importance of the earthquake.'
+      - name: sig_class
+        description: 'Classification of the significance metric, categorizing the earthquake based on its impact.'
+      - name: earthquake_date
+        description: 'The date when the earthquake occurred.'
+      - name: country_code
+        description: 'ISO country code representing the location where the earthquake took place.'
+      - name: ct
+        description: temp col to test full refresh

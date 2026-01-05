@@ -3,6 +3,9 @@ version: 2
 seeds:
   - name: state_codes
     description: Lookup table used to convert between state abbreviations and state names
+    config:
+      meta:
+        access: public
     columns:
       - name: state_name
         description: Name of the state

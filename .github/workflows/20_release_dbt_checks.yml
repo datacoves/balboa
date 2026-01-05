@@ -1,0 +1,253 @@
+name: "20: 🏎️ dbt Release Branch Validations"
+
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    types: [opened, synchronize, labeled, unlabeled]
+    branches:
+      - main
+    paths:
+      - transform/**/*
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# This cancels a run if another change is pushed to the same branch
+concurrency:
+  group: transform-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  add-deploy-marker:
+    if: github.event.action == 'labeled' && github.event.label.name == 'full-refresh'
+    runs-on: ubuntu-latest
+    name: Add Deploy Marker to PR Title
+
+    steps:
+      - name: Add deploy marker to PR title
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            let title = pullRequest.title || '';
+
+            // Check if marker already exists
+            if (!title.includes('[deploy:full-refresh]')) {
+              // Add marker to the end of the title
+              const newTitle = title + ' [deploy:full-refresh]';
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                title: newTitle
+              });
+
+              // Also add a comment explaining what happened
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '🚀 **Full-refresh deployment marker added to PR title**\n\nThe `[deploy:full-refresh]` marker has been automatically added to this PR title. When merged, this will trigger a full-refresh deployment.'
+              });
+            }
+
+  remove-deploy-marker:
+    if: github.event.action == 'unlabeled' && github.event.label.name == 'full-refresh'
+    runs-on: ubuntu-latest
+    name: Remove Deploy Marker from PR Title
+
+    steps:
+      - name: Remove deploy marker from PR title
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            let title = pullRequest.title || '';
+
+            // Remove the marker if it exists
+            if (title.includes('[deploy:full-refresh]')) {
+              const newTitle = title.replace(/\s*\[deploy:full-refresh\]\s*/g, '').trim();
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                title: newTitle
+              });
+
+              // Add a comment explaining what happened
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '✅ **Full-refresh deployment marker removed**\n\nThe `[deploy:full-refresh]` marker has been removed from this PR title. Normal deployment will occur on merge.'
+              });
+            }
+
+  validate-branch:
+    runs-on: ubuntu-latest
+    name: Validate Branch Names and Merge Rules and assure branch has changes from main
+
+    env:
+      SOURCE_BRANCH: ${{ github.head_ref }}
+      TARGET_BRANCH: ${{ github.base_ref }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate current branch
+      run: automate/git/branch_validator.py
+
+  dbt:
+    if: github.event.action != 'unlabeled' && (github.event.action != 'labeled' || github.event.label.name == 'full-refresh')
+    name: Pull Request dbt Tests
+    runs-on: ubuntu-latest
+    needs: [validate-branch]
+
+    # Set environment variables in
+    # https://github.com//<your org>/<your repo>/settings/variables/actions
+    #
+    # Alternatively, You can define multiple ENV for different workflows.
+    # https://github.com/<org>/<repo>/settings/environments
+    # environment: PR_ENV
+
+    # Most people should use this docker image
+    container: datacoves/ci-basic-dbt-snowflake:4.1
+
+    defaults:
+      run:
+        working-directory: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+
+    env:
+      DBT_PROFILES_DIR: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/automate/dbt
+      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+      DATACOVES__YAML_DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/schedule
+
+      DATACOVES__MAIN__ACCOUNT:   ${{ vars.DATACOVES__MAIN__ACCOUNT }}
+
+      DATACOVES__MAIN__DATABASE_PROD:  ${{ vars.DATACOVES__MAIN__DATABASE }}
+      DATACOVES__MAIN__DATABASE:  ${{ vars.DATACOVES__MAIN__DATABASE }}_QA_TEMP
+      DATACOVES__MAIN__DATABASE_QA:  ${{ vars.DATACOVES__MAIN__DATABASE }}_QA
+
+      DATACOVES__MAIN__SCHEMA:    ${{ vars.DATACOVES__MAIN__SCHEMA }}
+
+      DATACOVES__MAIN__ROLE:      ${{ vars.DATACOVES__MAIN__ROLE }}
+      DATACOVES__MAIN__WAREHOUSE: ${{ vars.DATACOVES__MAIN__WAREHOUSE }}
+
+      DATACOVES__MAIN__USER:      ${{ vars.DATACOVES__MAIN__USER }}
+      DATACOVES__MAIN__PRIVATE_KEY:  ${{ secrets.DATACOVES__MAIN__PRIVATE_KEY }}
+
+      # This is used by datacoves to drop the test database if permissions
+      # cannot be applied when using the Datacoves permifrost security model.
+      DATACOVES__DROP_DB_ON_FAIL:  ${{ vars.DATACOVES__DROP_DB_ON_FAIL }}
+
+      # Full refresh control variables
+      FULL_REFRESH_FLAG: ${{ contains(github.event.pull_request.labels.*.name, 'full-refresh') && '--full-refresh' || '' }}
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3.5.0
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set Secure Directory
+        run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+      - name: List of files changed
+        run: "git diff origin/${{ github.event.pull_request.base.ref }} HEAD --name-status"
+
+      - name: Install dbt packages
+        run: "dbt deps"
+
+      - name: Check if QA database was created today
+        id: check_qa_created_today
+        run: |
+          result=$(dbt --no-write-json run-operation check_database_created_today --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}' | tail -1)
+
+          # Default to false if no result found or if there was an error
+          if [ -z "$result" ] || [ "$result" != "true" ]; then
+            result="false"
+          fi
+
+          echo "qa_created_today=$result" >> $GITHUB_OUTPUT
+          echo "☑️ Was QA database created today?: $result"
+
+      - name: Update DATACOVES__MAIN__DATABASE environment variable
+        run: |
+          if [ "${{ steps.check_qa_created_today.outputs.qa_created_today }}" = "true" ]; then
+            echo "DATACOVES__MAIN__DATABASE=${{ env.DATACOVES__MAIN__DATABASE_QA }}" >> $GITHUB_ENV
+            echo "📢 dbt will run against ${{ env.DATACOVES__MAIN__DATABASE_QA }} directly (created today)"
+          else
+            echo "DATACOVES__MAIN__DATABASE=${{ env.DATACOVES__MAIN__DATABASE }}" >> $GITHUB_ENV
+            echo "📢 dbt will run against ${{ env.DATACOVES__MAIN__DATABASE }} after cloning ${{ env.DATACOVES__MAIN__DATABASE_PROD }}"
+          fi
+
+      - name: Clone Prod database
+        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
+        run: "dbt --no-write-json run-operation clone_database --args '{source_db: ${{ env.DATACOVES__MAIN__DATABASE_PROD }}, target_db: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
+
+      - name: Get prod manifest
+        id: prod_manifest
+        run: "../automate/dbt/get_artifacts.sh"
+
+      ##### Real dbt run given that we passed governance checks
+      - name: Run dbt build slim mode
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
+        run: "dbt build --fail-fast --defer --state logs --select state:modified+ ${{ env.FULL_REFRESH_FLAG }}"
+
+      - name: Run dbt build full run
+        if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
+        run: "dbt build --fail-fast ${{ env.FULL_REFRESH_FLAG }}"
+
+      - name: Swap QA with QA_TEMP database and drop old QA db
+        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
+        run: |
+          dbt --no-write-json run-operation swap_database --args '{db1: ${{ env.DATACOVES__MAIN__DATABASE }}, db2: ${{ env.DATACOVES__MAIN__DATABASE_QA }}, create_missing_db: true}'
+          dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}, recreate: False}'
+
+      - name: Grant access to QA_TEMP database
+        if: steps.check_qa_created_today.outputs.qa_created_today != 'true'
+        id: grant-access-to-database
+        run: "dbt run-operation grant_db_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE_QA }}}'"
+
+
+      # # We drop the database when there is a failure to grant access to the db because
+      # # most likely the schema was not set properly in dbt_project.yml so models built to default schema
+      # - name: Drop PR database on Failure to grant security access
+      #   if: always() && (env.DATACOVES__DROP_DB_ON_FAIL == 'true') && (steps.grant-access-to-database.outcome == 'failure')
+      #   run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
+
+  dbt-job-status:
+    runs-on: ubuntu-latest
+    needs: [add-deploy-marker, remove-deploy-marker, validate-branch, dbt]
+    if: always()
+    steps:
+      - name: Comment PR with workflow status
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ## 🧪 dbt Workflow Status
+            - **Branch Validation**: ${{ needs.validate-branch.result }}
+            - **Deploy Marker Management**: ${{ (needs.add-deploy-marker.result != 'skipped' && needs.add-deploy-marker.result) || (needs.remove-deploy-marker.result != 'skipped' && needs.remove-deploy-marker.result) || 'skipped' }}
+            - **dbt Validations**: ${{ needs.dbt.result }}
+
+            ${{ needs.validate-branch.result == 'failure' && '❌ _Branch validation failed_' || '' }}
+            ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt validations skipped_' || '' }}
+            ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
+            ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
+            ${{ (needs.add-deploy-marker.result == 'success' || needs.remove-deploy-marker.result == 'success') && '📝 _Deploy marker updated in PR title_' || '' }}
+          comment_tag: dbt-workflow-status

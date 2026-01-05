@@ -1,0 +1,32 @@
+roles:
+  - name: z_account__create_database
+  - name: z_db__tst_balboa  # Used to grant access to TST databases
+  - name: z_db__balboa_dev__create_schema
+  - name: z_schemas__db__raw
+  - name: z_tables_views__select
+
+grants:
+  - priv: "CREATE DATABASE"
+    on: "ACCOUNT"
+    to: z_account__create_database
+
+  - priv: "CREATE SCHEMA"
+    on: "database balboa_dev"
+    to: z_db__balboa_dev__create_schema
+
+  - priv: "USAGE"
+    on:
+      - "all schemas in database raw"
+      - "future schemas in database raw"
+    to: z_schemas__db__raw
+
+  - for_each: var.databases
+    priv: "SELECT"
+    on:
+      - "all tables in database {{ each.value.name }}"
+      - "all dynamic tables in database {{ each.value.name }}"
+      - "all views in database {{ each.value.name }}"
+      - "future tables in database {{ each.value.name }}"
+      - "future dynamic tables in database {{ each.value.name }}"
+      - "future views in database {{ each.value.name }}"
+    to: z_tables_views__select

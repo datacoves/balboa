@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: stg_pipe_usage_history
+    description: Contains raw data on the usage history of pipes.
+    columns:
+      - name: pipe_id
+        description: A unique identifier assigned to the pipe
+      - name: pipe_name
+        description: The name of the pipe used for identification purposes
+      - name: start_time
+        description: The start time when the pipe was used
+      - name: end_time
+        description: The end time when the pipe was used
+      - name: credits_used
+        description: The amount of credits used by the pipe during usage
+      - name: bytes_inserted
+        description: The amount of data in bytes inserted into the pipe during usage
+      - name: files_inserted
+        description: The number of files inserted into the pipe during usage
+    config:
+      meta:
+        owner: '@alice'
+        model_maturity: in dev

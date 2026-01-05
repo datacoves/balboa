@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: USGS__EARTHQUAKE_DATA
+    database: RAW
+    tables:
+      - name: EARTHQUAKES
+        description: 'Data from the USGS on earthquakes'
+    config:
+      tags:
+        - earthquake_analysis

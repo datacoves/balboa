@@ -1,0 +1,503 @@
+######################
+#  User Roles
+######################
+- z_base_analyst:
+    member_of:
+      - z_db__raw
+      - z_db__balboa
+      - z_db__balboa_apps
+      - z_db__balboa_tst
+      - z_db__balboa_qa
+      - z_db__balboa_dev
+      - z_db__snowflake
+      - z_db__covid19_epidemiological_data
+
+      - z_schema__raw
+      - z_schema__snapshots
+
+      - z_schema__seeds
+
+      - z_schema__dbt_test__audit
+
+      - z_schema__l1_account_usage
+      - z_schema__l1_country_data
+      - z_schema__l1_country_geo
+      - z_schema__l1_covid19_epidemiological_data
+      - z_schema__l1_google_analytics_4
+      - z_schema__l1_loans
+      - z_schema__l1_observe
+      - z_schema__l1_us_population
+      - z_schema__l1_usgs__earthquake_data
+
+      - z_schema__l2_country_demographics
+      - z_schema__l2_covid_observations
+      - z_schema__l2_snowflake_usage
+
+      - z_schema__l3_covid_analytics
+      - z_schema__l3_earthquake_analytics
+      - z_schema__l3_loan_analytics
+
+      - z_schema__resources
+
+      - z_stage__raw__dbt_artifacts__artifacts__read
+      - z_stage__resources_read
+
+      - z_wh__wh_transforming
+      - z_wh__wh_transforming_dynamic_tables
+
+- analyst:
+    member_of:
+      - z_base_analyst
+      - z_tables_views__select
+      - z_policy_row_region_all
+
+- analyst_pii:
+    member_of:
+      - analyst
+      - z_policy_unmask_pii
+
+- de_analyst:
+    member_of:
+      - z_base_analyst
+      - z_tables_views__select
+      - z_policy_row_region_de
+
+- de_business_analyst_pii:
+    member_of:
+      - de_analyst
+      - z_policy_unmask_pii
+
+##########################
+#  Service Account Roles
+#########################
+- transformer_dbt:
+    # Owns balboa
+    # Becomes owner of all balboa schemas through creation
+    # Owner of raw database through creation
+    # Owns all uat databases through creation; these are not defined here but created via CI
+
+    # TODO
+    # figure out how to do this from permifrost
+    # grant create database on account to role transformer_dbt
+    member_of:
+      - z_db__raw_write
+      - z_db__balboa_write
+      - z_db__balboa_apps_write
+      - z_db__snowflake
+      - z_db__covid19_epidemiological_data
+      - z_tables_views__select
+      - z_wh__wh_integration
+      - z_wh__wh_orchestrating
+      - z_wh__wh_transforming_dynamic_tables
+      - z_stage__raw__dbt_artifacts__artifacts__write
+    owns:
+      databases:
+        - balboa
+        - balboa_apps
+        - balboa_dev
+      schemas:
+        - balboa.*
+        - raw.snapshots
+
+- bot_integration:
+    # grant create database on account to role bot_integration
+    owner: securityadmin
+    member_of:
+      - transformer_dbt
+      - z_wh__wh_integration
+
+- loader:
+    # Can read/write raw db; becomes owner of all raw schemas through creation
+    member_of:
+      - z_db__raw_write
+      - z_wh__wh_loading
+      - z_db__covid19_epidemiological_data
+
+    owns:
+      databases:
+        - raw
+
+- catalog:
+    member_of:
+      - z_wh__wh_catalog
+      - z_base_analyst
+      - z_tables_views__select
+      - z_policy_row_region_all
+
+
+##########################
+#  Global Roles
+##########################
+- orgadmin:
+    owner: ""
+
+- accountadmin:
+    member_of:
+      - sysadmin
+      - securityadmin
+      - z_wh__wh_admin
+
+- securityadmin:
+    member_of:
+      - useradmin
+      - z_wh__wh_admin
+
+    privileges:
+      databases:
+        read:
+          - raw
+          - balboa
+          - balboa_apps
+          - balboa_dev
+      schemas:
+        read:
+          - raw.*
+          - balboa.*
+          - balboa_apps.*
+          - balboa_dev.*
+
+- useradmin:
+    member_of:
+      - z_wh__wh_admin
+
+- sysadmin:
+    member_of:
+      - z_wh__wh_admin
+
+## ======================#
+##     Policy Roles      #
+## ======================#
+
+##########################
+#  General Policy Roles
+##########################
+
+- z_policy_apply_masking:
+    owner: securityadmin
+
+- z_policy_apply_row_access:
+    owner: securityadmin
+
+- z_policy_create_database:
+    owner: securityadmin
+
+- z_policy_create_integration:
+    owner: securityadmin
+
+- z_policy_monitor_usage:
+    owner: securityadmin
+
+##########################
+#  Row Access Policy Roles
+##########################
+- z_policy_row_region_de:
+    owner: securityadmin
+- z_policy_row_region_all:
+    owner: securityadmin
+
+##########################
+#  PII Access Policy Roles
+##########################
+- z_policy_unmask_pii:
+    owner: securityadmin
+    member_of:
+      - z_db__raw
+
+## ======================#
+##     Object Roles     #
+## ======================#
+
+##########################
+#  Warehouse Roles
+##########################
+- z_wh__wh_admin:
+    warehouses:
+      - wh_admin
+
+- z_wh__wh_catalog:
+    warehouses:
+      - wh_catalog
+
+- z_wh__wh_integration:
+    warehouses:
+      - wh_integration
+
+- z_wh__wh_loading:
+    warehouses:
+      - wh_loading
+
+- z_wh__wh_transforming:
+    warehouses:
+      - wh_transforming
+
+- z_wh__wh_transforming_dynamic_tables:
+    warehouses:
+      - wh_transforming_dynamic_tables
+
+- z_wh__wh_orchestrating:
+    warehouses:
+      - wh_orchestrating
+
+##########################
+#  Stage Roles
+##########################
+# Since permifrost does not support this, you need to run the following in Snowflake
+# use role security admin
+# grant READ on stage raw.dbt_artifacts.artifacts to role z_stage__raw__dbt_artifacts__artifacts__read;
+# grant READ on stage raw.dbt_artifacts.artifacts to role z_stage__raw__dbt_artifacts__artifacts__write;
+# grant WRITE on stage raw.dbt_artifacts.artifacts to role z_stage__raw__dbt_artifacts__artifacts__write;
+
+- z_stage__raw__dbt_artifacts__artifacts__read:
+    owner: securityadmin
+
+- z_stage__raw__dbt_artifacts__artifacts__write:
+    owner: securityadmin
+
+- z_stage__resources_read:
+    owner: securityadmin
+
+- z_stage__resources_write:
+    owner: securityadmin
+
+
+##########################
+#  Database Roles
+##########################
+
+- z_create_database:
+    owner: securityadmin
+
+- z_db__balboa_dev:
+    privileges:
+      databases:
+        read:
+          - balboa_dev
+        write:
+          - balboa_dev
+
+
+# This role is created but has no grants
+# The grants will be added by the CI script
+- z_db__balboa_tst:
+    owner: securityadmin
+
+- z_db__balboa_qa:
+    owner: securityadmin
+
+- z_db__balboa_write:
+    privileges:
+      databases:
+        read:
+          - balboa
+        write:
+          - balboa
+
+- z_db__balboa:
+    privileges:
+      databases:
+        read:
+          - balboa
+
+- z_db__balboa_apps_write:
+    privileges:
+      databases:
+        read:
+          - balboa_apps
+        write:
+          - balboa_apps
+
+- z_db__balboa_apps:
+    privileges:
+      databases:
+        read:
+          - balboa_apps
+
+- z_db__raw:
+    privileges:
+      databases:
+        read:
+          - raw
+
+- z_db__raw_write:
+    privileges:
+      databases:
+        read:
+          - raw
+        write:
+          - raw
+      schemas:
+        read:
+          - raw.*
+        write:
+          - raw.*
+
+# need to grant this to this role as well
+# grant imported privileges on database snowflake to role z_db__snowflake;
+
+# also need to grant access to monitor pipeline usage
+# grant monitor usage on account to role z_db__snowflake;
+
+- z_db__snowflake:
+    privileges:
+      databases:
+        read:
+          - snowflake
+
+- z_db__covid19_epidemiological_data:
+    privileges:
+      databases:
+        read:
+          - covid19_epidemiological_data
+
+
+##########################
+#  Schema Roles
+##########################
+
+# RAW
+- z_schema__raw:
+    privileges:
+      schemas:
+        read:
+          - raw.*
+
+- z_schema__snapshots:
+    privileges:
+      schemas:
+        read:
+          - raw.snapshots
+
+- z_schema__resources:
+    privileges:
+      schemas:
+        read:
+          - balboa_apps.resources
+
+- z_schema__seeds:
+    privileges:
+      schemas:
+        read:
+          - balboa.seeds
+
+- z_schema__dbt_test__audit:
+    privileges:
+      schemas:
+        read:
+          - balboa.dbt_test__audit
+
+# INLETS
+- z_schema__l1_account_usage:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_account_usage
+
+- z_schema__l1_country_data:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_country_data
+
+- z_schema__l1_country_geo:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_country_geo
+
+- z_schema__l1_covid19_epidemiological_data:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_covid19_epidemiological_data
+
+- z_schema__l1_google_analytics_4:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_google_analytics_4
+
+- z_schema__l1_loans:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_loans
+
+- z_schema__l1_observe:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_observe
+
+- z_schema__l1_us_population:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_us_population
+
+- z_schema__l1_usgs__earthquake_data:
+    privileges:
+      schemas:
+        read:
+          - balboa.l1_usgs__earthquake_data
+
+# BAYS
+- z_schema__l2_country_demographics:
+    privileges:
+      schemas:
+        read:
+          - balboa.l2_country_demographics
+
+- z_schema__l2_covid_observations:
+    privileges:
+      schemas:
+        read:
+          - balboa.l2_covid_observations
+
+- z_schema__l2_snowflake_usage:
+    privileges:
+      schemas:
+        read:
+          - balboa.l2_snowflake_usage
+
+#  COVES
+- z_schema__l3_covid_analytics:
+    privileges:
+      schemas:
+        read:
+          - balboa.l3_covid_analytics
+
+- z_schema__l3_earthquake_analytics:
+    privileges:
+      schemas:
+        read:
+          - balboa.l3_earthquake_analytics
+
+- z_schema__l3_loan_analytics:
+    privileges:
+      schemas:
+        read:
+          - balboa.l3_loan_analytics
+
+- sqlmesh_analyst:
+    privileges:
+      databases:
+        read:
+          - sushi_db
+        write:
+          - sushi_db
+      tables:
+        read:
+          - raw.*.*
+    warehouses:
+      - wh_transforming_sqlmesh
+
+
+##########################
+#  Table & View Roles
+##########################
+- z_tables_views__select:
+    privileges:
+      tables:
+        read:
+          - raw.*.*
+          - balboa.*.*

@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: {{model}}
+  - name: stg_{{ model | lower }}
     description: ''
     columns:
 {%- for cols in nested.values() %}

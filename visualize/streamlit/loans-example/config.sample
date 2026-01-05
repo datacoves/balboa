@@ -3,11 +3,10 @@
 # rename without .sample and put in the ~/.snowsql/ folder (create it if it doesnt exist)
 
 [connections]
-authenticator = snowflake
-accountname = <snowflake account>
-warehousename = <snowflake warehouse>
-rolename = <snowflake role>
-dbname = <snowflake database>
-schemaname = <snowflake schema>
-username = <snowflake user>
-password = <snowflake password>
+account = <snowflake account>
+warehouse = <snowflake warehouse>
+role = <snowflake role>
+database = <snowflake database>
+schema = <snowflake schema>
+user = <snowflake user>
+private_key_file = <path to private key>
