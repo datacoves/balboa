@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
-from airflow.decorators import dag
-from operators.datacoves.dbt import DatacovesDbtOperator
+from airflow.decorators import dag, task
 
 
 @dag(
@@ -16,16 +15,18 @@ from operators.datacoves.dbt import DatacovesDbtOperator
     },
     description="DAG for testing dbt debug.",
     schedule="23 20 * * 1-5",
-    tags=["version_4"],
+    tags=["version_5"],
     catchup=False,
 )
 def dag_dbt_debug():
 
-    test_dbt = DatacovesDbtOperator(
-        task_id="test_dbt",
-        bash_command="dbt run --select stg__airbyte_raw_zip_coordinates"
+    @task.datacoves_dbt(
+        connection_id="main"
     )
+    def run_dbt():
+        return "dbt run --select stg__airbyte_raw_zip_coordinates"
 
-    test_dbt
+    run_dbt()
 
-dag = dag_dbt_debug()
+
+dag_dbt_debug()
