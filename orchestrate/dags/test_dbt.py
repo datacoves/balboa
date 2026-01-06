@@ -15,7 +15,7 @@ from airflow.decorators import dag, task
     },
     description="DAG for testing dbt debug.",
     schedule="23 20 * * 1-5",
-    tags=["version_5"],
+    tags=["version_6"],
     catchup=False,
 )
 def dag_dbt_debug():
@@ -24,7 +24,7 @@ def dag_dbt_debug():
         connection_id="main"
     )
     def run_dbt():
-        return "dbt run --select stg__airbyte_raw_zip_coordinates"
+        return "dbt debug && dbt run --select stg__airbyte_raw_zip_coordinates"
 
     run_dbt()
 
