@@ -16,7 +16,7 @@ dbt deps
 Use [dbt tool](https://github.com/dbt-labs/dbt-autofix) to fix deprecations
 
 ```bash
-uvx --from git+https://github.com/dbt-labs/dbt-autofix.git dbt-autofix deprecations --include-packages
+uvx --from git+https://github.com/dbt-labs/dbt-autofix.git dbt-autofix deprecations
 ```
 
 # Fix remaining issues
