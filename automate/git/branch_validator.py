@@ -10,14 +10,14 @@ class ValidationError(Exception):
 class GitCommandError(Exception):
     pass
 
-def get_commit_count(source_branch, github_token, repository):
+def get_commit_count(source_branch, target_branch, github_token, repository):
     """
     Use GitHub API to compare branches and get commit count difference.
     This tells us how many commits behind target the source branch is.
     """
     try:
         # GitHub API endpoint for comparing branches
-        url = f"https://api.github.com/repos/{repository}/compare/{source_branch}...main"
+        url = f"https://api.github.com/repos/{repository}/compare/{source_branch}...{target_branch}"
 
         headers = {
             "Authorization": f"token {github_token}",
@@ -29,14 +29,17 @@ def get_commit_count(source_branch, github_token, repository):
 
         data = response.json()
 
-        # ahead_by tells us how many commits main is ahead of source
-        # (i.e., how many commits source is behind main)
+        # ahead_by tells us how many commits target is ahead of source
+        # (i.e., how many commits source is behind target)
         commits_behind = data.get("ahead_by", 0)
 
         if commits_behind == 0:
-            print(f"✅ The {source_branch} is up to date with the main branch.")
+            print(f"✅ The {source_branch} is up to date with the {target_branch} branch.")
         else:
-            print(f"❌ There are {commits_behind} commit(s) in the main branch that are not in Source branch: {source_branch}. Pull main into the {source_branch}")
+            print(
+                f"❌ There are {commits_behind} commit(s) in the {target_branch} branch that are not in source branch: {source_branch}. "
+                f"Pull {target_branch} into {source_branch} before merging."
+            )
             sys.exit(1)
 
     except requests.exceptions.RequestException as e:
@@ -72,7 +75,7 @@ def main():
 
     # Get the commit count for changes in target that are not in source_branch
     try:
-        get_commit_count(source_branch, github_token, repository)
+        get_commit_count(source_branch, target_branch, github_token, repository)
     except GitCommandError as e:
         print(e)
         sys.exit(1)
@@ -84,9 +87,9 @@ def main():
             + " with target branch: "
             + target_branch
         )
-        if not source_branch.lower().startswith(("feature", "release")):
+        if not source_branch.lower().startswith(("feature", "release", "hotfix")):
             raise ValidationError(
-                "❌ Source branch must start with 'feature' or 'release'"
+                "❌ Source branch must start with 'feature', 'release', or 'hotfix'"
             )
 
         if not target_branch.lower().startswith(("feature", "release", "main")):
@@ -105,6 +108,12 @@ def main():
             if not target_branch.lower().startswith(("main")):
                 raise ValidationError(
                     "❌ Release branch can only be merged to the main branch"
+                )
+
+        if source_branch.lower().startswith(("hotfix")):
+            if not target_branch.lower().startswith(("main")):
+                raise ValidationError(
+                    "❌ Hotfix branch can only be merged to the main branch"
                 )
 
     print("✅ Branch validated!")
