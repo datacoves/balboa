@@ -51,7 +51,7 @@ Add metadata & tests to _airbyte_raw_country_codes:
             - not_null
             - unique
     # developed___developing_countries
-        gidata_tests:
+        data_tests:
             - accepted_values:
                 values:
                 - 'Developed'
