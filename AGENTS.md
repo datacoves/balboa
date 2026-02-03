@@ -138,6 +138,45 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 - CI/CD workflows in `.github/workflows/`
 - **CRITICAL:** For Datacoves questions, NEVER use the dlt MCP server - use curl to fetch llms.txt or browser_action instead
 
+ ## Data Documentation (Tributary MCP Server)
+
+  This project has a Tributary MCP server configured (`tributary_docs`) that provides
+  documentation, lineage, and SQL explanations for all dbt models in the project.
+
+  **You MUST use the Tributary MCP server tools** when answering questions about:
+  - How columns or metrics are calculated or derived
+  - What a model does or how it works
+  - Where data comes from (lineage/upstream dependencies)
+  - What downstream models depend on a given model
+  - SQL logic or transformations in a model
+  - Available data sources or project statistics
+
+  ### Available tools (use these, don't guess):
+
+  | Tool | When to use it |
+  |------|---------------|
+  | `ask` | General questions about data models (try this first for broad questions) |
+  | `explain_sql` | "How does model X work?" / "How is column Y calculated?" |
+  | `explain_lineage` | "Where does column Y in model X come from?" |
+  | `get_column_lineage` | Trace a column's upstream or downstream path |
+  | `get_model_lineage` | Find upstream/downstream model dependencies |
+  | `get_model` | Get a model's description, columns, tags, and metadata |
+  | `get_model_sql` | Get the raw/compiled SQL for a model |
+  | `search_models` | Find models by name or description |
+  | `smart_search` | Natural language search across all models |
+  | `list_sources` | List all dbt sources |
+  | `get_project_stats` | Get project-level statistics |
+
+  ### Examples
+
+  - "How are deaths calculated in total_covid_cases?" → Use `explain_sql` with `model_name: "total_covid_cases"` or `ask`
+   with the full question
+  - "Where does the revenue column come from?" → Use `explain_lineage` with the model and column name
+  - "What models feed into the dashboard?" → Use `get_model_lineage` with `direction: "upstream"`
+
+  **IMPORTANT**: Never try to answer data model questions by reading SQL files directly. Always use the MCP server tools
+  — they provide richer context including lineage, descriptions, and plain-English explanations.
+
 ---
 
 ## Key Project Characteristics
