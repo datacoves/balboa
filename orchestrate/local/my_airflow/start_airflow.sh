@@ -12,6 +12,8 @@ export PYTHONPYCACHEPREFIX=/tmp
 # Check if --airflow flag is present
 if [[ "$*" == *"--airflow"* ]]; then
     echo "Starting Airflow standalone..."
+    mkdir -p /config/airflow
+    cp -r /config/workspace/orchestrate/local/my_airflow/airflow.cfg /config/airflow/
     uv run --no-project airflow standalone
 else
     echo "Airflow flag not provided. Use --airflow to start Airflow."
