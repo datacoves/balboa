@@ -1,5 +1,5 @@
 #!/bin/bash
-secure_path=/config/workspace/secure/titan
+secure_path=/config/workspace/secure/snowcap
 cd $secure_path
 
 if [ -f .env ]; then
@@ -18,8 +18,8 @@ fi
 
 export $(cat .env | xargs)
 
-uvx --from titan-core@git+https://github.com/datacoves/titan.git@rc \
+uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
     --refresh \
-    titan plan \
+    snowcap plan \
     --config resources/ \
     --sync_resources role,grant,role_grant
