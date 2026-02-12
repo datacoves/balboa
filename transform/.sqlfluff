@@ -1,104 +1,173 @@
 [sqlfluff]
 
-# Supported dialects https://docs.sqlfluff.com/en/stable/dialects.html
-# Or run 'sqlfluff dialects'
+# Dialect used for parsing and linting SQL
+# See supported dialects: https://docs.sqlfluff.com/en/stable/dialects.html
 dialect = snowflake
 
 # One of [raw|jinja|python|placeholder]
 templater = dbt
 
-# Comma separated list of rules to exclude, or None
+# Rule selection strategy
+# ------------------------
+# For a new company adopting SQLFluff, start with the "core" rule group.
+# Core rules are stable, broadly applicable, and not overly opinionated.
+# You can expand to additional rules over time as your team matures.
+#
+# IMPORTANT: Use "rules" (not "include_rules") to specify which rules to run.
+# The "include_rules" setting is broken in SQLFluff 3.x.
+#
+# SQLFluff 3.1.1 Core Rules (31 rules) + 2 extras:
+# =================================================
+#
+# Aliasing (AL) - How you name things:
+#   AL02: Use "as" keyword: "id as user_id" not "id user_id"
+#   AL03: Name your expressions: "upper(name) as name_upper" not just "upper(name)"
+#   AL04: Don't reuse table aliases: "from orders o join users o" is confusing
+#   AL05: Remove aliases you define but never use
+#   AL06: Aliases must be at least 3 chars: "ord" not "o" (configured below)
+#   AL08: Don't reuse column aliases in the same select
+#   AL09: Don't alias a column to itself: "name as name" is pointless
+#
+# Ambiguous (AM) - Confusing SQL patterns:
+#   AM01: Don't use DISTINCT and GROUP BY together (pick one)
+#   AM02: Write "UNION ALL" or "UNION DISTINCT", not just "UNION"
+#   AM06: Use column names in GROUP BY, not numbers: "group by name" not "group by 1"
+#
+# Capitalization (CP) - Consistent casing (all lowercase):
+#   CP01: Keywords: select, from, where (not SELECT, FROM, WHERE)
+#   CP02: Identifiers: user_id, order_date (not USER_ID, Order_Date)
+#   CP03: Functions: count, sum, coalesce (not COUNT, SUM, COALESCE)
+#   CP04: Literals: true, false, null (not TRUE, FALSE, NULL)
+#   CP05: Data types: varchar, int, timestamp (not VARCHAR, INT)
+#
+# Convention (CV) - Best practices:
+#   CV03: No trailing comma on last SELECT column (other lines ok via LT04)
+#   CV04: Use count(*) not count(1) for counting rows
+#   CV05: Use "is null" not "= null" (which doesn't work anyway)
+#
+# Jinja (JJ) - dbt templating:
+#   JJ01: Single space in Jinja tags: "{{ ref('x') }}" not "{{ref('x')}}"
+#
+# Layout (LT) - Code formatting:
+#   LT01: No weird spacing like "select  *" (double space)
+#   LT02: Use 4 spaces for indentation (not tabs, not 2 spaces)
+#   LT04: Trailing commas: "col1," at end of line, not ", col1" at start
+#   LT05: Lines under 120 characters
+#   LT06: No space before parenthesis: "count(*)" not "count (*)"
+#   LT07: Opening bracket of CTE on same line as "as"
+#   LT08: Newline after closing CTE bracket
+#   LT09: One column per line in SELECT
+#   LT10: distinct/all right after select, not on next line
+#   LT11: union/intersect/except on their own line
+#   LT12: Files must end with a newline
+#
+# References (RF) - Valid column/table references:
+#   RF01: Can't select a column from a table not in from clause
+#
+# Structure (ST) - Query organization:
+#   ST03: Don't define CTEs you never use
+#   ST08: Use distinct to dedupe, not group by with no aggregates
+#
+# Non-core rules you may want to add later:
+# =========================================
+#   AL01: Require "as" for tables: "from users as u" not "from users u"
+#   AM05: Write "left outer join" not just "left join"
+#   CV06: Require semicolons at end of statements
+#   RF02: Always qualify columns: "users.id" not just "id"
+#   RF03: Be consistent with qualification across the query
+#   ST05: No subqueries in from/join - use CTEs instead
+#
+# Rules intentionally excluded:
+# =============================
+#   RF05: Allows special chars in identifiers (source systems need this)
+#   ST06: Column ordering rules (too opinionated)
 
-# These are recommended unless you use sqlfmt
-# We recommend excluding the following rules
-# ambiguous.join(AM05), references.special_chars (RF05), structure.column_order(ST06)
-exclude_rules = AM05, RF05, ST06
-
-# For sqlfmt compatibility, we need to exclude the following
-# layout.indent (LT02), layout.cte_bracket (LT07), layout.select_targets (LT09)
-#exclude_rules = AM05, LT02, LT07, LT09, RF05, ST06, ST07
+# Core rules for SQLFluff 3.1.1 plus recommended extras (LT04, LT09)
+# Use indentation for multiline (not backslashes, which break parsing)
+rules =
+    AL02, AL03, AL04, AL05, AL06, AL08, AL09,
+    AM01, AM02, AM06,
+    CP01, CP02, CP03, CP04, CP05,
+    CV03, CV04, CV05,
+    JJ01,
+    LT01, LT02, LT04, LT05, LT06, LT07, LT08, LT09, LT10, LT11, LT12,
+    RF01,
+    ST03, ST08
 
 # CPU processes to use while linting.
-# The default is "single threaded" to allow easy debugging, but this
-# is often undesirable at scale.
-# If positive, just implies number of processes.
-# If negative or zero, implies number_of_cpus - specified_number.
-# e.g. -1 means use all processors but one. 0 means all cpus.
+# If positive, use exactly that many processes.
+# If negative or zero, use (number_of_cpus - value).
+# e.g. -1 means use all processors but one; 0 means all CPUs.
 processes = -1
 
-# Max line length is set by default to be in line with the dbt style guide.
-# https://github.com/dbt-labs/corp/blob/main/dbt_style_guide.md
-# Set to zero or negative to disable checks.
-#max_line_length = 140
-# This is recommended if you use sqlfmt
+# Max line length aligned with the dbt style guide.
 max_line_length = 120
 
 [sqlfluff:templater:dbt]
 project_dir = ./
 
-# Ignore linting errors found within sections of code coming directly from
-# templated code (e.g. from within Jinja curly braces. Note that it does not
-# ignore errors from literal code found within template loops.
+# Ignore linting errors inside purely templated sections (e.g. inside
+# Jinja curly braces). Literal SQL within loops/blocks is still linted.
 ignore_templated_areas = true
 
 
 [sqlfluff:indentation]
-# While implicit indents are not enabled by default. Many of the
-# SQLFluff maintainers do use them in their projects.
+# Allow "implicit" indents, where indentation is driven by query structure
+# (e.g. line breaks after keywords) rather than only by explicit brackets.
+# This matches common formatting styles in dbt/Snowflake projects.
 allow_implicit_indents = true
 
-# The default configuration for aliasing rules is "consistent"
-# which will auto-detect the setting from the rest of the file. This
-# is less desirable in a new project and you may find this (slightly
-# more strict) setting more useful.
+# Aliasing configuration
+# The default is "consistent" which auto-detects from the file.
+# "explicit" is stricter and better for new projects.
 [sqlfluff:rules:aliasing.table]
 aliasing = explicit
+
 [sqlfluff:rules:aliasing.column]
 aliasing = explicit
-[sqlfluff:rules:aliasing.length]
-min_alias_length = 3
 
-[sqlfluff:rules:ambiguous.join]
-# Fully qualify JOIN clause
-fully_qualify_join_types = outer
-
-[sqlfluff:rules:ambiguous.column_references]
-# GROUP BY/ORDER BY column references
-group_by_and_order_by_style = consistent
-
+# Capitalisation configuration
 [sqlfluff:rules:capitalisation.keywords]
-# Keywords
 capitalisation_policy = lower
 
-#[sqlfluff:rules:capitalisation.identifiers]
-## Unquoted identifiers
-#extended_capitalisation_policy = lower
-#
-#[sqlfluff:rules:capitalisation.functions]
-## Function names
-#extended_capitalisation_policy = lower
-#
-#[sqlfluff:rules:capitalisation.literals]
-## Null & Boolean Literals
-#capitalisation_policy = lower
-#
-#[sqlfluff:rules:capitalisation.types]
-## Data Types
+[sqlfluff:rules:capitalisation.identifiers]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.types]
 extended_capitalisation_policy = lower
 
-[sqlfluff:rules:convention.terminator]
-multiline_newline = True
+# Layout configuration
+[sqlfluff:rules:layout.commas]
+# Trailing commas: comma at end of line, not start
+comma_style = trailing
 
-[sqlfluff:rules:references.consistent]
-# References must be consistently used
-# Disabled for some dialects (e.g. bigquery)
+[sqlfluff:rules:layout.long_lines]
+ignore_comment_lines = true
+
+# Ambiguous column references configuration
+[sqlfluff:rules:ambiguous.column_references]
+# Use column names in GROUP BY/ORDER BY, not numbers
+# Bad:  GROUP BY 1, 2    Good: GROUP BY customer_id, order_date
+group_by_and_order_by_style = explicit
+
+# Convention configuration
+[sqlfluff:rules:convention.select_trailing_comma]
+# No trailing comma on the last column in SELECT
+# (trailing commas on other lines are fine via LT04)
+select_clause_trailing_comma = forbid
+
+# Aliasing length
+[sqlfluff:rules:aliasing.length]
+# Minimum 3 characters prevents cryptic aliases like "t", "a", "x"
+min_alias_length = 3
+
+# References configuration
+[sqlfluff:rules:references.from]
+# For single-table queries, allow unqualified column names
 single_table_references = unqualified
-
-[sqlfluff:rules:references.keywords]
-# Comma separated list of words to ignore for this rule
-# cases seems like a strange one to exclude, bug with "case"?
-ignore_words = cases, date, desc, queries, role, storage, url, value, warehouse_name, warehouse_size, warehouse_type
-
-[sqlfluff:rules:structure.subquery]
-# By default, allow subqueries in from clauses, but not join clauses
-forbid_subquery_in = both
