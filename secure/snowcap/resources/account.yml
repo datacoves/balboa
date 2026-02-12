@@ -1,0 +1,3 @@
+account_parameters:
+  - name: CORTEX_ENABLED_CROSS_REGION
+    value: AWS_US
