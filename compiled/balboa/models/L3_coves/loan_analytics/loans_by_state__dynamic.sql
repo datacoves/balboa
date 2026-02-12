@@ -8,6 +8,6 @@ select
 from BALBOA.L1_LOANS.stg_personal_loans as personal_loans
 join BALBOA.SEEDS.state_codes as state_codes
     on personal_loans.addr_state = state_codes.state_code
-group by 1, 2
-order by 2 desc
+group by state, state_name
+order by state_name desc
 limit 10
