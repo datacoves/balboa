@@ -1,25 +1,20 @@
-# Users should not be created on titan since keypairs can be lost on every run
-# users:
-#   - name: svc_airbyte
-#     owner: SECURITYADMIN
-#     type: SERVICE
-#   - name: svc_airflow
-#     owner: SECURITYADMIN
-#     type: SERVICE
-#   - name: svc_balboa_ci
-#     owner: SECURITYADMIN
-#     type: SERVICE
-#   - name: svc_fivetran
-#     owner: SECURITYADMIN
-#     type: SERVICE
-
-# create or replace user svc_fivetran
-#     type = 'service'
-#     default_warehouse = 'wh_loading'
-#     rsa_public_key = ''
-
-
 role_grants:
+  - to_user: alejandro
+    roles:
+      - analyst
+
+  - to_user: jesus
+    roles:
+      - analyst
+      - loader
+      - transformer_dbt
+      - accountadmin
+      - securityadmin
+
+  - to_user: ian
+    roles:
+      - analyst
+
   - to_user: gomezn
     roles:
       - analyst
@@ -36,7 +31,11 @@ role_grants:
       - accountadmin
       - securityadmin
 
-
+  - to_user: stephen
+    roles:
+      - analyst
+      - accountadmin
+      - securityadmin
 
   - to_user: svc_airbyte
     roles:
@@ -50,6 +49,10 @@ role_grants:
   - to_user: svc_balboa_ci
     roles:
       - transformer_dbt
+
+  - to_user: svc_datacoves
+    roles:
+      - securityadmin
 
   - to_user: svc_fivetran
     roles:
