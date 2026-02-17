@@ -4,6 +4,7 @@ schemas:
     name: "{{ each.value.name.split('.')[1] }}"
     database: "{{ each.value.name.split('.')[0] }}"
     owner: "{{ each.value.get('owner', parent.owner) }}"
+    managed_access: true
 
 # Schema roles
 roles:
