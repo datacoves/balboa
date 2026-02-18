@@ -3,6 +3,10 @@ role_grants:
     roles:
       - analyst
 
+  - to_user: fernando
+    roles:
+      - analyst
+
   - to_user: jesus
     roles:
       - analyst
