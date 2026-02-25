@@ -5,7 +5,15 @@ roles:
   - name: loader
   - name: transformer_dbt
 
+  - name: finance_team
+
 role_grants:
+  - to_role: finance_team
+    roles:
+      - z_db__balboa
+      - z_schema__l3_loan_analytics
+      - z_wh__wh_finance
+
   - to_role: z_base__analyst
     roles:
       # RAW

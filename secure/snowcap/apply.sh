@@ -18,12 +18,14 @@ fi
 
 export $(cat .env | xargs)
 
+# SNOWCAP_LOG_LEVEL=DEBUG
 uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
     --refresh \
     snowcap apply \
     --config resources/ \
-    --sync_resources role,grant,role_grant
+    --sync_resources role,grant,role_grant \
+    # --use-account-usage
 
 
-uvx --from snowcap@git+https://github.com/datacoves/titan.git \
+uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
     snowcap --version

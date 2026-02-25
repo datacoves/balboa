@@ -9,6 +9,9 @@ vars:
       - name: wh_catalog
         size: x-small
         auto_suspend: 60
+      - name: wh_finance
+        size: x-small
+        auto_suspend: 60
       - name: wh_integration
         size: x-small
         auto_suspend: 60

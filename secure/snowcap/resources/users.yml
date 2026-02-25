@@ -22,6 +22,7 @@ role_grants:
   - to_user: gomezn
     roles:
       - analyst
+      - finance_team
       - loader
       - transformer_dbt
       - accountadmin
