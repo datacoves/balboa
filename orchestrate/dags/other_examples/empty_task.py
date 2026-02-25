@@ -7,7 +7,7 @@ default_args = {
     "owner": "airflow",
     "depends_on_past": False,
     "email_on_failure": True,
-    "email": "DL-JRDUS-RDI-WORKFLOW-NOTIFICATION@ITS.JNJ.com",
+    "email": "example@example.com",
     "retries": 2,
 }
 
@@ -19,7 +19,7 @@ default_args = {
     default_args = default_args,
     schedule = '45 6 * * 1-5',
 
-    description = 'To load the L3 models for product cmc datya package  daily',
+    description = 'Do nothing in particular each weekday',
     tags = ['transform'],
     dag_id = 'empty_task'
 )
