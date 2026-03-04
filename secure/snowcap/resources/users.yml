@@ -51,10 +51,6 @@ role_grants:
       - loader
       - transformer_dbt
 
-  - to_user: svc_balboa_ci
-    roles:
-      - transformer_dbt
-
   - to_user: svc_datacoves
     roles:
       - securityadmin
@@ -62,3 +58,29 @@ role_grants:
   - to_user: svc_fivetran
     roles:
       - loader
+
+  - to_user: svc_github_actions
+    roles:
+      - transformer_dbt
+
+  # Used by GH Actions on Balboa repo
+  - to_user: svc_balboa_ci
+    roles:
+      - bot_integration
+      - transformer_dbt
+
+  - to_user: svc_dbt_coves_ci
+    roles:
+      - bot_integration
+
+  - to_user: svc_datacoves_platform_ci
+    roles:
+      - bot_integration
+
+  - to_user: svc_datahub
+    roles:
+      - catalog
+
+  - to_user: svc_superset
+    roles:
+      - analyst

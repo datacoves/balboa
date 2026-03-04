@@ -5,6 +5,9 @@ roles:
   - name: z_schemas__db__raw
   - name: z_tables_views__select
 
+  - name: z_policy_row_region_de
+  - name: z_policy_row_region_all
+
 grants:
   - priv: "CREATE DATABASE"
     on: "ACCOUNT"

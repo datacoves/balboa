@@ -1,6 +1,9 @@
 roles:
   - name: z_base__analyst
 
+  - name: catalog
+  - name: bot_integration
+
   - name: analyst
   - name: loader
   - name: transformer_dbt
@@ -78,6 +81,13 @@ role_grants:
       - z_base__analyst
       - z_tables_views__select
 
+  - to_role: catalog
+    roles:
+      - z_wh__wh_catalog
+      - z_base__analyst
+      - z_tables_views__select
+      - z_policy_row_region_all
+
   - to_role: loader
     roles:
       - z_wh__wh_loading
@@ -103,3 +113,8 @@ role_grants:
       - z_stage__balboa_apps__resources__streamlit__write
 
       - z_tables_views__select
+
+  - to_role: bot_integration
+    roles:
+      - transformer_dbt
+      - z_wh__wh_integration
