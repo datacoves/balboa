@@ -8,6 +8,7 @@ else
     echo "File .env does not exist. Please create a .env file with the following variables:"
     echo ""
     echo "SNOWFLAKE_ACCOUNT="
+    echo "SNOWFLAKE_ACCOUNT_PII="
     echo "SNOWFLAKE_USER="
     echo "SNOWFLAKE_ROLE="
     echo "SNOWFLAKE_PRIVATE_KEY_PATH="
@@ -16,16 +17,47 @@ else
     exit 1
 fi
 
-export $(cat .env | xargs)
+# Load env vars safely
+set -a
+. ./.env
+set +a
+
+# Default to non-PII (standard) account
+ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT"
+EXCLUDE_RESOURCES=""
+
+# If -pii flag is passed, switch to PII (enterprise) account
+if [[ "$1" == "-pii" ]]; then
+  ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT_PII"
+else
+  # Standard accounts don't support enterprise-only features
+  EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference"
+fi
+
+# Override SNOWFLAKE_ACCOUNT for the snowcap run
+export SNOWFLAKE_ACCOUNT="$ACCOUNT_TO_USE"
+
+echo "=========="
+echo "Using SNOWFLAKE_ACCOUNT=$SNOWFLAKE_ACCOUNT"
+if [[ -n "$EXCLUDE_RESOURCES" ]]; then
+  echo "Excluding enterprise-only resources (standard account)"
+fi
+echo "=========="
 
 # SNOWCAP_LOG_LEVEL=DEBUG
-uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
-    --refresh \
-    snowcap apply \
-    --config resources/ \
-    --sync_resources role,grant,role_grant \
+# uvx --from snowcap@git+https://github.com/datacoves/snowcap.git@fix_exclude_cli_param \
+#     --refresh \
+#     snowcap apply \
+#     --config resources/ \
+#     --sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
+#     $EXCLUDE_RESOURCES
     # --use-account-usage
 
+uvx snowcap apply \
+    --config resources/ \
+    --sync_resources role,grant,role_grant,warehouse,database,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
+    $EXCLUDE_RESOURCES
+    # --use-account-usage
 
-uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
-    snowcap --version
+# uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
+uvx snowcap --version

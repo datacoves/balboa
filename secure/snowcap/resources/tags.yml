@@ -1,0 +1,11 @@
+tags:
+  - name: governance.tags.pii
+    comment: Personally Identifiable Information
+
+roles:
+  - name: z_tag__apply__pii
+
+grants:
+  - priv: APPLY
+    on: tag governance.tags.pii
+    to: z_tag__apply__pii

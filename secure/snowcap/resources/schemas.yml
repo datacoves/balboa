@@ -9,6 +9,10 @@ vars:
       - name: RAW.SNAPSHOTS
         owner: transformer_dbt
 
+      # GOVERNANCE DB
+      - name: GOVERNANCE.TAGS
+      - name: GOVERNANCE.POLICIES
+
       # BALBOA DB
       - name: BALBOA.DBT_TEST__AUDIT
 

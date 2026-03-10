@@ -2,11 +2,16 @@ roles:
   - name: z_account__create_database
   - name: z_db__tst_balboa  # Used to grant access to TST databases
   - name: z_db__balboa_dev__create_schema
+
   - name: z_schemas__db__raw
+  - name: z_schemas__db__governance
+
   - name: z_tables_views__select
 
   - name: z_policy_row_region_de
   - name: z_policy_row_region_all
+
+  - name: z_unmask__pii
 
 grants:
   - priv: "CREATE DATABASE"
@@ -22,6 +27,12 @@ grants:
       - "all schemas in database raw"
       - "future schemas in database raw"
     to: z_schemas__db__raw
+
+  - priv: "USAGE"
+    on:
+      - "all schemas in database governance"
+      - "future schemas in database governance"
+    to: z_schemas__db__governance
 
   - for_each: var.databases
     priv: "SELECT"
