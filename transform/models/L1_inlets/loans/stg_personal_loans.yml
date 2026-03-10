@@ -12,8 +12,12 @@ models:
         #       config:
         #         store_failures_as: view
         description: The state in which the borrower resides
+        tags:
+          - pii
       - name: annual_inc
         description: The borrower's annual income
+        tags:
+          - pii
       - name: collections_12_mths_ex_med
         description: Number of collections in the last 12 months excluding medical
           collections
