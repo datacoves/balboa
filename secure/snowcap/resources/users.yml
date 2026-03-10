@@ -1,3 +1,45 @@
+# Users
+vars:
+  - name: users
+    type: list
+    default:
+      - name: alejandro
+        type: PERSON
+      - name: fernando
+        type: PERSON
+      - name: jesus
+        type: PERSON
+      - name: ian
+        type: PERSON
+      - name: gomezn
+        type: PERSON
+      - name: sebastian
+        type: PERSON
+      - name: stephen
+        type: PERSON
+
+    # Service Accounts
+      - name: svc_airbyte
+        type: SERVICE
+      - name: svc_airflow
+        type: SERVICE
+      - name: svc_datacoves
+        type: SERVICE
+      - name: svc_fivetran
+        type: SERVICE
+      - name: svc_github_actions
+        type: SERVICE
+      - name: svc_balboa_ci
+        type: SERVICE
+      - name: svc_dbt_coves_ci
+        type: SERVICE
+      - name: svc_datacoves_platform_ci
+        type: SERVICE
+      - name: svc_datahub
+        type: SERVICE
+      - name: svc_superset
+        type: LEGACY_SERVICE
+
 role_grants:
   - to_user: alejandro
     roles:
@@ -22,6 +64,7 @@ role_grants:
   - to_user: gomezn
     roles:
       - analyst
+      - analyst_pii
       - finance_team
       - loader
       - transformer_dbt

@@ -1,0 +1,16 @@
+tag_masking_policy_references:
+  # Use fully qualified names: database.schema.name
+  - tag_name: governance.tags.pii
+    masking_policy_name: governance.policies.mask_pii_string
+
+  - tag_name: governance.tags.pii
+    masking_policy_name: governance.policies.mask_pii_number
+
+  - tag_name: governance.tags.pii
+    masking_policy_name: governance.policies.mask_pii_float
+
+  - tag_name: governance.tags.pii
+    masking_policy_name: governance.policies.mask_pii_date
+
+  - tag_name: governance.tags.pii
+    masking_policy_name: governance.policies.mask_pii_timestamp

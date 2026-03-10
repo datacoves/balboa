@@ -129,8 +129,12 @@ models:
 
   +transient: "{{ 'false' if target.name == 'prd' else 'true' }}"
   +post-hook:
-    - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
-    - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
+    - >
+      {% if flags.WHICH in ('run', 'build') and target.name == 'prd_pii' %}
+      {{ dbt_tags.apply_column_tags() }}
+      {% endif %}
+    # - "{{ dbt_snow_mask.apply_masking_policy('sources') if target.name == 'prd_pii' }}"
+    # - "{{ dbt_snow_mask.apply_masking_policy('models') if target.name == 'prd_pii' }}"
         # This macro creates a non_versioned view of a versioned dbt model
         # Useful if you want to have a versioned mart but dont want BI tool to break if version
         # is updated.
@@ -149,6 +153,10 @@ data_tests:
 
 vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
+
+  dbt_tags__opt_in_default_naming_config: false
+  dbt_tags__database: "GOVERNANCE"
+  dbt_tags__schema: "TAGS"
 
   create_masking_policy_schema: "false"
   use_common_masking_policy_db: "true"

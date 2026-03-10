@@ -1,0 +1,65 @@
+masking_policies:
+  # String/VARCHAR columns
+  - name: governance.policies.mask_pii_string
+    args:
+      - name: val
+        data_type: VARCHAR
+    returns: VARCHAR
+    body: |
+      CASE
+        WHEN IS_ROLE_IN_SESSION('Z_UNMASK__PII') THEN val
+        ELSE '***MASKED***'
+      END
+    comment: Masks PII string data
+
+  # Numeric columns
+  - name: governance.policies.mask_pii_number
+    args:
+      - name: val
+        data_type: NUMBER
+    returns: NUMBER
+    body: |
+      CASE
+        WHEN IS_ROLE_IN_SESSION('Z_UNMASK__PII') THEN val
+        ELSE NULL
+      END
+    comment: Masks PII numeric data
+
+  # Float columns
+  - name: governance.policies.mask_pii_float
+    args:
+      - name: val
+        data_type: FLOAT
+    returns: FLOAT
+    body: |
+      CASE
+        WHEN IS_ROLE_IN_SESSION('Z_UNMASK__PII') THEN val
+        ELSE NULL
+      END
+    comment: Masks PII float data
+
+  # Date columns
+  - name: governance.policies.mask_pii_date
+    args:
+      - name: val
+        data_type: DATE
+    returns: DATE
+    body: |
+      CASE
+        WHEN IS_ROLE_IN_SESSION('Z_UNMASK__PII') THEN val
+        ELSE NULL
+      END
+    comment: Masks PII date data
+
+  # Timestamp columns
+  - name: governance.policies.mask_pii_timestamp
+    args:
+      - name: val
+        data_type: TIMESTAMP_NTZ
+    returns: TIMESTAMP_NTZ
+    body: |
+      CASE
+        WHEN IS_ROLE_IN_SESSION('Z_UNMASK__PII') THEN val
+        ELSE NULL
+      END
+    comment: Masks PII timestamp data
