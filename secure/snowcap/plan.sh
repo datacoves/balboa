@@ -44,9 +44,14 @@ if [[ -n "$EXCLUDE_RESOURCES" ]]; then
 fi
 echo "=========="
 
-uvx --from snowcap@git+https://github.com/datacoves/snowcap.git@masking_policies_support \
-    --refresh \
-    snowcap plan \
+# uvx --from snowcap@git+https://github.com/datacoves/snowcap.git@fix_exclude_cli_param \
+#     --refresh \
+#     snowcap plan \
+#     --config resources/ \
+#     --sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
+#     $EXCLUDE_RESOURCES
+
+uvx snowcap plan \
     --config resources/ \
-    --sync_resources role,grant,role_grant,warehouse,database,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
+    --sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
     $EXCLUDE_RESOURCES

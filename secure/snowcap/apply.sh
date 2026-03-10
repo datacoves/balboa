@@ -45,14 +45,19 @@ fi
 echo "=========="
 
 # SNOWCAP_LOG_LEVEL=DEBUG
-uvx --from snowcap@git+https://github.com/datacoves/snowcap.git@masking_policies_support \
-    --refresh \
-    snowcap apply \
+# uvx --from snowcap@git+https://github.com/datacoves/snowcap.git@fix_exclude_cli_param \
+#     --refresh \
+#     snowcap apply \
+#     --config resources/ \
+#     --sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
+#     $EXCLUDE_RESOURCES
+    # --use-account-usage
+
+uvx snowcap apply \
     --config resources/ \
     --sync_resources role,grant,role_grant,warehouse,database,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
     $EXCLUDE_RESOURCES
     # --use-account-usage
 
-
-uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
-    snowcap --version
+# uvx --from snowcap@git+https://github.com/datacoves/snowcap.git \
+uvx snowcap --version
