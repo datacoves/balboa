@@ -5,6 +5,7 @@ roles:
   - name: bot_integration
 
   - name: analyst
+  - name: analyst_pii
   - name: loader
   - name: transformer_dbt
 
@@ -22,6 +23,10 @@ role_grants:
       # RAW
       - z_db__raw
       - z_schemas__db__raw
+
+      # GOVERNANCE
+      - z_db__governance
+      - z_schemas__db__governance
 
       # BALBOA
       - z_db__balboa
@@ -72,6 +77,9 @@ role_grants:
       # STAGES
       - z_stage__raw__dbt_artifacts__artifacts__read
 
+      # APPLY TAGS
+      - z_tag__apply__pii
+
       # WAREHOUSES
       - z_wh__wh_transforming
       - z_wh__wh_transforming_dynamic_tables
@@ -80,6 +88,11 @@ role_grants:
     roles:
       - z_base__analyst
       - z_tables_views__select
+
+  - to_role: analyst_pii
+    roles:
+      - analyst
+      - z_unmask__pii
 
   - to_role: catalog
     roles:
@@ -100,6 +113,10 @@ role_grants:
       - z_db__raw
       - z_schemas__db__raw
 
+      # GOVERNANCE
+      - z_db__governance
+      - z_schemas__db__governance
+
       # Shared DBs
       - z_db__covid19_epidemiological_data
       - z_db__snowflake
@@ -111,6 +128,8 @@ role_grants:
 
       - z_stage__raw__dbt_artifacts__artifacts__write
       - z_stage__balboa_apps__resources__streamlit__write
+
+      - z_tag__apply__pii
 
       - z_tables_views__select
 
