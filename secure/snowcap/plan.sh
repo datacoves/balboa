@@ -44,7 +44,7 @@ if [[ -n "$EXCLUDE_RESOURCES" ]]; then
 fi
 echo "=========="
 
-# uvx --from snowcap@git+https://github.com/datacoves/snowcap.git@fix_exclude_cli_param \
+# uvx --from snowcap@git+https://github.com/datacoves/snowcap.git@improve_plan_output \
 #     --refresh \
 #     snowcap plan \
 #     --config resources/ \
