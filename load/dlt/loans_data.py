@@ -12,6 +12,7 @@
 """Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
+from dlt.destinations.adapters import snowflake_adapter
 from utils.datacoves_utils import pipelines_dir
 
 @dlt.resource(write_disposition="replace")
@@ -28,7 +29,11 @@ def zip_coordinates():
 
 @dlt.source
 def loans_data():
-    return [personal_loans, zip_coordinates]
+    # Enable change tracking for Dynamic Table support
+    return [
+        snowflake_adapter(personal_loans(), change_tracking=True),
+        snowflake_adapter(zip_coordinates(), change_tracking=True),
+    ]
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
