@@ -68,7 +68,7 @@ if $USE_PII; then
     USE_ACCOUNT_USAGE="--use-account-usage"
 else
     ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT"
-    EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference"
+    EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference,row_access_policy"
     USE_ACCOUNT_USAGE=""
 fi
 
@@ -97,7 +97,7 @@ if $USE_PLAN; then
     SYNC_FLAG=""
 else
     CONFIG_FLAG="--config resources/"
-    SYNC_FLAG="--sync_resources role,grant,role_grant,warehouse,database,user,masking_policy,tag,tag_reference,tag_masking_policy_reference"
+    SYNC_FLAG="--sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference"
 fi
 
 $UVX_CMD snowcap apply \
