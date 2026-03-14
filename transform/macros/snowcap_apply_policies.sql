@@ -63,9 +63,33 @@
   {% set column = config.meta_get('row_access_column') %}
   {% set policy_db = var('snowcap_policy_database', target.database) %}
   {% set policy_schema = var('snowcap_policy_schema', 'POLICIES') %}
+  {% set policy_fqn = policy_db ~ '.' ~ policy_schema ~ '.' ~ policy | upper %}
 
   {% if policy and column %}
-    ALTER TABLE {{ this }} ADD ROW ACCESS POLICY
-      {{ policy_db }}.{{ policy_schema }}.{{ policy }} ON ({{ column }});
+    {#- Check if a row access policy is already attached -#}
+    {% set check_query %}
+      SELECT POLICY_NAME
+      FROM TABLE(INFORMATION_SCHEMA.POLICY_REFERENCES(
+        REF_ENTITY_NAME => '{{ this.database }}.{{ this.schema }}.{{ this.identifier }}',
+        REF_ENTITY_DOMAIN => 'TABLE'
+      ))
+      WHERE POLICY_KIND = 'ROW_ACCESS_POLICY'
+    {% endset %}
+    {% set current_policies = run_query(check_query) %}
+
+    {#- Drop existing policy if different from desired -#}
+    {% for row in current_policies %}
+      {% set current_policy = row['POLICY_NAME'] %}
+      {% if current_policy | upper != policy_fqn %}
+        ALTER TABLE {{ this }} DROP ROW ACCESS POLICY {{ current_policy }};
+      {% endif %}
+    {% endfor %}
+
+    {#- Add the policy if not already attached -#}
+    {% set already_attached = current_policies | selectattr('POLICY_NAME', 'equalto', policy_fqn) | list | length > 0 %}
+    {% if not already_attached %}
+      ALTER TABLE {{ this }} ADD ROW ACCESS POLICY
+        {{ policy_db }}.{{ policy_schema }}.{{ policy }} ON ({{ column }});
+    {% endif %}
   {% endif %}
 {% endmacro %}
