@@ -65,6 +65,8 @@ role_grants:
     roles:
       - analyst
       - analyst_pii
+      - de__analyst
+      - de__analyst_pii
       - finance_team
       - loader
       - transformer_dbt

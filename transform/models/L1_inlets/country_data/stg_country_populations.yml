@@ -5,9 +5,7 @@ models:
     description: Contains population information from the Github Datasets repository.
     config:
       access: public
-      meta:
-        row_access_policy: rap_country__iso_3
-        row_access_column: country_code
+      row_access_policy: "governance.policies.rap_country__iso_3 ON (country_code)"
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:

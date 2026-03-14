@@ -82,6 +82,7 @@ role_grants:
 
       # APPLY TAGS
       - z_tag__apply__pii
+      - z_rap__apply__country__iso_3
 
       # WAREHOUSES
       - z_wh__wh_transforming
@@ -148,6 +149,7 @@ role_grants:
       - z_stage__balboa_apps__resources__streamlit__write
 
       - z_tag__apply__pii
+      - z_rap__apply__country__iso_3
 
       - z_tables_views__select
 
