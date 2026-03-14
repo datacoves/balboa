@@ -14,7 +14,7 @@ USE_PII=false
 GIT_BRANCH=""
 while [[ $# -gt 0 ]]; do
     case $1 in
-        -pii)
+        --pii)
             USE_PII=true
             shift
             ;;
@@ -48,7 +48,7 @@ if [ ${#missing[@]} -gt 0 ]; then
     echo "Create a .env file with:"
     echo ""
     echo "  SNOWFLAKE_ACCOUNT=your_account        # Standard account identifier"
-    echo "  SNOWFLAKE_ACCOUNT_PII=your_pii_acct   # Enterprise account (for -pii flag)"
+    echo "  SNOWFLAKE_ACCOUNT_PII=your_pii_acct   # Enterprise account (for --pii flag)"
     echo "  SNOWFLAKE_USER=your_user              # Service account username"
     echo "  SNOWFLAKE_ROLE=SECURITYADMIN          # Role for applying changes"
     echo "  SNOWFLAKE_PRIVATE_KEY_PATH=~/.ssh/key # Path to private key"
@@ -56,13 +56,15 @@ if [ ${#missing[@]} -gt 0 ]; then
     exit 1
 fi
 
-# Set account based on -pii flag
+# Set account based on --pii flag
 if $USE_PII; then
     ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT_PII"
     EXCLUDE_RESOURCES=""
+    USE_ACCOUNT_USAGE="--use-account-usage"
 else
     ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT"
     EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference"
+    USE_ACCOUNT_USAGE=""
 fi
 
 export SNOWFLAKE_ACCOUNT="$ACCOUNT_TO_USE"
@@ -88,4 +90,5 @@ $UVX_CMD snowcap plan \
     --config resources/ \
     --sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference \
     $EXCLUDE_RESOURCES \
+    $USE_ACCOUNT_USAGE \
     "$@"
