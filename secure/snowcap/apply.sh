@@ -89,6 +89,9 @@ fi
 if [ -n "$EXCLUDE_RESOURCES" ]; then
     echo "Excluding enterprise-only resources (standard account)"
 fi
+if [ -n "$USE_ACCOUNT_USAGE" ]; then
+    echo "Using --use-account-usage flag"
+fi
 echo "=========="
 
 # Build config flag (skip if using --plan)
@@ -97,7 +100,7 @@ if $USE_PLAN; then
     SYNC_FLAG=""
 else
     CONFIG_FLAG="--config resources/"
-    SYNC_FLAG="--sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference"
+    SYNC_FLAG="--sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference,row_access_policy"
 fi
 
 $UVX_CMD snowcap apply \
