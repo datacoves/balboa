@@ -11,7 +11,7 @@
   
     "VALUE" COMMENT $$The population value for a particular year and country$$, 
   
-    "COUNTRY_CODE" COMMENT $$The ISO 3166-1 alpha-2 code for the country$$
+    "COUNTRY_CODE" COMMENT $$The alpha-3 code for the country$$
   
 )
 
@@ -30,9 +30,9 @@ final as (
 
     select
         year,
-        "COUNTRY NAME" as country_name,
+        "COUNTRY_NAME" as country_name,
         value,
-        "COUNTRY CODE" as country_code
+        "COUNTRY_CODE" as country_code
 
     from raw_source
 

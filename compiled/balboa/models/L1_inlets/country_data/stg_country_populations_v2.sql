@@ -10,9 +10,9 @@ final as (
     select
         year,
         year - 1 as last_year,
-        "COUNTRY NAME" as country_name,
+        "COUNTRY_NAME" as country_name,
         value,
-        "COUNTRY CODE" as country_code
+        "COUNTRY_CODE" as country_code
 
     from raw_source
 
