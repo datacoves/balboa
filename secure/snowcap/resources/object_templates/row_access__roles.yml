@@ -1,0 +1,139 @@
+roles:
+  - for_each: var.country_code__iso_3
+    name: "z_row_access__country_code__iso_3__{{ each.value }}"
+
+  # Region roles - for regional access
+  - name: z_row_access__region__na
+  - name: z_row_access__region__latam
+  - name: z_row_access__region__emea
+  - name: z_row_access__region__apac
+
+# Hierarchy - grant country roles to region roles
+role_grants:
+  - to_role: z_row_access__region__na
+    roles:
+      - z_row_access__country_code__iso_3__can
+      - z_row_access__country_code__iso_3__usa
+      - z_row_access__country_code__iso_3__mex
+
+  - to_role: z_row_access__region__latam
+    roles:
+      - z_row_access__country_code__iso_3__arg
+      - z_row_access__country_code__iso_3__bol
+      - z_row_access__country_code__iso_3__bra
+      - z_row_access__country_code__iso_3__chl
+      - z_row_access__country_code__iso_3__col
+      - z_row_access__country_code__iso_3__cri
+      - z_row_access__country_code__iso_3__ecu
+      - z_row_access__country_code__iso_3__gtm
+      - z_row_access__country_code__iso_3__hnd
+      - z_row_access__country_code__iso_3__nic
+      - z_row_access__country_code__iso_3__pan
+      - z_row_access__country_code__iso_3__per
+      - z_row_access__country_code__iso_3__pry
+      - z_row_access__country_code__iso_3__slv
+      - z_row_access__country_code__iso_3__ury
+      - z_row_access__country_code__iso_3__ven
+
+  - to_role: z_row_access__region__emea
+    roles:
+      - z_row_access__country_code__iso_3__alb
+      - z_row_access__country_code__iso_3__and
+      - z_row_access__country_code__iso_3__aut
+      - z_row_access__country_code__iso_3__bel
+      - z_row_access__country_code__iso_3__bgr
+      - z_row_access__country_code__iso_3__bih
+      - z_row_access__country_code__iso_3__blr
+      - z_row_access__country_code__iso_3__che
+      - z_row_access__country_code__iso_3__cyp
+      - z_row_access__country_code__iso_3__cze
+      - z_row_access__country_code__iso_3__deu
+      - z_row_access__country_code__iso_3__dnk
+      - z_row_access__country_code__iso_3__esp
+      - z_row_access__country_code__iso_3__est
+      - z_row_access__country_code__iso_3__fin
+      - z_row_access__country_code__iso_3__fra
+      - z_row_access__country_code__iso_3__gbr
+      - z_row_access__country_code__iso_3__geo
+      - z_row_access__country_code__iso_3__grc
+      - z_row_access__country_code__iso_3__hrv
+      - z_row_access__country_code__iso_3__hun
+      - z_row_access__country_code__iso_3__irl
+      - z_row_access__country_code__iso_3__isl
+      - z_row_access__country_code__iso_3__ita
+      - z_row_access__country_code__iso_3__kaz
+      - z_row_access__country_code__iso_3__kgz
+      - z_row_access__country_code__iso_3__kor
+      - z_row_access__country_code__iso_3__lbn
+      - z_row_access__country_code__iso_3__lby
+      - z_row_access__country_code__iso_3__lka
+      - z_row_access__country_code__iso_3__ltu
+      - z_row_access__country_code__iso_3__lux
+      - z_row_access__country_code__iso_3__lva
+      - z_row_access__country_code__iso_3__mar
+      - z_row_access__country_code__iso_3__mda
+      - z_row_access__country_code__iso_3__mkd
+      - z_row_access__country_code__iso_3__mne
+      - z_row_access__country_code__iso_3__nld
+      - z_row_access__country_code__iso_3__nor
+      - z_row_access__country_code__iso_3__omn
+      - z_row_access__country_code__iso_3__pol
+      - z_row_access__country_code__iso_3__prt
+      - z_row_access__country_code__iso_3__qat
+      - z_row_access__country_code__iso_3__rou
+      - z_row_access__country_code__iso_3__rus
+      - z_row_access__country_code__iso_3__sau
+      - z_row_access__country_code__iso_3__sdn
+      - z_row_access__country_code__iso_3__srb
+      - z_row_access__country_code__iso_3__svk
+      - z_row_access__country_code__iso_3__svn
+      - z_row_access__country_code__iso_3__swe
+      - z_row_access__country_code__iso_3__syr
+      - z_row_access__country_code__iso_3__tur
+      - z_row_access__country_code__iso_3__ukr
+
+  - to_role: z_row_access__region__apac
+    roles:
+      - z_row_access__country_code__iso_3__afg
+      - z_row_access__country_code__iso_3__are
+      - z_row_access__country_code__iso_3__arm
+      - z_row_access__country_code__iso_3__aze
+      - z_row_access__country_code__iso_3__bgd
+      - z_row_access__country_code__iso_3__brn
+      - z_row_access__country_code__iso_3__btn
+      - z_row_access__country_code__iso_3__chn
+      - z_row_access__country_code__iso_3__fji
+      - z_row_access__country_code__iso_3__hkg
+      - z_row_access__country_code__iso_3__idn
+      - z_row_access__country_code__iso_3__ind
+      - z_row_access__country_code__iso_3__irn
+      - z_row_access__country_code__iso_3__irq
+      - z_row_access__country_code__iso_3__jpn
+      - z_row_access__country_code__iso_3__khm
+      - z_row_access__country_code__iso_3__kir
+      - z_row_access__country_code__iso_3__kor
+      - z_row_access__country_code__iso_3__lao
+      - z_row_access__country_code__iso_3__lka
+      - z_row_access__country_code__iso_3__mac
+      - z_row_access__country_code__iso_3__mdv
+      - z_row_access__country_code__iso_3__mmr
+      - z_row_access__country_code__iso_3__mng
+      - z_row_access__country_code__iso_3__mnp
+      - z_row_access__country_code__iso_3__mys
+      - z_row_access__country_code__iso_3__npl
+      - z_row_access__country_code__iso_3__nru
+      - z_row_access__country_code__iso_3__nzl
+      - z_row_access__country_code__iso_3__pak
+      - z_row_access__country_code__iso_3__phl
+      - z_row_access__country_code__iso_3__png
+      - z_row_access__country_code__iso_3__prk
+      - z_row_access__country_code__iso_3__sgp
+      - z_row_access__country_code__iso_3__slb
+      - z_row_access__country_code__iso_3__tha
+      - z_row_access__country_code__iso_3__tjk
+      - z_row_access__country_code__iso_3__tkm
+      - z_row_access__country_code__iso_3__tls
+      - z_row_access__country_code__iso_3__ton
+      - z_row_access__country_code__iso_3__tuv
+      - z_row_access__country_code__iso_3__vnm
+      - z_row_access__country_code__iso_3__vut

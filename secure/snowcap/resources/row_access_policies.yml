@@ -1,0 +1,17 @@
+row_access_policies:
+  - name: governance.policies.rap_country__iso_3
+    args:
+      - name: country_val
+        data_type: VARCHAR
+    body: |-
+      country_val IS NOT NULL
+      AND IS_ROLE_IN_SESSION('Z_ROW_ACCESS__COUNTRY_CODE__ISO_3__' || UPPER(country_val))
+    comment: Filters rows by country based on user role
+
+roles:
+  - name: z_rap__apply__country__iso_3
+
+grants:
+  - priv: APPLY
+    on: row_access_policy governance.policies.rap_country__iso_3
+    to: z_rap__apply__country__iso_3

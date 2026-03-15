@@ -12,7 +12,7 @@
 """Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
-from utils.datacoves_utils import pipelines_dir
+from utils.datacoves_utils import pipelines_dir, enable_change_tracking
 
 @dlt.resource(write_disposition="replace")
 def personal_loans():
@@ -28,7 +28,7 @@ def zip_coordinates():
 
 @dlt.source
 def loans_data():
-    return [personal_loans, zip_coordinates]
+    return [personal_loans(), zip_coordinates()]
 
 if __name__ == "__main__":
     datacoves_snowflake = dlt.destinations.snowflake(
@@ -46,5 +46,7 @@ if __name__ == "__main__":
     )
 
     load_info = pipeline.run(loans_data())
-
     print(load_info)
+
+    # Enable CHANGE_TRACKING for Dynamic Table support
+    enable_change_tracking(pipeline, ["personal_loans", "zip_coordinates"])
