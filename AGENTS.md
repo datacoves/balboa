@@ -51,7 +51,10 @@
    - Permifrost: Role-based access control (RBAC)
    - Titan: Infrastructure-as-code for Snowflake objects and access control (RBAC)
 
-6. **Automate** (`/automate`)
+6. **Visualize** (`/visualize`)
+   - **Streamlit**: Data apps and dashboards in `visualize/streamlit/`
+
+7. **Automate** (`/automate`)
    - dbt artifact management
    - DataHub integration
    - CI/CD automation scripts
@@ -123,6 +126,12 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 - Don't create a bunch of readme / markdown files,
 - Make scritps as simple as possible
 - Don't put connection strings in scripts. Leverage secrets.toml in ~/.dlt
+- Always `chmod +x` new dlt scripts after creating them
+
+### When Working with Streamlit
+
+- Streamlit apps must be placed in `visualize/streamlit/`
+- Do not create Streamlit apps in the project root or other directories
 
 ### When Working with Datacoves
 

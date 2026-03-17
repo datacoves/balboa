@@ -1,0 +1,21 @@
+database_roles:
+  - name: dr_create_role
+    database: great_bay
+    comment: "Database role to create objects"
+  - name: dr_reader_role
+    database: great_bay
+    comment: "Database role for reading"
+
+
+grants:
+  - priv:
+      - SELECT
+      - INSERT
+      - UPDATE
+    on: FUTURE TABLES IN SCHEMA GREAT_BAY.COVE_MARKETING
+    to: great_bay.dr_create_role
+
+  - priv:
+      - SELECT
+    on: FUTURE TABLES IN SCHEMA GREAT_BAY.COVE_MARKETING
+    to: great_bay.dr_reader_role

@@ -8,9 +8,6 @@ roles:
 
   - name: z_tables_views__select
 
-  - name: z_policy_row_region_de
-  - name: z_policy_row_region_all
-
   - name: z_unmask__pii
 
 grants:

@@ -61,10 +61,14 @@ if $USE_PII; then
     ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT_PII"
     EXCLUDE_RESOURCES=""
     USE_ACCOUNT_USAGE="--use-account-usage"
+    # Include enterprise resources (row access policies, etc.) for PII account
+    CONFIG_PATHS="--config resources/ --config resources_enterprise/"
 else
     ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT"
     EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference,row_access_policy"
     USE_ACCOUNT_USAGE=""
+    # Standard account - only include base resources
+    CONFIG_PATHS="--config resources/"
 fi
 
 export SNOWFLAKE_ACCOUNT="$ACCOUNT_TO_USE"
@@ -84,13 +88,16 @@ fi
 if [ -n "$EXCLUDE_RESOURCES" ]; then
     echo "Excluding enterprise-only resources (standard account)"
 fi
+if $USE_PII; then
+    echo "Including enterprise resources (row access policies, etc.)"
+fi
 if [ -n "$USE_ACCOUNT_USAGE" ]; then
     echo "Using --use-account-usage flag"
 fi
 echo "=========="
 
 $UVX_CMD snowcap plan \
-    --config resources/ \
+    $CONFIG_PATHS \
     --sync_resources role,grant,role_grant,warehouse,user,masking_policy,tag,tag_reference,tag_masking_policy_reference,row_access_policy \
     $EXCLUDE_RESOURCES \
     $USE_ACCOUNT_USAGE \

@@ -1,0 +1,34 @@
+# Role grants for row access policies
+# These are only applied to enterprise accounts with row access policy support
+
+roles:
+  - name: z_policy_row_region_de
+  - name: z_policy_row_region_all
+
+role_grants:
+  # Grant RAP apply role to base analyst and transformer
+  - to_role: z_base__analyst
+    roles:
+      - z_rap__apply__country__iso_3
+
+  - to_role: transformer_dbt
+    roles:
+      - z_rap__apply__country__iso_3
+
+  # Grant region-based row access to analyst role
+  - to_role: analyst
+    roles:
+      - z_row_access__region__na
+      - z_row_access__region__latam
+      - z_row_access__region__emea
+      - z_row_access__region__apac
+
+  # Grant country-specific row access to DE analyst
+  - to_role: de__analyst
+    roles:
+      - z_row_access__country_code__iso_3__deu
+
+  # Grant full row access to catalog role
+  - to_role: catalog
+    roles:
+      - z_policy_row_region_all
