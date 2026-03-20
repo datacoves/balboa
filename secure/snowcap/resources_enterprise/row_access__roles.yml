@@ -7,6 +7,7 @@ roles:
   - name: z_row_access__region__latam
   - name: z_row_access__region__emea
   - name: z_row_access__region__apac
+  - name: z_policy_row_region_all
 
 # Hierarchy - grant country roles to region roles
 role_grants:
@@ -137,3 +138,10 @@ role_grants:
       - z_row_access__country_code__iso_3__tuv
       - z_row_access__country_code__iso_3__vnm
       - z_row_access__country_code__iso_3__vut
+
+  - to_role: z_policy_row_region_all
+    roles:
+      - z_row_access__region__na
+      - z_row_access__region__latam
+      - z_row_access__region__emea
+      - z_row_access__region__apac

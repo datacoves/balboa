@@ -12,19 +12,23 @@ models:
         #       config:
         #         store_failures_as: view
         description: The state in which the borrower resides
-        meta:
-          masking_tag: pii
+        config:
+          meta:
+            masking_tag: pii
       - name: annual_inc
         description: The borrower's annual income
-        meta:
-          masking_tag: pii
+        config:
+          meta:
+            masking_tag: pii
       - name: collections_12_mths_ex_med
-        description: Number of collections in the last 12 months excluding medical
+        description:
+          Number of collections in the last 12 months excluding medical
           collections
       - name: collection_recovery_fee
         description: Post charge off collection fee
       - name: delinq_2_yrs
-        description: The number of 30+ days past-due incidences of delinquency in
+        description:
+          The number of 30+ days past-due incidences of delinquency in
           the borrower's credit file for the past 2 years
       - name: desc
         description: Loan description provided by the borrower
@@ -35,12 +39,14 @@ models:
       - name: emp_length
         description: Employment length in years
       - name: emp_title
-        description: The job title supplied by the borrower when applying for the
+        description:
+          The job title supplied by the borrower when applying for the
           loan
       - name: funded_amnt
         description: The total amount committed to that loan at that point in time
       - name: funded_amnt_inv
-        description: The total amount committed by investors for that loan at that
+        description:
+          The total amount committed by investors for that loan at that
           point in time
       - name: grade
         description: LC assigned loan grade
@@ -49,7 +55,8 @@ models:
       - name: initial_list_status
         description: The initial listing status of the loan
       - name: inq_last_6_mths
-        description: The number of inquiries in past 6 months (excluding auto and
+        description:
+          The number of inquiries in past 6 months (excluding auto and
           mortgage inquiries)
       - name: installment
         description: The monthly payment owed by the borrower if the loan originates
@@ -84,7 +91,8 @@ models:
       - name: out_prncp
         description: Remaining outstanding principal for total amount funded
       - name: out_prncp_inv
-        description: Remaining outstanding principal for portion of total amount funded
+        description:
+          Remaining outstanding principal for portion of total amount funded
           by investors
       - name: policy_code
         description: Publicly available
@@ -99,22 +107,26 @@ models:
       - name: revol_bal
         description: Total credit revolving balance
       - name: revol_util
-        description: Revolving line utilization rate, or the amount of credit the
+        description:
+          Revolving line utilization rate, or the amount of credit the
           borrower is using relative to all available revolving credit
       - name: sub_grade
         description: LC assigned loan subgrade
       - name: term
-        description: The number of payments on the loan. Values are in months and
+        description:
+          The number of payments on the loan. Values are in months and
           can be either 36 or 60
       - name: title
         description: The loan title provided by the borrower
       - name: total_acc
-        description: The total num(#) of credit lines currently in the borrower's
+        description:
+          The total num(#) of credit lines currently in the borrower's
           credit file
       - name: total_pymnt
         description: Payments received to date for total amount funded
       - name: total_pymnt_inv
-        description: Payments received to date for portion of total amount funded
+        description:
+          Payments received to date for portion of total amount funded
           by investors
       - name: total_rec_int
         description: Interest received to date
@@ -125,8 +137,10 @@ models:
       - name: url
         description: URL for the LC page with listing data
       - name: verification_status
-        description: Indicates if income was verified by LC, not verified, or if the
+        description:
+          Indicates if income was verified by LC, not verified, or if the
           income source was verified
       - name: zip_code
-        description: The first 3 numbers of the zip code provided by the borrower
+        description:
+          The first 3 numbers of the zip code provided by the borrower
           in the loan application
