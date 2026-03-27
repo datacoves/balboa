@@ -1,6 +1,7 @@
 tags:
   - name: governance.tags.pii
     comment: Personally Identifiable Information
+    propagate: ON_DATA_MOVEMENT
 
 roles:
   - name: z_tag__apply__pii

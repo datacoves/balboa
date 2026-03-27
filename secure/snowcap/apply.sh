@@ -67,7 +67,12 @@ if $USE_PII; then
     EXCLUDE_RESOURCES=""
     USE_ACCOUNT_USAGE="--use-account-usage"
     # Include enterprise resources (row access policies, etc.) for PII account
-    CONFIG_PATHS="--config resources/ --config resources_enterprise/"
+    # snowcap --config only accepts a single path, so combine both directories
+    COMBINED_CONFIG=$(mktemp -d)
+    trap "rm -rf $COMBINED_CONFIG" EXIT
+    cp -r "$SCRIPT_DIR/resources/"* "$COMBINED_CONFIG/"
+    cp "$SCRIPT_DIR/resources_enterprise/"*.yml "$COMBINED_CONFIG/"
+    CONFIG_PATHS="--config $COMBINED_CONFIG"
 else
     ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT"
     EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference,row_access_policy"

@@ -12,7 +12,7 @@
 """Loads a CSV file to Snowflake"""
 import dlt
 import pandas as pd
-from utils.datacoves_utils import pipelines_dir, enable_change_tracking
+from utils.datacoves_utils import pipelines_dir, enable_change_tracking, apply_pii_tag
 
 @dlt.resource(write_disposition="replace")
 def personal_loans():
@@ -47,6 +47,9 @@ if __name__ == "__main__":
 
     load_info = pipeline.run(loans_data())
     print(load_info)
+
+    # Apply PII tags to sensitive columns
+    apply_pii_tag(pipeline, "personal_loans", ["addr_state", "annual_inc"])
 
     # Enable CHANGE_TRACKING for Dynamic Table support
     enable_change_tracking(pipeline, ["personal_loans", "zip_coordinates"])

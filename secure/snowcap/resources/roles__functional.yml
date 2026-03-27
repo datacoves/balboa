@@ -117,6 +117,12 @@ role_grants:
     roles:
       - z_wh__wh_loading
 
+      # GOVERNANCE
+      - z_db__governance
+      - z_schemas__db__governance
+
+      - z_tag__apply__pii
+
   - to_role: transformer_dbt
     roles:
       - z_account__create_database
@@ -144,6 +150,8 @@ role_grants:
       - z_tag__apply__pii
 
       - z_tables_views__select
+
+      - z_unmask__pii
 
   - to_role: bot_integration
     roles:
