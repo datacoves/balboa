@@ -36,3 +36,13 @@ repos:
       - id: yamllint
         args: [-c=.yamllint]
         exclude: ^transform/.dbt_coves/templates
+
+  # TODO: Uncomment once dbt-jsonschema supports `config` on groups and source columns
+  # See: https://github.com/dbt-labs/dbt-jsonschema/issues/213
+  # - repo: https://github.com/python-jsonschema/check-jsonschema
+  #   rev: 0.31.3
+  #   hooks:
+  #     - id: check-jsonschema
+  #       name: Validate dbt YAML files
+  #       files: ^transform/models/.*\.yml$
+  #       args: ["--schemafile", "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_yml_files-latest.json"]
