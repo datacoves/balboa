@@ -20,7 +20,8 @@ uvx --from git+https://github.com/dbt-labs/dbt-autofix.git dbt-autofix deprecati
 ```
 
 # Fix remaining issues
+```bash
+dbt compile
 ```
-run dbt compile
 fix all errors and warnings, you can remove the dynamic table materialization
-```
+
