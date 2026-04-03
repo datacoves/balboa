@@ -21,9 +21,8 @@ The Airflow scheduler processes dataset events in a loop controlled by `schedule
 
 This is a known issue tracked in several GitHub issues including:
 
-- [apache/airflow#29640](https://github.com/apache/airflow/issues/29640)
-- [apache/airflow#33828](https://github.com/apache/airflow/issues/33828)
-- [apache/airflow#28730](https://github.com/apache/airflow/issues/28730)
+- [apache/airflow#56750](https://github.com/apache/airflow/issues/56750) — Grouped Issue: Asset Scheduling behavior changes based on DAG performance settings (consolidated tracker)
+- [apache/airflow#54659](https://github.com/apache/airflow/issues/54659) — Asset-triggered DAGs miss events from concurrently completing dynamic mapped tasks
 
 ## Status
 
@@ -31,8 +30,8 @@ This is a known issue tracked in several GitHub issues including:
 |-----------------|--------|
 | 2.4 - 2.8 | Bug present |
 | 2.9 - 2.10 | Partially improved |
-| **3.0+** | **Resolved** — Datasets were reworked as "Assets" with improved atomicity and event processing guarantees |
+| 3.0 | Datasets were reworked as "Assets" with improved atomicity and event processing guarantees, but there are still open issues |
 
 ## Recommendation
 
-- **Upgrade to Airflow 3.0+** when possible — this is the definitive fix
+- Develop a process that does not trigger so many simultaneous events
