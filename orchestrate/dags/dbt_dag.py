@@ -22,7 +22,9 @@ from orchestrate.utils import datacoves_utils
 def dbt_dag():
 
     @task.datacoves_dbt(
-        connection_id="main_key_pair"
+        connection_id="main_key_pair",
+        retries=0,
+        execution_timeout=pendulum.duration(minutes=15)
     )
     def run_dbt():
         return "dbt debug"
