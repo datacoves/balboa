@@ -49,7 +49,7 @@
 
 5. **Secure** (`/secure`)
    - Permifrost: Role-based access control (RBAC)
-   - Titan: Infrastructure-as-code for Snowflake objects and access control (RBAC)
+   - Snowcap: Infrastructure-as-code for Snowflake objects and access control (RBAC)
 
 6. **Visualize** (`/visualize`)
    - **Streamlit**: Data apps and dashboards in `visualize/streamlit/`
@@ -191,8 +191,8 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 ## Key Project Characteristics
 
 ### Advanced Features
-- **Masking Policies**: PII protection via `dbt-snow-mask`
-- **Row Access Policies**: Data governance and DEU compliance
+- **Masking Policies**: PII protection via `Snowcap`
+- **Row Access Policies**: Data governance and EU compliance
 - **Dynamic Tables**: Real-time materialized views (L3_coves)
 - **Blue-Green Deployments**: Zero-downtime database swaps
 - **CI/CD Integration**: PR-based database creation and testing
