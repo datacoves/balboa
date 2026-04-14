@@ -13,4 +13,4 @@ DEMO 4 - Create complex dbt model with window functions:
 PROMPT: "Create a new dbt model in L3_coves called weather_daily_stats that calculates: 7-day rolling average temperature, daily temperature rank within each month using RANK(), and day-over-day temperature change using LAG(). Follow the project's naming conventions from AGENTS.md. Once done, open the sql file and explain your query."
 
 DEMO 5 - GitHub MCP:
-PROMPT: "Create a GitHub issue on datacoves/balboa titled 'Add weather data mart with rolling averages' that describes the new weather pipeline we just built. Once created, open the issue."
+PROMPT: "Create a GitHub issue on datacoves/balboa titled 'Add weather data mart with rolling averages' that describes the new weather pipeline we just built."

@@ -2,8 +2,13 @@
 
 ## Install
 
-`curl https://rill.sh | sh`
+```
+cd /config/workspace/visualize/rill
+curl https://rill.sh | sh
+```
 
 ## Start Rill
 
-`./rill start balboa-project --port 8501`
+```
+./rill start balboa-project --port 8501
+```
