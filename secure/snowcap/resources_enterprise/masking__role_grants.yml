@@ -1,0 +1,32 @@
+# Role grants that only make sense on enterprise accounts:
+# - z_tag__apply__pii: tag-based masking policy apply role
+# - z_unmask__pii: masking policy bypass role
+# - governance DB access: centralized governance objects live only in enterprise
+
+role_grants:
+  - to_role: z_base__analyst
+    roles:
+      - z_tag__apply__pii
+      - z_db__governance
+      - z_schemas__db__governance
+
+  - to_role: loader
+    roles:
+      - z_tag__apply__pii
+      - z_db__governance
+      - z_schemas__db__governance
+
+  - to_role: transformer_dbt
+    roles:
+      - z_tag__apply__pii
+      - z_db__governance
+      - z_schemas__db__governance
+      - z_unmask__pii
+
+  - to_role: analyst_pii
+    roles:
+      - z_unmask__pii
+
+  - to_role: de__analyst_pii
+    roles:
+      - z_unmask__pii
