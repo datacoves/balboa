@@ -71,3 +71,30 @@ Proprietary features require a dbt Labs contract.
 ### VS Code Extension
 
 Requires Fusion (not compatible with Core). 14-day free trial · Most features free after · Works in Cursor & Windsurf too.
+
+## dbt Docs v2: A Fresh Look + Upsells
+
+### What's New in dbt Docs v2
+
+| Feature | Description |
+|---------|-------------|
+| Redesigned UI | Modern, clean interface with better navigation |
+| Dark & Light Mode | Choose your preferred theme |
+| Parquet-powered | Faster loading, scales to large projects |
+| REST API | Query metadata at `/api/v1/` for AI agents & MCP |
+
+### Built-in Fusion/Cloud Promotions
+
+The new docs UI includes dismissible banners for paid features:
+
+| Promotion | Message |
+|-----------|---------|
+| dbt State | "Stop rebuilding models that haven't changed" |
+| Column-level lineage | "See exactly where each column comes from" |
+| Collaborate with teams | "See every project in your org" |
+
+### The Takeaway
+
+dbt Docs v2 is a genuine improvement: faster, prettier, more capable. It includes promo banners for Fusion/Cloud features, but they're dismissible - so you can enjoy the new UI without the upsells.
+
+> **dbt Docs Alternative: Tributary Docs by Datacoves** — Flat pricing. Deploy in your cloud. [tributarydocs.com](https://tributarydocs.com)
