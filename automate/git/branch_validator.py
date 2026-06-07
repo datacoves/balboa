@@ -1,117 +1,170 @@
 #!/usr/bin/env python3
+"""
+Branch validator for GitHub Actions pipelines.
+
+Validates:
+1. Source branch naming conventions (must start with 'feature', 'release',
+   'hotfix', or 'infra')
+2. Merge direction rules (feature->release, release->main, hotfix->main,
+   infra->main)
+3. Source branch is up to date with main (no commits behind)
+
+Required environment variables (set in the GitHub Actions workflow):
+  SOURCE_BRANCH      - The source (head) branch of the PR
+  TARGET_BRANCH      - The target (base) branch of the PR
+  GITHUB_TOKEN       - Token used to call the GitHub API
+  GITHUB_REPOSITORY  - The 'owner/repo' slug (set automatically by Actions)
+"""
 
 import os
 import sys
+
 import requests
+
 
 class ValidationError(Exception):
     pass
 
-class GitCommandError(Exception):
-    pass
 
-def get_commit_count(source_branch, github_token, repository):
+# Allowed merge targets per source branch prefix
+BRANCH_RULES = {
+    "feature": ("feature", "release"),
+    "release": ("main",),
+    "hotfix": ("main",),
+    "infra": ("main",),
+}
+
+# Sort prefixes longest-first to avoid substring collisions
+SORTED_PREFIXES = sorted(BRANCH_RULES.keys(), key=len, reverse=True)
+
+VALID_SOURCE_PREFIXES = tuple(SORTED_PREFIXES)
+VALID_TARGET_PREFIXES = ("feature", "release", "main")
+
+
+def _get_branch_prefix(branch):
+    """Return the matching prefix for a branch, or None."""
+    lower = branch.lower()
+    for prefix in SORTED_PREFIXES:
+        if lower.startswith(prefix):
+            return prefix
+    return None
+
+
+def validate_merge_direction(source_branch, target_branch):
+    """Validate that the source branch is allowed to merge into the target."""
+    prefix = _get_branch_prefix(source_branch)
+    if prefix is None:
+        return
+
+    allowed = BRANCH_RULES[prefix]
+    target_matches = any(
+        target_branch.lower().startswith(t) for t in allowed
+    )
+    if not target_matches:
+        allowed_str = ", ".join(allowed)
+        raise ValidationError(
+            f"❌ '{prefix}' branch can only be merged to: {allowed_str}"
+        )
+
+
+def check_branch_up_to_date(source_branch, github_token, repository):
     """
-    Use GitHub API to compare branches and get commit count difference.
-    This tells us how many commits behind target the source branch is.
+    Use the GitHub Compare API to check if the source branch is up to date
+    with main. Always checks against main regardless of the PR target,
+    ensuring conflicts are resolved by the feature developer before entering
+    the release branch.
+    Raises ValidationError if the source is behind main.
     """
+    url = f"https://api.github.com/repos/{repository}/compare/{source_branch}...main"
+    headers = {
+        "Authorization": f"token {github_token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+
     try:
-        # GitHub API endpoint for comparing branches
-        url = f"https://api.github.com/repos/{repository}/compare/{source_branch}...main"
-
-        headers = {
-            "Authorization": f"token {github_token}",
-            "Accept": "application/vnd.github.v3+json"
-        }
-
         response = requests.get(url, headers=headers)
         response.raise_for_status()
-
         data = response.json()
-
-        # ahead_by tells us how many commits main is ahead of source
-        # (i.e., how many commits source is behind main)
-        commits_behind = data.get("ahead_by", 0)
-
-        if commits_behind == 0:
-            print(f"✅ The {source_branch} is up to date with the main branch.")
-        else:
-            print(f"❌ There are {commits_behind} commit(s) in the main branch that are not in Source branch: {source_branch}. Pull main into the {source_branch}")
-            sys.exit(1)
-
     except requests.exceptions.RequestException as e:
-        raise GitCommandError(f"❌ Failed to compare branches via GitHub API: {e}")
-    except (KeyError, ValueError) as e:
-        raise GitCommandError(f"❌ Failed to parse GitHub API response: {e}")
+        raise ValidationError(f"❌ Failed to compare branches via GitHub API: {e}")
+    except ValueError as e:
+        raise ValidationError(f"❌ Failed to parse GitHub API response: {e}")
+
+    # ahead_by tells us how many commits main is ahead of source
+    # (i.e., how many commits source is behind main)
+    commits_behind = data.get("ahead_by", 0)
+
+    if commits_behind == 0:
+        print(f"✅ The {source_branch} is up to date with the main branch.")
+    else:
+        raise ValidationError(
+            f"❌ There are {commits_behind} commit(s) in the main branch that are "
+            f"not in source branch: {source_branch}. Pull main into the {source_branch}"
+        )
+
 
 def main():
     """
-    Runs some validations on branches given that SOURCE_BRANCH and
-    TARGET_BRANCH are set as environment vars before running this.
+    Validates branch naming and merge direction rules.
 
-        Raises:
-           Exception: Validations not passed
+    Adds source branch naming validation and ensures the correct merge
+    direction (feature->release, release->main, hotfix->main, infra->main).
     """
-    # Get GitHub API credentials
-    github_token = os.environ.get("GITHUB_TOKEN")
-    repository = os.environ.get("GITHUB_REPOSITORY")
+    github_token = os.environ.get("GITHUB_TOKEN", "")
+    repository = os.environ.get("GITHUB_REPOSITORY", "")
 
-    # Retrieve branch names from environment variables
-    source_branch = os.environ.get("SOURCE_BRANCH")
-    target_branch = os.environ.get("TARGET_BRANCH")
+    source_branch = os.environ.get("SOURCE_BRANCH", "")
+    target_branch = os.environ.get("TARGET_BRANCH", "")
+
+    # GitHub may prefix with refs/heads/
+    source_branch = source_branch.replace("refs/heads/", "")
+    target_branch = target_branch.replace("refs/heads/", "")
+
     print(f"Source Branch: {source_branch}")
     print(f"Target Branch: {target_branch}")
 
     if not source_branch or not target_branch:
-        print("❌ ERROR: SOURCE_BRANCH and TARGET_BRANCH environment variables must be set.")
-        sys.exit(1)
+        raise ValidationError(
+            "❌ SOURCE_BRANCH and TARGET_BRANCH environment variables must be set."
+        )
 
     if not github_token or not repository:
-        print("❌ ERROR: GITHUB_TOKEN and GITHUB_REPOSITORY environment variables must be set.")
-        sys.exit(1)
-
-    # Get the commit count for changes in target that are not in source_branch
-    try:
-        get_commit_count(source_branch, github_token, repository)
-    except GitCommandError as e:
-        print(e)
-        sys.exit(1)
-
-    if source_branch != target_branch:
-        print(
-            "Validating source branch: "
-            + source_branch
-            + " with target branch: "
-            + target_branch
+        raise ValidationError(
+            "❌ GITHUB_TOKEN and GITHUB_REPOSITORY environment variables must be set."
         )
-        if not source_branch.lower().startswith(("feature", "release")):
-            raise ValidationError(
-                "❌ Source branch must start with 'feature' or 'release'"
-            )
 
-        if not target_branch.lower().startswith(("feature", "release", "main")):
-            raise ValidationError(
-                "❌ Target branch must start with 'feature', 'release' or 'main'"
-            )
+    if source_branch == target_branch:
+        print("Source and target branches are the same, skipping validation.")
+        return
 
-        # check the correct order
-        if source_branch.lower().startswith(("feature")):
-            if not target_branch.lower().startswith(("feature", "release")):
-                raise ValidationError(
-                    "❌ Feature branch can only be merged to another feature branch or a release branch"
-                )
+    print(
+        f"Validating source branch: {source_branch} "
+        f"with target branch: {target_branch}"
+    )
 
-        if source_branch.lower().startswith(("release")):
-            if not target_branch.lower().startswith(("main")):
-                raise ValidationError(
-                    "❌ Release branch can only be merged to the main branch"
-                )
+    # Validate source branch naming
+    if not any(source_branch.lower().startswith(p) for p in VALID_SOURCE_PREFIXES):
+        raise ValidationError(
+            f"❌ Source branch must start with one of: {', '.join(VALID_SOURCE_PREFIXES)}"
+        )
+
+    if not any(target_branch.lower().startswith(p) for p in VALID_TARGET_PREFIXES):
+        raise ValidationError(
+            f"❌ Target branch must start with one of: {', '.join(VALID_TARGET_PREFIXES)}"
+        )
+
+    # Validate merge direction
+    validate_merge_direction(source_branch, target_branch)
+
+    # Check if source branch is up to date with main
+    check_branch_up_to_date(source_branch, github_token, repository)
 
     print("✅ Branch validated!")
+
 
 if __name__ == "__main__":
     try:
         main()
-    except Exception as ex:
+    except ValidationError as ex:
         print(ex)
-        exit(1)
+        sys.exit(1)
