@@ -1,3 +1,8 @@
+doc_md: |
+  """
+  ## Sample DAG showing end-to-end ELT
+  This DAG shows how to load data with 3 tools, then run dbt, then other tasks
+  """
 description: "Loan Run"
 schedule: "0 0 1 */12 *"
 tags:
