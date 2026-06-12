@@ -14,6 +14,7 @@ APPROVED_TAGS = {'extract_and_load',
                  'ms_teams_notification',
                  'parameters',
                  'python_script',
+                 'retry',
                  'sample',
                  'slack_notification',
                  'transform',
@@ -31,6 +32,15 @@ ALLOWED_OPERATORS = [
     "AirbyteTriggerSyncOperator",
     'FivetranOperator',
     'FivetranSensor',
+    'EmptyOperator',
+    # Cosmos-generated dbt operators (DbtTaskGroup)
+    'DbtRunLocalOperator',
+    'DbtSeedLocalOperator',
+    'DbtTestLocalOperator',
+    'DbtSourceLocalOperator',
+    'DbtSnapshotLocalOperator',
+    'DbtBuildLocalOperator',
+    'DbtRunOperationLocalOperator',
 ]
 
 @contextmanager

@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [validate-branch]
 
-    container: datacoves/ci-airflow-dbt-snowflake:4.1
+    container: datacoves/ci-airflow-dbt-snowflake:5.0
 
     env:
       AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags

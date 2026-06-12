@@ -27,7 +27,7 @@ profile_config = ProfileConfig(
 
     schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
     default_args={
-        "retries": 2
+        "retries": 3
     },
     tags=["transform", "retry"],
 )
