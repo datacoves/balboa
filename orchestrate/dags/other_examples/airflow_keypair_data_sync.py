@@ -17,7 +17,7 @@ logger = Logger(__name__)
     ),
     description="Sample DAG to synchronize the Airflow database using key-pair authentication",
     schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
-    tags=["extract_and_load", "version_7"],
+    tags=["extract_and_load"],
 )
 def airflow_keypair_data_sync():
     @task.datacoves_airflow_db_sync(

@@ -8,7 +8,7 @@ default_args = {
     "depends_on_past": False,
     "email_on_failure": True,
     "email": "example@example.com",
-    "retries": 2,
+    "retries": 3,
 }
 
 @dag(

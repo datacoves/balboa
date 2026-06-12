@@ -6,7 +6,6 @@ seeds:
       reported cases to assess deviations or trends.
     columns:
       - name: LOCATION_ID
-        data_type: VARCHAR
         description: >-
           Identifier for the geographical location associated with the expected COVID-19 case values.
       - name: DATE
