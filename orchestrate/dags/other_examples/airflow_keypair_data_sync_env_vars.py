@@ -29,23 +29,31 @@ DEFAULT_AIRFLOW_TABLES = [
 def get_dbtcoves_datasync_env_vars(
     connection_id: str, prefix: str = "DATA_SYNC_SNOWFLAKE_"
 ):
-    conn = BaseHook.get_connection(connection_id)
-    conn_extras = conn.extra_dejson
-
     env_vars = {
-        f"{prefix}USER": conn.login,
-        f"{prefix}WAREHOUSE": conn_extras.get("warehouse", ""),
-        f"{prefix}ACCOUNT": conn_extras.get("account", ""),
-        f"{prefix}ROLE": conn_extras.get("role", ""),
-        f"{prefix}DATABASE": conn_extras.get("database", ""),
         "DATA_SYNC_SOURCE_CONNECTION_STRING": os.environ.get(
             "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN"
         ),
     }
-    if conn_extras.get("private_key_content"):
-        env_vars[f"{prefix}PRIVATE_KEY"] = conn_extras.get("private_key_content")
-    elif conn.password:
-        env_vars[f"{prefix}PASSWORD"] = conn.password
+
+    try:
+        conn = BaseHook.get_connection(connection_id)
+        conn_extras = conn.extra_dejson
+
+        env_vars.update(
+            {
+                f"{prefix}USER": conn.login,
+                f"{prefix}WAREHOUSE": conn_extras.get("warehouse", ""),
+                f"{prefix}ACCOUNT": conn_extras.get("account", ""),
+                f"{prefix}ROLE": conn_extras.get("role", ""),
+                f"{prefix}DATABASE": conn_extras.get("database", ""),
+            }
+        )
+        if conn_extras.get("private_key_content"):
+            env_vars[f"{prefix}PRIVATE_KEY"] = conn_extras.get("private_key_content")
+        elif conn.password:
+            env_vars[f"{prefix}PASSWORD"] = conn.password
+    except AirflowNotFoundException:
+        logger.error(f"Connection not found: {connection_id}")
 
     return env_vars
 
@@ -58,7 +66,7 @@ def get_dbtcoves_datasync_env_vars(
     ),
     description="Sample DAG to synchronize the Airflow database using key-pair authentication",
     schedule=datacoves_utils.set_schedule("0 0 1 */12 *"),
-    tags=["extract_and_load", "version_7"],
+    tags=["extract_and_load"],
 )
 def airflow_keypair_data_sync_env_vars():
     @task.datacoves_bash(
