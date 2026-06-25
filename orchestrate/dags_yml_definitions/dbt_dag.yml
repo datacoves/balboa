@@ -1,30 +1,28 @@
-description: "Sample DAG for dbt build"
-schedule: "0 0 1 */12 *"
+doc_md: |
+  ## Sample DAG showing how to run dbt
+  This DAG shows how to run a dbt task
+
+imports:
+  - "from orchestrate.utils import datacoves_utils"
+
+catchup: false
+
+# Black will reformat this to one line without the trailing comma, also note
+# the two-space indent will get reformatted to the correct four
+default_args: !py |
+  datacoves_utils.set_default_args(
+    owner = 'Noel Gomez',
+    owner_email = 'noel@example.com',)
+
+schedule: !py datacoves_utils.set_schedule('0 0 1 */12 *')
+
+description: "Sample DAG demonstrating how to run dbt in airflow"
 tags:
   - transform
-default_args:
-  start_date: 2024-01-01
-  owner: Noel Gomez
-  # Replace with the email of the recipient for failures
-  email: gomezn@example.com
-  email_on_failure: true
-  retries: 3
-catchup: false
 
 nodes:
   run_dbt:
     type: task
     task_decorator: datacoves_dbt
-    connection_id: main
-    target: dev
-    bash_command: "dbt run -s personal_loans"
-  transform:
-    type: task
-    task_decorator: datacoves_dbt # @airflow.decorators.task.{task_decorator}
-    connection_id: main
-    target: prd
-    overrides:
-      threads: 8
-      warehouse: tst_warehouse
-    bash_command: "dbt run -s personal_loans"
-    dependencies: ["run_dbt"]
+    connection_id: main_key_pair
+    bash_command: "dbt debug"
