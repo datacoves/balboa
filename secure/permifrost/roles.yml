@@ -101,7 +101,7 @@
 
 - bot_integration:
     # grant create database on account to role bot_integration
-    owner: securityadmin
+    owner: useradmin
     member_of:
       - transformer_dbt
       - z_wh__wh_integration
@@ -248,10 +248,10 @@
 # grant WRITE on stage raw.dbt_artifacts.artifacts to role z_stage__raw__dbt_artifacts__artifacts__write;
 
 - z_stage__raw__dbt_artifacts__artifacts__read:
-    owner: securityadmin
+    owner: useradmin
 
 - z_stage__raw__dbt_artifacts__artifacts__write:
-    owner: securityadmin
+    owner: useradmin
 
 - z_stage__resources_read:
     owner: securityadmin
@@ -279,10 +279,10 @@
 # This role is created but has no grants
 # The grants will be added by the CI script
 - z_db__balboa_tst:
-    owner: securityadmin
+    owner: useradmin
 
 - z_db__balboa_qa:
-    owner: securityadmin
+    owner: useradmin
 
 - z_db__balboa_write:
     privileges:
