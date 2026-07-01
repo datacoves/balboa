@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run
 # /// script
 # dependencies = [
-#   "dlt[snowflake, parquet]==1.21.0",
+#   "dlt[snowflake, parquet]==1.28.1",
 #   "psutil~=6.0.0",
 #   "pandas==2.2.2",
 # ]
