@@ -12,7 +12,7 @@ from orchestrate.utils import datacoves_utils
 
     default_args=datacoves_utils.set_default_args(
         owner = "Noel Gomez",
-        owner_email = "noel@example.com"
+        owner_email = "gomezn@datacoves.com"
     ),
 
     schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
