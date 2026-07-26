@@ -44,6 +44,7 @@ role_grants:
   - to_user: alejandro
     roles:
       - analyst
+      - securityadmin
 
   - to_user: fernando
     roles:
