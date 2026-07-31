@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="720" viewBox="0 0 1320 720" font-family="Helvetica, Arial, sans-serif">
+<rect width="1320" height="720" fill="#ffffff"/>
+<path d="M360.0,350.0 L470.0,350.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="470.0" y1="350.0" x2="461.8" y2="353.8" stroke="#495057" stroke-width="2"/>
+<line x1="470.0" y1="350.0" x2="461.8" y2="346.2" stroke="#495057" stroke-width="2"/>
+<path d="M670.0,350.0 L770.0,350.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="770.0" y1="350.0" x2="761.8" y2="353.8" stroke="#495057" stroke-width="2"/>
+<line x1="770.0" y1="350.0" x2="761.8" y2="346.2" stroke="#495057" stroke-width="2"/>
+<path d="M950.0,350.0 L1140.0,350.0 L1140.0,484.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="1140.0" y1="484.0" x2="1136.2" y2="475.8" stroke="#495057" stroke-width="2"/>
+<line x1="1140.0" y1="484.0" x2="1143.8" y2="475.8" stroke="#495057" stroke-width="2"/>
+<path d="M415.0,198.0 L415.0,484.0 L260.0,484.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="260.0" y1="484.0" x2="268.2" y2="480.2" stroke="#868e96" stroke-width="2"/>
+<line x1="260.0" y1="484.0" x2="268.2" y2="487.8" stroke="#868e96" stroke-width="2"/>
+<path d="M715.0,198.0 L715.0,484.0 L570.0,484.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="570.0" y1="484.0" x2="578.2" y2="480.2" stroke="#868e96" stroke-width="2"/>
+<line x1="570.0" y1="484.0" x2="578.2" y2="487.8" stroke="#868e96" stroke-width="2"/>
+<path d="M1000.0,198.0 L1000.0,484.0 L1140.0,484.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="1140.0" y1="484.0" x2="1131.8" y2="487.8" stroke="#868e96" stroke-width="2"/>
+<line x1="1140.0" y1="484.0" x2="1131.8" y2="480.2" stroke="#868e96" stroke-width="2"/>
+<path d="M260.0,618.0 L260.0,556.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="260.0" y1="556.0" x2="263.8" y2="564.2" stroke="#495057" stroke-width="2"/>
+<line x1="260.0" y1="556.0" x2="256.2" y2="564.2" stroke="#495057" stroke-width="2"/>
+<path d="M1000.0,132.0 L1000.0,74.0 L415.0,74.0 L415.0,132.0" fill="none" stroke="#7048e8" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="415.0" y1="132.0" x2="411.2" y2="123.8" stroke="#7048e8" stroke-width="2"/>
+<line x1="415.0" y1="132.0" x2="418.8" y2="123.8" stroke="#7048e8" stroke-width="2"/>
+<rect x="160.0" y="321.0" width="200" height="58" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="470.0" y="321.0" width="200" height="58" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="770.0" y="321.0" width="180" height="58" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="290.0" y="132.0" width="250" height="66" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<rect x="590.0" y="132.0" width="250" height="66" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<rect x="875.0" y="132.0" width="250" height="66" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<ellipse cx="260.0" cy="520.0" rx="105.0" ry="36.0" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<ellipse cx="570.0" cy="520.0" rx="105.0" ry="36.0" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+<ellipse cx="1140.0" cy="520.0" rx="105.0" ry="36.0" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<rect x="150.0" y="618.0" width="220" height="54" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
+<rect x="35.0" y="20.0" width="692.1" height="33.6" fill="#ffffff"/>
+<text x="40" y="46" fill="#1e1e1e" font-size="24" font-weight="bold">Datacoves CI/CD — how a change reaches production</text>
+<rect x="23.0" y="154.0" width="77.9" height="18.2" fill="#ffffff"/>
+<text x="28" y="169" fill="#1e1e1e" font-size="13" font-weight="bold">Pipelines</text>
+<rect x="23.0" y="339.0" width="70.3" height="18.2" fill="#ffffff"/>
+<text x="28" y="354" fill="#1e1e1e" font-size="13" font-weight="bold">Git flow</text>
+<rect x="23.0" y="509.0" width="77.9" height="18.2" fill="#ffffff"/>
+<text x="28" y="524" fill="#1e1e1e" font-size="13" font-weight="bold">Databases</text>
+<text x="260.0" y="346.1" fill="#343a40" font-size="13" text-anchor="middle">Feature branch</text>
+<text x="260.0" y="363.0" fill="#343a40" font-size="13" text-anchor="middle">fb/*</text>
+<text x="570.0" y="346.1" fill="#343a40" font-size="13" text-anchor="middle">Release  rb/*</text>
+<text x="570.0" y="363.0" fill="#343a40" font-size="13" text-anchor="middle">Hotfix  hf/*</text>
+<text x="860.0" y="354.6" fill="#343a40" font-size="13" text-anchor="middle">main</text>
+<text x="415.0" y="161.4" fill="#1a2f6b" font-size="12" text-anchor="middle">1  Feature PR checks</text>
+<text x="415.0" y="177.0" fill="#1a2f6b" font-size="12" text-anchor="middle">governance on a per-PR db</text>
+<text x="715.0" y="161.4" fill="#1a2f6b" font-size="12" text-anchor="middle">2  Release PR checks</text>
+<text x="715.0" y="177.0" fill="#1a2f6b" font-size="12" text-anchor="middle">blue-green build → QA</text>
+<text x="1000.0" y="161.4" fill="#1a2f6b" font-size="12" text-anchor="middle">3  Deploy to production</text>
+<text x="1000.0" y="177.0" fill="#1a2f6b" font-size="12" text-anchor="middle">blue-green</text>
+<text x="260.0" y="516.4" fill="#3b2a63" font-size="12" text-anchor="middle">Temporary</text>
+<text x="260.0" y="532.0" fill="#3b2a63" font-size="12" text-anchor="middle">per-PR database</text>
+<text x="570.0" y="524.5" fill="#12521f" font-size="13" text-anchor="middle">QA / pre-prod</text>
+<text x="1140.0" y="524.9" fill="#0b3d66" font-size="14" text-anchor="middle">PRODUCTION</text>
+<text x="260.0" y="641.4" fill="#7a1212" font-size="12" text-anchor="middle">4  Clean up PR db</text>
+<text x="260.0" y="657.0" fill="#7a1212" font-size="12" text-anchor="middle">(on PR close / abandon)</text>
+<rect x="403.6" y="354.0" width="22.9" height="18.0" fill="#ffffff"/>
+<text x="415.0" y="367.2" fill="#495057" font-size="12" text-anchor="middle">PR</text>
+<rect x="708.6" y="354.0" width="22.9" height="18.0" fill="#ffffff"/>
+<text x="720.0" y="367.2" fill="#495057" font-size="12" text-anchor="middle">PR</text>
+<rect x="988.9" y="354.0" width="112.2" height="18.0" fill="#ffffff"/>
+<text x="1045.0" y="367.2" fill="#495057" font-size="12" text-anchor="middle">merge → deploy</text>
+<rect x="372.0" y="332.0" width="60.1" height="18.0" fill="#ffffff"/>
+<text x="402.0" y="345.2" fill="#495057" font-size="12" text-anchor="middle">creates</text>
+<rect x="675.7" y="332.0" width="52.6" height="18.0" fill="#ffffff"/>
+<text x="702.0" y="345.2" fill="#495057" font-size="12" text-anchor="middle">builds</text>
+<rect x="957.0" y="332.0" width="60.1" height="18.0" fill="#ffffff"/>
+<text x="987.0" y="345.2" fill="#495057" font-size="12" text-anchor="middle">deploys</text>
+<rect x="250.4" y="578.0" width="45.2" height="18.0" fill="#ffffff"/>
+<text x="273.0" y="591.2" fill="#495057" font-size="12" text-anchor="middle">drops</text>
+<rect x="599.3" y="52.0" width="216.3" height="18.0" fill="#ffffff"/>
+<text x="707.5" y="65.2" fill="#495057" font-size="12" text-anchor="middle">prod artifacts (defer state)</text>
+</svg>
