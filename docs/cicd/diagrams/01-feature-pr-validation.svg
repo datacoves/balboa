@@ -87,6 +87,8 @@
 <text x="735.0" y="814.4" fill="#343a40" font-size="12" text-anchor="middle"></text>
 <text x="735.0" y="830.0" fill="#343a40" font-size="12" text-anchor="middle">Full refresh</text>
 <text x="735.0" y="845.6" fill="#343a40" font-size="12" text-anchor="middle">rebuild every model</text>
-<text x="610.0" y="295.2" fill="#495057" font-size="12" text-anchor="middle">no</text>
-<text x="610.0" y="957.2" fill="#495057" font-size="12" text-anchor="middle">on failure</text>
+<rect x="561.1" y="305.0" width="22.9" height="18.0" fill="#ffffff"/>
+<text x="572.5" y="318.2" fill="#495057" font-size="12" text-anchor="middle">no</text>
+<rect x="561.3" y="967.0" width="82.4" height="18.0" fill="#ffffff"/>
+<text x="602.5" y="980.2" fill="#495057" font-size="12" text-anchor="middle">on failure</text>
 </svg>

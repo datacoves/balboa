@@ -82,9 +82,14 @@
 <text x="867.0" y="479.0" fill="#3b2a63" font-size="12" text-anchor="middle">(build + test here)</text>
 <text x="867.0" y="673.4" fill="#12521f" font-size="12" text-anchor="middle">QA / pre-prod</text>
 <text x="867.0" y="689.0" fill="#12521f" font-size="12" text-anchor="middle">(stable, always up)</text>
-<text x="520.0" y="295.2" fill="#495057" font-size="12" text-anchor="middle">infra/*</text>
-<text x="520.0" y="434.2" fill="#495057" font-size="12" text-anchor="middle">yes</text>
-<text x="300.0" y="500.2" fill="#495057" font-size="12" text-anchor="middle">no</text>
-<text x="867.0" y="424.2" fill="#495057" font-size="12" text-anchor="middle">clone</text>
-<text x="867.0" y="634.2" fill="#495057" font-size="12" text-anchor="middle">promote</text>
+<rect x="455.0" y="305.0" width="60.1" height="18.0" fill="#ffffff"/>
+<text x="485.0" y="318.2" fill="#495057" font-size="12" text-anchor="middle">infra/*</text>
+<rect x="469.8" y="444.0" width="30.3" height="18.0" fill="#ffffff"/>
+<text x="485.0" y="457.2" fill="#495057" font-size="12" text-anchor="middle">yes</text>
+<rect x="275.6" y="485.0" width="22.9" height="18.0" fill="#ffffff"/>
+<text x="287.0" y="498.2" fill="#495057" font-size="12" text-anchor="middle">no</text>
+<rect x="831.4" y="365.0" width="45.2" height="18.0" fill="#ffffff"/>
+<text x="854.0" y="378.2" fill="#495057" font-size="12" text-anchor="middle">clone</text>
+<rect x="824.0" y="563.0" width="60.1" height="18.0" fill="#ffffff"/>
+<text x="854.0" y="576.2" fill="#495057" font-size="12" text-anchor="middle">promote</text>
 </svg>
