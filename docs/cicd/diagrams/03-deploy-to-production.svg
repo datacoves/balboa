@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="940" viewBox="0 0 1050 940" font-family="Helvetica, Arial, sans-serif">
+<rect width="1050" height="940" fill="#ffffff"/>
+<path d="M280.0,138.0 L280.0,190.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="190.0" x2="276.2" y2="181.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="190.0" x2="283.8" y2="181.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,234.0 L280.0,252.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="252.0" x2="276.2" y2="243.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="252.0" x2="283.8" y2="243.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,306.0 L280.0,344.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="344.0" x2="276.2" y2="335.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="344.0" x2="283.8" y2="335.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,398.0 L280.0,424.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="424.0" x2="276.2" y2="415.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="424.0" x2="283.8" y2="415.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,478.0 L280.0,530.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="530.0" x2="276.2" y2="521.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="530.0" x2="283.8" y2="521.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,574.0 L280.0,592.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="592.0" x2="276.2" y2="583.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="592.0" x2="283.8" y2="583.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,638.0 L280.0,660.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="660.0" x2="276.2" y2="651.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="660.0" x2="283.8" y2="651.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,708.0 L280.0,728.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="728.0" x2="276.2" y2="719.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="728.0" x2="283.8" y2="719.8" stroke="#495057" stroke-width="2"/>
+<path d="M280.0,774.0 L280.0,830.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="830.0" x2="276.2" y2="821.8" stroke="#495057" stroke-width="2"/>
+<line x1="280.0" y1="830.0" x2="283.8" y2="821.8" stroke="#495057" stroke-width="2"/>
+<path d="M470.0,371.0 L500.0,371.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="500.0" y1="371.0" x2="491.8" y2="374.8" stroke="#495057" stroke-width="2"/>
+<line x1="500.0" y1="371.0" x2="491.8" y2="367.2" stroke="#495057" stroke-width="2"/>
+<path d="M470.0,279.0 L500.0,279.0 L500.0,281.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<path d="M470.0,684.0 L500.0,684.0 L500.0,685.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<path d="M897.5,358.0 L897.5,430.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="897.5" y1="430.0" x2="893.7" y2="421.8" stroke="#495057" stroke-width="2"/>
+<line x1="897.5" y1="430.0" x2="901.3" y2="421.8" stroke="#495057" stroke-width="2"/>
+<path d="M897.5,502.0 L897.5,566.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="897.5" y1="566.0" x2="893.7" y2="557.8" stroke="#495057" stroke-width="2"/>
+<line x1="897.5" y1="566.0" x2="901.3" y2="557.8" stroke="#495057" stroke-width="2"/>
+<rect x="90" y="82" width="380" height="56" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<rect x="90" y="190" width="380" height="44" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<rect x="90" y="252" width="380" height="54" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<rect x="500" y="254" width="250" height="54" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="90" y="344" width="380" height="54" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<rect x="500" y="345" width="250" height="52" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
+<rect x="90" y="424" width="380" height="54" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<rect x="90" y="530" width="380" height="44" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<rect x="90" y="592" width="380" height="46" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<rect x="90" y="660" width="380" height="48" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+<rect x="500" y="659" width="250" height="52" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="90" y="728" width="380" height="46" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="90" y="830" width="380" height="54" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<ellipse cx="897.5" cy="322.0" rx="97.5" ry="36.0" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<ellipse cx="897.5" cy="466.0" rx="97.5" ry="36.0" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+<rect x="790" y="566" width="215" height="58" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="45.0" y="22.0" width="584.2" height="30.8" fill="#ffffff"/>
+<text x="50" y="46" fill="#1e1e1e" font-size="22" font-weight="bold">CI/CD (3): Deploy to Production  (blue-green)</text>
+<rect x="45.0" y="164.0" width="172.4" height="19.6" fill="#ffffff"/>
+<text x="50" y="180" fill="#1e1e1e" font-size="14" font-weight="bold">Deploy to production</text>
+<rect x="45.0" y="504.0" width="131.8" height="19.6" fill="#ffffff"/>
+<text x="50" y="520" fill="#1e1e1e" font-size="14" font-weight="bold">Publish results</text>
+<rect x="45.0" y="804.0" width="75.0" height="19.6" fill="#ffffff"/>
+<text x="50" y="820" fill="#1e1e1e" font-size="14" font-weight="bold">Clean up</text>
+<rect x="770.0" y="248.0" width="180.5" height="19.6" fill="#ffffff"/>
+<text x="775" y="264" fill="#1e1e1e" font-size="14" font-weight="bold">What blue-green means</text>
+<text x="280.0" y="106.1" fill="#1a2f6b" font-size="13" text-anchor="middle">A release branch is merged to  main</text>
+<text x="280.0" y="123.0" fill="#1a2f6b" font-size="13" text-anchor="middle">→ the production deploy runs</text>
+<text x="280.0" y="216.6" fill="#0b3d66" font-size="13" text-anchor="middle">Fetch production artifacts</text>
+<text x="280.0" y="275.1" fill="#5c3d00" font-size="13" text-anchor="middle">Check the merge commit for a</text>
+<text x="280.0" y="292.0" fill="#5c3d00" font-size="13" text-anchor="middle">full-refresh marker  (sets the mode)</text>
+<text x="625.0" y="277.7" fill="#343a40" font-size="11" text-anchor="middle">with marker → full refresh (rebuild all)</text>
+<text x="625.0" y="292.0" fill="#343a40" font-size="11" text-anchor="middle">without → normal, deferred deploy</text>
+<text x="280.0" y="375.6" fill="#1a2f6b" font-size="13" text-anchor="middle">Blue-green deploy to PRODUCTION</text>
+<text x="625.0" y="367.4" fill="#7a1212" font-size="12" text-anchor="middle">On failure → drop the</text>
+<text x="625.0" y="383.0" fill="#7a1212" font-size="12" text-anchor="middle">staging (green) database</text>
+<text x="280.0" y="447.1" fill="#3b2a63" font-size="13" text-anchor="middle">Drop orphaned relations</text>
+<text x="280.0" y="464.0" fill="#3b2a63" font-size="13" text-anchor="middle">(objects for models that were removed)</text>
+<text x="280.0" y="556.5" fill="#0b3d66" font-size="13" text-anchor="middle">Generate documentation</text>
+<text x="280.0" y="619.5" fill="#0b3d66" font-size="13" text-anchor="middle">Publish docs  (pipeline artifact + docs branch)</text>
+<text x="280.0" y="688.5" fill="#12521f" font-size="13" text-anchor="middle">Push dbt artifacts to the Datacoves API</text>
+<text x="625.0" y="681.7" fill="#343a40" font-size="11" text-anchor="middle">this becomes the production state</text>
+<text x="625.0" y="696.0" fill="#343a40" font-size="11" text-anchor="middle">that future PRs defer to  (diagrams 1 &amp; 2)</text>
+<text x="280.0" y="755.5" fill="#343a40" font-size="13" text-anchor="middle">Bump version &amp; push git tags</text>
+<text x="280.0" y="853.1" fill="#3b2a63" font-size="13" text-anchor="middle">Drop feature PR databases for</text>
+<text x="280.0" y="870.0" fill="#3b2a63" font-size="13" text-anchor="middle">PRs merged since the last release</text>
+<text x="897.5" y="318.4" fill="#0b3d66" font-size="12" text-anchor="middle">PRODUCTION</text>
+<text x="897.5" y="334.0" fill="#0b3d66" font-size="12" text-anchor="middle">(current, live)</text>
+<text x="897.5" y="462.4" fill="#12521f" font-size="12" text-anchor="middle">Green copy</text>
+<text x="897.5" y="478.0" fill="#12521f" font-size="12" text-anchor="middle">(build the changes here)</text>
+<text x="897.5" y="591.4" fill="#343a40" font-size="12" text-anchor="middle">Swap: green becomes live;</text>
+<text x="897.5" y="607.0" fill="#343a40" font-size="12" text-anchor="middle">the old copy is dropped</text>
+<rect x="443.8" y="375.0" width="82.4" height="18.0" fill="#ffffff"/>
+<text x="485.0" y="388.2" fill="#495057" font-size="12" text-anchor="middle">on failure</text>
+<rect x="832.1" y="385.0" width="104.7" height="18.0" fill="#ffffff"/>
+<text x="884.5" y="398.2" fill="#495057" font-size="12" text-anchor="middle">clone + build</text>
+<rect x="865.6" y="525.0" width="37.8" height="18.0" fill="#ffffff"/>
+<text x="884.5" y="538.2" fill="#495057" font-size="12" text-anchor="middle">swap</text>
+</svg>
