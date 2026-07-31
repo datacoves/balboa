@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="900" viewBox="0 0 980 900" font-family="Helvetica, Arial, sans-serif">
+<rect width="980" height="900" fill="#ffffff"/>
+<path d="M300.0,142.0 L300.0,194.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="194.0" x2="296.2" y2="185.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="194.0" x2="303.8" y2="185.8" stroke="#495057" stroke-width="2"/>
+<path d="M300.0,240.0 L300.0,258.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="258.0" x2="296.2" y2="249.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="258.0" x2="303.8" y2="249.8" stroke="#495057" stroke-width="2"/>
+<path d="M450.0,301.0 L520.0,301.0 L520.0,305.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="520.0" y1="305.0" x2="516.2" y2="296.8" stroke="#495057" stroke-width="2"/>
+<line x1="520.0" y1="305.0" x2="523.8" y2="296.8" stroke="#495057" stroke-width="2"/>
+<path d="M300.0,344.0 L300.0,398.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="398.0" x2="296.2" y2="389.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="398.0" x2="303.8" y2="389.8" stroke="#495057" stroke-width="2"/>
+<path d="M450.0,440.0 L520.0,440.0 L520.0,439.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="520.0" y1="439.0" x2="523.8" y2="447.2" stroke="#495057" stroke-width="2"/>
+<line x1="520.0" y1="439.0" x2="516.2" y2="447.2" stroke="#495057" stroke-width="2"/>
+<path d="M300.0,482.0 L300.0,506.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="506.0" x2="296.2" y2="497.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="506.0" x2="303.8" y2="497.8" stroke="#495057" stroke-width="2"/>
+<path d="M300.0,562.0 L300.0,578.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="578.0" x2="296.2" y2="569.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="578.0" x2="303.8" y2="569.8" stroke="#495057" stroke-width="2"/>
+<path d="M300.0,624.0 L300.0,642.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="642.0" x2="296.2" y2="633.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="642.0" x2="303.8" y2="633.8" stroke="#495057" stroke-width="2"/>
+<path d="M300.0,700.0 L300.0,722.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="722.0" x2="296.2" y2="713.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="722.0" x2="303.8" y2="713.8" stroke="#495057" stroke-width="2"/>
+<path d="M300.0,780.0 L300.0,800.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="800.0" x2="296.2" y2="791.8" stroke="#495057" stroke-width="2"/>
+<line x1="300.0" y1="800.0" x2="303.8" y2="791.8" stroke="#495057" stroke-width="2"/>
+<path d="M867.0,318.0 L867.0,430.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="867.0" y1="430.0" x2="863.2" y2="421.8" stroke="#495057" stroke-width="2"/>
+<line x1="867.0" y1="430.0" x2="870.8" y2="421.8" stroke="#495057" stroke-width="2"/>
+<path d="M867.0,504.0 L867.0,640.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="867.0" y1="640.0" x2="863.2" y2="631.8" stroke="#495057" stroke-width="2"/>
+<line x1="867.0" y1="640.0" x2="870.8" y2="631.8" stroke="#495057" stroke-width="2"/>
+<path d="M490.0,534.0 L787.0,534.0 L787.0,467.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<path d="M490.0,751.0 L787.0,751.0 L787.0,677.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<rect x="110" y="84" width="380" height="58" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<rect x="110" y="194" width="380" height="46" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<polygon points="300.0,258 450,301.0 300.0,344 150,301.0" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<rect x="520" y="268" width="225" height="74" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<polygon points="300.0,398 450,440.0 300.0,482 150,440.0" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<rect x="520" y="408" width="225" height="62" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="110" y="506" width="380" height="56" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<rect x="110" y="578" width="380" height="46" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<rect x="110" y="642" width="380" height="58" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+<rect x="110" y="722" width="380" height="58" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<rect x="110" y="800" width="380" height="46" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<ellipse cx="867.0" cy="281.0" rx="80.0" ry="37.0" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<ellipse cx="867.0" cy="467.0" rx="80.0" ry="37.0" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<ellipse cx="867.0" cy="677.0" rx="80.0" ry="37.0" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+<text x="50" y="46" fill="#1e1e1e" font-size="22" font-weight="bold">CI/CD (2): Release PR — validate against a clone of production</text>
+<text x="50" y="184" fill="#1e1e1e" font-size="14" font-weight="bold">Validate</text>
+<text x="50" y="386" fill="#1e1e1e" font-size="14" font-weight="bold">Build &amp; promote through a clone of production</text>
+<text x="755" y="219" fill="#1e1e1e" font-size="14" font-weight="bold">Databases (blue-green)</text>
+<text x="300.0" y="109.1" fill="#1a2f6b" font-size="13" text-anchor="middle">Pull Request targeting  main</text>
+<text x="300.0" y="126.0" fill="#1a2f6b" font-size="13" text-anchor="middle">(from a release  rb/*  or hotfix  hf/*  branch)</text>
+<text x="300.0" y="221.6" fill="#0b3d66" font-size="13" text-anchor="middle">Check branch naming &amp; merge rules</text>
+<text x="300.0" y="297.1" fill="#5c3d00" font-size="13" text-anchor="middle">Which branch</text>
+<text x="300.0" y="314.0" fill="#5c3d00" font-size="13" text-anchor="middle">type?</text>
+<text x="632.5" y="293.6" fill="#343a40" font-size="12" text-anchor="middle">infra/* → cannot change dbt</text>
+<text x="632.5" y="309.2" fill="#343a40" font-size="12" text-anchor="middle">models; passes after branch</text>
+<text x="632.5" y="324.8" fill="#343a40" font-size="12" text-anchor="middle">validation only (no build)</text>
+<text x="300.0" y="436.1" fill="#5c3d00" font-size="13" text-anchor="middle">Was QA already</text>
+<text x="300.0" y="453.0" fill="#5c3d00" font-size="13" text-anchor="middle">refreshed today?</text>
+<text x="632.5" y="435.4" fill="#343a40" font-size="12" text-anchor="middle">Yes → build directly on QA;</text>
+<text x="632.5" y="451.0" fill="#343a40" font-size="12" text-anchor="middle">skip the clone &amp; swap</text>
+<text x="300.0" y="530.1" fill="#3b2a63" font-size="13" text-anchor="middle">Clone the PRODUCTION database</text>
+<text x="300.0" y="547.0" fill="#3b2a63" font-size="13" text-anchor="middle">into a temporary copy  (zero-copy)</text>
+<text x="300.0" y="605.5" fill="#0b3d66" font-size="13" text-anchor="middle">Fetch production artifacts</text>
+<text x="300.0" y="667.1" fill="#12521f" font-size="13" text-anchor="middle">Full dbt build against the clone</text>
+<text x="300.0" y="684.0" fill="#12521f" font-size="13" text-anchor="middle">slim (changed + downstream)  or  full</text>
+<text x="300.0" y="747.1" fill="#1a2f6b" font-size="13" text-anchor="middle">Blue-green swap: promote the temporary</text>
+<text x="300.0" y="764.0" fill="#1a2f6b" font-size="13" text-anchor="middle">copy to the stable QA / pre-prod database</text>
+<text x="300.0" y="827.5" fill="#1a2f6b" font-size="13" text-anchor="middle">Grant access to QA</text>
+<text x="867.0" y="277.4" fill="#0b3d66" font-size="12" text-anchor="middle">PRODUCTION</text>
+<text x="867.0" y="293.0" fill="#0b3d66" font-size="12" text-anchor="middle">(source, read-only)</text>
+<text x="867.0" y="463.4" fill="#3b2a63" font-size="12" text-anchor="middle">Temporary copy</text>
+<text x="867.0" y="479.0" fill="#3b2a63" font-size="12" text-anchor="middle">(build + test here)</text>
+<text x="867.0" y="673.4" fill="#12521f" font-size="12" text-anchor="middle">QA / pre-prod</text>
+<text x="867.0" y="689.0" fill="#12521f" font-size="12" text-anchor="middle">(stable, always up)</text>
+<text x="520.0" y="295.2" fill="#495057" font-size="12" text-anchor="middle">infra/*</text>
+<text x="520.0" y="434.2" fill="#495057" font-size="12" text-anchor="middle">yes</text>
+<text x="300.0" y="500.2" fill="#495057" font-size="12" text-anchor="middle">no</text>
+<text x="867.0" y="424.2" fill="#495057" font-size="12" text-anchor="middle">clone</text>
+<text x="867.0" y="634.2" fill="#495057" font-size="12" text-anchor="middle">promote</text>
+</svg>
