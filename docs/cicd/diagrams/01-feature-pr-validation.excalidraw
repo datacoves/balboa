@@ -9,7 +9,7 @@
       "x": 50,
       "y": 24,
       "width": 700,
-      "height": 26.0,
+      "height": 28.6,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -29,15 +29,15 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "CI/CD (1): Feature PR \u2014 validation & governance   \u00b7   fb/* \u2192 rb/*   \u00b7   Azure DevOps",
-      "fontSize": 20,
+      "text": "CI/CD (1): Feature Pull Request \u2014 validation & governance",
+      "fontSize": 22,
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "CI/CD (1): Feature PR \u2014 validation & governance   \u00b7   fb/* \u2192 rb/*   \u00b7   Azure DevOps",
+      "originalText": "CI/CD (1): Feature Pull Request \u2014 validation & governance",
       "lineHeight": 1.25,
-      "baseline": 16
+      "baseline": 17
     },
     {
       "id": "trig",
@@ -97,13 +97,13 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Trigger: PR  fb/* \u2192 rb/*\n(Azure DevOps branch-policy build validation)",
+      "text": "A developer opens a Pull Request\n(feature branch \u2192 release branch)",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "trig",
-      "originalText": "Trigger: PR  fb/* \u2192 rb/*\n(Azure DevOps branch-policy build validation)",
+      "originalText": "A developer opens a Pull Request\n(feature branch \u2192 release branch)",
       "lineHeight": 1.25,
       "baseline": 10
     },
@@ -133,13 +133,13 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "JOB 1 \u00b7 validate_branch",
+      "text": "Validate",
       "fontSize": 14,
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "JOB 1 \u00b7 validate_branch",
+      "originalText": "Validate",
       "lineHeight": 1.25,
       "baseline": 11
     },
@@ -149,7 +149,7 @@
       "x": 175,
       "y": 194,
       "width": 420,
-      "height": 48,
+      "height": 46,
       "angle": 0,
       "strokeColor": "#1971c2",
       "backgroundColor": "#e7f5ff",
@@ -179,7 +179,7 @@
       "id": "val__t",
       "type": "text",
       "x": 183,
-      "y": 210.2,
+      "y": 209.2,
       "width": 404,
       "height": 16.900000000000002,
       "angle": 0,
@@ -201,13 +201,13 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Validate branch names & merge rules  (branch_validator.py)",
+      "text": "Check branch naming & merge rules",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "val",
-      "originalText": "Validate branch names & merge rules  (branch_validator.py)",
+      "originalText": "Check branch naming & merge rules",
       "lineHeight": 1.25,
       "baseline": 10
     },
@@ -215,7 +215,7 @@
       "id": "dec",
       "type": "diamond",
       "x": 235,
-      "y": 262,
+      "y": 258,
       "width": 300,
       "height": 86,
       "angle": 0,
@@ -247,7 +247,7 @@
       "id": "dec__t",
       "type": "text",
       "x": 243,
-      "y": 297.2,
+      "y": 293.2,
       "width": 284,
       "height": 16.900000000000002,
       "angle": 0,
@@ -269,13 +269,13 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Changes in transform/\nor automate/dbt/ ?",
+      "text": "Were dbt\nmodels changed?",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "dec",
-      "originalText": "Changes in transform/\nor automate/dbt/ ?",
+      "originalText": "Were dbt\nmodels changed?",
       "lineHeight": 1.25,
       "baseline": 10
     },
@@ -283,8 +283,8 @@
       "id": "skip",
       "type": "rectangle",
       "x": 610,
-      "y": 288,
-      "width": 170,
+      "y": 284,
+      "width": 190,
       "height": 52,
       "angle": 0,
       "strokeColor": "#868e96",
@@ -315,9 +315,9 @@
       "id": "skip__t",
       "type": "text",
       "x": 618,
-      "y": 306.2,
-      "width": 154,
-      "height": 16.900000000000002,
+      "y": 302.8,
+      "width": 174,
+      "height": 15.600000000000001,
       "angle": 0,
       "strokeColor": "#343a40",
       "backgroundColor": "transparent",
@@ -337,21 +337,21 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "No \u2192 skip dbt job",
-      "fontSize": 13,
+      "text": "No \u2192 skip the build\n(nothing to validate)",
+      "fontSize": 12,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "skip",
-      "originalText": "No \u2192 skip dbt job",
+      "originalText": "No \u2192 skip the build\n(nothing to validate)",
       "lineHeight": 1.25,
-      "baseline": 10
+      "baseline": 9
     },
     {
       "id": "title_2161__t",
       "type": "text",
       "x": 50,
-      "y": 372,
+      "y": 366,
       "width": 700,
       "height": 18.2,
       "angle": 0,
@@ -373,26 +373,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "JOB 2 \u00b7 dbt   \u00b7   container: datacoves/ci-basic-dbt-snowflake:5.0",
+      "text": "Build & validate in an isolated per-PR database",
       "fontSize": 14,
       "fontFamily": 2,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "JOB 2 \u00b7 dbt   \u00b7   container: datacoves/ci-basic-dbt-snowflake:5.0",
+      "originalText": "Build & validate in an isolated per-PR database",
       "lineHeight": 1.25,
       "baseline": 11
     },
     {
-      "id": "deps",
+      "id": "create",
       "type": "rectangle",
       "x": 175,
-      "y": 398,
+      "y": 392,
       "width": 420,
-      "height": 44,
+      "height": 52,
       "angle": 0,
-      "strokeColor": "#1971c2",
-      "backgroundColor": "#e7f5ff",
+      "strokeColor": "#7048e8",
+      "backgroundColor": "#f3e8ff",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -408,7 +408,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "deps__t"
+          "id": "create__t"
         }
       ],
       "updated": 1,
@@ -416,14 +416,14 @@
       "locked": false
     },
     {
-      "id": "deps__t",
+      "id": "create__t",
       "type": "text",
       "x": 183,
-      "y": 412.2,
+      "y": 410.2,
       "width": 404,
       "height": 16.900000000000002,
       "angle": 0,
-      "strokeColor": "#0b3d66",
+      "strokeColor": "#3b2a63",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -441,26 +441,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "dbt deps",
+      "text": "Create a temporary database for this PR\n(isolated from production)",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "deps",
-      "originalText": "dbt deps",
+      "containerId": "create",
+      "originalText": "Create a temporary database for this PR\n(isolated from production)",
       "lineHeight": 1.25,
       "baseline": 10
     },
     {
-      "id": "create",
+      "id": "art",
       "type": "rectangle",
       "x": 175,
-      "y": 464,
+      "y": 460,
       "width": 420,
-      "height": 48,
+      "height": 52,
       "angle": 0,
-      "strokeColor": "#7048e8",
-      "backgroundColor": "#f3e8ff",
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#e7f5ff",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -476,7 +476,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "create__t"
+          "id": "art__t"
         }
       ],
       "updated": 1,
@@ -484,14 +484,14 @@
       "locked": false
     },
     {
-      "id": "create__t",
+      "id": "art__t",
       "type": "text",
       "x": 183,
-      "y": 480.2,
+      "y": 478.2,
       "width": 404,
       "height": 16.900000000000002,
       "angle": 0,
-      "strokeColor": "#3b2a63",
+      "strokeColor": "#0b3d66",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -509,26 +509,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Create PR database   \u00b7   TST_EDP__PR<PullRequestId>",
+      "text": "Fetch production artifacts\n(what prod looks like today)",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "create",
-      "originalText": "Create PR database   \u00b7   TST_EDP__PR<PullRequestId>",
+      "containerId": "art",
+      "originalText": "Fetch production artifacts\n(what prod looks like today)",
       "lineHeight": 1.25,
       "baseline": 10
     },
     {
-      "id": "art",
+      "id": "clone",
       "type": "rectangle",
       "x": 175,
-      "y": 532,
+      "y": 528,
       "width": 420,
-      "height": 48,
+      "height": 54,
       "angle": 0,
-      "strokeColor": "#1971c2",
-      "backgroundColor": "#e7f5ff",
+      "strokeColor": "#7048e8",
+      "backgroundColor": "#f3e8ff",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -544,7 +544,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "art__t"
+          "id": "clone__t"
         }
       ],
       "updated": 1,
@@ -552,14 +552,14 @@
       "locked": false
     },
     {
-      "id": "art__t",
+      "id": "clone__t",
       "type": "text",
       "x": 183,
-      "y": 548.2,
+      "y": 547.2,
       "width": 404,
       "height": 16.900000000000002,
       "angle": 0,
-      "strokeColor": "#0b3d66",
+      "strokeColor": "#3b2a63",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -577,57 +577,25 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Get prod manifest from Datacoves API  (get_artifacts_from_api.sh)",
+      "text": "Clone unchanged incremental & snapshot models\n(zero-copy \u2014 no expensive rebuild)",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "art",
-      "originalText": "Get prod manifest from Datacoves API  (get_artifacts_from_api.sh)",
+      "containerId": "clone",
+      "originalText": "Clone unchanged incremental & snapshot models\n(zero-copy \u2014 no expensive rebuild)",
       "lineHeight": 1.25,
       "baseline": 10
     },
     {
-      "id": "clone",
-      "type": "rectangle",
-      "x": 175,
-      "y": 600,
-      "width": 420,
-      "height": 58,
-      "angle": 0,
-      "strokeColor": "#7048e8",
-      "backgroundColor": "#f3e8ff",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2266,
-      "version": 1,
-      "versionNonce": 2273,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "clone__t"
-        }
-      ],
-      "updated": 1,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "clone__t",
+      "id": "title_2266__t",
       "type": "text",
-      "x": 183,
-      "y": 621.2,
-      "width": 404,
-      "height": 16.900000000000002,
+      "x": 50,
+      "y": 612,
+      "width": 700,
+      "height": 18.2,
       "angle": 0,
-      "strokeColor": "#3b2a63",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -637,33 +605,65 @@
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2280,
+      "seed": 2273,
       "version": 1,
-      "versionNonce": 2287,
+      "versionNonce": 2280,
       "isDeleted": false,
       "boundElements": [],
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Clone unchanged incremental + snapshot models\ndbt clone \u2026 state:old   (zero-copy)",
-      "fontSize": 13,
+      "text": "Governance \u2014 validate fast, fail fast",
+      "fontSize": 14,
       "fontFamily": 2,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "clone",
-      "originalText": "Clone unchanged incremental + snapshot models\ndbt clone \u2026 state:old   (zero-copy)",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Governance \u2014 validate fast, fail fast",
       "lineHeight": 1.25,
-      "baseline": 10
+      "baseline": 11
     },
     {
-      "id": "title_2294__t",
-      "type": "text",
-      "x": 50,
-      "y": 690,
-      "width": 700,
-      "height": 18.2,
+      "id": "empty",
+      "type": "rectangle",
+      "x": 175,
+      "y": 636,
+      "width": 420,
+      "height": 58,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#f08c00",
+      "backgroundColor": "#fff9db",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2287,
+      "version": 1,
+      "versionNonce": 2294,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "empty__t"
+        }
+      ],
+      "updated": 1,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "empty__t",
+      "type": "text",
+      "x": 183,
+      "y": 657.2,
+      "width": 404,
+      "height": 16.900000000000002,
+      "angle": 0,
+      "strokeColor": "#5c3d00",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -681,26 +681,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Governance run \u2014 fail fast (only if a prod manifest was found)",
-      "fontSize": 14,
+      "text": "Build EMPTY models  (structure only, no data)\nruns hooks & policies, catches errors early",
+      "fontSize": 13,
       "fontFamily": 2,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "Governance run \u2014 fail fast (only if a prod manifest was found)",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "empty",
+      "originalText": "Build EMPTY models  (structure only, no data)\nruns hooks & policies, catches errors early",
       "lineHeight": 1.25,
-      "baseline": 11
+      "baseline": 10
     },
     {
-      "id": "empty",
+      "id": "docs",
       "type": "rectangle",
       "x": 175,
-      "y": 714,
+      "y": 712,
       "width": 420,
-      "height": 62,
+      "height": 44,
       "angle": 0,
-      "strokeColor": "#f08c00",
-      "backgroundColor": "#fff9db",
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#e7f5ff",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -716,7 +716,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "empty__t"
+          "id": "docs__t"
         }
       ],
       "updated": 1,
@@ -724,14 +724,14 @@
       "locked": false
     },
     {
-      "id": "empty__t",
+      "id": "docs__t",
       "type": "text",
       "x": 183,
-      "y": 737.2,
+      "y": 726.2,
       "width": 404,
       "height": 16.900000000000002,
       "angle": 0,
-      "strokeColor": "#5c3d00",
+      "strokeColor": "#0b3d66",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -749,26 +749,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Build EMPTY models   \u00b7   dbt build --empty --defer\n--select state:modified+   (schema only \u2192 run hooks, fail fast)",
+      "text": "Generate documentation",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "empty",
-      "originalText": "Build EMPTY models   \u00b7   dbt build --empty --defer\n--select state:modified+   (schema only \u2192 run hooks, fail fast)",
+      "containerId": "docs",
+      "originalText": "Generate documentation",
       "lineHeight": 1.25,
       "baseline": 10
     },
     {
-      "id": "docs",
+      "id": "gov",
       "type": "rectangle",
       "x": 175,
-      "y": 792,
+      "y": 774,
       "width": 420,
-      "height": 48,
+      "height": 44,
       "angle": 0,
-      "strokeColor": "#1971c2",
-      "backgroundColor": "#e7f5ff",
+      "strokeColor": "#f08c00",
+      "backgroundColor": "#fff9db",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -784,7 +784,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "docs__t"
+          "id": "gov__t"
         }
       ],
       "updated": 1,
@@ -792,14 +792,14 @@
       "locked": false
     },
     {
-      "id": "docs__t",
+      "id": "gov__t",
       "type": "text",
       "x": 183,
-      "y": 808.2,
+      "y": 788.2,
       "width": 404,
       "height": 16.900000000000002,
       "angle": 0,
-      "strokeColor": "#0b3d66",
+      "strokeColor": "#5c3d00",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -817,57 +817,25 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Generate docs  (dbt-coves --merge-deferred  /  dbt docs generate)",
+      "text": "Run governance checks  (style, policy, lint)",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "docs",
-      "originalText": "Generate docs  (dbt-coves --merge-deferred  /  dbt docs generate)",
+      "containerId": "gov",
+      "originalText": "Run governance checks  (style, policy, lint)",
       "lineHeight": 1.25,
       "baseline": 10
     },
     {
-      "id": "gov",
-      "type": "rectangle",
-      "x": 175,
-      "y": 858,
-      "width": 420,
-      "height": 48,
-      "angle": 0,
-      "strokeColor": "#f08c00",
-      "backgroundColor": "#fff9db",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2371,
-      "version": 1,
-      "versionNonce": 2378,
-      "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "gov__t"
-        }
-      ],
-      "updated": 1,
-      "link": null,
-      "locked": false
-    },
-    {
-      "id": "gov__t",
+      "id": "title_2371__t",
       "type": "text",
-      "x": 183,
-      "y": 874.2,
-      "width": 404,
-      "height": 16.900000000000002,
+      "x": 50,
+      "y": 846,
+      "width": 700,
+      "height": 18.2,
       "angle": 0,
-      "strokeColor": "#5c3d00",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -877,33 +845,65 @@
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2385,
+      "seed": 2378,
       "version": 1,
-      "versionNonce": 2392,
+      "versionNonce": 2385,
       "isDeleted": false,
       "boundElements": [],
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Run governance checks   \u00b7   pre-commit  (origin/<target> \u2192 HEAD)",
-      "fontSize": 13,
+      "text": "Build with data",
+      "fontSize": 14,
       "fontFamily": 2,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "gov",
-      "originalText": "Run governance checks   \u00b7   pre-commit  (origin/<target> \u2192 HEAD)",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Build with data",
       "lineHeight": 1.25,
-      "baseline": 10
+      "baseline": 11
     },
     {
-      "id": "title_2399__t",
-      "type": "text",
-      "x": 50,
-      "y": 934,
-      "width": 700,
-      "height": 18.2,
+      "id": "build",
+      "type": "rectangle",
+      "x": 175,
+      "y": 870,
+      "width": 420,
+      "height": 52,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "#ebfbee",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2392,
+      "version": 1,
+      "versionNonce": 2399,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "build__t"
+        }
+      ],
+      "updated": 1,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "build__t",
+      "type": "text",
+      "x": 183,
+      "y": 888.2,
+      "width": 404,
+      "height": 16.900000000000002,
+      "angle": 0,
+      "strokeColor": "#12521f",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -921,26 +921,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Real build (after governance passes)",
-      "fontSize": 14,
+      "text": "Build models WITH data  +  run data tests",
+      "fontSize": 13,
       "fontFamily": 2,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "Real build (after governance passes)",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "build",
+      "originalText": "Build models WITH data  +  run data tests",
       "lineHeight": 1.25,
-      "baseline": 11
+      "baseline": 10
     },
     {
-      "id": "build",
+      "id": "grant",
       "type": "rectangle",
       "x": 175,
-      "y": 958,
+      "y": 940,
       "width": 420,
-      "height": 62,
+      "height": 46,
       "angle": 0,
-      "strokeColor": "#2f9e44",
-      "backgroundColor": "#ebfbee",
+      "strokeColor": "#3b5bdb",
+      "backgroundColor": "#e7f0ff",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -956,7 +956,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "build__t"
+          "id": "grant__t"
         }
       ],
       "updated": 1,
@@ -964,14 +964,14 @@
       "locked": false
     },
     {
-      "id": "build__t",
+      "id": "grant__t",
       "type": "text",
       "x": 183,
-      "y": 981.2,
+      "y": 955.2,
       "width": 404,
       "height": 16.900000000000002,
       "angle": 0,
-      "strokeColor": "#12521f",
+      "strokeColor": "#1a2f6b",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -989,26 +989,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "dbt build with REAL data\nslim: --defer --select state:modified+     |     full: --fail-fast",
+      "text": "Grant access to the PR database",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "build",
-      "originalText": "dbt build with REAL data\nslim: --defer --select state:modified+     |     full: --fail-fast",
+      "containerId": "grant",
+      "originalText": "Grant access to the PR database",
       "lineHeight": 1.25,
       "baseline": 10
     },
     {
-      "id": "grant",
+      "id": "drop",
       "type": "rectangle",
-      "x": 175,
-      "y": 1036,
-      "width": 420,
-      "height": 46,
+      "x": 610,
+      "y": 934,
+      "width": 190,
+      "height": 58,
       "angle": 0,
-      "strokeColor": "#3b5bdb",
-      "backgroundColor": "#e7f0ff",
+      "strokeColor": "#e03131",
+      "backgroundColor": "#ffe3e3",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -1024,7 +1024,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "grant__t"
+          "id": "drop__t"
         }
       ],
       "updated": 1,
@@ -1032,14 +1032,14 @@
       "locked": false
     },
     {
-      "id": "grant__t",
+      "id": "drop__t",
       "type": "text",
-      "x": 183,
-      "y": 1051.2,
-      "width": 404,
+      "x": 618,
+      "y": 955.2,
+      "width": 174,
       "height": 16.900000000000002,
       "angle": 0,
-      "strokeColor": "#1a2f6b",
+      "strokeColor": "#7a1212",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -1057,26 +1057,26 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "Grant access to PR database",
+      "text": "On failure \u2192\ndrop the PR database",
       "fontSize": 13,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "grant",
-      "originalText": "Grant access to PR database",
+      "containerId": "drop",
+      "originalText": "On failure \u2192\ndrop the PR database",
       "lineHeight": 1.25,
       "baseline": 10
     },
     {
-      "id": "drop",
+      "id": "mode",
       "type": "rectangle",
       "x": 610,
-      "y": 1030,
-      "width": 170,
-      "height": 58,
+      "y": 636,
+      "width": 250,
+      "height": 286,
       "angle": 0,
-      "strokeColor": "#e03131",
-      "backgroundColor": "#ffe3e3",
+      "strokeColor": "#868e96",
+      "backgroundColor": "#f1f3f5",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
@@ -1092,7 +1092,7 @@
       "boundElements": [
         {
           "type": "text",
-          "id": "drop__t"
+          "id": "mode__t"
         }
       ],
       "updated": 1,
@@ -1100,14 +1100,14 @@
       "locked": false
     },
     {
-      "id": "drop__t",
+      "id": "mode__t",
       "type": "text",
       "x": 618,
-      "y": 1051.2,
-      "width": 154,
-      "height": 16.900000000000002,
+      "y": 771.8,
+      "width": 234,
+      "height": 15.600000000000001,
       "angle": 0,
-      "strokeColor": "#7a1212",
+      "strokeColor": "#343a40",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -1125,15 +1125,15 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "On failure \u2192\nDrop PR database",
-      "fontSize": 13,
+      "text": "Build mode \u2014 applies to BOTH builds\n(the empty run and the real run)\n\nSlim  (default)\nonly changed models + everything\ndownstream; the rest is deferred to prod\n\nFull refresh\nrebuild every model",
+      "fontSize": 12,
       "fontFamily": 2,
       "textAlign": "center",
       "verticalAlign": "middle",
-      "containerId": "drop",
-      "originalText": "On failure \u2192\nDrop PR database",
+      "containerId": "mode",
+      "originalText": "Build mode \u2014 applies to BOTH builds\n(the empty run and the real run)\n\nSlim  (default)\nonly changed models + everything\ndownstream; the rest is deferred to prod\n\nFull refresh\nrebuild every model",
       "lineHeight": 1.25,
-      "baseline": 10
+      "baseline": 9
     },
     {
       "id": "ar_2504",
@@ -1189,9 +1189,9 @@
       "id": "ar_2525",
       "type": "arrow",
       "x": 385.0,
-      "y": 242,
+      "y": 240,
       "width": 0.0,
-      "height": 20,
+      "height": 18,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1218,7 +1218,7 @@
         ],
         [
           0.0,
-          20
+          18
         ]
       ],
       "lastCommittedPoint": null,
@@ -1239,7 +1239,7 @@
       "id": "ar_2546",
       "type": "arrow",
       "x": 535,
-      "y": 305.0,
+      "y": 301.0,
       "width": 75,
       "height": 9.0,
       "angle": 0,
@@ -1293,7 +1293,7 @@
       "id": "lb_2567",
       "type": "text",
       "x": 586,
-      "y": 285.0,
+      "y": 281.0,
       "width": 48,
       "height": 16,
       "angle": 0,
@@ -1329,9 +1329,9 @@
       "id": "ar_2588",
       "type": "arrow",
       "x": 385.0,
-      "y": 348,
+      "y": 344,
       "width": 0.0,
-      "height": 50,
+      "height": 48,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1358,7 +1358,7 @@
         ],
         [
           0.0,
-          50
+          48
         ]
       ],
       "lastCommittedPoint": null,
@@ -1368,7 +1368,7 @@
         "gap": 6
       },
       "endBinding": {
-        "elementId": "deps",
+        "elementId": "create",
         "focus": 0,
         "gap": 6
       },
@@ -1376,11 +1376,11 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "lb_2609",
-      "type": "text",
-      "x": 361.0,
-      "y": 378,
-      "width": 48,
+      "id": "ar_2609",
+      "type": "arrow",
+      "x": 385.0,
+      "y": 444,
+      "width": 0.0,
       "height": 16,
       "angle": 0,
       "strokeColor": "#495057",
@@ -1401,23 +1401,37 @@
       "updated": 1,
       "link": null,
       "locked": false,
-      "text": "yes",
-      "fontSize": 12,
-      "fontFamily": 2,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": null,
-      "originalText": "yes",
-      "lineHeight": 1.25,
-      "baseline": 10
+      "points": [
+        [
+          0.0,
+          0
+        ],
+        [
+          0.0,
+          16
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "create",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "art",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
     },
     {
       "id": "ar_2630",
       "type": "arrow",
       "x": 385.0,
-      "y": 442,
+      "y": 512,
       "width": 0.0,
-      "height": 22,
+      "height": 16,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1444,17 +1458,17 @@
         ],
         [
           0.0,
-          22
+          16
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "deps",
+        "elementId": "art",
         "focus": 0,
         "gap": 6
       },
       "endBinding": {
-        "elementId": "create",
+        "elementId": "clone",
         "focus": 0,
         "gap": 6
       },
@@ -1465,9 +1479,9 @@
       "id": "ar_2651",
       "type": "arrow",
       "x": 385.0,
-      "y": 512,
+      "y": 582,
       "width": 0.0,
-      "height": 20,
+      "height": 54,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1494,17 +1508,17 @@
         ],
         [
           0.0,
-          20
+          54
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "create",
+        "elementId": "clone",
         "focus": 0,
         "gap": 6
       },
       "endBinding": {
-        "elementId": "art",
+        "elementId": "empty",
         "focus": 0,
         "gap": 6
       },
@@ -1515,9 +1529,9 @@
       "id": "ar_2672",
       "type": "arrow",
       "x": 385.0,
-      "y": 580,
+      "y": 694,
       "width": 0.0,
-      "height": 20,
+      "height": 18,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1544,17 +1558,17 @@
         ],
         [
           0.0,
-          20
+          18
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "art",
+        "elementId": "empty",
         "focus": 0,
         "gap": 6
       },
       "endBinding": {
-        "elementId": "clone",
+        "elementId": "docs",
         "focus": 0,
         "gap": 6
       },
@@ -1565,9 +1579,9 @@
       "id": "ar_2693",
       "type": "arrow",
       "x": 385.0,
-      "y": 658,
+      "y": 756,
       "width": 0.0,
-      "height": 56,
+      "height": 18,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1594,17 +1608,17 @@
         ],
         [
           0.0,
-          56
+          18
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "clone",
+        "elementId": "docs",
         "focus": 0,
         "gap": 6
       },
       "endBinding": {
-        "elementId": "empty",
+        "elementId": "gov",
         "focus": 0,
         "gap": 6
       },
@@ -1615,9 +1629,9 @@
       "id": "ar_2714",
       "type": "arrow",
       "x": 385.0,
-      "y": 776,
+      "y": 818,
       "width": 0.0,
-      "height": 16,
+      "height": 52,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1644,17 +1658,17 @@
         ],
         [
           0.0,
-          16
+          52
         ]
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "empty",
+        "elementId": "gov",
         "focus": 0,
         "gap": 6
       },
       "endBinding": {
-        "elementId": "docs",
+        "elementId": "build",
         "focus": 0,
         "gap": 6
       },
@@ -1665,7 +1679,7 @@
       "id": "ar_2735",
       "type": "arrow",
       "x": 385.0,
-      "y": 840,
+      "y": 922,
       "width": 0.0,
       "height": 18,
       "angle": 0,
@@ -1699,12 +1713,12 @@
       ],
       "lastCommittedPoint": null,
       "startBinding": {
-        "elementId": "docs",
+        "elementId": "build",
         "focus": 0,
         "gap": 6
       },
       "endBinding": {
-        "elementId": "gov",
+        "elementId": "grant",
         "focus": 0,
         "gap": 6
       },
@@ -1714,10 +1728,10 @@
     {
       "id": "ar_2756",
       "type": "arrow",
-      "x": 385.0,
-      "y": 906,
-      "width": 0.0,
-      "height": 52,
+      "x": 595,
+      "y": 963.0,
+      "width": 15,
+      "height": 0.0,
       "angle": 0,
       "strokeColor": "#495057",
       "backgroundColor": "transparent",
@@ -1732,106 +1746,6 @@
       "seed": 2763,
       "version": 1,
       "versionNonce": 2770,
-      "isDeleted": false,
-      "boundElements": [],
-      "updated": 1,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0
-        ],
-        [
-          0.0,
-          52
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "gov",
-        "focus": 0,
-        "gap": 6
-      },
-      "endBinding": {
-        "elementId": "build",
-        "focus": 0,
-        "gap": 6
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "ar_2777",
-      "type": "arrow",
-      "x": 385.0,
-      "y": 1020,
-      "width": 0.0,
-      "height": 16,
-      "angle": 0,
-      "strokeColor": "#495057",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2784,
-      "version": 1,
-      "versionNonce": 2791,
-      "isDeleted": false,
-      "boundElements": [],
-      "updated": 1,
-      "link": null,
-      "locked": false,
-      "points": [
-        [
-          0.0,
-          0
-        ],
-        [
-          0.0,
-          16
-        ]
-      ],
-      "lastCommittedPoint": null,
-      "startBinding": {
-        "elementId": "build",
-        "focus": 0,
-        "gap": 6
-      },
-      "endBinding": {
-        "elementId": "grant",
-        "focus": 0,
-        "gap": 6
-      },
-      "startArrowhead": null,
-      "endArrowhead": "arrow"
-    },
-    {
-      "id": "ar_2798",
-      "type": "arrow",
-      "x": 595,
-      "y": 1059.0,
-      "width": 15,
-      "height": 0.0,
-      "angle": 0,
-      "strokeColor": "#495057",
-      "backgroundColor": "transparent",
-      "fillStyle": "solid",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "roughness": 0,
-      "opacity": 100,
-      "groupIds": [],
-      "frameId": null,
-      "roundness": null,
-      "seed": 2805,
-      "version": 1,
-      "versionNonce": 2812,
       "isDeleted": false,
       "boundElements": [],
       "updated": 1,
@@ -1862,10 +1776,10 @@
       "endArrowhead": "arrow"
     },
     {
-      "id": "lb_2819",
+      "id": "lb_2777",
       "type": "text",
       "x": 586,
-      "y": 1039.0,
+      "y": 943.0,
       "width": 48,
       "height": 16,
       "angle": 0,
@@ -1879,9 +1793,9 @@
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 2826,
+      "seed": 2784,
       "version": 1,
-      "versionNonce": 2833,
+      "versionNonce": 2791,
       "isDeleted": false,
       "boundElements": [],
       "updated": 1,
@@ -1896,6 +1810,114 @@
       "originalText": "on failure",
       "lineHeight": 1.25,
       "baseline": 10
+    },
+    {
+      "id": "ar_2798",
+      "type": "arrow",
+      "x": 610,
+      "y": 779.0,
+      "width": 15,
+      "height": 114.0,
+      "angle": 0,
+      "strokeColor": "#868e96",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2805,
+      "version": 1,
+      "versionNonce": 2812,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0.0
+        ],
+        [
+          -15,
+          0.0
+        ],
+        [
+          -15,
+          -114.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "mode",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "empty",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": null
+    },
+    {
+      "id": "ar_2819",
+      "type": "arrow",
+      "x": 610,
+      "y": 779.0,
+      "width": 15,
+      "height": 117.0,
+      "angle": 0,
+      "strokeColor": "#868e96",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 2826,
+      "version": 1,
+      "versionNonce": 2833,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0.0
+        ],
+        [
+          -15,
+          0.0
+        ],
+        [
+          -15,
+          117.0
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "mode",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "build",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": null
     }
   ],
   "appState": {

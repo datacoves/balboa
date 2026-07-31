@@ -1,84 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="1130" viewBox="0 0 820 1130" font-family="Helvetica, Arial, sans-serif">
-<rect width="820" height="1130" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1030" viewBox="0 0 900 1030" font-family="Helvetica, Arial, sans-serif">
+<rect width="900" height="1030" fill="#ffffff"/>
 <path d="M385.0,140.0 L385.0,194.0" fill="none" stroke="#495057" stroke-width="2"/>
 <line x1="385.0" y1="194.0" x2="381.2" y2="185.8" stroke="#495057" stroke-width="2"/>
 <line x1="385.0" y1="194.0" x2="388.8" y2="185.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,242.0 L385.0,262.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="262.0" x2="381.2" y2="253.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="262.0" x2="388.8" y2="253.8" stroke="#495057" stroke-width="2"/>
-<path d="M535.0,305.0 L610.0,305.0 L610.0,314.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="610.0" y1="314.0" x2="606.2" y2="305.8" stroke="#495057" stroke-width="2"/>
-<line x1="610.0" y1="314.0" x2="613.8" y2="305.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,348.0 L385.0,398.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="398.0" x2="381.2" y2="389.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="398.0" x2="388.8" y2="389.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,442.0 L385.0,464.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="464.0" x2="381.2" y2="455.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="464.0" x2="388.8" y2="455.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,512.0 L385.0,532.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="532.0" x2="381.2" y2="523.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="532.0" x2="388.8" y2="523.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,580.0 L385.0,600.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="600.0" x2="381.2" y2="591.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="600.0" x2="388.8" y2="591.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,658.0 L385.0,714.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="714.0" x2="381.2" y2="705.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="714.0" x2="388.8" y2="705.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,776.0 L385.0,792.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="792.0" x2="381.2" y2="783.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="792.0" x2="388.8" y2="783.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,840.0 L385.0,858.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="858.0" x2="381.2" y2="849.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="858.0" x2="388.8" y2="849.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,906.0 L385.0,958.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="958.0" x2="381.2" y2="949.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="958.0" x2="388.8" y2="949.8" stroke="#495057" stroke-width="2"/>
-<path d="M385.0,1020.0 L385.0,1036.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="1036.0" x2="381.2" y2="1027.8" stroke="#495057" stroke-width="2"/>
-<line x1="385.0" y1="1036.0" x2="388.8" y2="1027.8" stroke="#495057" stroke-width="2"/>
-<path d="M595.0,1059.0 L610.0,1059.0" fill="none" stroke="#495057" stroke-width="2"/>
-<line x1="610.0" y1="1059.0" x2="601.8" y2="1062.8" stroke="#495057" stroke-width="2"/>
-<line x1="610.0" y1="1059.0" x2="601.8" y2="1055.2" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,240.0 L385.0,258.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="258.0" x2="381.2" y2="249.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="258.0" x2="388.8" y2="249.8" stroke="#495057" stroke-width="2"/>
+<path d="M535.0,301.0 L610.0,301.0 L610.0,310.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="610.0" y1="310.0" x2="606.2" y2="301.8" stroke="#495057" stroke-width="2"/>
+<line x1="610.0" y1="310.0" x2="613.8" y2="301.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,344.0 L385.0,392.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="392.0" x2="381.2" y2="383.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="392.0" x2="388.8" y2="383.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,444.0 L385.0,460.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="460.0" x2="381.2" y2="451.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="460.0" x2="388.8" y2="451.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,512.0 L385.0,528.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="528.0" x2="381.2" y2="519.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="528.0" x2="388.8" y2="519.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,582.0 L385.0,636.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="636.0" x2="381.2" y2="627.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="636.0" x2="388.8" y2="627.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,694.0 L385.0,712.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="712.0" x2="381.2" y2="703.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="712.0" x2="388.8" y2="703.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,756.0 L385.0,774.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="774.0" x2="381.2" y2="765.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="774.0" x2="388.8" y2="765.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,818.0 L385.0,870.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="870.0" x2="381.2" y2="861.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="870.0" x2="388.8" y2="861.8" stroke="#495057" stroke-width="2"/>
+<path d="M385.0,922.0 L385.0,940.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="940.0" x2="381.2" y2="931.8" stroke="#495057" stroke-width="2"/>
+<line x1="385.0" y1="940.0" x2="388.8" y2="931.8" stroke="#495057" stroke-width="2"/>
+<path d="M595.0,963.0 L610.0,963.0" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="610.0" y1="963.0" x2="601.8" y2="966.8" stroke="#495057" stroke-width="2"/>
+<line x1="610.0" y1="963.0" x2="601.8" y2="959.2" stroke="#495057" stroke-width="2"/>
+<path d="M610.0,779.0 L595.0,779.0 L595.0,665.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
+<path d="M610.0,779.0 L595.0,779.0 L595.0,896.0" fill="none" stroke="#868e96" stroke-width="2" stroke-dasharray="6 5"/>
 <rect x="175" y="84" width="420" height="56" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
-<rect x="175" y="194" width="420" height="48" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
-<polygon points="385.0,262 535,305.0 385.0,348 235,305.0" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
-<rect x="610" y="288" width="170" height="52" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
-<rect x="175" y="398" width="420" height="44" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
-<rect x="175" y="464" width="420" height="48" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
-<rect x="175" y="532" width="420" height="48" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
-<rect x="175" y="600" width="420" height="58" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
-<rect x="175" y="714" width="420" height="62" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
-<rect x="175" y="792" width="420" height="48" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
-<rect x="175" y="858" width="420" height="48" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
-<rect x="175" y="958" width="420" height="62" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
-<rect x="175" y="1036" width="420" height="46" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
-<rect x="610" y="1030" width="170" height="58" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
-<text x="50" y="44" fill="#1e1e1e" font-size="20" font-weight="bold">CI/CD (1): Feature PR — validation &amp; governance   ·   fb/* → rb/*   ·   Azure DevOps</text>
-<text x="50" y="182" fill="#1e1e1e" font-size="14" font-weight="bold">JOB 1 · validate_branch</text>
-<text x="50" y="386" fill="#1e1e1e" font-size="14" font-weight="bold">JOB 2 · dbt   ·   container: datacoves/ci-basic-dbt-snowflake:5.0</text>
-<text x="50" y="704" fill="#1e1e1e" font-size="14" font-weight="bold">Governance run — fail fast (only if a prod manifest was found)</text>
-<text x="50" y="948" fill="#1e1e1e" font-size="14" font-weight="bold">Real build (after governance passes)</text>
-<text x="385.0" y="108.1" fill="#1a2f6b" font-size="13" text-anchor="middle">Trigger: PR  fb/* → rb/*</text>
-<text x="385.0" y="125.0" fill="#1a2f6b" font-size="13" text-anchor="middle">(Azure DevOps branch-policy build validation)</text>
-<text x="385.0" y="222.6" fill="#0b3d66" font-size="13" text-anchor="middle">Validate branch names &amp; merge rules  (branch_validator.py)</text>
-<text x="385.0" y="301.1" fill="#5c3d00" font-size="13" text-anchor="middle">Changes in transform/</text>
-<text x="385.0" y="318.0" fill="#5c3d00" font-size="13" text-anchor="middle">or automate/dbt/ ?</text>
-<text x="695.0" y="318.6" fill="#343a40" font-size="13" text-anchor="middle">No → skip dbt job</text>
-<text x="385.0" y="424.6" fill="#0b3d66" font-size="13" text-anchor="middle">dbt deps</text>
-<text x="385.0" y="492.6" fill="#3b2a63" font-size="13" text-anchor="middle">Create PR database   ·   TST_EDP__PR&lt;PullRequestId&gt;</text>
-<text x="385.0" y="560.5" fill="#0b3d66" font-size="13" text-anchor="middle">Get prod manifest from Datacoves API  (get_artifacts_from_api.sh)</text>
-<text x="385.0" y="625.1" fill="#3b2a63" font-size="13" text-anchor="middle">Clone unchanged incremental + snapshot models</text>
-<text x="385.0" y="642.0" fill="#3b2a63" font-size="13" text-anchor="middle">dbt clone … state:old   (zero-copy)</text>
-<text x="385.0" y="741.1" fill="#5c3d00" font-size="13" text-anchor="middle">Build EMPTY models   ·   dbt build --empty --defer</text>
-<text x="385.0" y="758.0" fill="#5c3d00" font-size="13" text-anchor="middle">--select state:modified+   (schema only → run hooks, fail fast)</text>
-<text x="385.0" y="820.5" fill="#0b3d66" font-size="13" text-anchor="middle">Generate docs  (dbt-coves --merge-deferred  /  dbt docs generate)</text>
-<text x="385.0" y="886.5" fill="#5c3d00" font-size="13" text-anchor="middle">Run governance checks   ·   pre-commit  (origin/&lt;target&gt; → HEAD)</text>
-<text x="385.0" y="985.1" fill="#12521f" font-size="13" text-anchor="middle">dbt build with REAL data</text>
-<text x="385.0" y="1002.0" fill="#12521f" font-size="13" text-anchor="middle">slim: --defer --select state:modified+     |     full: --fail-fast</text>
-<text x="385.0" y="1063.5" fill="#1a2f6b" font-size="13" text-anchor="middle">Grant access to PR database</text>
-<text x="695.0" y="1055.1" fill="#7a1212" font-size="13" text-anchor="middle">On failure →</text>
-<text x="695.0" y="1072.0" fill="#7a1212" font-size="13" text-anchor="middle">Drop PR database</text>
-<text x="610.0" y="299.2" fill="#495057" font-size="12" text-anchor="middle">no</text>
-<text x="385.0" y="392.2" fill="#495057" font-size="12" text-anchor="middle">yes</text>
-<text x="610.0" y="1053.2" fill="#495057" font-size="12" text-anchor="middle">on failure</text>
+<rect x="175" y="194" width="420" height="46" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<polygon points="385.0,258 535,301.0 385.0,344 235,301.0" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<rect x="610" y="284" width="190" height="52" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="175" y="392" width="420" height="52" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<rect x="175" y="460" width="420" height="52" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<rect x="175" y="528" width="420" height="54" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<rect x="175" y="636" width="420" height="58" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<rect x="175" y="712" width="420" height="44" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<rect x="175" y="774" width="420" height="44" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<rect x="175" y="870" width="420" height="52" fill="#ebfbee" stroke="#2f9e44" stroke-width="2"/>
+<rect x="175" y="940" width="420" height="46" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<rect x="610" y="934" width="190" height="58" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
+<rect x="610" y="636" width="250" height="286" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<text x="50" y="46" fill="#1e1e1e" font-size="22" font-weight="bold">CI/CD (1): Feature Pull Request — validation &amp; governance</text>
+<text x="50" y="182" fill="#1e1e1e" font-size="14" font-weight="bold">Validate</text>
+<text x="50" y="380" fill="#1e1e1e" font-size="14" font-weight="bold">Build &amp; validate in an isolated per-PR database</text>
+<text x="50" y="626" fill="#1e1e1e" font-size="14" font-weight="bold">Governance — validate fast, fail fast</text>
+<text x="50" y="860" fill="#1e1e1e" font-size="14" font-weight="bold">Build with data</text>
+<text x="385.0" y="108.1" fill="#1a2f6b" font-size="13" text-anchor="middle">A developer opens a Pull Request</text>
+<text x="385.0" y="125.0" fill="#1a2f6b" font-size="13" text-anchor="middle">(feature branch → release branch)</text>
+<text x="385.0" y="221.6" fill="#0b3d66" font-size="13" text-anchor="middle">Check branch naming &amp; merge rules</text>
+<text x="385.0" y="297.1" fill="#5c3d00" font-size="13" text-anchor="middle">Were dbt</text>
+<text x="385.0" y="314.0" fill="#5c3d00" font-size="13" text-anchor="middle">models changed?</text>
+<text x="705.0" y="306.4" fill="#343a40" font-size="12" text-anchor="middle">No → skip the build</text>
+<text x="705.0" y="322.0" fill="#343a40" font-size="12" text-anchor="middle">(nothing to validate)</text>
+<text x="385.0" y="414.1" fill="#3b2a63" font-size="13" text-anchor="middle">Create a temporary database for this PR</text>
+<text x="385.0" y="431.0" fill="#3b2a63" font-size="13" text-anchor="middle">(isolated from production)</text>
+<text x="385.0" y="482.1" fill="#0b3d66" font-size="13" text-anchor="middle">Fetch production artifacts</text>
+<text x="385.0" y="499.0" fill="#0b3d66" font-size="13" text-anchor="middle">(what prod looks like today)</text>
+<text x="385.0" y="551.1" fill="#3b2a63" font-size="13" text-anchor="middle">Clone unchanged incremental &amp; snapshot models</text>
+<text x="385.0" y="568.0" fill="#3b2a63" font-size="13" text-anchor="middle">(zero-copy — no expensive rebuild)</text>
+<text x="385.0" y="661.1" fill="#5c3d00" font-size="13" text-anchor="middle">Build EMPTY models  (structure only, no data)</text>
+<text x="385.0" y="678.0" fill="#5c3d00" font-size="13" text-anchor="middle">runs hooks &amp; policies, catches errors early</text>
+<text x="385.0" y="738.5" fill="#0b3d66" font-size="13" text-anchor="middle">Generate documentation</text>
+<text x="385.0" y="800.5" fill="#5c3d00" font-size="13" text-anchor="middle">Run governance checks  (style, policy, lint)</text>
+<text x="385.0" y="900.5" fill="#12521f" font-size="13" text-anchor="middle">Build models WITH data  +  run data tests</text>
+<text x="385.0" y="967.5" fill="#1a2f6b" font-size="13" text-anchor="middle">Grant access to the PR database</text>
+<text x="705.0" y="959.1" fill="#7a1212" font-size="13" text-anchor="middle">On failure →</text>
+<text x="705.0" y="976.0" fill="#7a1212" font-size="13" text-anchor="middle">drop the PR database</text>
+<text x="735.0" y="720.8" fill="#343a40" font-size="12" text-anchor="middle">Build mode — applies to BOTH builds</text>
+<text x="735.0" y="736.4" fill="#343a40" font-size="12" text-anchor="middle">(the empty run and the real run)</text>
+<text x="735.0" y="752.0" fill="#343a40" font-size="12" text-anchor="middle"></text>
+<text x="735.0" y="767.6" fill="#343a40" font-size="12" text-anchor="middle">Slim  (default)</text>
+<text x="735.0" y="783.2" fill="#343a40" font-size="12" text-anchor="middle">only changed models + everything</text>
+<text x="735.0" y="798.8" fill="#343a40" font-size="12" text-anchor="middle">downstream; the rest is deferred to prod</text>
+<text x="735.0" y="814.4" fill="#343a40" font-size="12" text-anchor="middle"></text>
+<text x="735.0" y="830.0" fill="#343a40" font-size="12" text-anchor="middle">Full refresh</text>
+<text x="735.0" y="845.6" fill="#343a40" font-size="12" text-anchor="middle">rebuild every model</text>
+<text x="610.0" y="295.2" fill="#495057" font-size="12" text-anchor="middle">no</text>
+<text x="610.0" y="957.2" fill="#495057" font-size="12" text-anchor="middle">on failure</text>
 </svg>
