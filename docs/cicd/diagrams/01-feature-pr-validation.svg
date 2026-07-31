@@ -52,10 +52,15 @@
 <rect x="175" y="940" width="420" height="46" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
 <rect x="610" y="934" width="190" height="58" fill="#ffe3e3" stroke="#e03131" stroke-width="2"/>
 <rect x="610" y="636" width="250" height="286" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<rect x="45.0" y="22.0" width="737.3" height="30.8" fill="#ffffff"/>
 <text x="50" y="46" fill="#1e1e1e" font-size="22" font-weight="bold">CI/CD (1): Feature Pull Request — validation &amp; governance</text>
+<rect x="45.0" y="166.0" width="75.0" height="19.6" fill="#ffffff"/>
 <text x="50" y="182" fill="#1e1e1e" font-size="14" font-weight="bold">Validate</text>
+<rect x="45.0" y="364.0" width="391.6" height="19.6" fill="#ffffff"/>
 <text x="50" y="380" fill="#1e1e1e" font-size="14" font-weight="bold">Build &amp; validate in an isolated per-PR database</text>
+<rect x="45.0" y="610.0" width="310.4" height="19.6" fill="#ffffff"/>
 <text x="50" y="626" fill="#1e1e1e" font-size="14" font-weight="bold">Governance — validate fast, fail fast</text>
+<rect x="45.0" y="844.0" width="131.8" height="19.6" fill="#ffffff"/>
 <text x="50" y="860" fill="#1e1e1e" font-size="14" font-weight="bold">Build with data</text>
 <text x="385.0" y="108.1" fill="#1a2f6b" font-size="13" text-anchor="middle">A developer opens a Pull Request</text>
 <text x="385.0" y="125.0" fill="#1a2f6b" font-size="13" text-anchor="middle">(feature branch → release branch)</text>
