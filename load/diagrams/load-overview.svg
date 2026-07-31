@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="720" viewBox="0 0 900 720" font-family="Helvetica, Arial, sans-serif">
+<rect width="900" height="720" fill="#ffffff"/>
+<path d="M210,182 L280,182" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280" y1="182" x2="271.5" y2="185.1" stroke="#495057" stroke-width="2"/>
+<line x1="280" y1="182" x2="271.5" y2="178.9" stroke="#495057" stroke-width="2"/>
+<path d="M210,392 L280,400" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280" y1="400" x2="271.2" y2="402.1" stroke="#495057" stroke-width="2"/>
+<line x1="280" y1="400" x2="271.9" y2="396.0" stroke="#495057" stroke-width="2"/>
+<path d="M210,632 L280,632" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="280" y1="632" x2="271.5" y2="635.1" stroke="#495057" stroke-width="2"/>
+<line x1="280" y1="632" x2="271.5" y2="628.9" stroke="#495057" stroke-width="2"/>
+<path d="M640,182 L690,182 L690,396 L720,396" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="720" y1="396" x2="711.5" y2="399.1" stroke="#495057" stroke-width="2"/>
+<line x1="720" y1="396" x2="711.5" y2="392.9" stroke="#495057" stroke-width="2"/>
+<path d="M640,415 L690,415 L690,396 L720,396" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="720" y1="396" x2="711.5" y2="399.1" stroke="#495057" stroke-width="2"/>
+<line x1="720" y1="396" x2="711.5" y2="392.9" stroke="#495057" stroke-width="2"/>
+<path d="M640,632 L690,632 L690,396 L720,396" fill="none" stroke="#495057" stroke-width="2"/>
+<line x1="720" y1="396" x2="711.5" y2="399.1" stroke="#495057" stroke-width="2"/>
+<line x1="720" y1="396" x2="711.5" y2="392.9" stroke="#495057" stroke-width="2"/>
+<text x="480" y="54" fill="#1e1e1e" font-size="24" text-anchor="middle" font-weight="bold">load/  —  Data Loading into Snowflake</text>
+<rect x="60" y="150" width="150" height="64" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<text x="135" y="191" fill="#0b3d66" font-size="19" text-anchor="middle" font-weight="bold">Airbyte</text>
+<rect x="60" y="360" width="150" height="64" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<text x="135" y="401" fill="#3b2a63" font-size="19" text-anchor="middle" font-weight="bold">dlt</text>
+<rect x="60" y="600" width="150" height="64" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<text x="135" y="641" fill="#5c3d00" font-size="19" text-anchor="middle" font-weight="bold">Fivetran</text>
+<rect x="280" y="118" width="360" height="128" fill="#e7f5ff" stroke="#1971c2" stroke-width="2"/>
+<text x="296" y="142" fill="#0b3d66" font-size="14" text-anchor="start">Sources: country populations, golf,</text>
+<text x="296" y="161" fill="#0b3d66" font-size="14" text-anchor="start">  personal loans, zip coordinates</text>
+<text x="296" y="180" fill="#0b3d66" font-size="14" text-anchor="start">Destinations: snowflake, snowflake pii,</text>
+<text x="296" y="199" fill="#0b3d66" font-size="14" text-anchor="start">  redshift</text>
+<text x="296" y="218" fill="#0b3d66" font-size="14" text-anchor="start">Connections: 6 configured</text>
+<rect x="280" y="320" width="360" height="190" fill="#f3e8ff" stroke="#7048e8" stroke-width="2"/>
+<text x="296" y="344" fill="#3b2a63" font-size="14" text-anchor="start">Pipelines (connectorx):</text>
+<text x="296" y="363" fill="#3b2a63" font-size="14" text-anchor="start">  • country_geo.py</text>
+<text x="296" y="382" fill="#3b2a63" font-size="14" text-anchor="start">  • country_populations.py</text>
+<text x="296" y="401" fill="#3b2a63" font-size="14" text-anchor="start">  • loans_data.py</text>
+<text x="296" y="420" fill="#3b2a63" font-size="14" text-anchor="start">  • us_population.py</text>
+<text x="296" y="438" fill="#3b2a63" font-size="14" text-anchor="start">  • usgs_earthquake.py</text>
+<text x="296" y="457" fill="#3b2a63" font-size="14" text-anchor="start">utils/datacoves_utils.py</text>
+<rect x="280" y="592" width="360" height="80" fill="#fff9db" stroke="#f08c00" stroke-width="2"/>
+<text x="296" y="636" fill="#5c3d00" font-size="14" text-anchor="start">datacoves_snowflake.json</text>
+<rect x="720" y="348" width="150" height="96" fill="#e7f0ff" stroke="#3b5bdb" stroke-width="2"/>
+<text x="795" y="395" fill="#1a2f6b" font-size="17" text-anchor="middle" font-weight="bold">Snowflake</text>
+<text x="795" y="418" fill="#1a2f6b" font-size="17" text-anchor="middle" font-weight="bold">(BALBOA)</text>
+</svg>
