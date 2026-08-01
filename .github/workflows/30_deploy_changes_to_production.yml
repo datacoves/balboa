@@ -144,8 +144,8 @@ jobs:
           done
 
       - uses: fregante/setup-git-user@v2
-      - name: Bump dbt project and git project version
-        run: "../automate/dbt/bump_dbt_project.sh"
+      - name: Set deployment version and tag
+        run: "../automate/dbt/set_deployment_version.sh"
 
       - name: Push version changes
         uses: ad-m/github-push-action@v0.6.0
