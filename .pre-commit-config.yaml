@@ -15,7 +15,7 @@ repos:
 
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
-    rev: 3.1.1
+    rev: 3.5.0
     hooks:
       - id: sqlfluff-lint
         language: python
@@ -24,7 +24,7 @@ repos:
         #   dbt-snowflake needs to match the version in transform tab of Datacoves (pip show dbt-snowflake)
         additional_dependencies:
           [
-            "sqlfluff-templater-dbt==3.1.1",
+            "sqlfluff-templater-dbt==3.5.0",
             "dbt-core==1.10.15",
             "dbt-snowflake==1.10.3",
           ]
