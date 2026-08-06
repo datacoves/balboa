@@ -6,7 +6,7 @@ from airflow.decorators import dag, task
     default_args={
         "owner": "Alejandro",
         "depends_on_past": False,
-        "start_date": datetime.today() - timedelta(days=1),
+        "start_date": datetime(2026, 8, 1),
         "email": "alejandro@datacoves.com",
         "email_on_failure": False,
         "email_on_retry": False,
@@ -21,7 +21,7 @@ from airflow.decorators import dag, task
 def dag_dbt_debug():
 
     @task.datacoves_dbt(
-        connection_id="main"
+        connection_id="main_key_pair"
     )
     def run_dbt():
         return "dbt debug && dbt run --select stg__airbyte_raw_zip_coordinates"

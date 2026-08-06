@@ -7,7 +7,7 @@ from airflow.operators.bash import BashOperator
     default_args={
         "owner": "Alejandro",
         "depends_on_past": False,
-        "start_date": datetime.today() - timedelta(days=1),
+        "start_date": datetime(2026, 8, 1),
         "email": "alejandro@datacoves.com",
         "email_on_failure": False,
         "email_on_retry": False,
