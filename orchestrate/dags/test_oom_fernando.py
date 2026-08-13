@@ -36,7 +36,7 @@ default_args = {
 def test_oom_fernando():
 
     @task
-    def consume_memory(target_gb: int = 4, hold_seconds: int = 120):
+    def consume_memory(target_gb: int = 5, hold_seconds: int = 120):
         import time
 
         chunk_size = 256 * 1024 * 1024  # 256MB per chunk
