@@ -7,8 +7,14 @@ forwards the lookup to the additional (Azure Key Vault) backend. The key
 "airflow-variables-datacoves-test-secret".
 """
 
-from airflow.decorators import dag, task
-from airflow.models import Variable
+try:
+    # Airflow 3
+    from airflow.sdk import Variable, dag, task
+except ImportError:
+    # Airflow 2
+    from airflow.decorators import dag, task
+    from airflow.models import Variable
+
 from pendulum import datetime
 
 
