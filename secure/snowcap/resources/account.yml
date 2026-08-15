@@ -1,3 +1,9 @@
 account_parameters:
   - name: CORTEX_ENABLED_CROSS_REGION
     value: AWS_US
+
+  # Opts the account into Snowflake's inherited grants preview, which backs the
+  # "inherited ... in database" grants in roles__base.yml. Snowcap applies this
+  # parameter before any grant that depends on it within a single run.
+  - name: FEATURE_RBAC_INHERITED_GRANTS
+    value: ENABLED
