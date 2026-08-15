@@ -1,22 +1,16 @@
+# Kept in sync with secure/snowcap/resources/users.yml (role_grants).
+# Snowcap is the source of truth.
+#
+# NOT EXPRESSIBLE IN PERMIFROST: snowcap also sets a user `type`
+# (PERSON / SERVICE / LEGACY_SERVICE -- svc_superset is the LEGACY_SERVICE).
+
 - alejandro:
     can_login: true
     member_of:
       - analyst
       - securityadmin
 
-- gomezn:
-    can_login: true
-    member_of:
-      - orgadmin
-      - accountadmin
-      - securityadmin
-      - analyst
-      - loader
-      - transformer_dbt
-      - sqlmesh_analyst
-      - bot_integration
-
-- ian:
+- fernando:
     can_login: true
     member_of:
       - analyst
@@ -25,21 +19,45 @@
     can_login: true
     member_of:
       - analyst
+      - loader
+      - transformer_dbt
+      - accountadmin
+      - securityadmin
+
+- ian:
+    can_login: true
+    member_of:
+      - analyst
+
+- gomezn:
+    can_login: true
+    member_of:
+      - analyst
+      - analyst_pii
+      - de__analyst
+      - de__analyst_pii
+      - finance_team
+      - loader
+      - transformer_dbt
+      - accountadmin
+      - securityadmin
+      - orgadmin
 
 - sebastian:
     can_login: true
     member_of:
+      - analyst
+      - loader
+      - transformer_dbt
       - accountadmin
       - securityadmin
-      - analyst
-      - transformer_dbt
 
 - stephen:
     can_login: true
     member_of:
+      - analyst
       - accountadmin
       - securityadmin
-      - analyst
 
 - svc_airbyte:
     can_login: true
@@ -49,6 +67,7 @@
 - svc_airflow:
     can_login: true
     member_of:
+      - loader
       - transformer_dbt
 
 - svc_datacoves:
