@@ -1,0 +1,11 @@
+roles:
+  - name: z_account__execute_task
+
+grants:
+  - priv:
+      - EXECUTE TASK
+      - EXECUTE ALERT
+      - EXECUTE MANAGED TASK
+      - EXECUTE MANAGED ALERT
+    on: "ACCOUNT"
+    to: z_account__execute_task

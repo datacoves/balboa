@@ -48,3 +48,11 @@ grants:
       - "inherited dynamic tables in database {{ each.value.name }}"
       - "inherited views in database {{ each.value.name }}"
     to: z_tables_views__select
+
+  # - for_each: var.databases
+  #   priv: "SELECT"
+  #   on:
+  #     - "inherited tables in database {{ each.value.name }}"
+  #     - "inherited dynamic tables in database {{ each.value.name }}"
+  #     - "inherited views in database {{ each.value.name }}"
+  #   to: z_tables_views__select

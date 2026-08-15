@@ -1,0 +1,24 @@
+roles:
+  - name: z_account__execute_alert
+  - name: z_integration__send_email_notifications
+  - name: z_integration__send_slack_notifications
+  - name: z_schema__raw__raw__create_alert
+
+grants:
+  - priv:
+      - EXECUTE ALERT
+      - EXECUTE MANAGED ALERT
+    on: "ACCOUNT"
+    to: z_account__execute_alert
+
+  - priv: "USAGE"
+    on: "integration send_email_notifications"
+    to: z_integration__send_email_notifications
+
+  - priv: "USAGE"
+    on: "integration send_slack_notifications"
+    to: z_integration__send_slack_notifications
+
+  - priv: "CREATE ALERT"
+    on: "schema raw.raw"
+    to: z_schema__raw__raw__create_alert

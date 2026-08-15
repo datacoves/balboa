@@ -32,6 +32,7 @@ roles:
   - name: z_db__balboa_tst
   - name: z_db__covid19_epidemiological_data
   - name: z_db__snowflake
+  - name: z_db__worldwide_address_data
 
 grants:
   - priv: "IMPORTED PRIVILEGES"
@@ -41,3 +42,7 @@ grants:
   - priv: "IMPORTED PRIVILEGES"
     on: "database snowflake"
     to: z_db__snowflake
+
+  - priv: "IMPORTED PRIVILEGES"
+    on: "database worldwide_address_data"
+    to: z_db__worldwide_address_data

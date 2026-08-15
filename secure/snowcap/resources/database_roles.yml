@@ -6,14 +6,25 @@ database_roles:
     database: great_bay
     comment: "Database role for reading"
 
-
 grants:
+  - priv: "USAGE"
+    on:
+      - "database great_bay"
+      - "schema great_bay.cove_marketing"
+    to: great_bay.dr_create_role
+
   - priv:
       - SELECT
       - INSERT
       - UPDATE
     on: FUTURE TABLES IN SCHEMA GREAT_BAY.COVE_MARKETING
     to: great_bay.dr_create_role
+
+  - priv: "USAGE"
+    on:
+      - "database great_bay"
+      - "schema great_bay.cove_marketing"
+    to: great_bay.dr_reader_role
 
   - priv:
       - SELECT
