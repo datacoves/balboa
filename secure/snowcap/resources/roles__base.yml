@@ -31,24 +31,6 @@ grants:
       - "future schemas in database governance"
     to: z_schemas__db__governance
 
-  # One inherited grant per object type covers every current and future object in
-  # the database, replacing the "all" + "future" pair this used to need.
-  #
-  # Our schemas are managed_access (see object_templates/schema.yml), where
-  # database-level future grants are fragile: Snowflake gives a schema-level future
-  # grant on the same object type precedence and silently ignores the database-level
-  # one, so newly created objects never receive SELECT. Inherited grants are not
-  # subject to that precedence rule.
-  #
-  # Requires FEATURE_RBAC_INHERITED_GRANTS, set in account.yml.
-  - for_each: var.databases
-    priv: "SELECT"
-    on:
-      - "inherited tables in database {{ each.value.name }}"
-      - "inherited dynamic tables in database {{ each.value.name }}"
-      - "inherited views in database {{ each.value.name }}"
-    to: z_tables_views__select
-
   # - for_each: var.databases
   #   priv: "SELECT"
   #   on:
@@ -56,3 +38,14 @@ grants:
   #     - "inherited dynamic tables in database {{ each.value.name }}"
   #     - "inherited views in database {{ each.value.name }}"
   #   to: z_tables_views__select
+
+  - for_each: var.databases
+    priv: "SELECT"
+    on:
+      - "all tables in database {{ each.value.name }}"
+      - "all dynamic tables in database {{ each.value.name }}"
+      - "all views in database {{ each.value.name }}"
+      - "future tables in database {{ each.value.name }}"
+      - "future dynamic tables in database {{ each.value.name }}"
+      - "future views in database {{ each.value.name }}"
+    to: z_tables_views__select
