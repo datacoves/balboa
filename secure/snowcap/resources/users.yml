@@ -6,56 +6,69 @@ vars:
       - name: alejandro
         type: PERSON
         default_role: analyst
+        default_warehouse: wh_transforming
       - name: fernando
         type: PERSON
         default_role: analyst
+        default_warehouse: wh_transforming
       - name: jesus
         type: PERSON
         default_role: analyst
+        default_warehouse: wh_transforming
       - name: ian
         type: PERSON
         default_role: analyst
+        default_warehouse: wh_transforming
       - name: gomezn
         type: PERSON
         default_role: analyst
+        default_warehouse: wh_transforming
       - name: sebastian
         type: PERSON
         default_role: analyst
+        default_warehouse: wh_transforming
       - name: stephen
         type: PERSON
         default_role: analyst
+        default_warehouse: wh_transforming
 
     # Service Accounts
       - name: svc_airbyte
         type: SERVICE
         default_role: loader
+        default_warehouse: wh_loading
       - name: svc_airflow
         type: SERVICE
         default_role: transformer_dbt
+        default_warehouse: wh_orchestrating
       - name: svc_datacoves
         type: SERVICE
         default_role: securityadmin
+        default_warehouse: wh_admin
       - name: svc_fivetran
         type: SERVICE
         default_role: loader
-      - name: svc_github_actions
-        type: SERVICE
-        default_role: transformer_dbt
+        default_warehouse: wh_loading
       - name: svc_balboa_ci
         type: SERVICE
         default_role: bot_integration
+        default_warehouse: wh_integration
       - name: svc_dbt_coves_ci
         type: SERVICE
         default_role: bot_integration
+        default_warehouse: wh_integration
       - name: svc_datacoves_platform_ci
         type: SERVICE
         default_role: bot_integration
+        default_warehouse: wh_integration
       - name: svc_datahub
         type: SERVICE
         default_role: catalog
+        default_warehouse: wh_catalog
       - name: svc_superset
         type: LEGACY_SERVICE
         default_role: analyst
+        default_warehouse: wh_transforming
 
 role_grants:
   - to_user: alejandro
@@ -124,10 +137,6 @@ role_grants:
   - to_user: svc_fivetran
     roles:
       - loader
-
-  - to_user: svc_github_actions
-    roles:
-      - transformer_dbt
 
   # Used by GH Actions on Balboa repo
   - to_user: svc_balboa_ci

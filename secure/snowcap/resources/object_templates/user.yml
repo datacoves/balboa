@@ -7,4 +7,5 @@ users:
     # Required for every user in users.yml: a missing value renders as the
     # literal string "None" and would be applied as a bogus default role.
     default_role: "{{ each.value.default_role }}"
+    default_warehouse: "{{ each.value.default_warehouse }}"
     default_secondary_roles: []
