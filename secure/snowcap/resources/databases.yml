@@ -23,15 +23,15 @@ vars:
       - name: great_bay
         owner: transformer_dbt
         max_data_extension_time_in_days: 10
-      - name: sushi_db
-        owner: transformer_dbt
-        max_data_extension_time_in_days: 10
 
 roles:
   # Used to grant access to test db
   - name: z_db__balboa_tst
   - name: z_db__covid19_epidemiological_data
   - name: z_db__snowflake
+  - name: z_db__snowflake_learning_db
+  - name: z_db__snowflake_sample_data
+  - name: z_schemas__db__snowflake_learning_db
   - name: z_db__worldwide_address_data
 
 grants:
@@ -43,6 +43,36 @@ grants:
     on: "database snowflake"
     to: z_db__snowflake
 
+  # Snowflake-provided sample data (TPC-H, OpenWeatherMap, etc). A share, so
+  # IMPORTED PRIVILEGES covers the schemas and tables underneath. Snowflake
+  # also grants USAGE on it to PUBLIC at provisioning time -- this declares the
+  # access on our own role rather than relying on a grant nobody here manages.
+  - priv: "IMPORTED PRIVILEGES"
+    on: "database snowflake_sample_data"
+    to: z_db__snowflake_sample_data
+
   - priv: "IMPORTED PRIVILEGES"
     on: "database worldwide_address_data"
     to: z_db__worldwide_address_data
+
+  # Created by Snowflake during account provisioning (2026-01) for hands-on lab
+  # content. A STANDARD database, not a share, so it needs the full read stack
+  # rather than IMPORTED PRIVILEGES. Currently empty -- no schemas at all -- so
+  # the future grants are what actually matter here.
+  - priv: "USAGE"
+    on: "database snowflake_learning_db"
+    to: z_db__snowflake_learning_db
+
+  - priv: "USAGE"
+    on:
+      - "all schemas in database snowflake_learning_db"
+      - "future schemas in database snowflake_learning_db"
+    to: z_schemas__db__snowflake_learning_db
+
+  - priv: "SELECT"
+    on:
+      - "all tables in database snowflake_learning_db"
+      - "all views in database snowflake_learning_db"
+      - "future tables in database snowflake_learning_db"
+      - "future views in database snowflake_learning_db"
+    to: z_tables_views__select
