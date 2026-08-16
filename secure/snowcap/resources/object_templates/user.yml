@@ -4,4 +4,7 @@ users:
     name: "{{ each.value.name }}"
     owner: SECURITYADMIN
     type: "{{ each.value.type }}"
+    # Required for every user in users.yml: a missing value renders as the
+    # literal string "None" and would be applied as a bogus default role.
+    default_role: "{{ each.value.default_role }}"
     default_secondary_roles: []
