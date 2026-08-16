@@ -14,23 +14,12 @@ roles:
 
   - name: finance_team
 
-  - name: great_bay__analyst__reader
-  - name: great_bay__analyst__writer
-
   # analyst plus account-wide metadata visibility. Composed from analyst so it
   # works as a default role -- the MCP connector runs as whatever role the user
   # defaults to, and needs the data access as well as the visibility.
   - name: account_monitor
 
 database_role_grants:
-  - database_role: great_bay.dr_reader_role
-    roles:
-      - great_bay__analyst__reader
-
-  - database_role: great_bay.dr_create_role
-    roles:
-      - great_bay__analyst__writer
-
   # Snowflake-provided. CORTEX_USER is what lets the MCP connector's SQL
   # execution agent run at all -- without it every call fails with
   # "Unauthorized to call Cortex Agents".
@@ -89,8 +78,15 @@ role_grants:
       # BALBOA_QA used to grant usage to QA database
       - z_db__balboa_qa
 
-      # GREAT_BAY
+      # GREAT_BAY -- same shape as BALBOA: database usage plus a role per
+      # schema, rather than the database-role pair it used to use.
       - z_db__great_bay
+      - z_schema__cove_marketing
+
+      # GREAT_BAY_DEV -- same shape as BALBOA_DEV: usage plus CREATE SCHEMA,
+      # so each developer owns the schema they create.
+      - z_db__great_bay_dev
+      - z_db__great_bay_dev__create_schema
 
       # Shared DBs
       - z_db__covid19_epidemiological_data

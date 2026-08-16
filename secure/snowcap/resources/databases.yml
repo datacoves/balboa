@@ -22,7 +22,15 @@ vars:
         max_data_extension_time_in_days: 5
       - name: great_bay
         owner: transformer_dbt
-        max_data_extension_time_in_days: 10
+        max_data_extension_time_in_days: 30
+      # Developer sandbox, same shape as balboa_dev: transformer_dbt owns the
+      # database, analysts get USAGE plus CREATE SCHEMA and own the schemas
+      # they create. It has been owned by ANALYST since 2023 with no grants at
+      # all -- access was pure database ownership -- so declaring it moves
+      # great_bay_dev onto the same footing as balboa_dev.
+      - name: great_bay_dev
+        owner: transformer_dbt
+        max_data_extension_time_in_days: 5
 
 roles:
   # Used to grant access to test db
