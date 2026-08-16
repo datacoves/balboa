@@ -18,7 +18,8 @@
 # z_db__great_bay_dev__create_schema on z_base__analyst, exactly like
 # BALBOA_DEV. Deleting this file would change nobody's access.
 #
-# Three things about database roles that are easy to trip over:
+#
+# Four things about database roles that are easy to trip over:
 #
 #   - They live inside a database and are always written <database>.<role>.
 #     Two databases can each have their own dr_reader_role with no collision.
@@ -26,6 +27,8 @@
 #     by being granted to an account role that the person holds -- the
 #     database_role_grants block at the bottom is that hop, and it is not
 #     optional.
+#   - They start out holding usage on their own database. Snowflake grants that
+#     at creation and nothing can revoke it, so there is no need to declare it.
 #   - They are copied by CREATE DATABASE ... CLONE, whereas account-level
 #     grants on the database itself are not.
 #
@@ -43,14 +46,14 @@ database_roles:
     comment: "Example: read the sandbox and create schemas in it"
 
 grants:
-  # Reader: enter the database, enter its schemas, query what is in them.
-  # Written database-wide rather than per-schema because GREAT_BAY_DEV's
-  # schemas are per-developer and come and go -- the future grants are what
-  # make this hold for a schema created tomorrow.
-  - priv: "USAGE"
-    on: "database great_bay_dev"
-    to: great_bay_dev.dr_reader_role
-
+  # Reader: enter its schemas, query what is in them. Usage on GREAT_BAY_DEV
+  # itself is deliberately absent -- creating a database role grants it usage on
+  # its own database, so declaring it adds a second row for a privilege the role
+  # already has and cannot lose.
+  #
+  # Written database-wide rather than per-schema because GREAT_BAY_DEV's schemas
+  # are per-developer and come and go -- the future grants are what make this
+  # hold for a schema created tomorrow.
   - priv: "USAGE"
     on:
       - "all schemas in database great_bay_dev"
@@ -69,10 +72,6 @@ grants:
   # do not inherit from each other here, so the reader's privileges are
   # restated rather than composed -- one of the ergonomic costs of choosing
   # database roles over account roles.
-  - priv: "USAGE"
-    on: "database great_bay_dev"
-    to: great_bay_dev.dr_writer_role
-
   - priv: "USAGE"
     on:
       - "all schemas in database great_bay_dev"
