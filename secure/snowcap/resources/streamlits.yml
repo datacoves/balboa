@@ -1,0 +1,12 @@
+# Streamlit apps
+#
+# The apps themselves are deployed out of band (see visualize/streamlit), so we
+# declare only the roles and grants that expose them to readers.
+
+roles:
+  - name: z_streamlit__balboa_apps__resources__loans
+
+grants:
+  - priv: "USAGE"
+    on: "streamlit balboa_apps.resources.loans"
+    to: z_streamlit__balboa_apps__resources__loans

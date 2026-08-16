@@ -76,6 +76,7 @@ role_grants:
       - accountadmin
       - securityadmin
       - orgadmin
+      - z_monitor                                   # Claude MCP connector logs in as gomezn
 
   - to_user: sebastian
     roles:

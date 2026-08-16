@@ -17,6 +17,9 @@ roles:
   - name: great_bay__analyst__reader
   - name: great_bay__analyst__writer
 
+  # Read-only role the Claude MCP connector logs in as
+  - name: z_monitor
+
 database_role_grants:
   - database_role: great_bay.dr_reader_role
     roles:
@@ -25,6 +28,25 @@ database_role_grants:
   - database_role: great_bay.dr_create_role
     roles:
       - great_bay__analyst__writer
+
+  # Snowflake-provided database roles. CORTEX_USER is what lets the MCP
+  # connector's SQL execution agent run at all; the viewers give it read-only
+  # metadata across the account.
+  - database_role: snowflake.cortex_user
+    roles:
+      - z_monitor
+
+  - database_role: snowflake.object_viewer
+    roles:
+      - z_monitor
+
+  - database_role: snowflake.governance_viewer
+    roles:
+      - z_monitor
+
+  - database_role: snowflake.usage_viewer
+    roles:
+      - z_monitor
 
 role_grants:
   - to_role: finance_team
@@ -88,6 +110,10 @@ role_grants:
 
       # STAGES
       - z_stage__raw__dbt_artifacts__artifacts__read
+      - z_stage__raw__raw__ext_jsonfiles_stage__read
+
+      # STREAMLIT
+      - z_streamlit__balboa_apps__resources__loans
 
       # WAREHOUSES
       - z_wh__wh_transforming
@@ -96,7 +122,21 @@ role_grants:
       # ALERTS
       - z_account__execute_alert                    # ERROR_ALERT (serverless, suspended)
       - z_integration__send_email_notifications
+      - z_integration__send_slack_notifications
 
+      # TASKS
+      - z_account__execute_task
+
+
+  # Read-only, deliberately NOT composed from z_base__analyst: the MCP
+  # connector should see account metadata, not the analyst data estate.
+  - to_role: z_monitor
+    roles:
+      - z_account__monitor
+      - z_db__admin_db
+      - z_schema__mcps
+      - z_mcp__datacoves
+      - z_wh__wh_transforming
 
   - to_role: analyst
     roles:
