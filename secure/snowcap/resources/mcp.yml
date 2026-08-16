@@ -5,17 +5,31 @@
 # but SHOW GRANTS reports privileges on it as 'CORTEX_AGENT_SERVER' -- same
 # object, two names. MCP SERVER is the spelling the DDL grammar accepts.
 #
-# ADMIN_DB and ADMIN_DB.MCPS are declared in databases.yml and schemas.yml, so
-# the templates generate z_db__admin_db and z_schema__mcps. Only the server
-# role, which no template covers, lives here.
+# ADMIN_DB and ADMIN_DB.MCPS are deliberately NOT in databases.yml/schemas.yml:
+# putting them through the object templates would make snowcap manage objects
+# Snowflake owns, flipping ADMIN_DB.MCPS to managed access, and would sweep
+# ADMIN_DB into the for_each in roles__base.yml that gives
+# z_tables_views__select SELECT on every table and view in every declared
+# database -- handing analysts the admin database. Same approach the shared
+# databases in databases.yml use: declare the access, not the object.
 #
 # These roles are granted to z_base__analyst -- the connector authenticates as
 # a person and works off their analyst access rather than a dedicated role.
 
 roles:
+  - name: z_db__admin_db
+  - name: z_schema__mcps
   - name: z_mcp__datacoves
 
 grants:
+  - priv: "USAGE"
+    on: "database admin_db"
+    to: z_db__admin_db
+
+  - priv: "USAGE"
+    on: "schema admin_db.mcps"
+    to: z_schema__mcps
+
   - priv: "USAGE"
     on: "mcp server admin_db.mcps.datacoves"
     to: z_mcp__datacoves

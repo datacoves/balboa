@@ -42,7 +42,3 @@ vars:
       # GREAT_BAY DB
       - name: GREAT_BAY.COVE_MARKETING
 
-      # ADMIN_DB
-      # Created by Snowflake when the account connects an MCP client; holds
-      # the DATACOVES cortex agent server. Owner inherited from ADMIN_DB.
-      - name: ADMIN_DB.MCPS

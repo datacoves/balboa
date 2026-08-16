@@ -26,11 +26,6 @@ vars:
       - name: sushi_db
         owner: transformer_dbt
         max_data_extension_time_in_days: 10
-      # Holds the MCPS schema backing the MCP connector; ACCOUNTADMIN-owned,
-      # so it is declared with its existing owner rather than transferred.
-      - name: admin_db
-        owner: accountadmin
-        max_data_extension_time_in_days: 14
 
 roles:
   # Used to grant access to test db
