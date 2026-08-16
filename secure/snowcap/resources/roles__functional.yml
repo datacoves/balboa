@@ -123,6 +123,10 @@ role_grants:
       - z_schema__mcps
       - z_mcp__datacoves
 
+      # DEMO_DB -- read only; transformer_dbt writes by ownership
+      - z_db__demo_db
+      - z_schema__roles_schema
+
 
   - to_role: account_monitor
     roles:

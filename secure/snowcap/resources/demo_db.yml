@@ -1,0 +1,40 @@
+# DEMO_DB access
+#
+# DEMO_DB is a 2021 demo database that predates snowcap, with grants to analyst
+# going back to 2021-09. Those grants appeared as drops once snowcap could see
+# them, and this declares the part worth keeping.
+#
+# Deliberately NOT in databases.yml/schemas.yml: the object templates would
+# sweep DEMO_DB into the for_each in roles__base.yml that gives
+# z_tables_views__select every table and view in every declared database, and
+# would make snowcap manage schemas it did not create. Same approach ADMIN_DB
+# and the shared databases use -- declare the access, not the object.
+#
+# Analysts get read only: USAGE to enter, SELECT to query, no DDL and no DML.
+# Write access comes from ownership -- DEMO_DB is owned by transformer_dbt.
+#
+# Scoped to ROLES_SCHEMA. Analysts hold no usage on PUBLIC, SOURCE_BUSINESS or
+# the rest, and this does not add any.
+
+roles:
+  - name: z_db__demo_db
+  - name: z_schema__roles_schema
+
+grants:
+  - priv: "USAGE"
+    on: "database demo_db"
+    to: z_db__demo_db
+
+  - priv: "USAGE"
+    on: "schema demo_db.roles_schema"
+    to: z_schema__roles_schema
+
+  # SELECT belongs on z_tables_views__select, as it does for every other
+  # database; the z_schema__ role carries only USAGE.
+  - priv: "SELECT"
+    on:
+      - "all tables in schema demo_db.roles_schema"
+      - "all views in schema demo_db.roles_schema"
+      - "future tables in schema demo_db.roles_schema"
+      - "future views in schema demo_db.roles_schema"
+    to: z_tables_views__select
