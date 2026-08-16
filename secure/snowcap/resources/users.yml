@@ -1,74 +1,91 @@
 # Users
+#
+# default_role and default_warehouse are written UPPERCASE on purpose. Snowcap
+# renders both with StringProp, so the value reaches Snowflake as a quoted
+# literal -- ALTER USER ... SET DEFAULT_ROLE = 'analyst' -- and is stored with
+# whatever case it was given here, rather than being upper-cased the way an
+# unquoted identifier would be.
+#
+# Key-pair and password logins resolve that case-insensitively and do not care.
+# OAuth does: on 2026-08-16 a lowercase account_monitor here left the Claude MCP
+# connector unable to authorize, with "User's configured default role
+# 'account_monitor' does not exist or not authorized", while the role existed
+# and was granted.
+#
+# Keeping these uppercase also keeps them stable. Snowcap compares the values
+# case-sensitively, so a lowercase entry here reads an uppercase value in
+# Snowflake as drift and rewrites it on every apply -- which would silently undo
+# a hand-applied fix and break OAuth again.
 vars:
   - name: users
     type: list
     default:
       - name: alejandro
         type: PERSON
-        default_role: analyst
-        default_warehouse: wh_transforming
+        default_role: ANALYST
+        default_warehouse: WH_TRANSFORMING
       - name: fernando
         type: PERSON
-        default_role: analyst
-        default_warehouse: wh_transforming
+        default_role: ANALYST
+        default_warehouse: WH_TRANSFORMING
       - name: jesus
         type: PERSON
-        default_role: analyst
-        default_warehouse: wh_transforming
+        default_role: ANALYST
+        default_warehouse: WH_TRANSFORMING
       - name: ian
         type: PERSON
-        default_role: analyst
-        default_warehouse: wh_transforming
+        default_role: ANALYST
+        default_warehouse: WH_TRANSFORMING
       - name: gomezn
         type: PERSON
-        default_role: account_monitor
-        default_warehouse: wh_transforming
+        default_role: ACCOUNT_MONITOR
+        default_warehouse: WH_TRANSFORMING
       - name: sebastian
         type: PERSON
-        default_role: analyst
-        default_warehouse: wh_transforming
+        default_role: ANALYST
+        default_warehouse: WH_TRANSFORMING
       - name: stephen
         type: PERSON
-        default_role: analyst
-        default_warehouse: wh_transforming
+        default_role: ANALYST
+        default_warehouse: WH_TRANSFORMING
 
     # Service Accounts
       - name: svc_airbyte
         type: SERVICE
-        default_role: loader
-        default_warehouse: wh_loading
+        default_role: LOADER
+        default_warehouse: WH_LOADING
       - name: svc_airflow
         type: SERVICE
-        default_role: transformer_dbt
-        default_warehouse: wh_orchestrating
+        default_role: TRANSFORMER_DBT
+        default_warehouse: WH_ORCHESTRATING
       - name: svc_datacoves
         type: SERVICE
-        default_role: securityadmin
-        default_warehouse: wh_admin
+        default_role: SECURITYADMIN
+        default_warehouse: WH_ADMIN
       - name: svc_fivetran
         type: SERVICE
-        default_role: loader
-        default_warehouse: wh_loading
+        default_role: LOADER
+        default_warehouse: WH_LOADING
       - name: svc_balboa_ci
         type: SERVICE
-        default_role: bot_integration
-        default_warehouse: wh_integration
+        default_role: BOT_INTEGRATION
+        default_warehouse: WH_INTEGRATION
       - name: svc_dbt_coves_ci
         type: SERVICE
-        default_role: bot_integration
-        default_warehouse: wh_integration
+        default_role: BOT_INTEGRATION
+        default_warehouse: WH_INTEGRATION
       - name: svc_datacoves_platform_ci
         type: SERVICE
-        default_role: bot_integration
-        default_warehouse: wh_integration
+        default_role: BOT_INTEGRATION
+        default_warehouse: WH_INTEGRATION
       - name: svc_datahub
         type: SERVICE
-        default_role: catalog
-        default_warehouse: wh_catalog
+        default_role: CATALOG
+        default_warehouse: WH_CATALOG
       - name: svc_superset
         type: LEGACY_SERVICE
-        default_role: analyst
-        default_warehouse: wh_transforming
+        default_role: ANALYST
+        default_warehouse: WH_TRANSFORMING
 
 role_grants:
   - to_user: alejandro
