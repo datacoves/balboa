@@ -1,5 +1,6 @@
 roles:
   - name: z_account__create_database
+  - name: z_account__monitor
   - name: z_db__tst_balboa  # Used to grant access to TST databases
   - name: z_db__balboa_dev__create_schema
 
@@ -14,6 +15,14 @@ grants:
   - priv: "CREATE DATABASE"
     on: "ACCOUNT"
     to: z_account__create_database
+
+  # Account-wide metadata visibility: SHOW ROLES/USERS/GRANTS beyond your own
+  # role. Reads no data and exposes no other user's queries, but it does lay
+  # out the whole RBAC graph, so it stays off z_base__analyst and reaches one
+  # person through the account_monitor role.
+  - priv: "MONITOR"
+    on: "ACCOUNT"
+    to: z_account__monitor
 
   - priv: "CREATE SCHEMA"
     on: "database balboa_dev"

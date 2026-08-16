@@ -17,6 +17,11 @@ roles:
   - name: great_bay__analyst__reader
   - name: great_bay__analyst__writer
 
+  # analyst plus account-wide metadata visibility. Composed from analyst so it
+  # works as a default role -- the MCP connector runs as whatever role the user
+  # defaults to, and needs the data access as well as the visibility.
+  - name: account_monitor
+
 database_role_grants:
   - database_role: great_bay.dr_reader_role
     roles:
@@ -118,6 +123,11 @@ role_grants:
       - z_schema__mcps
       - z_mcp__datacoves
 
+
+  - to_role: account_monitor
+    roles:
+      - analyst
+      - z_account__monitor
 
   - to_role: analyst
     roles:

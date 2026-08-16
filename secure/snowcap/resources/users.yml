@@ -21,7 +21,7 @@ vars:
         default_warehouse: wh_transforming
       - name: gomezn
         type: PERSON
-        default_role: analyst
+        default_role: account_monitor
         default_warehouse: wh_transforming
       - name: sebastian
         type: PERSON
@@ -106,6 +106,7 @@ role_grants:
       - accountadmin
       - securityadmin
       - orgadmin
+      - account_monitor                             # analyst + MONITOR on ACCOUNT
 
   - to_user: sebastian
     roles:
