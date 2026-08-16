@@ -28,6 +28,13 @@ vars:
       # they create. It has been owned by ANALYST since 2023 with no grants at
       # all -- access was pure database ownership -- so declaring it moves
       # great_bay_dev onto the same footing as balboa_dev.
+      #
+      # The developer schemas stay undeclared, exactly as balboa_dev's do. They
+      # are created ad hoc and owned by ANALYST because that is the role that
+      # creates them, which is what gives each developer full rights inside
+      # their own schema without any grant being written down. PUBLIC is the
+      # one exception in both databases: it comes with the database and so
+      # follows the database owner, transformer_dbt.
       - name: great_bay_dev
         owner: transformer_dbt
         max_data_extension_time_in_days: 5
