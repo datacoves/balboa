@@ -18,7 +18,6 @@
 # z_db__great_bay_dev__create_schema on z_base__analyst, exactly like
 # BALBOA_DEV. Deleting this file would change nobody's access.
 #
-#
 # Four things about database roles that are easy to trip over:
 #
 #   - They live inside a database and are always written <database>.<role>.
@@ -32,10 +31,9 @@
 #   - They are copied by CREATE DATABASE ... CLONE, whereas account-level
 #     grants on the database itself are not.
 #
-# Snowcap can also grant a database role to another database role
-# (DatabaseRoleGrant accepts to_database_role), but only from Python -- the
-# YAML loader reads `to_role` and `roles:` only, so nesting is not expressible
-# here.
+# Database roles can also be granted to each other, which is how you compose
+# them: dr_writer_role below holds dr_reader_role rather than restating its
+# privileges. Use `to_database_role` for one, `database_roles` for several.
 
 database_roles:
   - name: dr_reader_role
@@ -68,24 +66,10 @@ grants:
       - "future views in database great_bay_dev"
     to: great_bay_dev.dr_reader_role
 
-  # Writer: everything the reader has, plus a schema of its own. Database roles
-  # do not inherit from each other here, so the reader's privileges are
-  # restated rather than composed -- one of the ergonomic costs of choosing
-  # database roles over account roles.
-  - priv: "USAGE"
-    on:
-      - "all schemas in database great_bay_dev"
-      - "future schemas in database great_bay_dev"
-    to: great_bay_dev.dr_writer_role
-
-  - priv: "SELECT"
-    on:
-      - "all tables in database great_bay_dev"
-      - "all views in database great_bay_dev"
-      - "future tables in database great_bay_dev"
-      - "future views in database great_bay_dev"
-    to: great_bay_dev.dr_writer_role
-
+  # Writer: a schema of its own. Everything the reader can do comes from holding
+  # dr_reader_role, granted at the bottom -- database roles compose, so the
+  # reader's privileges are inherited rather than restated. Adding a privilege
+  # to the reader gives it to the writer too.
   - priv: "CREATE SCHEMA"
     on: "database great_bay_dev"
     to: great_bay_dev.dr_writer_role
@@ -110,3 +94,9 @@ database_role_grants:
   - database_role: great_bay_dev.dr_writer_role
     roles:
       - great_bay_dev__writer
+
+  # Composition: the writer inherits everything the reader has. A database role
+  # is granted to another database role in the same block, with
+  # to_database_role rather than to_role.
+  - database_role: great_bay_dev.dr_reader_role
+    to_database_role: great_bay_dev.dr_writer_role
