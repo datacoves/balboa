@@ -1,10 +1,13 @@
 # MCP connector access
 #
-# Snowflake creates ADMIN_DB.MCPS.DATACOVES (a cortex agent server) when the
-# account connects an MCP client, and the connector runs its SQL through it.
+# Snowflake creates ADMIN_DB.MCPS.DATACOVES when the account connects an MCP
+# client, and the connector runs its SQL through it. SHOW MCP SERVERS lists it,
+# but SHOW GRANTS reports privileges on it as 'CORTEX_AGENT_SERVER' -- same
+# object, two names. MCP SERVER is the spelling the DDL grammar accepts.
+#
 # ADMIN_DB and ADMIN_DB.MCPS are declared in databases.yml and schemas.yml, so
-# the templates generate z_db__admin_db and z_schema__mcps. Only the agent
-# server role, which no template covers, lives here.
+# the templates generate z_db__admin_db and z_schema__mcps. Only the server
+# role, which no template covers, lives here.
 #
 # These roles are granted to z_base__analyst -- the connector authenticates as
 # a person and works off their analyst access rather than a dedicated role.
@@ -14,5 +17,5 @@ roles:
 
 grants:
   - priv: "USAGE"
-    on: "cortex agent server admin_db.mcps.datacoves"
+    on: "mcp server admin_db.mcps.datacoves"
     to: z_mcp__datacoves
