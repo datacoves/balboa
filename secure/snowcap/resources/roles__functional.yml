@@ -17,6 +17,19 @@ roles:
   # analyst plus account-wide metadata visibility. Composed from analyst so it
   # works as a default role -- the MCP connector runs as whatever role the user
   # defaults to, and needs the data access as well as the visibility.
+  #
+  # DO NOT DROP OR RENAME. The Claude MCP connector's OAuth token is bound to
+  # this role. The CLAUDE_MCP_OAUTH integration sets OAUTH_ANY_ROLE_MODE =
+  # DISABLE and OAUTH_USE_SECONDARY_ROLES = NONE, so the session gets exactly
+  # one role, fixed when the connector was authorized, with nothing to fall
+  # back to. Removing the role invalidates the token and the connector stops
+  # working until someone re-authorizes it by hand.
+  #
+  # It fails silently: no plan warning, no apply error. That is how the
+  # connector broke on 2026-08-16, when this role replaced z_monitor and the
+  # same apply dropped z_monitor while a live token was bound to it. Renaming
+  # is the same hazard as dropping -- snowcap applies it as DROP plus CREATE.
+  # If this role ever has to change, re-authorize the connector afterwards.
   - name: account_monitor
 
 database_role_grants:
