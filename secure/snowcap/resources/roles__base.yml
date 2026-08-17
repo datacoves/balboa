@@ -33,33 +33,32 @@ grants:
     on: "database great_bay_dev"
     to: z_db__great_bay_dev__create_schema
 
+  # Inherited grants, not the "all X" plus "future X" pair they replace. One
+  # grant on the container covers every object of the type in it, existing and
+  # future alike, and requires FEATURE_RBAC_INHERITED_GRANTS in account.yml.
+  #
+  # Three reasons this config uses them:
+  #
+  #   - Snowflake keeps an inherited grant as one durable record, so plan can
+  #     compare it against config. Grants on all objects cannot be compared, so
+  #     snowcap reapplied them on every run -- that was the 40 CREATE lines in
+  #     every plan, none of which were real changes.
+  #   - A future grant at schema level silently overrides one at database level.
+  #     Inherited grants are not shadowed that way, so adding a schema-level
+  #     grant later cannot quietly cut off the database-level one.
+  #   - One record instead of one per object, plus a future grant.
   - priv: "USAGE"
-    on:
-      - "all schemas in database raw"
-      - "future schemas in database raw"
+    on: "inherited schemas in database raw"
     to: z_schemas__db__raw
 
   - priv: "USAGE"
-    on:
-      - "all schemas in database governance"
-      - "future schemas in database governance"
+    on: "inherited schemas in database governance"
     to: z_schemas__db__governance
-
-  # - for_each: var.databases
-  #   priv: "SELECT"
-  #   on:
-  #     - "inherited tables in database {{ each.value.name }}"
-  #     - "inherited dynamic tables in database {{ each.value.name }}"
-  #     - "inherited views in database {{ each.value.name }}"
-  #   to: z_tables_views__select
 
   - for_each: var.databases
     priv: "SELECT"
     on:
-      - "all tables in database {{ each.value.name }}"
-      - "all dynamic tables in database {{ each.value.name }}"
-      - "all views in database {{ each.value.name }}"
-      - "future tables in database {{ each.value.name }}"
-      - "future dynamic tables in database {{ each.value.name }}"
-      - "future views in database {{ each.value.name }}"
+      - "inherited tables in database {{ each.value.name }}"
+      - "inherited dynamic tables in database {{ each.value.name }}"
+      - "inherited views in database {{ each.value.name }}"
     to: z_tables_views__select

@@ -79,15 +79,11 @@ grants:
     to: z_db__snowflake_learning_db
 
   - priv: "USAGE"
-    on:
-      - "all schemas in database snowflake_learning_db"
-      - "future schemas in database snowflake_learning_db"
+    on: "inherited schemas in database snowflake_learning_db"
     to: z_schemas__db__snowflake_learning_db
 
   - priv: "SELECT"
     on:
-      - "all tables in database snowflake_learning_db"
-      - "all views in database snowflake_learning_db"
-      - "future tables in database snowflake_learning_db"
-      - "future views in database snowflake_learning_db"
+      - "inherited tables in database snowflake_learning_db"
+      - "inherited views in database snowflake_learning_db"
     to: z_tables_views__select

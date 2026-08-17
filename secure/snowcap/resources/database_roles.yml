@@ -50,20 +50,17 @@ grants:
   # already has and cannot lose.
   #
   # Written database-wide rather than per-schema because GREAT_BAY_DEV's schemas
-  # are per-developer and come and go -- the future grants are what make this
-  # hold for a schema created tomorrow.
+  # are per-developer and come and go. Inherited grants are what make this hold
+  # for a schema created tomorrow, the same as everywhere else in this config --
+  # they work on database roles exactly as they do on account roles.
   - priv: "USAGE"
-    on:
-      - "all schemas in database great_bay_dev"
-      - "future schemas in database great_bay_dev"
+    on: "inherited schemas in database great_bay_dev"
     to: great_bay_dev.dr_reader_role
 
   - priv: "SELECT"
     on:
-      - "all tables in database great_bay_dev"
-      - "all views in database great_bay_dev"
-      - "future tables in database great_bay_dev"
-      - "future views in database great_bay_dev"
+      - "inherited tables in database great_bay_dev"
+      - "inherited views in database great_bay_dev"
     to: great_bay_dev.dr_reader_role
 
   # Writer: a schema of its own. Everything the reader can do comes from holding
