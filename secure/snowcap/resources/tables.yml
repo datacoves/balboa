@@ -1,0 +1,20 @@
+# errors_table: empty accumulator that capture_errors_task (tasks.yml) truncates and
+# refills from stg_test_failures, and that error_alert (alerts.yml) reads in its
+# condition. Columns mirror stg_test_failures by position (the task's insert ... select *),
+# widened from the demo's CTAS-derived types so real test names/counts don't overflow.
+# snowcap has no CREATE TABLE AS SELECT, so the shape is spelled out here.
+tables:
+  - name: balboa_dev.gomezn.errors_table
+    owner: analyst
+    change_tracking: true
+    columns:
+      - name: test_name
+        data_type: VARCHAR
+      - name: count_failed
+        data_type: NUMBER(38,0)
+      - name: error_state
+        data_type: VARCHAR
+      - name: warning_state
+        data_type: VARCHAR
+      - name: tested_models
+        data_type: VARIANT

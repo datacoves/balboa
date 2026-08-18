@@ -13,12 +13,16 @@ grants:
 # Serverless task that refreshes the error-capture table when the dynamic table
 # stream has data. Triggered (no schedule) via TARGET_COMPLETION_INTERVAL + WHEN.
 # Created SUSPENDED; resume out of band or flip state to STARTED once verified.
-# The trigger stream is managed in streams.yml (DynamicTableStream); errors_table
-# is created by the create_error_capture_objects dbt run-operation.
+# The trigger stream is managed in streams.yml (DynamicTableStream) and errors_table
+# in tables.yml. The source dynamic table stg_personal_loans is a dbt model.
 tasks:
   - name: balboa_dev.gomezn.capture_errors_task
     owner: analyst
     state: SUSPENDED
+    # Order the task after its trigger stream.
+    requires:
+      - name: balboa_dev.gomezn.dynamic_table_stream
+        resource_type: stream
     target_completion_interval: "1 minutes"
     when: system$stream_has_data('dynamic_table_stream')
     as_: |

@@ -81,6 +81,10 @@ alerts:
   - name: balboa_dev.gomezn.error_alert
     owner: analyst
     state: SUSPENDED
+    # errors_table must exist first: Snowflake validates the alert condition at CREATE.
+    requires:
+      - name: balboa_dev.gomezn.errors_table
+        resource_type: table
     lifecycle:
       ignore_changes:
         - condition
