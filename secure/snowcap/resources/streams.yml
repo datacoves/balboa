@@ -1,0 +1,8 @@
+# Stream that triggers capture_errors_task (tasks.yml) when the dynamic table
+# refreshes. Managed by snowcap via DynamicTableStream (snowcap PR #59). The
+# source dynamic table stg_personal_loans is a dbt model, referenced here but
+# created/managed by dbt, not snowcap.
+streams:
+  - name: balboa_dev.gomezn.dynamic_table_stream
+    owner: analyst
+    on_dynamic_table: balboa_dev.gomezn.stg_personal_loans

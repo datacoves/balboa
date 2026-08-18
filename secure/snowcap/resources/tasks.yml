@@ -13,8 +13,8 @@ grants:
 # Serverless task that refreshes the error-capture table when the dynamic table
 # stream has data. Triggered (no schedule) via TARGET_COMPLETION_INTERVAL + WHEN.
 # Created SUSPENDED; resume out of band or flip state to STARTED once verified.
-# The trigger stream (raw stream on a dynamic table) is created out of band --
-# snowcap can't manage a stream-on-dynamic-table yet.
+# The trigger stream is managed in streams.yml (DynamicTableStream); errors_table
+# is created by the create_error_capture_objects dbt run-operation.
 tasks:
   - name: balboa_dev.gomezn.capture_errors_task
     owner: analyst
