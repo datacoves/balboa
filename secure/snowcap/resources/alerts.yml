@@ -22,3 +22,89 @@ grants:
   - priv: "CREATE ALERT"
     on: "schema raw.raw"
     to: z_schema__raw__raw__create_alert
+
+# Serverless alerts (no warehouse) that notify on pipeline errors. Both are
+# triggered/manual (no schedule) and created SUSPENDED; flip state to STARTED
+# once verified. They call the send_email_notifications / send_slack_notifications
+# integrations granted above.
+alerts:
+  - name: raw.raw.test_alert
+    owner: loader
+    state: SUSPENDED
+    condition: select * from raw.raw.test_alerts
+    then: |
+      BEGIN
+            LET result_str VARCHAR;
+            (SELECT ARRAY_TO_STRING(ARRAY_AGG(my_col)::ARRAY, ',') INTO :result_str
+              FROM (
+                SELECT *
+                  FROM TABLE(RESULT_SCAN(SNOWFLAKE.ALERT.GET_CONDITION_QUERY_UUID()))
+                  LIMIT 10
+              )
+            );
+
+              call SYSTEM$SEND_SNOWFLAKE_NOTIFICATION(
+              SNOWFLAKE.NOTIFICATION.TEXT_PLAIN(
+                  --- email message
+                   'Hello from Snowflake!!! ' || :result_str
+                  ),
+              SNOWFLAKE.NOTIFICATION.EMAIL_INTEGRATION_CONFIG(
+                  --- notification integration
+                  'SEND_EMAIL_NOTIFICATIONS',
+                  --- email subject
+                  'Re: DEMO Pipeline Alert',
+                  --- emails which must be verified snowflake emails
+                  ARRAY_CONSTRUCT('gomezn@datacoves.com'),
+                  --- CC emails
+                  NULL,
+                  --- BCC emails
+                  NULL
+                  )
+              );
+
+            -- Slack notification - using exactly the same syntax that worked in your test
+            CALL SYSTEM$SEND_SNOWFLAKE_NOTIFICATION(
+              SNOWFLAKE.NOTIFICATION.TEXT_PLAIN('Alert triggered: ' || :result_str),
+              '{"SEND_SLACK_NOTIFICATIONS": {}}'
+            );
+          END
+
+  - name: balboa_dev.gomezn.error_alert
+    owner: analyst
+    state: SUSPENDED
+    condition: |
+      select '<p><strong>test name:</strong> ' || test_name ||
+                 '</p><p><strong>exceptions:</strong> ' || count_failed ||
+                 '</p><p><strong>model names:</strong> ' || tested_models || '</p><hr>'
+                 as error_message
+          from balboa_dev.gomezn.errors_table
+    then: |
+      begin
+            let result_str varchar;
+            (select array_to_string(array_agg( error_message )::array, '') into :result_str
+              from (
+                select *
+                  from table(result_scan(snowflake.alert.get_condition_query_uuid()))
+                  limit 20
+              )
+            );
+
+              call system$send_snowflake_notification(
+              snowflake.notification.text_html(
+                  --- email message
+                   '<h2>Exceptions were detected after dynamic table update</h2><br> ' || :result_str
+                  ),
+              snowflake.notification.email_integration_config(
+                  --- notification integration
+                  'send_email_notifications',
+                  --- email subject
+                  'alert: errors detected on dynamic table refresh',
+                  --- emails which must be verified snowflake emails
+                  array_construct('gomezn@datacoves.com','gomezn@datacov.es'),
+                  --- cc emails
+                  null,
+                  --- bcc emails
+                  null
+                  )
+              );
+          end

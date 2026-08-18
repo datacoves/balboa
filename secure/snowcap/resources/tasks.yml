@@ -9,3 +9,27 @@ grants:
       - EXECUTE MANAGED ALERT
     on: "ACCOUNT"
     to: z_account__execute_task
+
+# Serverless task that refreshes the error-capture table when the dynamic table
+# stream has data. Triggered (no schedule) via TARGET_COMPLETION_INTERVAL + WHEN.
+# Created SUSPENDED; resume out of band or flip state to STARTED once verified.
+# The trigger stream (raw stream on a dynamic table) is created out of band --
+# snowcap can't manage a stream-on-dynamic-table yet.
+tasks:
+  - name: balboa_dev.gomezn.capture_errors_task
+    owner: analyst
+    state: SUSPENDED
+    target_completion_interval: "1 minutes"
+    when: system$stream_has_data('dynamic_table_stream')
+    as_: |
+      begin
+          -- Truncates the errors_table
+          delete from balboa_dev.gomezn.errors_table;
+
+          -- Inserts record from the stg_test_failures view that have failures
+          insert into balboa_dev.gomezn.errors_table
+              select * from balboa_dev.gomezn.stg_test_failures where count_failed > 0;
+
+          -- Clear stream on the dynamic table
+          -- create or replace temp table empty_stream as select * from balboa_dev.gomezn.dynamic_table_stream;
+      end
