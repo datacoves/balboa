@@ -27,10 +27,19 @@ grants:
 # triggered/manual (no schedule) and created SUSPENDED; flip state to STARTED
 # once verified. They call the send_email_notifications / send_slack_notifications
 # integrations granted above.
+#
+# condition/then are under lifecycle.ignore_changes: Snowflake has no ALTER for an
+# alert's IF/THEN body (it can only be replaced), so snowcap can't reconcile it.
+# We declare the body so the alert can be created, then manage only its existence
+# and state; edit the body out of band (or recreate) if it needs to change.
 alerts:
   - name: raw.raw.test_alert
     owner: loader
     state: SUSPENDED
+    lifecycle:
+      ignore_changes:
+        - condition
+        - then
     condition: select * from raw.raw.test_alerts
     then: |
       BEGIN
@@ -72,6 +81,10 @@ alerts:
   - name: balboa_dev.gomezn.error_alert
     owner: analyst
     state: SUSPENDED
+    lifecycle:
+      ignore_changes:
+        - condition
+        - then
     condition: |
       select '<p><strong>test name:</strong> ' || test_name ||
                  '</p><p><strong>exceptions:</strong> ' || count_failed ||
