@@ -1,0 +1,28 @@
+# OAuth client for the Claude MCP connector.
+#
+# The connector's OAuth token binds to a single role, fixed at authorization time
+# (OAUTH_USE_SECONDARY_ROLES = NONE, and account_monitor sets OAUTH_ANY_ROLE_MODE =
+# DISABLE), which is why account_monitor is pre-authorized here and carries the
+# "DO NOT DROP OR RENAME" note in roles__functional.yml.
+#
+# oauth_client_type is create-only in snowcap: changing it (or a CREATE OR REPLACE)
+# rotates the Snowflake-issued client_id/client_secret and invalidates every live
+# refresh token, so snowcap fails the plan rather than replacing the integration.
+security_integrations:
+  - name: claude_mcp_oauth
+    type: OAUTH
+    oauth_client: CUSTOM
+    oauth_client_type: CONFIDENTIAL
+    oauth_redirect_uri: https://claude.ai/api/mcp/auth_callback
+    oauth_issue_refresh_tokens: true
+    oauth_refresh_token_validity: 7776000
+    oauth_use_secondary_roles: NONE
+    oauth_enforce_pkce: true
+    pre_authorized_roles_list:
+      - account_monitor
+    blocked_roles_list:
+      - SYSADMIN
+      - TRANSFORMER_DBT
+      - LOADER
+    enabled: true
+    comment: OAuth client for the Claude MCP connector
