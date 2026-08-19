@@ -14,6 +14,32 @@ roles:
 
   - name: finance_team
 
+  # analyst plus account-wide metadata visibility. Composed from analyst so it
+  # works as a default role -- the MCP connector runs as whatever role the user
+  # defaults to, and needs the data access as well as the visibility.
+  #
+  # DO NOT DROP OR RENAME. The Claude MCP connector's OAuth token is bound to
+  # this role. The CLAUDE_MCP_OAUTH integration sets OAUTH_ANY_ROLE_MODE =
+  # DISABLE and OAUTH_USE_SECONDARY_ROLES = NONE, so the session gets exactly
+  # one role, fixed when the connector was authorized, with nothing to fall
+  # back to. Removing the role invalidates the token and the connector stops
+  # working until someone re-authorizes it by hand.
+  #
+  # It fails silently: no plan warning, no apply error. That is how the
+  # connector broke on 2026-08-16, when this role replaced z_monitor and the
+  # same apply dropped z_monitor while a live token was bound to it. Renaming
+  # is the same hazard as dropping -- snowcap applies it as DROP plus CREATE.
+  # If this role ever has to change, re-authorize the connector afterwards.
+  - name: account_monitor
+
+database_role_grants:
+  # Snowflake-provided. CORTEX_USER is what lets the MCP connector's SQL
+  # execution agent run at all -- without it every call fails with
+  # "Unauthorized to call Cortex Agents".
+  - database_role: snowflake.cortex_user
+    roles:
+      - z_base__analyst
+
 role_grants:
   - to_role: finance_team
     roles:
@@ -65,20 +91,54 @@ role_grants:
       # BALBOA_QA used to grant usage to QA database
       - z_db__balboa_qa
 
-      # GREAT_BAY
+      # GREAT_BAY -- same shape as BALBOA: database usage plus a role per
+      # schema, rather than the database-role pair it used to use.
       - z_db__great_bay
-      - z_db__sushi_db
+      - z_schema__cove_marketing
+
+      # GREAT_BAY_DEV -- same shape as BALBOA_DEV: usage plus CREATE SCHEMA,
+      # so each developer owns the schema they create.
+      - z_db__great_bay_dev
+      - z_db__great_bay_dev__create_schema
 
       # Shared DBs
       - z_db__covid19_epidemiological_data
       - z_db__snowflake
+      - z_db__snowflake_learning_db
+      - z_db__snowflake_sample_data
+      - z_schemas__db__snowflake_learning_db
+      - z_db__worldwide_address_data
 
       # STAGES
       - z_stage__raw__dbt_artifacts__artifacts__read
+      - z_stage__raw__raw__ext_jsonfiles_stage__read
+
+      # STREAMLIT
+      - z_streamlit__balboa_apps__resources__loans
 
       # WAREHOUSES
       - z_wh__wh_transforming
       - z_wh__wh_transforming_dynamic_tables
+
+      # ALERTS
+      - z_account__execute_alert                    # ERROR_ALERT (serverless, suspended)
+      - z_integration__send_email_notifications
+      - z_integration__send_slack_notifications
+
+      # TASKS
+      - z_account__execute_task
+
+      # MCP -- reaches ADMIN_DB.MCPS.DATACOVES, the cortex agent server the
+      # Claude MCP connector runs its SQL through
+      - z_db__admin_db
+      - z_schema__mcps
+      - z_mcp__datacoves
+
+
+  - to_role: account_monitor
+    roles:
+      - analyst
+      - z_account__monitor
 
   - to_role: analyst
     roles:
@@ -107,6 +167,10 @@ role_grants:
   - to_role: loader
     roles:
       - z_wh__wh_loading
+      - z_account__execute_alert                    # TEST_ALERT (serverless, started)
+      - z_integration__send_email_notifications
+      - z_integration__send_slack_notifications
+      - z_schema__raw__raw__create_alert
 
   - to_role: transformer_dbt
     roles:
@@ -119,7 +183,9 @@ role_grants:
       # Shared DBs
       - z_db__covid19_epidemiological_data
       - z_db__snowflake
+      - z_db__worldwide_address_data
 
+      # Warehouses
       - z_wh__wh_orchestrating
       - z_wh__wh_integration
       - z_wh__wh_transforming

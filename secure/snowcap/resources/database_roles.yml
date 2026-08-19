@@ -1,21 +1,99 @@
-database_roles:
-  - name: dr_create_role
-    database: great_bay
-    comment: "Database role to create objects"
-  - name: dr_reader_role
-    database: great_bay
-    comment: "Database role for reading"
+# Database roles -- reference example
+#
+# Every other database in this config uses account-level roles (z_db__*,
+# z_schema__*, z_tables_views__select composed into functional roles). That is
+# the recommended default: one role can span databases, roles can be granted
+# straight to users, and there is a single inheritance tree to reason about.
+#
+# Database roles are the right tool in two cases:
+#
+#   1. Data sharing -- a database role can be included in a share to an
+#      external account; an account role cannot.
+#   2. Database owner autonomy -- when whoever owns a database needs to hand
+#      out access inside it without touching account-level RBAC.
+#
+# GREAT_BAY_DEV is the sandbox, so it is where this example lives. It is a
+# worked example of the mechanics, kept deliberately separate from how analysts
+# actually reach the database: that still runs through z_db__great_bay_dev and
+# z_db__great_bay_dev__create_schema on z_base__analyst, exactly like
+# BALBOA_DEV. Deleting this file would change nobody's access.
+#
+# Four things about database roles that are easy to trip over:
+#
+#   - They live inside a database and are always written <database>.<role>.
+#     Two databases can each have their own dr_reader_role with no collision.
+#   - They cannot be granted to a user. A database role reaches a person only
+#     by being granted to an account role that the person holds -- the
+#     database_role_grants block at the bottom is that hop, and it is not
+#     optional.
+#   - They start out holding usage on their own database. Snowflake grants that
+#     at creation and nothing can revoke it, so there is no need to declare it.
+#   - They are copied by CREATE DATABASE ... CLONE, whereas account-level
+#     grants on the database itself are not.
+#
+# Database roles can also be granted to each other, which is how you compose
+# them: dr_writer_role below holds dr_reader_role rather than restating its
+# privileges. Use `to_database_role` for one, `database_roles` for several.
 
+database_roles:
+  - name: dr_reader_role
+    database: great_bay_dev
+    comment: "Example: read the sandbox"
+  - name: dr_writer_role
+    database: great_bay_dev
+    comment: "Example: read the sandbox and create schemas in it"
 
 grants:
-  - priv:
-      - SELECT
-      - INSERT
-      - UPDATE
-    on: FUTURE TABLES IN SCHEMA GREAT_BAY.COVE_MARKETING
-    to: great_bay.dr_create_role
+  # Reader: enter its schemas, query what is in them. Usage on GREAT_BAY_DEV
+  # itself is deliberately absent -- creating a database role grants it usage on
+  # its own database, so declaring it adds a second row for a privilege the role
+  # already has and cannot lose.
+  #
+  # Written database-wide rather than per-schema because GREAT_BAY_DEV's schemas
+  # are per-developer and come and go. Inherited grants are what make this hold
+  # for a schema created tomorrow, the same as everywhere else in this config --
+  # they work on database roles exactly as they do on account roles.
+  - priv: "USAGE"
+    on: "inherited schemas in database great_bay_dev"
+    to: great_bay_dev.dr_reader_role
 
-  - priv:
-      - SELECT
-    on: FUTURE TABLES IN SCHEMA GREAT_BAY.COVE_MARKETING
-    to: great_bay.dr_reader_role
+  - priv: "SELECT"
+    on:
+      - "inherited tables in database great_bay_dev"
+      - "inherited views in database great_bay_dev"
+    to: great_bay_dev.dr_reader_role
+
+  # Writer: a schema of its own. Everything the reader can do comes from holding
+  # dr_reader_role, granted at the bottom -- database roles compose, so the
+  # reader's privileges are inherited rather than restated. Adding a privilege
+  # to the reader gives it to the writer too.
+  - priv: "CREATE SCHEMA"
+    on: "database great_bay_dev"
+    to: great_bay_dev.dr_writer_role
+
+# The hop that makes a database role usable by a person. These two account
+# roles exist only to carry the database roles; they are granted to no user in
+# users.yml, which is what keeps this example from changing anyone's access.
+# To hand one out, add it to a user's role list the same way analyst is added:
+#
+#   - to_user: someone
+#     roles:
+#       - great_bay_dev__reader
+roles:
+  - name: great_bay_dev__reader
+  - name: great_bay_dev__writer
+
+database_role_grants:
+  - database_role: great_bay_dev.dr_reader_role
+    roles:
+      - great_bay_dev__reader
+
+  - database_role: great_bay_dev.dr_writer_role
+    roles:
+      - great_bay_dev__writer
+
+  # Composition: the writer inherits everything the reader has. A database role
+  # is granted to another database role in the same block, with
+  # to_database_role rather than to_role.
+  - database_role: great_bay_dev.dr_reader_role
+    to_database_role: great_bay_dev.dr_writer_role

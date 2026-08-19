@@ -1,12 +1,31 @@
+# Kept in sync with secure/snowcap/resources/databases.yml (var.databases) and
+# secure/snowcap/resources/schemas.yml (var.schemas). Snowcap is the source of truth.
+#
+# Ownership lives on the role side in permifrost (`owns:` in roles.yml), while
+# snowcap sets it per database via `owner:`. Current mapping:
+#   governance -> sysadmin,  raw -> loader,  everything else -> transformer_dbt
+#
+# NOT EXPRESSIBLE IN PERMIFROST: snowcap also sets max_data_extension_time_in_days
+# per database (governance 30, raw 10, balboa 30, balboa_apps 10, balboa_dev 5,
+# balboa_qa 5, great_bay 10, sushi_db 10) and managed_access: true on every schema.
+
+- governance:
+    shared: false
+    schemas:
+      - TAGS
+      - POLICIES
+
 - raw:
     shared: false
     schemas:
-      - SNAPSHOTS
       - DBT_ARTIFACTS
+      - SNAPSHOTS
 
 - balboa:
     shared: false
     schemas:
+      - DBT_TEST__AUDIT
+
       - L1_ACCOUNT_USAGE
       - L1_COUNTRY_DATA
       - L1_COUNTRY_GEO
@@ -25,11 +44,8 @@
       - L3_EARTHQUAKE_ANALYTICS
       - L3_LOAN_ANALYTICS
 
-      - DBT_TEST__AUDIT
-
-      - SEEDS
-
       - MASKING_POLICIES
+      - SEEDS
 
 - balboa_apps:
     shared: false
@@ -38,19 +54,22 @@
 
 - balboa_dev:
     shared: false
-# - convexa_dev:
-#     shared: false
+
+- balboa_qa:
+    shared: false
+
+- great_bay:
+    shared: false
+    schemas:
+      - COVE_MARKETING
+
+- sushi_db:
+    shared: false
+
+# Shared databases -- snowcap grants IMPORTED PRIVILEGES on these
 # Snowflake database contains metadata describing usage
 - snowflake:
     shared: true
 
 - covid19_epidemiological_data:
     shared: true
-
-- great_bay:
-    shared: false
-    schemas:
-        - COVE_MARKETING
-
-- sushi_db:
-    shared: false

@@ -17,6 +17,10 @@ roles:
   - name: z_stage__raw__dbt_artifacts__artifacts__write
   - name: z_stage__balboa_apps__resources__streamlit__write
 
+  # RAW.RAW.EXT_JSONFILES_STAGE is an external stage created out of band, so
+  # only its access role is declared here, not the stage itself.
+  - name: z_stage__raw__raw__ext_jsonfiles_stage__read
+
 
 grants:
   - priv: "READ"
@@ -34,3 +38,7 @@ grants:
       - WRITE
     on: "stage balboa_apps.resources.streamlit"
     to: z_stage__balboa_apps__resources__streamlit__write
+
+  - priv: "USAGE"
+    on: "stage raw.raw.ext_jsonfiles_stage"
+    to: z_stage__raw__raw__ext_jsonfiles_stage__read

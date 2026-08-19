@@ -22,16 +22,32 @@ vars:
         max_data_extension_time_in_days: 5
       - name: great_bay
         owner: transformer_dbt
-        max_data_extension_time_in_days: 10
-      - name: sushi_db
+        max_data_extension_time_in_days: 30
+      # Developer sandbox, same shape as balboa_dev: transformer_dbt owns the
+      # database, analysts get USAGE plus CREATE SCHEMA and own the schemas
+      # they create. It has been owned by ANALYST since 2023 with no grants at
+      # all -- access was pure database ownership -- so declaring it moves
+      # great_bay_dev onto the same footing as balboa_dev.
+      #
+      # The developer schemas stay undeclared, exactly as balboa_dev's do. They
+      # are created ad hoc and owned by ANALYST because that is the role that
+      # creates them, which is what gives each developer full rights inside
+      # their own schema without any grant being written down. PUBLIC is the
+      # one exception in both databases: it comes with the database and so
+      # follows the database owner, transformer_dbt.
+      - name: great_bay_dev
         owner: transformer_dbt
-        max_data_extension_time_in_days: 10
+        max_data_extension_time_in_days: 5
 
 roles:
   # Used to grant access to test db
   - name: z_db__balboa_tst
   - name: z_db__covid19_epidemiological_data
   - name: z_db__snowflake
+  - name: z_db__snowflake_learning_db
+  - name: z_db__snowflake_sample_data
+  - name: z_schemas__db__snowflake_learning_db
+  - name: z_db__worldwide_address_data
 
 grants:
   - priv: "IMPORTED PRIVILEGES"
@@ -41,3 +57,33 @@ grants:
   - priv: "IMPORTED PRIVILEGES"
     on: "database snowflake"
     to: z_db__snowflake
+
+  # Snowflake-provided sample data (TPC-H, OpenWeatherMap, etc). A share, so
+  # IMPORTED PRIVILEGES covers the schemas and tables underneath. Snowflake
+  # also grants USAGE on it to PUBLIC at provisioning time -- this declares the
+  # access on our own role rather than relying on a grant nobody here manages.
+  - priv: "IMPORTED PRIVILEGES"
+    on: "database snowflake_sample_data"
+    to: z_db__snowflake_sample_data
+
+  - priv: "IMPORTED PRIVILEGES"
+    on: "database worldwide_address_data"
+    to: z_db__worldwide_address_data
+
+  # Created by Snowflake during account provisioning (2026-01) for hands-on lab
+  # content. A STANDARD database, not a share, so it needs the full read stack
+  # rather than IMPORTED PRIVILEGES. Currently empty -- no schemas at all -- so
+  # the future grants are what actually matter here.
+  - priv: "USAGE"
+    on: "database snowflake_learning_db"
+    to: z_db__snowflake_learning_db
+
+  - priv: "USAGE"
+    on: "inherited schemas in database snowflake_learning_db"
+    to: z_schemas__db__snowflake_learning_db
+
+  - priv: "SELECT"
+    on:
+      - "inherited tables in database snowflake_learning_db"
+      - "inherited views in database snowflake_learning_db"
+    to: z_tables_views__select
