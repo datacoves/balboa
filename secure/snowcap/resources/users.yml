@@ -116,6 +116,8 @@ role_grants:
       - de__analyst
       - de__analyst_pii
       - finance_team
+      - great_bay_dev__reader
+      - great_bay_dev__writer
       - loader
       - transformer_dbt
       - accountadmin
