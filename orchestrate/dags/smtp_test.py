@@ -14,7 +14,13 @@ except ImportError:
     # Airflow 2
     from airflow.operators.email import EmailOperator
 
-from airflow.decorators import dag
+try:
+    # Airflow 3
+    from airflow.sdk import dag
+except ImportError:
+    # Airflow 2
+    from airflow.decorators import dag
+
 from pendulum import datetime
 
 
