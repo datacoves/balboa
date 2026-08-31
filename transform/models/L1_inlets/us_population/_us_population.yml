@@ -5,6 +5,7 @@ sources:
     database: RAW
     tables:
       - name: US_POPULATION_OLD
+        identifier: US_POPULATION
         description: >-
           This source represents the raw data table containing information about the population of the
           United States.
