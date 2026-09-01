@@ -23,7 +23,7 @@ from orchestrate.utils import datacoves_utils
 def test_airbyte_connection():
     AirbyteTriggerSyncOperator(
         task_id="country_populations_datacoves_snowflake",
-        connection_id="ac02ea96-58a1-4061-be67-78900bb5aaf6",
+        connection_id="f90152e8-9b12-48e6-a47c-85cbe31c355c",
         airbyte_conn_id="airbyte_connection",
     )
 
