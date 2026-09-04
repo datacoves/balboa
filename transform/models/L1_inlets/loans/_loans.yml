@@ -25,4 +25,4 @@ sources:
                 masking_policy: masking_policy_pii_variant
     config:
       tags:
-        - daily_run_dlt
+        - daily_run_airbyte
