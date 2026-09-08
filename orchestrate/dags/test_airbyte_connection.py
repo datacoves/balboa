@@ -22,8 +22,8 @@ from orchestrate.utils import datacoves_utils
 )
 def test_airbyte_connection():
     AirbyteTriggerSyncOperator(
-        task_id="country_populations_datacoves_snowflake",
-        connection_id="f90152e8-9b12-48e6-a47c-85cbe31c355c",
+        task_id="postgres_to_s3",
+        connection_id="71e13457-ee0c-4374-b0f6-a7890e90d4f3",
         airbyte_conn_id="airbyte_connection",
     )
 
