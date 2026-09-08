@@ -33,7 +33,7 @@ models:
           - not_null
           - dbt_utils.expression_is_true:
               arguments:
-                expression: 'invoice_amount > 0'
+                expression: '> 0'
       - name: paid_date
         description: Null while the invoice is open.
       - name: invoice_status

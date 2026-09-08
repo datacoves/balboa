@@ -33,7 +33,7 @@ models:
           - not_null
           - dbt_utils.expression_is_true:
               arguments:
-                expression: 'invoice_amount > 0'
+                expression: '> 0'
       - name: invoice_status
         description: Payment state for the invoice.
         data_tests:
