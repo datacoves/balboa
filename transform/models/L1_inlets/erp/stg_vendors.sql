@@ -48,9 +48,9 @@ generated_vendors as (
     from generated_months
     join archetypes
         on archetypes.archetype_index = mod(
-            generated_months.generated_vendor_number - 1,
-            (select count(*) from archetypes)
-        )
+                generated_months.generated_vendor_number - 1,
+                (select count(*) from archetypes)
+            )
 
 ),
 

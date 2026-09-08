@@ -34,6 +34,9 @@ models:
           - dbt_utils.expression_is_true:
               arguments:
                 expression: '> 0'
+      - name: paid_date
+        description: Payment date; null while the invoice remains open.
+
       - name: invoice_status
         description: Payment state for the invoice.
         data_tests:

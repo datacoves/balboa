@@ -37,5 +37,5 @@ select
 from vendors
 inner join month_spine
     on month_spine.month_start >= vendors.onboarded_date
-    and month_spine.month_start <= vendors.po_active_through_month
+        and month_spine.month_start <= vendors.po_active_through_month
 where mod(datediff(month, vendors.onboarded_date, month_spine.month_start), 3) = 0

@@ -30,3 +30,15 @@ models:
           - accepted_values:
               arguments:
                 values: ['A', 'B', 'C', 'D']
+      - name: vendor_seq
+        description: Stable sequence used to assign deterministic activity profiles.
+        data_tests: [not_null]
+      - name: po_active_through_month
+        description: Final month in which the vendor can generate purchase orders.
+        data_tests: [not_null]
+      - name: invoice_po_through_month
+        description: Final purchase order month eligible to generate an invoice.
+        data_tests: [not_null]
+      - name: invoice_lag_months
+        description: Whole-month lag between an eligible purchase order and its invoice.
+        data_tests: [not_null]
