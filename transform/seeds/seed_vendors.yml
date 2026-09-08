@@ -1,0 +1,58 @@
+version: 2
+
+seeds:
+  - name: seed_vendors
+    description: Curated procurement vendors used to demonstrate behavioral activity.
+    config:
+      column_types:
+        vendor_id: varchar
+        vendor_name: varchar
+        category: varchar
+        status: varchar
+        onboarded_date: date
+    columns:
+      - name: vendor_id
+        description: Vendor primary key.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Vendor display name.
+        data_tests: [not_null]
+      - name: category
+        description: Vendor spend category.
+        data_tests: [not_null]
+      - name: status
+        description: Recorded lifecycle flag, independent from behavioral activity.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'inactive']
+      - name: onboarded_date
+        description: First day of the vendor onboarding month.
+        data_tests: [not_null]
+
+  - name: seed_vendor_archetypes
+    description: Dateless profiles used for generated monthly vendor onboardings.
+    config:
+      column_types:
+        archetype_index: integer
+        vendor_name: varchar
+        category: varchar
+        status: varchar
+    columns:
+      - name: archetype_index
+        description: Zero-based round-robin archetype position.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Generated vendor base name.
+        data_tests: [not_null]
+      - name: category
+        description: Generated vendor spend category.
+        data_tests: [not_null]
+      - name: status
+        description: Recorded lifecycle flag for generated vendors.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'inactive']

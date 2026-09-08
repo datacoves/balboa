@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_vendors
+    description: ERP vendors with deterministic activity-generation drivers.
+    columns:
+      - name: vendor_id
+        description: Vendor primary key.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Vendor display name.
+        data_tests: [not_null]
+      - name: category
+        description: Vendor spend category.
+        data_tests: [not_null]
+      - name: status
+        description: Recorded lifecycle flag, independent from behavioral activity.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'inactive']
+      - name: onboarded_date
+        description: First day of the vendor onboarding month.
+        data_tests: [not_null]
+      - name: activity_bucket
+        description: Activity profile controlling PO and invoice recency.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['A', 'B', 'C', 'D']

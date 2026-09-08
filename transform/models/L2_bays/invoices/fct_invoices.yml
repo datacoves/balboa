@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: fct_invoices
+    description: Reusable ERP invoice entity at one row per invoice.
+    columns:
+      - name: invoice_id
+        description: Invoice primary key.
+        data_tests: [not_null, unique]
+      - name: po_id
+        description: Billed purchase order foreign key.
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('fct_purchase_orders')
+                field: po_id
+      - name: vendor_id
+        description: Vendor foreign key.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_vendors')
+                field: vendor_id
+      - name: invoice_date
+        description: Invoice activity date.
+        data_tests: [not_null]
+      - name: invoice_amount
+        description: Positive whole-currency invoice amount equal to the PO amount.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: 'invoice_amount > 0'
+      - name: paid_date
+        description: Null while the invoice is open.
+      - name: invoice_status
+        description: Payment state for the invoice.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['paid', 'open']
