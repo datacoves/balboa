@@ -7,7 +7,7 @@
     from (
       
         select *
-        from BALBOA_STAGING.DBT_TEST__AUDIT.not_null_loans_by_state__standard_state
+        from BALBOA_STAGING.DBT_TEST__AUDIT.not_null_stg_vendors_activity_bucket
     
       
     ) dbt_internal_test

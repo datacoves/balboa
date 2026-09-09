@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "BALBOA_STAGING"."SEEDS"."SEED_VENDOR_ARCHETYPES";
+    -- dbt seed --
+    
+            insert into BALBOA_STAGING.SEEDS.seed_vendor_archetypes (archetype_index, vendor_name, category, status) values
+            (%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s)
+        
+
+;
+  
