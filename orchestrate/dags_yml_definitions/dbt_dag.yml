@@ -25,4 +25,10 @@ nodes:
     type: task
     task_decorator: datacoves_dbt
     connection_id: main_key_pair
+    # Task-level override: fail fast instead of inheriting the retries
+    # from default_args.
+    retries: 0
+    # execution_timeout wants a timedelta, and !py is only resolved for
+    # DAG-level keys -- at node level dbt-coves emits it as a quoted
+    # string, which Airflow rejects. Left out until that is fixed.
     bash_command: "dbt debug"

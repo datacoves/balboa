@@ -1,8 +1,13 @@
 import datetime
+
 from airflow.decorators import dag, task
 from notifiers.datacoves.ms_teams import MSTeamsNotifier
 
+
 @dag(
+    description="Sample DAG with MS Teams notification",
+    schedule="0 0 1 */12 *",
+    tags=["transform", "ms_teams_notification"],
     default_args={
         "start_date": datetime.datetime(2024, 1, 1, 0, 0),
         "owner": "Noel Gomez",
@@ -10,9 +15,6 @@ from notifiers.datacoves.ms_teams import MSTeamsNotifier
         "email_on_failure": True,
         "retries": 3,
     },
-    description="Sample DAG with MS Teams notification",
-    schedule="0 0 1 */12 *",
-    tags=["transform", "ms_teams_notification"],
     catchup=False,
     on_success_callback=MSTeamsNotifier(
         connection_id="DATACOVES_MS_TEAMS", theme_color="0000FF"
@@ -22,12 +24,13 @@ from notifiers.datacoves.ms_teams import MSTeamsNotifier
     ),
 )
 def yaml_teams_dag():
-
-    @task.datacoves_dbt(connection_id="main_key_pair")
+    @task.datacoves_dbt(
+        connection_id="main_key_pair",
+    )
     def transform():
         return "dbt run -s personal_loans"
 
-    transform()
+    transform = transform()
 
-# Invoke DAG
+
 dag = yaml_teams_dag()

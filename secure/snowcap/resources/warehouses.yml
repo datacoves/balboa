@@ -5,7 +5,7 @@ vars:
       - name: wh_admin
         size: x-small
         auto_suspend: 60  # seconds 0 means it never suspends
-        statement_timeout_in_seconds: 7200  # seconds, defaults to 3600 if not defined
+        statement_timeout_in_seconds: 3600  # seconds; object_templates/warehouses.yml applies 3600 when omitted
       - name: wh_catalog
         size: x-small
         auto_suspend: 60
