@@ -75,7 +75,7 @@ if $USE_PII; then
     CONFIG_PATHS="--config $COMBINED_CONFIG"
 else
     ACCOUNT_TO_USE="$SNOWFLAKE_ACCOUNT"
-    EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference,row_access_policy"
+    EXCLUDE_RESOURCES="--exclude masking_policy,tag,tag_reference,tag_masking_policy_reference,row_access_policy,stream"
     USE_ACCOUNT_USAGE=""
     # Standard account - only include base resources
     CONFIG_PATHS="--config resources/"
