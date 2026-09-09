@@ -3,7 +3,6 @@ doc_md: |
   This DAG shows how to run a dbt task
 
 imports:
-  - "import pendulum"
   - "from orchestrate.utils import datacoves_utils"
 
 catchup: false
@@ -26,8 +25,10 @@ nodes:
     type: task
     task_decorator: datacoves_dbt
     connection_id: main_key_pair
-    # Task-level overrides: fail fast instead of retrying, and cap the
-    # task so a hung dbt run cannot hold a worker slot indefinitely.
+    # Task-level override: fail fast instead of inheriting the retries
+    # from default_args.
     retries: 0
-    execution_timeout: !py pendulum.duration(minutes=15)
+    # execution_timeout wants a timedelta, and !py is only resolved for
+    # DAG-level keys -- at node level dbt-coves emits it as a quoted
+    # string, which Airflow rejects. Left out until that is fixed.
     bash_command: "dbt debug"
