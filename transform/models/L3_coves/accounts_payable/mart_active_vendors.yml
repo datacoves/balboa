@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: mart_active_vendors
+    description: Accounts Payable cove for behavioral Active Vendor analysis using trailing-12-month PO-or-invoice activity.
+    columns:
+      - name: vendor_id
+        description: Vendor primary key.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Vendor display name.
+        data_tests: [not_null]
+      - name: category
+        description: Vendor spend category.
+        data_tests: [not_null]
+      - name: recorded_status
+        description: Stored ERP lifecycle flag, independent from behavioral activity.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'inactive']
+      - name: reference_date
+        description: Latest PO or invoice date in the fixture.
+        data_tests: [not_null]
+      - name: last_po_date
+        description: Latest purchase order date for the vendor.
+      - name: last_invoice_date
+        description: Latest invoice date for the vendor.
+      - name: trailing_12_month_po_count
+        description: Count of purchase orders in the behavioral activity window.
+        data_tests: [not_null]
+      - name: trailing_12_month_invoice_count
+        description: Count of invoices in the behavioral activity window.
+        data_tests: [not_null]
+      - name: is_active
+        description: True when the vendor has at least one PO or invoice in the trailing 12 months.
+        data_tests: [not_null]

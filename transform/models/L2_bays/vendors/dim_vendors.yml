@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: dim_vendors
+    description: Reusable ERP vendor entity at one row per vendor.
+    columns:
+      - name: vendor_id
+        description: Vendor primary key and fact join target.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Vendor display name.
+        data_tests: [not_null]
+      - name: category
+        description: Vendor spend category.
+        data_tests: [not_null]
+      - name: status
+        description: Recorded lifecycle flag, not a behavioral activity measure.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'inactive']
+      - name: onboarded_date
+        description: First day of the vendor onboarding month.
+        data_tests: [not_null]

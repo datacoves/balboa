@@ -23,13 +23,18 @@ vars:
       - name: BALBOA.L1_GOOGLE_ANALYTICS_4
       - name: BALBOA.L1_LOANS
       - name: BALBOA.L1_OBSERVE
+      - name: BALBOA.L1_ERP
       - name: BALBOA.L1_USGS__EARTHQUAKE_DATA
       - name: BALBOA.L1_US_POPULATION
 
       - name: BALBOA.L2_COUNTRY_DEMOGRAPHICS
       - name: BALBOA.L2_COVID_OBSERVATIONS
+      - name: BALBOA.L2_INVOICES
+      - name: BALBOA.L2_PURCHASE_ORDERS
       - name: BALBOA.L2_SNOWFLAKE_USAGE
+      - name: BALBOA.L2_VENDORS
 
+      - name: BALBOA.L3_ACCOUNTS_PAYABLE
       - name: BALBOA.L3_COVID_ANALYTICS
       - name: BALBOA.L3_EARTHQUAKE_ANALYTICS
       - name: BALBOA.L3_LOAN_ANALYTICS
@@ -41,24 +46,4 @@ vars:
 
       # GREAT_BAY DB
       - name: GREAT_BAY.COVE_MARKETING
-
-grants:
-  # BALBOA_QA is a clone of BALBOA (transform/macros/tooling/blue-green).
-  # CREATE DATABASE ... CLONE copies grants on child objects, so every
-  # z_schema__<name> role already reaches the QA copy of its schema -- these
-  # grants exist in Snowflake whether or not we declare them. Declaring them
-  # keeps sync from revoking them.
-  #
-  # Deliberately per-schema rather than "all schemas in database balboa_qa":
-  # roles are scoped by layer (finance_team sees only L3_LOAN_ANALYTICS), and a
-  # database-wide grant would hand every such role the whole QA database.
-  #
-  # The QA schemas themselves stay undeclared -- the clone creates them, and
-  # the `where` keeps this off schemas in RAW, GOVERNANCE and the rest, which
-  # have no QA counterpart.
-  - for_each: var.schemas
-    where: "each.value.name.split('.')[0] == 'BALBOA'"
-    priv: "USAGE"
-    on: "schema BALBOA_QA.{{ each.value.name.split('.')[1] }}"
-    to: "z_schema__{{ each.value.name.split('.')[1] }}"
 

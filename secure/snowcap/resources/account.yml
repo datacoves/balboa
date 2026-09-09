@@ -10,3 +10,156 @@ account_parameters:
   # Still a Snowflake preview feature, gated behind account-wide preview access.
   - name: FEATURE_RBAC_INHERITED_GRANTS
     value: ENABLED
+
+
+  # Caps any single query at 1 hour so a runaway statement cannot burn credits
+  # Snowflake's default is 172800 seconds (2 days).
+  #
+  # Warehouses that set their own value in warehouses.yml, which override this.
+  - name: STATEMENT_TIMEOUT_IN_SECONDS
+    value: 600
+
+  # Snowflake's default is 0, meaning a statement waits behind a backlogged
+  # warehouse indefinitely. A silent stall rather than a failure. 10 minutes
+  # turns that into a visible error the orchestrator can retry.
+  - name: STATEMENT_QUEUED_TIMEOUT_IN_SECONDS
+    value: 600
+
+  # Snowflake's default is FALSE: when a client disconnects, its query keeps
+  # running and keeps the warehouse awake until STATEMENT_TIMEOUT fires.
+  # Already TRUE in the account but undeclared; this pins it.
+  - name: ABORT_DETACHED_QUERY
+    value: true
+
+  # Snowflake's default is 10.0 TB. A guard against one ALTER DATABASE ... REFRESH
+  # replicating far more than intended. Declared at the default so the ceiling is
+  # a recorded decision rather than an inherited one.
+  - name: INITIAL_REPLICATION_SIZE_LIMIT_IN_TB
+    value: 10.0
+
+  # Snowflake's default is 0 -- no floor, so any database, schema or table can
+  # set DATA_RETENTION_TIME_IN_DAYS = 0 and disable Time Travel entirely.
+  # Effective retention becomes MAX(object value, this), so 1 guarantees a day
+  # of UNDROP on everything.
+  #
+  # 1 is also the ceiling on Standard Edition. On the Enterprise PII account
+  # this could go as high as 90; raising it there means moving the parameter out
+  # of this shared file first.
+  - name: MIN_DATA_RETENTION_TIME_IN_DAYS
+    value: 1
+
+  # Snowflake's default is FALSE, which lets anyone who can read a table run
+  # COPY INTO against a bucket they control with credentials written inline.
+  # TRUE forces unloads through a named stage.
+  - name: PREVENT_UNLOAD_TO_INLINE_URL
+    value: true
+
+  # Snowflake's default is FALSE, allowing new external stages to carry cloud
+  # keys in the CREATE STAGE statement where they land in query history.
+  # Only affects stages created from here on, so existing stages keep working.
+  - name: REQUIRE_STORAGE_INTEGRATION_FOR_STAGE_CREATION
+    value: true
+
+  # The matching operation-time rule stays OFF. This was tested against the
+  # live account on 2026-08-21, not assumed:
+  #
+  #   ALTER ACCOUNT SET REQUIRE_STORAGE_INTEGRATION_FOR_STAGE_OPERATION = TRUE;
+  #   LIST @RAW.RAW.EXT_JSONFILES_STAGE;
+  #     -> 003160 (42601): Usage of stages with direct credentials, including
+  #        public storage locations, has been forbidden.
+  #
+  # Note "including public storage locations". The parameter is not limited to
+  # stages carrying inline credentials -- it also blocks anonymous reads of
+  # public buckets. RAW.RAW.EXT_JSONFILES_STAGE has no STAGE_CREDENTIALS and
+  # points at the public s3://pslsnow1/jsonFiles/, and it is still blocked.
+  #
+  # That stage is live: 9 files, 126 queries in the last year, most recently
+  # 2026-08-19. Enabling this without migrating it first breaks that load.
+  #
+  # To enable, do one of these first:
+  #   a) Give it a storage integration -- an IAM role in our AWS account with
+  #      s3:GetObject/s3:ListBucket on the bucket, then
+  #      ALTER STAGE ... SET STORAGE_INTEGRATION, declared here as
+  #      s3_storage_integrations (snowcap supports the resource).
+  #   b) Copy the 9 files into an internal stage and repoint the consumer.
+  #      Simpler, given pslsnow1 is a third-party bucket we do not own.
+  #
+  # GREAT_BAY_DEV.PUBLIC.RAW -> s3://datacoves-sample-data-public/ was the
+  # other blocker. Zero references in 12 months of QUERY_HISTORY, no pipes, no
+  # external tables. Dropped 2026-08-21.
+  #
+  # - name: REQUIRE_STORAGE_INTEGRATION_FOR_STAGE_OPERATION
+  #   value: true
+
+  # Snowflake's default is FALSE, which lets any user grant privileges straight
+  # to another user, invisible to the role graph and to this repo. That defeats
+  # the z_* atomic-role model. Existing user grants are unaffected.
+  - name: DISABLE_USER_PRIVILEGE_GRANTS
+    value: true
+
+  # Snowflake's default is FALSE. Already TRUE in the account it stops an MFA
+  # prompt on every new connection. Declared so the choice is recorded.
+  - name: ALLOW_CLIENT_MFA_CACHING
+    value: true
+
+  # PERIODIC_DATA_REKEYING (yearly re-encryption with fresh keys) is worth
+  # enabling, but it is Enterprise Edition or higher and this file also applies
+  # to the standard account. Set it on the PII account separately.
+
+  # Snowflake's default is America/Los_Angeles, so CURRENT_DATE rolls over on
+  # Pacific time. UTC is the only timezone nobody has to reason about.
+  #
+  # This changes what existing queries return: anything comparing timestamps
+  # against CURRENT_DATE, or using CONVERT_TIMEZONE without an explicit source,
+  # shifts by up to 8 hours on the first run after this applies.
+  - name: TIMEZONE
+    value: UTC
+
+  # Snowflake's default is FALSE: an UPDATE whose join matches multiple source
+  # rows picks one and completes silently. MERGE already defaults to raising in
+  # the same situation this aligns the two.
+  - name: ERROR_ON_NONDETERMINISTIC_UPDATE
+    value: true
+
+  # Declared at Snowflake's own default. What a bare TIMESTAMP column resolves
+  # to is worth pinning, because changing it later reinterprets existing DDL.
+  - name: TIMESTAMP_TYPE_MAPPING
+    value: TIMESTAMP_NTZ
+
+  # Both declared at Snowflake's defaults: 0 means legacy ISO-like week
+  # semantics rather than a week anyone chose. Pinned so week-based reporting
+  # cannot start disagreeing after an account-level change nobody made here.
+  - name: WEEK_START
+    value: 0
+  - name: WEEK_OF_YEAR_POLICY
+    value: 0
+
+  # Snowflake's default is 10 consecutive failures before a task suspends
+  # itself. If each attempt resumes a warehouse, that is ten billable failures
+  # on a task that was never going to succeed.
+  - name: SUSPEND_TASK_AFTER_NUM_FAILURES
+    value: 3
+
+  # Declared at Snowflake's default of 1 hour, matching STATEMENT_TIMEOUT_IN_SECONDS
+  # above so the two stay deliberately in step.
+  - name: USER_TASK_TIMEOUT_MS
+    value: 3600000
+
+  # Both default to OFF, so nothing a Python UDF or stored procedure logs ever
+  # reaches the event table -- which you discover the first time you need it.
+  # WARN keeps the volume (and the storage cost) low; ON_EVENT records spans
+  # only where code explicitly emits them.
+  - name: LOG_LEVEL
+    value: WARN
+  - name: TRACE_LEVEL
+    value: ON_EVENT
+
+  # MAX_CONCURRENCY_LEVEL is intentionally left at Snowflake's default of 8.
+  # It is a per-warehouse tuning knob, and lowering it without evidence of
+  # contention costs throughput. Set it in warehouses.yml on a specific
+  # warehouse once queuing shows up in QUERY_HISTORY.
+
+  # NETWORK_POLICY is intentionally not set here. It needs a real IP allowlist,
+  # and there is no safe default -- a wrong one locks every user and service
+  # account out of the account. Create a network_policy resource with the
+  # actual office/VPN/service CIDRs, then attach it.

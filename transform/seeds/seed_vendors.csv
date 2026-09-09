@@ -1,0 +1,27 @@
+vendor_id,vendor_name,category,status,onboarded_date
+VEN01,Acadia Clinical Research,CRO Services,inactive,2024-09-01
+VEN02,Bluewater Trial Logistics,Logistics,active,2024-09-01
+VEN03,Caldera Lab Supplies,Lab Supplies,active,2024-09-01
+VEN04,Delphi Data Systems,IT / Software,active,2024-09-01
+VEN05,Evergreen Consulting Partners,Consulting,active,2024-09-01
+VEN06,Fairhaven Packaging,Packaging,active,2024-09-01
+VEN07,Granite Clinical Reagents,Clinical Reagents,inactive,2024-09-01
+VEN08,Harbor Point Facilities,Facilities,active,2024-09-01
+VEN09,Ironwood Logistics Group,Logistics,active,2024-09-01
+VEN10,Juniper Software Labs,IT / Software,active,2024-09-01
+VEN11,Keystone Research Services,CRO Services,active,2024-09-01
+VEN12,Lakeshore Reagents Co,Clinical Reagents,inactive,2024-11-01
+VEN13,Meridian Lab Equipment,Lab Supplies,active,2024-11-01
+VEN14,Norwood Packaging Works,Packaging,active,2024-11-01
+VEN15,Oakridge Advisory Group,Consulting,active,2024-11-01
+VEN16,Parkside Facilities Mgmt,Facilities,active,2024-11-01
+VEN17,Quarry Clinical Research,CRO Services,active,2024-11-01
+VEN18,Riverside Logistics Network,Logistics,active,2024-09-01
+VEN19,Summit Software Solutions,IT / Software,inactive,2024-09-01
+VEN20,Tidewater Lab Supplies,Lab Supplies,inactive,2024-09-01
+VEN21,Union Packaging Partners,Packaging,inactive,2024-09-01
+VEN22,Valley Consulting Group,Consulting,inactive,2024-09-01
+VEN23,Westgate Facilities Services,Facilities,inactive,2024-09-01
+VEN24,Xenon Clinical Reagents,Clinical Reagents,inactive,2024-09-01
+VEN25,Yorktown Research Partners,CRO Services,inactive,2024-09-01
+VEN26,Zephyr Logistics Services,Logistics,inactive,2024-09-01
