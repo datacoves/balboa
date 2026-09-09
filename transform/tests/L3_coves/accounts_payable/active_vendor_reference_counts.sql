@@ -1,3 +1,5 @@
+{{ config(tags=['requires_fixture_data']) }}
+
 with reference_dates as (
 
     select to_date('2026-06-01') as reference_date, 32 as expected_total, 17 as expected_active
