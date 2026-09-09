@@ -3,6 +3,7 @@ doc_md: |
   This DAG shows how to run a dbt task
 
 imports:
+  - "import pendulum"
   - "from orchestrate.utils import datacoves_utils"
 
 catchup: false
@@ -25,4 +26,8 @@ nodes:
     type: task
     task_decorator: datacoves_dbt
     connection_id: main_key_pair
+    # Task-level overrides: fail fast instead of retrying, and cap the
+    # task so a hung dbt run cannot hold a worker slot indefinitely.
+    retries: 0
+    execution_timeout: !py pendulum.duration(minutes=15)
     bash_command: "dbt debug"
