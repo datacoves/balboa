@@ -21,7 +21,7 @@ default_args = {
     "start_date": datetime(2024, 1, 1),
     "owner": "Fernando Mercado",
     "email_on_failure": False,
-    "retries": 1,
+    "retries": 3,
 }
 
 
