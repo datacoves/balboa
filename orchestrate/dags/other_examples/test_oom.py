@@ -21,7 +21,7 @@ default_args = {
     "start_date": datetime(2024, 1, 1),
     "owner": "Fernando Mercado",
     "email_on_failure": False,
-    "retries": 0,
+    "retries": 3,
 }
 
 
@@ -30,7 +30,7 @@ default_args = {
     catchup=False,
     schedule=None,
     default_args=default_args,
-    tags=["test", "oom"],
+    tags=["sample", "maintenance"],
     dag_id="test_oom",
 )
 def test_oom():

@@ -6,6 +6,14 @@ schemas:
     owner: "{{ each.value.get('owner', parent.owner) }}"
     managed_access: true
 
+  # BALBOA_QA companion schemas share the BALBOA schema role below.
+  - for_each: var.schemas
+    where: "each.value.name.split('.')[0] == 'BALBOA'"
+    name: "{{ each.value.name.split('.')[1] }}"
+    database: BALBOA_QA
+    owner: "{{ each.value.get('owner', parent.owner) }}"
+    managed_access: true
+
 # Schema roles
 roles:
   - for_each: var.schemas
@@ -16,4 +24,11 @@ grants:
   - for_each: var.schemas
     priv: USAGE
     on: "schema {{ each.value.name }}"
+    to: "z_schema__{{ each.value.name.split('.')[1] }}"
+
+  # QA schema grants
+  - for_each: var.schemas
+    where: "each.value.name.split('.')[0] == 'BALBOA'"
+    priv: USAGE
+    on: "schema BALBOA_QA.{{ each.value.name.split('.')[1] }}"
     to: "z_schema__{{ each.value.name.split('.')[1] }}"
