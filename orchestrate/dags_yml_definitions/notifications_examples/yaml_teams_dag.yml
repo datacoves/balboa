@@ -31,7 +31,7 @@ notifications:
 nodes:
   transform:
     task_decorator: datacoves_dbt
-    connection_id: main
+    connection_id: main_key_pair
     type: task
     bash_command: "dbt run -s personal_loans"
 
