@@ -1,3 +1,6 @@
+-- Snowflake semantic view DDL (tables/dimensions/metrics) is not supported by
+-- the sqlfluff snowflake dialect, so linting is disabled for this model.
+-- noqa:disable=all
 {{ config(materialized='semantic_view') }}
 
 tables (

@@ -91,7 +91,7 @@ active_vendor_periods as (
     from completed_period_ends
     inner join activity
         on activity.activity_date > dateadd(day, -90, completed_period_ends.period_end_date)
-        and activity.activity_date <= completed_period_ends.period_end_date
+            and activity.activity_date <= completed_period_ends.period_end_date
 
 )
 
