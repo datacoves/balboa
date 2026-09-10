@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
     # UPLOAD FILES
 
-    filenames = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack", "semantic_manifest.json"]
+    filenames = ["graph.gpickle", "graph_summary.json", "partial_parse.msgpack", "semantic_manifest.json","osi_document.json"]
     for filename in filenames:
         upload_env_file(account_id, project_slug, environment_slug, filename)
 
