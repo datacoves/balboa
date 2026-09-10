@@ -7,7 +7,7 @@
     from (
       
         select *
-        from BALBOA_STAGING.DBT_TEST__AUDIT.not_null_seed_vendor_archetypes_vendor_name
+        from BALBOA.DBT_TEST__AUDIT.not_null_seed_vendor_archetypes_vendor_name
     
       
     ) dbt_internal_test

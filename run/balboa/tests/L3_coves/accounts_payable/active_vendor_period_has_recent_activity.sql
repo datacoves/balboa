@@ -7,7 +7,7 @@
     from (
       
         select *
-        from BALBOA.DBT_TEST__AUDIT.accepted_values_seed_vendor_archetypes_status__active__inactive
+        from BALBOA_STAGING.DBT_TEST__AUDIT.active_vendor_period_has_recent_activity
     
       
     ) dbt_internal_test

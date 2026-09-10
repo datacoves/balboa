@@ -2,22 +2,35 @@
 
 with reference_dates as (
 
-    select to_date('2026-06-01') as reference_date, 32 as expected_total, 17 as expected_active
+    select
+        to_date('2026-06-01') as reference_date,
+        32 as expected_total,
+        17 as expected_active
     union all
-    select to_date('2026-07-01') as reference_date, 33 as expected_total, 24 as expected_active
+    select
+        to_date('2026-07-01') as reference_date,
+        33 as expected_total,
+        24 as expected_active
     union all
-    select to_date('2026-08-01') as reference_date, 34 as expected_total, 25 as expected_active
+    select
+        to_date('2026-08-01') as reference_date,
+        34 as expected_total,
+        25 as expected_active
 
 ),
 
 activity as (
 
-    select vendor_id, po_date as activity_date
+    select
+        vendor_id,
+        po_date as activity_date
     from BALBOA.L2_PURCHASE_ORDERS.fct_purchase_orders
 
     union all
 
-    select vendor_id, invoice_date as activity_date
+    select
+        vendor_id,
+        invoice_date as activity_date
     from BALBOA.L2_INVOICES.fct_invoices
 
 ),
@@ -33,8 +46,8 @@ actual_counts as (
         on dim_vendors.onboarded_date <= reference_dates.reference_date
     left join activity
         on dim_vendors.vendor_id = activity.vendor_id
-        and activity.activity_date > dateadd(month, -12, reference_dates.reference_date)
-        and activity.activity_date <= reference_dates.reference_date
+            and activity.activity_date > dateadd(month, -12, reference_dates.reference_date)
+            and activity.activity_date <= reference_dates.reference_date
     group by reference_dates.reference_date
 
 )

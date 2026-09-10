@@ -7,7 +7,7 @@
     from (
       
         select *
-        from BALBOA_STAGING.DBT_TEST__AUDIT.not_null_seed_vendors_onboarded_date
+        from BALBOA.DBT_TEST__AUDIT.not_null_seed_vendors_onboarded_date
     
       
     ) dbt_internal_test
