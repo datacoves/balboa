@@ -1,6 +1,9 @@
 version: 2
 
 models:
+  - name: active_vendor_analytics
+    description: Snowflake semantic view for active-vendor reporting, computed from the period-level mart at query time.
+
   - name: mart_active_vendors
     description: Accounts Payable cove for behavioral Active Vendor analysis using trailing-12-month PO-or-invoice activity.
     columns:
@@ -36,3 +39,40 @@ models:
       - name: is_active
         description: True when the vendor has at least one PO or invoice in the trailing 12 months.
         data_tests: [not_null]
+
+  - name: mart_active_vendors_by_period
+    description: Active vendors at completed weekly, monthly, and quarterly period ends using trailing-90-day PO-or-invoice activity.
+    columns:
+      - name: period_grain
+        description: Reporting period type used to anchor the trailing-90-day window.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['week', 'month', 'quarter']
+      - name: period_end_date
+        description: Completed ISO week-, calendar month-, or calendar quarter-end date.
+        data_tests: [not_null]
+      - name: vendor_id
+        description: Vendor primary key counted distinctly by the active vendor semantic view metrics.
+        data_tests: [not_null]
+      - name: vendor_name
+        description: Vendor display name.
+        data_tests: [not_null]
+      - name: category
+        description: Vendor spend category.
+        data_tests: [not_null]
+      - name: recorded_status
+        description: Stored ERP lifecycle flag, independent from behavioral activity.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'inactive']
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - period_grain
+              - period_end_date
+              - vendor_id

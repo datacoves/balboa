@@ -12,7 +12,7 @@ repos:
       - id: check-model-has-description
       - id: check-model-has-properties-file
       - id: check-model-has-all-columns
-
+        args: ['--exclude', 'active_vendor_analytics[.]sql']
   - repo: https://github.com/sqlfluff/sqlfluff
     # this is the version of sqlfluff, needs to be updated when using a new sqlfluff version (pip show sqlfluff)
     rev: 3.1.1

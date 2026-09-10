@@ -9,6 +9,8 @@ packages:
   - package: dbt-labs/dbt_external_tables
     version: 0.12.1
     # <see https://github.com/dbt-labs/dbt-external-tables/releases/tag/0.7.1> for the latest version tag
+  - package: Snowflake-Labs/dbt_semantic_view
+    version: 1.0.6
   # - package: data-mie/dbt_profiler
   #   version: 0.8.4
   # - package: dbt-labs/audit_helper

@@ -11,7 +11,10 @@ packages:
   - name: dbt_external_tables
     package: dbt-labs/dbt_external_tables
     version: 0.12.1
+  - name: dbt_semantic_view
+    package: Snowflake-Labs/dbt_semantic_view
+    version: 1.0.6
   - name: dbt_date
     package: godatadriven/dbt_date
-    version: 0.17.1
-sha1_hash: c22f502b6cd00019053b254ea09eba149cdd1379
+    version: 0.21.0
+sha1_hash: 0eaeb8ea5ebfc5f272342bae3279837f85985981
