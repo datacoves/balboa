@@ -4,6 +4,8 @@ We can then push them to dbt-api on Datacoves to skip partial parse in Airflow t
 
 In order for Airflow to skip partial parse these need to be the same when the manifest and partial parse files are generated.
 
+Target name (remember, Datacoves dbt operator will use 'default' as the name if not overridden)
+
 ```yaml
       database: MY_DATABASE
       role: MY_ROLE

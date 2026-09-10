@@ -27,6 +27,13 @@ archetypes as (
 
 ),
 
+archetype_count as (
+
+    select count(*) as archetype_total
+    from archetypes
+
+),
+
 generated_months as (
 
     select
@@ -46,10 +53,11 @@ generated_vendors as (
         archetypes.status,
         generated_months.month_start::date as onboarded_date
     from generated_months
+    cross join archetype_count
     join archetypes
         on archetypes.archetype_index = mod(
                 generated_months.generated_vendor_number - 1,
-                (select count(*) from archetypes)
+                archetype_count.archetype_total
             )
 
 ),
