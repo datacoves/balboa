@@ -1,10 +1,10 @@
 
     
     
-    truncate table "BALBOA"."SEEDS"."SEED_VENDOR_ARCHETYPES";
+    ;
     -- dbt seed --
     
-            insert into BALBOA.SEEDS.seed_vendor_archetypes (archetype_index, vendor_name, category, status) values
+            insert overwrite into BALBOA.SEEDS.seed_vendor_archetypes (archetype_index, vendor_name, category, status) values
             (%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s)
         
 
