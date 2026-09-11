@@ -25,6 +25,12 @@
     after the swap. The grants below must match roles__base.yml in the snowcap
     config, so the next `snowcap apply` sees them as already in place rather
     than as drift.
+
+    INHERITED modifies the privilege, not the object, and ALL is still
+    required: `grant inherited select on all tables in database <db>`. The
+    snowcap config spells the same grant as "inherited tables in database
+    <db>", which is its own DSL and not valid SQL. Requires
+    FEATURE_RBAC_INHERITED_GRANTS, set in snowcap's account.yml.
 #}
 
 {%- macro grant_db_usage(db_name) -%}
@@ -35,9 +41,9 @@
         grant usage on database {{ db_name }} to role {{ db_usage_role_prefix }}{{ db_name }};
         grant usage on database {{ db_name }} to role useradmin;
 
-        grant select on inherited tables in database {{ db_name }} to role {{ tables_views_select_role }};
-        grant select on inherited dynamic tables in database {{ db_name }} to role {{ tables_views_select_role }};
-        grant select on inherited views in database {{ db_name }} to role {{ tables_views_select_role }};
+        grant inherited select on all tables in database {{ db_name }} to role {{ tables_views_select_role }};
+        grant inherited select on all dynamic tables in database {{ db_name }} to role {{ tables_views_select_role }};
+        grant inherited select on all views in database {{ db_name }} to role {{ tables_views_select_role }};
     {% endset %}
     {% do run_query(apply_db_grants_sql) %}
 
