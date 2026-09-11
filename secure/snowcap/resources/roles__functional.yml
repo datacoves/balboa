@@ -184,6 +184,9 @@ role_grants:
     roles:
       - z_account__create_database
 
+      # Needed by grant_db_usage after a blue-green swap -- see roles__base.yml
+      - z_account__manage_grants
+
       # RAW
       - z_db__raw
       - z_schemas__db__raw
