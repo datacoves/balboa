@@ -1,20 +1,20 @@
 packages:
   - name: dbt_utils
     package: dbt-labs/dbt_utils
-    version: 1.3.3
+    version: 1.4.1
   - name: dbt_expectations
     package: metaplane/dbt_expectations
     version: 0.10.10
   - name: dbt_snow_mask
     package: entechlog/dbt_snow_mask
-    version: 0.2.8
+    version: 0.2.9
   - name: dbt_external_tables
     package: dbt-labs/dbt_external_tables
-    version: 0.12.1
+    version: 0.12.4
   - name: dbt_semantic_view
     package: Snowflake-Labs/dbt_semantic_view
     version: 1.0.6
   - name: dbt_date
     package: godatadriven/dbt_date
     version: 0.21.0
-sha1_hash: 0eaeb8ea5ebfc5f272342bae3279837f85985981
+sha1_hash: 75c94a6db29cb72b4d1571833fa2f4e5a11c422c

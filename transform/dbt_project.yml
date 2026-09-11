@@ -152,8 +152,9 @@ models:
 
     # Snowflake Defaults
   +copy_grants: true
-on-run-end:
-  - "{{ create_test_failure_view(results) }}"
+# This creates the "ERRORS_TABLE" used for dynamic table demo
+# on-run-end:
+#   - "{{ create_test_failure_view(results) }}"
 
 # In development, this will be created in your user schema
 data_tests:
@@ -182,6 +183,8 @@ vars:
   db_usage_role_prefix: "z_db__"
   schema_usage_role_prefix: "z_schema__"
   pr_db_usage_role: "z_db__balboa_tst"
+  # Read role rebuilt after a blue-green swap; must match roles__base.yml
+  tables_views_select_role: "z_tables_views__select"
 
 
 
