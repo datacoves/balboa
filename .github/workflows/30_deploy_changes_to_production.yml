@@ -88,6 +88,15 @@ jobs:
             echo "No full-refresh deployment marker found in merge commit message, running normal deployment"
           fi
 
+      # The version bump must happen before any step that writes dbt artifacts.
+      # dbt hashes the raw bytes of dbt_project.yml into partial_parse.msgpack,
+      # so artifacts built before the bump can never partial parse against the
+      # version that ends up on main. It runs after the full-refresh check
+      # above, which reads the latest commit message.
+      - uses: fregante/setup-git-user@v2
+      - name: Set deployment version and tag
+        run: "../automate/dbt/set_deployment_version.sh"
+
       # this is needed bec our sample dynamic table is not getting refreshed
       - name: Refresh dynamic tables before blue-green
         run: "dbt build -s config.materialized:dynamic_table stg_test_failures resource_type:seed ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
@@ -100,6 +109,14 @@ jobs:
       - name: Run blue / green deployment with defer
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'true' }}
         run: "dbt-coves blue-green --defer ${{ steps.check-full-refresh.outputs.FULL_REFRESH_FLAG }}"
+
+      # dbt-coves copies database and schema level grants across the swap, but
+      # not the inherited select grants on tables, views and dynamic tables --
+      # those are only visible from the grantee side, so the swap leaves the new
+      # database with usage but no select. See grant_db_usage.sql for details.
+      - name: Restore inherited grants after blue / green swap
+        id: grant-access-to-database
+        run: "dbt run-operation grant_db_usage --args '{db_name: ${{ env.DATACOVES__MAIN__DATABASE }}}'"
 
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
@@ -142,10 +159,6 @@ jobs:
               echo "File $file does not exist, skipping..."
             fi
           done
-
-      - uses: fregante/setup-git-user@v2
-      - name: Set deployment version and tag
-        run: "../automate/dbt/set_deployment_version.sh"
 
       - name: Push version changes
         uses: ad-m/github-push-action@v0.6.0
