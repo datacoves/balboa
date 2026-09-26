@@ -1,0 +1,14 @@
+sources:
+  balboa:
+    type: snowflake
+    account: "{{ env_var('DCT_BALBOA_ACCOUNT', 'unused') }}"
+    user: "{{ env_var('DCT_BALBOA_USER', 'readonly') }}"
+    password: "{{ env_var('DCT_BALBOA_PASSWORD', 'unused') }}"
+    database: "{{ env_var('DCT_BALBOA_DATABASE', 'analytics') }}"
+    warehouse: "{{ env_var('DCT_BALBOA_WAREHOUSE', 'compute_wh') }}"
+  atlas_pharma:
+    type: postgres
+    host: "{{ env_var('DCT_ATLAS_PHARMA_HOST', 'localhost') }}"
+    dbname: "{{ env_var('DCT_ATLAS_PHARMA_DBNAME', 'analytics') }}"
+    user: "{{ env_var('DCT_ATLAS_PHARMA_USER', 'readonly') }}"
+    password: "{{ env_var('DCT_ATLAS_PHARMA_PASSWORD', 'unused') }}"
