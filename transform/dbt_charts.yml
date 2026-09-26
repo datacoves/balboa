@@ -1,0 +1,8 @@
+sources:
+  balboa:
+    type: snowflake
+    account: "{{ env_var('DCT_BALBOA_ACCOUNT', 'unused') }}"
+    user: "{{ env_var('DCT_BALBOA_USER', 'readonly') }}"
+    password: "{{ env_var('DCT_BALBOA_PASSWORD', 'unused') }}"
+    database: "{{ env_var('DCT_BALBOA_DATABASE', 'analytics') }}"
+    warehouse: "{{ env_var('DCT_BALBOA_WAREHOUSE', 'compute_wh') }}"
