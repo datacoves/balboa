@@ -1,0 +1,7 @@
+sources:
+  md_pharma:
+    type: postgres
+    host: "{{ env_var('DCT_MD_PHARMA_HOST', 'localhost') }}"
+    dbname: "{{ env_var('DCT_MD_PHARMA_DBNAME', 'analytics') }}"
+    user: "{{ env_var('DCT_MD_PHARMA_USER', 'readonly') }}"
+    password: "{{ env_var('DCT_MD_PHARMA_PASSWORD', 'unused') }}"
