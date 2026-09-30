@@ -1,7 +1,8 @@
 """
 ## Airbyte connection test
 Minimal DAG to verify that the auto-created `airbyte_connection` works:
-it triggers a single Airbyte sync and nothing else. Run it manually.
+it triggers a single Airbyte sync and nothing else. Run it manually after
+setting the Airflow Variable `airbyte_connection_id` to the connection UUID.
 """
 
 from airflow.decorators import dag
@@ -23,7 +24,8 @@ from orchestrate.utils import datacoves_utils
 def test_airbyte_connection():
     AirbyteTriggerSyncOperator(
         task_id="postgres_to_s3",
-        connection_id="71e13457-ee0c-4374-b0f6-a7890e90d4f3",
+        # Read at run time from the Airflow Variable, not at parse time.
+        connection_id="{{ var.value.airbyte_connection_id }}",
         airbyte_conn_id="airbyte_connection",
     )
 
