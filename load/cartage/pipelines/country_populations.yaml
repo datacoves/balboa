@@ -9,3 +9,6 @@ destination:
   connection: snowflake_raw
   dataset_name: raw
   write_disposition: replace
+
+schedule:
+  airflow: { schedule: "0 0 1 */12 *" }

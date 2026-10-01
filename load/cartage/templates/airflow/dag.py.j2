@@ -1,0 +1,9 @@
+{% extends "cartage/airflow_dag.py.j2" %}
+{# Same default_args as the other balboa DAGs (retries, timeouts, notifications). #}
+{% block imports %}
+{{ super() }}
+from orchestrate.utils import datacoves_utils
+{% endblock %}
+{% block default_args %}
+default_args = datacoves_utils.set_default_args(owner="Noel Gomez", owner_email="noel@example.com")
+{% endblock %}
