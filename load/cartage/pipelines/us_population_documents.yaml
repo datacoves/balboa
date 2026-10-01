@@ -1,0 +1,16 @@
+# Transformation example: the wide US population CSV → one nested document per state, written as JSON and XML.
+# `cartage plan us_population_documents` shows the rows before and after the transforms.
+name: us_population_documents
+source:
+  type: dlt
+  ref: sources.web:csv_files
+  with:
+    files:
+      states: https://raw.githubusercontent.com/dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv
+transforms:
+  - map: transforms.population:by_year          # columns 2010..2019 → populations: [{year, population}], + growth_pct
+  - filter: transforms.population:at_least      # drop small states
+    with: { population: 1000000 }
+destinations:
+  - connection: json_files                      # output/json/states.json
+  - connection: xml_files                       # output/xml/states.xml

@@ -17,7 +17,7 @@ orchestrators:
   airflow:
     dags_dir: ../../orchestrate/dags/cartage
     operator: operators.datacoves.bash:DatacovesBashOperator
-    command: uvx --from "cartage[dlt]>=0.4" --with "dlt[snowflake,parquet]" --with pandas cartage
+    command: uvx --from "cartage[dlt]>=0.4.2" --with "dlt[snowflake,parquet]" --with pandas cartage
     tags: [extract_and_load]
     task_env:                       # same worker settings as datacoves_utils.uv_env_vars
       UV_CACHE_DIR: /tmp/uv_cache

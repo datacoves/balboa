@@ -2,3 +2,4 @@
 *.duckdb
 *.wal
 **/__pycache__/
+output/
