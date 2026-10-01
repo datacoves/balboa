@@ -12,5 +12,5 @@ transforms:
   - filter: transforms.population:at_least      # drop small states
     with: { population: 1000000 }
 destinations:
-  - connection: json_files                      # output/json/states.json
-  - connection: xml_files                       # output/xml/states.xml
+  - { connection: exports, format: json, file: states.json }                                    # output/states.json
+  - { connection: exports, name: as_xml, format: xml, root: states, file: states.xml }                # output/states.xml

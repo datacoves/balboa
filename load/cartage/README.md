@@ -9,11 +9,11 @@ Cartage runs them on dlt, keeps incremental state, and generates the Airflow DAG
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage and the drivers.
 
 ```bash
-alias cartage='uvx --from "cartage[dlt]>=0.4.3" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
+alias cartage='uvx --from "cartage[dlt]>=0.5.0" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
-cartage run us_population_documents               # writes output/json/states.json and output/xml/states.xml
+cartage run us_population_documents               # writes output/states.json and output/states.xml
 cartage run us_population --env local             # load into balboa.duckdb instead of Snowflake
 cartage run us_population                         # dev: Snowflake, with your ~/.dlt/secrets.toml
 ```
@@ -56,10 +56,11 @@ Alabama,1,"4,785,437","4,799,069",...,"4,903,185"
 | ------------------ | ----------------------------------------------------------------------------- |
 | `map: by_year`     | year columns → `populations: [{year, population}]` as integers, plus `growth_pct` |
 | `filter: at_least` | keeps states with at least 1,000,000 people (`with: { population: 1000000 }`) |
-| `json_files`       | `output/json/states.json`                                                     |
-| `xml_files`        | `output/xml/states.xml`                                                       |
+| `exports` (json)   | `output/states.json`                                                          |
+| `exports` (xml)    | `output/states.xml`, `<states><record>...</record></states>`                  |
 
-`cartage plan` shows each source row next to what it becomes, or why it was dropped (once per destination):
+`cartage plan` shows each source row next to what it becomes, or why it was dropped, and the exact JSON or XML it
+will write (once per destination):
 
 ```text
 ───────── record 1 ─────────
@@ -93,9 +94,10 @@ transformed: none (filtered out)
   </record>
 ```
 
-Both outputs are small dlt destinations defined in this project (`sinks/documents.py`) and referenced from
-`connections.yaml` as `destination: sinks.documents:json_file`. Each pipeline destination runs separately, with
-its own state, so one can fail and be retried without rewriting the other.
+Both outputs use Cartage's built-in `file` destination: one `exports` connection (a folder), and per destination a
+`format` (`json`, `jsonl`, `xml` or `csv`) and file name; `name: as_xml` tells the two apart. Files are written to
+`*.partial` and moved into place only when the run succeeds. Each destination runs separately, with its own state, so
+one can fail and be retried without rewriting the other.
 
 ## Environments and credentials
 
@@ -115,11 +117,10 @@ connections are the same in every environment. The PII-tag and change-tracking h
 | Path                         | Contains                                                                    |
 | ---------------------------- | --------------------------------------------------------------------------- |
 | `cartage.yaml`               | environments, engine, state location, Airflow settings                      |
-| `connections.yaml`           | Snowflake, DuckDB, JSON and XML destinations per environment                |
+| `connections.yaml`           | Snowflake and DuckDB per environment, and the `exports` output folder       |
 | `pipelines/*.yaml`           | one file per pipeline                                                       |
 | `sources/`                   | dlt sources: CSV/GeoJSON over HTTP (`web.py`), USGS API (`usgs.py`)         |
 | `transforms/population.py`   | the `map` and `filter` steps of the transformation example                  |
-| `sinks/documents.py`         | the JSON and XML destinations                                               |
 | `utils/datacoves_utils.py`   | Snowflake `after_load` hooks                                                |
 | `templates/airflow/dag.py.j2`| makes generated DAGs use `datacoves_utils.set_default_args`                 |
 | `.cartage/`, `output/`       | local state and output files (git-ignored)                                  |

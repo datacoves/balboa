@@ -28,17 +28,10 @@ connections:
       dev: { <<: *snowflake, database: raw }
       prd: { <<: *snowflake_airflow, database: raw }
 
-  # Local documents (sinks/documents.py), for the us_population_documents transformation example.
-  json_files:
-    type: dlt
+  # Local files for the us_population_documents transformation example (Cartage's file destination).
+  exports:
+    type: file
     envs:
-      local: &json_files { destination: "sinks.documents:json_file", path: output/json }
-      dev: *json_files
-      prd: *json_files
-
-  xml_files:
-    type: dlt
-    envs:
-      local: &xml_files { destination: "sinks.documents:xml_file", path: output/xml }
-      dev: *xml_files
-      prd: *xml_files
+      local: &exports { path: output }
+      dev: *exports
+      prd: *exports
