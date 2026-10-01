@@ -1,0 +1,11 @@
+name: us_population
+source:
+  type: dlt
+  ref: sources.web:csv_files
+  with:
+    files:
+      us_population: https://raw.githubusercontent.com/dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv
+destination:
+  connection: snowflake
+  dataset_name: us_population
+  write_disposition: replace
