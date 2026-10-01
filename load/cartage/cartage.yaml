@@ -1,0 +1,13 @@
+# Cartage versions of the load/dlt examples: same sources, same Snowflake datasets.
+project: balboa_load
+environments: [local, dev, prd]   # local: DuckDB file, no Snowflake needed
+default_env: dev
+
+defaults:
+  engine: dlt
+
+# Incremental state (the USGS cursor) is kept here; on ephemeral Airflow workers point it at S3:
+# prd: { connection: <s3 connection>, prefix: cartage/state/ }
+state:
+  local: { path: .cartage/state }
+  dev: { path: .cartage/state }

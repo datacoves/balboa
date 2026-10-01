@@ -1,0 +1,20 @@
+# Credentials are not in this file: dlt reads them for the datacoves_snowflake destination from
+# ~/.dlt/secrets.toml (see load/dlt/.dlt/secrets.toml.sample) or, in Airflow, from the
+# DESTINATION__DATACOVES_SNOWFLAKE__CREDENTIALS__* variables set by datacoves_utils.set_dlt_env_vars.
+connections:
+  snowflake:
+    type: dlt
+    envs:
+      local: { destination: duckdb, credentials: balboa.duckdb }
+      dev: &snowflake
+        destination: snowflake
+        destination_name: datacoves_snowflake
+        enable_dataset_name_normalization: false
+      prd: *snowflake
+
+  snowflake_raw:                      # same account, RAW database (country_populations)
+    type: dlt
+    envs:
+      local: { destination: duckdb, credentials: balboa.duckdb }
+      dev: { <<: *snowflake, database: raw }
+      prd: { <<: *snowflake, database: raw }

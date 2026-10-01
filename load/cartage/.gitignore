@@ -1,0 +1,4 @@
+.cartage/
+*.duckdb
+*.wal
+**/__pycache__/
