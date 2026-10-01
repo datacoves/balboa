@@ -9,7 +9,7 @@ Cartage runs them on dlt, keeps incremental state, and generates the Airflow DAG
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage and the drivers.
 
 ```bash
-alias cartage='uvx --from "cartage[dlt]>=0.5.0" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
+alias cartage='uvx --from "cartage>=0.6.0" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
