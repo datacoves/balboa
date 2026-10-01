@@ -1,5 +1,6 @@
 {% extends "cartage/airflow_dag.py.j2" %}
-{# Same default_args as the other balboa DAGs (retries, timeouts, notifications). #}
+{# Same default_args and schedule handling as the other balboa DAGs: retries, timeouts, notifications,
+   and no schedule in My Airflow / the dev environment (datacoves_utils.set_schedule). #}
 {% block imports %}
 {{ super() }}
 from orchestrate.utils import datacoves_utils
@@ -7,3 +8,4 @@ from orchestrate.utils import datacoves_utils
 {% block default_args %}
 default_args = datacoves_utils.set_default_args(owner="Noel Gomez", owner_email="noel@example.com")
 {% endblock %}
+{% block schedule %}datacoves_utils.set_schedule({{ super() }}){% endblock %}
