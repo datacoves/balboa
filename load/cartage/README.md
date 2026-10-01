@@ -11,15 +11,23 @@ Snowflake datasets, with the pipeline settings in YAML instead of in each script
 | `country_geo.py`         | `pipelines/country_geo.yaml`          | GeoJSON → `country_geo`                                  |
 | `usgs_earthquake.py`     | `pipelines/usgs_earthquake.yaml`      | merge on `id`; the start date comes from Cartage state (3-day lag), not `--start-date` |
 
-Credentials are the same as for the dlt scripts: dlt reads the `datacoves_snowflake` destination from
-`~/.dlt/secrets.toml` or, in Airflow, from the variables set by `datacoves_utils.set_dlt_env_vars`.
+Credentials: `dev` uses the `datacoves_snowflake` destination from `~/.dlt/secrets.toml`, like the dlt scripts.
+`prd` reads the `main_load_keypair` Airflow connection through `${airflow:...}` references; it only resolves inside
+the generated DAGs.
+
+## Airflow
+
+`cartage generate` writes one DAG per pipeline to `orchestrate/dags/cartage/`. Each DAG runs
+`cartage run <pipeline> --env prd` with `DatacovesBashOperator`, passes the Airflow connection fields the pipeline
+uses, and uses `datacoves_utils.set_default_args` (see `templates/airflow/dag.py.j2`). Regenerate after changing a
+pipeline, `cartage.yaml` or `connections.yaml`; `cartage generate --check` fails if the DAGs are stale.
 
 ## Running
 
 `cd` into this folder, then:
 
 ```bash
-alias cartage='uvx --from "cartage[dlt]>=0.3" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
+alias cartage='uvx --from "cartage[dlt]>=0.4" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
 cartage validate
 cartage plan us_population
 cartage run us_population                # dev: Snowflake

@@ -1,6 +1,6 @@
 # Cartage versions of the load/dlt examples: same sources, same Snowflake datasets.
 project: balboa_load
-environments: [local, dev, prd]   # local: DuckDB file, no Snowflake needed
+environments: [local, dev, prd]   # local: DuckDB file, no Snowflake needed; prd: what the Airflow DAGs run
 default_env: dev
 
 defaults:
@@ -11,3 +11,18 @@ defaults:
 state:
   local: { path: .cartage/state }
   dev: { path: .cartage/state }
+
+# `cartage generate` writes thin DAGs to orchestrate/dags/cartage that run `cartage run <pipeline> --env prd`.
+orchestrators:
+  airflow:
+    dags_dir: ../../orchestrate/dags/cartage
+    operator: operators.datacoves.bash:DatacovesBashOperator
+    command: uvx --from "cartage[dlt]>=0.4" --with "dlt[snowflake,parquet]" --with pandas cartage
+    tags: [extract_and_load]
+    task_env:                       # same worker settings as datacoves_utils.uv_env_vars
+      UV_CACHE_DIR: /tmp/uv_cache
+      EXTRACT__NEXT_ITEM_MODE: fifo
+      EXTRACT__MAX_PARALLEL_ITEMS: "1"
+      EXTRACT__WORKERS: "1"
+      NORMALIZE__WORKERS: "1"
+      LOAD__WORKERS: "1"

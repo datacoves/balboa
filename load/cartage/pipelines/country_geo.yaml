@@ -6,3 +6,6 @@ destination:
   connection: snowflake
   dataset_name: country_geo
   write_disposition: replace
+
+schedule:
+  airflow: { schedule: "0 0 1 */12 *" }

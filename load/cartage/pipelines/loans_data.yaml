@@ -15,3 +15,6 @@ destination:
       with: { table: personal_loans, columns: [addr_state, annual_inc] }
     - ref: utils.datacoves_utils:enable_change_tracking   # for Dynamic Tables
       with: { tables: [personal_loans, zip_coordinates] }
+
+schedule:
+  airflow: { schedule: "0 0 1 */12 *" }

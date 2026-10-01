@@ -1,6 +1,7 @@
-# Credentials are not in this file: dlt reads them for the datacoves_snowflake destination from
-# ~/.dlt/secrets.toml (see load/dlt/.dlt/secrets.toml.sample) or, in Airflow, from the
-# DESTINATION__DATACOVES_SNOWFLAKE__CREDENTIALS__* variables set by datacoves_utils.set_dlt_env_vars.
+# Credentials are not in this file.
+# - local, dev: dlt reads the datacoves_snowflake destination from ~/.dlt/secrets.toml (see load/dlt/.dlt).
+# - prd (Airflow): ${airflow:...} reads the main_load_keypair Airflow connection; `cartage generate` passes those
+#   fields to the task and Airflow fills them in at run time, like datacoves_utils.set_dlt_env_vars.
 connections:
   snowflake:
     type: dlt
@@ -10,11 +11,19 @@ connections:
         destination: snowflake
         destination_name: datacoves_snowflake
         enable_dataset_name_normalization: false
-      prd: *snowflake
+      prd: &snowflake_airflow
+        <<: *snowflake
+        credentials:
+          host: "${airflow:main_load_keypair.extra.account}"
+          username: "${airflow:main_load_keypair.login}"
+          private_key: "${airflow:main_load_keypair.extra.private_key_content}"
+          database: "${airflow:main_load_keypair.extra.database}"
+          warehouse: "${airflow:main_load_keypair.extra.warehouse}"
+          role: "${airflow:main_load_keypair.extra.role}"
 
   snowflake_raw:                      # same account, RAW database (country_populations)
     type: dlt
     envs:
       local: { destination: duckdb, credentials: balboa.duckdb }
       dev: { <<: *snowflake, database: raw }
-      prd: { <<: *snowflake, database: raw }
+      prd: { <<: *snowflake_airflow, database: raw }
