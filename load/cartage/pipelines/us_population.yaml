@@ -1,6 +1,5 @@
 name: us_population
 source:
-  type: dlt
   ref: sources.web:csv_files
   with:
     files:

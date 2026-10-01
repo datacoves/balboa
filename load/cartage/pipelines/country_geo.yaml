@@ -1,6 +1,5 @@
 name: country_geo
 source:
-  type: dlt
   ref: sources.web:country_polygons
 destination:
   connection: snowflake

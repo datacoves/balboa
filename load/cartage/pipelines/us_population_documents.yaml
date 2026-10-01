@@ -2,7 +2,6 @@
 # `cartage plan us_population_documents` shows the rows before and after the transforms.
 name: us_population_documents
 source:
-  type: dlt
   ref: sources.web:csv_files
   with:
     files:
