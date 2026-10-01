@@ -9,7 +9,7 @@ Cartage runs them on dlt, keeps incremental state, and generates the Airflow DAG
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage and the drivers.
 
 ```bash
-alias cartage='uvx --from "cartage[dlt]>=0.4.2" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
+alias cartage='uvx --from "cartage[dlt]>=0.4.3" --with "dlt[snowflake,duckdb,parquet]" --with pandas cartage'
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
@@ -128,7 +128,8 @@ connections are the same in every environment. The PII-tag and change-tracking h
 
 `cartage generate` writes one DAG per scheduled pipeline to `orchestrate/dags/cartage/`. Each DAG runs
 `cartage run <pipeline> --env prd` with `DatacovesBashOperator`, passes the Airflow connection fields the pipeline
-uses, and adds the uv/dlt worker settings from `cartage.yaml` (`task_env`). Regenerate after changing a pipeline,
+uses, and adds the uv/dlt worker settings from `cartage.yaml` (`task_env`). Like the other balboa DAGs, they use
+`datacoves_utils.set_default_args` and `set_schedule` (no schedule in My Airflow), via `templates/airflow/dag.py.j2`. Regenerate after changing a pipeline,
 `cartage.yaml` or `connections.yaml`; `cartage generate --check` fails if the DAGs are stale. The transformation
 example writes local files, so it has no schedule.
 
