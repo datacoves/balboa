@@ -1,0 +1,21 @@
+# With zip_coordinates.yaml, replaces the loans_data.py dlt script (one pipeline per file).
+name: personal_loans
+source:
+  connection: datacoves_samples
+  path: PERSONAL_LOANS.csv
+  format: csv
+destination:
+  connection: snowflake
+  dataset_name: loans
+  table_name: personal_loans
+  write_disposition: replace
+  columns:                                       # always empty in the CSV; dlt only creates typed columns
+    mths_since_last_major_derog: {data_type: double}
+  after_load:
+    - ref: utils.datacoves_utils:apply_pii_tag
+      with: {table: personal_loans, columns: [addr_state, annual_inc]}
+    - ref: utils.datacoves_utils:enable_change_tracking   # for Dynamic Tables
+      with: {tables: [personal_loans]}
+
+schedule:
+  airflow: {schedule: "0 0 1 */12 *", dependencies: ["dlt[http]"]}   # https:// files

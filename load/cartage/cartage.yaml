@@ -1,24 +1,33 @@
 # Cartage versions of the load/dlt examples: same sources, same Snowflake datasets.
 project: balboa_load
-environments: [local, dev, prd]   # local: DuckDB file, no Snowflake needed; prd: what the Airflow DAGs run
-default_env: dev
+# dev_duckdb: a local DuckDB file, no Snowflake needed; dev_snowflake: Snowflake with your own credentials;
+# airflow: what the DAGs run, in any Airflow (sandbox, dev or prod): the Airflow connections there pick the account.
+environments: [dev_duckdb, dev_snowflake, airflow]
+default_env: dev_snowflake
 
 defaults:
   engine: dlt
 
 # Incremental state (the USGS cursor) is kept here; on ephemeral Airflow workers point it at S3:
-# prd: { connection: <s3 connection>, prefix: cartage/state/ }
+# airflow: {connection: <s3 connection>, prefix: cartage/state/}
 state:
-  local: { path: .cartage/state }
-  dev: { path: .cartage/state }
+  dev_duckdb: {path: .cartage/state}
+  dev_snowflake: {path: .cartage/state}
 
-# `cartage generate` writes thin DAGs to orchestrate/dags/cartage that run `cartage run <pipeline> --env prd`.
+# `cartage generate` writes thin DAGs to orchestrate/dags/cartage that run `cartage run <pipeline> --env airflow`.
 orchestrators:
   airflow:
+    env: airflow                    # the Airflow variable cartage_env can still override it
     dags_dir: ../../orchestrate/dags/cartage
-    operator: operators.datacoves.bash:DatacovesBashOperator
-    command: uvx --from "cartage>=0.6.0" --with "dlt[snowflake,parquet]" --with pandas cartage
+    task_decorator: datacoves_bash
+    command: uvx --from "cartage>=0.8.0" cartage
+    dependencies: ["dlt[snowflake,parquet]"]   # pipelines add their own (dlt[http] for https:// files)
     tags: [extract_and_load]
+    # Same default_args and schedule handling as the other balboa DAGs: retries, timeouts, notifications,
+    # and no schedule in My Airflow / the dev environment.
+    default_args_from: orchestrate.utils.datacoves_utils:set_default_args
+    default_args: {owner: Noel Gomez, owner_email: noel@example.com}
+    schedule_from: orchestrate.utils.datacoves_utils:set_schedule
     task_env:                       # same worker settings as datacoves_utils.uv_env_vars
       UV_CACHE_DIR: /tmp/uv_cache
       EXTRACT__NEXT_ITEM_MODE: fifo

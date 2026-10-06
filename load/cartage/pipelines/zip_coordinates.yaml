@@ -1,0 +1,16 @@
+name: zip_coordinates
+source:
+  connection: datacoves_samples
+  path: ZIP_COORDINATES.csv
+  format: csv
+destination:
+  connection: snowflake
+  dataset_name: loans
+  table_name: zip_coordinates
+  write_disposition: replace
+  after_load:
+    - ref: utils.datacoves_utils:enable_change_tracking   # for Dynamic Tables
+      with: {tables: [zip_coordinates]}
+
+schedule:
+  airflow: {schedule: "0 0 1 */12 *", dependencies: ["dlt[http]"]}   # https:// files
