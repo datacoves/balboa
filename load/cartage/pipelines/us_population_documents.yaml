@@ -2,14 +2,13 @@
 # `cartage plan us_population_documents` shows the rows before and after the transforms.
 name: us_population_documents
 source:
-  ref: sources.web:csv_files
-  with:
-    files:
-      states: https://raw.githubusercontent.com/dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv
+  connection: github
+  path: dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv
+  format: csv
 transforms:
   - map: transforms.population:by_year          # columns 2010..2019 → populations: [{year, population}], + growth_pct
   - filter: transforms.population:at_least      # drop small states
-    with: { population: 1000000 }
+    with: {population: 1000000}
 destinations:
-  - { connection: exports, format: json, file: states.json }                                    # output/states.json
-  - { connection: exports, name: as_xml, format: xml, root: states, file: states.xml }                # output/states.xml
+  - {connection: exports, format: json, file: states.json}                                    # output/states.json
+  - {connection: exports, name: as_xml, format: xml, root: states, file: states.xml}                # output/states.xml

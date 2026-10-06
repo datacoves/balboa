@@ -1,13 +1,13 @@
 name: country_populations
 source:
-  ref: sources.web:csv_files
-  with:
-    files:
-      country_populations: https://raw.githubusercontent.com/datasets/population/master/data/population.csv
+  connection: github
+  path: datasets/population/master/data/population.csv
+  format: csv
 destination:
   connection: snowflake_raw
   dataset_name: raw
+  table_name: country_populations
   write_disposition: replace
 
 schedule:
-  airflow: { schedule: "0 0 1 */12 *" }
+  airflow: {schedule: "0 0 1 */12 *", dependencies: ["dlt[http]"]}   # https:// files
