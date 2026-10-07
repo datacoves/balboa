@@ -9,7 +9,7 @@ Cartage runs them on dlt, keeps incremental state, and generates the Airflow DAG
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage, and Cartage adds each pipeline's `dependencies`.
 
 ```bash
-alias cartage='uvx --from "cartage>=0.11.0" cartage'   # pipelines add their own packages (dependencies:)
+alias cartage='uvx --from "cartage>=0.11.2" cartage'   # pipelines add their own packages (dependencies:)
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
@@ -155,11 +155,16 @@ example writes local files, so it has no schedule.
 
 1. Add `pipelines/<name>.yaml` with a source, a destination connection and, if needed, `transforms`. Files and REST
    APIs need no Python: copy `us_population.yaml` (a file from a `filesystem` connection) or `country_geo.yaml`
-   (`dlt.sources.rest_api:rest_api_source`). Connection types and options: Cartage's `docs/connections.md`.
-2. Only when configuration can't express the logic, write a source in `sources/` (a function returning a dlt resource
-   or source, like `usgs.py`) and reference it as `source.ref: sources.<module>:<function>`.
-3. `cartage validate`, `cartage plan <name>`, then `cartage run <name> --env dev_duckdb`.
-4. To schedule it, add `schedule: { airflow: { schedule: "..." } }` and run `cartage generate`.
+   (`dlt.sources.rest_api:rest_api_source`). Connection types and options: Cartage's
+   [docs/connections.md](https://github.com/datacoves/cartage/blob/main/docs/connections.md).
+2. List the packages it needs beyond `defaults.dependencies` in `.cartage/config.yaml`, e.g.
+   `dependencies: ["dlt[http]"]` for files over HTTPS. `cartage run` adds them with uv, here and in Airflow.
+3. For reshaping, `cartage scaffold transform <name>` writes `transforms/<name>.py` with `map`, `filter` and `batch`
+   examples. Only when configuration can't express the source, `cartage scaffold source <name>` writes
+   `sources/<name>.py` (a dlt resource, like `usgs.py`) to reference as `source.ref: sources.<name>:<name>`.
+4. `cartage validate`, `cartage plan <name>`, then `cartage run <name> --env dev_duckdb`.
+5. To schedule it, add `schedule: { airflow: { schedule: "..." } }` and run `cartage generate`. To change what the
+   DAGs look like beyond the settings in `.cartage/config.yaml`, `cartage scaffold airflow` writes a template override.
 
 ## Starting your own project
 
