@@ -11,6 +11,7 @@ destination:
   after_load:
     - ref: utils.datacoves_utils:enable_change_tracking   # for Dynamic Tables
       with: {tables: [zip_coordinates]}
+dependencies: ["dlt[http]"]   # reads https:// files
 
 schedule:
-  airflow: {schedule: "0 0 1 */12 *", dependencies: ["dlt[http]"]}   # https:// files
+  airflow: {schedule: "0 0 1 */12 *"}

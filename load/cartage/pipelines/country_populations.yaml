@@ -8,6 +8,7 @@ destination:
   dataset_name: raw
   table_name: country_populations
   write_disposition: replace
+dependencies: ["dlt[http]"]   # reads https:// files
 
 schedule:
-  airflow: {schedule: "0 0 1 */12 *", dependencies: ["dlt[http]"]}   # https:// files
+  airflow: {schedule: "0 0 1 */12 *"}
