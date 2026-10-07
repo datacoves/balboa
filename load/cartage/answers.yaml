@@ -1,0 +1,16 @@
+# Start a new Cartage project shaped like this one: the us_population CSV → a warehouse, with the same three
+# environments and an Airflow schedule. dev_duckdb runs on a copy of the CSV and a local DuckDB file.
+#   cartage init my_load --answers https://raw.githubusercontent.com/datacoves/balboa/main/load/cartage/answers.yaml --yes
+project: my_load
+environments: [dev_duckdb, dev_snowflake, airflow]
+source: files
+files:
+  location: "https://raw.githubusercontent.com"
+  path: dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv
+  format: csv
+sample_data: "https://raw.githubusercontent.com/dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv"
+destination: snowflake
+dataset: us_population
+write_disposition: replace
+pipeline: us_population
+schedule: {target: airflow, cron: "0 0 1 */12 *"}

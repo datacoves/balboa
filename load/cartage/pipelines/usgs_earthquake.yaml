@@ -4,7 +4,7 @@ source:
   with: {days_back: 7}               # first run; later runs continue from the last event loaded
   incremental: {cursor: properties.time, lag: 259200000}   # re-read 3 days (ms) for USGS revisions, like the DAG
 destination:
-  connection: snowflake
+  connection: warehouse
   dataset_name: usgs__earthquake_data
   table_name: earthquakes
   write_disposition: merge

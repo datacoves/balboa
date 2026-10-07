@@ -6,6 +6,7 @@ on:  # yamllint disable-line rule:truthy
       - 'release/**/*'
     paths:
       - load/cartage/**/*
+      - load/cartage/.cartage/*
       - orchestrate/dags/cartage/**/*
 
   # Allows you to run this workflow manually from the Actions tab
@@ -26,8 +27,8 @@ jobs:
         working-directory: load/cartage
 
     env:
-      # Same Cartage as the DAGs (orchestrators.airflow.command in cartage.yaml), with the drivers the pipelines use
-      CARTAGE: uvx --from cartage>=0.8.0 --with dlt[snowflake,duckdb,parquet,http] cartage
+      # Same Cartage as the DAGs (orchestrators.airflow.command in .cartage/config.yaml), with the drivers the pipelines use
+      CARTAGE: uvx --from cartage>=0.10.0 --with dlt[snowflake,duckdb,parquet,http] cartage
 
     steps:
       - name: Checkout branch
