@@ -9,7 +9,7 @@ Cartage runs them on dlt, keeps incremental state, and generates the Airflow DAG
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage and the drivers.
 
 ```bash
-alias cartage='uvx --from "cartage>=0.8.0" --with "dlt[snowflake,duckdb,parquet,http]" cartage'
+alias cartage='uvx --from "cartage>=0.10.0" --with "dlt[snowflake,duckdb,parquet,http]" cartage'
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
@@ -28,7 +28,7 @@ The first four commands need no credentials.
 | `us_population`           | `us_population.py`       | a CSV over HTTP → `us_population`                                    |
 | `personal_loans`          | `loans_data.py`          | a CSV → `loans`; PII tags and change tracking after the load         |
 | `zip_coordinates`         | `loans_data.py`          | a CSV → `loans`; change tracking after the load                      |
-| `country_populations`     | `country_populations.py` | a CSV into the `RAW` database (`snowflake_raw` connection)           |
+| `country_populations`     | `country_populations.py` | a CSV → `raw`                                                        |
 | `country_geo`             | `country_geo.py`         | GeoJSON flattened to one row per country                             |
 | `usgs_earthquake`         | `usgs_earthquake.py`     | an API, merged on `id`; continues from the last event it loaded      |
 
@@ -38,10 +38,10 @@ The datasets and tables are the same as the dlt scripts'. What moved out of the 
   `datacoves_samples`), the GeoJSON with dlt's `dlt.sources.rest_api:rest_api_source`. Only the USGS source
   is Python (`sources/usgs.py`): it requests one day at a time and turns the cursor into the API's date format.
 - **Destination, dataset, write disposition, keys, column types** → the pipeline YAML.
-- **Credentials** → `connections.yaml`, per environment (see below).
+- **Credentials** → `.cartage/connections.yaml`, per environment (see below).
 - **Post-load SQL** (`apply_pii_tag`, `enable_change_tracking`) → `after_load` hooks; the same functions, in
   `utils/datacoves_utils.py`.
-- **The earthquake `--start-date`** → Cartage state: each run starts 3 days before the last event loaded
+- **The earthquake `--start-date`** → dlt state, kept in Snowflake: each run starts 3 days before the last event loaded
   (`incremental: { cursor: properties.time, lag: ... }`), so the DAG doesn't compute it.
 
 ## Transformation example
@@ -107,11 +107,18 @@ one can fail and be retried without rewriting the other.
 
 No credentials are stored here.
 
-| Env             | Snowflake connections load into   | Credentials from                                                         |
-| --------------- | --------------------------------- | ------------------------------------------------------------------------ |
-| `dev_duckdb`    | `balboa.duckdb` (DuckDB file)     | none needed                                                              |
-| `dev_snowflake` | Snowflake (default env)           | `~/.dlt/secrets.toml`, `destination.datacoves_snowflake` (see `../dlt/.dlt`) |
-| `airflow`       | Snowflake, run by Airflow         | the `main_load_keypair` Airflow connection, via `${airflow:...}` references |
+Every pipeline loads into one connection, `warehouse`. It is named for its role, not its type, because the type
+changes per environment:
+
+| Env             | `warehouse` is                         | Credentials from                                                         |
+| --------------- | -------------------------------------- | ------------------------------------------------------------------------ |
+| `dev_duckdb`    | `balboa.duckdb` (DuckDB file)          | none needed                                                              |
+| `dev_snowflake` | Snowflake, `RAW` database (default env) | `~/.dlt/secrets.toml`, `destination.datacoves_snowflake` (see `../dlt/.dlt`) |
+| `airflow`       | Snowflake, run by Airflow              | the `main_load_keypair` Airflow connection, via `${airflow:...}` references |
+
+In Snowflake each pipeline's `dataset_name` is the schema, inside the `RAW` database the dbt sources read.
+`dev_snowflake` sets `database: raw` itself and takes the rest of the credentials from `~/.dlt/secrets.toml`;
+`airflow` takes the database from the Airflow connection.
 
 `airflow` is the same in every Airflow: the DAGs read `main_load_keypair` from the Airflow they run in, so a sandbox
 Airflow pointing at a dev Snowflake tests exactly the DAGs that are later promoted to production.
@@ -123,24 +130,25 @@ connections are the same in every environment. The PII-tag and change-tracking h
 
 | Path                         | Contains                                                                    |
 | ---------------------------- | --------------------------------------------------------------------------- |
-| `cartage.yaml`               | environments, engine, state location, Airflow settings                      |
-| `connections.yaml`           | Snowflake (DuckDB in `dev_duckdb`), the HTTPS file locations, `exports`     |
+| `.cartage/config.yaml`       | environments, engine, Airflow settings                                      |
+| `.cartage/connections.yaml`  | `warehouse` (DuckDB or Snowflake), the HTTPS file locations, `exports`      |
 | `pipelines/*.yaml`           | one file per pipeline                                                       |
 | `sources/usgs.py`            | the USGS API source (day-by-day requests, incremental on the event time)    |
 | `transforms/population.py`   | the `map` and `filter` steps of the transformation example                  |
 | `transforms/geo.py`          | flattens GeoJSON features into one row per country                          |
 | `utils/datacoves_utils.py`   | Snowflake `after_load` hooks                                                |
-| `.cartage/`, `output/`       | local state and output files (git-ignored)                                  |
+| `answers.yaml`               | starts a new project shaped like this one (see below)                       |
+| `.cartage/state/`, `output/` | file export state and output files (git-ignored)                            |
 
 ## Airflow
 
 `cartage generate` writes one DAG per scheduled pipeline to `orchestrate/dags/cartage/`. Each DAG runs
 `cartage run <pipeline> --env airflow` with `@task.datacoves_bash`, passes the Airflow connection fields the pipeline
-uses, and adds the uv/dlt worker settings from `cartage.yaml` (`task_env`). Packages come from `dependencies`:
-`dlt[snowflake,parquet]` for every DAG in `cartage.yaml`, plus `dlt[http]` in the pipelines that read CSVs over
+uses, and adds the uv/dlt worker settings from `.cartage/config.yaml` (`task_env`). Packages come from `dependencies`:
+`dlt[snowflake,parquet]` for every DAG in `.cartage/config.yaml`, plus `dlt[http]` in the pipelines that read CSVs over
 HTTPS. Like the other balboa DAGs, they use `datacoves_utils.set_default_args` and `set_schedule` (no
-schedule in My Airflow), via `default_args_from` and `schedule_from` in `cartage.yaml`. Regenerate after changing a pipeline,
-`cartage.yaml` or `connections.yaml`; `cartage generate --check` fails if the DAGs are stale. The transformation
+schedule in My Airflow), via `default_args_from` and `schedule_from` in `.cartage/config.yaml`. Regenerate after changing a pipeline or a file
+in `.cartage/`; `cartage generate --check` fails if the DAGs are stale. The transformation
 example writes local files, so it has no schedule.
 
 ## Adding a pipeline
@@ -152,3 +160,19 @@ example writes local files, so it has no schedule.
    or source, like `usgs.py`) and reference it as `source.ref: sources.<module>:<function>`.
 3. `cartage validate`, `cartage plan <name>`, then `cartage run <name> --env dev_duckdb`.
 4. To schedule it, add `schedule: { airflow: { schedule: "..." } }` and run `cartage generate`.
+
+## Starting your own project
+
+`answers.yaml` answers `cartage init`'s questions: a new project with one pipeline, the US population CSV into a
+`warehouse` connection, the same three environments and an Airflow schedule. Run it from any folder:
+
+```bash
+cartage init my_load --answers https://raw.githubusercontent.com/datacoves/balboa/main/load/cartage/answers.yaml --yes
+cd my_load
+cartage run us_population          # dev_duckdb: a copy of the CSV into my_load.duckdb, no credentials
+```
+
+Then fill in every `"<fill me>"` that `cartage validate --env dev_snowflake` lists (Snowflake settings in
+`.cartage/connections.yaml`, the password in `.cartage/secrets.yaml`, or in `~/.cartage/secrets.yaml` to share it
+between projects). Copy the file and change the answers to start from something else; leave any answer out and
+`cartage init my_load --answers answers.yaml` asks it instead.

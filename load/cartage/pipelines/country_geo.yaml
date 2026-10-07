@@ -10,7 +10,7 @@ source:
 transforms:
   - map: transforms.geo:flatten_feature         # one row per country, geometry as a JSON string
 destination:
-  connection: snowflake
+  connection: warehouse
   dataset_name: country_geo
   table_name: country_polygons
   write_disposition: replace

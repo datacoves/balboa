@@ -5,7 +5,7 @@ source:
   path: PERSONAL_LOANS.csv
   format: csv
 destination:
-  connection: snowflake
+  connection: warehouse
   dataset_name: loans
   table_name: personal_loans
   write_disposition: replace

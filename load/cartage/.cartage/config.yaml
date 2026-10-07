@@ -8,11 +8,8 @@ default_env: dev_snowflake
 defaults:
   engine: dlt
 
-# Incremental state (the USGS cursor) is kept here; on ephemeral Airflow workers point it at S3:
-# airflow: {connection: <s3 connection>, prefix: cartage/state/}
-state:
-  dev_duckdb: {path: .cartage/state}
-  dev_snowflake: {path: .cartage/state}
+# No state settings: Snowflake and DuckDB keep each pipeline's dlt state (the USGS cursor) themselves, so Airflow
+# workers need nothing. Only the file exports keep state in .cartage/state (the default); they are not scheduled.
 
 # `cartage generate` writes thin DAGs to orchestrate/dags/cartage that run `cartage run <pipeline> --env airflow`.
 orchestrators:
@@ -20,7 +17,7 @@ orchestrators:
     env: airflow                    # the Airflow variable cartage_env can still override it
     dags_dir: ../../orchestrate/dags/cartage
     task_decorator: datacoves_bash
-    command: uvx --from "cartage>=0.8.0" cartage
+    command: uvx --from "cartage>=0.10.0" cartage
     dependencies: ["dlt[snowflake,parquet]"]   # pipelines add their own (dlt[http] for https:// files)
     tags: [extract_and_load]
     # Same default_args and schedule handling as the other balboa DAGs: retries, timeouts, notifications,

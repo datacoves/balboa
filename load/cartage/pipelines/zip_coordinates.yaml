@@ -4,7 +4,7 @@ source:
   path: ZIP_COORDINATES.csv
   format: csv
 destination:
-  connection: snowflake
+  connection: warehouse
   dataset_name: loans
   table_name: zip_coordinates
   write_disposition: replace

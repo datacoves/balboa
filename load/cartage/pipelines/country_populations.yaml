@@ -4,7 +4,7 @@ source:
   path: datasets/population/master/data/population.csv
   format: csv
 destination:
-  connection: snowflake_raw
+  connection: warehouse
   dataset_name: raw
   table_name: country_populations
   write_disposition: replace

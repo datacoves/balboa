@@ -4,7 +4,7 @@ source:
   path: dataprofessor/dashboard-v3/master/data/us-population-2010-2019.csv
   format: csv
 destination:
-  connection: snowflake
+  connection: warehouse
   dataset_name: us_population
   table_name: us_population
   write_disposition: replace
