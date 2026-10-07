@@ -16,6 +16,7 @@ destination:
       with: {table: personal_loans, columns: [addr_state, annual_inc]}
     - ref: utils.datacoves_utils:enable_change_tracking   # for Dynamic Tables
       with: {tables: [personal_loans]}
+dependencies: ["dlt[http]"]   # reads https:// files
 
 schedule:
-  airflow: {schedule: "0 0 1 */12 *", dependencies: ["dlt[http]"]}   # https:// files
+  airflow: {schedule: "0 0 1 */12 *"}

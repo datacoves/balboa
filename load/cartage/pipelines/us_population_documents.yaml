@@ -12,3 +12,4 @@ transforms:
 destinations:
   - {connection: exports, format: json, file: states.json}                                    # output/states.json
   - {connection: exports, name: as_xml, format: xml, root: states, file: states.xml}                # output/states.xml
+dependencies: ["dlt[http]"]   # reads https:// files

@@ -6,10 +6,10 @@ Cartage runs them on dlt, keeps incremental state, and generates the Airflow DAG
 
 ## Quick start
 
-`cd` into this folder. Nothing to install: `uvx` fetches Cartage and the drivers.
+`cd` into this folder. Nothing to install: `uvx` fetches Cartage, and Cartage adds each pipeline's `dependencies`.
 
 ```bash
-alias cartage='uvx --from "cartage>=0.10.0" --with "dlt[snowflake,duckdb,parquet,http]" cartage'
+alias cartage='uvx --from "cartage>=0.11.0" cartage'   # pipelines add their own packages (dependencies:)
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
@@ -144,9 +144,9 @@ connections are the same in every environment. The PII-tag and change-tracking h
 
 `cartage generate` writes one DAG per scheduled pipeline to `orchestrate/dags/cartage/`. Each DAG runs
 `cartage run <pipeline> --env airflow` with `@task.datacoves_bash`, passes the Airflow connection fields the pipeline
-uses, and adds the uv/dlt worker settings from `.cartage/config.yaml` (`task_env`). Packages come from `dependencies`:
-`dlt[snowflake,parquet]` for every DAG in `.cartage/config.yaml`, plus `dlt[http]` in the pipelines that read CSVs over
-HTTPS. Like the other balboa DAGs, they use `datacoves_utils.set_default_args` and `set_schedule` (no
+uses, and adds the uv/dlt worker settings from `.cartage/config.yaml` (`task_env`). Packages are not installed on the
+workers: `cartage run` adds `defaults.dependencies` (`dlt[snowflake,duckdb,parquet]`) and the pipeline's own
+`dependencies` (`dlt[http]` for CSVs over HTTPS) with uv, the same as on a laptop. Like the other balboa DAGs, they use `datacoves_utils.set_default_args` and `set_schedule` (no
 schedule in My Airflow), via `default_args_from` and `schedule_from` in `.cartage/config.yaml`. Regenerate after changing a pipeline or a file
 in `.cartage/`; `cartage generate --check` fails if the DAGs are stale. The transformation
 example writes local files, so it has no schedule.
