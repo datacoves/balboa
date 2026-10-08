@@ -125,7 +125,7 @@ jobs:
     # environment: PR_ENV
 
     # Most people should use this docker image
-    container: datacoves/ci-basic-dbt-snowflake:5.0
+    container: datacoves/ci-basic-dbt-snowflake:6.0
 
     defaults:
       run:

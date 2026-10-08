@@ -1,0 +1,19 @@
+name: country_geo
+source:
+  ref: dlt.sources.rest_api:rest_api_source     # dlt's declarative REST source
+  with:
+    config:
+      client: {base_url: "https://datahub.io/core/geo-countries/_r/-/data/"}
+      resources:
+        - name: country_polygons
+          endpoint: {path: countries.geojson, data_selector: features, paginator: single_page}
+transforms:
+  - map: transforms.geo:flatten_feature         # one row per country, geometry as a JSON string
+destination:
+  connection: warehouse
+  dataset_name: country_geo
+  table_name: country_polygons
+  write_disposition: replace
+
+schedule:
+  airflow: {schedule: "0 0 1 */12 *"}

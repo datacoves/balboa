@@ -1,0 +1,48 @@
+# Credentials are not in this file.
+# - dev_duckdb: a local DuckDB file. dev_snowflake: dlt reads the datacoves_snowflake destination from ~/.dlt/secrets.toml (see load/dlt/.dlt).
+# - airflow: ${airflow:...} reads the main_load_keypair connection of whichever Airflow runs the DAG (sandbox, dev or
+#   prod), so the same DAGs load into a dev Snowflake before they are promoted; `cartage generate` passes those
+#   fields to the task and Airflow fills them in at run time, like datacoves_utils.set_dlt_env_vars.
+connections:
+  # The warehouse every pipeline loads into: DuckDB in dev_duckdb, Snowflake elsewhere, in the RAW database the dbt
+  # sources read (in airflow, the Airflow connection's database). Each pipeline's dataset_name is the schema.
+  warehouse:
+    type: snowflake
+    envs:
+      dev_duckdb: {type: duckdb, credentials: balboa.duckdb}   # no Snowflake needed
+      dev_snowflake: &snowflake
+        destination_name: datacoves_snowflake   # the rest of the credentials: ~/.dlt/secrets.toml
+        enable_dataset_name_normalization: false
+        credentials: {database: raw}
+      airflow:
+        <<: *snowflake
+        credentials:
+          host: "${airflow:main_load_keypair.extra.account}"
+          username: "${airflow:main_load_keypair.login}"
+          private_key: "${airflow:main_load_keypair.extra.private_key_content}"
+          database: "${airflow:main_load_keypair.extra.database}"
+          warehouse: "${airflow:main_load_keypair.extra.warehouse}"
+          role: "${airflow:main_load_keypair.extra.role}"
+
+  # Public CSVs read over HTTPS (dlt[http]); the same in every environment.
+  github:
+    type: filesystem
+    envs:
+      dev_duckdb: &github {bucket_url: "https://raw.githubusercontent.com"}
+      dev_snowflake: *github
+      airflow: *github
+
+  datacoves_samples:
+    type: filesystem
+    envs:
+      dev_duckdb: &samples {bucket_url: "https://datacoves-sample-data-public.s3.us-west-2.amazonaws.com"}
+      dev_snowflake: *samples
+      airflow: *samples
+
+  # Local files for the us_population_documents transformation example.
+  exports:
+    type: file_export
+    envs:
+      dev_duckdb: &exports {path: output}
+      dev_snowflake: *exports
+      airflow: *exports

@@ -1,0 +1,19 @@
+name: usgs_earthquake
+source:
+  ref: sources.usgs:earthquakes
+  with: {days_back: 7}               # first run; later runs continue from the last event loaded
+  incremental: {cursor: properties.time, lag: 259200000}   # re-read 3 days (ms) for USGS revisions, like the DAG
+destination:
+  connection: warehouse
+  dataset_name: usgs__earthquake_data
+  table_name: earthquakes
+  write_disposition: merge
+  primary_key: id
+  columns:
+    id: {data_type: text}
+    properties: {data_type: json}
+    geometry: {data_type: json}
+    type: {data_type: text}
+
+schedule:
+  airflow: {schedule: "0 0 1 */12 *"}

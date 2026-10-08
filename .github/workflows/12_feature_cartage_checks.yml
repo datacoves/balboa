@@ -1,0 +1,48 @@
+name: "12: 🚚 Cartage Validations"
+
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    branches:
+      - 'release/**/*'
+    paths:
+      - load/cartage/**/*
+      - load/cartage/.cartage/*
+      - orchestrate/dags/cartage/**/*
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# This cancels a run if another change is pushed to the same branch
+concurrency:
+  group: cartage-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cartage:
+    name: Lint, validate and check generated DAGs
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: load/cartage
+
+    env:
+      # Same Cartage as the DAGs (orchestrators.airflow.command in .cartage/config.yaml); it adds the pipelines' dependencies
+      CARTAGE: uvx --from cartage>=0.12.1 cartage
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Lint Python (sources, transforms, utils)
+        run: uvx ruff check --isolated --select E4,E7,E9,F .
+
+      - name: Validate pipelines, connections and transforms
+        # dev_duckdb needs no credentials; the airflow env only resolves inside Airflow
+        run: $CARTAGE validate --env dev_duckdb
+
+      - name: Generated DAGs are up to date
+        run: $CARTAGE generate --check

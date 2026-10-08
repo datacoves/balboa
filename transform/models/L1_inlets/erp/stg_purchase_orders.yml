@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_purchase_orders
+    description: Deterministic quarterly ERP purchase orders at monthly date grain.
+    columns:
+      - name: po_id
+        description: Purchase order primary key.
+        data_tests: [not_null, unique]
+      - name: vendor_id
+        description: Vendor foreign key.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_vendors')
+                field: vendor_id
+      - name: po_date
+        description: First day of the purchase order month.
+        data_tests: [not_null]
+      - name: category
+        description: Vendor category carried onto the purchase order.
+        data_tests: [not_null]
+      - name: po_amount
+        description: Positive committed spend in whole currency units.
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: '> 0'

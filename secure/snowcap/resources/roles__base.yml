@@ -1,5 +1,6 @@
 roles:
   - name: z_account__create_database
+  - name: z_account__manage_grants
   - name: z_account__monitor
   - name: z_db__tst_balboa  # Used to grant access to TST databases
   - name: z_db__balboa_dev__create_schema
@@ -16,6 +17,24 @@ grants:
   - priv: "CREATE DATABASE"
     on: "ACCOUNT"
     to: z_account__create_database
+
+  # Lets the blue-green deployment reissue the read grants a swap drops. The
+  # swap replaces the database, so the inherited SELECT grants below have to be
+  # recreated afterwards by grant_db_usage in the dbt project, which runs as
+  # transformer_dbt. Inherited grants cover future objects, and granting those
+  # to an account-level role such as z_tables_views__select needs the
+  # account-wide MANAGE GRANTS -- owning the database is not enough, which is
+  # why the 2026-09-11 deploys failed with "Grant not executed: Insufficient
+  # privileges". Granting them to a database role inside a database
+  # transformer_dbt owns does work unprivileged, which is how GREAT_BAY_DEV's
+  # dr_reader_role gets the same grants without this role.
+  #
+  # This is broad: the holder can grant any privilege on any object to any
+  # role, the same grant authority SECURITYADMIN has. It reaches only
+  # transformer_dbt, which CI and Airflow connect as.
+  - priv: "MANAGE GRANTS"
+    on: "ACCOUNT"
+    to: z_account__manage_grants
 
   # Account-wide metadata visibility: SHOW ROLES/USERS/GRANTS beyond your own
   # role. Reads no data and exposes no other user's queries, but it does lay

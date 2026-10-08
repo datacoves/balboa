@@ -1,0 +1,7 @@
+.cartage/secrets.yaml
+.cartage/state/
+.cartage/rejects/
+*.duckdb
+*.wal
+**/__pycache__/
+output/
