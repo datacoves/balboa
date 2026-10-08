@@ -1,0 +1,7 @@
+dbt_project_dir: ../../transform
+
+sources:
+  balboa:
+    type: dbt_profile
+    profile: default
+    target: prd

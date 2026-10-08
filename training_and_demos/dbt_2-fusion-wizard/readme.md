@@ -3,6 +3,12 @@
 pip install -U dbt-core==2.0.0a1
 ```
 
+# Using dbt Charts
+```bash
+alias dct='uvx --from dbt-charts dct'
+../visualize/dbt_charts/start_dbt_charts.sh
+```
+
 # Install dbt fusion
 
 ```bash
