@@ -14,7 +14,7 @@ cartage init demo --answers https://raw.githubusercontent.com/datacoves/cartage/
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage, and Cartage adds each pipeline's `dependencies`.
 
 ```bash
-alias cartage='uvx --from "cartage>=0.11.2" cartage'   # pipelines add their own packages (dependencies:)
+alias cartage='uvx --from "cartage>=0.12.1" cartage'   # pipelines add their own packages (dependencies:)
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
@@ -130,6 +130,11 @@ Airflow pointing at a dev Snowflake tests exactly the DAGs that are later promot
 
 The `airflow` references only resolve inside the generated DAGs; locally, `cartage` stops with a hint. The JSON and XML
 connections are the same in every environment. The PII-tag and change-tracking hooks only run on Snowflake.
+
+The pipelines write the same Snowflake tables as the `load/dlt` scripts. `loans_data.py` loads DataFrames, which
+leaves out dlt's `_dlt_load_id` column, so the first Cartage run into `loans.personal_loans` or
+`loans.zip_coordinates` fails until the table is recreated: run it once with `--full-refresh` (this drops and reloads
+the table). After that, load those tables with Cartage only; the dlt script's next load would leave the column empty.
 
 ## Layout
 
