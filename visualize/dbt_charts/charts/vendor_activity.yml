@@ -1,0 +1,203 @@
+title: Vendor Activity
+notes: >
+  Accounts Payable view of Balboa's vendors. "Active" is behavioral: a vendor with at
+  least one PO or invoice in the window. The ERP's recorded status is shown alongside
+  so the gap between the two is visible.
+source: balboa
+
+variables:
+  grain:
+    input: radio
+    label: Period
+    options:
+      static: [month, quarter, week]
+    default: month
+    required: true
+  category:
+    input: select
+    options:
+      query: category_options
+
+queries:
+  category_options: |
+    select distinct category from balboa.l2_vendors.dim_vendors
+    order by category
+
+  kpis: |
+    select
+      count_if(is_active) as active_vendors,
+      count(*) as total_vendors,
+      count_if(is_active) / nullif(count(*), 0) as active_share,
+      count_if(is_active <> (recorded_status = 'active')) as status_mismatches
+    from balboa.l3_accounts_payable.mart_active_vendors
+    where {{ filter('category', category) }}
+
+  open_invoices: |
+    select sum(i.invoice_amount) as open_amount, count(*) as open_count
+    from balboa.l2_invoices.fct_invoices i
+    join balboa.l2_vendors.dim_vendors v using (vendor_id)
+    where i.invoice_status = 'open'
+      and {{ filter('v.category', category) }}
+
+  active_by_period: |
+    select period_end_date, count(distinct vendor_id) as active_vendors
+    from balboa.l3_accounts_payable.mart_active_vendors_by_period
+    where period_grain = '{{ grain }}'
+      and {{ filter('category', category) }}
+    group by 1
+    order by 1
+
+  spend_by_month: |
+    select date_trunc('month', po_date) as month, category, sum(po_amount) as po_amount
+    from balboa.l2_purchase_orders.fct_purchase_orders
+    where {{ filter('category', category) }}
+    group by 1, 2
+    order by 1
+
+  status_by_category: |
+    with vendor_status as (
+      select *,
+        case
+          when is_active and recorded_status = 'active' then 'Active (matches ERP)'
+          when is_active and recorded_status = 'inactive' then 'Active, ERP says inactive'
+          when not is_active and recorded_status = 'active' then 'Dormant, ERP says active'
+          else 'Dormant (matches ERP)'
+        end as status_check
+      from balboa.l3_accounts_payable.mart_active_vendors
+      where {{ filter('category', category) }}
+    )
+    select category, status_check, count(*) as vendors
+    from vendor_status
+    group by 1, 2
+
+  invoice_aging: |
+    select v.vendor_name,
+      count(*) as open_invoices,
+      sum(i.invoice_amount) as open_amount,
+      min(i.invoice_date) as oldest_open_invoice
+    from balboa.l2_invoices.fct_invoices i
+    join balboa.l2_vendors.dim_vendors v using (vendor_id)
+    where i.invoice_status = 'open'
+      and {{ filter('v.category', category) }}
+    group by 1
+    order by open_amount desc
+
+  # vendor_list: |
+  #   with vendor_status as (
+  #     select *,
+  #       case
+  #         when is_active and recorded_status = 'active' then 'Active (matches ERP)'
+  #         when is_active and recorded_status = 'inactive' then 'Active, ERP says inactive'
+  #         when not is_active and recorded_status = 'active' then 'Dormant, ERP says active'
+  #         else 'Dormant (matches ERP)'
+  #       end as status_check
+  #     from balboa.l3_accounts_payable.mart_active_vendors
+  #     where {{ filter('category', category) }}
+  #   )
+  #   select vendor_name, category, recorded_status, status_check,
+  #     last_po_date, last_invoice_date,
+  #     trailing_12_month_po_count, trailing_12_month_invoice_count
+  #   from vendor_status
+  #   order by status_check, vendor_name
+
+charts:
+  kpi_active:
+    type: kpi
+    query: kpis
+    label: Active vendors (trailing 12 months)
+    value: active_vendors
+    support:
+      value: active_share
+      format: percent_whole
+      label: of all vendors
+    style:
+      value:
+        format: integer
+
+  kpi_mismatch:
+    type: kpi
+    query: kpis
+    label: ERP status disagrees with activity
+    value: status_mismatches
+    style:
+      value:
+        format: integer
+
+  kpi_open:
+    type: kpi
+    query: open_invoices
+    label: Open invoice balance
+    value: open_amount
+    style:
+      value:
+        format: currency_whole
+
+  active_trend:
+    type: line
+    query: active_by_period
+    title: Active vendors over time
+    subtitle: Vendors with a PO or invoice in the 90 days before each completed period end
+    x: period_end_date
+    y: active_vendors
+    x_label: Period end
+    y_label: Active vendors
+
+  spend_trend:
+    type: bar
+    query: spend_by_month
+    title: Purchase order spend by month
+    subtitle: Committed PO amount, stacked by vendor category
+    x: month
+    y: po_amount
+    color: category
+    x_label: Month
+    y_label: PO spend
+    style:
+      stack: zero
+      number_format: currency_whole
+
+  status_check:
+    type: bar
+    query: status_by_category
+    title: Does the ERP status match real activity?
+    subtitle: Vendors per category, by behavioral activity vs. recorded ERP status
+    x: category
+    y: vendors
+    color: status_check
+    x_label: Category
+    y_label: Vendors
+    style:
+      orientation: horizontal
+      stack: zero
+
+  aging_table:
+    type: table
+    query: invoice_aging
+    title: Open invoices by vendor
+    style:
+      columns:
+        vendor_name: { label: Vendor }
+        open_invoices: { label: Open invoices, format: integer }
+        open_amount: { label: Open amount, format: currency_whole }
+        oldest_open_invoice: { label: Oldest open invoice, format: date_short }
+
+  # vendor_table:
+  #   type: table
+  #   query: vendor_list
+  #   title: Vendor detail
+  #   style:
+  #     columns:
+  #       vendor_name: { label: Vendor }
+  #       category: { label: Category }
+  #       recorded_status: { label: ERP status }
+  #       status_check: { label: Activity check }
+  #       last_po_date: { label: Last PO, format: date_short }
+  #       last_invoice_date: { label: Last invoice, format: date_short }
+  #       trailing_12_month_po_count: { label: POs (12 mo), format: integer }
+  #       trailing_12_month_invoice_count: { label: Invoices (12 mo), format: integer }
+
+rows:
+  - cols: [kpi_active, kpi_mismatch, kpi_open]
+  - cols: [active_trend, spend_trend]
+  - cols: [status_check, aging_table]
+  # - vendor_table

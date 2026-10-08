@@ -53,6 +53,7 @@ snapshots:
     node_color: "#0f703d"
 
 models:
+  +static_analysis: strict
     # elementary:
     #     +schema: "elementary"
   # +dbt-osmosis: "{model}.yml"
