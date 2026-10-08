@@ -2,7 +2,7 @@
         
 
     
-        create or replace transient dynamic table BALBOA_STAGING.L1_LOANS.stg_personal_loans
+        create or replace transient dynamic table BALBOA.L1_LOANS.stg_personal_loans
     target_lag = 'downstream'
     warehouse = wh_transforming_dynamic_tables
     
