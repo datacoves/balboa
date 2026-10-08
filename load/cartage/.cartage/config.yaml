@@ -10,8 +10,12 @@ defaults:
   # cartage run adds these with uv (pipelines add dlt[http] for https:// files): no installs, here or in Airflow
   dependencies: ["dlt[snowflake,duckdb,parquet]"]
 
+# Files Cartage writes while running (file export state, rejected records) go to your home folder, not the repo.
+# The DuckDB file and the exports go there too (connections.yaml).
+artifacts_dir: ~/.cartage/balboa_load
+
 # No state settings: Snowflake and DuckDB keep each pipeline's dlt state (the USGS cursor) themselves, so Airflow
-# workers need nothing. Only the file exports keep state in .cartage/state (the default); they are not scheduled.
+# workers need nothing. Only the file exports keep state in artifacts_dir; they are not scheduled.
 
 # `cartage generate` writes thin DAGs to orchestrate/dags/cartage that run `cartage run <pipeline> --env airflow`.
 orchestrators:
@@ -19,7 +23,7 @@ orchestrators:
     env: airflow                    # the Airflow variable cartage_env can still override it
     dags_dir: ${env:DATACOVES__REPO_PATH}/${env:DATACOVES__AIRFLOW_DAGS_PATH}/cartage
     task_decorator: datacoves_bash
-    command: uvx --from "cartage>=0.13.1" cartage
+    command: uvx --from "cartage>=0.14.0" cartage
     tags: [extract_and_load]
     # Same default_args and schedule handling as the other balboa DAGs: retries, timeouts, notifications,
     # and no schedule in My Airflow / the dev environment.
