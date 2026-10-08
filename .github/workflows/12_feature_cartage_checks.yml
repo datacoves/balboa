@@ -28,7 +28,7 @@ jobs:
 
     env:
       # Same Cartage as the DAGs (orchestrators.airflow.command in .cartage/config.yaml); it adds the pipelines' dependencies
-      CARTAGE: uvx --from cartage>=0.13.1 cartage
+      CARTAGE: uvx --from cartage>=0.14.0 cartage
 
     steps:
       - name: Checkout branch

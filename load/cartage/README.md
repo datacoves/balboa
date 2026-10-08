@@ -14,12 +14,12 @@ cartage init demo --answers https://raw.githubusercontent.com/datacoves/cartage/
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage, and Cartage adds each pipeline's `dependencies`.
 
 ```bash
-alias cartage='uvx --from "cartage>=0.13.1" cartage'   # pipelines add their own packages (dependencies:)
+alias cartage='uvx --from "cartage>=0.14.0" cartage'   # pipelines add their own packages (dependencies:)
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
-cartage run us_population_documents               # writes output/states.json and output/states.xml
-cartage run us_population --env dev_duckdb        # load into balboa.duckdb instead of Snowflake
+cartage run us_population_documents               # writes ~/.cartage/balboa_load/output/states.json and .xml
+cartage run us_population --env dev_duckdb        # load into ~/.cartage/balboa_load/balboa.duckdb
 cartage run us_population                         # dev_snowflake: Snowflake, with your ~/.dlt/secrets.toml
 ```
 
@@ -29,7 +29,7 @@ For tab completion (`cartage run us_pop<TAB>`), install Cartage as a command ins
 once and open a new shell:
 
 ```bash
-uv tool install "cartage>=0.13.1"     # later: uv tool upgrade cartage
+uv tool install "cartage>=0.14.0"     # later: uv tool upgrade cartage
 cartage --install-completion
 ```
 
@@ -73,8 +73,8 @@ Alabama,1,"4,785,437","4,799,069",...,"4,903,185"
 | ------------------ | ----------------------------------------------------------------------------- |
 | `map: by_year`     | year columns → `populations: [{year, population}]` as integers, plus `growth_pct` |
 | `filter: at_least` | keeps states with at least 1,000,000 people (`with: { population: 1000000 }`) |
-| `exports` (json)   | `output/states.json`                                                          |
-| `exports` (xml)    | `output/states.xml`, `<states><record>...</record></states>`                  |
+| `exports` (json)   | `~/.cartage/balboa_load/output/states.json`                                   |
+| `exports` (xml)    | `~/.cartage/balboa_load/output/states.xml`, `<states><record>...</record></states>` |
 
 `cartage plan` shows each source row next to what it becomes, or why it was dropped, and the exact JSON or XML it
 will write (once per destination):
@@ -125,7 +125,7 @@ changes per environment:
 
 | Env             | `warehouse` is                         | Credentials from                                                         |
 | --------------- | -------------------------------------- | ------------------------------------------------------------------------ |
-| `dev_duckdb`    | `balboa.duckdb` (DuckDB file)          | none needed                                                              |
+| `dev_duckdb`    | `~/.cartage/balboa_load/balboa.duckdb` | none needed                                                              |
 | `dev_snowflake` | Snowflake, `RAW` database (default env) | `~/.dlt/secrets.toml`, `destination.datacoves_snowflake` (see `../dlt/.dlt`) |
 | `airflow`       | Snowflake, run by Airflow              | the `main_load_keypair` Airflow connection, via `${airflow:...}` references |
 
@@ -156,7 +156,7 @@ the table). After that, load those tables with Cartage only; the dlt script's ne
 | `transforms/geo.py`          | flattens GeoJSON features into one row per country                          |
 | `utils/datacoves_utils.py`   | Snowflake `after_load` hooks                                                |
 | `answers.yaml`               | starts a new project shaped like this one (see below)                       |
-| `.cartage/state/`, `output/` | file export state and output files (git-ignored)                            |
+| `~/.cartage/balboa_load/`    | outside the repo: DuckDB file, exports, file export state, rejects (`artifacts_dir`) |
 
 ## Airflow
 
