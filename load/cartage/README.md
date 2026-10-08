@@ -4,6 +4,11 @@ The [load/dlt](../dlt) examples rebuilt with [Cartage](https://github.com/dataco
 example. Each pipeline is a short YAML file: the source, optional Python transforms, and one or more destinations.
 Cartage runs them on dlt, keeps incremental state, and generates the Airflow DAGs.
 
+## Create demo files
+cd $DATACOVES__REPO_PATH/load/cartage
+cartage init demo --answers https://raw.githubusercontent.com/datacoves/cartage/main/examples/sap/answers.yaml --yes
+
+
 ## Quick start
 
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage, and Cartage adds each pipeline's `dependencies`.
