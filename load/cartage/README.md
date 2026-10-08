@@ -14,7 +14,7 @@ cartage init demo --answers https://raw.githubusercontent.com/datacoves/cartage/
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage, and Cartage adds each pipeline's `dependencies`.
 
 ```bash
-alias cartage='uvx --from "cartage>=0.12.2" cartage'   # pipelines add their own packages (dependencies:)
+alias cartage='uvx --from "cartage>=0.13.1" cartage'   # pipelines add their own packages (dependencies:)
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
@@ -24,6 +24,14 @@ cartage run us_population                         # dev_snowflake: Snowflake, wi
 ```
 
 The first four commands need no credentials.
+
+For tab completion (`cartage run us_pop<TAB>`), install Cartage as a command instead of the alias, then turn it on
+once and open a new shell:
+
+```bash
+uv tool install "cartage>=0.13.1"     # later: uv tool upgrade cartage
+cartage --install-completion
+```
 
 ## Pipelines
 
