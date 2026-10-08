@@ -17,7 +17,7 @@ defaults:
 orchestrators:
   airflow:
     env: airflow                    # the Airflow variable cartage_env can still override it
-    dags_dir: ../../orchestrate/dags/cartage
+    dags_dir: ${env:DATACOVES__REPO_PATH}/${env:DATACOVES__AIRFLOW_DAGS_PATH}/cartage
     task_decorator: datacoves_bash
     command: uvx --from "cartage>=0.11.2" cartage
     tags: [extract_and_load]
