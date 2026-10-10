@@ -23,7 +23,7 @@ orchestrators:
     env: airflow                    # the Airflow variable cartage_env can still override it
     dags_dir: ${env:DATACOVES__REPO_PATH}/${env:DATACOVES__AIRFLOW_DAGS_PATH}/cartage
     task_decorator: datacoves_bash
-    command: uvx --from "cartage>=0.14.0" cartage
+    command: uvx --from "cartage>=0.15.0" cartage
     tags: [extract_and_load]
     # Same default_args and schedule handling as the other balboa DAGs: retries, timeouts, notifications,
     # and no schedule in My Airflow / the dev environment.

@@ -14,7 +14,7 @@ cartage init demo --answers https://raw.githubusercontent.com/datacoves/cartage/
 `cd` into this folder. Nothing to install: `uvx` fetches Cartage, and Cartage adds each pipeline's `dependencies`.
 
 ```bash
-alias cartage='uvx --from "cartage>=0.14.0" cartage'   # pipelines add their own packages (dependencies:)
+alias cartage='uvx --from "cartage>=0.15.0" cartage'   # pipelines add their own packages (dependencies:)
 
 cartage validate                                  # check every pipeline, connection and transform
 cartage plan us_population_documents -n 2         # preview the transformation, writes nothing
@@ -29,7 +29,7 @@ For tab completion (`cartage run us_pop<TAB>`), install Cartage as a command ins
 once and open a new shell:
 
 ```bash
-uv tool install "cartage>=0.14.0"     # later: uv tool upgrade cartage
+uv tool install "cartage>=0.15.0"     # later: uv tool upgrade cartage
 cartage --install-completion
 ```
 
