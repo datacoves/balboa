@@ -1,0 +1,35 @@
+# Three tables from a public MySQL database (EBI's read-only Rfam). family and clan load incrementally: each run reads
+# only the rows whose `updated` is at or after the last value loaded, and merges them on each table's primary key.
+# clan_membership has no `updated` column, so it is reloaded in full every run.
+name: rfam
+source:
+  ref: dlt.sources.sql_database:sql_database
+  with:
+    credentials:
+      drivername: mysql+pymysql
+      host: mysql-rfam-public.ebi.ac.uk
+      port: 4497
+      database: Rfam
+      username: "${secret:rfam.username}"   # ~/.cartage/secrets.yaml
+      password: "${secret:rfam.password}"
+    table_names:          # the tables to read; without it, every table in Rfam is read
+      - family
+      - clan
+      - clan_membership
+  # How each table loads. merge uses each table's primary key from MySQL (rfam_acc, clan_acc).
+  tables:
+    family:
+      incremental:
+        cursor: updated
+      write_disposition: merge
+    clan:
+      incremental:
+        cursor: updated
+      write_disposition: merge
+    clan_membership:
+      incremental: false
+      write_disposition: replace
+destination:
+  connection: warehouse
+  dataset_name: rfam
+dependencies: ["dlt[sql_database]", "pymysql"]

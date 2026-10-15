@@ -44,6 +44,7 @@ cartage --install-completion
 | `country_populations`     | `country_populations.py` | a CSV → `raw`                                                        |
 | `country_geo`             | `country_geo.py`         | GeoJSON flattened to one row per country                             |
 | `usgs_earthquake`         | `usgs_earthquake.py`     | an API, merged on `id`; continues from the last event it loaded      |
+| `rfam`                    | (new)                    | three tables from a public MySQL database: two incremental on `updated` and merged on their primary keys, one replaced each run |
 
 The datasets and tables are the same as the dlt scripts'. What moved out of the scripts:
 

@@ -3,7 +3,7 @@ project: balboa_load
 # dev_duckdb: a local DuckDB file, no Snowflake needed; dev_snowflake: Snowflake with your own credentials;
 # airflow: what the DAGs run, in any Airflow (sandbox, dev or prod): the Airflow connections there pick the account.
 environments: [dev_duckdb, dev_snowflake, airflow]
-default_env: dev_snowflake
+default_env: dev_duckdb
 
 defaults:
   engine: dlt
