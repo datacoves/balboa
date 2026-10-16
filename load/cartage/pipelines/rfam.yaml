@@ -12,23 +12,20 @@ source:
       database: Rfam
       username: "${secret:rfam.username}"   # ~/.cartage/secrets.yaml
       password: "${secret:rfam.password}"
-    table_names:          # the tables to read; without it, every table in Rfam is read
-      - family
-      - clan
-      - clan_membership
-  # How each table loads. merge uses each table's primary key from MySQL (rfam_acc, clan_acc).
+  # The tables to read (only these are read), and how each loads. merge uses each table's primary key from MySQL
+  # (rfam_acc, clan_acc).
   tables:
-    family:
-      incremental:
-        cursor: updated
-      write_disposition: merge
-    clan:
-      incremental:
-        cursor: updated
-      write_disposition: merge
-    clan_membership:
-      incremental: false
-      write_disposition: replace
+    - family:
+        incremental:
+          cursor: updated
+        write_disposition: merge
+    - clan:
+        incremental:
+          cursor: updated
+        write_disposition: merge
+    - clan_membership:
+        incremental: false
+        write_disposition: replace
 destination:
   connection: warehouse
   dataset_name: rfam
