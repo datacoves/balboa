@@ -12,6 +12,7 @@ source:
       database: Rfam
       username: "${secret:rfam.username}"   # ~/.cartage/secrets.yaml
       password: "${secret:rfam.password}"
+    backend: connectorx    # fastest of dlt's sql_database backends (sqlalchemy, pyarrow, pandas, connectorx)
   # The tables to read (only these are read), and how each loads. merge uses each table's primary key from MySQL
   # (rfam_acc, clan_acc).
   tables:
@@ -29,4 +30,4 @@ source:
 destination:
   connection: warehouse
   dataset_name: rfam
-dependencies: ["dlt[sql_database]", "pymysql"]
+dependencies: ["dlt[sql_database]", "pymysql", "connectorx", "pyarrow"]

@@ -138,17 +138,20 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
     `secrets-and-state.md` (`${secret:...}`, `${env:...}`, `${airflow:...}`, incremental state),
     `database-extraction.md` (SQL sources, drivers, ConnectorX, tuning), `orchestrators.md` (Airflow DAGs), `extending.md`
 - The CLI is self-documenting: `cartage --help`, `cartage <command> --help`, `cartage plugins`
-- Run it with `uvx --from "cartage>=0.14.0" cartage` (or `uv tool install cartage`); `cd load/cartage` first
+- Run it with `uvx --from "cartage>=0.16.0" cartage` (or `uv tool install cartage`); `cd load/cartage` first
 - One pipeline per file in `pipelines/<name>.yaml`; prefer configuration over Python
   - Files: a `filesystem` connection (see `pipelines/us_population.yaml`)
   - REST APIs: `ref: dlt.sources.rest_api:rest_api_source` (see `pipelines/country_geo.yaml`)
-  - Databases: `ref: dlt.sources.sql_database:sql_database` with `table_names: [...]`; `incremental: {cursor: <column>}`
-    with `write_disposition: merge` for incremental loads (see `pipelines/rfam.yaml`)
+  - Databases: `ref: dlt.sources.sql_database:sql_database` with the tables listed under `source.tables:`
+    (see `pipelines/rfam.yaml`)
   - Python only when configuration can't do it: `cartage scaffold source <name>` → `sources/<name>.py`
   - List extra packages (drivers such as `pymysql`, `psycopg2-binary`) in the pipeline's `dependencies:`
-  - `incremental:` and `write_disposition:` apply to every table in a pipeline unless `source.tables:` overrides them
-    per table: full-refresh tables (`{incremental: false, write_disposition: replace}`), a different cursor
-    (`{incremental: {cursor: <column>}}`), so incremental and full-refresh tables can share one pipeline
+  - `source.tables:` is a list and is the selection (no `table_names`): a plain name uses the pipeline defaults
+    (`source.incremental`, `destination.write_disposition`); `- name: {incremental: ..., write_disposition: ...}`
+    overrides them for that table, so incremental (`{incremental: {cursor: <column>}, write_disposition: merge}`) and
+    full-refresh (`{incremental: false, write_disposition: replace}`) tables share one pipeline
+  - `incremental: true` at the source level makes every table incremental with its own cursor; `validate` rejects a
+    table without one, and an incremental table with `write_disposition: replace`
 - Credentials: never in pipeline files. Use `${secret:<name>.<field>}` with values in `.cartage/secrets.yaml`
   (git-ignored) or `~/.cartage/secrets.yaml`; any value can be overridden with `CARTAGE_SECRET__<NAME>__<FIELD>`.
   Add an `{env}` level (`${secret:<name>.{env}.<field>}`) only when credentials differ per environment.
