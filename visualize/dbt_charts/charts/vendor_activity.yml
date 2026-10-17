@@ -135,12 +135,12 @@ charts:
   active_trend:
     type: line
     query: active_by_period
-    title: Active vendors over time
+    title: Vendors With Activity in the Prior 90 Days
     subtitle: Vendors with a PO or invoice in the 90 days before each completed period end
     x: period_end_date
     y: active_vendors
     x_label: Period end
-    y_label: Active vendors
+    y_label: Vendors with activity
 
   spend_trend:
     type: bar
