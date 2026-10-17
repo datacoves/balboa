@@ -1,20 +1,20 @@
 packages:
-  - name: dbt_utils
-    package: dbt-labs/dbt_utils
-    version: 1.4.1
-  - name: dbt_expectations
-    package: metaplane/dbt_expectations
-    version: 0.10.10
-  - name: dbt_snow_mask
-    package: entechlog/dbt_snow_mask
-    version: 0.2.9
-  - name: dbt_external_tables
-    package: dbt-labs/dbt_external_tables
-    version: 0.12.4
-  - name: dbt_semantic_view
-    package: Snowflake-Labs/dbt_semantic_view
-    version: 1.0.6
-  - name: dbt_date
-    package: godatadriven/dbt_date
-    version: 0.21.0
-sha1_hash: 75c94a6db29cb72b4d1571833fa2f4e5a11c422c
+- package: godatadriven/dbt_date
+  name: dbt_date
+  version: 0.21.0
+- package: metaplane/dbt_expectations
+  name: dbt_expectations
+  version: 0.10.10
+- package: dbt-labs/dbt_external_tables
+  name: dbt_external_tables
+  version: 0.12.4
+- package: Snowflake-Labs/dbt_semantic_view
+  name: dbt_semantic_view
+  version: 1.0.6
+- package: entechlog/dbt_snow_mask
+  name: dbt_snow_mask
+  version: 0.2.9
+- package: dbt-labs/dbt_utils
+  name: dbt_utils
+  version: 1.4.1
+sha1_hash: d0a1aa65b6934b6a8749665f656c9f84ec6ba882
