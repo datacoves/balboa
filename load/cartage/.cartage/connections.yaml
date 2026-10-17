@@ -9,7 +9,7 @@ connections:
   warehouse:
     type: snowflake
     envs:
-      dev_duckdb: {type: duckdb, credentials: balboa.duckdb}   # no Snowflake needed
+      dev_duckdb: {type: duckdb, credentials: ~/.cartage/balboa_load/balboa.duckdb}   # no Snowflake needed
       dev_snowflake: &snowflake
         destination_name: datacoves_snowflake   # the rest of the credentials: ~/.dlt/secrets.toml
         enable_dataset_name_normalization: false
@@ -43,6 +43,6 @@ connections:
   exports:
     type: file_export
     envs:
-      dev_duckdb: &exports {path: output}
+      dev_duckdb: &exports {path: ~/.cartage/balboa_load/output}
       dev_snowflake: *exports
       airflow: *exports

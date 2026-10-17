@@ -35,6 +35,7 @@
 2. **Load** (`/load`)
    - **Airbyte**: Legacy and current ELT connectors
    - **dlt**: Modern data loading framework
+   - **Cartage**: Declarative YAML pipelines that run on dlt and generate Airflow DAGs (`load/cartage/`)
    - **Fivetran**: Alternative data integration
 
 3. **Orchestrate** (`/orchestrate`)
@@ -128,6 +129,37 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 - Don't put connection strings in scripts. Leverage secrets.toml in ~/.dlt
 - Always `chmod +x` new dlt scripts after creating them
 
+### When Working with Cartage
+
+- Cartage project in `load/cartage/`: read its `README.md` first (pipelines, environments, credentials, Airflow)
+- Docs are in the GitHub repo, no llms.txt: https://github.com/datacoves/cartage (README, `docs/`, `examples/`). Fetch the raw markdown:
+  - `curl -s https://raw.githubusercontent.com/datacoves/cartage/main/docs/<file>.md`
+  - `configuration.md` (project and pipeline YAML), `connections.md` (connection types and options),
+    `secrets-and-state.md` (`${secret:...}`, `${env:...}`, `${airflow:...}`, incremental state),
+    `database-extraction.md` (SQL sources, drivers, ConnectorX, tuning), `orchestrators.md` (Airflow DAGs), `extending.md`
+- The CLI is self-documenting: `cartage --help`, `cartage <command> --help`, `cartage plugins`
+- Run it with `uvx --from "cartage>=0.16.0" cartage` (or `uv tool install cartage`); `cd load/cartage` first
+- One pipeline per file in `pipelines/<name>.yaml`; prefer configuration over Python
+  - Files: a `filesystem` connection (see `pipelines/us_population.yaml`)
+  - REST APIs: `ref: dlt.sources.rest_api:rest_api_source` (see `pipelines/country_geo.yaml`)
+  - Databases: `ref: dlt.sources.sql_database:sql_database` with the tables listed under `source.tables:`
+    (see `pipelines/rfam.yaml`)
+  - Python only when configuration can't do it: `cartage scaffold source <name>` → `sources/<name>.py`
+  - List extra packages (drivers such as `pymysql`, `psycopg2-binary`) in the pipeline's `dependencies:`
+  - `source.tables:` is a list and is the selection (no `table_names`): a plain name uses the pipeline defaults
+    (`source.incremental`, `destination.write_disposition`); `- name: {incremental: ..., write_disposition: ...}`
+    overrides them for that table, so incremental (`{incremental: {cursor: <column>}, write_disposition: merge}`) and
+    full-refresh (`{incremental: false, write_disposition: replace}`) tables share one pipeline
+  - `incremental: true` at the source level makes every table incremental with its own cursor; `validate` rejects a
+    table without one, and an incremental table with `write_disposition: replace`
+- Credentials: never in pipeline files. Use `${secret:<name>.<field>}` with values in `.cartage/secrets.yaml`
+  (git-ignored) or `~/.cartage/secrets.yaml`; any value can be overridden with `CARTAGE_SECRET__<NAME>__<FIELD>`.
+  Add an `{env}` level (`${secret:<name>.{env}.<field>}`) only when credentials differ per environment.
+  Secrets are single values, not mappings: reference `username` and `password` separately
+- Test with `cartage validate`, `cartage plan <name>`, then `cartage run <name> --env dev_duckdb` (local DuckDB, no Snowflake)
+- To schedule, add `schedule: {airflow: {schedule: "..."}}` and run `cartage generate` (writes `orchestrate/dags/cartage/`);
+  `cartage generate --check` fails if the DAGs are stale
+
 ### When Working with Streamlit
 
 - Streamlit apps must be placed in `visualize/streamlit/`
@@ -215,6 +247,7 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 | Snowflake | https://docs.snowflake.com/ |
 | Airflow | https://airflow.apache.org/docs/ |
 | dlt | https://dlthub.com/docs/intro |
+| Cartage | https://github.com/datacoves/cartage (see `docs/`) |
 | Datacoves | https://docs.datacoves.com |
 
 ### LLM-Optimized Documentation (llms.txt)
