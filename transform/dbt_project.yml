@@ -3,7 +3,7 @@
 # name or the intended use of these models
 name: 'balboa'
 # this is the project version, has nothing to do with dbt version
-version: '20261016.1.0'
+version: '20261019.1.0'
 config-version: 2
 
 require-dbt-version: ">=1.8.0"
@@ -75,8 +75,6 @@ models:
         +schema: L1_COVID19_EPIDEMIOLOGICAL_DATA
       loans:
         +schema: L1_LOANS
-      erp:
-        +schema: L1_ERP
       observe:
         +schema: L1_OBSERVE
       us_population:
@@ -94,12 +92,6 @@ models:
         +schema: L2_COVID_OBSERVATIONS
       snowflake_usage:
         +schema: L2_SNOWFLAKE_USAGE
-      vendors:
-        +schema: L2_VENDORS
-      invoices:
-        +schema: L2_INVOICES
-      purchase_orders:
-        +schema: L2_PURCHASE_ORDERS
 
     L3_coves:
       +group: marketing
@@ -112,8 +104,6 @@ models:
         +schema: L3_EARTHQUAKE_ANALYTICS
       loan_analytics:
         +schema: L3_LOAN_ANALYTICS
-      accounts_payable:
-        +schema: L3_ACCOUNTS_PAYABLE
                 # cannot persist docs on dynamic tables
                 # +persist_docs:
                 #     relation: false
