@@ -220,6 +220,27 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 
 ---
 
+## Branching and Pull Requests
+
+CI enforces branch rules on every pull request. The source of truth is
+`automate/git/branch_validator.py`: check it there before creating a branch or PR, rather than relying on this summary.
+
+- **Source branch names must start with** `feature`, `release`, `hotfix` or `infra` (e.g. `feature/remove-vendor-models`).
+- **Allowed merge directions:**
+
+  | Source branch | May merge into |
+  |---------------|----------------|
+  | `feature*` | `feature*` or `release*` |
+  | `release*` | `main` |
+  | `hotfix*` | `main` |
+  | `infra*` | `main` |
+
+- **Never open a `feature*` PR directly into `main`**: it fails validation.
+- **The source branch must be up to date with `main`** (zero commits behind), whatever the PR target. Pull `main` into your branch before opening or updating a PR.
+- Planned changes go `feature/*` → a current `release/*` branch created from `main`. Use `hotfix/*` → `main` only for urgent fixes.
+
+---
+
 ## Key Project Characteristics
 
 ### Advanced Features
