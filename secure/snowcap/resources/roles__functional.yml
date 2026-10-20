@@ -211,3 +211,6 @@ role_grants:
     roles:
       - transformer_dbt
       - z_wh__wh_integration
+      - z_db__admin_db
+      - z_schema__mcps
+      - z_mcp__datacoves
