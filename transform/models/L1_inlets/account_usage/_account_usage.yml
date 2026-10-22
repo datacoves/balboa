@@ -279,16 +279,16 @@ sources:
             data_type: DATE
             description: The date for which storage usage data is recorded.
           - name: STORAGE_BYTES
-            data_type: NUMBER(38,6)
+            data_type: NUMBER(38,0)
             description: The amount of storage used, in bytes.
           - name: STAGE_BYTES
-            data_type: NUMBER(38,6)
+            data_type: NUMBER(38,0)
             description: The number of bytes used by stage storage.
           - name: FAILSAFE_BYTES
-            data_type: NUMBER(38,6)
+            data_type: NUMBER(38,0)
             description: The amount of storage in bytes used for the failsafe feature.
           - name: HYBRID_TABLE_STORAGE_BYTES
-            data_type: NUMBER(38,6)
+            data_type: NUMBER(38,0)
             description: Represents the storage usage in bytes for hybrid tables.
       - name: WAREHOUSE_METERING_HISTORY
         description: Warehouse metering history raw data
