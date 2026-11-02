@@ -3,7 +3,7 @@
     "<name>,<created_on ISO 8601>,<last_query ISO 8601 or empty>".
     Used by the sweep step in workflow 30 (deploy to production): the step keeps
     only lines matching that pattern (dbt also prints log lines) and passes them
-    to sweep_stale_tst_databases.py, which uses created_on for the max-age rule
+    to sweep_stale_pr_databases.py, which uses created_on for the max-age rule
     and last_query for the inactivity check.
 
     "<base>" is target.database -- in the deploy job DATACOVES__MAIN__DATABASE is
@@ -26,11 +26,11 @@
     macro end to end (2026-11-02).
 
     To run:
-    dbt run-operation show_tst_databases
-    dbt run-operation show_tst_databases --args '{lookback_days: 15}'
+    dbt run-operation show_pr_databases
+    dbt run-operation show_pr_databases --args '{lookback_days: 15}'
 #}
 
-{%- macro show_tst_databases(lookback_days=15, excluded_user=none) -%}
+{%- macro show_pr_databases(lookback_days=15, excluded_user=none) -%}
 
     {%- set excluded_user = excluded_user or target.user -%}
     {%- set pattern = target.database ~ '_PR_%' -%}
