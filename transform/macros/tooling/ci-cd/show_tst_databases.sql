@@ -53,3 +53,4 @@
     {% endfor %}
 
 {%- endmacro -%}
+-- rehearsal: trivial comment to exercise workflow 10/15 for the TST-cleanup rehearsal (removed after rehearsal)
