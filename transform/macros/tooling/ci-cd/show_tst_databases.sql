@@ -18,13 +18,6 @@
 
     Requires IMPORTED PRIVILEGES on the SNOWFLAKE database for the running role.
 
-    Note: the "<base>_PR_*" pattern this macro matches against assumes PR-scoped
-    databases keep that exact naming convention; a database renamed to not end
-    in "_PR_<digits>" (e.g. a manually protected "..._KEEP" database) is
-    correctly excluded by the downstream sweep script's id-extraction regex,
-    confirmed against real account data during the deploy that validated this
-    macro end to end (2026-11-02).
-
     To run:
     dbt run-operation show_tst_databases
     dbt run-operation show_tst_databases --args '{lookback_days: 15}'
