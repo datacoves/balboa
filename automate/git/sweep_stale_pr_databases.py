@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Sweep cleanup for orphaned TST (PR-scoped) databases.
+Sweep cleanup for orphaned PR-scoped databases.
 
 Used by workflow 30 after the targeted cleanup (get_feature_pr_ids.py). The
-workflow lists all "<base>_PR_*" databases in Snowflake (show_tst_databases
-macro) and passes them in TST_DATABASE_LIST. This script checks each
+workflow lists all "<base>_PR_*" databases in Snowflake (show_pr_databases
+macro) and passes them in PR_DATABASE_LIST. This script checks each
 database's PR in GitHub and prints the IDs that can be dropped as the
 GitHub Actions output variable "sweep_pr_ids". It does not drop anything
 itself.
@@ -26,40 +26,41 @@ Release rules, evaluated in this order (the first match wins):
   2. Release has a merged PR to main              -> drop (release shipped)
   3. Release has an abandoned PR to main          -> drop (release abandoned)
   4. Release branch still exists, no PR to main   -> keep (QA before the release
-                                                     PR is opened), unless the TST
+                                                     PR is opened), unless the
                                                      database is older than
-                                                     TST_MAX_AGE_DAYS and idle
+                                                     PR_MAX_AGE_DAYS and idle
                                                      (see below)
   5. Release branch deleted, no PR to main        -> drop (release discarded)
 
 Rule 1 goes first because a release PR can be abandoned and reopened: if any
 PR to main is open, the release is still in progress. Rule 4 has an age limit
 because release branches are not deleted after merging, so a release that
-never gets a PR to main would otherwise keep its TST databases forever. Age
+never gets a PR to main would otherwise keep its PR databases forever. Age
 is measured from the database's created_on in Snowflake.
 
 Rule 4 age limit in detail:
-  - age <= TST_MAX_AGE_DAYS                           -> keep
-  - age >  TST_MAX_AGE_DAYS, queried in the last
-    TST_MAX_IDLE_DAYS (by anyone but the CI user)      -> keep (still in use)
-  - age >  TST_MAX_AGE_DAYS, no recent queries         -> drop
-  - age >  TST_HARD_MAX_AGE_DAYS                       -> drop, even if in use
-The hard limit keeps every TST's lifetime bounded. Activity comes from the
-last_query field (ACCOUNT_USAGE.QUERY_HISTORY, see show_tst_databases macro).
+  - age <= PR_MAX_AGE_DAYS                           -> keep
+  - age >  PR_MAX_AGE_DAYS, queried in the last
+    PR_MAX_IDLE_DAYS (by anyone but the CI user)      -> keep (still in use)
+  - age >  PR_MAX_AGE_DAYS, no recent queries         -> drop
+  - age >  PR_HARD_MAX_AGE_DAYS                       -> drop, even if in use
+The hard limit keeps every PR database's lifetime bounded. Activity comes
+from the last_query field (ACCOUNT_USAGE.QUERY_HISTORY, see show_pr_databases
+macro).
 
 Required environment variables:
   GITHUB_TOKEN          - Token used to call the GitHub API
   GITHUB_REPOSITORY     - The 'owner/repo' slug
   GITHUB_OUTPUT         - Path to the file GitHub Actions reads step outputs from
-  TST_DATABASE_LIST     - Pipe-separated list of "<name>,<created_on ISO>,<last_query ISO>"
+  PR_DATABASE_LIST      - Pipe-separated list of "<name>,<created_on ISO>,<last_query ISO>"
                           entries for "<base>_PR_*" databases (provided by the
-                          workflow step that runs the show_tst_databases macro);
+                          workflow step that runs the show_pr_databases macro);
                           last_query is empty when there was no recent activity
-  TST_MAX_AGE_DAYS      - Optional, default 15. Max age in days for rule 4.
-  TST_MAX_IDLE_DAYS     - Optional, default 15. Days without queries after which
-                          a rule-4 TST older than TST_MAX_AGE_DAYS is dropped.
-  TST_HARD_MAX_AGE_DAYS - Optional, default 45. Rule-4 TSTs older than this are
-                          dropped regardless of activity.
+  PR_MAX_AGE_DAYS       - Optional, default 15. Max age in days for rule 4.
+  PR_MAX_IDLE_DAYS      - Optional, default 15. Days without queries after which
+                          a rule-4 database older than PR_MAX_AGE_DAYS is dropped.
+  PR_HARD_MAX_AGE_DAYS  - Optional, default 45. Rule-4 databases older than this
+                          are dropped regardless of activity.
   The day settings must be integers; an invalid value aborts the sweep (nothing
   is dropped).
 """
@@ -158,7 +159,7 @@ def branch_exists(repo, headers, branch):
 
 
 def get_release_decision(repo, headers, release_branch):
-    """Decide whether TST databases for a release branch can be dropped.
+    """Decide whether PR-scoped databases for a release branch can be dropped.
 
     Returns a (droppable, reason) tuple; the reason is printed in the log.
     Implements release rules 1-5 from the module docstring. The age limit of
@@ -231,7 +232,7 @@ def sweep(repo, headers, pr_map, created_map, last_query_map, max_age_days, max_
                 print(f"  {db_name} (PR #{pr_id}): abandoned — will drop")
                 ids_to_drop.append(pr_id)
             elif merged:
-                # Merged into a release branch: the TST database lives as long
+                # Merged into a release branch: the database lives as long
                 # as that release is in progress (release rules 1-5)
                 if target_branch.startswith("release/"):
                     if target_branch not in release_decisions:
@@ -284,9 +285,9 @@ def sweep(repo, headers, pr_map, created_map, last_query_map, max_age_days, max_
 
 
 def main():
-    db_list_raw = os.environ.get("TST_DATABASE_LIST", "").strip()
+    db_list_raw = os.environ.get("PR_DATABASE_LIST", "").strip()
     if not db_list_raw:
-        print("No TST databases found in Snowflake. Nothing to sweep.")
+        print("No PR databases found in Snowflake. Nothing to sweep.")
         write_output("sweep_pr_ids", "")
         return
 
@@ -297,11 +298,11 @@ def main():
         write_output("sweep_pr_ids", "")
         return
 
-    print(f"Found {len(pr_map)} TST database(s) to check: {', '.join(pr_map.values())}")
+    print(f"Found {len(pr_map)} PR database(s) to check: {', '.join(pr_map.values())}")
 
-    max_age_days = int(os.environ.get("TST_MAX_AGE_DAYS", "").strip() or DEFAULT_MAX_AGE_DAYS)
-    max_idle_days = int(os.environ.get("TST_MAX_IDLE_DAYS", "").strip() or DEFAULT_MAX_IDLE_DAYS)
-    hard_max_age_days = int(os.environ.get("TST_HARD_MAX_AGE_DAYS", "").strip() or DEFAULT_HARD_MAX_AGE_DAYS)
+    max_age_days = int(os.environ.get("PR_MAX_AGE_DAYS", "").strip() or DEFAULT_MAX_AGE_DAYS)
+    max_idle_days = int(os.environ.get("PR_MAX_IDLE_DAYS", "").strip() or DEFAULT_MAX_IDLE_DAYS)
+    hard_max_age_days = int(os.environ.get("PR_HARD_MAX_AGE_DAYS", "").strip() or DEFAULT_HARD_MAX_AGE_DAYS)
 
     repo = get_env("GITHUB_REPOSITORY")
     token = get_env("GITHUB_TOKEN")
@@ -317,7 +318,7 @@ def main():
         print(f"PR IDs to sweep: {ids_str}")
         write_output("sweep_pr_ids", ids_str)
     else:
-        print("No orphaned TST databases found.")
+        print("No orphaned PR databases found.")
         write_output("sweep_pr_ids", "")
 
 
