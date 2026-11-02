@@ -54,3 +54,4 @@
 
 {%- endmacro -%}
 -- rehearsal: trivial comment to exercise workflow 10/15 for the TST-cleanup rehearsal (removed after rehearsal)
+-- rehearsal: second trivial change, for the PR that will be abandoned (removed after rehearsal)
