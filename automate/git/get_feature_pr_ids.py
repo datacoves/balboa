@@ -3,7 +3,7 @@
 Get the IDs of the feature PRs that were merged into the release branch just deployed.
 
 Used by workflow 30 (deploy to production) targeted cleanup to decide which
-PR-scoped databases to drop after a successful production deploy:
+TST (PR-scoped) databases to drop after a successful production deploy:
   1. Look up the PR whose merge commit is GITHUB_SHA (the commit pushed to
      main that triggered the deploy).
   2. If that PR's source branch is a release branch (release/*), list every
@@ -16,7 +16,7 @@ works with regular merges, squash merges and custom commit messages.
 
 Deploys that don't come from a release branch (hotfix/*, infra/*) and feature
 branches that don't follow the feature/* convention are skipped here; the
-sweep step (sweep_stale_pr_databases.py) cleans those up.
+sweep step (sweep_stale_tst_databases.py) cleans those up.
 
 The script never fails the step: on any error it prints a warning and an
 empty output variable, so the drop step is skipped and the next deploy
@@ -125,12 +125,12 @@ def main():
     release_branch = get_release_branch_from_api(repo, headers, commit_sha)
 
     if not release_branch:
-        print("No PR found for source commit. Skipping cleanup.")
+        print("No PR found for source commit. Skipping TST cleanup.")
         write_output("feature_pr_ids", "")
         return
 
     if not release_branch.startswith("release/"):
-        print(f"Source branch is '{release_branch}', not a release branch. Skipping cleanup.")
+        print(f"Source branch is '{release_branch}', not a release branch. Skipping TST cleanup.")
         write_output("feature_pr_ids", "")
         return
 

@@ -16,7 +16,7 @@ jobs:
   # 30 (deploy to production) drops it after the release that includes this
   # PR has actually shipped, so QA can keep querying it during the release
   # window. See automate/git/get_feature_pr_ids.py and
-  # automate/git/sweep_stale_pr_databases.py.
+  # automate/git/sweep_stale_tst_databases.py.
   drop-pr-db-on-close:
     name: Drop PR Database on Close
     # workflow_dispatch has no pull_request context (github.event.pull_request

@@ -6,7 +6,7 @@ from responses import matchers
 
 from conftest import reload_module
 
-MODULE = "sweep_stale_pr_databases"
+MODULE = "sweep_stale_tst_databases"
 
 
 def load():
@@ -41,7 +41,7 @@ REPO = "datacoves/balboa"
 
 
 def set_db_list(monkeypatch, *entries):
-    monkeypatch.setenv("PR_DATABASE_LIST", "|".join(entries))
+    monkeypatch.setenv("TST_DATABASE_LIST", "|".join(entries))
 
 
 @responses.activate
@@ -158,7 +158,7 @@ def test_merged_into_release_with_abandoned_pr_to_main_is_dropped(base_env, monk
 
 @responses.activate
 def test_release_branch_no_pr_to_main_young_is_kept(base_env, monkeypatch):
-    # age (5d) <= PR_MAX_AGE_DAYS (15) -> keep regardless of activity
+    # age (5d) <= TST_MAX_AGE_DAYS (15) -> keep regardless of activity
     set_db_list(monkeypatch, db_list_entry("BALBOA_PR_8", 5))
     responses.add(responses.GET, pull_url(REPO, "8"), json={
         "state": "closed", "merged": True, "base": {"ref": "release/x"},
@@ -309,7 +309,7 @@ def test_release_state_is_cached_across_databases_sharing_a_release(base_env, mo
 
 
 def test_empty_database_list_writes_empty_output(base_env, monkeypatch):
-    monkeypatch.setenv("PR_DATABASE_LIST", "")
+    monkeypatch.setenv("TST_DATABASE_LIST", "")
 
     mod = load()
     mod.run()
@@ -319,7 +319,7 @@ def test_empty_database_list_writes_empty_output(base_env, monkeypatch):
 
 def test_malformed_database_list_entries_are_ignored(base_env, monkeypatch):
     # no "_PR_<digits>" suffix anywhere -- nothing parses, nothing to sweep
-    monkeypatch.setenv("PR_DATABASE_LIST", "NOT_A_PR_DB,2026-01-01T00:00:00+00:00,")
+    monkeypatch.setenv("TST_DATABASE_LIST", "NOT_A_TST_DB,2026-01-01T00:00:00+00:00,")
 
     mod = load()
     mod.run()
@@ -329,7 +329,7 @@ def test_malformed_database_list_entries_are_ignored(base_env, monkeypatch):
 
 def test_invalid_max_age_days_aborts_sweep_without_dropping_anything(base_env, monkeypatch):
     set_db_list(monkeypatch, db_list_entry("BALBOA_PR_30", 999))  # would obviously be dropped if parsed
-    monkeypatch.setenv("PR_MAX_AGE_DAYS", "not-a-number")
+    monkeypatch.setenv("TST_MAX_AGE_DAYS", "not-a-number")
 
     mod = load()
     mod.run()  # must not raise despite the bad env var
