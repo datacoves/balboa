@@ -11,9 +11,18 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 jobs:
-  # Drops the temporary PR database
+  # Drops the temporary PR database, but only when the PR was abandoned
+  # (closed without merging). A merged PR's database is kept until pipeline
+  # 30 (deploy to production) drops it after the release that includes this
+  # PR has actually shipped, so QA can keep querying it during the release
+  # window. See automate/git/get_feature_pr_ids.py and
+  # automate/git/sweep_stale_tst_databases.py.
   drop-pr-db-on-close:
     name: Drop PR Database on Close
+    # workflow_dispatch has no pull_request context (github.event.pull_request
+    # evaluates to null), so it must be allowed explicitly rather than falling
+    # through the merged check -- manual runs always drop, same as before.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == false
 
     runs-on: ubuntu-latest
 
