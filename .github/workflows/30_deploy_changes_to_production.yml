@@ -192,11 +192,15 @@ jobs:
         if: steps.tst_cleanup.outputs.feature_pr_ids != ''
         continue-on-error: true
         run: |
-          set -euo pipefail
+          set -eu
           IDS="${{ steps.tst_cleanup.outputs.feature_pr_ids }}"
           FAILED=0
-          IFS=',' read -ra PR_ARRAY <<< "$IDS"
-          for PR_ID in "${PR_ARRAY[@]}"; do
+          # POSIX-safe split on comma (this container's `run:` shell doesn't
+          # support bash here-strings/arrays -- word-split via IFS instead)
+          OLD_IFS="$IFS"
+          IFS=','
+          for PR_ID in $IDS; do
+            IFS="$OLD_IFS"
             DB_NAME="${{ env.DATACOVES__MAIN__DATABASE }}_PR_${PR_ID}"
             echo "Dropping database: $DB_NAME"
             if ! dbt --no-write-json run-operation drop_recreate_db --args "{db_name: $DB_NAME, recreate: False}"; then
@@ -204,6 +208,7 @@ jobs:
               FAILED=$((FAILED + 1))
             fi
           done
+          IFS="$OLD_IFS"
           if [ "$FAILED" -gt 0 ]; then
             echo "::warning::$FAILED database(s) could not be dropped."
           fi
@@ -216,7 +221,7 @@ jobs:
         id: tst_sweep
         continue-on-error: true
         run: |
-          set -euo pipefail
+          set -eu
           # Capture dbt output so errors are visible in the log if the macro fails.
           if ! DBT_OUTPUT=$(dbt --no-write-json run-operation show_tst_databases --args "{lookback_days: $TST_MAX_IDLE_DAYS}" 2>&1); then
             echo "$DBT_OUTPUT"
@@ -250,11 +255,15 @@ jobs:
         if: steps.tst_sweep.outputs.sweep_pr_ids != ''
         continue-on-error: true
         run: |
-          set -euo pipefail
+          set -eu
           IDS="${{ steps.tst_sweep.outputs.sweep_pr_ids }}"
           FAILED=0
-          IFS=',' read -ra PR_ARRAY <<< "$IDS"
-          for PR_ID in "${PR_ARRAY[@]}"; do
+          # POSIX-safe split on comma (this container's `run:` shell doesn't
+          # support bash here-strings/arrays -- word-split via IFS instead)
+          OLD_IFS="$IFS"
+          IFS=','
+          for PR_ID in $IDS; do
+            IFS="$OLD_IFS"
             DB_NAME="${{ env.DATACOVES__MAIN__DATABASE }}_PR_${PR_ID}"
             echo "Sweeping database: $DB_NAME"
             if ! dbt --no-write-json run-operation drop_recreate_db --args "{db_name: $DB_NAME, recreate: False}"; then
@@ -262,6 +271,7 @@ jobs:
               FAILED=$((FAILED + 1))
             fi
           done
+          IFS="$OLD_IFS"
           if [ "$FAILED" -gt 0 ]; then
             echo "::warning::$FAILED database(s) could not be swept."
           fi
