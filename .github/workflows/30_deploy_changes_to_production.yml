@@ -167,6 +167,105 @@ jobs:
           branch: ${{ github.ref_name }}
           tags: true
 
+      # TST database cleanup
+      # Runs only after a successful deploy, so TST databases stay available for
+      # debugging if the deploy fails. Every cleanup step uses continue-on-error:
+      # a cleanup failure never fails the deploy (the run shows a warning on the
+      # step but an overall success) and whatever was left behind is retried by
+      # the sweep on the next deploy.
+      #
+      # Targeted cleanup: drop TSTs of the feature/* PRs merged into the release
+      # branch just deployed
+      - name: Get feature PR IDs from release branch
+        id: tst_cleanup
+        continue-on-error: true
+        run: "../automate/git/get_feature_pr_ids.py"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          # The merge commit that triggered the build (HEAD has moved by now
+          # because of the version bump + push above)
+          GITHUB_SHA: ${{ github.sha }}
+
+      - name: Drop TST databases for merged feature PRs
+        # Skip when the previous step found nothing (output variable unset or empty)
+        if: steps.tst_cleanup.outputs.feature_pr_ids != ''
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          IDS="${{ steps.tst_cleanup.outputs.feature_pr_ids }}"
+          FAILED=0
+          IFS=',' read -ra PR_ARRAY <<< "$IDS"
+          for PR_ID in "${PR_ARRAY[@]}"; do
+            DB_NAME="${{ env.DATACOVES__MAIN__DATABASE }}_PR_${PR_ID}"
+            echo "Dropping database: $DB_NAME"
+            if ! dbt --no-write-json run-operation drop_recreate_db --args "{db_name: $DB_NAME, recreate: False}"; then
+              echo "::warning::Failed to drop $DB_NAME -- will be retried by the sweep on the next deploy"
+              FAILED=$((FAILED + 1))
+            fi
+          done
+          if [ "$FAILED" -gt 0 ]; then
+            echo "::warning::$FAILED database(s) could not be dropped."
+          fi
+
+      # Sweep: check every remaining TST database and drop those no longer needed
+      # (abandoned/deleted PRs, finished or discarded releases, rule-4 TSTs older
+      # than TST_MAX_AGE_DAYS with no queries in TST_MAX_IDLE_DAYS, or older than
+      # TST_HARD_MAX_AGE_DAYS). See sweep_stale_tst_databases.py for the full rules.
+      - name: "Sweep: identify orphaned TST databases"
+        id: tst_sweep
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          # Capture dbt output so errors are visible in the log if the macro fails.
+          if ! DBT_OUTPUT=$(dbt --no-write-json run-operation show_tst_databases --args "{lookback_days: $TST_MAX_IDLE_DAYS}" 2>&1); then
+            echo "$DBT_OUTPUT"
+            echo "::warning::Failed to list TST databases in Snowflake."
+            exit 1
+          fi
+          # Keep only the macro's "<name>,<created_on>,<last_query>" lines (dbt also
+          # prints log lines) and join them with '|'. "|| true" avoids failing when
+          # grep finds no lines. Case-insensitive: Snowflake stores the database
+          # name uppercased (drop_recreate_db upper()s it), vars.DATACOVES__MAIN__DATABASE
+          # may not be.
+          DB_LIST=$(echo "$DBT_OUTPUT" | { grep -i "^${DATACOVES__MAIN__DATABASE}_PR_" || true; } | paste -sd '|' -)
+          if [ -z "$DB_LIST" ]; then
+            echo "No TST databases found in Snowflake."
+          else
+            echo "TST databases found: $DB_LIST"
+            TST_DATABASE_LIST="$DB_LIST" ../automate/git/sweep_stale_tst_databases.py
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          # Max age (days) for TSTs of a release branch that never got a PR to main
+          TST_MAX_AGE_DAYS: "15"
+          # Past TST_MAX_AGE_DAYS, a TST queried within this many days is kept
+          TST_MAX_IDLE_DAYS: "15"
+          # Absolute max age for those TSTs, regardless of activity
+          TST_HARD_MAX_AGE_DAYS: "45"
+
+      - name: "Sweep: drop orphaned TST databases"
+        # Skip when the previous step found nothing (output variable unset or empty)
+        if: steps.tst_sweep.outputs.sweep_pr_ids != ''
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          IDS="${{ steps.tst_sweep.outputs.sweep_pr_ids }}"
+          FAILED=0
+          IFS=',' read -ra PR_ARRAY <<< "$IDS"
+          for PR_ID in "${PR_ARRAY[@]}"; do
+            DB_NAME="${{ env.DATACOVES__MAIN__DATABASE }}_PR_${PR_ID}"
+            echo "Sweeping database: $DB_NAME"
+            if ! dbt --no-write-json run-operation drop_recreate_db --args "{db_name: $DB_NAME, recreate: False}"; then
+              echo "::warning::Failed to drop $DB_NAME -- will be retried on the next deploy"
+              FAILED=$((FAILED + 1))
+            fi
+          done
+          if [ "$FAILED" -gt 0 ]; then
+            echo "::warning::$FAILED database(s) could not be swept."
+          fi
+
       - name: Drop staging db on Failure
         if: always() && (steps.run-blue-green.outcome == 'failure')
         run: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__STAGING__DATABASE}}'"  # yamllint disable-line rule:line-length
