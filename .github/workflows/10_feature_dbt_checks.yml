@@ -38,6 +38,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [validate-branch]
 
+    outputs:
+      orphaned_schemas_found: ${{ steps.orphaned-schemas.outputs.found }}
+      orphaned_schemas_comment: ${{ steps.orphaned-schemas.outputs.comment }}
+
     # Set environment variables in
     # https://github.com//<your org>/<your repo>/settings/variables/actions
     #
@@ -151,6 +155,15 @@ jobs:
         if: ${{ steps.prod_manifest.outputs.manifest_found == 'false' }}
         run: "dbt build --fail-fast ${{ env.FULL_REFRESH_FLAG }}"
 
+      # drop_orphaned_relations only scans schemas that still contain a dbt
+      # node, so a change that deletes every model in a schema leaves its
+      # relations behind with nothing able to find them. Surface that here;
+      # the production deploy is what actually drops them.
+      - name: Check for schemas this PR stops managing
+        id: orphaned-schemas
+        if: always() && (steps.prod_manifest.outputs.manifest_found == 'true')
+        run: "../automate/dbt/orphaned_schemas.py --format github"
+
       - name: Grant access to PR database
         id: grant-access-to-database
         run: "dbt --no-write-json run-operation grant_access_to_pr_database"
@@ -179,3 +192,14 @@ jobs:
             ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
             ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
           comment_tag: dbt-workflow-status
+
+  orphaned-schemas-comment:
+    runs-on: ubuntu-latest
+    needs: [dbt]
+    if: always() && (needs.dbt.outputs.orphaned_schemas_found == 'true')
+    steps:
+      - name: Comment PR with schemas that lose their dbt owner
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: ${{ needs.dbt.outputs.orphaned_schemas_comment }}
+          comment_tag: orphaned-schemas
