@@ -16,6 +16,7 @@ destination:
       with: {table: personal_loans, columns: [addr_state, annual_inc]}
     - ref: utils.datacoves_utils:enable_change_tracking   # for Dynamic Tables
       with: {tables: [personal_loans]}
+    - ref: utils.datacoves_utils:record_row_counts   # rows loaded per table → _dlt_load_counts
 dependencies: ["dlt[http]"]   # reads https:// files
 
 schedule:
