@@ -29,6 +29,9 @@ jobs:
     env:
       # Same Cartage as the DAGs (orchestrators.airflow.command in .cartage/config.yaml); it adds the pipelines' dependencies
       CARTAGE: uvx --from cartage>=0.16.0 cartage
+      # .cartage/config.yaml builds orchestrators.airflow.dags_dir from these; Datacoves sets them, the runner does not
+      DATACOVES__REPO_PATH: ${{ github.workspace }}
+      DATACOVES__AIRFLOW_DAGS_PATH: orchestrate/dags
 
     steps:
       - name: Checkout branch
