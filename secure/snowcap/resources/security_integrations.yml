@@ -1,3 +1,9 @@
+vars:
+  - name: entra_tenant_id
+    type: string
+  - name: entra_saml_cert
+    type: string
+
 # OAuth client for the Claude MCP connector.
 #
 # The connector's OAuth token binds to a single role, fixed at authorization time
@@ -26,3 +32,16 @@ security_integrations:
       - LOADER
     enabled: true
     comment: OAuth client for the Claude MCP connector
+
+  - name: entra_sso
+    type: SAML2
+    enabled: true
+    saml2_provider: CUSTOM
+    saml2_issuer: "https://sts.windows.net/{{ var.entra_tenant_id }}/"
+    saml2_sso_url: "https://login.microsoftonline.com/{{ var.entra_tenant_id }}/saml2"
+    saml2_x509_cert: "{{ var.entra_saml_cert }}"
+    saml2_enable_sp_initiated: true
+    saml2_sp_initiated_login_page_label: "Datacoves SSO"
+    saml2_requested_nameid_format: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"
+    saml2_snowflake_issuer_url: "https://datacoves-main.snowflakecomputing.com"
+    saml2_snowflake_acs_url: "https://datacoves-main.snowflakecomputing.com/fed/login"

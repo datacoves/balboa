@@ -121,6 +121,21 @@ jobs:
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
 
+      # The step above only scans schemas that still contain a dbt node, so it
+      # cannot see a schema whose models were all deleted. This covers that:
+      # candidates come from diffing the production manifest against this
+      # build, so only schemas dbt itself created are ever considered, and
+      # drop_orphaned_schemas keeps any that hold an object dbt did not build.
+      - name: Find schemas no longer managed by dbt
+        id: orphaned-schemas
+        run: "../automate/dbt/orphaned_schemas.py --format github"
+
+      - name: Drop orphaned dbt-managed schemas
+        if: ${{ steps.orphaned-schemas.outputs.found == 'true' }}
+        run: |
+          dbt run-operation drop_orphaned_schemas \
+            --args "{\"dry_run\": false, \"schemas\": $(../automate/dbt/orphaned_schemas.py --format json)}"
+
       - name: Generate dbt documentation
         run: "dbt docs generate"
 
