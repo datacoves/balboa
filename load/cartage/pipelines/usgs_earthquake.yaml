@@ -14,6 +14,8 @@ destination:
     properties: {data_type: json}
     geometry: {data_type: json}
     type: {data_type: text}
+  after_load:
+    - ref: utils.datacoves_utils:record_row_counts   # rows loaded per table → _dlt_load_counts
 
 schedule:
   airflow: {schedule: "0 0 1 */12 *"}

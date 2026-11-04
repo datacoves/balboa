@@ -8,6 +8,8 @@ destination:
   dataset_name: raw
   table_name: country_populations
   write_disposition: replace
+  after_load:
+    - ref: utils.datacoves_utils:record_row_counts   # rows loaded per table → _dlt_load_counts
 dependencies: ["dlt[http]"]   # reads https:// files
 
 schedule:
