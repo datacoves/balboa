@@ -32,6 +32,10 @@ jobs:
       # .cartage/config.yaml builds orchestrators.airflow.dags_dir from these; Datacoves sets them, the runner does not
       DATACOVES__REPO_PATH: ${{ github.workspace }}
       DATACOVES__AIRFLOW_DAGS_PATH: orchestrate/dags
+      # rfam's credentials live in ~/.cartage/secrets.yaml, which is git-ignored and absent here. validate only
+      # resolves secret references, it never connects, so placeholders are enough to check the pipeline wiring.
+      CARTAGE_SECRET__RFAM__USERNAME: ci-validate-only
+      CARTAGE_SECRET__RFAM__PASSWORD: ci-validate-only
 
     steps:
       - name: Checkout branch
@@ -44,8 +48,18 @@ jobs:
         run: uvx ruff check --isolated --select E4,E7,E9,F .
 
       - name: Validate pipelines, connections and transforms
+        id: validate
         # dev_duckdb needs no credentials; the airflow env only resolves inside Airflow
         run: $CARTAGE validate --env dev_duckdb
+
+      # Cartage's "secret not found" hint points at .cartage/secrets.yaml, which is git-ignored and never
+      # reaches CI, so say where the fix actually goes. Fires on any validate failure, not only missing secrets.
+      - name: Explain secret failures
+        if: failure() && steps.validate.outcome == 'failure'
+        run: |
+          echo "::notice::A missing CARTAGE_SECRET__* must be added to the env: block of"
+          echo "::notice::.github/workflows/12_feature_cartage_checks.yml - secrets.yaml is git-ignored"
+          echo "::notice::and never reaches CI. Placeholder values are fine: validate never connects."
 
       - name: Generated DAGs are up to date
         run: $CARTAGE generate --check
