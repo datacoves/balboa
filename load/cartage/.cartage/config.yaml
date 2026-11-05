@@ -8,7 +8,9 @@ default_env: dev_duckdb
 defaults:
   engine: dlt
   # cartage run adds these with uv (pipelines add dlt[http] for https:// files): no installs, here or in Airflow
-  dependencies: ["dlt[snowflake,duckdb,parquet]"]
+  # snowflake-connector-python <5: 5.x warns on every connect (keep-alive default change, and dlt forwards
+  # private_key_path into connect() - dlt-hub/dlt#4643). Drop the pin once that is fixed upstream.
+  dependencies: ["dlt[snowflake,duckdb,parquet]==1.32.0", "snowflake-connector-python<5"]
 
 # Files Cartage writes while running (file export state, rejected records) go to your home folder, not the repo.
 # The DuckDB file and the exports go there too (connections.yaml).
@@ -23,7 +25,7 @@ orchestrators:
     env: airflow                    # the Airflow variable cartage_env can still override it
     dags_dir: ${env:DATACOVES__REPO_PATH}/${env:DATACOVES__AIRFLOW_DAGS_PATH}/cartage
     task_decorator: datacoves_bash
-    command: uvx --from "cartage>=0.16.0" cartage
+    command: uvx --from "cartage" cartage
     tags: [extract_and_load]
     # Same default_args and schedule handling as the other balboa DAGs: retries, timeouts, notifications,
     # and no schedule in My Airflow / the dev environment.

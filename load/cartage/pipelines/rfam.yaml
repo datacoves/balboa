@@ -33,3 +33,6 @@ destination:
   after_load:
     - ref: utils.datacoves_utils:record_row_counts   # rows loaded per table → _dlt_load_counts
 dependencies: ["dlt[sql_database]", "pymysql", "connectorx", "pyarrow"]
+
+schedule:
+  airflow: {schedule: "0 0 1 */12 *"}
