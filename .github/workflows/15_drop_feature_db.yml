@@ -9,6 +9,11 @@ on:  # yamllint disable-line rule:truthy
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number whose test database should be dropped"
+        required: true
+        type: number
 
 jobs:
   # Drops the temporary PR database, but only when the PR was abandoned
@@ -21,7 +26,8 @@ jobs:
     name: Drop PR Database on Close
     # workflow_dispatch has no pull_request context (github.event.pull_request
     # evaluates to null), so it must be allowed explicitly rather than falling
-    # through the merged check -- manual runs always drop, same as before.
+    # through the merged check -- manual runs always drop the database of the
+    # PR given in the pr_number input.
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == false
 
     runs-on: ubuntu-latest
@@ -45,7 +51,7 @@ jobs:
 
       DATACOVES__MAIN__ACCOUNT:   ${{ vars.DATACOVES__MAIN__ACCOUNT }}
 
-      DATACOVES__MAIN__DATABASE:  ${{ vars.DATACOVES__MAIN__DATABASE }}_PR_${{ github.event.number }}
+      DATACOVES__MAIN__DATABASE:  ${{ vars.DATACOVES__MAIN__DATABASE }}_PR_${{ github.event.number || inputs.pr_number }}
       DATACOVES__MAIN__SCHEMA:    ${{ vars.DATACOVES__MAIN__SCHEMA }}
 
       DATACOVES__MAIN__ROLE:      ${{ vars.DATACOVES__MAIN__ROLE }}
@@ -59,7 +65,7 @@ jobs:
         uses: actions/checkout@v3.5.0
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set Secure Directory
         run: git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
@@ -67,5 +73,16 @@ jobs:
       - name: Install dbt packages
         run: "dbt deps"
 
+      # Never run a drop with an empty or arbitrary database name suffix.
+      # POSIX `case` instead of bash `[[ =~ ]]`: this container's `run:` shell is sh.
+      - name: Validate PR number
+        env:
+          PR_NUMBER: ${{ github.event.number || inputs.pr_number }}
+        run: |
+          case "$PR_NUMBER" in
+            ''|*[!0-9]*) echo "Invalid or missing PR number: '$PR_NUMBER'"; exit 1 ;;
+          esac
+
       - name: Drop PR database
-        run: "dbt --no-write-json run-operation drop_recreate_db --args '{db_name: ${{env.DATACOVES__MAIN__DATABASE}}, recreate: False}'"  # yamllint disable-line rule:line-length
+        run: |
+          dbt --no-write-json run-operation drop_recreate_db --args "{db_name: $DATACOVES__MAIN__DATABASE, recreate: False}"
