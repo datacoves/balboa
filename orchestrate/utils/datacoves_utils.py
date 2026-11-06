@@ -4,8 +4,6 @@ from typing import Union
 import pendulum
 
 import logging
-from airflow.sdk import BaseHook
-from airflow.sdk.exceptions import AirflowNotFoundException
 
 logger = logging.getLogger(__name__)
 
@@ -57,50 +55,34 @@ def set_dlt_env_vars(dlt_connections):# = {"sources": {}, "destinations": {}}):
     return all_vars
 
 
-def format_private_key(key):
-    key_to_lines = key.split('\n')
-
-    # Exclude the first and last lines since these have --START and END
-    middle_lines = key_to_lines[1:-2]
-
-    # Join the remaining lines into a single line
-    return ''.join(middle_lines)
-
-
 def connection_to_env_vars(connection_id, prefix = None, is_for_dlt = False):
-    vars = {}
+    """Environment variables for a Snowflake connection, as Jinja templates that Airflow fills in when the task runs
+    (a task's `env` is a templated field).
 
-    try:
-        # Get the connection object
-        conn = BaseHook.get_connection(connection_id)
+    Reading the connection here instead would query it on every DAG parse and store the credentials, private key
+    included, in the serialized DAG. A missing connection now fails the task when Airflow renders `env`.
+    """
+    if not prefix:
+        prefix = f"DATACOVES__{connection_id.upper()}__"
 
-        if not prefix:
-            prefix = f"DATACOVES__{connection_id.upper()}__"
+    conn = f"conn.get({connection_id!r})"
+    extra = f"{conn}.extra_dejson"
+    private_key = f"({extra}.get('private_key_content') or '')"
 
-        # Access specific connection parameters
-        if is_for_dlt:
-            vars[f"{prefix}HOST"] = conn.extra_dejson.get('account')
-            vars[f"{prefix}USERNAME"] = conn.login
-        else:
-            vars[f"{prefix}ACCOUNT"] = conn.extra_dejson.get('account')
-            vars[f"{prefix}USER"] = conn.login
+    def template(expression):
+        return "{{ " + expression + " }}"
 
-        if conn.extra_dejson.get('private_key_content'):
-            vars[f"{prefix}PRIVATE_KEY"] = format_private_key(conn.extra_dejson.get('private_key_content'))
-        elif conn.password:
-            vars[f"{prefix}PASSWORD"] = conn.password
-        else:
-            logger.error("Neither Password nor Private Key Found")
-
-        vars[f"{prefix}DATABASE"] = conn.extra_dejson.get('database')
-        vars[f"{prefix}WAREHOUSE"] = conn.extra_dejson.get('warehouse')
-        vars[f"{prefix}ROLE"] = conn.extra_dejson.get('role')
-
-    except AirflowNotFoundException:
-        logger.error(f"Connection not found: {connection_id}")
-        pass
-
-    return vars
+    return {
+        f"{prefix}{'HOST' if is_for_dlt else 'ACCOUNT'}": template(f"{extra}.get('account') or ''"),
+        f"{prefix}{'USERNAME' if is_for_dlt else 'USER'}": template(f"{conn}.login or ''"),
+        # The key's body on one line: drop the BEGIN line, the END line and the trailing newline.
+        f"{prefix}PRIVATE_KEY": template(f"{private_key}.split('\\n')[1:-2] | join('')"),
+        # Empty when there is a private key: Snowflake then uses key-pair auth whatever the password.
+        f"{prefix}PASSWORD": template(f"'' if {private_key} else ({conn}.password or '')"),
+        f"{prefix}DATABASE": template(f"{extra}.get('database') or ''"),
+        f"{prefix}WAREHOUSE": template(f"{extra}.get('warehouse') or ''"),
+        f"{prefix}ROLE": template(f"{extra}.get('role') or ''"),
+    }
 
 
 def uv_env_vars():

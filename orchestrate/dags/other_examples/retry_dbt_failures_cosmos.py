@@ -41,6 +41,7 @@ def retry_dbt_failures_cosmos():
         ),
         render_config=RenderConfig(
             select=["+stg_us_population+", "+stg_personal_loans+"],
+            exclude=["resource_type:exposure"],  # exposures have no Airflow task (Cosmos warns for each one)
         ),
         operator_args={
             "full_refresh": False,

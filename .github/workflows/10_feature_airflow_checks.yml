@@ -66,6 +66,8 @@ jobs:
       # and the job runs as root (see container options). That interpreter is the one with the Datacoves provider; plain
       # `python` is a virtualenv without it, so later steps use CI_PYTHON too.
       - name: Install Cosmos
+        env:
+          PIP_NO_CACHE_DIR: 1   # the image's pip cache dir belongs to the airflow user, and this job runs as root
         run: |
           CI_PYTHON=$(head -n 1 "$(command -v pytest)" | sed 's/^#!//')
           echo "CI_PYTHON=$CI_PYTHON" >> "$GITHUB_ENV"
