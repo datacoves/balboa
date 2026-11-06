@@ -20,7 +20,7 @@ from airflow.providers.amazon.aws.hooks.secrets_manager import SecretsManagerHoo
     },
     tags=["sample"],
     description="Testing task decorators",
-    schedule_interval="0 0 1 */12 *",
+    schedule="0 0 1 */12 *",
 )
 def variable_usage():
 

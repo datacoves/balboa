@@ -80,7 +80,7 @@ is_development = (not datacoves_utils.is_team_airflow())
     # Fails the whole DAG as soon as a task fails, similar to dbt --fail-fast
     # Only works with the "all_success" trigger rule
     # https://airflow.apache.org/docs/apache-airflow/1.10.3/concepts.html#trigger-rules
-    fail_stop = True,
+    fail_fast = True,  # Airflow 3 name (was fail_stop)
 
     # Pauses the DAG after x consecutive failed runs
     # This is good to set for a DAG that runs frequently e.g. hourly

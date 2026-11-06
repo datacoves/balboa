@@ -1,6 +1,7 @@
 """Example DAGs test. This test ensures that all Dags have tags, retries set to two, and no import errors.
 This is an example pytest and may not be fit the context of your DAGs. Feel free to add and remove tests."""
 
+import inspect
 import os
 import logging
 from contextlib import contextmanager
@@ -45,10 +46,11 @@ ALLOWED_OPERATORS = [
 
 def load_dag_bag():
     """Airflow 3.3 removed DagBag's include_examples (example DAGs are a separate bundle, never in a DagBag)."""
-    try:
+    # Check the signature rather than catching TypeError: a fallback inside `except` would chain that TypeError onto
+    # every DAG import error the DagBag records.
+    if "include_examples" in inspect.signature(DagBag.__init__).parameters:
         return DagBag(include_examples=False)
-    except TypeError:
-        return DagBag()
+    return DagBag()
 
 
 @contextmanager

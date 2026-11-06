@@ -60,6 +60,11 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
+      # The CI image doesn't ship Cosmos (used by other_examples/retry_dbt_failures_cosmos.py). Pinning
+      # apache-airflow-core to the image's version keeps pip from changing Airflow.
+      - name: Install Cosmos
+        run: pip install "astronomer-cosmos==1.15.1" "apache-airflow-core==$AIRFLOW_VERSION"
+
       - name: Test DAGs Load time and variable usage at top level
         id: test_load_time_variables
         run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
