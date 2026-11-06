@@ -3,7 +3,7 @@
 This DAG shows how to create a DAG that updates a dataset
 """
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 
 from orchestrate.utils import datacoves_utils
 from orchestrate.utils.datasets import DAG_UPDATED_DATASET

@@ -4,7 +4,7 @@
 import os
 import shlex
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 
 PROJECT_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), '../../../load/cartage'))
@@ -32,15 +32,17 @@ def personal_loans():
             'CARTAGE_AIRFLOW__MAIN_LOAD_KEYPAIR__EXTRA__ROLE': "{{ conn.get('main_load_keypair').extra_dejson['role'] or '' }}",
             'CARTAGE_AIRFLOW__MAIN_LOAD_KEYPAIR__EXTRA__WAREHOUSE': "{{ conn.get('main_load_keypair').extra_dejson['warehouse'] or '' }}",
             'CARTAGE_AIRFLOW__MAIN_LOAD_KEYPAIR__LOGIN': "{{ conn.get('main_load_keypair').login or '' }}",
+            # datacoves_bash renders Jinja in env but not in the returned command, so resolve the env here.
+            'CARTAGE_RUN_ENV': "{{ var.value.get('cartage_env', 'airflow') }}",
         },
         append_env=True,
     )
     def cartage_run():
         command = [
-            'uvx --from "cartage>=0.16.0" cartage',
+            'uvx --from "cartage" cartage',
             "--project-dir", shlex.quote(PROJECT_DIR),
             "run", 'pipelines/personal_loans.yaml',
-            "--env", "{{ var.value.get('cartage_env', 'airflow') }}",
+            "--env", '"$CARTAGE_RUN_ENV"',
         ]
         return " ".join(command)
 

@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 0
@@ -140,7 +140,7 @@ jobs:
         run: "dbt docs generate"
 
       - name: Deploy docs 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: dbt-docs
           folder: transform/target
@@ -157,7 +157,7 @@ jobs:
           "../automate/dbt/push_dbt_artifacts.py"
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -176,7 +176,7 @@ jobs:
           done
 
       - name: Push version changes
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }}

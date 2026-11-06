@@ -4,7 +4,7 @@ This DAG is an example of using Cosmos to run a dbt DAG
 """
 from datetime import datetime
 import os
-from airflow.decorators import dag
+from airflow.sdk import dag
 
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig
 from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping
@@ -41,6 +41,7 @@ def retry_dbt_failures_cosmos():
         ),
         render_config=RenderConfig(
             select=["+stg_us_population+", "+stg_personal_loans+"],
+            exclude=["resource_type:exposure"],  # exposures have no Airflow task (Cosmos warns for each one)
         ),
         operator_args={
             "full_refresh": False,
