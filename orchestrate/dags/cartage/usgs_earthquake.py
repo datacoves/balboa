@@ -37,7 +37,7 @@ def usgs_earthquake():
     )
     def cartage_run():
         command = [
-            'uvx --from "cartage>=0.16.0" cartage',
+            'uvx --from "cartage" cartage',
             "--project-dir", shlex.quote(PROJECT_DIR),
             "run", 'pipelines/usgs_earthquake.yaml',
             "--env", "{{ var.value.get('cartage_env', 'airflow') }}",
