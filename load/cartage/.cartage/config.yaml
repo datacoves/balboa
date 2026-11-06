@@ -23,7 +23,9 @@ artifacts_dir: ~/.cartage/balboa_load
 orchestrators:
   airflow:
     env: airflow                    # the Airflow variable cartage_env can still override it
-    dags_dir: ${env:DATACOVES__REPO_PATH}/${env:DATACOVES__AIRFLOW_DAGS_PATH}/cartage
+    # Relative to this project, not built from env vars: cartage resolves the whole config on every run, and Airflow workers
+    # don't set DATACOVES__REPO_PATH / DATACOVES__AIRFLOW_DAGS_PATH.
+    dags_dir: ../../orchestrate/dags/cartage
     task_decorator: datacoves_bash
     command: uvx --from "cartage" cartage
     tags: [extract_and_load]
