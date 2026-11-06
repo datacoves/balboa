@@ -1,3 +1,0 @@
-# Files Airflow skips when it parses DAGs (paths relative to this folder).
-# Copies the Airflow 2 metadata DB (ab_* and task_fail tables) through a direct DB connection; neither exists in Airflow 3.
-other_examples/airflow_keypair_data_sync_env_vars.py
