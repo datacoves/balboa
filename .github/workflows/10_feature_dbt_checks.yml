@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Validate current branch
       run: automate/git/branch_validator.py
@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -180,7 +180,7 @@ jobs:
     if: always()
     steps:
       - name: Comment PR with dbt status
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: |
             ## 🧪 dbt Workflow Status
@@ -191,7 +191,7 @@ jobs:
             ${{ needs.dbt.result == 'skipped' && '⏭️ _dbt validations skipped_' || '' }}
             ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
             ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
-          comment_tag: dbt-workflow-status
+          header: dbt-workflow-status
 
   orphaned-schemas-comment:
     runs-on: ubuntu-latest
@@ -199,7 +199,7 @@ jobs:
     if: always() && (needs.dbt.outputs.orphaned_schemas_found == 'true')
     steps:
       - name: Comment PR with schemas that lose their dbt owner
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: ${{ needs.dbt.outputs.orphaned_schemas_comment }}
-          comment_tag: orphaned-schemas
+          header: orphaned-schemas

@@ -1,5 +1,5 @@
-from airflow.decorators import dag, task
-from airflow.operators.empty import EmptyOperator
+from airflow.sdk import dag, task
+from airflow.providers.standard.operators.empty import EmptyOperator
 
 from datetime import datetime
 

@@ -24,6 +24,28 @@ connections:
           warehouse: "${airflow:main_load_keypair.extra.warehouse}"
           role: "${airflow:main_load_keypair.extra.role}"
 
+  # EBI's public read-only Rfam MySQL database. Locally the login comes from secrets.yaml (rfam.username/password);
+  # in Airflow from the `rfam` Airflow connection (login, password), like the warehouse's main_load_keypair.
+  rfam_db:
+    type: dlt
+    envs:
+      dev_duckdb: &rfam
+        ref: dlt.sources.sql_database:sql_database
+        credentials: &rfam_credentials
+          drivername: mysql+pymysql
+          host: mysql-rfam-public.ebi.ac.uk
+          port: 4497
+          database: Rfam
+          username: "${secret:rfam.username}"
+          password: "${secret:rfam.password}"
+      dev_snowflake: *rfam
+      airflow:
+        <<: *rfam
+        credentials:
+          <<: *rfam_credentials
+          username: "${airflow:rfam.login}"
+          password: "${airflow:rfam.password}"
+
   # Public CSVs read over HTTPS (dlt[http]); the same in every environment.
   github:
     type: filesystem

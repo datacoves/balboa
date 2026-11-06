@@ -5,8 +5,8 @@ at trigger time using Jinja templates and DAG run `params`, instead of having
 to hardcode the schema/role/warehouse or fall back to an Airflow Variable.
 """
 
-from airflow.decorators import dag, task
-from airflow.models.param import Param
+from airflow.sdk import dag, task
+from airflow.sdk import Param
 from orchestrate.utils import datacoves_utils
 
 @dag(

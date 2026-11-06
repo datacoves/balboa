@@ -1,6 +1,6 @@
 import datetime
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
 

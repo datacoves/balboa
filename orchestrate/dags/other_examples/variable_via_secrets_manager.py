@@ -3,7 +3,7 @@
 This DAG is a sample using the Datacoves decorators with variable from AWS.
 """
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from pendulum import datetime
 from airflow.providers.amazon.aws.hooks.secrets_manager import SecretsManagerHook
 
@@ -20,7 +20,7 @@ from airflow.providers.amazon.aws.hooks.secrets_manager import SecretsManagerHoo
     },
     tags=["sample"],
     description="Testing task decorators",
-    schedule_interval="0 0 1 */12 *",
+    schedule="0 0 1 */12 *",
 )
 def variable_usage():
 
