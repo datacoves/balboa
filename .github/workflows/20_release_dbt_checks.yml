@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Add deploy marker to PR title
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           script: |
             const { data: pullRequest } = await github.rest.pulls.get({
@@ -63,7 +63,7 @@ jobs:
 
     steps:
       - name: Remove deploy marker from PR title
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           script: |
             const { data: pullRequest } = await github.rest.pulls.get({
@@ -106,7 +106,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Validate current branch
       run: automate/git/branch_validator.py
@@ -159,7 +159,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
@@ -237,7 +237,7 @@ jobs:
     if: always()
     steps:
       - name: Comment PR with workflow status
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: |
             ## 🧪 dbt Workflow Status
@@ -250,4 +250,4 @@ jobs:
             ${{ needs.dbt.result == 'success' && '✅ _All dbt validations passed_' || '' }}
             ${{ needs.dbt.result == 'failure' && '❌ _dbt validations failed_' || '' }}
             ${{ (needs.add-deploy-marker.result == 'success' || needs.remove-deploy-marker.result == 'success') && '📝 _Deploy marker updated in PR title_' || '' }}
-          comment_tag: dbt-workflow-status
+          header: dbt-workflow-status

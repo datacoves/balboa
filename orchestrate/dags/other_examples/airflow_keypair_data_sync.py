@@ -3,7 +3,7 @@
 This DAG shows how to copy the Airflow Database to Snowflake
 """
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 from logging import Logger
 

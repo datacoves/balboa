@@ -6,7 +6,7 @@ This DAG capture several best practices when building DAGs
 from pendulum import datetime, duration
 import time
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 
 # More info on configuration options can be found at
@@ -80,7 +80,7 @@ is_development = (not datacoves_utils.is_team_airflow())
     # Fails the whole DAG as soon as a task fails, similar to dbt --fail-fast
     # Only works with the "all_success" trigger rule
     # https://airflow.apache.org/docs/apache-airflow/1.10.3/concepts.html#trigger-rules
-    fail_stop = True,
+    fail_fast = True,  # Airflow 3 name (was fail_stop)
 
     # Pauses the DAG after x consecutive failed runs
     # This is good to set for a DAG that runs frequently e.g. hourly
@@ -111,7 +111,7 @@ def dag_definition():
 
     @task
     def get_variables():
-        from airflow.models import Variable
+        from airflow.sdk import Variable
 
         sleep_time = Variable.get("sleep_time")
         return int(sleep_time)

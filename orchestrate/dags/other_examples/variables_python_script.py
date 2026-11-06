@@ -3,8 +3,8 @@
 This DAG shows how to fetch Airflow variables and store as environment variables to use in a python script.
 """
 
-from airflow.decorators import dag, task, task_group
-from airflow.models import Variable
+from airflow.sdk import dag, task, task_group
+from airflow.sdk import Variable
 
 from orchestrate.utils import datacoves_utils
 
