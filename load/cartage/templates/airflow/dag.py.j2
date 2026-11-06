@@ -23,6 +23,8 @@ def {{ dag_function }}():
 {% for key, value in task_env.items() %}
             {{ key | py }}: {{ value | py }},
 {% endfor %}
+            # datacoves_bash renders Jinja in env but not in the returned command, so resolve the env here.
+            'CARTAGE_RUN_ENV': {{ env_expr | py }},
         },
         append_env=True,
     )
@@ -31,7 +33,7 @@ def {{ dag_function }}():
             {{ command | py }},
             "--project-dir", shlex.quote(PROJECT_DIR),
             "run", {{ run_target | py }},
-            "--env", {{ env_expr | py }},
+            "--env", '"$CARTAGE_RUN_ENV"',
         ]
         return " ".join(command)
 
