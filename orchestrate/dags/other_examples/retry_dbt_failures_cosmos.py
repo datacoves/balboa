@@ -4,7 +4,7 @@ This DAG is an example of using Cosmos to run a dbt DAG
 """
 from datetime import datetime
 import os
-from airflow.decorators import dag
+from airflow.sdk import dag
 
 from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig, RenderConfig
 from cosmos.profiles import SnowflakePrivateKeyPemProfileMapping

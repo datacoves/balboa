@@ -6,8 +6,8 @@ This DAG is a sample demonstrating parameter usage with including date picker.
 from datetime import datetime, timedelta
 from typing import Dict
 
-from airflow.decorators import dag, task
-from airflow.models.param import Param
+from airflow.sdk import dag, task
+from airflow.sdk import Param
 
 from orchestrate.utils import datacoves_utils
 

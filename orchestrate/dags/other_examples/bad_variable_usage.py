@@ -3,8 +3,8 @@
 This DAG illustrates a DAG that has top level code which is bad
 """
 
-from airflow.decorators import dag, task
-from airflow.models import Variable
+from airflow.sdk import dag, task
+from airflow.sdk import Variable
 from orchestrate.utils import datacoves_utils
 
 

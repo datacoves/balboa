@@ -29,8 +29,8 @@ Airflow retains all historical task data indefinitely. Over time, tables like `d
 
 from datetime import datetime, timedelta
 
-from airflow.decorators import dag, task
-from airflow.models.param import Param
+from airflow.sdk import dag, task
+from airflow.sdk import Param
 
 from orchestrate.utils import datacoves_utils
 

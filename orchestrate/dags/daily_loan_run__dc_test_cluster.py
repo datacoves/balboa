@@ -6,7 +6,7 @@ Same pipeline as `daily_loan_run`, kept separate because the Airbyte
 connection id differs between Datacoves clusters.
 """
 
-from airflow.decorators import dag, task, task_group
+from airflow.sdk import dag, task, task_group
 from orchestrate.utils import datacoves_utils
 
 from fivetran_provider_async.operators import FivetranOperator

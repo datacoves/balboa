@@ -3,7 +3,7 @@
 This DAG is a sample using the Datacoves decorators with variable from AWS.
 """
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from pendulum import datetime
 from airflow.providers.amazon.aws.hooks.secrets_manager import SecretsManagerHook
 

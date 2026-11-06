@@ -13,7 +13,7 @@ is higher, the task will succeed after holding the memory for `hold_seconds`.
 """
 from pendulum import datetime
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 
 GB = 1024 ** 3
 

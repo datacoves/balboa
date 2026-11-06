@@ -3,11 +3,11 @@ from datetime import timedelta
 from typing import Union
 import pendulum
 
-from airflow.utils.log.logging_mixin import LoggingMixin
-from airflow.hooks.base import BaseHook
-from airflow.exceptions import AirflowNotFoundException
+import logging
+from airflow.sdk import BaseHook
+from airflow.sdk.exceptions import AirflowNotFoundException
 
-logger = LoggingMixin().log
+logger = logging.getLogger(__name__)
 
 
 ############################################
@@ -123,23 +123,6 @@ def is_team_airflow():
     """Returns True if running DAG in not in My Airflow"""
     return os.getenv("DATACOVES__AIRFLOW_TYPE", "") == "team_airflow"
 
-def get_last_dag_successful_run_date(dag_id):
-    from airflow.models.dagrun import DagRun
-    from airflow.utils.state import DagRunState
-
-    last_successful_run = DagRun.find(
-        dag_id = dag_id,
-        state = DagRunState.SUCCESS,
-    )
-    if last_successful_run:
-        last_successful_run.sort(key=lambda x: x.execution_date, reverse=True)
-        last_run = last_successful_run[0]
-        print(f"Last successful run of DAG {dag_id}: {last_run.execution_date}")
-        return last_run.execution_date
-    else:
-        print(f"No previous successful runs found for DAG {dag_id}")
-        return None
-
 # Sets Schedule to None in My Airflow and in Development Environment based on Datacoves Environment Slug defined above
 def set_schedule(default_input: Union[str, None]) -> Union[str, None]:
     """
@@ -173,7 +156,7 @@ def set_schedule(default_input: Union[str, None]) -> Union[str, None]:
 
 def handle_error(context):
     """Callback function to handle task failures"""
-    logger = LoggingMixin().log
+    logger = logging.getLogger(__name__)
 
     # Add this distinctive message
     logger.error("### ENTERING HANDLE_ERROR CALLBACK ###")
@@ -185,7 +168,7 @@ def handle_error(context):
     logger.error(f"""Task Failed!
     Task: {task.task_id}
     Error: {str(exception)}
-    Execution Date: {context['execution_date']}
+    Logical Date: {context.get('logical_date')}
     Try Number: {task_instance.try_number}
     """)
 

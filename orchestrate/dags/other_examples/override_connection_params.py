@@ -5,7 +5,7 @@ This DAG shows how to override connection info in a decorator
 
 import os
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 
 AIRFLOW_TARGET = "prod" if os.environ.get("DATACOVES__AIRFLOW_TYPE",'') == "team_airflow" else "local_dev"

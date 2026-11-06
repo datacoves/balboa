@@ -6,7 +6,7 @@ This DAG capture several best practices when building DAGs
 from pendulum import datetime, duration
 import time
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 
 # More info on configuration options can be found at
@@ -111,7 +111,7 @@ def dag_definition():
 
     @task
     def get_variables():
-        from airflow.models import Variable
+        from airflow.sdk import Variable
 
         sleep_time = Variable.get("sleep_time")
         return int(sleep_time)

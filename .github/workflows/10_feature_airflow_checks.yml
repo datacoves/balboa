@@ -61,9 +61,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       # The CI image doesn't ship Cosmos (used by other_examples/retry_dbt_failures_cosmos.py). Pinning
-      # apache-airflow-core to the image's version keeps pip from changing Airflow.
+      # apache-airflow-core to the image's version keeps pip from changing Airflow. `python -m pip`: the image's `pip`
+      # wrapper refuses to run as root, and the job runs as root (see container options).
       - name: Install Cosmos
-        run: pip install "astronomer-cosmos==1.15.1" "apache-airflow-core==$AIRFLOW_VERSION"
+        run: python -m pip install --root-user-action=ignore "astronomer-cosmos==1.15.1" "apache-airflow-core==$AIRFLOW_VERSION"
 
       - name: Test DAGs Load time and variable usage at top level
         id: test_load_time_variables

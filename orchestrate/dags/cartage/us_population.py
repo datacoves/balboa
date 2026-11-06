@@ -4,7 +4,7 @@
 import os
 import shlex
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 
 PROJECT_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), '../../../load/cartage'))
