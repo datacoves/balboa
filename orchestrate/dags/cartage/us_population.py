@@ -32,6 +32,8 @@ def us_population():
             'CARTAGE_AIRFLOW__MAIN_LOAD_KEYPAIR__EXTRA__ROLE': "{{ conn.get('main_load_keypair').extra_dejson['role'] or '' }}",
             'CARTAGE_AIRFLOW__MAIN_LOAD_KEYPAIR__EXTRA__WAREHOUSE': "{{ conn.get('main_load_keypair').extra_dejson['warehouse'] or '' }}",
             'CARTAGE_AIRFLOW__MAIN_LOAD_KEYPAIR__LOGIN': "{{ conn.get('main_load_keypair').login or '' }}",
+            # datacoves_bash renders Jinja in env but not in the returned command, so resolve the env here.
+            'CARTAGE_RUN_ENV': "{{ var.value.get('cartage_env', 'airflow') }}",
         },
         append_env=True,
     )
@@ -40,7 +42,7 @@ def us_population():
             'uvx --from "cartage" cartage',
             "--project-dir", shlex.quote(PROJECT_DIR),
             "run", 'pipelines/us_population.yaml',
-            "--env", "{{ var.value.get('cartage_env', 'airflow') }}",
+            "--env", '"$CARTAGE_RUN_ENV"',
         ]
         return " ".join(command)
 
