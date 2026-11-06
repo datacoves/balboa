@@ -63,17 +63,20 @@ jobs:
       # The CI image doesn't ship Cosmos (used by other_examples/retry_dbt_failures_cosmos.py). Pinning
       # apache-airflow-core to the image's version keeps pip from changing Airflow. The image has two Pythons, so install
       # with the interpreter pytest runs on (its shebang), via `-m pip`: the image's `pip` wrapper refuses to run as root,
-      # and the job runs as root (see container options).
+      # and the job runs as root (see container options). That interpreter is the one with the Datacoves provider; plain
+      # `python` is a virtualenv without it, so later steps use CI_PYTHON too.
       - name: Install Cosmos
         run: |
-          PYTEST_PYTHON=$(head -n 1 "$(command -v pytest)" | sed 's/^#!//')
-          echo "pytest runs on: $PYTEST_PYTHON"
-          $PYTEST_PYTHON -m pip install --root-user-action=ignore "astronomer-cosmos==1.15.1" "apache-airflow-core==$AIRFLOW_VERSION"
-          $PYTEST_PYTHON -c "import cosmos; print('cosmos', cosmos.__version__, 'from', cosmos.__file__)"
+          CI_PYTHON=$(head -n 1 "$(command -v pytest)" | sed 's/^#!//')
+          echo "CI_PYTHON=$CI_PYTHON" >> "$GITHUB_ENV"
+          echo "pytest runs on: $CI_PYTHON"
+          $CI_PYTHON -m pip install --root-user-action=ignore "astronomer-cosmos==1.15.1" "apache-airflow-core==$AIRFLOW_VERSION"
+          $CI_PYTHON -c "import cosmos; print('cosmos', cosmos.__version__, 'from', cosmos.__file__)"
 
+      # Reports load times and top-level Variable use; it logs DAG import errors without failing (pytest below does).
       - name: Test DAGs Load time and variable usage at top level
         id: test_load_time_variables
-        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
+        run: $CI_PYTHON /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
 
       # if write-output is set in the prior step, the following step will run
       - name: Add PR comment of results of test_load_time_variables tests
