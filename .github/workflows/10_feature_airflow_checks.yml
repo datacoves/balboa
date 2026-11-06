@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Validate current branch
       run: automate/git/branch_validator.py
@@ -55,16 +55,21 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
       # The CI image doesn't ship Cosmos (used by other_examples/retry_dbt_failures_cosmos.py). Pinning
-      # apache-airflow-core to the image's version keeps pip from changing Airflow. `python -m pip`: the image's `pip`
-      # wrapper refuses to run as root, and the job runs as root (see container options).
+      # apache-airflow-core to the image's version keeps pip from changing Airflow. The image has two Pythons, so install
+      # with the interpreter pytest runs on (its shebang), via `-m pip`: the image's `pip` wrapper refuses to run as root,
+      # and the job runs as root (see container options).
       - name: Install Cosmos
-        run: python -m pip install --root-user-action=ignore "astronomer-cosmos==1.15.1" "apache-airflow-core==$AIRFLOW_VERSION"
+        run: |
+          PYTEST_PYTHON=$(head -n 1 "$(command -v pytest)" | sed 's/^#!//')
+          echo "pytest runs on: $PYTEST_PYTHON"
+          $PYTEST_PYTHON -m pip install --root-user-action=ignore "astronomer-cosmos==1.15.1" "apache-airflow-core==$AIRFLOW_VERSION"
+          $PYTEST_PYTHON -c "import cosmos; print('cosmos', cosmos.__version__, 'from', cosmos.__file__)"
 
       - name: Test DAGs Load time and variable usage at top level
         id: test_load_time_variables
@@ -72,10 +77,10 @@ jobs:
 
       # if write-output is set in the prior step, the following step will run
       - name: Add PR comment of results of test_load_time_variables tests
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
-          filePath: ${{ env.OUTPUT_FILE }}
-          comment_tag: Test DAGs Load time and variable usage at top level
+          path: ${{ env.OUTPUT_FILE }}
+          header: Test DAGs Load time and variable usage at top level
 
       - name: Custom Airflow Validation Tests
         env:
@@ -85,11 +90,11 @@ jobs:
 
       - name: Add PR comment of results of custom Airflow validation tests
         if: always()
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
-          # filePath: formatted_output.md
-          filePath: ${{ env.OUTPUT_FILE }}
-          comment_tag: Custom Tests
+          # path: formatted_output.md
+          path: ${{ env.OUTPUT_FILE }}
+          header: Custom Tests
           GITHUB_TOKEN: ${{ github.token }}
 
   airflow-job-status:
@@ -98,7 +103,7 @@ jobs:
     if: always()
     steps:
       - name: Comment PR with Airflow status
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: |
             ## 🎯 Airflow Workflow Status
@@ -109,4 +114,4 @@ jobs:
             ${{ needs.airflow.result == 'skipped' && '⏭️ _Airflow validations skipped_' || '' }}
             ${{ needs.airflow.result == 'success' && '✅ _All Airflow validations passed_' || '' }}
             ${{ needs.airflow.result == 'failure' && '❌ _Airflow validations failed_' || '' }}
-          comment_tag: airflow-workflow-status
+          header: airflow-workflow-status
