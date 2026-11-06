@@ -43,6 +43,14 @@ ALLOWED_OPERATORS = [
     'DbtRunOperationLocalOperator',
 ]
 
+def load_dag_bag():
+    """Airflow 3.3 removed DagBag's include_examples (example DAGs are a separate bundle, never in a DagBag)."""
+    try:
+        return DagBag(include_examples=False)
+    except TypeError:
+        return DagBag()
+
+
 @contextmanager
 def suppress_logging(namespace):
     logger = logging.getLogger(namespace)
@@ -59,7 +67,7 @@ def get_import_errors():
     Generate a tuple for import errors in the dag bag
     """
     with suppress_logging("airflow"):
-        dag_bag = DagBag(include_examples=False)
+        dag_bag = load_dag_bag()
 
         def strip_path_prefix(path):
             return os.path.relpath(path, os.environ.get("AIRFLOW_HOME"))
@@ -75,7 +83,7 @@ def get_dags():
     Generate a tuple of dag_id, <DAG objects> in the DagBag
     """
     with suppress_logging("airflow"):
-        dag_bag = DagBag(include_examples=False)
+        dag_bag = load_dag_bag()
 
     def strip_path_prefix(path):
         return os.path.relpath(path, os.environ.get("AIRFLOW__CORE__DAGS_FOLDER"))
