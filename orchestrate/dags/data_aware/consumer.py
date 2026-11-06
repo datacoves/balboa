@@ -3,7 +3,7 @@
 This DAG shows how to create a consumer DAG triggered by a dataset
 """
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 
 from orchestrate.utils import datacoves_utils
 from orchestrate.utils.datasets import LAMBDA_UPDATED_DATASET, DAG_UPDATED_DATASET

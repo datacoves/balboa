@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.push.head.sha }}
           fetch-depth: 0
@@ -121,11 +121,26 @@ jobs:
       - name: Drop orphaned relations in db that are no longer in dbt
         run: "dbt run-operation drop_orphaned_relations --args '{\"dry_run\": false}'"
 
+      # The step above only scans schemas that still contain a dbt node, so it
+      # cannot see a schema whose models were all deleted. This covers that:
+      # candidates come from diffing the production manifest against this
+      # build, so only schemas dbt itself created are ever considered, and
+      # drop_orphaned_schemas keeps any that hold an object dbt did not build.
+      - name: Find schemas no longer managed by dbt
+        id: orphaned-schemas
+        run: "../automate/dbt/orphaned_schemas.py --format github"
+
+      - name: Drop orphaned dbt-managed schemas
+        if: ${{ steps.orphaned-schemas.outputs.found == 'true' }}
+        run: |
+          dbt run-operation drop_orphaned_schemas \
+            --args "{\"dry_run\": false, \"schemas\": $(../automate/dbt/orphaned_schemas.py --format json)}"
+
       - name: Generate dbt documentation
         run: "dbt docs generate"
 
       - name: Deploy docs 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: dbt-docs
           folder: transform/target
@@ -142,7 +157,7 @@ jobs:
           "../automate/dbt/push_dbt_artifacts.py"
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -161,7 +176,7 @@ jobs:
           done
 
       - name: Push version changes
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }}

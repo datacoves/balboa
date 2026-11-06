@@ -3,7 +3,7 @@
 This DAG how to retry a DAG that fails during a run
 """
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 
 @dag(

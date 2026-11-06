@@ -83,7 +83,7 @@ vars:
         default_role: CATALOG
         default_warehouse: WH_CATALOG
       - name: svc_superset
-        type: LEGACY_SERVICE
+        type: SERVICE
         default_role: ANALYST
         default_warehouse: WH_TRANSFORMING
 

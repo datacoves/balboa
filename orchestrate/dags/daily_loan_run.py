@@ -3,7 +3,7 @@
 This DAG shows how to load data with 3 tools, then run dbt, then other tasks
 """
 
-from airflow.decorators import dag, task, task_group
+from airflow.sdk import dag, task, task_group
 from orchestrate.utils import datacoves_utils
 
 from fivetran_provider_async.operators import FivetranOperator

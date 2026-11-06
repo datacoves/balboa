@@ -4,7 +4,7 @@ This DAG shows how do use dlt and dbt to replicate [End-to-end Fabric Pipeline](
 """
 import datetime
 
-from airflow.decorators import dag, task
+from airflow.sdk import dag, task
 from orchestrate.utils import datacoves_utils
 
 @dag(
@@ -25,10 +25,10 @@ def load_earthquake_data():
     # Find the last time the DAG was successfully
     @task
     def get_last_success_date(**context):
-        dag_id = context['dag'].dag_id
-        print(f"DAG: {dag_id}")
-        success_date = datacoves_utils.get_last_dag_successful_run_date(dag_id)
-        if success_date == None:
+        # Airflow 3 tasks can't query the metadata DB (DagRun.find); the context has the last successful run's start.
+        success_date = context.get("prev_start_date_success")
+        print(f"Last successful run of DAG {context['dag'].dag_id}: {success_date}")
+        if success_date is None:
             success_date = datetime.date.today()
             print(f"##### NOTE: Last DAG run date set to: {success_date}")
         else:
