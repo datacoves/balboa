@@ -3,15 +3,8 @@
 # clan_membership has no `updated` column, so it is reloaded in full every run.
 name: rfam
 source:
-  ref: dlt.sources.sql_database:sql_database
+  connection: rfam_db      # .cartage/connections.yaml: secrets.yaml locally, the `rfam` Airflow connection in Airflow
   with:
-    credentials:
-      drivername: mysql+pymysql
-      host: mysql-rfam-public.ebi.ac.uk
-      port: 4497
-      database: Rfam
-      username: "${secret:rfam.username}"   # ~/.cartage/secrets.yaml
-      password: "${secret:rfam.password}"
     backend: connectorx    # fastest of dlt's sql_database backends (sqlalchemy, pyarrow, pandas, connectorx)
   # The tables read (only these are read), and how each loads. merge uses each table's primary key from MySQL
   # (rfam_acc, clan_acc).
