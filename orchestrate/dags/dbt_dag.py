@@ -1,6 +1,6 @@
 """
 ## Sample DAG showing how to run dbt
-This DAG shows how to run a dbt task
+This DAG shows how to run a dbt task (testing Airflow CI workflow)
 """
 
 from airflow.sdk import dag, task
