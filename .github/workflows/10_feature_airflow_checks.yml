@@ -40,7 +40,7 @@ jobs:
 
     # Root: the image's default user (airflow) can't write the runner's /__w/_temp, so actions/checkout fails (EACCES).
     container:
-      image: datacoves/ci-airflow-dbt-snowflake:6.0
+      image: datacoves/ci-airflow-v3-dbt-snowflake:6.0
       options: --user root
 
     env:
