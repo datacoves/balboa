@@ -57,3 +57,4 @@ The job passes `SOURCE_BRANCH` (`${{ github.head_ref }}`) and `TARGET_BRANCH` (`
 | `Target branch must start with one of: ...` | The PR targets a branch that is not `feature`, `release` or `main` | Change the PR's target branch |
 | `'feature' branch can only be merged to: feature, release` | The merge direction is not allowed (for example `feature` into `main`) | Target the correct branch, for example a release branch |
 | `There are N commit(s) in the main branch that are not in source branch` | The source branch is behind `main` | Merge or rebase `main` into your branch and push |
+| `Failed to compare branches via GitHub API` | The GitHub Compare API call failed | Re-run the job. If it persists, check that the workflow's `GITHUB_TOKEN` can read the repository |

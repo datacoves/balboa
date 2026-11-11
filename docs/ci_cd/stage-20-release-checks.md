@@ -2,7 +2,7 @@
 
 > Part of the [CI/CD pipelines](../ci_cd_pipelines.md) documentation.
 
-Stage 20 runs on every PR that targets `main`: release branches, and also hotfix and infra branches, which skip the release branch. It builds all the changes in the release together, against a copy of production, so the release is validated as a whole before it is deployed.
+Stage 20 runs on PRs that target `main` and change `transform/`: release branches, and also hotfix and infra branches, which skip the release branch. It builds all the changes in the release together, against a copy of production, so the release is validated as a whole before it is deployed.
 
 `20_release_dbt_checks.yml` triggers on `pull_request` into `main` for changes in `transform/**`, on the event types `opened`, `synchronize`, `labeled` and `unlabeled`. It can also be run manually. A PR into `main` that changes nothing under `transform/`, such as an infra PR that only edits a workflow, does not trigger it, so that PR gets no branch validation either.
 

@@ -40,7 +40,7 @@ Steps run in order and the job stops at the first failure. "Always" in the last 
 | 10 | Run governance checks | `pre-commit run --from-ref origin/<target> --to-ref HEAD` runs the hooks in `.pre-commit-config.yaml` only on the files changed in the PR: [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint) (descriptions, property files, columns), [SQLFluff](https://docs.sqlfluff.com/) and yamllint | Always |
 | 11 | dbt build | The real `dbt build --fail-fast`: Slim CI (`--defer --state logs --select state:modified+`) when the manifest exists, or a full build when it does not | Always |
 | 12 | Check orphaned schemas | `automate/dbt/orphaned_schemas.py` compares the production manifest with the PR manifest and reports schemas that dbt will stop managing once the PR is deployed. The result is posted as a PR comment | Manifest found, even if a previous step failed |
-| 13 | Grant access to PR database | `grant_access_to_pr_database` grants usage on the database and its schemas, and select on its tables and views, so reviewers can query the PR database | Always |
+| 13 | Grant access to PR database | `grant_access_to_pr_database` grants usage on the database and its schemas, and select on its tables, dynamic tables and views, so reviewers can query the PR database | Always |
 | 14 | Drop PR database on failure | Drops the PR database if the grants failed. A failure here usually means models were built into the wrong schema | `DATACOVES__DROP_DB_ON_FAIL` is `true` and step 13 failed |
 
 The workflow also contains steps that are specific to this demo project, such as building an observability model first and building dynamic tables separately (`--empty` does not support them).
@@ -51,15 +51,17 @@ Steps 7, 8 and 11 rely on the production `manifest.json` that [stage 30](stage-3
 
 ## Airflow checks
 
-The `airflow` job runs in the `datacoves/ci-airflow-dbt-snowflake` image, with `AIRFLOW__CORE__DAGS_FOLDER` pointing at `orchestrate/dags`.
+The `airflow` job runs in the `datacoves/ci-airflow-v3-dbt-snowflake` image, with `AIRFLOW__CORE__DAGS_FOLDER` pointing at `orchestrate/dags`.
 
 | # | Step | What it does |
 |---|---|---|
 | 1 | Checkout branch | Checks out the PR head commit |
-| 2 | Test DAG load time and variable usage | Runs `/usr/app/test_dags.py`, included in the image, with `--dag-loadtime-threshold 1` (fails DAGs that take more than one second to parse) and `--check-variable-usage` (fails on `Variable.get()` calls at the top level of a DAG file, outside `@task` functions). `--write-output` writes the results to a Markdown file |
+| 2 | Test DAG load time and variable usage | Runs `/usr/app/test_dags.py`, included in the image, with `--dag-loadtime-threshold 1` (a threshold of one second to parse a DAG) and `--check-variable-usage` (checks for `Variable.get()` calls at the top level of a DAG file, outside `@task` functions). `--write-output` writes the results to a Markdown file. This step reports load times and variable usage; DAG import errors are logged here and made to fail by step 4 |
 | 3 | Comment results | Posts the load-time results as a PR comment when step 2 succeeds |
-| 4 | Custom Airflow validation tests | Runs `pytest` on `orchestrate/test_dags/validate_dags.py`, your own DAG tests. They check for import errors, approved tags (`APPROVED_TAGS`), `catchup=False`, and allowed operators (`ALLOWED_OPERATORS`) |
+| 4 | Custom Airflow validation tests | Runs `pytest` on `orchestrate/test_dags/validate_dags.py`, your own DAG tests. They check for import errors, approved tags (`APPROVED_TAGS`), `catchup=False`, allowed operators (`ALLOWED_OPERATORS`) and task retries (a DAG without retries fails, and fewer than 3 retries gives a warning) |
 | 5 | Comment results | Posts the custom test results as a PR comment, even when the tests fail |
+
+The workflow also installs Astronomer Cosmos before these steps, because this demo has a DAG that uses it and the CI image does not include it. Remove that step if your DAGs do not need it.
 
 See [Test Airflow DAGs in your CI/CD pipeline](https://docs.datacoves.com/docs/how-tos/airflow/dags/test-dags) for how to write the custom tests.
 

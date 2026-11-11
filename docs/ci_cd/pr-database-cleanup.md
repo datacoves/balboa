@@ -47,11 +47,11 @@ Rule 1 is evaluated first because a release PR can be abandoned and reopened. Ru
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `PR_MAX_AGE_DAYS` | `15` | Databases up to this age are always kept |
+| `PR_MAX_AGE_DAYS` | `15` | Databases up to this age (in days) are always kept |
 | `PR_MAX_IDLE_DAYS` | `15` | Older databases are kept only if someone queried them in this many days |
 | `PR_HARD_MAX_AGE_DAYS` | `45` | Databases older than this are dropped even if they are in use |
 
-The settings are environment variables of the sweep step. An invalid value aborts the sweep without dropping anything.
+The age limits only apply to rule 4. If a database's age cannot be determined, it is kept. The settings are environment variables of the sweep step, and an invalid value aborts the sweep without dropping anything.
 
 ## Tune PR database cleanup
 

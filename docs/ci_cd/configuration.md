@@ -28,6 +28,6 @@ Jobs run inside Datacoves CI images, so the tools match what developers use in t
 | Image | Used by | Includes |
 |---|---|---|
 | `datacoves/ci-basic-dbt-snowflake:<version>` | dbt jobs in stages 10, 15, 20 and 30 | dbt, dbt-coves, pre-commit and SQLFluff. The other pre-commit hooks, such as dbt-checkpoint and yamllint, are installed by pre-commit from `.pre-commit-config.yaml` when the job runs |
-| `datacoves/ci-airflow-dbt-snowflake:<version>` | Airflow job in stage 10 | Airflow, the Datacoves Airflow providers, and the `/usr/app/test_dags.py` script |
+| `datacoves/ci-airflow-v3-dbt-snowflake:<version>` | Airflow job in stage 10 | Airflow, the Datacoves Airflow providers, and the `/usr/app/test_dags.py` script |
 
 Pin the image tag to the Datacoves release your environment uses. See [Datacoves versioning](https://docs.datacoves.com/docs/reference/datacoves/versioning) for the available tag formats.

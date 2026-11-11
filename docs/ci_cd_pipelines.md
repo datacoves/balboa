@@ -1,6 +1,6 @@
 # CI/CD Pipelines
 
-The workflows in `.github/workflows/` validate every change before it reaches production and then deploy it with zero downtime. This repository implements the full release flow (feature → release → `main`). This document explains what each stage does, step by step, and how to customize it, including [how to simplify it](ci_cd/simpler-flow.md) for teams that merge feature branches straight into `main`.
+The workflows in `.github/workflows/` validate every change before it reaches production and then deploy it with zero downtime. This repository implements the full release flow (feature → release → `main`). This documentation explains what each stage does, step by step, and how to customize it, including [how to simplify it](ci_cd/simpler-flow.md) for teams that merge feature branches straight into `main`. Start with the stages below, then follow the [documentation map](#documentation-map).
 
 For a higher-level overview of what these pipelines give you, see [CI/CD best practices](https://docs.datacoves.com/docs/best-practices/ci-cd) in the Datacoves docs.
 

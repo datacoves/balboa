@@ -64,7 +64,7 @@ A push that changes no files in those paths, such as an empty commit to `main`, 
 
 ## Update the CI images
 
-All dbt jobs use `datacoves/ci-basic-dbt-snowflake`, and the Airflow job uses `datacoves/ci-airflow-dbt-snowflake`. When your Datacoves environment is upgraded, update the image tag in every workflow file so CI runs the same dbt and Airflow versions as your developers. Also keep the dbt versions in the SQLFluff hook of `.pre-commit-config.yaml` aligned with the image.
+All dbt jobs use `datacoves/ci-basic-dbt-snowflake`, and the Airflow job uses `datacoves/ci-airflow-v3-dbt-snowflake`. When your Datacoves environment is upgraded, update the image tag in every workflow file so CI runs the same dbt and Airflow versions as your developers. Also keep the dbt versions in the SQLFluff hook of `.pre-commit-config.yaml` aligned with the image.
 
 ## Adjust the Airflow checks
 

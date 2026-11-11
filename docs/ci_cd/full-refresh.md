@@ -4,16 +4,16 @@
 
 This page covers the `full-refresh` label across [stage 10](stage-10-feature-checks.md), [stage 20](stage-20-release-checks.md) and [stage 30](stage-30-deploy-to-production.md).
 
-By default, incremental models in the PR database are cloned from production (step 7) and then built incrementally. When a change requires rebuilding them from scratch, for example a new column, a changed `unique_key` or a fix to historical logic, add the `full-refresh` label to the PR.
+By default, incremental models in a PR database are cloned from production (step 7 of the [stage 10 dbt checks](stage-10-feature-checks.md#dbt-checks)) and then built incrementally. When a change requires rebuilding them from scratch, for example a new column, a changed `unique_key` or a fix to historical logic, add the `full-refresh` label to the PR.
 
-The workflow checks for the label in a job-level variable:
+The stage 10 dbt workflow (and stage 20) checks for the label in a job-level variable:
 
 ```yaml
 env:
   FULL_REFRESH_FLAG: ${{ contains(github.event.pull_request.labels.*.name, 'full-refresh') && '--full-refresh' || '' }}
 ```
 
-and appends it to both `dbt build` commands (steps 8 and 11). With the label, step 11 becomes:
+and appends it to both `dbt build` commands of the dbt checks (steps 8 and 11). With the label, step 11 becomes:
 
 ```bash
 dbt build --fail-fast --defer --state logs --select state:modified+ --full-refresh
