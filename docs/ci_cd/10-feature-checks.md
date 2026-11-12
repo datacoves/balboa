@@ -13,10 +13,12 @@ There are two workflows with the same number, one per area of the repository:
 
 Both workflows:
 
-- Trigger on `pull_request` into `release/**/*` and can also be run manually (`workflow_dispatch`).
+- Trigger on `pull_request` into `release/**/*`. They can also be run manually (`workflow_dispatch`), but a manual run has no PR number, so the dbt job cannot find the PR database. Push a commit to the PR instead.
 - Use a `concurrency` group per PR with `cancel-in-progress: true`, so a new push cancels the run that is still in progress for the same PR.
-- Start with the [branch validation](branching-and-validation.md#branch-validation) job. If it fails, the dbt or Airflow job is skipped.
+- Start with the [branch validation](01-branching-and-validation.md#branch-validation) job. If it fails, the dbt or Airflow job is skipped.
 - End with a status job that posts (and updates) a comment on the PR summarizing each job's result.
+
+PRs from a feature branch into another feature branch are allowed by the [branch validation](01-branching-and-validation.md#branch-validation), but they don't trigger stage 10, because both workflows only run for PRs into release branches. Their changes are first checked when the parent feature branch opens its PR into a release branch.
 
 ## dbt checks
 
@@ -32,26 +34,26 @@ Steps run in order and the job stops at the first failure. "Always" in the last 
 | 2 | Set secure directory | Marks the workspace as a safe git directory inside the container | Always |
 | 3 | List of files changed | Prints `git diff --name-status` against the target branch, for the log | Always |
 | 4 | Install dbt packages | `dbt deps` | Always |
-| 5 | Create PR database | `dbt run-operation create_database` creates `<DATABASE>_PR_<n>` if it does not exist yet. Later pushes to the same PR reuse it | Always |
+| 5 | Create PR database | `dbt run-operation create_database` creates `<DATABASE>_PR_<n>` if it does not exist yet. Later pushes to the same PR reuse it. The macro creates the database with the `transformer_dbt` role, hardcoded in `transform/macros/tooling/create_database.sql`, and then transfers ownership to the CI role (see [Configuration](03-configuration.md#required-configuration)) | Always |
 | 6 | Get prod manifest | `automate/dbt/get_artifacts.sh` runs the `get_last_artifacts` macro to download the production `manifest.json` and `catalog.json` from a Snowflake stage into `logs/`. Sets the outputs `manifest_found` and `catalog_found` | Always |
 | 7 | Clone incremental models | `dbt clone` of incremental models and snapshots that are downstream of the change and already exist in production (`state:modified+,config.materialized:incremental,state:old`), so they keep their history instead of being rebuilt from scratch | Manifest found |
 | 8 | Governance build with empty models | `dbt build --empty` creates every affected model with no rows. This is enough to compile the SQL and run hooks, and it fails fast before spending warehouse time. Uses `--defer --state logs --select state:modified+` when the manifest exists, or the whole project when it does not | Always |
 | 9 | Generate docs | `dbt-coves generate docs --merge-deferred --state logs` merges the production catalog with the PR catalog, or `dbt docs generate` when no production catalog exists. The catalog is needed by the governance checks | Always |
 | 10 | Run governance checks | `pre-commit run --from-ref origin/<target> --to-ref HEAD` runs the hooks in `.pre-commit-config.yaml` only on the files changed in the PR: [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint) (descriptions, property files, columns), [SQLFluff](https://docs.sqlfluff.com/) and yamllint | Always |
 | 11 | dbt build | The real `dbt build --fail-fast`: Slim CI (`--defer --state logs --select state:modified+`) when the manifest exists, or a full build when it does not | Always |
-| 12 | Check orphaned schemas | `automate/dbt/orphaned_schemas.py` compares the production manifest with the PR manifest and reports schemas that dbt will stop managing once the PR is deployed. The result is posted as a PR comment | Manifest found, even if a previous step failed |
-| 13 | Grant access to PR database | `grant_access_to_pr_database` grants usage on the database and its schemas, and select on its tables, dynamic tables and views, so reviewers can query the PR database | Always |
+| 12 | Check orphaned schemas | `automate/dbt/orphaned_schemas.py` compares the production manifest with the PR manifest and finds schemas that dbt will stop managing once the PR is deployed. When it finds any, the separate `orphaned-schemas-comment` job posts them as a PR comment | Manifest found, even if a previous step failed |
+| 13 | Grant access to PR database | `grant_access_to_pr_database` grants usage on the database and its schemas, and select on its tables, dynamic tables and views, so reviewers can query the PR database. The roles come from the `pr_db_usage_role` (database usage) and `schema_usage_role_prefix` (schema usage, followed by the schema name) variables in `transform/dbt_project.yml`. Select is granted to the `z_tables_views__select` role, hardcoded in the macro | Always |
 | 14 | Drop PR database on failure | Drops the PR database if the grants failed. A failure here usually means models were built into the wrong schema | `DATACOVES__DROP_DB_ON_FAIL` is `true` and step 13 failed |
 
-The workflow also contains steps that are specific to this demo project, such as building an observability model first and building dynamic tables separately (`--empty` does not support them).
+The workflow also contains steps that are specific to this demo project, such as building an observability model first and building dynamic tables separately (`--empty` does not support them). For the same reasons, step 8 excludes dynamic tables and models tagged `requires_fixture_data`.
 
 ### Slim CI and the production manifest
 
-Steps 7, 8 and 11 rely on the production `manifest.json` that [stage 30](stage-30-deploy-to-production.md) uploads after every deployment. With it, dbt builds only what changed and its downstream models, and **defers** every unchanged upstream reference to the production database. Without it (for example, on the very first run), the job falls back to building the whole project.
+Steps 7, 8, 11 and 12 rely on the production `manifest.json` that [stage 30](30-deploy-to-production.md) uploads after every deployment, and step 9 uses the production `catalog.json`. With it, dbt builds only what changed and its downstream models, and **defers** every unchanged upstream reference to the production database. Without it (for example, on the very first run), the job falls back to building the whole project.
 
 ## Airflow checks
 
-The `airflow` job runs in the `datacoves/ci-airflow-v3-dbt-snowflake` image, with `AIRFLOW__CORE__DAGS_FOLDER` pointing at `orchestrate/dags`.
+The `airflow` job runs in the `datacoves/ci-airflow-v3-dbt-snowflake` image, with `AIRFLOW__CORE__DAGS_FOLDER` pointing at `orchestrate/dags`. The container runs as root (`options: --user root`): the image's default user, `airflow`, cannot write to the runner's work directory, so `actions/checkout` fails without it.
 
 | # | Step | What it does |
 |---|---|---|
@@ -65,4 +67,4 @@ The workflow also installs Astronomer Cosmos before these steps, because this de
 
 See [Test Airflow DAGs in your CI/CD pipeline](https://docs.datacoves.com/docs/how-tos/airflow/dags/test-dags) for how to write the custom tests.
 
-To rebuild incremental models from scratch in a PR, see [Full refresh](full-refresh.md).
+To rebuild incremental models from scratch in a PR, see [Full refresh](40-full-refresh.md).

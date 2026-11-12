@@ -4,6 +4,8 @@
 
 Feature PR databases (`<DATABASE>_PR_<n>`) are kept after the PR is merged into a release branch, so QA can still query them while the release is validated. Once the release is in production they are no longer needed. Stage 30 removes them in two passes. Both run only after a successful deployment, use `continue-on-error`, and never fail the deployment: anything left behind is retried on the next deployment.
 
+Cleanup only happens when stage 30 runs. If there are no production deployments for a while, PR databases accumulate until the next one. If a deployment fails, nothing is cleaned up, so the PR databases stay available for debugging.
+
 ## 1. Targeted cleanup
 
 `automate/git/get_feature_pr_ids.py`:
@@ -18,20 +20,32 @@ Deployments from hotfix or infra branches are skipped here and handled by the sw
 
 The sweep catches everything the targeted cleanup misses: hotfix and infra deployments, abandoned releases, branches that do not follow the naming convention, and drops that failed on a previous run.
 
-1. The `show_pr_databases` macro lists every `<DATABASE>_PR_*` database with its creation date and the date it was last queried. The last query comes from `SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY` and only counts queries that ran with the PR database as the session's current database. Queries by the user that runs the deployment are excluded, so CI builds do not count as activity. The role that runs the deployment needs `IMPORTED PRIVILEGES` on the `SNOWFLAKE` database.
+1. The `show_pr_databases` macro lists every `<DATABASE>_PR_*` database with its creation date and the date it was last queried.
 2. `automate/git/sweep_stale_pr_databases.py` checks the PR behind each database and decides whether to drop it.
 3. The next step drops the selected databases.
+
+The last query date comes from `SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY`:
+
+- Only queries that ran with the PR database as the session's current database count.
+- Queries by the user that runs the deployment are excluded, so CI builds do not count as activity.
+- Only queries in the last `PR_MAX_IDLE_DAYS` days are considered.
+- `QUERY_HISTORY` can lag by up to about 45 minutes, so a very recent query may not count yet.
+
+> [!NOTE]
+> The role that runs the deployment needs `IMPORTED PRIVILEGES` on the `SNOWFLAKE` database to read `QUERY_HISTORY`. See [Configuration](03-configuration.md#required-configuration).
 
 Decision per database:
 
 | PR state | Decision |
 |---|---|
 | Abandoned (closed without merging) | Drop |
-| Not found (deleted) | Drop |
+| Not found (for example, the number belongs to an issue, not a PR) | Drop |
 | Open | Keep |
 | Merged into a branch that is not a release branch | Drop |
 | Merged into a release branch | Depends on the release, see below |
 | Any other API error | Keep and retry on the next deployment |
+
+A feature PR merged into another feature branch counts as merged into a branch that is not a release branch, so its database is dropped on the next deployment, even if the parent feature branch is still in development.
 
 For PRs merged into a release branch, the release rules are evaluated in order, and the first match wins:
 
@@ -51,7 +65,9 @@ Rule 1 is evaluated first because a release PR can be abandoned and reopened. Ru
 | `PR_MAX_IDLE_DAYS` | `15` | Older databases are kept only if someone queried them in this many days |
 | `PR_HARD_MAX_AGE_DAYS` | `45` | Databases older than this are dropped even if they are in use |
 
-The age limits only apply to rule 4. If a database's age cannot be determined, it is kept. The settings are environment variables of the sweep step, and an invalid value aborts the sweep without dropping anything.
+The age limits only apply to rule 4. Age is counted from the database's creation date in Snowflake, that is, the first stage 10 run of the PR, not from the merge. For example, a feature PR that was open for 20 days is already past the 15-day limit when it is merged. If its release has no PR to `main` yet, the database is dropped on the next deployment unless someone queried it recently.
+
+If a database's age cannot be determined, it is kept. An invalid value in any of the settings aborts the sweep without dropping anything.
 
 ## Tune PR database cleanup
 
@@ -64,4 +80,8 @@ env:
   PR_HARD_MAX_AGE_DAYS: "45"  # drop past this age, even if in use
 ```
 
-See [Sweep](#2-sweep) for the full decision rules. If QA does not need the feature PR databases during the release, you can drop them as soon as the PR is closed, merged or not, by removing the `merged == false` condition from [stage 15](stage-15-drop-pr-database.md).
+See [Sweep](#2-sweep) for the full decision rules.
+
+If QA does not need the feature PR databases during the release, you can drop them as soon as the PR is closed, merged or not. Remove the `if:` condition of the `drop-pr-db-on-close` job in [stage 15](15-drop-pr-database.md), so it runs on every closed PR.
+
+To drop a single PR database right away, run stage 15 manually with the PR number. See [Stage 15: Drop PR database](15-drop-pr-database.md).

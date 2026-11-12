@@ -6,18 +6,18 @@ Which branches the pipelines accept, which merges are allowed, and how the `vali
 
 ## Branching model
 
-![CI/CD branch flow: a feature branch PR into a release branch runs stage 10, an abandoned feature PR runs stage 15, a release PR into main runs stage 20, and a merge to main runs stage 30. Hotfix and infra branches open PRs directly into main.](../diagrams/cicd-branch-flow.png)
+![CI/CD branch flow: a feature branch PR into a release branch runs stage 10, an abandoned feature PR runs stage 15, a release PR into main runs stage 20, and a merge to main runs stage 30. Hotfix and infra branches open PRs directly into main, which also run stage 20.](../diagrams/cicd-branch-flow.png)
 
 | Source branch | Can merge into | Workflows that run on the PR |
 |---|---|---|
-| `feature/*` | `feature/*`, `release/*` | 10 (only when the target is `release/*`), 15 on close |
+| `feature/*` | `feature/*`, `release/*` | 10, and 15 on close (only when the target is `release/*`) |
 | `release/*` | `main` | 20 |
 | `hotfix/*` | `main` | 20 |
 | `infra/*` | `main` | 20 |
 
 Stages 10 and 20 only run when the PR changes the folders in their `paths` filter (`transform/` for dbt, `orchestrate/` for Airflow). A PR that changes nothing in those folders, such as an infra PR that only edits a workflow, runs no checks.
 
-The prefixes are defined in `automate/git/branch_validator.py`. See [Change branch prefixes](customization.md#change-branch-prefixes).
+The prefixes are defined in `automate/git/branch_validator.py`. See [Change branch prefixes](50-customization.md#change-branch-prefixes).
 
 ## Branch validation
 
@@ -56,5 +56,5 @@ The job passes `SOURCE_BRANCH` (`${{ github.head_ref }}`) and `TARGET_BRANCH` (`
 | `Source branch must start with one of: ...` | The branch name does not use an allowed prefix | Create a new branch with a valid prefix and open a new PR |
 | `Target branch must start with one of: ...` | The PR targets a branch that is not `feature`, `release` or `main` | Change the PR's target branch |
 | `'feature' branch can only be merged to: feature, release` | The merge direction is not allowed (for example `feature` into `main`) | Target the correct branch, for example a release branch |
-| `There are N commit(s) in the main branch that are not in source branch` | The source branch is behind `main` | Merge or rebase `main` into your branch and push |
+| `There are N commit(s) in the main branch that are not in source branch` | The source branch is behind `main`. Every production deployment adds a commit to `main` (`Set deployment version to <version> [skip ci]`, see [Versioning](30-deploy-to-production.md#versioning)), so a branch created before the latest deployment fails this check even if nobody else changed `main` | Merge or rebase `main` into your branch and push |
 | `Failed to compare branches via GitHub API` | The GitHub Compare API call failed | Re-run the job. If it persists, check that the workflow's `GITHUB_TOKEN` can read the repository |

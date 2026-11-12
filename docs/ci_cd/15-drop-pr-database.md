@@ -2,13 +2,14 @@
 
 > Part of the [CI/CD pipelines](../ci_cd_pipelines.md) documentation.
 
-Every feature PR gets its own database, `<DATABASE>_PR_<pr number>`, created by [stage 10](stage-10-feature-checks.md). Stage 15 removes that database when the PR was **abandoned**.
+Every feature PR into a release branch gets its own database, `<DATABASE>_PR_<pr number>`, created by [stage 10](10-feature-checks.md). Stage 15 removes that database when the PR was **abandoned**.
 
 | PR outcome | What happens to `<DATABASE>_PR_<n>` |
 |---|---|
 | Closed **without merging** (abandoned) | Stage 15 drops it immediately |
-| **Merged** into the release branch | Stage 15 does nothing. The database is kept so QA can keep querying it while the release is being validated, and [stage 30](pr-database-cleanup.md) drops it once the release that includes the PR is deployed to production |
+| **Merged** into the release branch | Stage 15 does nothing. The database is kept so QA can keep querying it while the release is being validated, and the [PR database cleanup](31-pr-database-cleanup.md) in stage 30 drops it once the release that includes the PR is deployed to production, or earlier under the sweep's age limits |
 | Still open | Kept |
+| Reopened after being closed without merging | Stage 10 runs again and recreates the database. Incremental models are cloned from production again |
 
 `15_drop_feature_db.yml` triggers on `pull_request` events of type `closed` for PRs into `release/**/*`. GitHub sends the same event for merged and abandoned PRs, so the job checks the `merged` flag of the event:
 
@@ -46,10 +47,15 @@ The database name uses the event's PR number and falls back to the input:
 DATACOVES__MAIN__DATABASE: ${{ vars.DATACOVES__MAIN__DATABASE }}_PR_${{ github.event.number || inputs.pr_number }}
 ```
 
-To drop a PR database by hand, open **Actions**, select the **15: 🗑️ Drop test databases** workflow, click **Run workflow**, enter the PR number and run it. You can also use the GitHub CLI:
+To drop a PR database by hand, open **Actions**, select the **15: 🗑️ Drop test databases** workflow, click **Run workflow**, enter the PR number and run it. From a machine with the GitHub CLI installed, you can also run:
 
 ```bash
-gh workflow run 15_drop_feature_db.yml -f pr_number=<pr number>
+gh workflow run 15_drop_feature_db.yml -f pr_number=<pr-number>
 ```
 
-Use it for databases that were left behind, for example when a closed PR's run failed. It drops the database regardless of the PR's state, so don't use it for a PR whose release is still in QA.
+Use it for databases that were left behind, for example when a closed PR's run failed. If the database no longer exists, the run does nothing and still succeeds, because the macro uses `drop database if exists`.
+
+It drops the database regardless of the PR's state:
+
+- Don't use it for a PR whose release is still in QA: QA loses access to the database.
+- For an open PR, the next push recreates the database from scratch, so what was built in it is lost and incremental models are cloned from production again.

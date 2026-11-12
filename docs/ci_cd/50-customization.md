@@ -30,14 +30,14 @@ To use different prefixes, for example `fb/`, `rb/` and `hf/` instead of `featur
 
 2. **Workflow triggers**: the `branches:` filter of stages 10 and 15, for example `- 'rb/**/*'` instead of `- 'release/**/*'`.
 
-3. **PR database cleanup scripts** used by [stage 30](pr-database-cleanup.md):
+3. **PR database cleanup scripts** used by [stage 30](31-pr-database-cleanup.md):
    - `automate/git/get_feature_pr_ids.py`: the `release/` check of the deployed branch and the `feature/` filter of the PRs merged into it.
    - `automate/git/sweep_stale_pr_databases.py`: the `release/` check of the branch each PR was merged into.
 
 4. **Docs and onboarding material** that tell developers how to name branches, including the branching section of `AGENTS.md`.
 
 > [!TIP]
-> Prefix matching in `branch_validator.py` does not include the `/`, so a branch named `featurex` passes as `feature`. If you need stricter names, see [Enforce a branch name format](optional-extensions.md#enforce-a-branch-name-format).
+> Prefix matching in `branch_validator.py` does not include the `/`, so a branch named `featurex` passes as `feature`. If you need stricter names, see [Enforce a branch name format](52-optional-extensions.md#enforce-a-branch-name-format).
 
 ## Change which merges are allowed
 
@@ -58,13 +58,55 @@ Each workflow only runs when certain folders change. If your repository uses a d
 | 10 dbt | `paths: - transform/**/*` |
 | 10 Airflow | `paths: - orchestrate/**/*` |
 | 20 | `paths: - transform/**/*` |
-| 30 | `paths:` under `on: push` |
+| 30 | `paths: - .github/workflows/**/*`, `automate/**/*`, `transform/**/*` |
 
 A push that changes no files in those paths, such as an empty commit to `main`, does not trigger the workflow. See [Trigger CI/CD without code changes](https://docs.datacoves.com/docs/how-tos/dataops/trigger-cicd-workflow).
 
 ## Update the CI images
 
-All dbt jobs use `datacoves/ci-basic-dbt-snowflake`, and the Airflow job uses `datacoves/ci-airflow-v3-dbt-snowflake`. When your Datacoves environment is upgraded, update the image tag in every workflow file so CI runs the same dbt and Airflow versions as your developers. Also keep the dbt versions in the SQLFluff hook of `.pre-commit-config.yaml` aligned with the image.
+All dbt jobs use `datacoves/ci-basic-dbt-snowflake`, and the Airflow job uses `datacoves/ci-airflow-v3-dbt-snowflake`. When your Datacoves environment is upgraded, update the image tag in every workflow file so CI runs the same dbt and Airflow versions as your developers.
+
+### Align the SQLFluff hook with the image
+
+pre-commit installs the SQLFluff hook in its own environment, so it does not use the SQLFluff and dbt versions in the image. Pin them in `.pre-commit-config.yaml` instead, so linting in CI matches what developers get in Datacoves.
+
+1. Find the versions. Your Datacoves environment and the CI image install the same SQLFluff and dbt versions for a given Datacoves release, so run this in the terminal of the **Transform** tab, in an environment on the same release as the image tag:
+
+   ```bash
+   pip show sqlfluff sqlfluff-templater-dbt dbt-core dbt-snowflake | grep -E "^(Name|Version):"
+   ```
+
+   ```text
+   Name: sqlfluff
+   Version: 4.3.0
+   Name: sqlfluff-templater-dbt
+   Version: 4.3.0
+   Name: dbt-core
+   Version: 1.12.0
+   Name: dbt-snowflake
+   Version: 1.12.4
+   ```
+
+2. Update the hook in `.pre-commit-config.yaml`:
+   - `rev:` and `sqlfluff-templater-dbt` take the `sqlfluff` version.
+   - `dbt-core` and `dbt-snowflake` in `additional_dependencies` take the image's dbt versions.
+
+   ```yaml
+   - repo: https://github.com/sqlfluff/sqlfluff
+     rev: 4.3.0
+     hooks:
+       - id: sqlfluff-lint
+         language: python
+         additional_dependencies:
+           [
+             "sqlfluff-templater-dbt==4.3.0",
+             "dbt-core==1.12.0",
+             "dbt-snowflake==1.12.4",
+           ]
+         args: [--config, transform/.sqlfluff]
+   ```
+
+3. Run `pre-commit run sqlfluff-lint --all-files` to confirm the hook installs and passes with the new versions. A new major SQLFluff version can add or change rules, so new lint errors may appear.
 
 ## Adjust the Airflow checks
 
@@ -84,10 +126,10 @@ Pick a number in the gap that matches when the new workflow should run, so the f
 | 30-39 | Deployment and post-deployment steps on `main` | `35_refresh_bi_extracts.yml` |
 | 90-99 | Scheduled or independent jobs | `99_build_custom_image.yml` |
 
-For checks on PRs, add the [branch validation](branching-and-validation.md#branch-validation) job first and make the other jobs depend on it, as the existing stages do.
+For checks on PRs, add the [branch validation](01-branching-and-validation.md#branch-validation) job first and make the other jobs depend on it, as the existing stages do.
 
 ## Related
 
-- [Use a simpler flow: feature to main](simpler-flow.md)
-- [Tune PR database cleanup](pr-database-cleanup.md#tune-pr-database-cleanup)
-- [Optional extensions](optional-extensions.md)
+- [Use a simpler flow: feature to main](51-simpler-flow.md)
+- [Tune PR database cleanup](31-pr-database-cleanup.md#tune-pr-database-cleanup)
+- [Optional extensions](52-optional-extensions.md)
