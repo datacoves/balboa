@@ -1,4 +1,9 @@
-from airflow.datasets import Dataset
+try:
+    # Airflow 3: datasets are now assets.
+    from airflow.sdk import Asset as Dataset
+except ImportError:
+    # Airflow 2
+    from airflow.datasets import Dataset
 
 # A dataset can be anything, it will be a poiner in the Airflow db.
 # If you need to access url like s3://my_bucket/my_file.txt then you can set
