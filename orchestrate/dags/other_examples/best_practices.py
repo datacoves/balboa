@@ -37,7 +37,7 @@ is_development = (not datacoves_utils.is_team_airflow())
     # See this site for a simple way to convert english to cron
     # https://cronprompt.com/
     # i.e. this means "at 3:30am on Jan 22 every year"
-    schedule = "30 3 22 1 * *",
+    schedule = "30 3 22 1 *",
 
     default_args = {
         # You should ALWAYS define a start time, but this is not when the dag
