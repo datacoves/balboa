@@ -9,7 +9,7 @@ Client ID, Secret, Tenant ID and Subscription ID of a service principal that has
 Set Resource Group Name and Factory Name in the connection too.
 """
 
-from airflow.sdk import dag
+from airflow.sdk import dag, task_group
 from airflow.providers.microsoft.azure.operators.data_factory import AzureDataFactoryRunPipelineOperator
 from airflow.providers.microsoft.azure.sensors.data_factory import AzureDataFactoryPipelineRunStatusSensor
 
@@ -39,25 +39,29 @@ ADF_ARGS = {
 )
 def run_adf_pipeline():
 
-    # Start the pipeline and return immediately; the run_id is pushed to XCom
-    run_pipeline = AzureDataFactoryRunPipelineOperator(
-        task_id = "run_pipeline",
-        pipeline_name = "myTestPipeline",
-        # parameters = {"my_param": "value"},  # only parameters the pipeline declares
-        wait_for_termination = False,
-        **ADF_ARGS,
-    )
+    @task_group
+    def adf_pipeline(pipeline_name):
+        # Start the pipeline and return immediately; the run_id is pushed to XCom
+        run_pipeline = AzureDataFactoryRunPipelineOperator(
+            task_id = "run_pipeline",
+            pipeline_name = pipeline_name,
+            # parameters = {"my_param": "value"},  # only parameters the pipeline declares
+            wait_for_termination = False,
+            **ADF_ARGS,
+        )
 
-    # Wait for the run to finish in the triggerer
-    wait_for_pipeline = AzureDataFactoryPipelineRunStatusSensor(
-        task_id = "wait_for_pipeline",
-        run_id = run_pipeline.output["run_id"],
-        deferrable = True,
-        poke_interval = 60,         # seconds between status checks
-        timeout = 60 * 60 * 2,      # fail if the run takes more than 2 hours
-        **ADF_ARGS,
-    )
+        # Wait for the run to finish in the triggerer
+        wait_for_pipeline = AzureDataFactoryPipelineRunStatusSensor(
+            task_id = "wait_for_pipeline",
+            run_id = run_pipeline.output["run_id"],
+            deferrable = True,
+            poke_interval = 60,         # seconds between status checks
+            timeout = 60 * 60 * 2,      # fail if the run takes more than 2 hours
+            **ADF_ARGS,
+        )
 
-    run_pipeline >> wait_for_pipeline
+        run_pipeline >> wait_for_pipeline
+
+    adf_pipeline("myTestPipeline")
 
 run_adf_pipeline()
