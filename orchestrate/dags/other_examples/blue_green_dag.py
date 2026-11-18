@@ -16,7 +16,7 @@ from orchestrate.utils import datacoves_utils
     ),
 
     description="Datacoves blue-green run",
-    schedule = datacoves_utils.set_schedule("@daily"),
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
     tags=["transform"],
 )
 def blue_green_dbt_run():

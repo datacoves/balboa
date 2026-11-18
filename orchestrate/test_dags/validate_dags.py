@@ -34,6 +34,8 @@ ALLOWED_OPERATORS = [
     'FivetranOperator',
     'FivetranSensor',
     'EmptyOperator',
+    'AzureDataFactoryRunPipelineOperator',
+    'AzureDataFactoryPipelineRunStatusSensor',
     # Cosmos-generated dbt operators (DbtTaskGroup)
     'DbtRunLocalOperator',
     'DbtSeedLocalOperator',

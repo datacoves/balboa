@@ -17,9 +17,9 @@ default_args = {
     start_date=datetime(2024, 7, 7),
 
     default_args = default_args,
-    schedule = '45 6 * * 1-5',
+    schedule = '0 0 1 */12 *',
 
-    description = 'Do nothing in particular each weekday',
+    description = 'Do nothing in particular',
     tags = ['transform'],
     dag_id = 'empty_task'
 )
