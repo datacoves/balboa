@@ -3,5 +3,12 @@
     "branch": "main",
     "sha": "2148844581d51207ac269b1154627282b8ea1201"
   },
-  "branches": []
+  "branches": [
+    {
+      "name": "feature/adf-example-dag",
+      "sha": "542487589fae56b7b5de31f05ae66ffadc1e9185",
+      "user": "Noel Gomez",
+      "added": "2026-11-18T22:51:44Z"
+    }
+  ]
 }
