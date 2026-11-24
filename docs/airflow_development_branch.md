@@ -24,7 +24,7 @@ a commit of main  +  the feature branches currently being tested (each pinned to
 <!-- Source: diagrams/airflow-development-branch.excalidraw. Edit it with the Excalidraw VS Code extension and re-export the PNG. -->
 
 
-- The list of deployed branches is stored in `.airflow_dev.json` on `airflow_development` itself. No external service or CI is required.
+- The list of deployed branches is stored in `.airflow_dev.json` on `airflow_development` itself. No external service is required. CI only runs `refresh` after merges to `main` (see [Keeping it up to date](#keeping-it-up-to-date)).
 - **Each branch is pinned to a commit.** New commits on your branch are not deployed until you run `add` again, so other people's rebuilds never ship your half-finished work.
 - **You stay where you are.** The script works in a temporary git worktree, so your VS Code checkout and uncommitted changes are never touched.
 - **Several people can run it at the same time.** Pushes are guarded and retried when two people deploy at once.
@@ -64,7 +64,7 @@ orchestrate/utils/airflow_dev.py add
 orchestrate/utils/airflow_dev.py remove
 ```
 
-`airflow_development` is rebuilt without your branch, on the same `main` commit, so no one else is affected. Branches that are merged into `main` or deleted are also cleaned up automatically at the next `refresh`.
+`airflow_development` is rebuilt without your branch, on the same `main` commit, so no one else is affected. If you forget, your branch is removed automatically once it is merged into `main` (see [Keeping it up to date](#keeping-it-up-to-date)).
 
 ### Check what is deployed
 
@@ -81,6 +81,36 @@ airflow_development: based on main c174ec62 (3 commit(s) behind latest main)
 ```
 
 All commands accept a branch name, e.g. `add feature/other_branch`, to act on a branch other than the current one.
+
+## Keeping it up to date
+
+`add` and `remove` never move `airflow_development` to a newer `main`. Only `refresh` does that, and CI runs it for you: the `30: 🚀 Deploy to Production` workflow has a `Refresh airflow_development` job that runs after every push to `main` touching `transform/`, `automate/`, `orchestrate/` or `.github/workflows/`. On each run it:
+
+1. **Rebuilds on the latest `main`.** It runs after the dbt deployment, so it includes the version bump commit, and it runs even if the deployment failed or was skipped, because `main` has moved either way. Pushes that only change `orchestrate/` skip the dbt deployment and only refresh.
+2. **Drops branches that are merged into `main` or deleted.** Squash merges count as merged: a branch is treated as merged when merging it into `main` would change nothing.
+3. **Merges the remaining branches back in, in the order they were deployed.** Each one goes back in at the commit that was deployed, not its latest commit, so newer commits still need an `add`.
+
+Until the next refresh, `status` shows how far `airflow_development` is behind `main` and marks merged branches `merged into main`.
+
+### When a refresh removes your branch
+
+Your branch does not have to be up to date with `main` to survive a refresh. Git merges your deployed commit onto the new `main` and keeps changes from both. A conflict happens only when `main`, or a branch merged before yours, changed the same lines as your branch.
+
+When that happens:
+
+- Your branch is removed from `airflow_development`, so its DAGs disappear from Team Airflow. The other branches stay deployed and the job still succeeds.
+- Your branch itself is not touched.
+- The workflow run shows a warning naming your branch and the conflicting files. No one is notified directly, so check `status` if your DAG disappears.
+- When two deployed branches conflict with each other, the one deployed later is removed. Running `add` again moves a branch to the end of the order.
+
+To fix it, bring `main` into your branch, resolve the conflicts, and deploy again:
+
+```bash
+git pull origin main && git push
+orchestrate/utils/airflow_dev.py add
+```
+
+If the conflict is with another deployed branch, `add` names its owner (see below).
 
 ## When `add` refuses
 
@@ -121,7 +151,7 @@ Someone merged `airflow_development` into this branch. That would deploy other p
 
 ### One-time setup
 
-1. In your git provider, allow force pushes to `airflow_development`. The script rewrites the branch when it rebuilds it.
+1. In your git provider, allow force pushes to `airflow_development`, including from GitHub Actions (`GITHUB_TOKEN`). The script rewrites the branch when it rebuilds it.
 2. Make sure Team Airflow is configured to sync `airflow_development`.
 3. Initialize the branch. This replaces its current contents with `main`:
 
@@ -133,7 +163,9 @@ Someone merged `airflow_development` into this branch. That would deploy other p
 
 4. Tell users to stop pushing to `airflow_development` directly and to use `add` instead.
 
-### Periodic refresh (e.g. monthly)
+### Manual refresh
+
+CI refreshes the branch after merges to `main` (see [Keeping it up to date](#keeping-it-up-to-date)). Run it by hand after a manual push to `airflow_development`, or when you want a backup first:
 
 ```bash
 orchestrate/utils/airflow_dev.py refresh --backup
@@ -150,7 +182,7 @@ This rebuilds `airflow_development` on the latest `main`, re-applies every deplo
    Owners should update their branch from main and run 'add' again.
 ```
 
-`--backup` is optional and works the same as for `reset` (see below). It is useful here because branches that no longer merge cleanly are removed from `airflow_development`.
+`--backup` is optional and works the same as for `reset` (see below). It is useful here because branches that no longer merge cleanly are removed from `airflow_development`. In CI, removed branches also show up as warnings on the workflow run.
 
 ### Start over
 
@@ -174,6 +206,9 @@ The defaults match the standard Datacoves setup. Override them with environment 
 
 ## Limitations
 
-- **Squash merges aren't detected as merged.** A branch squash-merged into `main` is dropped at `refresh` only if its remote branch was deleted (enable automatic branch deletion after merge in your git provider), or if it no longer merges cleanly.
+- **Merging into a release branch can remove your DAGs early.** A branch is dropped at `refresh` when its remote branch is deleted. If feature branches are deleted automatically when they merge into a `release/*` branch, the next refresh removes their DAGs from Team Airflow before the release reaches `main`. To keep testing during a release, deploy the release branch: `add release/<name>`.
+- **A squash-merged branch with later changes on `main` may be reported as a conflict.** If `main` changed the same lines after the squash merge, the branch is removed as "no longer merges cleanly" instead of "merged into main". The result is the same: it is removed.
+- **Pushes outside those paths don't refresh.** A push to `main` that changes none of `transform/`, `automate/`, `orchestrate/` or `.github/workflows/` doesn't trigger the workflow. The next push that does, or a manual `refresh`, catches up.
+- **CI needs push rights.** The refresh job force-pushes `airflow_development` with `GITHUB_TOKEN`. If branch protection blocks it, the job fails and the branch stays where it was.
 - **A rebuild can change code under a running DAG.** `remove` and `refresh` rewrite `airflow_development`, so DAGs running in Team Airflow may pick up the new code mid-run.
 - **Nothing stops a manual push.** The script cannot prevent someone from pushing directly to `airflow_development`. If that happens, run `refresh` to get the branch back to a known state.
