@@ -8,15 +8,46 @@ on:  # yamllint disable-line rule:truthy
       - .github/workflows/**/*
       - automate/**/*
       - transform/**/*
+      - orchestrate/**/*
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
 
+  # Decide which jobs this push needs. orchestrate/ changes alone only refresh
+  # airflow_development; they do not need a dbt deployment.
+  changes:
+    name: Detect changed paths
+    runs-on: ubuntu-latest
+    outputs:
+      dbt: ${{ steps.filter.outputs.dbt }}
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check for dbt deployment changes
+        id: filter
+        run: |
+          if [ "${{ github.event_name }}" != "push" ]; then
+            echo "Manual run, deploying dbt"
+            echo "dbt=true" >> $GITHUB_OUTPUT
+          elif git diff --name-only ${{ github.event.before }} ${{ github.sha }} \
+              | grep -qE '^(transform|automate|\.github/workflows)/'; then
+            echo "dbt changes found, deploying dbt"
+            echo "dbt=true" >> $GITHUB_OUTPUT
+          else
+            echo "Only orchestrate/ changed, skipping dbt deployment"
+            echo "dbt=false" >> $GITHUB_OUTPUT
+          fi
+
   # Perform the deployment to Prod
   build:
     name: Deployment Script
+    needs: changes
+    if: ${{ needs.changes.outputs.dbt == 'true' }}
     runs-on: ubuntu-latest
 
     # Set environment variables in
@@ -185,3 +216,29 @@ jobs:
       - name: Drop staging db on Failure
         if: always() && (steps.run-blue-green.outcome == 'failure')
         run: "dbt --no-write-json run-operation drop_staging_db --args 'db_name: ${{env.DATACOVES__STAGING__DATABASE}}'"  # yamllint disable-line rule:line-length
+
+  # Rebuild airflow_development on the new main: drop branches merged into main
+  # (or deleted), and re-merge the rest. See docs/airflow_development_branch.md.
+  # Runs after the deployment so it includes the version bump commit, and runs
+  # even if the deployment failed or was skipped, because main has moved anyway.
+  refresh_airflow_development:
+    name: Refresh airflow_development
+    needs: [changes, build]
+    if: ${{ !cancelled() && needs.changes.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: airflow-development
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: fregante/setup-git-user@v2
+
+      - name: Refresh airflow_development
+        run: orchestrate/utils/airflow_dev.py refresh

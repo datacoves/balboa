@@ -109,6 +109,25 @@ def is_ancestor(ancestor, descendant):
     return git_ok("merge-base", "--is-ancestor", ancestor, descendant)
 
 
+def is_merged(sha, base_sha):
+    """
+    True if sha adds nothing to base_sha. Covers normal merges (sha is an
+    ancestor) and squash or rebase merges, where the commits differ but merging
+    sha into base_sha would leave base_sha's tree unchanged.
+    """
+    if is_ancestor(sha, base_sha):
+        return True
+    result = subprocess.run(
+        ["git", "merge-tree", "--write-tree", base_sha, sha],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return False
+    merged_tree = result.stdout.splitlines()[0]
+    return merged_tree == git("rev-parse", f"{base_sha}^{{tree}}")
+
+
 def short(sha):
     return sha[:8] if sha else "-"
 
@@ -393,7 +412,7 @@ def cmd_refresh(args):
         for entry in registry["branches"]:
             if not remote_sha(entry["name"]):
                 dropped.append(f"{entry['name']} (branch deleted)")
-            elif is_ancestor(entry["sha"], base_sha):
+            elif is_merged(entry["sha"], base_sha):
                 dropped.append(f"{entry['name']} (merged into {BASE_BRANCH})")
             else:
                 keep.append(entry)
@@ -416,6 +435,9 @@ def report_skipped(skipped):
     print(f"⚠️  These branches no longer merge cleanly and were removed from {DEV_BRANCH}:")
     for entry, files in skipped:
         print(f"   - {entry['name']} ({entry['user']}): {', '.join(files)}")
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            print(f"::warning title=Removed from {DEV_BRANCH}::{entry['name']} "
+                  f"({entry['user']}) conflicts on {', '.join(files)}")
     print(f"   Owners should update their branch from {BASE_BRANCH} and run 'add' again.")
 
 
@@ -474,7 +496,7 @@ def cmd_status(args):
         tip = remote_sha(e["name"])
         if not tip:
             note = "branch deleted"
-        elif is_ancestor(e["sha"], latest):
+        elif is_merged(e["sha"], latest):
             note = f"merged into {BASE_BRANCH}"
         elif tip != e["sha"]:
             note = "newer commits not deployed, run 'add' again"
