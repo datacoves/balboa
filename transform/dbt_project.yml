@@ -155,8 +155,6 @@ data_tests:
 
 vars:
   'dbt_date:time_zone': 'America/Los_Angeles'
-  authored_history_through: '2025-12-01'
-  as_of: '2026-09-08'
 
   # Snowcap governance macros
   snowcap_tag_database: "GOVERNANCE"
