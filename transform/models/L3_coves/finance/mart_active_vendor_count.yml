@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: mart_active_vendor_count
+    description: >
+      Single-row answer to "how many active vendors do we have?" per the Atlas "Active Vendor" definition
+      of record, with the dormant and total vendor counts and how many vendors' recorded ERP status flag
+      disagrees with the classification.
+    columns:
+      - name: activity_as_of_date
+        description: Latest purchase order, invoice or payment date in the data.
+        data_tests: [not_null, unique]
+      - name: activity_window_start_date
+        description: As-of date minus 12 months (inclusive).
+      - name: active_vendor_count
+        description: Distinct vendors with a purchase order or invoice in the window.
+      - name: dormant_vendor_count
+        description: Distinct vendors with no purchase order and no invoice in the window.
+      - name: vendor_count
+        description: Distinct vendors on the vendor list (active + dormant).
+      - name: recorded_status_mismatch_vendor_count
+        description: Vendors whose recorded status flag disagrees with the Active / Dormant classification.

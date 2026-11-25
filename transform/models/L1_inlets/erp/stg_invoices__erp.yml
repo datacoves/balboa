@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: stg_invoices__erp
+    description: Vendor invoices and payment status from the ERP (seed_invoices).
+    columns:
+      - name: invoice_id
+        description: Invoice primary key.
+        data_tests: [not_null, unique]
+      - name: po_id
+        description: Purchase order the invoice bills against.
+      - name: vendor_id
+        description: Vendor that issued the invoice.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_vendors__erp')
+                field: vendor_id
+      - name: invoice_date
+        description: Invoice date.
+      - name: invoice_amount
+        description: Invoice amount in USD.
+      - name: paid_date
+        description: Date the invoice was paid; null while open.
+      - name: invoice_status
+        description: Payment status of the invoice (open / paid).
