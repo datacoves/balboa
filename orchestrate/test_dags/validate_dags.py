@@ -1,6 +1,7 @@
 """Example DAGs test. This test ensures that all Dags have tags, retries set to two, and no import errors.
 This is an example pytest and may not be fit the context of your DAGs. Feel free to add and remove tests."""
 
+import importlib.util
 import inspect
 import os
 import logging
@@ -45,6 +46,13 @@ ALLOWED_OPERATORS = [
     'DbtBuildLocalOperator',
     'DbtRunOperationLocalOperator',
 ]
+
+# Packages some DAGs import that the default Datacoves images don't ship (CI installs them). A DAG that fails to import
+# only because one is missing is skipped locally, not failed; where the package is installed, it is tested as usual.
+OPTIONAL_PACKAGES = {
+    "cosmos": "astronomer-cosmos",  # other_examples/retry_dbt_failures_cosmos.py
+}
+
 
 def load_dag_bag():
     """Airflow 3.3 removed DagBag's include_examples (example DAGs are a separate bundle, never in a DagBag)."""
@@ -101,6 +109,9 @@ def get_dags():
 def test_file_imports(rel_path, rv):
     """Test for import errors on a file"""
     if rel_path and rv:
+        for module, package in OPTIONAL_PACKAGES.items():
+            if f"No module named '{module}'" in rv and importlib.util.find_spec(module) is None:
+                pytest.skip(f"{rel_path} needs {package}, which is not installed in this environment")
         raise Exception(f"{rel_path} failed to import with message \n {rv}")
 
 
