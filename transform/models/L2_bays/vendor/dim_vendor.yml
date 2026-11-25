@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: dim_vendor
+    description: >
+      Vendor dimension: one row per vendor on the ERP vendor list, with purchase order and invoice
+      activity in the trailing 12-month window and the governed Active / Dormant classification.
+      Implements the Atlas definitions of record "Vendor", "Dormant Vendor" and "Active Vendor": a vendor
+      is active if it has at least one purchase order or invoice dated in the 12 months ending on the
+      as-of date (the latest purchase order, invoice or payment date in the data); otherwise it is
+      dormant. The recorded ERP status flag plays no part; mismatches are flagged, not resolved.
+    columns:
+      - name: vendor_id
+        description: Vendor primary key; vendors are identified and counted by this id.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Vendor display name.
+      - name: vendor_category
+        description: Vendor spend category.
+      - name: vendor_recorded_status
+        description: Status flag (active / inactive) as recorded in the ERP. Informational only.
+      - name: vendor_onboarded_date
+        description: Date the vendor was onboarded. Not used for classification (no grace period).
+      - name: activity_as_of_date
+        description: Latest purchase order, invoice or payment date in the procurement data.
+        data_tests: [not_null]
+      - name: activity_window_start_date
+        description: As-of date minus 12 months; this day is inside the window.
+        data_tests: [not_null]
+      - name: window_po_count
+        description: Number of purchase orders dated within the window.
+      - name: window_invoice_count
+        description: Number of invoices dated within the window. Payments are not counted.
+      - name: window_po_date_max
+        description: Most recent purchase order date within the window; null if none.
+      - name: window_invoice_date_max
+        description: Most recent invoice date within the window; null if none.
+      - name: is_active_vendor
+        description: True if the vendor had a purchase order or invoice dated within the window (Atlas "Active Vendor").
+        data_tests: [not_null]
+      - name: is_dormant_vendor
+        description: Exact complement of is_active_vendor (Atlas "Dormant Vendor").
+        data_tests: [not_null]
+      - name: is_recorded_status_mismatch
+        description: True when the Active / Dormant classification disagrees with the recorded ERP status flag.

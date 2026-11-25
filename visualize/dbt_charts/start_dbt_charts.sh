@@ -15,5 +15,5 @@ if [ -z "$IP_ADDRESS" ]; then
 fi
 
 cd "$CHARTS_PROJECT_PATH"
-echo "Starting dbt Charts on http://$IP_ADDRESS:$PORT/"
+echo "Starting dbt Charts on http://$IP_ADDRESS:$PORT/vendor_activity/"
 uvx --from dbt-charts --with dbt-snowflake dct serve --port "$PORT" --host "$IP_ADDRESS"

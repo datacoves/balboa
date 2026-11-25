@@ -75,6 +75,8 @@ models:
         +schema: L1_COVID19_EPIDEMIOLOGICAL_DATA
       loans:
         +schema: L1_LOANS
+      erp:
+        +schema: L1_ERP
       observe:
         +schema: L1_OBSERVE
       us_population:
@@ -90,6 +92,9 @@ models:
         +schema: L2_COUNTRY_DEMOGRAPHICS
       covid_observations:
         +schema: L2_COVID_OBSERVATIONS
+      vendor:
+        +schema: L2_VENDOR
+        +group: finance
       snowflake_usage:
         +schema: L2_SNOWFLAKE_USAGE
 
@@ -107,6 +112,9 @@ models:
                 # cannot persist docs on dynamic tables
                 # +persist_docs:
                 #     relation: false
+      finance:
+        +schema: L3_FINANCE
+        +group: finance
       +materialized: table
 
         # L4_shares:
