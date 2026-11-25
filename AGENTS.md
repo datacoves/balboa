@@ -303,6 +303,8 @@ CI enforces branch rules on every pull request. The source of truth is
 - **Never open a `feature*` PR directly into `main`**: it fails validation.
 - **The source branch must be up to date with `main`** (zero commits behind), whatever the PR target. Pull `main` into your branch before opening or updating a PR.
 - Planned changes go `feature/*` → a current `release/*` branch created from `main`. Use `hotfix/*` → `main` only for urgent fixes.
+- **No AI attribution in commits or PRs.** Don't add `Co-Authored-By: Claude ...` trailers to commit messages or
+  "🤖 Generated with Claude Code" (or similar) lines to PR descriptions.
 
 ---
 
