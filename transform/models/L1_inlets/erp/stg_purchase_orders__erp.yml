@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_purchase_orders__erp
+    description: Purchase orders from the ERP (seed_purchase_orders).
+    columns:
+      - name: po_id
+        description: Purchase order primary key.
+        data_tests: [not_null, unique]
+      - name: vendor_id
+        description: Vendor the purchase order was issued to.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_vendors__erp')
+                field: vendor_id
+      - name: po_date
+        description: Date the purchase order was issued.
+      - name: po_amount
+        description: Purchase order amount in USD.

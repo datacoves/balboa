@@ -99,6 +99,71 @@ The dlt MCP server should ONLY be used for dlt-specific technical operations (dl
 - Use dbt v1.9.0+ features (dbt materialization, access modifiers, etc.)
 - Follow the medallion architecture: L1 (staging) → L2 (intermediate) → L3 (marts) → L4 (exposures)
 - Check `transform/dbt_project.yml` for project configuration
+- **Build every layer a new data domain needs**, not just the final mart. Each layer has its own job:
+  - **L1 Inlets** (`L1_inlets/<source>/`, staging): only basic cleanup, with one model per source table or seed.
+    That means flattening JSON, casting, aliasing columns to the naming standard, converting timestamps
+    and conditional filtering. Order columns with primary keys first and metadata fields last.
+    Masking and row-level security are applied here.
+  - **L2 Bays** (`L2_bays/<entity>/`, core): reusable data products built as facts and dimensions,
+    combining one or more sources into business entities. **Company-wide KPIs and governed definitions
+    belong here** (e.g. an Atlas definition of record such as Active Vendor), so every cove reuses one
+    implementation.
+  - **L3 Coves** (`L3_coves/<analytic_area>/`, marts): simple, well-documented models for business users.
+    They select what one analytics area needs and hold only KPIs specific to that area.
+  - Downstream models `ref()` the layer below. Don't `ref()` a seed or source from L2 or L3.
+- **Each layer is named differently. Don't reuse one domain name for all three.** Follow the Datacoves
+  object-naming guide (https://docs.datacoves.com/llms.txt, sections "Object naming standards" and
+  "What are Inlets, Bays & Coves"):
+  - **Inlets**: one schema per source dataset, mirroring the RAW schema for traceability
+    (`RAW.LOANS` → `L1_inlets/loans/` → `L1_LOANS`; ERP seeds → `L1_inlets/erp/` → `L1_ERP`)
+  - **Bays**: one schema per business data domain, named for the entity rather than the source system or a
+    use case (customer, product, calendar, vendor → `L2_bays/vendor/` → `L2_VENDOR`)
+  - **Coves**: one schema per high-level analytics area (finance, marketing, operations, accounts_payable →
+    `L3_coves/finance/` → `L3_FINANCE`)
+  - The folder name and the `+schema` entry in `dbt_project.yml` match: `L<n>_<FOLDER_NAME_UPPERCASE>`.
+    Add one for each new folder.
+- **Every schema change also goes in Snowcap.** See "When Working with Snowcap" below. If a schema is added,
+  renamed or removed in `dbt_project.yml` but not in Snowcap, the schema and its access role won't exist in Snowflake.
+- **Model naming** (new models; some older models in the repo predate this standard):
+  - Use lower `snake_case` and full words, never quoted. Go from general to specific, left to right, so related
+    objects sort together. Assume the reader has no context but the name.
+  - Use `__` (double underscore) between distinct name components and `_` for spaces inside a component
+    (`google_analytics__campaigns`, `provider_address__erp`)
+  - L1: `stg_<source_table>__<schema>` (e.g. `stg_vendors__erp`). Seeds are loaded in the staging layer.
+  - L2: prefix with the modelling style, such as `dim_`, `fct_` or `ref_` (`dim_vendor`). Use `int_<entity>__<identifier>`
+    for intermediate models not meant for use outside the bay.
+  - L3: `dim_`, `fct_` or `ref_` for modelled tables and `mart_` for single-table analyses
+    (`mart_active_vendors`). Use `temp_<username>_*` for experiments.
+  - Put aggregation grain in a suffix so related models group together: `fct_interactions_month`, not `fct_monthly_interactions`.
+  - Every model name must be unique across the project, including aliases.
+- **Column naming:** use full words, go from general to specific (`patient_address_city`), and put aggregation in a suffix
+  (`patient_count`, `invoice_amount_max`). Include the entity in ambiguous columns (`vendor_name`, not
+  `name`) so BI tools don't mix them up. Qualify units (`source_units` vs `normalized_units`).
+- **YAML file conventions:**
+  - `_<folder>.yml` is **only** for `sources:` definitions. Never put model metadata in it.
+  - Each model gets its own `<model_name>.yml` next to its `.sql`, with a description, every column and tests
+  - L1 folders built on seeds have no source file, so they have no `_<folder>.yml`
+- **Before creating files in a new folder, open a sibling folder in the same layer** and copy its file layout
+  and naming. Don't guess from file names alone.
+
+### When Working with Snowcap
+
+- Snowcap project in `secure/snowcap/`: read its `README.md` first. Docs: https://github.com/datacoves/snowcap
+- It manages Snowflake databases, schemas, warehouses, roles and grants as code. Atomic roles follow the
+  `z_<type>__<object>` pattern and are combined into functional roles that users are assigned to.
+- **When a dbt schema is added, renamed or removed** (a `+schema` in `transform/dbt_project.yml`), update both files
+  in the same change:
+  1. `resources/schemas.yml`: add, rename or remove `- name: BALBOA.<SCHEMA>` and keep the list alphabetical
+     within each layer. The template then creates the schema in `BALBOA` and `BALBOA_QA` and its
+     `z_schema__<schema>` role with USAGE.
+  2. `resources/roles__functional.yml`: add, rename or remove `z_schema__<schema_lowercase>` under
+     `z_base__analyst`. If a team needs the schema, add it to that team's role too (e.g. `finance_team` for
+     `L3_FINANCE`).
+- **Preview only:** run `./plan.sh` from `secure/snowcap/`. It is read-only. **Never run `./apply.sh`**: applying
+  changes production access, so the user does it after reviewing the plan.
+- When reporting a plan, list every DROP. Call out drops unrelated to the change, which means drift between the
+  account and the config. Removing a schema from `schemas.yml` drops its role and grants but not the schema
+  itself, which must be dropped by hand.
 
 ### When Working with Snowflake
 
