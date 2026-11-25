@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: mart_vendor_activity
+    description: >
+      One row per vendor showing whether it is an Active Vendor (Atlas definition of record): a purchase
+      order or invoice in the trailing 12 months ending on the as-of date. Use is_active_vendor, not
+      vendor_recorded_status, to answer questions about active vendors.
+    columns:
+      - name: vendor_id
+        description: Vendor primary key.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Vendor display name.
+      - name: vendor_category
+        description: Vendor spend category.
+      - name: is_active_vendor
+        description: True if the vendor had a purchase order or invoice in the trailing 12-month window.
+      - name: is_dormant_vendor
+        description: True if the vendor had no purchase order and no invoice in the window.
+      - name: vendor_last_po_date
+        description: Most recent purchase order date within the window; null if none.
+      - name: vendor_last_invoice_date
+        description: Most recent invoice date within the window; null if none.
+      - name: vendor_recorded_status
+        description: Status flag as recorded in the ERP. Not the same as active / dormant.
+      - name: is_recorded_status_mismatch
+        description: True when the recorded status flag disagrees with is_active_vendor.
+      - name: activity_as_of_date
+        description: Latest purchase order, invoice or payment date in the data; the window ends here.
+      - name: activity_window_start_date
+        description: As-of date minus 12 months (inclusive).

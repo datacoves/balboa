@@ -2,7 +2,7 @@ version: 2
 
 seeds:
   - name: seed_vendors
-    description: Curated procurement vendors used to demonstrate behavioral activity.
+    description: Vendor master list extracted from the ERP.
     config:
       column_types:
         vendor_id: varchar
@@ -21,38 +21,86 @@ seeds:
         description: Vendor spend category.
         data_tests: [not_null]
       - name: status
-        description: Recorded lifecycle flag, independent from behavioral activity.
+        description: Vendor status as recorded in the ERP.
         data_tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['active', 'inactive']
       - name: onboarded_date
-        description: First day of the vendor onboarding month.
+        description: Date the vendor was onboarded.
         data_tests: [not_null]
 
-  - name: seed_vendor_archetypes
-    description: Dateless profiles used for generated monthly vendor onboardings.
+  - name: seed_purchase_orders
+    description: Purchase orders extracted from the ERP.
     config:
       column_types:
-        archetype_index: integer
-        vendor_name: varchar
-        category: varchar
-        status: varchar
+        po_id: varchar
+        vendor_id: varchar
+        po_date: date
+        po_amount: number(38, 0)
     columns:
-      - name: archetype_index
-        description: Zero-based round-robin archetype position.
+      - name: po_id
+        description: Purchase order primary key.
         data_tests: [not_null, unique]
-      - name: vendor_name
-        description: Generated vendor base name.
+      - name: vendor_id
+        description: Vendor the purchase order was issued to.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('seed_vendors')
+                field: vendor_id
+      - name: po_date
+        description: Date the purchase order was issued.
         data_tests: [not_null]
-      - name: category
-        description: Generated vendor spend category.
+      - name: po_amount
+        description: Purchase order amount in USD.
         data_tests: [not_null]
-      - name: status
-        description: Recorded lifecycle flag for generated vendors.
+
+  - name: seed_invoices
+    description: Vendor invoices and their payment status, extracted from the ERP.
+    config:
+      column_types:
+        invoice_id: varchar
+        po_id: varchar
+        vendor_id: varchar
+        invoice_date: date
+        invoice_amount: number(38, 0)
+        paid_date: date
+        invoice_status: varchar
+    columns:
+      - name: invoice_id
+        description: Invoice primary key.
+        data_tests: [not_null, unique]
+      - name: po_id
+        description: Purchase order the invoice bills against.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('seed_purchase_orders')
+                field: po_id
+      - name: vendor_id
+        description: Vendor that issued the invoice.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('seed_vendors')
+                field: vendor_id
+      - name: invoice_date
+        description: Invoice date.
+        data_tests: [not_null]
+      - name: invoice_amount
+        description: Invoice amount in USD.
+        data_tests: [not_null]
+      - name: paid_date
+        description: Date the invoice was paid; null while open.
+      - name: invoice_status
+        description: Payment status of the invoice.
         data_tests:
           - not_null
           - accepted_values:
               arguments:
-                values: ['active', 'inactive']
+                values: ['open', 'paid']

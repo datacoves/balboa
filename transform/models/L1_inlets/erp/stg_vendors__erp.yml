@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_vendors__erp
+    description: Vendor master list from the ERP (seed_vendors, the ERP extract). Authoritative vendor list per the Atlas "Vendor" definition.
+    columns:
+      - name: vendor_id
+        description: Vendor primary key; vendors are identified and counted by this id.
+        data_tests: [not_null, unique]
+      - name: vendor_name
+        description: Vendor display name.
+      - name: vendor_category
+        description: Vendor spend category.
+      - name: vendor_recorded_status
+        description: Status flag (active / inactive) as recorded in the ERP. A stored attribute, not a behavioural state.
+      - name: vendor_onboarded_date
+        description: Date the vendor was onboarded.
