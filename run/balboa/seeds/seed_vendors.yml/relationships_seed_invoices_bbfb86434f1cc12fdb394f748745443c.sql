@@ -7,7 +7,7 @@
     from (
       
         select *
-        from BALBOA_STAGING.DBT_TEST__AUDIT.relationships_seed_invoices_bbfb86434f1cc12fdb394f748745443c
+        from BALBOA.DBT_TEST__AUDIT.relationships_seed_invoices_bbfb86434f1cc12fdb394f748745443c
     
       
     ) dbt_internal_test

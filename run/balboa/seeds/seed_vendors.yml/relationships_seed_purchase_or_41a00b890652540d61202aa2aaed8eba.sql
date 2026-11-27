@@ -7,7 +7,7 @@
     from (
       
         select *
-        from BALBOA_STAGING.DBT_TEST__AUDIT.relationships_seed_purchase_or_41a00b890652540d61202aa2aaed8eba
+        from BALBOA.DBT_TEST__AUDIT.relationships_seed_purchase_or_41a00b890652540d61202aa2aaed8eba
     
       
     ) dbt_internal_test
